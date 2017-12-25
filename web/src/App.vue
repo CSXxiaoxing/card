@@ -12,10 +12,30 @@ export default {
 </script>
 
 <style>
-body {
+/*公共样式*/
+body,html {
     height: 100%;
     margin: 0;
     padding: 0;
+}
+body,h1,h2,h3,h4,p,ul,li,ol,dl,dd,dt{
+    margin: 0;
+    padding: 0;
+}
+ul,li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
+.fl{
+    float:left;
+}
+html,body{
+    font-style: '微软雅黑';
+    font-size: 14px;
+    height:100%;
+    background: #fff;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

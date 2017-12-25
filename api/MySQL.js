@@ -12,7 +12,7 @@ var pool = mysql.createPool({
   host     : 'localhost',
   user     : 'root',
   password : '',
-  database: '库名'
+  database: 'card'
 });
 
 

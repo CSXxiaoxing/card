@@ -1,6 +1,6 @@
 import axios from 'axios'
-
-var baseUrl = 'http://localhost:2511/';
+// 192.168.1.25
+var baseUrl = 'http://localhost:666/';
 
 var filterUrl = function(url){
 	if(url.startsWith('http')){
