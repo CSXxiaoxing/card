@@ -14,18 +14,19 @@
 				<dd></dd>
 			</dl>
 			<p><i></i><span>公告：健康游戏，请勿赌博，谢谢合作。</span></p>
-			<span class='homeServer'></span>
+			<span class='homeServer'> <b>客<br>服</b> </span>
 		</header>
 		<div class='homeMain'>
 			<ul>
-				<li v-for='(dataRoom, idx) in datagrid'>
+				<li v-for='(dataRoom, idx) in datagrid' :key='dataRoom.key'>
+					<b v-if='dataRoom.open == "true"'></b>
 					<i></i>
 					<h4>大战牛群</h4>
 					<div>
 						<h5>{{dataRoom.roomName}}</h5>
 						<p>
-							<span v-show='dataRoom.open == "false"'>{{dataRoom.number}}人</span>
-							<span v-show='dataRoom.open == "true"'>{{dataRoom.number}}人</span>
+							<span v-show='dataRoom.open == "false"'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
+							<span v-show='dataRoom.open == "true"'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
 							<span v-if='dataRoom.open == "true"' id="roomNumber">房号：{{dataRoom.roomNumber}}</span>
 						</p>
 						<div></div>
@@ -33,6 +34,7 @@
 				</li>
 			</ul>
 		</div>
+		<test></test>
 		<footer>
 			<ul>
 				<li>好友</li>
@@ -42,7 +44,8 @@
 			</ul>
 		</footer>
 		<!-- <addButton></addButton> -->
-		<!-- <aaa></aaa> -->
+		
+
 	</div>
 </template>
 
@@ -53,9 +56,11 @@
 
 	import addButton from '../../module/addButton/addButtion.vue';
 	import openRecords from '../../module/openRecords/openRecords.vue';
+	import testaaa from '../../module/test/test.vue';
 	
 	Vue.component('addButton', addButton)
 	Vue.component('aaa', openRecords)
+	Vue.component('test', testaaa)
 	
 	export default {
 		data: function(){

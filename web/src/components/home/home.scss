@@ -1,4 +1,4 @@
-
+ 
 #home{
     display: flex;
     flex-direction: column;
@@ -118,12 +118,31 @@
                 background: url('../../img/home_gb.png') no-repeat center;
             }
         }
+        // .homeServer{
+        //     background: url('../../img/home_service.png') no-repeat center;
+        //     width: 55px;
+        //     height: 238px;
+        //     position: fixed;
+        //     right: 0px;
+        // }
         .homeServer{
             background: url('../../img/home_service.png') no-repeat center;
             width: 55px;
-            height: 238px;
+            height: 280px;
             position: fixed;
             right: 0px;
+            top:180px;
+            color:white;
+            text-shadow: black 3px 2px;
+            vertical-align: middle;
+            font-size: 40px;
+            line-height: 60px;
+            z-index: 100;
+            b{
+                position: fixed;
+                right: 0px;
+                top:240px;
+            }
         }
     }
     // 主体
@@ -143,6 +162,16 @@
                 margin-right: 15px;
                 margin-top: 18px;
                 background: url('../../img/home_ox.png');
+                b{
+                    display: block;
+                    background: url('../../img/home_open.png') no-repeat;
+                    height: 90px;
+                    width: 94px;
+                    float: right;
+                    position: relative;
+                    bottom:6px;
+                    left:6px;
+                }
                 i{
                     display:block;
                     height: 148px;
@@ -186,6 +215,7 @@
                             text-align: left;
                         }
                     }
+                    .roomNum{color: #2FAB51;}
                 }
             }
             li:nth-of-type(3n){

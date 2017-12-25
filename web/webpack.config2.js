@@ -44,13 +44,14 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'url-loader?limit=50000&name=[path][name].[ext]'
       },
-      {
-         test: /\.css$/,
-         use: [ 'style-loader', 'css-loader' ]
-       }, {
-        test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
-        loader: 'file-loader'
-      }
+      // {
+      //   test: /\.css$/,
+      //   loader: 'style-loader!css-loader'
+      // },
+      {   test: /\.css$/, 
+          // exclude: /node_modules/,
+          loader: 'style-loader!css-loader?sourceMap' 
+      },
     ]
   },
   resolve: {
@@ -63,12 +64,6 @@ module.exports = {
     noInfo: true,
     overlay: true
   },
-  plugins: [  
-   new webpack.ProvidePlugin({
-       jQuery: "jquery",
-       $: "jquery"
-   })
-  ],
   performance: {
     hints: false
   },

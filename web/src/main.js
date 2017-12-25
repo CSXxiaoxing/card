@@ -1,9 +1,18 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import App from './App.vue';
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+// import './index.css'
+import App from './App.vue'
+
 import router from './router/';
 
+// import VueSocketio from "vue-socket.io"
+// import $ from 'jquery'
+
+// Vue.use(VueSocketio, 'http://localhost:5566');  
 Vue.use(Vuex);
+Vue.use(ElementUI);
 
 const store = new Vuex.Store({
    // 字符串数据存储
