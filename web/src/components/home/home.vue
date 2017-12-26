@@ -40,7 +40,15 @@
 					</div>
 				</li>
 			</ul>
+			<ul>
+				<li @click='ccc'> TEST </li>
+			</ul>
+
+
 		</div>
+
+
+
 		<footer>
 			<ul>
 				<li>好友</li>
@@ -49,8 +57,8 @@
 				<li>我的房间</li>
 			</ul>
 		</footer>
-		<!-- <addButton></addButton> -->
-		<test ref="child"></test>
+		<noOpen  ref="onOpenChild" ></noOpen>
+		<!-- <test ref="child"></test> -->
 	</div>
 </template>
 
@@ -58,18 +66,16 @@
 	import './home.scss';
 	import Vue from 'vue';
 	import http from '../../utils/httpClient.js';
+	// 组件
+	import noOpen from '../../module/homeModule/noOpen.vue';
 
-	import testaaa from '../../module/test/test.vue';
+	Vue.component('noOpen', noOpen)
 
-	Vue.component('test', testaaa)
 	
 	export default {
 		data: function(){
 			return {
 				datagrid : '',
-				centerDialogVisible: false,
-				asdasd : '自定义',
-				aass : '11111'
 			}
 		},
 		mounted: function(){
@@ -82,11 +88,8 @@
 			        })
 		},
 		methods: {
-			csx(){
-				console.log(this.aass)
-			},
 			ccc(){
-				console.log(this.$refs.child._data.centerDialogVisible=true)
+				console.log(this.$refs.onOpenChild._data.onOpenRoom=true)
 			},
 			generateToolBar: function(obj){
 				//动态生成按钮
