@@ -154,14 +154,17 @@
         ul{
             padding: 1%;
             display: flex;
-            // justify-content: space-around;
+            justify-content: space-between;
             flex-wrap: wrap;
+
             li{
                 width: 342px;
+                // width: 32.2%;
                 height: 300px;
-                margin-right: 15px;
+                // margin-right: 15px;
                 margin-top: 18px;
                 background: url('../../img/home_ox.png');
+                background-size: 342px 300px;
                 b{
                     display: block;
                     background: url('../../img/home_open.png') no-repeat;
@@ -218,13 +221,13 @@
                     .roomNum{color: #2FAB51;}
                 }
             }
-            li:nth-of-type(3n){
-                margin: 0;
-                margin-top: 18px;
-            }
-            li:nth-of-type(1),li:nth-of-type(2),li:nth-of-type(3){
-                margin-top: 0;
-            }
+            // li:nth-of-type(3n){
+            //     margin: 0;
+            //     margin-top: 18px;
+            // }
+            // li:nth-of-type(1),li:nth-of-type(2),li:nth-of-type(3){
+            //     margin-top: 0;
+            // }
         }
     }
     .homeMain::-webkit-scrollbar {
@@ -244,7 +247,6 @@
     }
 }
 
-span{
-    font-size: 50px;
-    // color: #fff;
-}
+// span{
+//     font-size: 50px;
+// }

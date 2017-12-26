@@ -3,7 +3,7 @@
 		<header>
 			<dl>
 				<dt>
-					<img src="../../img/home_head.png" alt="" />
+					<img src="../../img/home_head.png" alt="" :aaa='asdasd'/>
 				</dt>
 				<dd>
 					<span>迷迷糊糊</span>
@@ -15,16 +15,17 @@
 						<i>房卡</i>
 						<b>27894</b>
 						<i @click='ccc'></i>
+						<!-- <b class='el-icon-plus'></b> -->
 					</span>
 				</dd>
 				<dd></dd>
 			</dl>
 			<p><i></i><span>公告：健康游戏，请勿赌博，谢谢合作。</span></p>
-			<span class='homeServer'> <b>客<br>服</b> </span>
+			<span class='homeServer'><b>客<br>服</b> </span>
 		</header>
 		<div class='homeMain'>
 			<ul>
-				<li v-for='(dataRoom, idx) in datagrid' :key='dataRoom.key'>
+				<li v-for='(dataRoom) in datagrid' :key='dataRoom.key'>
 					<b v-if='dataRoom.open == "true"'></b>
 					<i></i>
 					<h4>大战牛群</h4>
@@ -39,7 +40,6 @@
 					</div>
 				</li>
 			</ul>
-			
 		</div>
 		<footer>
 			<ul>
@@ -51,21 +51,6 @@
 		</footer>
 		<!-- <addButton></addButton> -->
 		<test ref="child"></test>
-		<!-- <el-dialog
-		  :visible.sync="centerDialogVisible"
-		  width="88%"
-		  center custom-class="aaa">
-		  <span>需要注意的是内容是默认不居中的</span>
-		  <p>这是个测试</p>
-		  <p>这是个测试</p>
-		  <p>这是个测试</p>
-		  <p>这是个测试</p>
-		  <p>这是个测试</p>
-		  <span slot="footer" class="dialog-footer">
-		    <el-button @click="centerDialogVisible = false">取 消</el-button>
-		    <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
-		  </span>
-		</el-dialog> -->
 	</div>
 </template>
 
@@ -74,19 +59,17 @@
 	import Vue from 'vue';
 	import http from '../../utils/httpClient.js';
 
-	import addButton from '../../module/addButton/addButtion.vue';
-	import openRecords from '../../module/openRecords/openRecords.vue';
 	import testaaa from '../../module/test/test.vue';
-	
-	Vue.component('addButton', addButton)
-	Vue.component('aaa', openRecords)
+
 	Vue.component('test', testaaa)
 	
 	export default {
 		data: function(){
 			return {
 				datagrid : '',
-				centerDialogVisible: false
+				centerDialogVisible: false,
+				asdasd : '自定义',
+				aass : '11111'
 			}
 		},
 		mounted: function(){
@@ -99,6 +82,9 @@
 			        })
 		},
 		methods: {
+			csx(){
+				console.log(this.aass)
+			},
 			ccc(){
 				console.log(this.$refs.child._data.centerDialogVisible=true)
 			},
