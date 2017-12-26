@@ -29,6 +29,9 @@
   .join{
     /*border-radius: 50%;*/
   }
+  .joinError{
+    width: 100%;
+  }
 </style>
 
 <style  lang='scss' scoped>
@@ -73,6 +76,7 @@
       }
     }
   }
+
 </style>
   
 <script>
@@ -104,7 +108,7 @@
             ,vm:this, params:{val: this.val}}).then(res => {
                 if( res.data == false ){
                   // alert('房间号码不存在')
-                  this.open4()
+                  // this.open6()
                 } else if( res.data == true ){
                   // window.location()
                 }
@@ -112,10 +116,14 @@
             })
         }
       },
-      open4() {
-        this.$message.error('错了哦，这是一条错误消息');
-        center: true;
-      }
+      open6() {
+             this.$notify.error({
+               title: '错误',
+               message: '这是一条错误的提示消息',
+               customClass: 'joinError',
+               duration: '9999999'
+             });
+           }
     }
   };
 </script>
