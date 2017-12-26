@@ -22,5 +22,6 @@ http.get({
         ,vm:this}).then(res => {
             self.dataset = res.data
         })
-
+// 事件委托
+target.nodeName.toLowerCase() == 'li'
 

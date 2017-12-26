@@ -20,14 +20,27 @@ module.exports = {
         // 查询
         app.post("/Select", function(request, response){
           
-            db.select('select * from data',function(returnData){
+            db.select('select * from data ',function(returnData){
                  // console.log(returnData)
                  response.send(returnData);
              })
         })
 
-        // post请求--查
+        // 房号查询
+        app.post("/roomNumber", function(request, response){
+            db.select(`select * from data where fCard = '${request.body.val}'`,function(returnData){
+                console.log(returnData[0])
+                 if(returnData[0] == undefined){
+                    response.send(false);
+                 }else {
+                    response.send(true);
+                 }
+                 // response.send(returnData);
+             })
+        })
 
+
+        // post请求--查
         app.post("/sel", function(request, response){
             // select 查询， from 找哪个库, test 库名 ， limit 查找条数 10条
             db.select('select * from room',function(returnData){
@@ -35,6 +48,7 @@ module.exports = {
                 response.send(returnData);
             })
         });
+
 
         // 删
         app.post("/del", function(request, response){

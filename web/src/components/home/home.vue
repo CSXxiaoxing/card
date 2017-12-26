@@ -43,25 +43,20 @@
 			<ul>
 				<li @click='ccc'> TEST </li>
 			</ul>
-
-
 		</div>
-
-
 
 		<footer>
 			<ul>
 				<li>好友</li>
 				<li>创建房间</li>
-				<li>进入房间</li>
+				<li @click='joinRoom'>进入房间</li>
 				<li>我的房间</li>
 			</ul>
 		</footer>
 		<noOpen  ref="onOpenChild" ></noOpen>
-		<!-- <test ref="child"></test> -->
+		<joinRoom  ref="onjoinRoomChild" ></joinRoom>
 	</div>
 </template>
-
 
 <style type="text/css">
 	.el-dialog__header{
@@ -75,8 +70,11 @@
 	import http from '../../utils/httpClient.js';
 	// 组件
 	import noOpen from '../../module/homeModule/noOpen.vue';
+	import joinRoom from '../../module/homeModule/joinRoom.vue';
 
 	Vue.component('noOpen', noOpen)
+	Vue.component('joinRoom', joinRoom)
+
 
 	
 	export default {
@@ -95,6 +93,9 @@
 			        })
 		},
 		methods: {
+			joinRoom(){
+				this.$refs.onjoinRoomChild._data.joinRoom=true
+			},
 			ccc(){
 				console.log(this.$refs.onOpenChild._data.onOpenRoom=true)
 			},
