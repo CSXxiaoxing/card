@@ -15,7 +15,11 @@
     </span>
   </el-dialog>
 </template>
-
+<style type="text/css">
+  .el-dialog__header{
+    display: none;
+  }
+</style>
 <style  lang='scss' scoped>
   .aaa{
     font-size: 80px;

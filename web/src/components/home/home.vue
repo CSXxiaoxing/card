@@ -3,7 +3,7 @@
 		<header>
 			<dl>
 				<dt>
-					<img src="../../img/home_head.png" alt="" :aaa='asdasd'/>
+					<img src="../../img/home_head.png" alt="" />
 				</dt>
 				<dd>
 					<span>迷迷糊糊</span>
@@ -61,6 +61,13 @@
 		<!-- <test ref="child"></test> -->
 	</div>
 </template>
+
+
+<style type="text/css">
+	.el-dialog__header{
+		display: none;
+	}
+</style>
 
 <script type="text/javascript">
 	import './home.scss';
