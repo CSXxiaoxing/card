@@ -2,14 +2,20 @@
 	<div id='home'>
 		<header>
 			<dl>
-				<dt><img src="../../img/home_head.png" alt="" /></dt>
+				<dt>
+					<img src="../../img/home_head.png" alt="" />
+				</dt>
 				<dd>
 					<span>迷迷糊糊</span>
 					<span><i></i>分享</span>
 				</dd>
 				<dd>
 					<span>ID:777777</span>
-					<span><i>房卡</i><b>27894</b><i></i></span>
+					<span>
+						<i>房卡</i>
+						<b>27894</b>
+						<i @click='ccc'></i>
+					</span>
 				</dd>
 				<dd></dd>
 			</dl>
@@ -33,8 +39,8 @@
 					</div>
 				</li>
 			</ul>
+			
 		</div>
-		<test></test>
 		<footer>
 			<ul>
 				<li>好友</li>
@@ -44,8 +50,22 @@
 			</ul>
 		</footer>
 		<!-- <addButton></addButton> -->
-		
-
+		<test ref="child"></test>
+		<!-- <el-dialog
+		  :visible.sync="centerDialogVisible"
+		  width="88%"
+		  center custom-class="aaa">
+		  <span>需要注意的是内容是默认不居中的</span>
+		  <p>这是个测试</p>
+		  <p>这是个测试</p>
+		  <p>这是个测试</p>
+		  <p>这是个测试</p>
+		  <p>这是个测试</p>
+		  <span slot="footer" class="dialog-footer">
+		    <el-button @click="centerDialogVisible = false">取 消</el-button>
+		    <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+		  </span>
+		</el-dialog> -->
 	</div>
 </template>
 
@@ -66,7 +86,7 @@
 		data: function(){
 			return {
 				datagrid : '',
-
+				centerDialogVisible: false
 			}
 		},
 		mounted: function(){
@@ -79,12 +99,13 @@
 			        })
 		},
 		methods: {
-			
+			ccc(){
+				console.log(this.$refs.child._data.centerDialogVisible=true)
+			},
 			generateToolBar: function(obj){
 				//动态生成按钮
 				
 			},
-
 		}
 	}
 </script>

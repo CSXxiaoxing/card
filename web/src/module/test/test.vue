@@ -1,7 +1,4 @@
 <template>
-<div>
-<el-button type="text" @click="centerDialogVisible = true">点击打开 Dialog</el-button>
-
 <el-dialog
   :visible.sync="centerDialogVisible"
   width="88%"
@@ -17,7 +14,6 @@
     <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
   </span>
 </el-dialog>
-</div>
 </template>
 
 <style  lang='scss' scoped>
