@@ -42,6 +42,8 @@
 			</ul>
 			<ul>
 				<li @click='ccc'> TEST </li>
+				<li @click='mess'> idMessage </li>
+				<li @click='buy'>购买房卡</li>
 			</ul>
 		</div>
 
@@ -54,7 +56,9 @@
 			</ul>
 		</footer>
 		<noOpen  ref="onOpenChild" ></noOpen>
-		<joinRoom  ref="onjoinRoomChild" ></joinRoom>
+		<joinRoom ref="onjoinRoomChild" ></joinRoom>
+		<idMessage ref="onidMessageChild"></idMessage>
+		<buyRoom ref="onbuyRoomChild"></buyRoom>
 	</div>
 </template>
 
@@ -71,10 +75,13 @@
 	// 组件
 	import noOpen from '../../module/homeModule/noOpen.vue';
 	import joinRoom from '../../module/homeModule/joinRoom.vue';
+	import idMessage from '../../module/homeModule/idMessage.vue';
+	import buyRoom from '../../module/homeModule/buyRoom.vue';
 
 	Vue.component('noOpen', noOpen)
 	Vue.component('joinRoom', joinRoom)
-
+	Vue.component('idMessage', idMessage)
+	Vue.component('buyRoom', buyRoom)
 
 	
 	export default {
@@ -97,7 +104,13 @@
 				this.$refs.onjoinRoomChild._data.joinRoom=true
 			},
 			ccc(){
-				console.log(this.$refs.onOpenChild._data.onOpenRoom=true)
+				this.$refs.onOpenChild._data.onOpenRoom=true
+			},
+			mess(){
+				this.$refs.onidMessageChild._data.idMessage=true
+			},
+			buy(){
+				this.$refs.onbuyRoomChild._data.buyRoom=true
 			},
 			generateToolBar: function(obj){
 				//动态生成按钮
