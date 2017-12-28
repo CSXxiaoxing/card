@@ -6,7 +6,6 @@
     <span>提示 <i>×</i></span>
     <p>该房间尚未公开</p>
     <el-button type="success" round v-on:click="tap">确定</el-button>
-    
   </el-dialog>
 </template>
 
@@ -63,18 +62,14 @@
       background-position:center;
     }
   }
-
-
 </style>
 
 <script type="es6">
   export default {
     data() {
       return {
-        onOpenRoom: false
+        onidMessageRoom: false
       };
-
-
     }
   };
 </script>

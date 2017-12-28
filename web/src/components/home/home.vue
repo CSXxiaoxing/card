@@ -41,20 +41,23 @@
 				</li>
 			</ul>
 			<ul>
-				<li @click='ccc'> TEST </li>
+				<li @click='ccc'> TEST 1 </li>
+				<li @click='ccc'> TEST 2 </li>
+				<li @click='ccc'> TEST 3 </li>
 			</ul>
 		</div>
 
 		<footer>
 			<ul>
 				<li>好友</li>
-				<li>创建房间</li>
+				<li @click='varRoom'>创建房间</li>
 				<li @click='joinRoom'>进入房间</li>
 				<li>我的房间</li>
 			</ul>
 		</footer>
-		<noOpen  ref="onOpenChild" ></noOpen>
-		<joinRoom  ref="onjoinRoomChild" ></joinRoom>
+		<noOpen ref="onOpenChild" ></noOpen>
+		<joinRoom ref="onjoinRoomChild" ></joinRoom>
+		<varRoom ref="onvarRoomChild" ></varRoom>
 	</div>
 </template>
 
@@ -71,10 +74,11 @@
 	// 组件
 	import noOpen from '../../module/homeModule/noOpen.vue';
 	import joinRoom from '../../module/homeModule/joinRoom.vue';
+	import setRoom from '../../module/homeModule/varRoom.vue'
 
 	Vue.component('noOpen', noOpen)
 	Vue.component('joinRoom', joinRoom)
-
+	Vue.component('varRoom', setRoom)
 
 	
 	export default {
@@ -86,18 +90,21 @@
 		mounted: function(){
 			var self = this;
 			http.post({
-			            url: 'sel'
-			        ,vm:this}).then(res => {
-			            self.datagrid = res.data;
-			            console.log(res.data)
-			        })
+		        url: 'sel',vm:this
+		    }).then(res => {
+	            self.datagrid = res.data;
+	            console.log(res.data)
+	        })
 		},
 		methods: {
 			joinRoom(){
-				this.$refs.onjoinRoomChild._data.joinRoom=true
+				this.$refs.onjoinRoomChild._data.joinRoom=true;
 			},
 			ccc(){
-				console.log(this.$refs.onOpenChild._data.onOpenRoom=true)
+				this.$refs.onOpenChild._data.onOpenRoom=true;
+			},
+			varRoom(){
+				this.$refs.onvarRoomChild._data.CvarRoom=true;
 			},
 			generateToolBar: function(obj){
 				//动态生成按钮

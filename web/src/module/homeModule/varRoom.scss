@@ -1,0 +1,312 @@
+// 消除浮动
+.clear{
+    clear:both;
+}
+.Cvar{
+    margin-top: 62px!important;
+    border-radius: 26px;
+    padding: 32px 76px 0px 76px;
+    box-sizing: border-box;
+    // @extend .fontSize;
+    .fontSize{
+        font-size: 44px;
+        height: 44px;
+        line-height: 46px;
+        text-align: left;
+    }
+    // @extend .flex;
+    .flex{
+        display: flex;
+        justify-content: space-between;
+    }
+    // 圆点 @extend .circle;
+    .circle{
+        margin-right: 20px;
+        width: 66px;
+        height: 66px;
+        border-radius: 50%;
+        background: #D3D3D3;
+        float: left;
+    }
+    h3{
+        border-bottom: 2px solid #E4E4E4;
+        font-size: 64px;
+        line-height: 64px;
+        font-weight: 300;
+        text-align: center;
+        padding-bottom: 22px;
+    }
+    // 公共p
+    p{
+        // @extend .common;
+        font-size: 44px;
+        height: 44px;
+        text-align: left;
+    }
+    input{
+        outline: none;
+    }
+    ul.varRoomSet{
+        // 房号
+        li:nth-of-type(1){
+            @extend .flex;
+            label:nth-of-type(1){
+                @extend .fontSize;
+                padding: 36px 0 22px;
+                span{
+                    font-size: 42px;
+                    color: #05B800;
+                }
+            }
+            label:nth-of-type(2){
+                float: right;
+                text-align: right;
+                font-size: 42px;
+                line-height: 64px;
+                padding-top: 22px;
+                span{
+                    margin-right: 24px;
+                    // padding: 25px 0 14px;
+                    width: 66px;
+                    height: 66px;
+                    border-radius: 10px;
+                    background: #D3D3D3;
+                    float: left;
+                    
+                }
+            }
+        }
+        // 房名
+        li:nth-of-type(2){
+            height: 88px;
+            padding-bottom: 24px;
+            @extend .flex;
+            span{
+                @extend .fontSize;
+                display: inline-block;
+                padding: 20px 0 22px;
+            }
+            input{
+                flex: 1;
+                border: 2px solid #D2D2D2;
+                border-radius: 10px;
+                padding-left: 28px;
+                font-size: 38px;
+                line-height: 82px;
+            }
+        }
+        // 新人进房确认
+        li:nth-of-type(3){
+            height: 64px;
+            display: flex;
+            align-items: center;
+            &>span:nth-of-type(1){
+                @extend .fontSize;
+                display: inline-block;
+                padding: 8px 23px 8px 0;
+            }
+        }
+        // 玩法
+        li:nth-of-type(4){
+            height: 124px;
+            padding: 24px 0 32px;
+            box-sizing: border-box;
+            display: flex;
+            &>span:nth-of-type(1){
+                @extend .fontSize;
+                display: inline-block;
+                padding: 12px 10px 10px 0; 
+            }
+            label{
+                float: right;
+                text-align: right;
+                font-size: 42px;
+                line-height: 64px;
+                padding-right: 60px;
+                span{
+                    @extend .circle;
+                }
+            }
+        }
+        // 房间付费模式
+        li:nth-of-type(5){
+            p{
+                @extend .fontSize;
+                span{
+                    float: right;
+                    font-size: 38px;
+                    line-height: 44px;
+                    color: #0BBB0E;
+                    text-decoration: underline;
+                }
+            }
+            label{
+                float: left;
+                text-align: right;
+                font-size: 42px;
+                line-height: 64px;
+                padding:20px 50px 24px 0;
+                span{
+                    @extend .circle;
+                }
+            }
+        }
+        // 倍率设置
+        li:nth-of-type(6){
+            p{
+                @extend .fontSize;
+                padding-bottom: 22px;
+                span{
+                    float: right;
+                    font-size: 38px;
+                    line-height: 44px;
+                    color: #0BBB0E;
+                    text-decoration: underline;
+                }
+            }
+        }
+        // 倍率dl
+        li:nth-of-type(7){
+            border: 2px solid #D1D1D1;
+            border-radius: 16px;
+            padding: 32px 20px 16px 56px;
+            dl{
+                display: flex;
+                flex-wrap: wrap;
+                // justify-content: space-between;
+                dt{
+                    width: 100%;
+                    height: 38px;
+                    font-size: 38px;
+                    line-height: 38px;
+                    padding: 0 0 22px;
+                }
+                dd{
+                    width: 33%;
+                    height: 52px;
+                    font-size: 38px;
+                    line-height: 52px;
+                }
+                dd:last-child{
+                    flex: 1;
+                    float: left;
+                    text-align: left;
+                }
+            }
+        }
+        // 可下注时间：
+        li:nth-of-type(8){
+            padding: 22px 0 26px;
+            p{
+                @extend .fontSize;
+            }
+            .divTime{
+                @extend .flex;
+                flex-wrap: wrap;
+            }
+            label{
+                width: 33%;
+                text-align: left;
+                font-size: 42px;
+                line-height: 64px;
+                padding:20px 0px 0px;
+                span{
+                    @extend .circle;
+                }
+            }
+        }
+        // 最低上庄分数
+        li:nth-of-type(9){
+            p{
+                @extend .fontSize;
+            }
+            input{
+                margin-top: 10px;
+                padding-left: 20px;
+                font-size: 36px;
+                line-height: 82px;
+                height: 82px;
+                width: 100%;
+                box-sizing: border-box;
+                border: 2px solid #D3D3D3;
+                border-radius: 10px;
+                color: #0DC108;
+            }
+        }
+        // 玩家下注范围：
+        li:nth-of-type(10){
+            padding: 20px 0 16px;
+            display: flex;
+            width: 100%;
+            span{
+                @extend .fontSize;
+                display: inline-block;
+                width: 312px;
+                padding: 22px 0px 20px 0; 
+                white-space: nowrap;
+            }
+            input{
+                width: 170px;
+                height: 88px;
+                border: 2px solid #D5D5D5;
+                border-radius: 10px;
+                box-sizing: border-box;
+                text-align: center;
+                font-size: 38px;
+                color: #06BC05;
+                margin-right: 15px;
+            }
+            input:last-child{
+                margin-left: 15px;
+                margin-right: 0px;
+            }
+            i{
+                display: inline-block;
+                width: 35px;
+                height: 4px;
+                background: #9E9E9E;
+                margin-top: 38px;
+                // margin-top: -10px;
+                position: relative;
+            }
+        }
+        // 抽庄赢分比例
+        li:nth-of-type(11){
+            margin-bottom: 40px;
+            span{
+                @extend .fontSize;
+                display: inline-block;
+                padding: 20px 0 22px;
+            }
+            input{
+                width: 250px;
+                height: 88px;
+                border: 2px solid #D5D5D5;
+                border-radius: 10px;
+                box-sizing: border-box;
+                text-align: center;
+                font-size: 38px;
+                color: #06BC05;
+                margin-right: 15px;
+            }
+            span:last-child{
+                color: #14BE1D;
+                font-size: 34px;
+                line-height: 54px;
+                &>span{
+                    font-size: 38px;
+                    line-height: 38px;
+                }
+            }
+        }
+    }
+    button{
+      color: #fff;
+      width:690px;
+      height: 110px;
+      font-size:60px;
+      border: none;
+      background: url(../../img/module_home_no2.png) no-repeat;
+      background-position:center;
+    }
+}

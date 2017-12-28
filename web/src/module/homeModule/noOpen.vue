@@ -5,8 +5,7 @@
     center custom-class="tip">
     <span>提示 <i>×</i></span>
     <p>该房间尚未公开</p>
-    <el-button type="success" round v-on:click="tap">确定</el-button>
-    
+    <el-button type="success" round v-on:click="onOpenRoom = false">确定</el-button>
   </el-dialog>
 </template>
 
