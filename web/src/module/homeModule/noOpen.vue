@@ -6,7 +6,6 @@
     <span>提示 <i v-on:click="onOpenRoom = false">×</i></span>
     <p>该房间尚未公开</p>
     <el-button type="success" round v-on:click="onOpenRoom = false">确定</el-button>
-    
   </el-dialog>
 </template>
 

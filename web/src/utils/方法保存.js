@@ -25,3 +25,9 @@ http.get({
 // 事件委托
 target.nodeName.toLowerCase() == 'li'
 
+
+// 消除浮动
+<div class="clear"></div>
+.clear{
+    clear:both;
+}

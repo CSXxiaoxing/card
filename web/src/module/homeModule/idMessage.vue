@@ -9,7 +9,6 @@
     <i v-on:click="idMessage = false">×</i>
     
     <el-button type="success" round v-on:click="idMessage = false">更换账号</el-button>
-    
   </el-dialog>
 </template>
 
@@ -59,15 +58,13 @@
       bottom:100px ;
     }
   }
-
-
 </style>
 
 <script type="es6">
   export default {
     data() {
       return {
-        idMessage: false
+        idMessage: false,
       };
     }
   };
