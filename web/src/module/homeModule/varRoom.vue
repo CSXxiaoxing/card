@@ -1,11 +1,21 @@
 <template>
-  <el-dialog :visible.sync="CvarRoom" width="80%"  custom-class="Cvar" center>
+  <el-dialog :visible.sync="boxState.CvarRoom" width="80%"  custom-class="Cvar" center>
     <el-dialog
-      width="30%"
-      :visible.sync="innerVisible"
-      append-to-body>
+        width="80%"
+        :visible.sync="boxState.coreVisible"
+        append-to-body>
+        <coreVisible></coreVisible>
     </el-dialog>
-        
+<!--     <el-dialog
+        width="80%"
+        :visible.sync="coreVisible"
+        append-to-body>
+    </el-dialog>
+    <el-dialog
+        width="80%"
+        :visible.sync="coreVisible"
+        append-to-body>
+    </el-dialog> -->
     <h3>创建房间</h3>
     <ul class='varRoomSet' @click="open">
         <li>
@@ -30,14 +40,18 @@
                 active-color='red'>
             </el-switch>
         </li>
-        <li @click='cardFn'>
+        <li>
             <span>玩法：</span>
             <label :judge='"cardFn5"'>
-                <span><img src="../../img/varTrue.png" v-show='imgState.cardFn == 5' height="81" width="76" alt="" /></span>
+                <span>
+                    <img src="../../img/varTrue.png" v-show='imgState.cardFn == 5' height="81" width="76" alt="" />
+                </span>
                 5副牌 
             </label>
             <label :judge='"cardFn7"'>
-                <span><img src="../../img/varTrue.png" v-show='imgState.cardFn == 7' height="81" width="76" alt="" /></span>
+                <span>
+                    <img src="../../img/varTrue.png" v-show='imgState.cardFn == 7' height="81" width="76" alt="" />
+                </span>
                 7副牌 
             </label>
         </li>
@@ -46,12 +60,16 @@
                 房间付费模式：
                 <span>付费详情</span>
             </p>
-            <label>
-                <span></span>
+            <label :judge='"bell"'>
+                <span>
+                    <img src="../../img/varTrue.png" v-show='imgState.room == "bell"' height="81" width="76" alt="" />
+                </span>
                 钟点房 
             </label>
-            <label>
-                <span></span>
+            <label :judge='"day"'>
+                <span>
+                    <img src="../../img/varTrue.png" v-show='imgState.room == "day"' height="81" width="76" alt="" />
+                </span>
                 日费房 
             </label>
             <div class="clear"></div>
@@ -59,7 +77,7 @@
         <li>
             <p>
                 倍率设置：
-                <span>点击设置倍率</span>
+                <span @click="boxState.coreVisible = true">点击设置倍率</span>
             </p>
         </li>
         <li>
@@ -81,28 +99,40 @@
         <li>
             <p>可下注时间：</p>
             <div class="divTime">
-                <label>
-                    <span></span>
+                <label :judge='30'>
+                    <span>
+                        <img src="../../img/varTrue.png" v-show='imgState.time == 30' height="81" width="76" alt="" />
+                    </span>
                     30秒 
                 </label>
-                <label>
-                    <span></span>
+                <label :judge='60'>
+                    <span>
+                        <img src="../../img/varTrue.png" v-show='imgState.time == 60' height="81" width="76" alt="" />
+                    </span>
                     1分钟 
                 </label>
-                <label>
-                    <span></span>
+                <label :judge='120'>
+                    <span>
+                        <img src="../../img/varTrue.png" v-show='imgState.time == 120' height="81" width="76" alt="" />
+                    </span>
                     2分钟 
                 </label>
-                <label>
-                    <span></span>
+                <label :judge='180'>
+                    <span>
+                        <img src="../../img/varTrue.png" v-show='imgState.time == 180' height="81" width="76" alt="" />
+                    </span>
                     3分钟 
                 </label>
-                <label>
-                    <span></span>
+                <label :judge='300'>
+                    <span>
+                        <img src="../../img/varTrue.png" v-show='imgState.time == 300' height="81" width="76" alt="" />
+                    </span>
                     5分钟 
                 </label>
-                <label>
-                    <span></span>
+                <label :judge='480'>
+                    <span>
+                        <img src="../../img/varTrue.png" v-show='imgState.time == 480' height="81" width="76" alt="" />
+                    </span>
                     8分钟 
                 </label>
             </div>
@@ -111,25 +141,24 @@
             <p>
                 庄家封顶预赔分或最低上庄分数：
             </p>
-            <input type="text" value="15" />
+            <input type="text" value="imgState.minGrade" v-model='imgState.minGrade'/>
         </li>
         <li>
             <span>玩家下注范围：</span>
-            <input type="text" />
+            <input type="text" value="imgState.minScope" v-model='imgState.minScope'/>
             <i></i>
-            <input type="text" />
+            <input type="text" value="imgState.maxScope" v-model='imgState.maxScope'/>
         </li>
         <li>
             <span>抽庄赢分比例：</span>
-            <input type="text" />
+            <input type="text" value="imgState.scale" v-model='imgState.scale'/>
             <span><span>%</span>(1-15)</span>
         </li>
     </ul>
-    <button type="success" round @click="CvarRoom = false">确定</button>
+    <button type="success" round @click="boxState.CvarRoom = false">确定</button>
 
     <div slot="footer" class="dialog-footer">
-
-      <!-- <el-button type="primary" @click="innerVisible = true">打开内层 Dialog</el-button> -->
+      <!-- <el-button type="primary" @click="coreVisible = true">打开内层 Dialog</el-button> -->
     </div>
   </el-dialog>
 </template>
@@ -148,58 +177,62 @@
         height: 58px;
         width: 58px;
     }
-
 </style>
 
 <script>
+    import Vue from 'vue';
     import './varRoom.scss'
+    import coreVisible from '../../module/homeModule/coreVisible.vue'
+
+    Vue.component('coreVisible', coreVisible)
+
     export default {
         data() {
             return {
-                checked: false,
-                CvarRoom: false,
-                innerVisible: false,
+                // checked: false,
+                boxState: {
+                    coreVisible: false,
+                    CvarRoom: false,
+                    
+                },
                 imgState: {
                     open: false,
                     roomName: '',
                     newMan: false,
                     cardFn: 5,
+                    room: 'bell',
+                    time: 30,
+                    minGrade: 0,
+                    minScope: 0,
+                    maxScope: 100,
+                    scale: 1,
                 }
             };
-        },
-        mounted: function(){
-            // var self = this;
-            // http.post({
-            //     url: 'sel',vm:this
-            // }).then(res => {
-            //     self.datagrid = res.data;
-            //     console.log(res.data)
-            // })
         },
         methods: {
             open(e) {
                 let img =  this.imgState;
+                var judgeVal = '';
                 var nodeName = e.target.nodeName.toLowerCase();
-                if(nodeName == 'label' || nodeName == 'span' || nodeName == 'img'){
-                    var judgeVal = '';
-                    if(e.target.attributes["judge"]){
-                        judgeVal = e.target.attributes["judge"].nodeValue;
-                    } else if(nodeName == 'span'){
-                        judgeVal = e.target.parentElement.attributes["judge"].nodeValue;
-                    } else{
-                        judgeVal = e.target.parentElement.parentElement.attributes["judge"].nodeValue;
-                    }
-                    judgeVal == 'open'? (img.open == false? img.open = true : img.open = false) : 
-                    judgeVal == 'cardFn5'? img.cardFn = 5 : judgeVal == 'cardFn7'? img.cardFn = 7 : console.log(22)
-                    ;
+                var labelTarget = e.target.attributes["judge"];
+                var spanTarget = e.target.parentElement.attributes["judge"];
+                var imgTarget = e.target.parentElement.parentElement.attributes["judge"];
+                if( !(nodeName == 'label' || nodeName == 'span' || nodeName == 'img') ){
+                    return false;
                 }
-                
+                if( !(labelTarget || spanTarget || imgTarget) ){
+                    return false;
+                }
+                labelTarget ? judgeVal = labelTarget.nodeValue : 
+                nodeName == 'span' ? judgeVal = spanTarget.nodeValue : 
+                judgeVal = imgTarget.nodeValue;
+                judgeVal == 'open' ? (img.open == false? img.open = true : img.open = false) : 
+                judgeVal == 'cardFn5' ? img.cardFn = 5 : 
+                judgeVal == 'cardFn7'? img.cardFn = 7 : 
+                judgeVal == 'bell' ? img.room = 'bell' : 
+                judgeVal == 'day' ? img.room = 'day' : 
+                judgeVal >= 30 ? img.time = judgeVal : false;
             },
-            cardFn() {
-
-                let img =  this.imgState;
-                img.cardFn == false? img.cardFn = true : img.cardFn = false;
-            }
         }
     }
 </script>

@@ -117,7 +117,8 @@
 				this.$refs.onbuyRoomChild._data.buyRoom=true;
 			},
 			varRoom(){
-				this.$refs.onvarRoomChild._data.CvarRoom=true;
+				console.log(this.$refs.onvarRoomChild._data.boxState)
+				this.$refs.onvarRoomChild._data.boxState.CvarRoom=true;
 			},
 			generateToolBar: function(obj){
 				//动态生成按钮
