@@ -46,16 +46,16 @@
 				<li>好友</li>
 				<li @click='varRoom'>创建房间</li>
 				<li @click='joinRoom'>进入房间</li>
-				<li>我的房间</li>
+				<li @click='myRoom'>我的房间</li>
 			</ul>
 		</footer>
 
 		<noOpen  ref="onOpenChild" ></noOpen>
 		<joinRoom ref="onjoinRoomChild" ></joinRoom>
-		<idMessage ref="onidMessageChild"></idMessage>
-		<buyRoom ref="onbuyRoomChild"></buyRoom>
+		<idMessage ref="onidMessageChild" ></idMessage>
+		<buyRoom ref="onbuyRoomChild" ></buyRoom>
 		<varRoom ref="onvarRoomChild" ></varRoom>
-
+		<myRoom ref="onmyRoomChild" ></myRoom>
 	</div>
 </template>
 
@@ -75,6 +75,8 @@
 	import idMessage from '../../module/homeModule/idMessage.vue';
 	import buyRoom from '../../module/homeModule/buyRoom.vue';
 	import setRoom from '../../module/homeModule/varRoom.vue';
+	import myRoom from '../../module/homeModule/myRoom.vue';
+	Vue.component('myRoom', myRoom)
 	Vue.component('noOpen', noOpen)
 	Vue.component('joinRoom', joinRoom)
 	Vue.component('idMessage', idMessage)
@@ -109,6 +111,9 @@
 			},
 			varRoom(){
 				this.$refs.onvarRoomChild._data.boxState.CvarRoom=true;
+			},
+			myRoom(){
+				this.$refs.onmyRoomChild._data.myRoom=true;
 			},
 			openS(e){
 				let Etar = e.target;
