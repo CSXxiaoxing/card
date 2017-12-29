@@ -6,7 +6,7 @@
       :visible.sync="moreCard"
       append-to-body center custom-class="more">
 
-    <span>购买房卡 <d v-on:click="moreCard = false">×</d></span>
+    <span>购买房卡 <d class="close" v-on:click="moreCard = false">×</d></span>
     <p>N张以上，几折优惠</p>
     <p>请输入购买的房卡数量</p>
     <input  class="num" ></input>
@@ -90,10 +90,12 @@
       position: relative;
       bottom: 100px;
     }
-    
+
 </style>
 
 <style lang='scss' scoped>
+    //
+
 
   .buy{
 
@@ -180,7 +182,7 @@
         right: 121px;
         bottom: 30px;
         
-          d{
+          .close{
             position:absolute;
             font-size:100px;
             font-weight:900;

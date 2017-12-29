@@ -2,7 +2,7 @@
   "name": "project",
   "description": "A Vue.js project",
   "version": "1.0.0",
-  "author": "dk.lan <329865849@qq.com>",
+  "author": "csx <251156539@qq.com>",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --hot --open",
