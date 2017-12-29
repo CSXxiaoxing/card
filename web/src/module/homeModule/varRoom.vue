@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <mt-popup 
   v-model="boxState.CvarRoom" 
   popup-transition="popup-fade"  
@@ -65,6 +66,36 @@
 
     <h3 v-on:click="no = true">创建房间</h3>
     <ul class='varRoomSet' @click="open" @change="inputChange">
+=======
+  <el-dialog :visible.sync="boxState.CvarRoom" width="80%"  custom-class="Cvar" center>
+    <el-dialog
+        width="80%"
+        :visible.sync="boxState.coreVisible"
+        append-to-body>
+        <coreVisible></coreVisible>
+    </el-dialog>
+
+    <el-dialog
+          width="80%"
+          :visible.sync="no"
+          append-to-body center class="no">
+          <b class="close" v-on:click="no = false">×</b>
+          <p>该功能暂未开放</p>
+    </el-dialog>
+
+    <el-dialog
+      width="80%"
+      :visible.sync="card"
+      append-to-body center class="card">
+
+      <p>房卡消耗方式 <b class="close" v-on:click="card = false">×</b></p>
+        <hr/>
+      <div></div>
+    </el-dialog>
+        
+    <h3 @click="no = true">创建房间</h3>
+    <ul class='varRoomSet' @click="open">
+>>>>>>> 4fedf5a0d4a473ed6f2b3d935caa1c70e2238ab8
         <li>
             <label  v-on:click="card = true">
                 房号：<span>777776</span>
@@ -81,8 +112,13 @@
             <input type="text" v-model="imgState.roomName" :Inp = '"roomN"'/>
         </li>
         <li>
+<<<<<<< HEAD
             <span>新人进房确认</span>
             <!-- <el-switch v-model="imgState.newMan"
+=======
+            <span >新人进房确认</span>
+            <el-switch v-model="imgState.newMan"
+>>>>>>> 4fedf5a0d4a473ed6f2b3d935caa1c70e2238ab8
                 :width=94
                 active-color='red'>
             </el-switch> -->
@@ -108,7 +144,7 @@
         <li>
             <p>
                 房间付费模式：
-                <span>付费详情</span>
+                <span @click="card = true">付费详情</span>
             </p>
             <label :judge='"bell"'>
                 <span>
@@ -192,6 +228,7 @@
                 庄家封顶预赔分或最低上庄分数：
             </p>
             <input type="text" value="imgState.minGrade" v-model='imgState.minGrade' :Inp = '"minG"'/>
+        </li>
         </li>
         <li>
             <span>玩家下注范围：</span>
@@ -389,6 +426,167 @@
     }
 </style>
 
+<style lang='scss' scoped>
+
+//关闭叉叉
+
+.clo{
+        position:absolute;
+        font-size:140px;
+        color:#7A7A7A;
+    }
+
+ .no{
+    width:80%;
+    margin-left:10%;
+    margin-top:35%;
+        .close{
+                @extend .clo;
+                right:30px;
+                top:60px;
+            }
+
+        p{
+            color:red;
+            font-size:50px;
+            text-align: center;
+            line-height: 300px;
+        }
+    }
+
+    .card{
+        width:109%;
+        margin-top:10%;
+        position:absolute;
+        left:-50px;
+        p{
+            font-size:70px;
+            line-height:100px;
+            text-align:center;
+            .close{
+                @extend .clo;
+                right:30px;
+                top:18px;
+            }
+            
+        }
+        
+        hr{
+            margin:20px 0px 50px 0px;
+        }
+
+        div{
+            position:relative;
+            left:30px;
+            width:830px;
+            height:1030px;
+            background-color: #E6E6E6;
+        }
+    }
+
+
+    .set{
+        width:120%;
+        margin-top:10%;
+        position:absolute;
+        left:-110px;
+        .top{
+            padding-left:380px;
+            font-size:66px;
+            line-height:100px;
+            color:black;
+            .close{
+                @extend .clo;
+                right:30px;
+                top:18px;
+            }
+        }
+
+        hr{
+            margin:20px 0px 50px 0px;
+            clear: both;
+        }
+
+        div:nth-of-type(1){
+
+            p{
+                color:#E84D0F;
+                font-size:40px;
+                text-align:center;
+            }
+            dt{
+                margin-top:64px;
+                font-size:55px;
+                color:#0BBD0A;
+            }
+            dd{
+                position:relative;
+                left:50px;
+                bottom:50px;
+                line-height:64px;
+                margin-left:80px;
+                margin-bottom:30px;
+                font-size:40px;
+                float:left;
+               span:nth-of-type(2){
+                position:relative;
+                top:12px;
+                display:inline-block;
+                width: 60px;
+                height: 60px;
+                border-radius:100%;
+                background-color:#D3D3D3;
+                margin-right:20px;
+               }
+               span:nth-of-type(1){
+                position:relative;
+                left:53px;
+                top:5px;
+                z-index: 999;
+                display:inline-block;
+                width: 45px;
+                height: 45px;
+                border-radius:100%;
+                background-color:#09BA07;
+
+               }
+            }
+        }
+        div:nth-of-type(2){
+            ul{
+                font-size: 50px;
+                li{
+                    width:45%;
+                    float:left;
+                    color:#0BBF0A;
+                    margin-left: 30px;
+                    .add{
+                        position:relative;
+                        left:180px;
+                        bottom:40px;
+
+                    }
+
+                    
+                    
+                }
+
+            }
+        }
+      button{
+          width:380px;
+          height: 110px;
+          margin-left:300px;
+          font-size:60px;
+          border: none;
+          background: url(../../img/module_home_no2.png) no-repeat;
+          background-position:center;
+          background-size: cover;
+    }
+
+    }
+</style>
+
 <script>
     import Vue from 'vue';
     import './varRoom.scss'
@@ -404,7 +602,11 @@
                 boxState: {
                     coreVisible: false,
                     CvarRoom: false,
+<<<<<<< HEAD
                 },
+=======
+                }
+>>>>>>> 4fedf5a0d4a473ed6f2b3d935caa1c70e2238ab8
                 set: false,
                 card:false,
                 no:false,

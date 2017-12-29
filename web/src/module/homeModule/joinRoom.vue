@@ -1,8 +1,15 @@
 <template>
+<<<<<<< HEAD
   <mt-popup
     v-model="joinRoom"
     popup-transition="popup-fade" 
     class="join">
+=======
+  <el-dialog
+    :visible.sync="joinRoom"
+    width="71%"
+    center custom-class="join">
+>>>>>>> 4fedf5a0d4a473ed6f2b3d935caa1c70e2238ab8
     <p></p>
     <h3>加入房间 <i v-on:click="joinRoom = false">×</i> </h3>
     <div class="joinCenter">
@@ -45,12 +52,13 @@
       background: url('../../img/JoinTOP.png') no-repeat;
       position: absolute;
       left: 50%;
-      top: 0;
+      top: 1%;
       -webkit-transform: translate(-50%,-10%);
          -moz-transform: translate(-50%,-10%);
           -ms-transform: translate(-50%,-10%);
            -o-transform: translate(-50%,-10%);
               transform: translate(-50%,-10%);
+<<<<<<< HEAD
         i{
           position:absolute;
           font-size:140px;
@@ -58,12 +66,30 @@
           right:80px;
           color:#AA770A;
         }    
+=======
+
+      i{
+        position:absolute;
+        font-size:140px;
+        color:#7A7A7A;
+        right:80px;
+        color:#AA770A;
+      }
+>>>>>>> 4fedf5a0d4a473ed6f2b3d935caa1c70e2238ab8
     }
     input{
-      height: 50px;
-      width: 100%;
+      height: 122px;
+      width: 90%;
       font-size: 48px;
       text-align: center;
+      border:1px solid #D0D7CF;
+      border-radius:12px;
+      background-color: #E2FFE1;
+      position:absolute;
+      top:180px;
+      left:40px;
+      color:#0FBA0E;
+      font-size:100px;
     }
     input{
       height: 122px;
@@ -77,11 +103,16 @@
       font-size:100px;
     }
     ul{
+<<<<<<< HEAD
         width:100%;
+=======
+      width:100%;
+>>>>>>> 4fedf5a0d4a473ed6f2b3d935caa1c70e2238ab8
       font-size: 50px;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
+      margin-top: 130px;
       li{
         height: 133px;
         line-height: 130px;
@@ -93,6 +124,10 @@
         color:white;
         background:url("../../img/JoinNum.png") no-repeat;
       }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4fedf5a0d4a473ed6f2b3d935caa1c70e2238ab8
       .word{
         font-size:80px;
          background:url("../../img/JoinNum2.png") no-repeat;

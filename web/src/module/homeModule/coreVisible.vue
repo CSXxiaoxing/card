@@ -1,5 +1,9 @@
 <template>
+<<<<<<< HEAD
 <mt-popup 
+=======
+<el-dialog
+>>>>>>> 4fedf5a0d4a473ed6f2b3d935caa1c70e2238ab8
   width="80%"
   :visible.sync="set"
   append-to-body center class="set">
@@ -34,8 +38,13 @@
         
     </div>
     <hr/>
+<<<<<<< HEAD
     <mt-button type="success" round v-on:click="idMessage = false">更换账号</mt-button>
 </mt-popup >
+=======
+    <el-button type="success" round v-on:click="idMessage = false">更换账号</el-button>
+</el-dialog>
+>>>>>>> 4fedf5a0d4a473ed6f2b3d935caa1c70e2238ab8
 </template>
 
 <style lang='scss' scoped>
