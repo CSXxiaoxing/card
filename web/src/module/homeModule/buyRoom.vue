@@ -11,7 +11,6 @@
 
     <span>购买房卡 <b v-on:click="moreCard = false">×</b></span>
     <p>{{cardNumError}}</p>
-
     <p>请输入购买的房卡数量</p>
     <input  class="num" v-model.trim='cardNum' ></input>
     <mt-button v-on:click="cardNumber" >确定</mt-button>
@@ -84,7 +83,6 @@
 </template>
 
 <style lang='scss' scoped>
-<<<<<<< HEAD
     .buy{
         background: url(../../img/module_home_buy1.png) no-repeat;
         width: 879px;
@@ -97,10 +95,6 @@
             font-weight:bolder;
             color: #5E4205;
             text-align:center;
-=======
-    //
-
->>>>>>> 4fedf5a0d4a473ed6f2b3d935caa1c70e2238ab8
 
             i{
                 position:absolute;
@@ -183,7 +177,6 @@
         bottom: 30px;
         
           b{
-          .close{
             position:absolute;
             font-size:100px;
             font-weight:900;
