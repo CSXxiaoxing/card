@@ -1,10 +1,10 @@
 <template>
   <el-dialog
     :visible.sync="joinRoom"
-    width="74%"
+    width="71%"
     center custom-class="join">
     <p></p>
-    <h3>加入房间</h3>
+    <h3>加入房间 <i v-on:click="joinRoom = false">×</i> </h3>
     <div class="joinCenter">
       <input type="text" maxlength='6' :value="val" readonly/>
       <ul @click='number'>
@@ -17,9 +17,9 @@
         <li>7</li>
         <li>8</li>
         <li>9</li>
-        <li>重输</li>
+        <li class="word">重输</li>
         <li>0</li>
-        <li>删除</li>
+        <li class="word">删除</li>
       </ul>
     </div>
   </el-dialog>
@@ -39,6 +39,7 @@
   .join{
     p{height: 180px; width: 100%;}
     h3{
+      color:#5D4205;
       padding: 0;
       margin: 0;
       width: 908px;
@@ -49,30 +50,57 @@
       background: url('../../img/JoinTOP.png') no-repeat;
       position: absolute;
       left: 50%;
-      top: 0;
+      top: 1%;
       -webkit-transform: translate(-50%,-10%);
          -moz-transform: translate(-50%,-10%);
           -ms-transform: translate(-50%,-10%);
            -o-transform: translate(-50%,-10%);
               transform: translate(-50%,-10%);
+
+      i{
+        position:absolute;
+        font-size:140px;
+        color:#7A7A7A;
+        right:80px;
+        color:#AA770A;
+      }
     }
-    div.joinCenter{padding: 48px;}
     input{
-      height: 50px;
-      width: 100%;
+      height: 122px;
+      width: 90%;
       font-size: 48px;
       text-align: center;
+      border:1px solid #D0D7CF;
+      border-radius:12px;
+      background-color: #E2FFE1;
+      position:absolute;
+      top:180px;
+      left:40px;
+      color:#0FBA0E;
+      font-size:100px;
     }
     ul{
+      width:100%;
       font-size: 50px;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
+      margin-top: 130px;
       li{
-        height: 130px;
+        height: 133px;
         line-height: 130px;
-        width: 210px;
+        font-size:100px;
+        width: 219px;
         text-align: center;
+        margin: 10px 0px;
+        padding:0px 2px 0px 0px;
+        color:white;
+        background:url("../../img/JoinNum.png") no-repeat;
+      }
+
+      .word{
+        font-size:80px;
+         background:url("../../img/JoinNum2.png") no-repeat;
       }
     }
   }

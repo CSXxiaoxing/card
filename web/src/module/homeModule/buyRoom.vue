@@ -8,6 +8,7 @@
 
     <span>购买房卡 <b v-on:click="moreCard = false">×</b></span>
     <p>{{cardNumError}}</p>
+
     <p>请输入购买的房卡数量</p>
     <input  class="num" v-model.trim='cardNum' ></input>
     <el-button type="success" round  v-on:click="cardNumber" >确定</el-button>
@@ -89,6 +90,8 @@
     }
 </style>
 <style lang='scss' scoped>
+    //
+
 
   .buy{
 
@@ -176,6 +179,7 @@
         bottom: 30px;
         
           b{
+          .close{
             position:absolute;
             font-size:100px;
             font-weight:900;
