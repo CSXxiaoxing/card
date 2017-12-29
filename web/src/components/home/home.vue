@@ -2,7 +2,7 @@
 	<div id='home'>
 		<header>
 			<dl>
-				<dt>
+				<dt @click.capture='mess'>
 					<img src="../../img/home_head.png" alt="" />
 				</dt>
 				<dd>
@@ -14,8 +14,7 @@
 					<span>
 						<i>房卡</i>
 						<b>27894</b>
-						<i @click='ccc'></i>
-						<!-- <b class='el-icon-plus'></b> -->
+						<i @click='buy'></i>
 					</span>
 				</dd>
 				<dd></dd>
@@ -24,8 +23,8 @@
 			<span class='homeServer'><b>客<br>服</b> </span>
 		</header>
 		<div class='homeMain'>
-			<ul>
-				<li v-for='(dataRoom) in datagrid' :key='dataRoom.key'>
+			<ul @click='openS'>
+				<li v-for='(dataRoom) in datagrid' :key='dataRoom.key' :openState='dataRoom.open'>
 					<b v-if='dataRoom.open == "true"'></b>
 					<i></i>
 					<h4>大战牛群</h4>
@@ -39,11 +38,6 @@
 						<div></div>
 					</div>
 				</li>
-			</ul>
-			<ul>
-				<li @click='ccc'> TEST </li>
-				<li @click='mess'> idMessage </li>
-				<li @click='buy'>购买房卡</li>
 			</ul>
 		</div>
 
@@ -80,7 +74,7 @@
 	import joinRoom from '../../module/homeModule/joinRoom.vue';
 	import idMessage from '../../module/homeModule/idMessage.vue';
 	import buyRoom from '../../module/homeModule/buyRoom.vue';
-	import setRoom from '../../module/homeModule/varRoom.vue'
+	import setRoom from '../../module/homeModule/varRoom.vue';
 	Vue.component('noOpen', noOpen)
 	Vue.component('joinRoom', joinRoom)
 	Vue.component('idMessage', idMessage)
@@ -107,9 +101,6 @@
 			joinRoom(){
 				this.$refs.onjoinRoomChild._data.joinRoom=true;
 			},
-			ccc(){
-				this.$refs.onOpenChild._data.onOpenRoom=true;
-			},
 			mess(){
 				this.$refs.onidMessageChild._data.idMessage=true;
 			},
@@ -117,8 +108,24 @@
 				this.$refs.onbuyRoomChild._data.buyRoom=true;
 			},
 			varRoom(){
-				console.log(this.$refs.onvarRoomChild._data.boxState)
 				this.$refs.onvarRoomChild._data.boxState.CvarRoom=true;
+			},
+			openS(e){
+				let Etar = e.target;
+				var Tar = () => {
+					var EtarName = Etar.nodeName.toLowerCase();
+					if(EtarName == 'li'){
+						Etar.attributes["openState"].nodeValue == 'false' ? 
+						this.$refs.onOpenChild._data.onOpenRoom=true : false;
+						return false;
+					} else if(EtarName == 'body'){
+						return false;
+					} else {
+						Etar = Etar.parentElement;
+						Tar();
+					}
+				};
+				Tar();
 			},
 			generateToolBar: function(obj){
 				//动态生成按钮

@@ -6,7 +6,7 @@
     <p></p>
     <h3>加入房间</h3>
     <div class="joinCenter">
-      <input type="text" maxlength='6' :value="val"/>
+      <input type="text" maxlength='6' :value="val" readonly/>
       <ul @click='number'>
         <li>1</li>
         <li>2</li>
@@ -76,7 +76,6 @@
       }
     }
   }
-
 </style>
   
 <script>

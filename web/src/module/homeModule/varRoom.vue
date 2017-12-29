@@ -17,7 +17,7 @@
         append-to-body>
     </el-dialog> -->
     <h3>创建房间</h3>
-    <ul class='varRoomSet' @click="open">
+    <ul class='varRoomSet' @click="open" @change="inputChange">
         <li>
             <label>
                 房号：<span>777776</span>
@@ -31,7 +31,7 @@
         </li>
         <li>
             <span>房名：</span>
-            <input type="text" v-model="imgState.roomName"/>
+            <input type="text" v-model="imgState.roomName" :Inp = '"roomN"'/>
         </li>
         <li>
             <span>新人进房确认</span>
@@ -141,17 +141,17 @@
             <p>
                 庄家封顶预赔分或最低上庄分数：
             </p>
-            <input type="text" value="imgState.minGrade" v-model='imgState.minGrade'/>
+            <input type="text" value="imgState.minGrade" v-model='imgState.minGrade' :Inp = '"minG"'/>
         </li>
         <li>
             <span>玩家下注范围：</span>
-            <input type="text" value="imgState.minScope" v-model='imgState.minScope'/>
+            <input type="text" value="imgState.minScope" v-model='imgState.minScope' :Inp = '"minS"'/>
             <i></i>
-            <input type="text" value="imgState.maxScope" v-model='imgState.maxScope'/>
+            <input type="text" value="imgState.maxScope" v-model='imgState.maxScope':Inp = '"maxS"'/>
         </li>
         <li>
             <span>抽庄赢分比例：</span>
-            <input type="text" value="imgState.scale" v-model='imgState.scale'/>
+            <input type="text" value="imgState.scale" v-model='imgState.scale':Inp = '"sca"'/>
             <span><span>%</span>(1-15)</span>
         </li>
     </ul>
@@ -193,9 +193,9 @@
                 boxState: {
                     coreVisible: false,
                     CvarRoom: false,
-                    
                 },
                 imgState: {
+                    state: false,
                     open: false,
                     roomName: '',
                     newMan: false,
@@ -233,6 +233,42 @@
                 judgeVal == 'day' ? img.room = 'day' : 
                 judgeVal >= 30 ? img.time = judgeVal : false;
             },
+            inputChange(ev) {
+                
+                if(ev.target.nodeName.toLowerCase() != 'input' || ev.target.getAttribute("class") == 'el-switch__input'){
+                    return false;
+                }
+                let inp =  this.imgState;
+                var inpTarget = ev.target.attributes["Inp"].nodeValue;
+                var inpVal = ev.target.value;
+                // 规则判断
+                inpTarget == 'roomN' ? 
+                (inpVal.length <= 15 ? inp.roomName = inpVal : inp.state = false) :
+                inpTarget == 'minG' ? 
+                (inpVal >= 1 && inpVal <= 99999 ? inp.minGrade = inpVal : inp.state = false) :
+                inpTarget == 'minS' ? 
+                (inpVal >= 1 ? inp.minScope = inpVal : inp.state = false) :
+                inpTarget == 'maxS' ? 
+                (inpVal > inp.minScope && inpVal <= 99999 ? inp.maxScope = inpVal : inp.state = false) :
+                inpTarget == 'sca' ? 
+                (inpVal >=1 && inpVal <=15 ? inp.scale = inpVal : inp.state = false) : false;
+
+                // var numTrue = numT => {
+                //     // 验证数字
+                //     var reg = new RegExp("^[0-9]*$");
+                //     if(!reg.test(ev.target.value)){
+                //         inp.state = false;
+                //         ev.target.value = 1;
+                //         return false;
+                //     } else if(ev.target.value == 0){
+                //         inp.state = false;
+                //         return false;
+                //     } else {
+                //         console.log(ev.target.value.replace(/^[0]+/,''))
+                //         // this.moreCard = false;match
+                //     }
+                // }
+            }
         }
     }
 </script>

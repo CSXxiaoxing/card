@@ -6,11 +6,11 @@
       :visible.sync="moreCard"
       append-to-body center custom-class="more">
 
-    <span>购买房卡 <d v-on:click="moreCard = false">×</d></span>
-    <p>N张以上，几折优惠</p>
+    <span>购买房卡 <b v-on:click="moreCard = false">×</b></span>
+    <p>{{cardNumError}}</p>
     <p>请输入购买的房卡数量</p>
-    <input  class="num" ></input>
-    <el-button type="success" round v-on:click="moreCard = false">确定</el-button>
+    <input  class="num" v-model.trim='cardNum' ></input>
+    <el-button type="success" round  v-on:click="cardNumber" >确定</el-button>
 
     </el-dialog>
 
@@ -79,9 +79,6 @@
   </el-dialog>
 </template>
 
-
-
-
 <style type="text/css">
     .buy{
       background: url(../../img/module_home_buy1.png) no-repeat;
@@ -90,9 +87,7 @@
       position: relative;
       bottom: 100px;
     }
-    
 </style>
-
 <style lang='scss' scoped>
 
   .buy{
@@ -163,7 +158,7 @@
   }
   
   
-.more{
+  .more{
       
       border-radius:20px;
       span{
@@ -180,7 +175,7 @@
         right: 121px;
         bottom: 30px;
         
-          d{
+          b{
             position:absolute;
             font-size:100px;
             font-weight:900;
@@ -224,7 +219,6 @@
         background-position:center;
       }
     }
-
 </style>
 
 <script type="es6">
@@ -232,8 +226,31 @@
     data() {
       return {
         buyRoom: false,
-        moreCard: false
+        moreCard: false,
+        cardNum: '',
+        cardNumError: 'N张以上，几折优惠',
       };
+    },
+    methods: {
+        cardNumber(){
+            let reg = new RegExp("^[0-9]*$");
+            if(!reg.test(this.cardNum)){
+                this.cardNumError = '请输入正确数量';
+                setTimeout(()=>{
+                    this.cardNumError = 'N张以上，几折优惠';
+                }, 1800)
+                return false;
+            } else if(this.cardNum == 0){
+                this.cardNumError = '请输入房卡数量';
+                setTimeout(()=>{
+                    this.cardNumError = 'N张以上，几折优惠';
+                }, 1800)
+                return false;
+            } else {
+                console.log(this.cardNum.replace(/^[0]+/,''))
+                // this.moreCard = false;match
+            }
+        }
     }
   };
 </script>
