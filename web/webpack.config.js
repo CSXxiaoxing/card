@@ -61,14 +61,16 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     noInfo: true,
-    overlay: true
+    overlay: true,
+    port: 8090,
   },
-  plugins: [  
-   new webpack.ProvidePlugin({
-       jQuery: "jquery",
-       $: "jquery"
-   })
-  ],
+  // host: '192.168.0.104',
+  // plugins: [  
+  //  new webpack.ProvidePlugin({
+  //      jQuery: "jquery",
+  //      $: "jquery"
+  //  })
+  // ],
   performance: {
     hints: false
   },

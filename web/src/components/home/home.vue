@@ -50,12 +50,12 @@
 			</ul>
 		</footer>
 
-		<noOpen  ref="onOpenChild" ></noOpen>
-		<joinRoom ref="onjoinRoomChild" ></joinRoom>
 		<idMessage ref="onidMessageChild" ></idMessage>
 		<buyRoom ref="onbuyRoomChild" ></buyRoom>
+		<noOpen  ref="onOpenChild" ></noOpen>
+		<joinRoom ref="onjoinRoomChild" ></joinRoom>
 		<varRoom ref="onvarRoomChild" ></varRoom>
-		<myRoom ref="onmyRoomChild" ></myRoom>
+		<!-- <myRoom ref="onmyRoomChild" ></myRoom> -->
 	</div>
 </template>
 
@@ -75,8 +75,8 @@
 	import idMessage from '../../module/homeModule/idMessage.vue';
 	import buyRoom from '../../module/homeModule/buyRoom.vue';
 	import setRoom from '../../module/homeModule/varRoom.vue';
-	import myRoom from '../../module/homeModule/myRoom.vue';
-	Vue.component('myRoom', myRoom)
+	// import myRoom from '../../module/homeModule/myRoom.vue';
+	// Vue.component('myRoom', myRoom)
 	Vue.component('noOpen', noOpen)
 	Vue.component('joinRoom', joinRoom)
 	Vue.component('idMessage', idMessage)
@@ -104,6 +104,7 @@
 				this.$refs.onjoinRoomChild._data.joinRoom=true;
 			},
 			mess(){
+				console.log(this.$refs)
 				this.$refs.onidMessageChild._data.idMessage=true;
 			},
 			buy(){
@@ -120,6 +121,7 @@
 				var Tar = () => {
 					var EtarName = Etar.nodeName.toLowerCase();
 					if(EtarName == 'li'){
+						console.log(this.$refs)
 						Etar.attributes["openState"].nodeValue == 'false' ? 
 						this.$refs.onOpenChild._data.onOpenRoom=true : false;
 						return false;

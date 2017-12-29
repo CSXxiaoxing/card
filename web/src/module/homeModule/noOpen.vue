@@ -1,25 +1,21 @@
 <template>
-  <el-dialog
-    :visible.sync="onOpenRoom"
-    width="71%" 
-    center custom-class="tip">
-    <span>提示 <i v-on:click="onOpenRoom = false">×</i></span>
+  <mt-popup 
+    v-model="onOpenRoom"
+    popup-transition="popup-fade" 
+    class="tip" >
+    <span>提示 <i @click="onOpenRoom = false">×</i></span>
     <p>该房间尚未公开</p>
-    <el-button type="success" round v-on:click="onOpenRoom = false">确定</el-button>
-  </el-dialog>
+    <mt-button @click="onOpenRoom = false">  确定
+    </mt-button>
+  </mt-popup >
 </template>
 
-<style type="text/css">
-    .tip{
-      border-radius: 30px;
-      position: relative;
-      top:300px;
-    }
-</style>
-
 <style lang='scss' scoped>
-
   .tip{
+    width: 71%;
+    border-radius: 30px;
+    position: absolute;
+    top:300px;
     span{
       display: block;
       color:white;
@@ -35,10 +31,10 @@
       bottom: 50px;
       
       i{
-        position:absolute;
-        font-size:140px;
-        color:#028B00;
-        right:120px;
+        position: absolute;
+        font-size: 140px;
+        color: #028B00;
+        right: 120px;
       }
     }
 

@@ -1,15 +1,12 @@
 <template>
     <div>
-        <div class="dk-spinner-mask"></div>
-        <div class="dk-spinner dk-spinner-three-bounce">
-            <div class="dk-bounce1"></div>
-            <div class="dk-bounce2"></div>
-            <div class="dk-bounce3"></div>
-        </div>        
+        <mt-spinner type="fading-circle"></mt-spinner>      
     </div>
 </template>
 
 <script>
     import './loading.scss'
-    export default {}
+    export default {
+        
+    }
 </script>

@@ -1,19 +1,19 @@
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import Vuex from 'vuex';
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-// import './index.css'
-import App from './App.vue'
-
+import App from './App.vue';
 import router from './router/';
 
-// import VueSocketio from "vue-socket.io"
-// import $ from 'jquery'
+import MintUI from 'mint-ui';
+import 'mint-ui/lib/style.css';
 
-// Vue.use(VueSocketio, 'http://localhost:5566');  
+
+// Vue.config.productionTip = false
+
 Vue.use(Vuex);
-Vue.use(ElementUI);
-
+Vue.use(MintUI);
+/* eslint-disable no-new */
 const store = new Vuex.Store({
    // 字符串数据存储
    // 使用demo : this.$store.state.name
@@ -55,8 +55,8 @@ const store = new Vuex.Store({
 })
 
 new Vue({
-   el: '#app',
-   store,
-   router,
-   render: h => h(App)
+  el: '#app',
+  store,
+  router,
+  render: h => h(App)
 })

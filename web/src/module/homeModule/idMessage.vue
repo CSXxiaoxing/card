@@ -1,30 +1,24 @@
 <template>
-  <el-dialog
-    :visible.sync="idMessage"
-    width="80%" 
-    center custom-class="mess">
-    
-    <img src="../../img/module_home_id1.png" height="222" width="238" alt=""></td>
+  <mt-popup
+    v-model="idMessage"
+    popup-transition="popup-fade"
+    class="mess">
+    <img src="../../img/module_home_id1.png" height="222" width="238" alt="">
     <p>迷糊的诗诗 <br> ID:755693</p>
-    <i v-on:click="idMessage = false">×</i>
-    
-    <el-button type="success" round v-on:click="idMessage = false">更换账号</el-button>
-  </el-dialog>
+    <i v-on:click="idMessage = false"></i>
+    <mt-button type="primary" round  @click="idMessage = false">
+        更换账号
+    </mt-button>
+  </mt-popup>
 </template>
 
-<style type="text/css">
-    .mess{
-      border-radius: 30px;
-      position: relative;
-      top:200px;
-      height:600px;
-    }
-</style>
-
 <style lang='scss' scoped>
-
   .mess{
-
+    width: 80%;
+    border-radius: 30px;
+    position: absolute;
+    height:600px;
+    margin-top: -200px;
     img{
       position:absolute;
       left: 50px;
@@ -38,24 +32,28 @@
       left: 320px;
       top:130px;
     }
-        
-
     i{
         position:absolute;
-        font-size:140px;
-        color:#7A7A7A;
+        display: inline-block;
+        width: 57px;
+        height: 57px;
+        background: url(../../img/homeID.png) no-repeat;
+        background-size: cover;
+        background-position:center;
         right:30px;
         top:60px;
       }
     button{
-      width:95%;
+      width:100%;
       height: 110px;
       font-size:60px;
       border: none;
       background: url(../../img/module_home_no2.png) no-repeat;
+      background-size: cover;
       background-position:center;
       position: absolute;
-      bottom:100px ;
+      bottom: 100px ;
+      left: 0;
     }
   }
 </style>

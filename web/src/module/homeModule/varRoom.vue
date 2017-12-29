@@ -1,25 +1,72 @@
 <template>
-  <el-dialog :visible.sync="boxState.CvarRoom" width="80%"  custom-class="Cvar" center>
-    <el-dialog
-        width="80%"
-        :visible.sync="boxState.coreVisible"
-        append-to-body>
-        <coreVisible></coreVisible>
-    </el-dialog>
-<!--     <el-dialog
-        width="80%"
-        :visible.sync="coreVisible"
-        append-to-body>
-    </el-dialog>
-    <el-dialog
-        width="80%"
-        :visible.sync="coreVisible"
-        append-to-body>
-    </el-dialog> -->
-    <h3>创建房间</h3>
+  <mt-popup 
+  v-model="boxState.CvarRoom" 
+  popup-transition="popup-fade"  
+  class="Cvar" >
+    <mt-popup
+        v-model="boxState.coreVisible"
+        popup-transition="popup-fade" 
+        >
+    </mt-popup>
+    <mt-popup 
+      v-model="set"
+      popup-transition="popup-fade"
+      class="set">
+
+      <span class="top">倍率设置 <b class="close" v-on:click="set = false">×</b></span>
+        <hr/>
+      <div>
+        <p>提示：大型牌的倍率不能低于小牌型</p>
+        <dl>
+            <dt>无牛</dt>
+            <dd><span></span><span></span> 比J</dd>
+            <dd><span></span><span></span> 比Q</dd>
+            <dd><span></span><span></span> 比K</dd>
+            <dd><span></span><span></span>无牛关机（庄赢）</dd>
+        </dl>
+      </div>
+       <hr/>
+        <div>
+            <ul>
+                <li>牛一<addButtion class="add"></addButtion></li>
+                <li>牛二<addButtion class="add"></addButtion></li>
+                <li>牛三<addButtion class="add"></addButtion></li>
+                <li>牛四<addButtion class="add"></addButtion></li>
+                <li>牛五<addButtion class="add"></addButtion></li>
+                <li>牛六<addButtion class="add"></addButtion></li>
+                <li>牛七<addButtion class="add"></addButtion></li>
+                <li>牛八<addButtion class="add"></addButtion></li>
+                <li>牛九<addButtion class="add"></addButtion></li>
+                <li>牛牛<addButtion class="add"></addButtion></li>
+                <li>五花牛<addButtion class="add"></addButtion></li>
+            </ul>
+        </div>
+        <hr/>
+        <mt-button v-on:click="idMessage = false">更换账号</mt-button>
+    </mt-popup >
+
+    <mt-popup
+        v-model="no"
+        popup-transition="popup-fade" 
+        class="no">
+        <b class="close" v-on:click="no = false">×</b>
+        <p>该功能暂未开放</p>
+    </mt-popup>
+
+    <mt-popup
+      v-model="card"
+      popup-transition="popup-fade" 
+      class="card" >
+      <p>房卡消耗方式 <b class="close" v-on:click="card = false">×</b></p>
+        <hr/>
+      <div></div>
+    </mt-popup>
+
+
+    <h3 v-on:click="no = true">创建房间</h3>
     <ul class='varRoomSet' @click="open" @change="inputChange">
         <li>
-            <label>
+            <label  v-on:click="card = true">
                 房号：<span>777776</span>
             </label>
             <label :judge='"open"'>
@@ -35,10 +82,13 @@
         </li>
         <li>
             <span>新人进房确认</span>
-            <el-switch v-model="imgState.newMan"
+            <!-- <el-switch v-model="imgState.newMan"
                 :width=94
                 active-color='red'>
-            </el-switch>
+            </el-switch> -->
+            <mt-switch v-model="imgState.newMan" active-color='red'>
+                
+            </mt-switch>
         </li>
         <li>
             <span>玩法：</span>
@@ -160,22 +210,182 @@
     <div slot="footer" class="dialog-footer">
       <!-- <el-button type="primary" @click="coreVisible = true">打开内层 Dialog</el-button> -->
     </div>
-  </el-dialog>
+  </mt-popup>
 </template>
 
 <style type="text/css">
-    .Cvar .el-dialog__body{
-        padding: 0;
+    .Cvar{
+        width:80% ;
     }
-    .Cvar .el-switch__core{
+/*    .Cvar .el-switch__core{
         display: inline-block;
         height: 60px!important;
         width: 136px!important;
         border-radius: 40px;
-    }
+    }type
     .Cvar .el-switch__button{
         height: 58px;
         width: 58px;
+    }*/
+</style>
+<style lang='scss' scoped>
+
+//关闭叉叉
+
+.clo{
+        position:absolute;
+        font-size:140px;
+        color:#7A7A7A;
+    }
+
+ .no{
+    width:80%;
+    margin-left:10%;
+    margin-top:35%;
+        .close{
+                @extend .clo;
+                right:30px;
+                top:60px;
+            }
+
+        p{
+            color:red;
+            font-size:50px;
+            text-align: center;
+            line-height: 300px;
+        }
+    }
+
+    .card{
+        width:109%;
+        margin-top:10%;
+        position:absolute;
+        left:-50px;
+        p{
+            font-size:70px;
+            line-height:100px;
+            text-align:center;
+            .close{
+                @extend .clo;
+                right:30px;
+                top:18px;
+            }
+            
+        }
+        
+        hr{
+            margin:20px 0px 50px 0px;
+        }
+
+        div{
+            position:relative;
+            left:30px;
+            width:830px;
+            height:1030px;
+            background-color: #E6E6E6;
+        }
+    }
+
+
+    .set{
+        width:120%;
+        margin-top:10%;
+        position:absolute;
+        left:-110px;
+        .top{
+            padding-left:380px;
+            font-size:66px;
+            line-height:100px;
+            color:black;
+            .close{
+                @extend .clo;
+                right:30px;
+                top:18px;
+            }
+        }
+
+        hr{
+            margin:20px 0px 50px 0px;
+            clear: both;
+        }
+
+        div:nth-of-type(1){
+
+            p{
+                color:#E84D0F;
+                font-size:40px;
+                text-align:center;
+            }
+            dt{
+                margin-top:64px;
+                font-size:55px;
+                color:#0BBD0A;
+            }
+            dd{
+                position:relative;
+                left:50px;
+                bottom:50px;
+                line-height:64px;
+                margin-left:80px;
+                margin-bottom:30px;
+                font-size:40px;
+                float:left;
+               span:nth-of-type(2){
+                position:relative;
+                top:12px;
+                display:inline-block;
+                width: 60px;
+                height: 60px;
+                border-radius:100%;
+                background-color:#D3D3D3;
+                margin-right:20px;
+               }
+               span:nth-of-type(1){
+                position:relative;
+                left:53px;
+                top:5px;
+                z-index: 999;
+                display:inline-block;
+                width: 45px;
+                height: 45px;
+                border-radius:100%;
+                background-color:#09BA07;
+
+               }
+            }
+        }
+        div:nth-of-type(2){
+            ul{
+                font-size: 50px;
+                li{
+                    width:45%;
+                    float:left;
+                    color:#0BBF0A;
+                    margin-left: 30px;
+                    .add{
+                        position:relative;
+                        left:180px;
+                        bottom:40px;
+
+                    }
+
+                    
+                    
+                }
+
+            }
+        }
+      button{
+          width:380px;
+          height: 110px;
+          margin-left:300px;
+          font-size:60px;
+          border: none;
+          background: url(../../img/module_home_no2.png) no-repeat;
+          background-position:center;
+          background-size: cover;
+    }
+
     }
 </style>
 
@@ -183,7 +393,8 @@
     import Vue from 'vue';
     import './varRoom.scss'
     import coreVisible from '../../module/homeModule/coreVisible.vue'
-
+    import addButtion from '../addButton/addButtion.vue';
+    Vue.component('addButtion', addButtion);
     Vue.component('coreVisible', coreVisible)
 
     export default {
@@ -194,6 +405,9 @@
                     coreVisible: false,
                     CvarRoom: false,
                 },
+                set: false,
+                card:false,
+                no:false,
                 imgState: {
                     state: false,
                     open: false,

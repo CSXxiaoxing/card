@@ -1,18 +1,21 @@
 <template>
-  <el-dialog :visible.sync="buyRoom" width="80%" center custom-class="buy">
+  <mt-popup 
+  v-model="buyRoom" 
+  popup-transition="popup-fade" 
+  class="buy" >
 
-    <el-dialog
-      width="71%"
-      :visible.sync="moreCard"
-      append-to-body center custom-class="more">
+    <mt-popup
+      v-model="moreCard"
+      popup-transition="popup-fade"
+      class="more">
 
     <span>购买房卡 <b v-on:click="moreCard = false">×</b></span>
     <p>{{cardNumError}}</p>
     <p>请输入购买的房卡数量</p>
     <input  class="num" v-model.trim='cardNum' ></input>
-    <el-button type="success" round  v-on:click="cardNumber" >确定</el-button>
+    <mt-button v-on:click="cardNumber" >确定</mt-button>
 
-    </el-dialog>
+    </mt-popup>
 
 
     <h1>购买房卡 <i v-on:click="buyRoom = false">×</i></h1>
@@ -70,96 +73,94 @@
             <td>7折优惠</td>
           </tr>
           <tr>
-            <td><el-button type="primary" @click="moreCard = true">去填写数量</el-button></td>
+            <td><mt-button type="primary" @click="moreCard = true">去填写数量</mt-button></td>
           </tr>
         </table>
       </li>
     </ul>
 
-  </el-dialog>
+  </mt-popup>
 </template>
 
-<style type="text/css">
-    .buy{
-      background: url(../../img/module_home_buy1.png) no-repeat;
-      width: 879px;
-      height: 1489px;
-      position: relative;
-      bottom: 100px;
-    }
-</style>
 <style lang='scss' scoped>
+    .buy{
+        background: url(../../img/module_home_buy1.png) no-repeat;
+        width: 879px;
+        height: 1489px;
+        position: absolute;
+        bottom: 100px;
+        h1{
+            margin: 65px 0px 140px 60px;
+            font-size:60px;
+            font-weight:bolder;
+            color: #5E4205;
+            text-align:center;
 
-  .buy{
-
-      h1{
-        margin: 65px 0px 140px 60px;
-        font-size:60px;
-        font-weight:bolder;
-        color: #5E4205;
-        text-align:center;
-
-        i{
-          position:absolute;
-          line-height:100px;
-          font-size:120px;
-          font-weight:lighter;
-          color:white;
-          right:20px;
-          top:60px;
-          background-color:#BA3C16;
-          width:90px;
-          height:100px;
-          border-radius:100%;
-          padding-right:10px;
+            i{
+                position:absolute;
+                line-height:100px;
+                font-size:120px;
+                font-weight:lighter;
+                color:white;
+                right:20px;
+                top:60px;
+                background-color:#BA3C16;
+                width:90px;
+                height:100px;
+                border-radius:100%;
+                padding-right:10px;
+            }
         }
-      }
-
-      table{
-        font-size:42px;
-        background-color: white;
-        width:660px;
-        height: 270px;
-        border-radius:30px;
-        margin: 20px 0px 20px 90px;
-
-        button{
-          width:300px;
-          height:88px;
-          border:none;
-          color:white;
-          font-size:41px;
-          background: url(../../img/module_home_buy3.png) no-repeat;
-          background-position:center;
+        ul{
+            text-align: center;
+            li{
+                table{
+                    position: relative;
+                    left: 50%;
+                    transform: translate(-50%, 0);
+                }
+            }
         }
+        table{
+            font-size:42px;
+            background-color: white;
+            width:660px;
+            height: 270px;
+            border-radius:30px;
+            margin: 20px 0px 20px 90px;
 
-         tr:nth-of-type(1){
-          td:nth-of-type(2){
-            padding-top:40px;
-            padding-left: 30px;
-          }
+            button{
+                width:300px;
+                height:88px;
+                border:none;
+                color:white;
+                font-size:41px;
+                background: url(../../img/module_home_buy3.png) no-repeat;
+                background-position:center;
+            }
 
+            tr:nth-of-type(1){
+                td:nth-of-type(2){
+                    padding-top:40px;
+                    padding-left: 30px;
+                }
+            }
+
+            tr:nth-of-type(2){
+                color:#149824;
+                td{
+                    padding-top:10px;
+                    padding-left: 30px;
+                }
+            }
+            .more{
+                color:#3B87C5;
+            }
         }
-
-        tr:nth-of-type(2){
-          color:#149824;
-          td{
-            padding-top:10px;
-            padding-left: 30px;
-          }
-
-        }
-
-        .more{
-          color:#3B87C5;
-        }
-
-      }
-  }
+    }
   
   
   .more{
-      
       border-radius:20px;
       span{
         display: block;
@@ -209,7 +210,6 @@
         border:3px solid #D4D4D4; 
         color:#0BBA05;
       }
-
       button{
         width:690px;
         height: 190px;

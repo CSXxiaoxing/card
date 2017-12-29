@@ -1,5 +1,5 @@
 <template>
-<el-dialog
+<mt-popup 
   width="80%"
   :visible.sync="set"
   append-to-body center class="set">
@@ -34,8 +34,8 @@
         
     </div>
     <hr/>
-    <el-button type="success" round v-on:click="idMessage = false">更换账号</el-button>
-</el-dialog>
+    <mt-button type="success" round v-on:click="idMessage = false">更换账号</mt-button>
+</mt-popup >
 </template>
 
 <style lang='scss' scoped>
