@@ -1,7 +1,20 @@
+.varR_modal{
+    position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.5;
+        background: #000;
+        display: none;
+        // z-index: 2029;
+}
+
 // 消除浮动
 .clear{
     clear:both;
 }
+// 创建房间
 .Cvar{
     margin-top: 62px!important;
     border-radius: 26px;
@@ -27,6 +40,28 @@
         border-radius: 50%;
         background: #D3D3D3;
         float: left;
+    }
+    // 开关
+    .on-off{
+        width: 125px;
+        height: 62px;
+        .mint-switch-core{
+            width: 125px;
+            height: 62px;
+            border-radius: 30px;
+        }
+        .mint-switch-core::before{
+            width: 125px;
+            height: 62px;
+            background-color: #fdfdfd;
+        }
+        .mint-switch-core::after{
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+        }
     }
     h3{
         border-bottom: 2px solid #E4E4E4;
@@ -310,3 +345,31 @@
       background-position:center;
     }
 }
+// 功能未开放
+.clo{
+    //关闭叉叉
+    position: absolute;
+    background: url(../../img/chaVar.png) no-repeat;
+    height: 39px;
+    width: 39px;
+    background-size: cover;
+    background-position: center;
+}
+.no{
+    width: 843px;
+    height: 300px;
+    border-radius: 26px;
+    margin-top: -26%;
+    .close{
+            @extend .clo;
+            right: 38px;
+            top: 30px;
+        }
+    p{
+        color: #FF3C00;
+        font-size: 50px;
+        text-align: center;
+        line-height: 300px;
+    }
+}
+
