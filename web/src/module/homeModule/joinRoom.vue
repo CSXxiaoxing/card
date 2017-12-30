@@ -28,7 +28,7 @@
 <style  lang='scss' scoped>
   // 这里的类名需要用custom-class定义
   .join{
-    width: 776px;
+    width: 764px;
     margin-top: -30px;
     .joinError{
         width: 100%;
@@ -63,15 +63,9 @@
         }    
     }
     input{
-      height: 50px;
-      width: 100%;
-      font-size: 48px;
-      text-align: center;
-    }
-    input{
       height: 122px;
       width: 90%;
-      font-size: 48px;
+      font-size: 74px;
       text-align: center;
       border:1px solid #D0D7CF;
       border-radius:12px;
@@ -80,11 +74,12 @@
       font-size:100px;
     }
     ul{
-        width:100%;
-      font-size: 50px;
+      width:90%;
+      font-size: 74px;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
+      margin:21px 0px 20px 38px;
       li{
         height: 133px;
         line-height: 130px;

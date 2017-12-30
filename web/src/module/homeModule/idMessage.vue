@@ -4,7 +4,7 @@
     popup-transition="popup-fade"
     class="mess">
     <img src="../../img/module_home_id1.png" height="222" width="238" alt="">
-    <p>迷糊的诗诗 <br> ID:755693</p>
+    <p>迷糊的诗诗<br>ID:755693</p>
     <i v-on:click="idMessage = false"></i>
     <mt-button type="primary" round  @click="idMessage = false">
         更换账号
@@ -21,16 +21,15 @@
     margin-top: -200px;
     img{
       position:absolute;
-      left: 50px;
+      left:60px;
       top:80px;
     }
     p{
-      font-size:48px;
-      font-weight:bold;
+      font-size:44px;
       line-height: 70px;
       position:absolute;
-      left: 320px;
-      top:130px;
+      left: 322px;
+      top:118px;
     }
     i{
         position:absolute;
@@ -41,13 +40,14 @@
         background-size: cover;
         background-position:center;
         right:30px;
-        top:60px;
+        top:48px;
       }
     button{
-      width:100%;
+      width:380px;
       height: 110px;
       font-size:60px;
       border: none;
+      margin-left:250px;
       background: url(../../img/module_home_no2.png) no-repeat;
       background-size: cover;
       background-position:center;

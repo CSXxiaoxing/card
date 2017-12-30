@@ -12,14 +12,14 @@
 
 <style lang='scss' scoped>
   .tip{
-    width: 71%;
+    width: 766px;
     border-radius: 30px;
     position: absolute;
-    top:300px;
+    top:890px;
     span{
       display: block;
       color:white;
-      font-size: 80px;
+      font-size: 66px;
       width:958px;
       height:230px;
       line-height: 195px;
@@ -27,7 +27,7 @@
       background-position: center;
       text-align: center;
       position: relative;
-      right: 121px;
+      right: 94px;
       bottom: 50px;
       
       i{
@@ -39,19 +39,19 @@
     }
 
     p{
-      height:200px;
+      height:180px;
       line-height:100px;
       text-align:center;
-      font-size:60px;
-      font-weight: bold;
+      font-size:50px;
     }
 
     button{
-
-      width:690px;
+      width:360px;
       height: 110px;
       font-size:60px;
+      margin-bottom:50px;
       border: none;
+      color: white;
       background: url(../../img/module_home_no2.png) no-repeat;
       background-position:center;
     }

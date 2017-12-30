@@ -25,7 +25,7 @@
         <table>
           <tr>
             <td rowspan="3"><img src="../../img/module_home_buy2.png" height="250" width="258" alt=""></td>
-            <td>房卡X5</td>
+            <td>房卡X5</td
           </tr>
           <tr>
             <td>RMB：10元</td>
@@ -70,10 +70,10 @@
             <td class="more">更多房卡</td>
           </tr>
           <tr>
-            <td>7折优惠</td>
+            <td class="sev">7折优惠</td>
           </tr>
           <tr>
-            <td><mt-button type="primary" @click="moreCard = true">去填写数量</mt-button></td>
+            <td><mt-button class="sev" type="primary" @click="moreCard = true">去填写数量</mt-button></td>
           </tr>
         </table>
       </li>
@@ -116,7 +116,8 @@
             li{
                 table{
                     position: relative;
-                    left: 50%;
+                    left:358px;
+                    bottom:30px;
                     transform: translate(-50%, 0);
                 }
             }
@@ -128,52 +129,60 @@
             height: 270px;
             border-radius:30px;
             margin: 20px 0px 20px 90px;
-
+            text-align:left;
             button{
                 width:300px;
                 height:88px;
                 border:none;
                 color:white;
-                font-size:41px;
+                font-size:38px;
                 background: url(../../img/module_home_buy3.png) no-repeat;
                 background-position:center;
             }
 
             tr:nth-of-type(1){
                 td:nth-of-type(2){
-                    padding-top:40px;
-                    padding-left: 30px;
+                    padding-top:30px;
+                    padding-left: 20px;
                 }
             }
 
             tr:nth-of-type(2){
                 color:#149824;
                 td{
-                    padding-top:10px;
-                    padding-left: 30px;
+                    padding-left: 20px;
                 }
             }
-            .more{
-                color:#3B87C5;
-            }
+
+              .more{
+                  color:#3B87C5;
+                  position:relative;
+                  left:40px;
+              }
+              .sev{
+                  position:relative;
+                  left:40px;
+              }
+            
         }
     }
   
   
   .more{
+      width:765px;
       border-radius:20px;
       span{
         display: block;
         color:white;
-        font-size: 80px;
-        width:958px;
+        font-size: 68px;
+        width:950px;
         height:195px;
-        line-height: 145px;
+        line-height: 165px;
         background: url("../../img/module_home_buy4.png") no-repeat;
         background-position: center;
         text-align: center;
         position: relative;
-        right: 121px;
+        right: 90px;
         bottom: 30px;
         
           b{
@@ -187,17 +196,18 @@
 
       p:nth-of-type(1){
         padding-bottom: 20px;
+        position:relative;
+        bottom:30px;
         color:red;
         text-align:center;
-        font-size:55px;
-        font-weight: bold;
-        margin-bottom:40px;
+        font-size:45px;
       }
       p:nth-of-type(2){
         margin-bottom: 20px;
-        margin-left: 55px; 
+        margin-left: 60px; 
         font-size:35px;
         font-weight: bold;
+        text-align:left;
       }
 
       .num{
@@ -205,18 +215,21 @@
         height:120px;
         font-size:90px;
         text-align:center;
-        margin: 10px 0px 0px 50px;
+        margin: 00px 0px 0px 10px;
         border-radius:15px;
         border:3px solid #D4D4D4; 
         color:#0BBA05;
+
       }
       button{
-        width:690px;
+        width:365px;
+        color:white;
         height: 190px;
         font-size:60px;
         border: none;
         background: url(../../img/module_home_no2.png) no-repeat;
         background-position:center;
+        border:none;
       }
     }
 </style>
