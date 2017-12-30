@@ -3,17 +3,19 @@
   v-model="boxState.CvarRoom" 
   popup-transition="popup-fade"  
   class="Cvar" >
-    <mt-popup
-        v-model="boxState.coreVisible"
-        popup-transition="popup-fade" 
-        >
-    </mt-popup>
+<!--     <mt-popup 
+    v-model="boxState.varModal" 
+    class="varR_modal"
+    @click="varModal">
+    </mt-popup> -->
+    
     <mt-popup 
-      v-model="set"
+      v-model="boxState.coreVisible"
       popup-transition="popup-fade"
+      :modal='false'
       class="set">
 
-      <span class="top">倍率设置 <b class="close" v-on:click="set = false">×</b></span>
+      <span class="top">倍率设置 <b class="close" v-on:click="boxState.coreVisible = false">×</b></span>
         <hr/>
       <div>
         <p>提示：大型牌的倍率不能低于小牌型</p>
@@ -46,30 +48,38 @@
     </mt-popup >
 
     <mt-popup
-        v-model="no"
+        v-model="boxState.no"
         popup-transition="popup-fade" 
+        :modal='true'
         class="no">
-        <b class="close" v-on:click="no = false">×</b>
+        <div class="varR_modal"></div>
+        <b class="close" @click="boxState.no = false; boxState.varModal = false; imgState.open = false"></b>
         <p>该功能暂未开放</p>
     </mt-popup>
 
     <mt-popup
-      v-model="card"
-      popup-transition="popup-fade" 
-      class="card" >
-      <p>房卡消耗方式 <b class="close" v-on:click="card = false">×</b></p>
+        v-model="boxState.card"
+        popup-transition="popup-fade" 
+        :modal='false'
+        class="card" >
+        <div class="varR_modal"></div>
+        <p>
+            房卡消耗方式 
+            <b class="close" v-on:click="boxState.card = false;">
+            </b>
+        </p>
         <hr/>
-      <div></div>
+        <div></div>
     </mt-popup>
+    
 
-
-    <h3 v-on:click="no = true">创建房间</h3>
+    <h3>创建房间</h3>
     <ul class='varRoomSet' @click="open" @change="inputChange">
         <li>
             <label  v-on:click="card = true">
                 房号：<span>777776</span>
             </label>
-            <label :judge='"open"'>
+            <label :judge='"open"' @click="boxState.no = true; boxState.varModal = true;">
                 <span>
                     <img src="../../img/varTrue.png" v-show='imgState.open' height="81" width="76" alt="" />
                 </span>
@@ -86,8 +96,7 @@
                 :width=94
                 active-color='red'>
             </el-switch> -->
-            <mt-switch v-model="imgState.newMan" active-color='red'>
-                
+            <mt-switch v-model="imgState.newMan" class="on-off">
             </mt-switch>
         </li>
         <li>
@@ -205,11 +214,7 @@
             <span><span>%</span>(1-15)</span>
         </li>
     </ul>
-    <button type="success" round @click="boxState.CvarRoom = false">确定</button>
-
-    <div slot="footer" class="dialog-footer">
-      <!-- <el-button type="primary" @click="coreVisible = true">打开内层 Dialog</el-button> -->
-    </div>
+    <button @click="boxState.CvarRoom = false">确定</button>
   </mt-popup>
 </template>
 
@@ -217,44 +222,15 @@
     .Cvar{
         width:80% ;
     }
-/*    .Cvar .el-switch__core{
-        display: inline-block;
-        height: 60px!important;
-        width: 136px!important;
-        border-radius: 40px;
-    }type
-    .Cvar .el-switch__button{
-        height: 58px;
-        width: 58px;
-    }*/
 </style>
 <style lang='scss' scoped>
-
-//关闭叉叉
-
 .clo{
-        position:absolute;
-        font-size:140px;
-        color:#7A7A7A;
-    }
+    //关闭叉叉
+    position: absolute;
+    font-size: 140px;
+    color: #7A7A7A;
+}
 
- .no{
-    width:80%;
-    margin-left:10%;
-    margin-top:35%;
-        .close{
-                @extend .clo;
-                right:30px;
-                top:60px;
-            }
-
-        p{
-            color:red;
-            font-size:50px;
-            text-align: center;
-            line-height: 300px;
-        }
-    }
 
     .card{
         width:109%;
@@ -402,12 +378,12 @@
             return {
                 // checked: false,
                 boxState: {
-                    coreVisible: false,
                     CvarRoom: false,
+                    coreVisible: false,
+                    varModal: false,
+                    no:false,
+                    card:false,
                 },
-                set: false,
-                card:false,
-                no:false,
                 imgState: {
                     state: false,
                     open: false,
@@ -482,6 +458,13 @@
                 //         // this.moreCard = false;match
                 //     }
                 // }
+            },
+            varModal() {
+                console.log(666)
+                this.boxState.no = false;
+                this.boxState.card = false;
+                this.boxState.coreVisible = false;
+                this.boxState.varModal = false;
             }
         }
     }
