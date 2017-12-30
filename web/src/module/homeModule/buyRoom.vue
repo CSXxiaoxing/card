@@ -3,17 +3,20 @@
   v-model="buyRoom" 
   popup-transition="popup-fade" 
   class="buy" >
-
+  <div class="buyR_modal" style='z-index: 2000' @touchend='noBuyMoal'></div>
     <mt-popup
       v-model="moreCard"
       popup-transition="popup-fade"
+      :modal='false'
       class="more">
-
-    <span>购买房卡 <b v-on:click="moreCard = false">×</b></span>
-    <p>{{cardNumError}}</p>
-    <p>请输入购买的房卡数量</p>
-    <input  class="num" v-model.trim='cardNum' ></input>
-    <mt-button v-on:click="cardNumber" >确定</mt-button>
+        <span>
+            购买房卡 
+            <b @click="noBuyMoal"></b>
+        </span>
+        <p>{{cardNumError}}</p>
+        <p>请输入购买的房卡数量</p>
+        <input  class="num" v-model.trim='cardNum' ></input>
+        <mt-button @:click="cardNumber" >确定</mt-button>
 
     </mt-popup>
 
@@ -73,7 +76,7 @@
             <td class="sev">7折优惠</td>
           </tr>
           <tr>
-            <td><mt-button class="sev" type="primary" @click="moreCard = true">去填写数量</mt-button></td>
+            <td><mt-button class="sev" type="primary" @click="more">去填写数量</mt-button></td>
           </tr>
         </table>
       </li>
@@ -83,6 +86,29 @@
 </template>
 
 <style lang='scss' scoped>
+    .buyR_modal{
+        position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 200%;
+            height: 200%;
+            opacity: 0.5;
+            background: #000;
+            display: none;   
+    }
+    // 点击按钮
+    .button {
+        background-position: center;
+        border: 0 none;
+        outline: none;
+        color: white;
+        &:active {
+            position: relative;
+            top: 5px;
+            left: 2px;
+        }
+    }
     .buy{
         background: url(../../img/module_home_buy1.png) no-repeat;
         width: 879px;
@@ -133,13 +159,11 @@
             button{
                 width:300px;
                 height:88px;
-                border:none;
-                color:white;
                 font-size:38px;
+                line-height: 88px;
                 background: url(../../img/module_home_buy3.png) no-repeat;
-                background-position:center;
+                @extend .button;
             }
-
             tr:nth-of-type(1){
                 td:nth-of-type(2){
                     padding-top:30px;
@@ -153,7 +177,6 @@
                     padding-left: 20px;
                 }
             }
-
               .more{
                   color:#3B87C5;
                   position:relative;
@@ -166,7 +189,7 @@
             
         }
     }
-  
+       
   
   .more{
       width:765px;
@@ -186,11 +209,14 @@
         bottom: 30px;
         
           b{
-            position:absolute;
-            font-size:100px;
-            font-weight:900;
-            color:#028B00;
-            right:100px;
+            position: absolute;
+            float: right;
+            background: url("../../img/chaBuy.png") no-repeat;
+            background-position: center;
+            height: 60px;
+            width: 60px;
+            right: 110px;
+            top: 40px;
           }
       }
 
@@ -222,14 +248,14 @@
 
       }
       button{
-        width:365px;
-        color:white;
-        height: 190px;
+        border-radius: 52px;
+        width: 357px;
+        height: 104px;
+        line-height: 104px;
         font-size:60px;
-        border: none;
+        margin: 43px 0;
         background: url(../../img/module_home_no2.png) no-repeat;
-        background-position:center;
-        border:none;
+        @extend .button;
       }
     }
 </style>
@@ -263,6 +289,24 @@
                 console.log(this.cardNum.replace(/^[0]+/,''))
                 // this.moreCard = false;match
             }
+        },
+        buyModal(event) {
+            var vModal = document.getElementsByClassName('buyR_modal')
+            var Cvar = document.getElementsByClassName('buy')
+            var touModal = ()=>{
+                vModal[0].style.zIndex <= Cvar[0].style.zIndex ? 
+                ( vModal[0].style.zIndex++ && touModal() ) : 
+                vModal[0].style.display = 'block';
+            }
+            touModal()
+        },
+        noBuyMoal() {
+            this.moreCard = false;
+            document.getElementsByClassName('buyR_modal')[0].style.display = 'none';
+        },
+        more() {
+            this.buyModal(event);
+            this.moreCard = true;
         }
     }
   };

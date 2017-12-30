@@ -6,7 +6,7 @@
     <img src="../../img/module_home_id1.png" height="222" width="238" alt="">
     <p>迷糊的诗诗<br>ID:755693</p>
     <i v-on:click="idMessage = false"></i>
-    <mt-button type="primary" round  @click="idMessage = false">
+    <mt-button type="primary"  @click="idMessage = false">
         更换账号
     </mt-button>
   </mt-popup>
@@ -54,6 +54,11 @@
       position: absolute;
       bottom: 100px ;
       left: 0;
+    }
+    button:active {
+        position: absolute;
+        left: 0px;
+        bottom: 92px;
     }
   }
 </style>

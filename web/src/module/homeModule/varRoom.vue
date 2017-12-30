@@ -3,57 +3,58 @@
   v-model="boxState.CvarRoom" 
   popup-transition="popup-fade"  
   class="Cvar" >
-<!--     <mt-popup 
-    v-model="boxState.varModal" 
-    class="varR_modal"
-    @click="varModal">
-    </mt-popup> -->
-    
+    <div class="varR_modal" style='z-index: 2000' @click='noModal'></div>
     <mt-popup 
       v-model="boxState.coreVisible"
       popup-transition="popup-fade"
       :modal='false'
       class="set">
 
-      <span class="top">倍率设置 <b class="close" v-on:click="boxState.coreVisible = false">×</b></span>
-        <hr/>
-      <div>
+        <p class="top">
+            倍率设置 
+            <b class="close" @click="noModal">
+            </b>
+        </p>
+      <div class="DLUL">
         <p>提示：大型牌的倍率不能低于小牌型</p>
         <dl>
             <dt>无牛</dt>
-            <dd><span></span><span></span> 比J</dd>
-            <dd><span></span><span></span> 比Q</dd>
-            <dd><span></span><span></span> 比K</dd>
-            <dd><span></span><span></span>无牛关机（庄赢）</dd>
+            <dd>
+                <div class="dd_radio">
+                    <label class="mint-radiolist-label" v-for="dataRadio in ['比J', '比Q', '比K', '无牛关机 (庄赢)']">
+                        <span class="mint-radio">
+                            <input type="radio" class="mint-radio-input" :value='dataRadio' name="Dradio" v-model="boxState.radio = dataRadio"/>
+                            <span class="mint-radio-core"></span>
+                        </span>
+                        <span class="mint-radio-label">{{dataRadio}}</span>
+                    </label>
+                </div>
+            </dd>
         </dl>
+        <ul>
+            <li><span>牛一</span><addButtion class="add"></addButtion></li>
+            <li><span>牛二</span><addButtion class="add"></addButtion></li>
+            <li><span>牛三</span><addButtion class="add"></addButtion></li>
+            <li><span>牛四</span><addButtion class="add"></addButtion></li>
+            <li><span>牛五</span><addButtion class="add"></addButtion></li>
+            <li><span>牛六</span><addButtion class="add"></addButtion></li>
+            <li><span>牛七</span><addButtion class="add"></addButtion></li>
+            <li><span>牛八</span><addButtion class="add"></addButtion></li>
+            <li><span>牛九</span><addButtion class="add"></addButtion></li>
+            <li><span>牛牛</span><addButtion class="add"></addButtion></li>
+            <li><span>五花牛</span><addButtion class="add"></addButtion></li>
+        </ul>
       </div>
-       <hr/>
-        <div>
-            <ul>
-                <li>牛一<addButtion class="add"></addButtion></li>
-                <li>牛二<addButtion class="add"></addButtion></li>
-                <li>牛三<addButtion class="add"></addButtion></li>
-                <li>牛四<addButtion class="add"></addButtion></li>
-                <li>牛五<addButtion class="add"></addButtion></li>
-                <li>牛六<addButtion class="add"></addButtion></li>
-                <li>牛七<addButtion class="add"></addButtion></li>
-                <li>牛八<addButtion class="add"></addButtion></li>
-                <li>牛九<addButtion class="add"></addButtion></li>
-                <li>牛牛<addButtion class="add"></addButtion></li>
-                <li>五花牛<addButtion class="add"></addButtion></li>
-            </ul>
-        </div>
         <hr/>
-        <mt-button v-on:click="idMessage = false">更换账号</mt-button>
+        <mt-button v-on:click="idMessage = false" >确定</mt-button>
     </mt-popup >
 
     <mt-popup
         v-model="boxState.no"
         popup-transition="popup-fade" 
-        :modal='true'
+        :modal='false'
         class="no">
-        <div class="varR_modal"></div>
-        <b class="close" @click="boxState.no = false; boxState.varModal = false; imgState.open = false"></b>
+        <b class="close" @click="noModal"></b>
         <p>该功能暂未开放</p>
     </mt-popup>
 
@@ -62,24 +63,21 @@
         popup-transition="popup-fade" 
         :modal='false'
         class="card" >
-        <div class="varR_modal"></div>
         <p>
             房卡消耗方式 
-            <b class="close" v-on:click="boxState.card = false;">
+            <b class="close" @click="noModal">
             </b>
         </p>
-        <hr/>
         <div></div>
     </mt-popup>
-    
-
-    <h3>创建房间</h3>
+<!-- touchstart touchmove touchend  -->
+    <h3 @click='varMo'>创建房间</h3>
     <ul class='varRoomSet' @click="open" @change="inputChange">
         <li>
             <label  v-on:click="card = true">
                 房号：<span>777776</span>
             </label>
-            <label :judge='"open"' @click="boxState.no = true; boxState.varModal = true;">
+            <label :judge='"open"' @click='boxNo'>
                 <span>
                     <img src="../../img/varTrue.png" v-show='imgState.open' height="81" width="76" alt="" />
                 </span>
@@ -92,11 +90,7 @@
         </li>
         <li>
             <span>新人进房确认</span>
-            <!-- <el-switch v-model="imgState.newMan"
-                :width=94
-                active-color='red'>
-            </el-switch> -->
-            <mt-switch v-model="imgState.newMan" class="on-off">
+            <mt-switch v-model="imgState.newMan" class="onOff">
             </mt-switch>
         </li>
         <li>
@@ -117,7 +111,7 @@
         <li>
             <p>
                 房间付费模式：
-                <span>付费详情</span>
+                <span @click="boxMoney">付费详情</span>
             </p>
             <label :judge='"bell"'>
                 <span>
@@ -136,12 +130,12 @@
         <li>
             <p>
                 倍率设置：
-                <span @click="boxState.coreVisible = true">点击设置倍率</span>
+                <span @click="boxSet">点击设置倍率</span>
             </p>
         </li>
         <li>
             <dl>
-                <dt>无牛(比k)</dt>
+                <dt>无牛(比K)</dt>
                 <dd>牛一(X1)</dd>
                 <dd>牛二(X1)</dd>
                 <dd>牛三(X1)</dd>
@@ -153,6 +147,7 @@
                 <dd>牛九(X3)</dd>
                 <dd>牛牛(X4)</dd>
                 <dd>五花牛(X5)</dd>
+                <dd></dd>
             </dl>
         </li>
         <li>
@@ -218,153 +213,6 @@
   </mt-popup>
 </template>
 
-<style type="text/css">
-    .Cvar{
-        width:80% ;
-    }
-</style>
-<style lang='scss' scoped>
-.clo{
-    //关闭叉叉
-    position: absolute;
-    font-size: 140px;
-    color: #7A7A7A;
-}
-
-
-    .card{
-        width:109%;
-        margin-top:10%;
-        position:absolute;
-        left:-50px;
-        p{
-            font-size:70px;
-            line-height:100px;
-            text-align:center;
-            .close{
-                @extend .clo;
-                right:30px;
-                top:18px;
-            }
-            
-        }
-        
-        hr{
-            margin:20px 0px 50px 0px;
-        }
-
-        div{
-            position:relative;
-            left:30px;
-            width:830px;
-            height:1030px;
-            background-color: #E6E6E6;
-        }
-    }
-
-
-    .set{
-        width:120%;
-        margin-top:10%;
-        position:absolute;
-        left:-110px;
-        .top{
-            padding-left:380px;
-            font-size:66px;
-            line-height:100px;
-            color:black;
-            .close{
-                @extend .clo;
-                right:30px;
-                top:18px;
-            }
-        }
-
-        hr{
-            margin:20px 0px 50px 0px;
-            clear: both;
-        }
-
-        div:nth-of-type(1){
-
-            p{
-                color:#E84D0F;
-                font-size:40px;
-                text-align:center;
-            }
-            dt{
-                margin-top:64px;
-                font-size:55px;
-                color:#0BBD0A;
-            }
-            dd{
-                position:relative;
-                left:50px;
-                bottom:50px;
-                line-height:64px;
-                margin-left:80px;
-                margin-bottom:30px;
-                font-size:40px;
-                float:left;
-               span:nth-of-type(2){
-                position:relative;
-                top:12px;
-                display:inline-block;
-                width: 60px;
-                height: 60px;
-                border-radius:100%;
-                background-color:#D3D3D3;
-                margin-right:20px;
-               }
-               span:nth-of-type(1){
-                position:relative;
-                left:53px;
-                top:5px;
-                z-index: 999;
-                display:inline-block;
-                width: 45px;
-                height: 45px;
-                border-radius:100%;
-                background-color:#09BA07;
-
-               }
-            }
-        }
-        div:nth-of-type(2){
-            ul{
-                font-size: 50px;
-                li{
-                    width:45%;
-                    float:left;
-                    color:#0BBF0A;
-                    margin-left: 30px;
-                    .add{
-                        position:relative;
-                        left:180px;
-                        bottom:40px;
-
-                    }
-
-                    
-                    
-                }
-
-            }
-        }
-      button{
-          width:380px;
-          height: 110px;
-          margin-left:300px;
-          font-size:60px;
-          border: none;
-          background: url(../../img/module_home_no2.png) no-repeat;
-          background-position:center;
-          background-size: cover;
-    }
-
-    }
-</style>
-
 <script>
     import Vue from 'vue';
     import './varRoom.scss'
@@ -383,6 +231,7 @@
                     varModal: false,
                     no:false,
                     card:false,
+                    radio: '',
                 },
                 imgState: {
                     state: false,
@@ -402,6 +251,8 @@
         methods: {
             open(e) {
                 let img =  this.imgState;
+                let box =  this.boxState;
+                // 1
                 var judgeVal = '';
                 var nodeName = e.target.nodeName.toLowerCase();
                 var labelTarget = e.target.attributes["judge"];
@@ -410,13 +261,14 @@
                 if( !(nodeName == 'label' || nodeName == 'span' || nodeName == 'img') ){
                     return false;
                 }
-                if( !(labelTarget || spanTarget || imgTarget) ){
+                if( !(labelTarget || spanTarget || imgTarget) || labelTarget == 'mt-switch'){
                     return false;
                 }
+
                 labelTarget ? judgeVal = labelTarget.nodeValue : 
                 nodeName == 'span' ? judgeVal = spanTarget.nodeValue : 
                 judgeVal = imgTarget.nodeValue;
-                judgeVal == 'open' ? (img.open == false? img.open = true : img.open = false) : 
+                judgeVal == 'open' ? (img.open == false? img.open = false : img.open = false) : 
                 judgeVal == 'cardFn5' ? img.cardFn = 5 : 
                 judgeVal == 'cardFn7'? img.cardFn = 7 : 
                 judgeVal == 'bell' ? img.room = 'bell' : 
@@ -425,7 +277,7 @@
             },
             inputChange(ev) {
                 
-                if(ev.target.nodeName.toLowerCase() != 'input' || ev.target.getAttribute("class") == 'el-switch__input'){
+                if(ev.target.nodeName.toLowerCase() != 'input' || ev.target.getAttribute("class") == 'mint-switch-input' ){
                     return false;
                 }
                 let inp =  this.imgState;
@@ -459,12 +311,34 @@
                 //     }
                 // }
             },
-            varModal() {
-                console.log(666)
+            varMo(event) {
+                var vModal = document.getElementsByClassName('varR_modal')
+                var Cvar = document.getElementsByClassName('Cvar')
+                var touModal = ()=>{
+                    vModal[0].style.zIndex <= Cvar[0].style.zIndex ? 
+                    ( vModal[0].style.zIndex++ && touModal() ) : 
+                    vModal[0].style.display = 'block';
+                }
+                touModal()
+            },
+            noModal() {
                 this.boxState.no = false;
                 this.boxState.card = false;
                 this.boxState.coreVisible = false;
-                this.boxState.varModal = false;
+                document.getElementsByClassName('varR_modal')[0].style.display = 'none';
+            },
+            // 公开 倍率 付费
+            boxNo() {
+                this.varMo(event)
+                this.boxState.no = true;
+            },
+            boxSet() {
+                this.varMo(event)
+                this.boxState.coreVisible = true
+            },
+            boxMoney() {
+                this.varMo(event)
+                this.boxState.card = true
             }
         }
     }

@@ -26,15 +26,6 @@
 </template>
 
 <style  lang='scss' scoped>
-<<<<<<< HEAD
-  // 这里的类名需要用custom-class定义
-  .join{
-    width: 764px;
-    margin-top: -30px;
-    .joinError{
-        width: 100%;
-    }
-=======
     .join{
         width: 776px;
         margin-top: -30px;
@@ -42,7 +33,6 @@
         .joinCenter{
             padding: 0 43px 42px 43px;  
         }
->>>>>>> e0a55197acf9541f5a929f8c79fdd68743ec546a
     p{height: 180px; width: 100%;}
     h3{
         font-size: 76px;
@@ -76,40 +66,6 @@
         }    
     }
     input{
-<<<<<<< HEAD
-      height: 122px;
-      width: 90%;
-      font-size: 74px;
-      text-align: center;
-      border:1px solid #D0D7CF;
-      border-radius:12px;
-      background-color: #E2FFE1;
-      color:#0FBA0E;
-      font-size:100px;
-    }
-    ul{
-      width:90%;
-      font-size: 74px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      margin:21px 0px 20px 38px;
-      li{
-        height: 133px;
-        line-height: 130px;
-        font-size:100px;
-        width: 219px;
-        text-align: center;
-        margin: 10px 0px;
-        padding:0px 2px 0px 0px;
-        color:white;
-        background:url("../../img/JoinNum.png") no-repeat;
-      }
-      .word{
-        font-size:80px;
-         background:url("../../img/JoinNum2.png") no-repeat;
-      }
-=======
         height: 122px;
         width: 100%;
         color:#0FBA0E;
@@ -140,13 +96,17 @@
             background-position: center;
             background-size: cover;
         }
+        li:active{
+            position: relative;
+            left: 2px;
+            top: 5px;
+        }
         .word{
             font-size:80px;
             background:url("../../img/JoinNum2.png") no-repeat;
             background-position: center;
             background-size: cover;
         }
->>>>>>> e0a55197acf9541f5a929f8c79fdd68743ec546a
     }
   }
 </style>

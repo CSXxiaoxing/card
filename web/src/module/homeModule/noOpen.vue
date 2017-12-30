@@ -44,16 +44,21 @@
       text-align:center;
       font-size:50px;
     }
-
     button{
       width:360px;
       height: 110px;
+      border-radius: 55px;
       font-size:60px;
       margin-bottom:50px;
-      border: none;
+      border: 0 none;
       color: white;
       background: url(../../img/module_home_no2.png) no-repeat;
-      background-position:center;
+      background-position: center;
+    }
+    button:active {
+        position: relative;
+        left: 2px;
+        bottom: -5px;
     }
   }
 
