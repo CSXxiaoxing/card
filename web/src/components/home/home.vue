@@ -7,7 +7,7 @@
 				</dt>
 				<dd>
 					<span>迷迷糊糊</span>
-					<span><i></i>分享</span>
+					<span @click="toShare"><i></i>分享</span>
 				</dd>
 				<dd>
 					<span>ID:777777</span>
@@ -56,6 +56,8 @@
 		<joinRoom ref="onjoinRoomChild" ></joinRoom>
 		<varRoom ref="onvarRoomChild" ></varRoom>
 		<myRoom ref="onmyRoomChild" ></myRoom>
+		<toShare ref="ontoShareChild" ></toShare>
+		
 	</div>
 </template>
 
@@ -76,6 +78,7 @@
 	import buyRoom from '../../module/homeModule/buyRoom.vue';
 	import setRoom from '../../module/homeModule/varRoom.vue';
 	import myRoom from '../../module/homeModule/myRoom.vue';
+	import toShare from '../../module/homeModule/toShare.vue';
 	
 	
 	Vue.component('noOpen', noOpen)
@@ -84,6 +87,7 @@
 	Vue.component('buyRoom', buyRoom)
 	Vue.component('varRoom', setRoom)
 	Vue.component('myRoom', myRoom)
+	Vue.component('toShare', toShare)
 
 	
 	export default {
@@ -117,6 +121,9 @@
 			},
 			myRoom(){
 				this.$refs.onmyRoomChild._data.myRoom=true;
+			},
+			toShare(){
+				this.$refs.ontoShareChild._data.toShare=true;
 			},
 			openS(e){
 				let Etar = e.target;

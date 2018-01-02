@@ -4,7 +4,7 @@
     popup-transition="popup-fade" 
     class="mine">
     <p></p>
-    <h3>我的房间</h3>
+    <h3>我的房间 <i v-on:click="myRoom = false"><img src="../../img/module_home_myRoom5.png" height="60" width="60"></i></h3>
     <div class="select">
       <div>
         <button @click='removeright'>我开的房间</button><button>加入的房间</button>
@@ -49,6 +49,7 @@
           padding: 0;
           margin: 0;
           width: 908px;
+          color:#5B3F0D;
           height: 180px;
           text-align: center;
           font-size: 76px;
@@ -62,6 +63,13 @@
               -ms-transform: translate(-50%,-10%);
                -o-transform: translate(-50%,-10%);
                   transform: translate(-50%,-10%);
+                  i{
+                      
+                      position:absolute;
+                      right:100px;
+                      background-position:center;
+                      background-size: cover;
+                  }     
         }
         .select{
           margin-left:126px;
@@ -87,8 +95,8 @@
             left:120px;
             top:177px;
             z-index: 9;
-            animation:mymove 5s infinite;
-            -webkit-animation:mymove 5s infinite; /*Safari and Chrome*/
+            animation:mymove 4s infinite;
+            -webkit-animation:mymove 4s infinite; /*Safari and Chrome*/
           }
           @keyframes mymove
           {
