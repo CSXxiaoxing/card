@@ -18,7 +18,13 @@ const store = new Vuex.Store({
    // 字符串数据存储
    // 使用demo : this.$store.state.name
    state: {
-      name:666
+      name:666,
+      setRoom: {
+        
+      },
+      // 牛？倍数
+      oxNumber: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+
    },
    // 属性计算
    // 使用demo ：this.$store.getters.doneTodos

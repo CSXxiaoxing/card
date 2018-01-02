@@ -23,7 +23,7 @@
                 <div class="dd_radio">
                     <label class="mint-radiolist-label" v-for="dataRadio in ['比J', '比Q', '比K', '无牛关机 (庄赢)']">
                         <span class="mint-radio">
-                            <input type="radio" class="mint-radio-input" :value='dataRadio' name="Dradio" v-model="boxState.radio = dataRadio"/>
+                            <input type="radio" class="mint-radio-input" :value='dataRadio' name="Dradio" v-model="boxState.radio = dataRadio" />
                             <span class="mint-radio-core"></span>
                         </span>
                         <span class="mint-radio-label">{{dataRadio}}</span>
@@ -32,21 +32,14 @@
             </dd>
         </dl>
         <ul>
-            <li><span>牛一</span><addButtion class="add"></addButtion></li>
-            <li><span>牛二</span><addButtion class="add"></addButtion></li>
-            <li><span>牛三</span><addButtion class="add"></addButtion></li>
-            <li><span>牛四</span><addButtion class="add"></addButtion></li>
-            <li><span>牛五</span><addButtion class="add"></addButtion></li>
-            <li><span>牛六</span><addButtion class="add"></addButtion></li>
-            <li><span>牛七</span><addButtion class="add"></addButtion></li>
-            <li><span>牛八</span><addButtion class="add"></addButtion></li>
-            <li><span>牛九</span><addButtion class="add"></addButtion></li>
-            <li><span>牛牛</span><addButtion class="add"></addButtion></li>
-            <li><span>五花牛</span><addButtion class="add"></addButtion></li>
+            <li v-for='(data, index) in ox'>
+                <span>{{data}}</span>
+                <addButtion class="add" :oxNum = 'index' ></addButtion>
+            </li>
         </ul>
       </div>
         <hr/>
-        <mt-button v-on:click="idMessage = false" >确定</mt-button>
+        <mt-button @click="idMessage = false" >确定</mt-button>
     </mt-popup >
 
     <mt-popup
@@ -153,42 +146,14 @@
         <li>
             <p>可下注时间：</p>
             <div class="divTime">
-                <label :judge='30'>
+
+                <label v-for='times in time' :judge='times' >
                     <span>
-                        <img src="../../img/varTrue.png" v-show='imgState.time == 30' height="81" width="76" alt="" />
+                        <img src="../../img/varTrue.png" v-show='imgState.time == times' height="81" width="76" alt="" />
                     </span>
-                    30秒 
+                    {{times/60 >= 1 ? (times/60 + miss[1]): (times+miss[0])}}
                 </label>
-                <label :judge='60'>
-                    <span>
-                        <img src="../../img/varTrue.png" v-show='imgState.time == 60' height="81" width="76" alt="" />
-                    </span>
-                    1分钟 
-                </label>
-                <label :judge='120'>
-                    <span>
-                        <img src="../../img/varTrue.png" v-show='imgState.time == 120' height="81" width="76" alt="" />
-                    </span>
-                    2分钟 
-                </label>
-                <label :judge='180'>
-                    <span>
-                        <img src="../../img/varTrue.png" v-show='imgState.time == 180' height="81" width="76" alt="" />
-                    </span>
-                    3分钟 
-                </label>
-                <label :judge='300'>
-                    <span>
-                        <img src="../../img/varTrue.png" v-show='imgState.time == 300' height="81" width="76" alt="" />
-                    </span>
-                    5分钟 
-                </label>
-                <label :judge='480'>
-                    <span>
-                        <img src="../../img/varTrue.png" v-show='imgState.time == 480' height="81" width="76" alt="" />
-                    </span>
-                    8分钟 
-                </label>
+
             </div>
         </li>
         <li>
@@ -224,7 +189,9 @@
     export default {
         data() {
             return {
-                // checked: false,
+                ox: ['牛一', '牛二', '牛三', '牛四', '牛五', '牛六', '牛七', '牛八', '牛九', '牛牛', '五花牛'],
+                time: [30, 60, 120, 180, 300, 480],
+                miss: ['秒', '分'],
                 boxState: {
                     CvarRoom: false,
                     coreVisible: false,
@@ -250,39 +217,30 @@
         },
         methods: {
             open(e) {
-                let img =  this.imgState;
-                let box =  this.boxState;
-                // 1
-                var judgeVal = '';
-                var nodeName = e.target.nodeName.toLowerCase();
-                var labelTarget = e.target.attributes["judge"];
-                var spanTarget = e.target.parentElement.attributes["judge"];
-                var imgTarget = e.target.parentElement.parentElement.attributes["judge"];
-                if( !(nodeName == 'label' || nodeName == 'span' || nodeName == 'img') ){
-                    return false;
-                }
-                if( !(labelTarget || spanTarget || imgTarget) || labelTarget == 'mt-switch'){
-                    return false;
-                }
+                let [img, judgeVal, nodeName, labelTarget, spanTarget, imgTarget] =  
+                [this.imgState, void 0, 
+                e.target.nodeName.toLowerCase(), 
+                e.target.attributes["judge"], 
+                e.target.parentElement.attributes["judge"], 
+                e.target.parentElement.parentElement.attributes["judge"]];
 
-                labelTarget ? judgeVal = labelTarget.nodeValue : 
-                nodeName == 'span' ? judgeVal = spanTarget.nodeValue : 
-                judgeVal = imgTarget.nodeValue;
-                judgeVal == 'open' ? (img.open == false? img.open = false : img.open = false) : 
-                judgeVal == 'cardFn5' ? img.cardFn = 5 : 
-                judgeVal == 'cardFn7'? img.cardFn = 7 : 
-                judgeVal == 'bell' ? img.room = 'bell' : 
-                judgeVal == 'day' ? img.room = 'day' : 
-                judgeVal >= 30 ? img.time = judgeVal : false;
+                try {
+                    labelTarget ? judgeVal = labelTarget.nodeValue : 
+                    nodeName == 'span' ? judgeVal = spanTarget.nodeValue : 
+                    judgeVal = imgTarget.nodeValue;
+                    judgeVal == 'open' ? (img.open == false? img.open = false : img.open = false) : 
+                    judgeVal == 'cardFn5' ? img.cardFn = 5 : 
+                    judgeVal == 'cardFn7'? img.cardFn = 7 : 
+                    judgeVal == 'bell' ? img.room = 'bell' : 
+                    judgeVal == 'day' ? img.room = 'day' : 
+                    judgeVal >= 30 ? img.time = judgeVal : false;
+                } catch (er) {};
+                
             },
             inputChange(ev) {
-                
-                if(ev.target.nodeName.toLowerCase() != 'input' || ev.target.getAttribute("class") == 'mint-switch-input' ){
-                    return false;
-                }
-                let inp =  this.imgState;
-                var inpTarget = ev.target.attributes["Inp"].nodeValue;
-                var inpVal = ev.target.value;
+
+                try {
+                let [inp, inpTarget, inpVal] = [this.imgState, ev.target.attributes["Inp"].nodeValue, ev.target.value];
                 // 规则判断
                 inpTarget == 'roomN' ? 
                 (inpVal.length <= 15 ? inp.roomName = inpVal : inp.state = false) :
@@ -294,7 +252,7 @@
                 (inpVal > inp.minScope && inpVal <= 99999 ? inp.maxScope = inpVal : inp.state = false) :
                 inpTarget == 'sca' ? 
                 (inpVal >=1 && inpVal <=15 ? inp.scale = inpVal : inp.state = false) : false;
-
+                } catch (err) {};
                 // var numTrue = numT => {
                 //     // 验证数字
                 //     var reg = new RegExp("^[0-9]*$");
@@ -312,12 +270,12 @@
                 // }
             },
             varMo(event) {
-                var vModal = document.getElementsByClassName('varR_modal')
-                var Cvar = document.getElementsByClassName('Cvar')
+                var [vModal, Cvar] = [document.getElementsByClassName('varR_modal')[0], 
+                                      document.getElementsByClassName('Cvar')[0]]
                 var touModal = ()=>{
-                    vModal[0].style.zIndex <= Cvar[0].style.zIndex ? 
-                    ( vModal[0].style.zIndex++ && touModal() ) : 
-                    vModal[0].style.display = 'block';
+                    vModal.style.zIndex <= Cvar.style.zIndex ? 
+                    ( vModal.style.zIndex++ && touModal() ) : 
+                    vModal.style.display = 'block';
                 }
                 touModal()
             },
@@ -334,11 +292,14 @@
             },
             boxSet() {
                 this.varMo(event)
-                this.boxState.coreVisible = true
+                this.boxState.coreVisible = true;
             },
             boxMoney() {
                 this.varMo(event)
                 this.boxState.card = true
+            },
+            test() {
+                console.log(this)
             }
         }
     }

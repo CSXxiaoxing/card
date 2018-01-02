@@ -104,7 +104,6 @@
 				this.$refs.onjoinRoomChild._data.joinRoom=true;
 			},
 			mess(){
-				console.log(this.$refs)
 				this.$refs.onidMessageChild._data.idMessage=true;
 			},
 			buy(){
@@ -112,6 +111,7 @@
 			},
 			varRoom(){
 				this.$refs.onvarRoomChild._data.boxState.CvarRoom=true;
+				this.$refs.onvarRoomChild.noModal();
 			},
 			myRoom(){
 				this.$refs.onmyRoomChild._data.myRoom=true;
@@ -121,9 +121,9 @@
 				var Tar = () => {
 					var EtarName = Etar.nodeName.toLowerCase();
 					if(EtarName == 'li'){
-						console.log(this.$refs)
 						Etar.attributes["openState"].nodeValue == 'false' ? 
-						this.$refs.onOpenChild._data.onOpenRoom=true : false;
+						this.$refs.onOpenChild._data.onOpenRoom =
+						++[[]][+[]]+[+[]] == 10 : 0.1+0.2 ==0.3;
 						return false;
 					} else if(EtarName == 'body'){
 						return false;

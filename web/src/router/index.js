@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import LoginComponent from '../components/login/login.vue'
 import HomeComponent from '../components/home/home.vue'
+
 import GoodsListComponent from '../components/goodslist/goodslist.vue'
 import GoodsFormComponent from '../components/goodsform/goodsform.vue'
 
@@ -12,7 +13,7 @@ Vue.use(VueRouter)
 var router = new VueRouter({
 	routes: [
 		{
-			path: '/',
+			path: '/home',
 			name: 'home',
 			component: HomeComponent,
 			children: [{
@@ -26,7 +27,7 @@ var router = new VueRouter({
 			}]
 		},
 		{
-			path: '/login',
+			path: '/',
 			name: 'login',
 			component: LoginComponent
 		}

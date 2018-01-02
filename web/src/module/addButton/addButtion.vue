@@ -4,11 +4,7 @@ Vue.component('自定义组件名称', 引入时定义的变量名) -->
 <style lang='scss' scoped>
     #addButtion{
         width-min: 200px;
-        // overflow: hidden;
         button{
-            // height: 60px;
-            // width: 60px;
-            // float: left;
             font-size: 0px;
         }
         input {
@@ -30,7 +26,6 @@ Vue.component('自定义组件名称', 引入时定义的变量名) -->
 
 
 <script type="text/javascript">
-    // import './addButtion.scss';
     
     export default {
         template : `
@@ -42,16 +37,30 @@ Vue.component('自定义组件名称', 引入时定义的变量名) -->
         `,
         data: function () {
           return {
-            number: 10
+            setNum: this.$store.state.oxNumber,
+            number: this.$store.state.oxNumber[this.oxNum],
           }
         },
+        props: ['oxNum'],
         methods: {
-            addButtion : function(e){
-                    if(e.target.nodeName.toLowerCase() === 'button'){
-                        e.target.innerHTML == '+' ? this._data.number++ : 
-                        this._data.number > 0 ? this._data.number-- : false;
-                    }
+            addButtion (e) {
+                let [oxNum, minNum, maxNum] = [ this.oxNum, 
+                this.setNum[this.oxNum-1], this.setNum[this.oxNum+1]];
+
+                if(e.target.nodeName.toLowerCase() === 'button'){
+                    e.target.innerHTML == '+' ? this._data.number++ : 
+                    this._data.number > 0 ? this._data.number-- : false;
                 }
+                oxNum == 0 ? (this.number > maxNum ? this.number-- 
+                : 0.1 + 0.2 == 0.3) : [[]] == 10;
+                oxNum == this.setNum.length-1 ? (this.number < minNum ? this.number++ 
+                : 0.1 + 0.2 == 0.3) : [[]] == 10;
+                if( oxNum != 0 || this.oxNum != this.setNum.length-1 ){
+                    this.number > maxNum ? this.number-- :
+                    this.number < minNum ? this.number++ : false; 
+                }
+                this.$store.state.oxNumber[oxNum] = this.number;
+            }
         }
     }
 </script>
