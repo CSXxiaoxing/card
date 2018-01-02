@@ -1,23 +1,36 @@
 <template>
-  <el-dialog
-    :visible.sync="myRoom"
-    width="74%"
-    center custom-class="tabHead">
+  <mt-popup
+    v-model="myRoom"
+    popup-transition="popup-fade" 
+    class="mine">
     <p></p>
     <h3>我的房间</h3>
-    <div class="joinCenter">
-        <el-tabs type="card" class="tabRoom"  style="height: 200px;">
-            <el-tab-pane>
-                <span slot="label" class='tabRoomchild'>我开的房间</span>
-                <span>3333333333333</span>
-            </el-tab-pane>
-            <el-tab-pane>
-                <span slot="label" class='tabRoomchild'>加入的房间</span>
-                <p>55555555555</p>
-            </el-tab-pane>
-        </el-tabs>
+    <div class="select">
+      <div>
+        <button @click='removeright'>我开的房间</button><button>加入的房间</button>
+        <img src="../../img/module_home_myRoom1.png" height="102" width="281">
+      </div>
     </div>
-  </el-dialog>
+    <div class="room"> 
+      <ul @click='openS'>
+              <li v-for='(dataRoom) in datagrid' :key='dataRoom.key' :openState='dataRoom.open'>
+                <b v-if='dataRoom.open == "true"'></b>
+                <i></i>
+                <h4>大战牛群</h4>
+                <div>
+                  <h5>{{dataRoom.roomName}}</h5>
+                  <p>
+                    <span v-show='dataRoom.open == "false"'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
+                    <span v-show='dataRoom.open == "true"'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
+                    <span v-if='dataRoom.open == "true"' id="roomNumber">房号：{{dataRoom.roomNumber}}</span>
+                  </p>
+                  
+                </div>
+              </li>
+            </ul>
+    </div>
+
+  </mt-popup>
 </template>
 
 <style type="text/css">
@@ -29,7 +42,8 @@
 <style  lang='scss' scoped>
   // 这里的类名需要用custom-class定义
     
-    .tabHead{
+    .mine{
+        width:770px;
         p{height: 180px; width: 100%;}
         h3{
           padding: 0;
@@ -49,19 +63,147 @@
                -o-transform: translate(-50%,-10%);
                   transform: translate(-50%,-10%);
         }
-        .tabRoom{
-            .tabRoomchild{
-                font-size: 48px;
-                height: 60px;
-                line-height: 60px;
+        .select{
+          margin-left:126px;
+          width:560px;
+          height:90px;
+          line-height:94px;
+          border-radius:50px;
+          background-color:white;
+          border:2px solid #E1DFE0;
+          button{
+            font-size: 45px;
+            border:none;
+            background-color:transparent;
+            position:relative;
+            z-index: 999;
+          }
+          button:nth-of-type(1){
+              color:white;
+              margin-right:60px; 
             }
-            .tabRoomchild:hover{
-                background: #409EFF;
-                color: #fff;
-            }
+          img{
+            position:fixed;
+            left:120px;
+            top:177px;
+            z-index: 9;
+            animation:mymove 5s infinite;
+            -webkit-animation:mymove 5s infinite; /*Safari and Chrome*/
+          }
+          @keyframes mymove
+          {
+          from {left:120px;}
+          to {left:420px;}
+          }
+
+          @-webkit-keyframes mymove /*Safari and Chrome*/
+          {
+          from {left:120px;}
+          to {left:420px;}
+          }
+
         }
 
+        .room{
+        flex: 1;
+        // border: 1px solid #000;
+        overflow-y: auto;
+        // overflow-x: visible;
+        height:965px;
+        ul{
+            padding: 1%;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            
+            li{
+                // width: 342px;
+                width: 32.2%;
+                height: 218px;
+                // margin-right: 15px;
+                margin-top: 18px;
+                background: url('../../img/module_home_myRoom3.png') no-repeat;
+                background-size: cover;
+                background-position:center;
+                background-size: 242px 220px;
+                b{
+                    display: block;
+                    background: url('../../img/home_open.png') no-repeat;
+                    background-size: cover;
+                    background-position:center;
+                    height: 90px;
+                    width: 94px;
+                    float: right;
+                    position: relative;
+                    bottom:3px;
+                    left:6px;
+                }
+                i{
+                    display:block;
+                    height: 90px;
+                    width: 118px;
+                    background: url('../../img/module_home_myRoom4.png') no-repeat;
+                    background-size: cover;
+                    background-position:center;
+                    position: relative;
+                    left: 50%;
+                    top:10px;
+                    transform: translate(-50%,0);
+                }
+                h4{
+                    color: #fff;
+                    font-size: 28px;
+                    margin-top:5px;
+                }
+                div{
+                    height:100px;
+                    padding: 0px 18px 0px;
+                    position: relative;
+                    bottom: 0;
+                    border-radius:20px;
+                    h5{
+                        color: #fff;
+                        font-size: 28px;
+                        padding-top:10px;
+                        margin: 0;
+                    }
+                    p{
+                        height:24px;
+                        color: #C4C4C4;
+                        display: flex;
+                        justify-content: space-between;
+                        span{
+                            font-size: 24px;
+                            text-align: right;
+                            padding: 2px 0px;
+                            height:24px;
+                        }
+                        span:nth-of-type(1){
+                            flex: 1;
+                            text-align: center;
+                        }
+                        span:nth-of-type(2){
+                            flex: 1;
+                            text-align: left;
+                        }
+                    }
+                    .roomNum{color: #2FAB51;}
+                }
+            }
+            // li:nth-of-type(3n){
+            //     margin: 0;
+            //     margin-top: 18px;
+            // }
+            // li:nth-of-type(1),li:nth-of-type(2),li:nth-of-type(3){
+            //     margin-top: 0;
+            // }
+        }
     }
+    .room:-webkit-scrollbar {
+        display: none;
+    } 
+}
+
 </style>
   
 <script>
@@ -75,8 +217,41 @@
             tabPosition: 'top'
         };
         },
+          mounted: function(){
+            var self = this;
+            http.post({
+                  url: 'sel',vm:this
+              }).then(res => {
+                    self.datagrid = res.data;
+                    console.log(res.data)
+                })
+          },
         methods: {
-
-        }
+            openS(e){
+              let Etar = e.target;
+              var Tar = () => {
+                var EtarName = Etar.nodeName.toLowerCase();
+                if(EtarName == 'li'){
+                  console.log(this.$refs)
+                  Etar.attributes["openState"].nodeValue == 'false' ? 
+                  this.$refs.onOpenChild._data.onOpenRoom=true : false;
+                  return false;
+                } else if(EtarName == 'body'){
+                  return false;
+                } else {
+                  Etar = Etar.parentElement;
+                  Tar();
+                }
+              };
+              Tar();
+            },
+            generateToolBar: function(obj){
+              //动态生成按钮
+              
+            },
+            removeright(){
+              this
+            }
+          }
     };
 </script>
