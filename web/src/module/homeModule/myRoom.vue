@@ -74,22 +74,23 @@
         }
 
         .select{
-          margin-left:126px;
+          margin-left:80px;
+          margin-bottom:28px;
+          padding:0px 30px;
           width:560px;
           height:90px;
           line-height:94px;
           border-radius:50px;
           background-color:white;
-          border:2px solid #E1DFE0;
-
-
+          border:5px solid #E1DFE0;
+          div{
+            height:90px;
             button{
                 font-size: 45px;
                 border: none;
                 background-color: transparent;
                 position: relative;
-                
-                // z-index: 999;
+                //z-index: 999;
             }
             button:nth-of-type(1){
                 // color:white;
@@ -108,6 +109,7 @@
           from {background: url('../../img/module_home_myRoom1.png') 0px 0 no-repeat}
           to {background: url('../../img/module_home_myRoom1.png') 300px 0 no-repeat}
           }
+        }
 
           // @-webkit-keyframes mymove /*Safari and Chrome*/
           // {
@@ -122,6 +124,7 @@
         overflow-y: auto;
         overflow-x: hidden;
         height:965px;
+        margin-bottom: 26px;
         ul{
             padding: 1%;
             display: flex;
@@ -140,9 +143,8 @@
                 background-size: 242px 220px;
                 b{
                     display: block;
-                    background: url('../../img/home_open.png') no-repeat;
-                    background-size: cover;
-                    background-position:center;
+                   background: url('../../img/home_all.png') -300px 0px no-repeat;
+                    background-size: 600px 600px;
                     height: 90px;
                     width: 94px;
                     float: right;
@@ -152,20 +154,18 @@
                 }
                 i{
                     display:block;
-                    height: 90px;
-                    width: 118px;
-                    background: url('../../img/module_home_myRoom4.png') no-repeat;
-                    background-size: cover;
-                    background-position:center;
+                    height: 100px;
+                    width: 126px;
+                    background: url('../../img/home_all.png') -80px -130px no-repeat;
+                    background-size: 600px 600px;
                     position: relative;
                     left: 50%;
-                    top:10px;
+                    bottom:6px;
                     transform: translate(-50%,0);
                 }
                 h4{
                     color: #fff;
                     font-size: 28px;
-                    margin-top:5px;
                 }
                 div{
                     height:100px;
@@ -176,7 +176,7 @@
                     h5{
                         color: #fff;
                         font-size: 28px;
-                        padding-top:10px;
+                        padding-top:5px;
                         margin: 0;
                     }
                     p{
@@ -264,7 +264,7 @@
               
             },
             removeright(){
-              this
+              
             }
           }
     };

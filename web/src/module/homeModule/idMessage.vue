@@ -45,12 +45,12 @@
     button{
       width:380px;
       height: 110px;
+      line-height: 100px;
       font-size:60px;
       border: none;
       margin-left:250px;
-      background: url(../../img/module_home_no2.png) no-repeat;
-      background-size: cover;
-      background-position:center;
+      background: url(../../img/home_all.png) -210px -150px no-repeat;
+      background-size: 600px 600px;
       position: absolute;
       bottom: 100px ;
       left: 0;

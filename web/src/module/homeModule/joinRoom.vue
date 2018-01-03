@@ -60,9 +60,8 @@
             transform: translate(-135%, 65%);
             height: 60px;
             width: 60px;
-            background: url('../../img/chaJoinRoom.png') no-repeat;
-            background-position:center;
-            background-size: cover;
+            background: url(../../img/home_all.png) -260px -260px no-repeat;
+            background-size: 600px 600px;
         }    
     }
     input{
@@ -92,9 +91,8 @@
             text-align: center;
             margin: 10px 0px;
             color:white;
-            background:url("../../img/JoinNum.png") no-repeat;
-            background-position: center;
-            background-size: cover;
+            background: url(../../img/home_all.png) -170px -330px no-repeat;
+            background-size: 600px 600px;
         }
         li:active{
             position: relative;
@@ -103,9 +101,8 @@
         }
         .word{
             font-size:80px;
-            background:url("../../img/JoinNum2.png") no-repeat;
-            background-position: center;
-            background-size: cover;
+            background: url(../../img/home_all.png) -390px -330px no-repeat;
+            background-size: 600px 600px;
         }
     }
   }

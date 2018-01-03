@@ -45,15 +45,16 @@
       font-size:50px;
     }
     button{
-      width:360px;
+      width:357px;
       height: 110px;
+      line-height:100px;
       border-radius: 55px;
       font-size:60px;
       margin-bottom:50px;
       border: 0 none;
       color: white;
-      background: url(../../img/module_home_no2.png) no-repeat;
-      background-position: center;
+      background: url(../../img/home_all.png) -210px -150px no-repeat;
+      background-size: 600px 600px;
     }
     button:active {
         position: relative;
