@@ -27,9 +27,53 @@
 		    <span @touchend="zhuce = false">确定</span>
 		</mt-popup>
 
+		<mt-popup
+		    v-model="phone"
+		    popup-transition="popup-fade" 
+		    :modal='true'
+		    class="phone">
+		    <b class="close" @touchend="phone = false"></b>
+		    <h4>登录</h4>
+		    <label> 
+			    <span>手机号码</span> 
+			    <input type="text" placeholder='输入手机号' v-model='username'/> 
+		    </label>
+	        <label> 
+	    	    <span>输入密码</span> 
+	    	    <input type="text" placeholder='输入密码' v-model='password'/> 
+	        </label>
+	        <label @click='find = true'>忘记密码？点击找回！</label>
+	        <hr/>
+		    <span @touchend="phone = false">确定</span>
+		</mt-popup>
+
+		<mt-popup
+		    v-model="find"
+		    popup-transition="popup-fade" 
+		    :modal='true'
+		    class="find">
+		    <b class="close" @touchend="find = false"></b>
+		    <h4>找回密码</h4>
+		    <label> 
+			    <span>手机号码</span> 
+			    <input type="text" placeholder='输入手机号' v-model='username'/> 
+		    </label>
+		    <label> 
+			    <span>验证码</span> 
+			    <input type="text" placeholder='输入验证码' v-model='verify'/> 
+			    <i>获取验证码</i>
+		    </label>
+	        <label> 
+	    	    <span>新的密码</span> 
+	    	    <input type="text" placeholder='输入新的密码' v-model='password'/> 
+	        </label>
+	        <hr/>
+		    <span @touchend="phone = false">确定</span>
+		</mt-popup>
+
 		<div class='logo'></div>
 		<span class='spanLog'>微信登录</span>
-		<span class='spanLog' @click='loginTo'>手机登录</span>
+		<span class='spanLog' @click='phone = true'>手机登录</span>
 		<p>还没有账号？<span @click='zhuce = true'>注册</span></p>
 		<!-- <input type="text" v-model="username">
 		<input type="password" v-model="password">
@@ -182,19 +226,178 @@
 			background-position: center;
 		}
 	}
+	.phone{
+		width: 936px;
+		height:760px;
+		padding: 40px 40px 42px 68px;
+		box-sizing: border-box;
+		border-radius: 30px;
+		h4{
+			font-size: 66px;
+			color: #3B3B3B;
+			line-height: 66px;
+			margin-bottom: 56px;
+		}
+		span:last-child{
+			display: inline-block;
+			height: 108px;
+			width: 356px;
+			background: url(../../img/z05.png) no-repeat;
+			background-size: 356px 108px;
+			background-position: center;
+			font-size: 58px;
+			line-height: 108px;
+			color: #fff;
+		}
+		span:last-child:active{
+			position: relative;
+			bottom: -4px;
+			left: 1px;
+		}
+		label{
+			display: block;
+			height: 92px;
+			padding: 14px 0;
+			text-align: left;
+			margin: 24px 0px;
+			span{
+				display: inline-block;
+				font-size: 48px;
+				line-height: 92px;
+				width: 210px;
+			}
+			input{
+				border: 3px solid #D4D4D4;
+				height: 86px;
+				padding-left: 26px;
+				font-size: 40px;
+				line-height: 86px;
+				border-radius: 10px;
+			}
+		}
+		label:nth-of-type(3){
+			padding-right: 76px;
+			text-align:right;
+			color:#3DC93C;
+			font-size:42px;
+			text-decoration:underline;	
+			}
+		hr{
+			width:936px;
+			position:relative;
+			right:70px;
+		}
+		b{
+			right: 40px;
+			top: 48px;
+			position: absolute;
+			background: url(../../img/chaVar.png) no-repeat;
+			height: 39px;
+			width: 39px;
+			background-size: 39px;
+			background-position: center;
+		}
+	}
+	.find {
+		width: 936px;
+		padding: 40px 40px 42px 68px;
+		box-sizing: border-box;
+		border-radius: 30px;
+		h4{
+			font-size: 66px;
+			color: #3B3B3B;
+			line-height: 66px;
+			margin-bottom: 56px;
+		}
+		span:last-child{
+			display: inline-block;
+			height: 108px;
+			width: 356px;
+			background: url(../../img/z05.png) no-repeat;
+			background-size: 356px 108px;
+			background-position: center;
+			font-size: 58px;
+			line-height: 108px;
+			color: #fff;
+		}
+		span:last-child:active{
+			position: relative;
+			bottom: -4px;
+			left: 1px;
+		}
+		label{
+			display: block;
+			height: 92px;
+			padding: 14px 0;
+			text-align: left;
+			margin: 32px 0px;
+			span{
+				display: inline-block;
+				font-size: 48px;
+				line-height: 92px;
+				width: 210px;
+			}
+			input{
+				border: 3px solid #D4D4D4;
+				height: 86px;
+				padding-left: 26px;
+				font-size: 40px;
+				line-height: 86px;
+				border-radius: 10px;
+			}
+		}
+		label:nth-of-type(2){ 
+			position: relative;
+			input{
+				width: 330px;
+				margin-right: 12px;
+			}
+			i {
+				font-style: normal;
+				font-size: 36px;
+				color: #fff;
+				display: inline-block;
+				line-height: 92px;
+				height: 92px;
+				width: 234px;
+				position: absolute;
+				top: 14px;
+				right: 0px;
+				text-align: center;
+				background: url(../../img/z04.png) no-repeat;
+				background-size: 246px 92px;
+				background-position: center;
+			}
+		}
+
+		b{
+			right: 40px;
+			top: 48px;
+			position: absolute;
+			background: url(../../img/chaVar.png) no-repeat;
+			height: 39px;
+			width: 39px;
+			background-size: 39px;
+			background-position: center;
+		}
+	}
 </style>
 
 <script type="text/javascript">
+	import Vue from 'vue';
 	import loading from '../loading/loading.vue'
 	import http from '../../utils/httpClient.js'
 	import router from '../../router/';
+
+
 
 	export default {
 		data(){
 			return {
 				zhuce: false,
-				login: false,
+				login:false,
 				find: false,
+				phone:false,
 				// 用户资料
 				username: '',
 				password: '',
@@ -211,7 +414,7 @@
 			},
 			loginTo(){
 				router.push('home')
-			}
+			},
 		},
 
 		components: {

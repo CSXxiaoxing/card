@@ -72,22 +72,23 @@
         }
 
         .select{
-          margin-left:126px;
+          margin-left:80px;
+          margin-bottom:28px;
+          padding:0px 30px;
           width:560px;
           height:90px;
           line-height:94px;
           border-radius:50px;
           background-color:white;
-          border:2px solid #E1DFE0;
-
-
+          border:5px solid #E1DFE0;
+          div{
+            height:90px;
             button{
                 font-size: 45px;
                 border: none;
                 background-color: transparent;
                 position: relative;
-                
-                // z-index: 999;
+                //z-index: 999;
             }
             button:nth-of-type(1){
                 // color:white;
@@ -106,6 +107,7 @@
           from {background: url('../../img/module_home_myRoom1.png') 0px 0 no-repeat}
           to {background: url('../../img/module_home_myRoom1.png') 300px 0 no-repeat}
           }
+        }
 
           // @-webkit-keyframes mymove /*Safari and Chrome*/
           // {
@@ -120,6 +122,7 @@
         overflow-y: auto;
         overflow-x: hidden;
         height:965px;
+        margin-bottom: 26px;
         ul{
             padding: 1%;
             display: flex;
@@ -262,7 +265,7 @@
               
             },
             removeright(){
-              this
+              
             }
           }
     };
