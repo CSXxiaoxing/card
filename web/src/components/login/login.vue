@@ -29,7 +29,7 @@
 
 		<div class='logo'></div>
 		<span class='spanLog'>微信登录</span>
-		<span class='spanLog'>手机登录</span>
+		<span class='spanLog' @click='loginTo'>手机登录</span>
 		<p>还没有账号？<span @click='zhuce = true'>注册</span></p>
 		<!-- <input type="text" v-model="username">
 		<input type="password" v-model="password">
@@ -208,8 +208,12 @@
 				http.post('/login', {username: this.username, password: this.password}).then(res => {
 					router.push({name: 'home'});
 				})
+			},
+			loginTo(){
+				router.push('home')
 			}
 		},
+
 		components: {
 			loading
 		}
