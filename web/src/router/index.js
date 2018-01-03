@@ -6,6 +6,7 @@ import HomeComponent from '../components/home/home.vue'
 
 import GoodsListComponent from '../components/goodslist/goodslist.vue'
 import GoodsFormComponent from '../components/goodsform/goodsform.vue'
+import Room from '../components/room/room.vue'
 
 
 Vue.use(VueRouter)
@@ -30,7 +31,12 @@ var router = new VueRouter({
 			path: '/',
 			name: 'login',
 			component: LoginComponent
-		}
+		},
+		{
+			path: '/room',
+			name: 'room',
+			component: Room
+		},
 	]
 })
 

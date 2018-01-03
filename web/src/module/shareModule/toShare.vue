@@ -2,15 +2,20 @@
 <mt-popup
   position="bottom"
   v-model="toShare" class="share">
-		<p>分享给朋友</p>
+        <p @click='test' v-if='share == "home"'>分享给朋友</p>
+		<p @click='test' v-if='share == "room"'>选择邀请方式</p>
 		<dl>
 			<dt><img src="../../img/module_home_toShare1.png" height="174" width="174"></dt>
 			<dd>微信好友</dd>
 		</dl> 
-		<dl>
+		<dl v-if='share == "home"'>
 			<dt><img src="../../img/module_home_toShare2.png" height="174" width="174"></dt>
 			<dd>复制链接</dd>
-		</dl>   
+		</dl> 
+        <dl v-if='share == "room"'>
+            <dt><img src="../../img/room06.png" height="174" width="174"></dt>
+            <dd>游戏好友</dd>
+        </dl>   
   		<p v-on:click="toShare = false">取消</p>
 </mt-popup>
 </template>
@@ -42,8 +47,14 @@
   export default {
     data() {
       return {
-        toShare: false
+        toShare: false,
       };
+    },
+    props: ['share'],
+    methods: {
+        test(){
+            console.log(this.share)
+        }
     }
   };
 </script>

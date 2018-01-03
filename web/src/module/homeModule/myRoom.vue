@@ -41,6 +41,8 @@
 </template>
 
 <style  lang='scss' scoped>
+   
+
     .mine{
         width:770px;
         border-radius: 28px;

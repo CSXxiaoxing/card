@@ -31,3 +31,14 @@ target.nodeName.toLowerCase() == 'li'
 .clear{
     clear:both;
 }
+
+// css三角形
+.triangle_border_down{
+    width:0;
+    height:0;
+    border-width:20px 10px 0;
+    border-style:solid;
+    border-color:#333 transparent transparent;/*灰 透明 透明 */
+    margin:40px auto;
+    position:relative;
+}

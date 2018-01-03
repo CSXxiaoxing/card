@@ -56,16 +56,10 @@
 		<joinRoom ref="onjoinRoomChild" ></joinRoom>
 		<varRoom ref="onvarRoomChild" ></varRoom>
 		<myRoom ref="onmyRoomChild" ></myRoom>
-		<toShare ref="ontoShareChild" ></toShare>
+		<toShare ref="ontoShareChild" :share='"home"'></toShare>
 		
 	</div>
 </template>
-
-<style type="text/css">
-	.el-dialog__header{
-		display: none;
-	}
-</style>
 
 <script type="text/javascript">
 	import './home.scss';
@@ -78,7 +72,7 @@
 	import buyRoom from '../../module/homeModule/buyRoom.vue';
 	import setRoom from '../../module/homeModule/varRoom.vue';
 	import myRoom from '../../module/homeModule/myRoom.vue';
-	import toShare from '../../module/homeModule/toShare.vue';
+	import toShare from '../../module/shareModule/toShare.vue';
 	
 	
 	Vue.component('noOpen', noOpen)

@@ -37,7 +37,7 @@
         width: 57px;
         height: 57px;
         background: url(../../img/homeID.png) no-repeat;
-        background-size: cover;
+        background-size: 57px;
         background-position: center;
         right:30px;
         top:48px;

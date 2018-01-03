@@ -166,10 +166,13 @@
     }
     // 主体
     .homeMain{
+        // 隐藏滚动条ios
+        -webkit-overflow-scrolling: touch;
+        // padding-bottom等于20px并非固定值，只要你的设置的值大小足够将滚动条挤出可视区域即可
+        padding-bottom: 20px;
+        
         flex: 1;
-        // border: 1px solid #000;
         overflow-y: auto;
-        // overflow-x: visible;
         ul{
             padding: 1%;
             display: flex;
@@ -260,10 +263,14 @@
     } 
     // 底部
     footer{
-        height: 148px;
-        background: url('../../img/home_foot.png') no-repeat;
-        background-size: cover;
-        background-position:center;
+        height: 138px;
+        // background: url('../../img/home_foot.png') no-repeat;
+        // background-size: cover;
+        // background-position:center;
+        border-top: 7px solid #474747;
+        border-top-left-radius: 26px;
+        border-top-right-radius: 26px;
+        background: #2B2B2B;
         z-index: 99;
         ul{
             z-index: 99;
