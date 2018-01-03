@@ -393,23 +393,23 @@
     }
     button{
       color: #fff;
-      width:690px;
+      width:357px;
       height: 110px;
+      line-height: 100px;
       font-size:60px;
       border: none;
-      background: url(../../img/module_home_no2.png) no-repeat;
-      background-position: center;
+      background: url(../../img/home_all.png) -210px -150px no-repeat;
+      background-size: 600px 600px;
     }
 }
 // 功能未开放
 .clo{
     //关闭叉叉
     position: absolute;
-    background: url(../../img/chaVar.png) no-repeat;
+    background: url(../../img/home_all.png) -190px -260px no-repeat;
+    background-size: 600px 600px;
     height: 39px;
     width: 39px;
-    background-size: cover;
-    background-position: center;
 }
 .no{
     width: 843px;
@@ -448,11 +448,10 @@
         text-align:center;
         .close{
             position: absolute;
-            background: url(../../img/homeID.png) no-repeat;
+            background: url(../../img/home_all.png) -100px -250px no-repeat;
+            background-size: 600px 600px;
             height: 57px;
             width: 57px;
-            background-size: cover;
-            background-position: center;
             right: 38px;
             top: 47px;
         }
@@ -483,11 +482,10 @@
         border-bottom: 2px solid #CBCBCB;
         .close{
             position: absolute;
-            background: url(../../img/homeID.png) no-repeat;
+            background: url(../../img/home_all.png) -190px -260px no-repeat;
+            background-size: 600px 600px;
             height: 57px;
             width: 57px;
-            background-size: cover;
-            background-position: center;
             right: 50px;
             top: 45px;
         }
@@ -615,17 +613,15 @@
                         font-size:60px;
                         border: none;
                         float: left;
-                        background: url(../../img/module_addhome2.png) no-repeat;
-                        background-position:center;
-                        background-size: cover;
+                        background: url(../../img/home_all.png) -80px -330px no-repeat;
+                        background-size: 600px 600px;
                         position: relative;
                         transform: translate(66px, 4px);
                     }
                     button:last-child {
-                        background: url(../../img/module_addhome3.png) no-repeat;
-                        background-position:center;
-                        background-size: cover;
-                        transform: translate(-66px, 4px);
+                        background: url(../../img/home_all.png) -0px -330px no-repeat;
+                        background-size: 600px 600px;
+                        transform: translate(-64px, 4px);
                     }
                     button:active{
                         position: relative;
@@ -649,8 +645,8 @@
       font-size:60px;
       border-radius: 54px;
       border: none;
-      background: url(../../img/module_home_no2.png) no-repeat;
-      background-position: center;
+      background: url(../../img/home_all.png) -210px -150px no-repeat;
+      background-size: 600px 600px;
     }
 }
 

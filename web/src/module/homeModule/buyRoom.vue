@@ -157,11 +157,11 @@
             margin: 20px 0px 20px 90px;
             text-align:left;
             button{
-                width:300px;
-                height:88px;
+                width:261px;
+                height:74px;
                 font-size:38px;
-                line-height: 88px;
-                background: url(../../img/module_home_buy3.png) no-repeat;
+                background: url(../../img/home_all.png) -0px -470px no-repeat;
+                background-size: 600px 600px;
                 @extend .button;
             }
             tr:nth-of-type(1){
@@ -180,11 +180,11 @@
               .more{
                   color:#3B87C5;
                   position:relative;
-                  left:40px;
+                  left:60px;
               }
               .sev{
                   position:relative;
-                  left:40px;
+                  left:60px;
               }
             
         }
@@ -211,8 +211,8 @@
           b{
             position: absolute;
             float: right;
-            background: url("../../img/chaBuy.png") no-repeat;
-            background-position: center;
+            background: url(../../img/home_all.png) -340px -260px no-repeat;
+            background-size: 600px 600px;
             height: 60px;
             width: 60px;
             right: 110px;
@@ -254,7 +254,8 @@
         line-height: 104px;
         font-size:60px;
         margin: 43px 0;
-        background: url(../../img/module_home_no2.png) no-repeat;
+        background: url(../../img/home_all.png) -210px -150px no-repeat;
+        background-size: 600px 600px;
         @extend .button;
       }
     }

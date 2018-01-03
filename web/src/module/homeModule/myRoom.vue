@@ -141,9 +141,8 @@
                 background-size: 242px 220px;
                 b{
                     display: block;
-                    background: url('../../img/home_open.png') no-repeat;
-                    background-size: cover;
-                    background-position:center;
+                   background: url('../../img/home_all.png') -300px 0px no-repeat;
+                    background-size: 600px 600px;
                     height: 90px;
                     width: 94px;
                     float: right;
@@ -153,20 +152,18 @@
                 }
                 i{
                     display:block;
-                    height: 90px;
-                    width: 118px;
-                    background: url('../../img/module_home_myRoom4.png') no-repeat;
-                    background-size: cover;
-                    background-position:center;
+                    height: 100px;
+                    width: 126px;
+                    background: url('../../img/home_all.png') -80px -130px no-repeat;
+                    background-size: 600px 600px;
                     position: relative;
                     left: 50%;
-                    top:10px;
+                    bottom:6px;
                     transform: translate(-50%,0);
                 }
                 h4{
                     color: #fff;
                     font-size: 28px;
-                    margin-top:5px;
                 }
                 div{
                     height:100px;
@@ -177,7 +174,7 @@
                     h5{
                         color: #fff;
                         font-size: 28px;
-                        padding-top:10px;
+                        padding-top:5px;
                         margin: 0;
                     }
                     p{
