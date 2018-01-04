@@ -308,6 +308,7 @@
                 background:url('../../img/room2.png') no-repeat;
                 border-radius:5px;
                 width:166px;
+                
                 li{
                     width: 100%;
                     height: 193px;
@@ -405,24 +406,40 @@
             }
         }
         .center {
+            position:relative;
+            bottom:30px;
             flex: 1;
             h1{
                 font-size:48px;
                 span{
                     color:red;
                 }
+
             }
             p{
                 font-size:38px;
                 color:#508F31;
             }
             ul{
+
                 li{
                     clear: both;
+                    border-radius:10px;
+                    border:4px solid #DFDEDC;
+                    span{
+                        font-size:30px;
+                        float:right;
+                        text-align:left;
+                        color:red;
+                    
+                    }
+                    
+                }
+                
+
+                li.a5{
                     width:690px;
                     height:150px;
-                    border-radius:10px;
-                    border:5px solid #DFDEDC;
                     padding:34px 0px 32px 25px;
                     margin-left:10px;
                     margin-top:10px;
@@ -431,30 +448,67 @@
                         margin-left:5px;
                     }
                     span{
-
-                        font-size:30px;
-                        float:right;
-                        text-align:left;
-                        color:red;
                         position:relative;
                         padding-right:10px;
-                        transform: translate(0%, 60%);
                         b{
                         color:black;
                     }
-                    
-                    }
-                    
                 }
-                li:nth-of-type(3){
-                        border:5px solid #F9BA6A;
-                        .zhuang{
+            }
+            li.a5:nth-of-type(3){
+                    border:5px solid #F9BA6A;
+                    .zhuang{
+                    position:relative;
+                    transform: translate(-10%, 30%);      
+                } 
+            }
+            li.a5:nth-of-type(4){
+                    span{
                         position:relative;
-                        left:50%;
-                        top:50%;
-                        transform: translate(-60%, -30%);      
+                        transform: translate(0%, 50%); 
                     }
-                    
+                         
+                }
+
+             li.b7{
+                    height:145px;
+                    width:720px;
+                    padding-top:8px;
+                    margin-left:10px;
+                    margin-top:15px;
+
+                    img{
+                        float:left;
+                        margin-left:5px;
+                    }
+                    span{
+                        text-align:center;
+                        b:nth-of-type(1){
+                            display:inline-block;
+                            width:108px;
+                            height:67px;
+                            line-height:90px;
+                            background:url('../../img/room_all.png') -160px -150px no-repeat;
+                            background-size:600px 600px;
+                            color:#FBDD2A;
+                            font-size:28px;
+
+                        }   
+                        b:nth-of-type(2){
+                            color:black;
+                        }
+                        position:relative;
+                        margin-right:30px;
+                    }
+                }
+                li.b7:nth-of-type(4){
+                     border:5px solid #F9BA6A;
+                    span{
+                        position:relative;
+                        transform: translate(-10%, 30%); 
+
+                    }
+                         
                 }
             }
         }

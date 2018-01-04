@@ -95,55 +95,109 @@
                 <h1>押注时间：<span>10秒</span></h1>
                 <p>还可下注：1090.56</p>
                 <ul>
-                    <li>
+                    <li :class='init.prizeNum == 7 ? "b7" : "a5" '>
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
                         
-                        <span>100.01<br/><b>99999.00</b></span>
+
+                        <span>
+                            <b v-show='init.prizeNum == 7' :class='init.prizeNum == 7 ? "b7" : "a5" '>牛一</b>
+                            <br/>100.01<br/>
+                            <b>99999.00</b>
+                        </span>
                     </li>
                 
-                    <li>
+                    <li :class='init.prizeNum == 7 ? "b7" : "a5" '>
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
                         
-                        <span>100.01<br/><b>99999.00</b></span>
+                        <span>
+                            <b v-show='init.prizeNum == 7' :class='init.prizeNum == 7 ? "b7" : "a5" '>牛一</b>
+                            <br/>100.01<br/>
+                            <b>99999.00</b>
+                        </span>
                     </li>
                 
-                    <li>
+                    <li :class='init.prizeNum == 7 ? "b7" : "a5" '>
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
                         
-                        <span ><img  class="zhuang" src="../../img/room4.png"></span>
+                        <span v-show='init.prizeNum == 7' :class='init.prizeNum == 7 ? "b7" : "a5" '>
+                            <b >牛一</b>
+                            <br/>100.01<br/>
+                            <b>99999.00</b>
+                        </span>
+                        <span v-show='init.prizeNum == 5' :class='init.prizeNum == 5 ? "a5" : "b7" '>
+                            <img  class="zhuang" src="../../img/room4.png"></span>
                     </li>
                 
-                    <li>
+                    <li :class='init.prizeNum == 7 ? "b7" : "a5" '>
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
                         
-                        <span>100.01<br/><b>99999.00</b></span>
+                        <span v-show='init.prizeNum == 7' :class='init.prizeNum == 7 ? "b7" : "a5" '>
+                            <img  class="zhuang" src="../../img/room4.png">
+                        </span>
+
+                        <span v-show='init.prizeNum == 5' :class='init.prizeNum == 5 ? "a5" : "b7" '>100.01<br/><b>99999.00</b>
+                        </span>
+
                     </li>
                 
-                    <li>
+                    <li :class='init.prizeNum == 7 ? "b7" : "a5" '>
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
                         
-                        <span>100.01<br/><b>99999.00</b></span>
+                        <span>
+                            <b v-show='init.prizeNum == 7' :class='init.prizeNum == 7 ? "b7" : "a5" '>牛一</b>
+                            <br/>100.01<br/>
+                            <b>99999.00</b>
+                        </span>
                     </li>
+
+                    <li v-show='init.prizeNum == 7' :class='init.prizeNum == 7 ? "b7" : "a5" '>
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        
+                        <span>
+                            <b v-show='init.prizeNum == 7' :class='init.prizeNum == 7 ? "b7" : "a5" '>牛一</b>
+                            <br/>100.01<br/>
+                            <b>99999.00</b>
+                        </span>
+                    </li>
+                    <li v-show='init.prizeNum == 7' :class='init.prizeNum == 7 ? "b7" : "a5" '>
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        
+                        <span>
+                            <b v-show='init.prizeNum == 7' :class='init.prizeNum == 7 ? "b7" : "a5" '>牛一</b>
+                            <br/>100.01<br/>
+                            <b>99999.00</b>
+                        </span>
+                    </li>
+
+
                 </ul>
             </div>
             <div class='right'>
@@ -198,7 +252,7 @@
                 init: {
                     // 1是房主0是普通
                     ForT: 1,
-                    prizeNum: 5,
+                    prizeNum:5,
                 },
                 // 主人
                 host: {
@@ -251,6 +305,7 @@
             generateToolBar: function(obj){
                 //动态生成按钮
             },
+            
         }
     }
 </script>

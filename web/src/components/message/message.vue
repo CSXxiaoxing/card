@@ -16,7 +16,7 @@
                 v-model = 'content'>
             </textarea>
             <!-- <input type="text" placeholder='输入公告内容'/> -->
-            <p><span>0</span>/50</p>
+            <p><span>{{num}}</span>/50</p>
         </div>
     </div>
 </template>
@@ -101,13 +101,20 @@
         data: function(){
             return {
                 content: '',
+                num: 0,
+                maxLength:50,
             }
         },
         methods: {
             textNum(){
-                console.log(this.content)
-
-            }
+                if( this.content.length<50){
+                    this.num = this.content.length;
+                }else{
+                    this.num = 50;
+                    this.content=this.content.slice(0,this.maxLength) + '' ;
+                }
+                
+            },
         }
     }
 </script>
