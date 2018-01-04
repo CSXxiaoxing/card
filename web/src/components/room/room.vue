@@ -53,50 +53,157 @@
                 <ul>
                     <li>
                         <div>
-                            
+                            <img src="../../img/room1.png">
                             <span>76000</span>
                         </div>
-                        <p>迷糊的大土豪</p>
+                        <p>迷糊的大土</p>
                     </li>
                     <li>
                         <div>
                             <span>76000</span>
                         </div>
-                        <p>迷糊的大土豪</p>
+                        <p>迷糊的大土</p>
                     </li>
                     <li>
                         <div>
                             <span>76000</span>
                         </div>
-                        <p>迷糊的大土豪</p>
+                        <p>迷糊的大土</p>
                     </li>
                     <li>
                         <div>
                             <span>76000</span>
                         </div>
-                        <p>迷糊的大土豪</p>
+                        <p>迷糊的大土</p>
                     </li>
                     <li>
                         <div>
                             <span>76000</span>
                         </div>
-                        <p>迷糊的大土豪</p>
+                        <p>迷糊的大土</p>
                     </li>
                     <li>
                         <div>
                             <span>76000</span>
                         </div>
-                        <p>迷糊的大土豪</p>
+                        <p>迷糊的大土</p>
                     </li>
                     <li>{{apply}}</li>
                 </ul>
             </div>
             <div class='center'>
+                <h1>押注时间：<span>10秒</span></h1>
+                <p>还可下注：1090.56</p>
                 <ul>
-                    <li></li>
+                    <li>
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        
+                        <span>100.01<br/><b>99999.00</b></span>
+                    </li>
+                
+                    <li>
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        
+                        <span>100.01<br/><b>99999.00</b></span>
+                    </li>
+                
+                    <li>
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        
+                        <span ><img  class="zhuang" src="../../img/room4.png"></span>
+                    </li>
+                
+                    <li>
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        
+                        <span>100.01<br/><b>99999.00</b></span>
+                    </li>
+                
+                    <li>
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        <img src="../../img/room3.png">
+                        
+                        <span>100.01<br/><b>99999.00</b></span>
+                    </li>
                 </ul>
             </div>
-            <div class='right'></div>
+            <div class='right'>
+                <ul>
+                    <li>
+                        <div>
+                            <span>76000</span>
+                        </div>
+                        <p>迷糊的大土</p>
+                    </li>
+                    <li>
+                        <div>
+                            <span>76000</span>
+                        </div>
+                        <p>迷糊的大土</p>
+                    </li>
+                    <li>
+                        <div>
+                            <span>76000</span>
+                        </div>
+                        <p>迷糊的大土</p>
+                    </li>
+                    <li>
+                        <div>
+                            <span>76000</span>
+                        </div>
+                        <p>迷糊的大土</p>
+                    </li>
+                    <li>
+                        <div>
+                            <span>76000</span>
+                        </div>
+                        <p>迷糊的大土</p>
+                    </li>
+                    <li>
+                        <div>
+                            <span>76000</span>
+                        </div>
+                        <p>迷糊的大土</p>
+                    </li>
+                    <li>
+                        <div>
+                            <span>76000</span>
+                        </div>
+                        <p>迷糊的大土</p>
+                    </li>
+                    <li>
+                        <div>
+                            <span>76000</span>
+                        </div>
+                        <p>迷糊的大土</p>
+                    </li>
+                    <li>
+                        <div>
+                            <span>76000</span>
+                        </div>
+                        <p>迷糊的大土</p>
+                    </li>
+                </ul>
+            </div>
         </div>
 
         <footer>
