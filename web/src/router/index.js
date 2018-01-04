@@ -5,10 +5,10 @@ import LoginComponent from '../components/login/login.vue'
 import HomeComponent from '../components/home/home.vue'
 
 import GoodsListComponent from '../components/goodslist/goodslist.vue'
-import GoodsFormComponent from '../components/goodsform/goodsform.vue'
+import message from '../components/message/message.vue'
 import Room from '../components/room/room.vue'
 
-
+// message
 Vue.use(VueRouter)
 
 var router = new VueRouter({
@@ -21,10 +21,6 @@ var router = new VueRouter({
 				path: 'goodslist',
 				name: 'goodslist',
 				component: GoodsListComponent
-			},{
-				path: 'goodsform',
-				name: 'goodsform',
-				component: GoodsFormComponent
 			}]
 		},
 		{
@@ -37,6 +33,12 @@ var router = new VueRouter({
 			name: 'room',
 			component: Room
 		},
+		{
+			path: '/message',
+			name: 'message',
+			component: message
+		},
+
 	]
 })
 

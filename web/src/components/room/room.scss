@@ -30,7 +30,10 @@
                     background: url('../../img/roomjt.png') no-repeat;
                     background-size: 70px 55px;
                     background-position: center;
-                    // margin: 0 36px;
+                    margin-top: -4px;
+                    a {
+                        padding: 28px 40px;
+                    }
                 }
                 &>span {
                     display: inline-block;
@@ -50,6 +53,41 @@
                     color: #333;
                     height: 56px;
                     position: relative;
+                    // 弹出框
+                    .gameStyle{
+                        position: absolute;
+                        width: 100%;
+                        // top: 230px;
+                        border-radius: 30px;
+                        transform: translate(-50%, 28%);
+                        border: 1px solid #F2D923;
+                        span{
+                            width: 100%;
+                            padding: 0;
+                            height: 80px;
+                            line-height: 80px;
+                        }
+                        span:nth-of-type(3){
+                             border: none;
+                        }
+                        .triangle-up {
+                            position: absolute;
+                            right: 10px;
+
+
+
+
+
+
+
+                            top: -20px;
+                            width: 0;
+                            height: 0;
+                            border-left: 20px solid transparent;
+                            border-right: 20px solid transparent;
+                            border-bottom: 30px solid #fff;
+                        }
+                    }
                     span{
                         display: inline-block;
                         top: 0;
@@ -73,7 +111,7 @@
                         b{
                             width: 0;
                             height: 0;
-                            border-width: 20px 10px 0;
+                            border-width: 20px 12px 0;
                             border-style: solid;
                             border-color: #333 transparent transparent;/*灰 透明 transparent透明 */
                             margin: 0px auto;
@@ -234,8 +272,7 @@
                     background-size: cover;
                     background-position:center;
                 }
-            }
-            
+            }  
         }
     }
     .roomMain{
@@ -310,19 +347,23 @@
             border-top-right-radius: 26px; 
             background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#12B633), to(#0D7B22));/*谷歌*/ 
             background: -webkit-linear-gradient(top, #12B633, #0D7B22);   /*Safari5.1 Chrome 10+*/
+
         }
-        ul{
+        ul {
             z-index: 2;
             display: flex;
             height: 100%;
             justify-content: space-between;
             align-items: center;
             color: #fff;
-            li{
+            li {
                 flex: 1;
                 text-align: center;
+                a {
+                    color: #fff;
+                }
             }
-            li:last-child{
+            li:last-child {
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -342,4 +383,5 @@
             }
         }
     }
+    
 }

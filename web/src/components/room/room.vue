@@ -3,17 +3,28 @@
         <header>
             <ul>
                 <li>
-                    <i></i>
+                    <i><router-link to="/home" ></router-link></i>
                     <span>第<i>20</i>局</span>
-                    <p :class='gameOpen ? "open" : "" '>
-                        <span>游戏中</span>
-                        <i v-show='ForT == 1'>
+                    <p :class='host.gameOpen ? "open" : "" '>
+                        <span>{{host.styleName}}</span>
+                        <i v-show='init.ForT == 1' @click='host.style = true'>
                             <b></b>
                         </i>
+                        <mt-popup
+                            v-model="host.style"
+                            :modal='false'
+                            popup-transition="popup-fade"
+                            class='gameStyle'
+                            @click='style = false'>
+                                <span @click='gameStyle'>游戏中</span>
+                                <span @click='gameStyle'>休息中</span>
+                                <span @click='gameStyle'>暂停中</span>
+                                <i class='triangle-up'></i>
+                        </mt-popup>
                     </p>
                 </li>
                 <li>
-                    <span><i></i>开奖记录</span>
+                    <span @click='prize'><i></i>开奖记录</span>
                     <span><i></i>流水报表</span>
                 </li>
             </ul>
@@ -21,11 +32,11 @@
                 <dt>
                     <img src="../../img/room03.png" height="155" width="149" alt="" />
                 </dt>
-                <dd  v-show='ForT == 0'>迷迷糊糊</dd>
-                <dd  v-show='ForT == 0'>分数：<span>10999</span></dd>
+                <dd  v-show='init.ForT == 0'>迷迷糊糊</dd>
+                <dd  v-show='init.ForT == 0'>分数：<span>10999</span></dd>
                 <!-- 房主 -->
-                <dd  v-show='ForT == 1'>房总分：<span>71666</span></dd>
-                <dd  v-show='ForT == 1'><i></i>房间设置</dd>
+                <dd  v-show='init.ForT == 1'>房总分：<span>71666</span></dd>
+                <dd  v-show='init.ForT == 1'><i></i>房间设置</dd>
 
                 <dd  @click="toShare">
                     <i></i>
@@ -92,10 +103,12 @@
             <ul>
                 <li>好友</li>
                 <li>聊天室</li>
-                <li v-show='ForT == 1'>发布公告</li>
-                <li v-show='ForT == 0'>联系房主</li>
+                <li v-show='init.ForT == 1'>
+                    <router-link to="/message" >发布公告</router-link>
+                </li>
+                <li v-show='init.ForT == 0'>联系房主</li>
                 <!-- <li></li> -->
-                <li class='roomScore' v-show='ForT == 1'>
+                <li class='roomScore' v-show='init.ForT == 1'>
                     <b>150000</b>
                     <b>抽水分数</b>
                 </li>
@@ -104,7 +117,7 @@
 
         <!-- <noOpen  ref="onOpenChild" ></noOpen> -->
         <toShare ref="ontoShareChild" :share='"room"'></toShare>
-        
+        <prize ref="onprizeChild" :prizeNum='init.prizeNum' ></prize>
     </div>
 </template>
 
@@ -114,28 +127,36 @@
     import http from '../../utils/httpClient.js';
     // 组件
     import toShare from '../../module/shareModule/toShare.vue';
+    import prize from '../../module/roomModule/openRecords.vue';
     Vue.component('toShare', toShare)
+    Vue.component('prize', prize)
     // import noOpen from '../../module/homeModule/noOpen.vue';
     // Vue.component('noOpen', noOpen)
     export default {
         data: function(){
             return {
+                // 初始化
+                init: {
+                    // 1是房主0是普通
+                    ForT: 1,
+                    prizeNum: 5,
+                },
+                // 主人
+                host: {
+                    // 游戏开始
+                    gameOpen: true,
+                    styleName: '游戏中',
+                    style: false,
+                },
+                // 普通
+                ordinary: {
+
+                },
                 datagrid : '',
-                // 1是房主0是普通
-                ForT: 1,
                 apply: '申请上庄',
-                // 游戏开始
-                gameOpen: true,
             }
         },
         mounted: function(){
-            // var self = this;
-            // http.post({
-            //     url: 'sel',vm:this
-            // }).then(res => {
-            //     self.datagrid = res.data;
-            //     console.log(res.data)
-            // })
         },
         methods: {
             openS(e){
@@ -159,9 +180,17 @@
             toShare(){
                 this.$refs.ontoShareChild._data.toShare=true;
             },
+            prize(){
+                this.$refs.onprizeChild._data.onprize=true;
+            },
+            gameStyle(e){
+                let [Host, Etxt] = [this.host, e.target.innerText];
+                Host.style = false;
+                Host.styleName = Etxt;
+                Etxt == '游戏中' ? Host.gameOpen = true : Host.gameOpen = false;
+            },
             generateToolBar: function(obj){
                 //动态生成按钮
-                
             },
         }
     }
