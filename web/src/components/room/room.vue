@@ -103,6 +103,14 @@
                         <img src="../../img/room3.png">
                         
                         <span>100.01<br/><b>99999.00</b></span>
+                        <!-- 扑克牌 -->
+                        <div class='testCard'>
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card01":""' alt="" />
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card02":""' alt="" />
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card03":""' alt="" />
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card04":""' alt="" />
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card05":""' alt="" />
+                        </div>
                     </li>
                 
                     <li>
@@ -113,6 +121,15 @@
                         <img src="../../img/room3.png">
                         
                         <span>100.01<br/><b>99999.00</b></span>
+                        <!-- 扑克牌 -->
+                        <div class='testCard'>
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card01":""' alt="" />
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card02":""' alt="" />
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card03":""' alt="" />
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card04":""' alt="" />
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card05":""' alt="" />
+                        </div>
+
                     </li>
                 
                     <li>
@@ -123,6 +140,14 @@
                         <img src="../../img/room3.png">
                         
                         <span ><img  class="zhuang" src="../../img/room4.png"></span>
+                        <!-- 扑克牌 -->
+                        <div class='testCard'>
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card01":""' alt="" />
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card02":""' alt="" />
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card03":""' alt="" />
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card04":""' alt="" />
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card05":""' alt="" />
+                        </div>
                     </li>
                 
                     <li>
@@ -133,6 +158,14 @@
                         <img src="../../img/room3.png">
                         
                         <span>100.01<br/><b>99999.00</b></span>
+                        <!-- 扑克牌 -->
+                        <div class='testCard'>
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card01":""' alt="" />
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card02":""' alt="" />
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card03":""' alt="" />
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card04":""' alt="" />
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card05":""' alt="" />
+                        </div>
                     </li>
                 
                     <li>
@@ -143,6 +176,14 @@
                         <img src="../../img/room3.png">
                         
                         <span>100.01<br/><b>99999.00</b></span>
+                        <!-- 扑克牌 -->
+                        <div class='testCard'>
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card01":""' alt="" />
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card02":""' alt="" />
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card03":""' alt="" />
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card04":""' alt="" />
+                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card05":""' alt="" />
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -160,8 +201,8 @@
 
         <footer>
             <ul>
-                <li>好友</li>
-                <li>聊天室</li>
+                <li @click='testCard'>好友</li>
+                <li @click='cardURL.test = false'>聊天室</li>
                 <li v-show='init.ForT == 1'>
                     <router-link to="/message" >发布公告</router-link>
                 </li>
@@ -173,7 +214,7 @@
                 </li>
             </ul>
         </footer>
-
+        
         <!-- <noOpen  ref="onOpenChild" ></noOpen> -->
         <toShare ref="ontoShareChild" :share='"room"'></toShare>
         <prize ref="onprizeChild" :prizeNum='init.prizeNum' ></prize>
@@ -189,15 +230,15 @@
     import prize from '../../module/roomModule/openRecords.vue';
     Vue.component('toShare', toShare)
     Vue.component('prize', prize)
-    // import noOpen from '../../module/homeModule/noOpen.vue';
-    // Vue.component('noOpen', noOpen)
+
+
     export default {
         data: function(){
             return {
                 // 初始化
                 init: {
                     // 1是房主0是普通
-                    ForT: 1,
+                    ForT: 0,
                     prizeNum: 5,
                 },
                 // 主人
@@ -211,6 +252,10 @@
                 ordinary: {
 
                 },
+                // 扑克牌
+                cardURL: {
+                    test: false,
+                },
                 datagrid : '',
                 apply: '申请上庄',
             }
@@ -218,24 +263,6 @@
         mounted: function(){
         },
         methods: {
-            openS(e){
-                let Etar = e.target;
-                var Tar = () => {
-                    var EtarName = Etar.nodeName.toLowerCase();
-                    if(EtarName == 'li'){
-                        Etar.attributes["openState"].nodeValue == 'false' ? 
-                        this.$refs.onOpenChild._data.onOpenRoom =
-                        ++[[]][+[]]+[+[]] == 10 : 0.1+0.2 ==0.3;
-                        return false;
-                    } else if(EtarName == 'body'){
-                        return false;
-                    } else {
-                        Etar = Etar.parentElement;
-                        Tar();
-                    }
-                };
-                Tar();
-            },
             toShare(){
                 this.$refs.ontoShareChild._data.toShare=true;
             },
@@ -247,6 +274,9 @@
                 Host.style = false;
                 Host.styleName = Etxt;
                 Etxt == '游戏中' ? Host.gameOpen = true : Host.gameOpen = false;
+            },
+            testCard(){
+                this.cardURL.test = true;
             },
             generateToolBar: function(obj){
                 //动态生成按钮

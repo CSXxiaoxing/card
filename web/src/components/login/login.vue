@@ -83,18 +83,19 @@
 </template>
 
 <style  lang='scss' scoped>
+    b{
+    	padding: 10px;
+    }
 	.login {
 		height: 100%;
 		width: 100%;
-		background: url(../../img/login.png) no-repeat;
+		background: url(../../img/login0.png) no-repeat;
 		background-size: 1080px 1920px;
 		background-position: center;
 		@mixin spans {
 			width: 558px;
 			height: 137px;
 			display: inline-block;
-			background-size: 558px 137px;
-			background-position: center;
 			font-size: 78px;
 			line-height: 137px;
 			color: #fff;
@@ -118,11 +119,15 @@
 			background-position: center;
 		}
 		.spanLog:nth-of-type(1){
-			background: url(../../img/z03.png) no-repeat;
+			background: url(../../img/login.png) -20px -170px no-repeat;
+			background-size: 600px 600px;
+			width: 558px;
+			height: 137px;
 			@include spans;
 		}
 		.spanLog:nth-of-type(2){
-			background: url(../../img/z02.png) no-repeat;
+			background: url(../../img/login.png) -20px -10px no-repeat;
+			background-size: 600px 600px;
 			@include spans;
 			bottom: 320px;
 		}
@@ -155,14 +160,14 @@
 		}
 		span:last-child{
 			display: inline-block;
-			height: 108px;
-			width: 356px;
-			background: url(../../img/z05.png) no-repeat;
-			background-size: 356px 108px;
-			background-position: center;
-			font-size: 58px;
-			line-height: 108px;
+			height: 137px;
+			width: 450px;
+			font-size: 78px;
+			line-height: 137px;
 			color: #fff;
+			transform: scale(0.79, 0.79);
+			background: url(../../img/login.png) -30px -440px no-repeat;
+			background-size: 600px 600px;
 		}
 		span:last-child:active{
 			position: relative;
@@ -210,20 +215,18 @@
 				top: 14px;
 				right: 0px;
 				text-align: center;
-				background: url(../../img/z04.png) no-repeat;
-				background-size: 246px 92px;
-				background-position: center;
+				background: url(../../img/login.png) -100px -324px no-repeat;
+				background-size: 600px 600px;
 			}
 		}
 		b{
 			right: 40px;
 			top: 48px;
 			position: absolute;
-			background: url(../../img/chaVar.png) no-repeat;
+			background: url(../../img/home_all.png) -190px -260px no-repeat;
+			background-size: 600px 600px;
 			height: 39px;
 			width: 39px;
-			background-size: 39px;
-			background-position: center;
 		}
 	}
 	.phone{
@@ -240,14 +243,14 @@
 		}
 		span:last-child{
 			display: inline-block;
-			height: 108px;
-			width: 356px;
-			background: url(../../img/z05.png) no-repeat;
-			background-size: 356px 108px;
-			background-position: center;
-			font-size: 58px;
-			line-height: 108px;
+			height: 137px;
+			width: 450px;
+			font-size: 78px;
 			color: #fff;
+			line-height: 137px;
+			transform: scale(0.79, 0.79);
+			background: url(../../img/login.png) -30px -440px no-repeat;
+			background-size: 600px 600px;
 		}
 		span:last-child:active{
 			position: relative;
@@ -291,11 +294,10 @@
 			right: 40px;
 			top: 48px;
 			position: absolute;
-			background: url(../../img/chaVar.png) no-repeat;
+			background: url(../../img/home_all.png) -190px -260px no-repeat;
+			background-size: 600px 600px;
 			height: 39px;
 			width: 39px;
-			background-size: 39px;
-			background-position: center;
 		}
 	}
 	.find {
@@ -311,14 +313,18 @@
 		}
 		span:last-child{
 			display: inline-block;
-			height: 108px;
-			width: 356px;
-			background: url(../../img/z05.png) no-repeat;
-			background-size: 356px 108px;
-			background-position: center;
-			font-size: 58px;
-			line-height: 108px;
+			// height: 108px;
+			// width: 356px;
+			// font-size: 58px;
+			// line-height: 108px;
 			color: #fff;
+			height: 137px;
+			width: 450px;
+			font-size: 78px;
+			line-height: 137px;
+			transform: scale(0.79, 0.79);
+			background: url(../../img/login.png) -30px -440px no-repeat;
+			background-size: 600px 600px;
 		}
 		span:last-child:active{
 			position: relative;
@@ -364,9 +370,8 @@
 				top: 14px;
 				right: 0px;
 				text-align: center;
-				background: url(../../img/z04.png) no-repeat;
-				background-size: 246px 92px;
-				background-position: center;
+				background: url(../../img/login.png) -100px -324px no-repeat;
+				background-size: 600px 600px;
 			}
 		}
 
@@ -374,11 +379,10 @@
 			right: 40px;
 			top: 48px;
 			position: absolute;
-			background: url(../../img/chaVar.png) no-repeat;
+			background: url(../../img/home_all.png) -190px -260px no-repeat;
+			background-size: 600px 600px;
 			height: 39px;
 			width: 39px;
-			background-size: 39px;
-			background-position: center;
 		}
 	}
 </style>
