@@ -148,55 +148,7 @@
             </div>
             <div class='right'>
                 <ul>
-                    <li>
-                        <div>
-                            <span>76000</span>
-                        </div>
-                        <p>迷糊的大土</p>
-                    </li>
-                    <li>
-                        <div>
-                            <span>76000</span>
-                        </div>
-                        <p>迷糊的大土</p>
-                    </li>
-                    <li>
-                        <div>
-                            <span>76000</span>
-                        </div>
-                        <p>迷糊的大土</p>
-                    </li>
-                    <li>
-                        <div>
-                            <span>76000</span>
-                        </div>
-                        <p>迷糊的大土</p>
-                    </li>
-                    <li>
-                        <div>
-                            <span>76000</span>
-                        </div>
-                        <p>迷糊的大土</p>
-                    </li>
-                    <li>
-                        <div>
-                            <span>76000</span>
-                        </div>
-                        <p>迷糊的大土</p>
-                    </li>
-                    <li>
-                        <div>
-                            <span>76000</span>
-                        </div>
-                        <p>迷糊的大土</p>
-                    </li>
-                    <li>
-                        <div>
-                            <span>76000</span>
-                        </div>
-                        <p>迷糊的大土</p>
-                    </li>
-                    <li>
+                    <li v-for='data in 10'>
                         <div>
                             <span>76000</span>
                         </div>
