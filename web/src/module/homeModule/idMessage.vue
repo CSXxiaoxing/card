@@ -34,13 +34,12 @@
     i{
         position:absolute;
         display: inline-block;
+        top:48px;
+        right:30px;
         width: 57px;
         height: 57px;
-        background: url(../../img/homeID.png) no-repeat;
-        background-size: 57px;
-        background-position: center;
-        right:30px;
-        top:48px;
+        background: url(../../img/home_all.png) -100px -250px no-repeat;
+        background-size: 600px;
       }
     button{
       width:380px;
@@ -50,7 +49,7 @@
       border: none;
       margin-left:250px;
       background: url(../../img/home_all.png) -210px -150px no-repeat;
-      background-size: 600px 600px;
+      background-size: 600px;
       position: absolute;
       bottom: 100px ;
       left: 0;

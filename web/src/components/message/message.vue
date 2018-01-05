@@ -46,9 +46,8 @@
                         display: inline-block;
                         width: 70px;
                         height: 55px;
-                        background: url('../../img/roomjt.png') no-repeat;
-                        background-size: 70px 55px;
-                        background-position: center;
+                        background: url('../../img/room_all.png') -470px -160px no-repeat;
+                        background-size: 600px;
                         position: relative;
                         top: 50%;
                         transform: translate(0, -50%);
@@ -114,7 +113,9 @@
                     this.content=this.content.slice(0,this.maxLength) + '' ;
                 }
                 
-            },
+            }
+                
+            
         }
     }
 </script>

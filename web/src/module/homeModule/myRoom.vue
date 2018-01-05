@@ -6,8 +6,7 @@
         <p></p>
         <h3>
             我的房间 
-            <i v-on:click="myRoom = false">
-            <img src="../../img/module_home_myRoom5.png" height="60" width="60">
+            <i @click="myRoom = false">
             </i>
         </h3>
         <div class="select" >
@@ -66,10 +65,13 @@
                -o-transform: translate(-50%,-10%);
                   transform: translate(-50%,-10%);
                     i{
-                        position:absolute;
-                        right:100px;
-                        background-position:center;
-                        background-size: cover;
+                        position: absolute;
+                        right:90px;
+                        top: 30px;
+                        background: url(../../img/home_all.png) -420px -260px no-repeat;
+                        background-size: 600px 600px;
+                        width: 60px;
+                        height: 60px;
                     }     
         }
 
