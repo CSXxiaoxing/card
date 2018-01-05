@@ -9,7 +9,7 @@
             <table  cellspacing="0" class='bel1'>
                 <thead>
                     <tr>
-                        <th>局数</th>
+                        <th colspan="">局数</th>
                         <th :colspan="prizeNum">点数</th>
                     </tr>
                 </thead>

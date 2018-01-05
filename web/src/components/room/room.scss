@@ -406,7 +406,6 @@
                 span{
                     color:red;
                 }
-
             }
             p{
                 font-size:38px;
@@ -423,7 +422,7 @@
                         float:right;
                         text-align:left;
                         color:red;
-                    
+
                     }
                 }
                 
@@ -442,26 +441,33 @@
                     span{
                         position:relative;
                         padding-right:10px;
-                        b{
+
+                        b:nth-of-type(1){
+                            display:inline-block;
+                            width:108px;
+                            height:67px;
+                            line-height:90px;
+                            background:url('../../img/room_all.png') -160px -240px no-repeat;
+                            background-size:600px 600px;
+                            color:#FBDD2A;
+                            font-size:28px;
+                            text-align:center;
+                        }  
+                        b:nth-of-type(2){
                             color:black;
                         }
                     }
                 }
-            li.a5:nth-of-type(3){
+                
+                li.a5:nth-of-type(4){
                     border:5px solid #F9BA6A;
                     .zhuang{
                     position:relative;
-                    transform: translate(-10%, 30%);      
+                    transform: translate(20%, 30%);      
                 } 
             }
-            li.a5:nth-of-type(4){
-                span{
-                    position:relative;
-                    transform: translate(0%, 50%); 
-                }       
-            }
 
-             li.b7{
+            li.b7{
                     height:145px;
                     width:720px;
                     padding-top:8px;
@@ -479,7 +485,7 @@
                             width:108px;
                             height:67px;
                             line-height:90px;
-                            background:url('../../img/room_all.png') -160px -150px no-repeat;
+                            background:url('../../img/room_all.png') -160px -240px no-repeat;
                             background-size:600px 600px;
                             color:#FBDD2A;
                             font-size:28px;
@@ -491,15 +497,15 @@
                         margin-right:30px;
                     }
                 }
-                li.b7:nth-of-type(4){
-                    border:5px solid #F9BA6A;
-                    span{
-                        position:relative;
-                        transform: translate(-10%, 30%); 
+            li.b7:nth-of-type(4){
+                border:5px solid #F9BA6A;
+                .zhuang{
+                    position:relative;
+                    transform: translate(40%, 30%); 
                     }            
                 }
-    }
-}
+            }
+        }
 
         .right {
             @include LR;
@@ -560,7 +566,6 @@
             border-top-right-radius: 26px; 
             background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#12B633), to(#0D7B22));/*谷歌*/ 
             background: -webkit-linear-gradient(top, #12B633, #0D7B22);   /*Safari5.1 Chrome 10+*/
-
         }
         ul {
             z-index: 2;
@@ -572,9 +577,7 @@
             li {
                 flex: 1;
                 text-align: center;
-                a {
-                    color: #fff;
-                }
+                a { color: #fff; }
             }
             li:last-child {
                 display: flex;
@@ -598,30 +601,73 @@
     }   
 }
 
+
+// 出现And消失
+// 原始样式
+@mixin imgSTA{
+    float: none;
+    margin: 0;
+    position: absolute;
+    height: 0px;
+    width: 0px;
+    top: -100px;
+    right: 17px;
+    z-index: 99;
+}
+// 小牌样式
+@mixin img5 {
+    height: 142px;
+    width: 99px;
+    top: 30px;
+    transform: translate(-400%, 0px);
+}
+@mixin img7 {
+    height: 142px;
+    width: 99px;
+    top: 8px;
+    transform: translate(-400%, 0px);
+}
+// 出牌翻转
+@mixin card {
+    img.aaa {
+        transform: translate(-400%, 0px) rotateY(180deg);
+        z-index: -100;
+    }
+    // 卡牌翻转动效
+    img.reversal {
+        transform: translate(-400%, 0px) rotateY(90deg);
+        // transition: all 1s (0,0,0,0);
+        transition: all .6s ease-in-out;
+        // transition-duration: .8s;
+        // transition-timing-function: cubic-bezier(0.68,-.55,.265,1.55);
+        // transition: all 2s cubic-bezier(0.68,-.55,.265,1.55);
+        // transition: all 4s linear;
+        // cubic-bezier(0.68,-.55,.265,1.55)
+    }
+    
+    // 出牌
+    img.reveEnd {
+        z-index: 99;
+        transform: translate(-400%, 0px) rotateY(360deg);
+        transition: all 1.2s linear;
+        // transition: all 2s ease-in-out;
+        // transition: all 4s cubic-bezier(0.68,-.55,.265,1.55);
+        // transition-duration: 1.6s;
+        // transition-timing-function: cubic-bezier(0.68,-.55,.265,1.55);
+    }
+}
+
 .testCard.a5{
     img {
-        float: none;
-        margin: 0;
-        position: absolute;
-        height: 0px;
-        width: 0px;
-        top: -100px;
-        right: 17px;
-        z-index: 99;
+        @include imgSTA;
     }
     // 卡牌出现
     img.start {
         height: 172px;
         width: 124px;
-        transition: all 0.6s;
+        transition: all 0.5s;
     }
     // 发牌动效
-    @mixin img5 {
-        height: 142px;
-        width: 99px;
-        top: 30px;
-        transform: translate(-400%, 0px);
-    }
     img.card01 {
         @include img5;
         right: 192px;
@@ -630,75 +676,60 @@
     img.card02 {
         @include img5;
         right: 88px;
-        transition: all 0.6s .3s;
+        transition: all 0.6s .2s;
     }
     img.card03 {
         @include img5;
         right: -19px;
-        transition: all 0.6s .6s;
+        transition: all 0.6s .4s;
     }
     img.card04 {
         @include img5;
         right: -122px;
-        transition: all 0.6s .9s;
+        transition: all 0.6s .6s;
     }
     img.card05 {
         @include img5;
         right: -227px;
-        transition: all 0.6s 1.2s;
+        transition: all 0.6s .8s;
     }
+    @include card;
 }
-
 .testCard.b7{
     img {
-        float: none;
-        margin: 0;
-        position: absolute;
-        height: 172px;
-        width: 124px;
-        top: -20px;
+        @include imgSTA;
         right: 44px;
-        z-index: 99;
-        // transform: translate(-50%,0);
+    }
+    // 卡牌出现
+    img.start {
+        height: 137.6px;//0.8
+        width: 99.2px;
+        transition: all 0.6s;
     }
     img.card01 {
-        height: 142px;
-        width: 99px;
-        top: 8px;
+        @include img7;
         right: 220px;
-        transform: translate(-400%, 0px);
         transition: all 0.6s;
     }
     img.card02 {
-        height: 142px;
-        width: 99px;
-        top: 8px;
+        @include img7;
         right: 120px;
-        transform: translate(-400%, 0px);
         transition: all 0.6s .3s;
     }
     img.card03 {
-        height: 142px;
-        width: 99px;
-        top: 8px;
+        @include img7;
         right: 16px;
-        transform: translate(-400%, 0px);
         transition: all 0.6s .6s;
     }
     img.card04 {
-        height: 142px;
-        width: 99px;
-        top: 8px;
+        @include img7;
         right: -92px;
-        transform: translate(-400%, 0px);
         transition: all 0.6s .9s;
     }
     img.card05 {
-        height: 142px;
-        width: 99px;
-        top: 8px;
+        @include img7;
         right: -200px;
-        transform: translate(-400%, 0px);
         transition: all 0.6s 1.2s;
     }
+    @include card;
 }

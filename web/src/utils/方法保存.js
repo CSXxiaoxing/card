@@ -42,3 +42,11 @@ target.nodeName.toLowerCase() == 'li'
     margin:40px auto;
     position:relative;
 }
+
+// 雪碧图
+background: url(../../img/home_all.png) -210px -150px no-repeat;
+      background-size: 600px 600px;
+      background-position: center;
+
+// 1~13随机数
+Math.random()*13+1>>0
