@@ -92,7 +92,8 @@
                 </ul>
             </div>
             <div class='center'>
-                <h1>押注时间：<span>10秒</span></h1>
+                <!-- <h1>押注时间：<span>{{init.time}}秒</span></h1> -->
+                <h1 >押注时间：<span v-show='host.gameOpen'>{{init.time}}秒</span></h1>
                 <p>还可下注：1090.56</p>
                 <ul>
                     <li>
@@ -238,8 +239,11 @@
                 // 初始化
                 init: {
                     // 1是房主0是普通
-                    ForT: 0,
+                    ForT: 1,
                     prizeNum: 5,
+                    before: '押注时间：',
+                    time: 30,
+
                 },
                 // 主人
                 host: {
@@ -276,6 +280,7 @@
                 Etxt == '游戏中' ? Host.gameOpen = true : Host.gameOpen = false;
             },
             testCard(){
+                
                 this.cardURL.test = true;
             },
             generateToolBar: function(obj){
