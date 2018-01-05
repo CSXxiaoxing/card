@@ -92,8 +92,8 @@
                 </ul>
             </div>
             <div class='center'>
-                <!-- <h1>押注时间：<span>{{init.time}}秒</span></h1> -->
-                <h1 >押注时间：<span v-show='host.gameOpen'>{{init.time}}秒</span></h1>
+                <h1 v-if='!host.gameOpen' @click='gameStart'>游戏开始</h1>
+                <h1 v-if='host.gameOpen'>{{init.before}}<span>{{init.time}}秒</span></h1>
                 <p>还可下注：1090.56</p>
                 <ul>
                     <li>
@@ -179,11 +179,11 @@
                         <span>100.01<br/><b>99999.00</b></span>
                         <!-- 扑克牌 -->
                         <div class='testCard'>
-                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card01":""' alt="" />
-                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card02":""' alt="" />
-                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card03":""' alt="" />
-                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card04":""' alt="" />
-                            <img src="../../img/z999.png" :class='cardURL.test ==true ? "card05":""' alt="" />
+                            <img src="../../img/z999.png" :class='[(cardURL.start),(cardURL.move+"01")]'  alt="" />
+                            <img src="../../img/z999.png" :class='[(cardURL.start),(cardURL.move+"02")]' alt="" />
+                            <img src="../../img/z999.png" :class='[(cardURL.start),(cardURL.move+"03")]' alt="" />
+                            <img src="../../img/z999.png" :class='[(cardURL.start),(cardURL.move+"04")]' alt="" />
+                            <img src="../../img/z999.png" :class='[(cardURL.start),(cardURL.move+"05")]' alt="" />
                         </div>
                     </li>
                 </ul>
@@ -242,14 +242,14 @@
                     ForT: 1,
                     prizeNum: 5,
                     before: '押注时间：',
-                    time: 30,
+                    time: 10,
 
                 },
                 // 主人
                 host: {
                     // 游戏开始
-                    gameOpen: true,
-                    styleName: '游戏中',
+                    gameOpen: false,
+                    styleName: '休息中',
                     style: false,
                 },
                 // 普通
@@ -258,7 +258,8 @@
                 },
                 // 扑克牌
                 cardURL: {
-                    test: false,
+                    start: "",
+                    move: "",
                 },
                 datagrid : '',
                 apply: '申请上庄',
@@ -280,8 +281,26 @@
                 Etxt == '游戏中' ? Host.gameOpen = true : Host.gameOpen = false;
             },
             testCard(){
-                
                 this.cardURL.test = true;
+            },
+            gameStart(){
+                this.host.gameOpen = true;
+                this.host.styleName = '游戏中';
+                this.cardURL.start = 'start' ;
+
+                var setCard;
+                setTimeout( setCard , 600 );
+
+                setCard = setInterval( ()=> {
+                    this.cardURL.move = 'card' ;
+                    if(this.init.time >= 1){
+
+                        this.init.time-- ;
+                    } else {
+                        clearInterval(setCard);
+                    }
+                } , 1000);
+
             },
             generateToolBar: function(obj){
                 //动态生成按钮
