@@ -51,14 +51,20 @@
         <div class='roomMain'>
             <div class='left'>
                 <ul>
-                    <li>
+                    <li @click="playerBottom">
                         <div>
                             <img src="../../img/room1.png">
                             <span>76000</span>
                         </div>
                         <p>迷糊的大土</p>
                     </li>
-                    <li>
+                    <li @click="ownerBottom">
+                        <div>
+                            <span>76000</span>
+                        </div>
+                        <p>迷糊的大土</p>
+                    </li>
+                    <li @click="setOwner">
                         <div>
                             <span>76000</span>
                         </div>
@@ -82,21 +88,15 @@
                         </div>
                         <p>迷糊的大土</p>
                     </li>
-                    <li>
-                        <div>
-                            <span>76000</span>
-                        </div>
-                        <p>迷糊的大土</p>
-                    </li>
-                    <li>{{apply}}</li>
+                    <li  @click="applyOn">{{apply}}</li>
                 </ul>
             </div>
             <div class='center'>
                 <!-- <h1>押注时间：<span>{{init.time}}秒</span></h1> -->
-                <h1 >押注时间：<span v-show='host.gameOpen'>{{init.time}}秒</span></h1>
-                <p>还可下注：1090.56</p>
+                <h1>押注时间：<span v-show='host.gameOpen'>{{init.time}}秒</span></h1>
+                <p >还可下注：1090.56</p>
                 <ul>
-                    <li :class='init.prizeNum == 7 ? "b7" : "a5" '>
+                    <li :class='init.prizeNum == 7 ? "b7" : "a5" ' >
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
                         <img src="../../img/room3.png">
@@ -282,6 +282,10 @@
         <!-- <noOpen  ref="onOpenChild" ></noOpen> -->
         <toShare ref="ontoShareChild" :share='"room"'></toShare>
         <prize ref="onprizeChild" :prizeNum='init.prizeNum' ></prize>
+        <ownerBottom ref="onownerBottomChild" :prizeNum='init.prizeNum' ></ownerBottom>
+        <applyOn ref="onapplyOnChild" :prizeNum='init.prizeNum' ></applyOn>
+        <playerBottom ref="onplayerBottomChild" :prizeNum='init.prizeNum' ></playerBottom>
+        <setOwner ref="onsetOwnerChild" :prizeNum='init.prizeNum' ></setOwner>
     </div>
 </template>
 
@@ -292,9 +296,16 @@
     // 组件
     import toShare from '../../module/shareModule/toShare.vue';
     import prize from '../../module/roomModule/openRecords.vue';
+    import ownerBottom from '../../module/roomModule/ownerBottom.vue';
+    import playerBottom from '../../module/roomModule/playerBottom.vue';
+    import applyOn from '../../module/roomModule/applyOn.vue';
+    import setOwner from '../../module/roomModule/setOwner.vue';
     Vue.component('toShare', toShare)
     Vue.component('prize', prize)
-
+    Vue.component('ownerBottom', ownerBottom)
+    Vue.component('applyOn', applyOn)
+    Vue.component('playerBottom', playerBottom)
+    Vue.component('setOwner', setOwner)
 
     export default {
         data: function(){
@@ -303,7 +314,7 @@
                 init: {
                     // 1是房主0是普通
                     ForT: 1,
-                    prizeNum:7,
+                    prizeNum:5,
                     before: '押注时间：',
                     time: 30,
                 },
@@ -334,6 +345,18 @@
             },
             prize(){
                 this.$refs.onprizeChild._data.onprize=true;
+            },
+            ownerBottom(){
+                this.$refs.onownerBottomChild._data.ownerBottom=true;
+            },
+            playerBottom(){
+                this.$refs.onplayerBottomChild._data.playerBottom=true;
+            },
+            applyOn(){
+                this.$refs.onapplyOnChild._data.applyOn=true;
+            },
+            setOwner(){
+                this.$refs.onsetOwnerChild._data.setOwner=true;
             },
             gameStyle(e){
                 let [Host, Etxt] = [this.host, e.target.innerText];
