@@ -22,9 +22,9 @@ http.get({
         ,vm:this}).then(res => {
             self.dataset = res.data
         })
+
 // 事件委托
 target.nodeName.toLowerCase() == 'li'
-
 
 // 消除浮动
 <div class="clear"></div>
@@ -48,5 +48,8 @@ background: url(../../img/home_all.png) -210px -150px no-repeat;
       background-size: 600px 600px;
       background-position: center;
 
-// 1~13随机数
+// 1~13随机整数
 Math.random()*13+1>>0
+
+// 计算字符长度
+'字符串'.replace(/[\u0391-\uFFE5]/g,"aa").length

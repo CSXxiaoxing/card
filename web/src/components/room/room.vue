@@ -111,7 +111,7 @@
                             <img v-if='host.gameOpen'
                             v-for='(data, idx) in 5'  
                             :src="cardURL.src[1]+cardURL.card[idx]+'.png'"  
-                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("aaa")]'/>
+                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("initNum")]'/>
                             <!-- 卡片 -->
                             <img :src="cardURL.src[cardURL.srcNum]"  v-for='(data, idx) in 5' 
                             :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reversal)]' />
@@ -130,7 +130,7 @@
                             <img v-if='host.gameOpen'
                             v-for='(data, idx) in 5'  
                             :src="cardURL.src[1]+cardURL.card[idx+5]+'.png'"  
-                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("aaa")]'/>
+                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("initNum")]'/>
                             <!-- 卡片 -->
                             <img :src="cardURL.src[cardURL.srcNum]"  v-for='(data, idx) in 5' 
                             :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reversal)]' />
@@ -150,7 +150,7 @@
                             <img v-if='host.gameOpen'
                             v-for='(data, idx) in 5'  
                             :src="cardURL.src[1]+cardURL.card[idx+10]+'.png'"  
-                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("aaa")]'/>
+                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("initNum")]'/>
                             <!-- 卡片 -->
                             <img :src="cardURL.src[cardURL.srcNum]"  v-for='(data, idx) in 5' 
                             :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reversal)]' />
@@ -166,7 +166,7 @@
                             <img v-if='host.gameOpen'
                             v-for='(data, idx) in 5'  
                             :src="cardURL.src[1]+cardURL.card[idx+15]+'.png'"  
-                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("aaa")]'/>
+                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("initNum")]'/>
                             <!-- 卡片 -->
                             <img :src="cardURL.src[cardURL.srcNum]"  v-for='(data, idx) in 5' 
                             :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reversal)]' />
@@ -185,7 +185,7 @@
                             <img v-if='host.gameOpen'
                             v-for='(data, idx) in 5'  
                             :src="cardURL.src[1]+cardURL.card[idx+20]+'.png'"  
-                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("aaa")]'/>
+                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("initNum")]'/>
                             <!-- 卡片 -->
                             <img :src="cardURL.src[cardURL.srcNum]"  v-for='(data, idx) in 5' 
                             :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reversal)]' />
@@ -210,7 +210,7 @@
                             <img v-if='host.gameOpen'
                             v-for='(data, idx) in 5'  
                             :src="cardURL.src[1]+cardURL.card[idx+25]+'.png'"  
-                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("aaa")]'/>
+                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("initNum")]'/>
                             <!-- 卡片 -->
                             <img :src="cardURL.src[cardURL.srcNum]"  v-for='(data, idx) in 5' 
                             :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reversal)]' />
@@ -231,7 +231,7 @@
                             <img v-if='host.gameOpen'
                             v-for='(data, idx) in 5'  
                             :src="cardURL.src[1]+cardURL.card[idx+30]+'.png'"  
-                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("aaa")]'/>
+                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("initNum")]'/>
                             <!-- 卡片 -->
                             <img :src="cardURL.src[cardURL.srcNum]"  v-for='(data, idx) in 5' 
                             :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reversal)]' />
@@ -257,7 +257,7 @@
 
         <footer>
             <ul>
-                <li @click='testCard'>好友</li>
+                <li>好友</li>
                 <li @click='cardURL.test = false'>聊天室</li>
                 <li v-show='init.ForT == 1'>
                     <router-link to="/message" >发布公告</router-link>
@@ -317,7 +317,7 @@
                     move: "",
                     reversal: "",
                     reveEnd: "",
-                    // 牌-号码
+                    // 牌-号码-输赢结果
                     card: [],
                     cardEnd: [],
                 },
@@ -345,9 +345,6 @@
                 Host.styleName = Etxt;
                 Etxt == '游戏中' ? Host.gameOpen = true : Host.gameOpen = false;
             },
-            testCard(){
-                this.cardURL.test = 'card0';
-            },
             gameStart(){
                 this.host.gameOpen = true;
 
@@ -357,6 +354,7 @@
                 let card = this.cardURL.card;
                 let cardEnd = this.cardURL.cardEnd;
 
+                console.time('a')
                 ! function result () {
                     var ResNum = Math.random()*13+1>>0;
                     var Res = color[Math.random()*4>>0] + `${ResNum}`;
@@ -364,22 +362,10 @@
                     card.indexOf(Res) < 0 ? card.push(Res) && cardEnd.push(ResNum) && result () : 
                     card.length < num*5 ? result () : false;
                 } ()
-
-                // for( var i=0; i>=0; i++ ){
-                //     var Res = color[Math.random()*4>>0] + `${Math.random()*13+1>>0}`;
-
-                //         if(card.indexOf(Res) < 0) {
-                //             card.push(Res);
-                //         } 
-                //         if(card.length >= 35) {
-                //             console.log(card)
-                //             console.log(i)
-                //             break;
-                //         }
-                // }
+                console.timeEnd('a')
+                
                 console.log(card)
                 console.log(cardEnd)
-                
                 
                 this.host.styleName = '游戏中';
                 this.cardURL.start = 'start' ;
@@ -396,6 +382,7 @@
                     this.cardURL.move = 'card0' ;
                 } , 500 );
 
+                // 延时器-发完牌后倒计时
                 setT2 = setTimeout( ()=>{
 
                     setCard = setInterval( ()=> {
@@ -408,7 +395,7 @@
                             FZ();
                             clearInterval(setCard);
                         }
-                    } , 800);
+                    } , 1000);
 
                 } , 1300 );
 

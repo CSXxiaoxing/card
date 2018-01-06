@@ -13,6 +13,10 @@
 .clear{
     clear: both;
 }
+// input错误提示
+input.error {
+    border: 2px solid #ff3333!important;
+}
 // 创建房间
 .Cvar{
     width: 900px;
@@ -181,6 +185,7 @@
                 font-size: 38px;
                 line-height: 82px;
             }
+
         }
         // 新人进房确认
         li:nth-of-type(3){
@@ -466,7 +471,7 @@
 }
 // 倍率设置
 .set{
-    border: 3px solid #000;
+    // border: 3px solid #000;
     width: 1032px;
     // margin-top:10%;
     position: absolute;
@@ -511,7 +516,7 @@
             }
             // 单选框
             dd .dd_radio{
-                // mint-radio-core
+                // mint-radio-core #26a2ff
                 display: flex;
                 flex-wrap: wrap;
                 border: 0 none;
@@ -546,6 +551,7 @@
                     background-color: #26a2ff;
                     border-color: #26a2ff;
                 }
+
                 .mint-radio-input:checked + .mint-radio-core::after {
                     background-color: #fff;
                     -webkit-transform: scale(1);
@@ -582,6 +588,7 @@
                     -webkit-transform: scale(0);
                             transform: scale(0);
                 }
+                
             }
         }
 

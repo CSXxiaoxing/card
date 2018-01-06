@@ -222,6 +222,10 @@
                         line-height: 34px;
                         margin: 0;
                         padding-bottom: 5px;
+                        // 文字
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
                     }
                     p{
                         font-size: 32px;

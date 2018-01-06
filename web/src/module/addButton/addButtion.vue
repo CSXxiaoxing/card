@@ -37,8 +37,8 @@ Vue.component('自定义组件名称', 引入时定义的变量名) -->
         `,
         data: function () {
           return {
-            setNum: this.$store.state.oxNumber,
-            number: this.$store.state.oxNumber[this.oxNum],
+            setNum: this.$store.state.initRoom.oxNumber,
+            number: this.$store.state.initRoom.oxNumber[this.oxNum],
           }
         },
         props: ['oxNum'],
@@ -59,7 +59,7 @@ Vue.component('自定义组件名称', 引入时定义的变量名) -->
                     this.number > maxNum ? this.number-- :
                     this.number < minNum ? this.number++ : false; 
                 }
-                this.$store.state.oxNumber[oxNum] = this.number;
+                this.$store.state.initRoom.oxNumber[oxNum] = this.number;
             }
         }
     }

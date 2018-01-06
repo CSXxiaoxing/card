@@ -21,9 +21,9 @@
             <dt>无牛</dt>
             <dd>
                 <div class="dd_radio">
-                    <label class="mint-radiolist-label" v-for="dataRadio in ['比J', '比Q', '比K', '无牛关机 (庄赢)']">
+                    <label class="mint-radiolist-label" v-for="dataRadio in oxOpen.radioValue"  >
                         <span class="mint-radio">
-                            <input type="radio" class="mint-radio-input" :value='dataRadio' name="Dradio" v-model="boxState.radio = dataRadio" />
+                            <input type="radio" class="mint-radio-input" :value='dataRadio' name="Dradio" v-model="boxState.radio" />
                             <span class="mint-radio-core"></span>
                         </span>
                         <span class="mint-radio-label">{{dataRadio}}</span>
@@ -32,14 +32,14 @@
             </dd>
         </dl>
         <ul>
-            <li v-for='(data, index) in ox'>
+            <li v-for='(data, index) in oxOpen.ox'>
                 <span>{{data}}</span>
                 <addButtion class="add" :oxNum = 'index' ></addButtion>
             </li>
         </ul>
       </div>
         <hr/>
-        <mt-button @click="idMessage = false" >确定</mt-button>
+        <mt-button @click="coreVisible" >确定</mt-button>
     </mt-popup >
 
     <mt-popup
@@ -67,8 +67,8 @@
     <h3 @click='varMo'>创建房间</h3>
     <ul class='varRoomSet' @click="open" @change="inputChange">
         <li>
-            <label  v-on:click="card = true">
-                房号：<span>777776</span>
+            <label  @click="card = true">
+                房号：<span>{{init.roomID}}</span>
             </label>
             <label :judge='"open"' @click='boxNo'>
                 <span>
@@ -79,7 +79,7 @@
         </li>
         <li>
             <span>房名：</span>
-            <input type="text" v-model="imgState.roomName" :Inp = '"roomN"'/>
+            <input type="text" v-model.trim="imgState.roomName" :Inp = '"roomN"' :placeholder='init.plaName' :class='init.error.roomName ? "error" : ""' @focus='init.error.roomName = false'/>
         </li>
         <li>
             <span>新人进房确认</span>
@@ -104,7 +104,7 @@
         <li>
             <p>
                 房间付费模式：
-                <span @click="boxMoney">付费详情</span>
+                <span @click="boxSet">付费详情</span>
             </p>
             <label :judge='"bell"'>
                 <span>
@@ -128,18 +128,10 @@
         </li>
         <li>
             <dl>
-                <dt>无牛(比K)</dt>
-                <dd>牛一(X1)</dd>
-                <dd>牛二(X1)</dd>
-                <dd>牛三(X1)</dd>
-                <dd>牛四(X1)</dd>
-                <dd>牛五(X1)</dd>
-                <dd>牛六(X1)</dd>
-                <dd>牛七(X2)</dd>
-                <dd>牛八(X2)</dd>
-                <dd>牛九(X3)</dd>
-                <dd>牛牛(X4)</dd>
-                <dd>五花牛(X5)</dd>
+                <dt>无牛({{oxOpen.oxK}})</dt>
+                <dd v-for='(cent,index) in oxOpen.oxNumber'>
+                    {{oxOpen.ox[index]}}(X{{cent}})
+                </dd>
                 <dd></dd>
             </dl>
         </li>
@@ -147,11 +139,11 @@
             <p>可下注时间：</p>
             <div class="divTime">
 
-                <label v-for='times in time' :judge='times' >
+                <label v-for='times in oxOpen.time' :judge='times' >
                     <span>
                         <img src="../../img/varTrue.png" v-show='imgState.time == times' height="81" width="76" alt="" />
                     </span>
-                    {{times/60 >= 1 ? (times/60 + miss[1]): (times+miss[0])}}
+                    {{times/60 >= 1 ? (times/60 + oxOpen.miss[1]): (times+oxOpen.miss[0])}}
                 </label>
 
             </div>
@@ -174,7 +166,7 @@
             <span><span>%</span>(1-15)</span>
         </li>
     </ul>
-    <button @click="boxState.CvarRoom = false">确定</button>
+    <button @click="end">确定</button>
   </mt-popup>
 </template>
 
@@ -189,16 +181,23 @@
     export default {
         data() {
             return {
-                ox: ['牛一', '牛二', '牛三', '牛四', '牛五', '牛六', '牛七', '牛八', '牛九', '牛牛', '五花牛'],
-                time: [30, 60, 120, 180, 300, 480],
-                miss: ['秒', '分钟'],
+                init: {
+                    roomID : 777777,
+                    plaName: '请输入房间名称',
+                    error: {
+                        roomName : false,
+
+                    },
+                }, 
+                oxOpen: {},
+                // 弹框状态
                 boxState: {
                     CvarRoom: false,
                     coreVisible: false,
                     varModal: false,
                     no:false,
                     card:false,
-                    radio: '',
+                    radio: "",
                 },
                 imgState: {
                     state: false,
@@ -215,6 +214,10 @@
                 }
             };
         },
+        created: function() {
+            this.oxOpen = this.$store.state.initRoom;
+            this.boxState.radio = this.oxOpen.oxK;
+        },
         methods: {
             open(e) {
                 let [img, judgeVal, nodeName, labelTarget, spanTarget, imgTarget] =  
@@ -223,7 +226,6 @@
                 e.target.attributes["judge"], 
                 e.target.parentElement.attributes["judge"], 
                 e.target.parentElement.parentElement.attributes["judge"]];
-
                 try {
                     labelTarget ? judgeVal = labelTarget.nodeValue : 
                     nodeName == 'span' ? judgeVal = spanTarget.nodeValue : 
@@ -235,15 +237,14 @@
                     judgeVal == 'day' ? img.room = 'day' : 
                     judgeVal >= 30 ? img.time = judgeVal : false;
                 } catch (er) {};
-                
+
             },
             inputChange(ev) {
 
                 try {
-                let [inp, inpTarget, inpVal] = [this.imgState, ev.target.attributes["Inp"].nodeValue, ev.target.value];
+                let [inp, inpTarget, inpVal] = [this.imgState, 
+                      ev.target.attributes["Inp"].nodeValue, ev.target.value];
                 // 规则判断
-                inpTarget == 'roomN' ? 
-                (inpVal.length <= 15 ? inp.roomName = inpVal : inp.state = false) :
                 inpTarget == 'minG' ? 
                 (inpVal >= 1 && inpVal <= 99999 ? inp.minGrade = inpVal : inp.state = false) :
                 inpTarget == 'minS' ? 
@@ -252,6 +253,42 @@
                 (inpVal > inp.minScope && inpVal <= 99999 ? inp.maxScope = inpVal : inp.state = false) :
                 inpTarget == 'sca' ? 
                 (inpVal >=1 && inpVal <=15 ? inp.scale = inpVal : inp.state = false) : false;
+
+
+                // roon过滤
+                let badDI = this.$store.state.badDict;
+                let nameSize = this.oxOpen.nameLenth;
+                if(inpTarget == 'roomN') {
+                    
+                    var Val = [];
+                    var count = 0;
+                    var ValArray = inpVal.split('');
+
+                    for(var i=0; i<inpVal.length; i++){
+                        count += ValArray[i].replace(/[\u0391-\uFFE5]/g,"aa").length;
+                        if(count > nameSize){
+                            break;
+                        } else {
+                            Val.push(ValArray[i]);
+                        }
+                        console.count("a")
+                    }
+                    console.log(Val)
+                    console.log(Val.join(''))
+                    // console.log(nameSize)
+                    // if(num1 > nameSize){
+                    //     num1 - nameSize  // 4
+                    //     inpVal.slice(0, nameSize)
+                    // }
+
+
+                    // inpVal.replace(/[\u0391-\uFFE5]/g,"aa").length > 
+                    // nameSize ? inp.roomName =  : false;
+
+                    // inp.roomName = inpVal.replace(badDI,'*');
+                }
+// 那就是八个字咯哈
+
                 } catch (err) {};
                 // var numTrue = numT => {
                 //     // 验证数字
@@ -268,38 +305,48 @@
                 //         // this.moreCard = false;match
                 //     }
                 // }
+                
             },
-            varMo(event) {
-                var [vModal, Cvar] = [document.getElementsByClassName('varR_modal')[0], 
-                                      document.getElementsByClassName('Cvar')[0]]
-                var touModal = ()=>{
-                    vModal.style.zIndex <= Cvar.style.zIndex ? 
-                    ( vModal.style.zIndex++ && touModal() ) : 
-                    vModal.style.display = 'block';
-                }
-                touModal()
+            varMo() {
+                var [vModal, Cvar] = [document.getElementsByClassName('varR_modal')[0].style, 
+                                      document.getElementsByClassName('Cvar')[0].style];
+                1 ^ function touModal () {
+                    vModal.zIndex <= Cvar.zIndex ? vModal.zIndex++ && touModal() : 
+                    vModal.display = 'block';
+                } ()
             },
             noModal() {
-                this.boxState.no = false;
-                this.boxState.card = false;
-                this.boxState.coreVisible = false;
+                let State = this.boxState;
+                State.no = false ;
+                State.card = false ;
+                State.coreVisible = false ;
                 document.getElementsByClassName('varR_modal')[0].style.display = 'none';
             },
-            // 公开 倍率 付费
+            // 确认倍率
+            coreVisible() {
+                this.$store.state.initRoom.oxK = this.boxState.radio;
+                this.noModal();
+            },
+            // 倍率/付费  公开
+            boxSet(e) {
+                e.target.innerText == '付费详情' ? this.boxState.card = true : 
+                this.boxState.coreVisible = true ;
+                this.varMo();
+            },
             boxNo() {
-                this.varMo(event)
+                this.varMo();
                 this.boxState.no = true;
             },
-            boxSet() {
-                this.varMo(event)
-                this.boxState.coreVisible = true;
-            },
-            boxMoney() {
-                this.varMo(event)
-                this.boxState.card = true
-            },
-            test() {
-                console.log(this)
+            // 确认创建
+            end(eve) {
+                let [initErr, git] = [this.init.error, this.imgState];
+                
+                if(git.roomName == '' ) {
+                    initErr.roomName = true;
+                    return false;
+                }
+                console.log(this.imgState)
+                this.boxState.CvarRoom = false ;
             }
         }
     }
