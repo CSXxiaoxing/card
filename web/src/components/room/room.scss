@@ -628,12 +628,40 @@
     transform: translate(-400%, 0px);
 }
 // 出牌时间统一
-@mixin timeStart {  transition: all 0.5s;  }
-@mixin time01    {  transition: all 0.6s;  }
-@mixin time02    {  transition: all 0.6s .2s; }
-@mixin time03    {  transition: all 0.6s .4s;  }
-@mixin time04    {  transition: all 0.6s .6s;  }
-@mixin time05    {  transition: all 0.6s .8s;  }
+@mixin timeStart {  transition: all 0.5s linear;  }
+/* @mixin time01    {   
+    transition-duration: .6s;
+    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
+    transition-delay: 0s;
+}
+@mixin time02    {   
+    transition-duration: .6s;
+    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
+    transition-delay: .2s;
+}
+@mixin time03    {   
+    transition-duration: .6s;
+    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
+    transition-delay: .4s;
+
+}
+@mixin time01    {   
+    transition-duration: .6s;
+    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
+    transition-delay: .6s;
+
+}
+@mixin time01    {   
+    transition-duration: .6s;
+    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
+    transition-delay: .8s;
+
+} */
+@mixin time01    {  transition: all 0.6s linear;  }
+@mixin time02    {  transition: all 0.6s linear .2s; }
+@mixin time03    {  transition: all 0.6s linear .4s;  }
+@mixin time04    {  transition: all 0.6s linear .6s;  }
+@mixin time05    {  transition: all 0.6s linear .8s;  }
 // 出牌翻转
 @mixin card {
     img.initNum {
