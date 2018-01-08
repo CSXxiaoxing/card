@@ -25,7 +25,7 @@
                 </li>
                 <li>
                     <span @click='prize'><i></i>开奖记录</span>
-                    <span><i></i>流水报表</span>
+                    <span ><i></i>流水报表</span>
                 </li>
             </ul>
             <dl>
@@ -70,7 +70,7 @@
                         </div>
                         <p>迷糊的大土</p>
                     </li>
-                    <li>
+                    <li @click="singleBoard">
                         <div>
                             <span>76000</span>
                         </div>
@@ -277,6 +277,7 @@
         <applyOn ref="onapplyOnChild" :prizeNum='init.prizeNum' ></applyOn>
         <playerBottom ref="onplayerBottomChild" :prizeNum='init.prizeNum' ></playerBottom>
         <setOwner ref="onsetOwnerChild" :prizeNum='init.prizeNum' ></setOwner>
+        <singleBoard ref="onsingleBoardChild" :prizeNum='init.prizeNum' ></singleBoard>
     </div>
 </template>
 
@@ -291,12 +292,14 @@
     import playerBottom from '../../module/roomModule/playerBottom.vue';
     import applyOn from '../../module/roomModule/applyOn.vue';
     import setOwner from '../../module/roomModule/setOwner.vue';
+    import singleBoard from '../../module/roomModule/singleBoard.vue';
     Vue.component('toShare', toShare)
     Vue.component('prize', prize)
     Vue.component('ownerBottom', ownerBottom)
     Vue.component('applyOn', applyOn)
     Vue.component('playerBottom', playerBottom)
     Vue.component('setOwner', setOwner)
+    Vue.component('singleBoard', singleBoard)
 
     export default {
         data: function(){
@@ -362,6 +365,9 @@
             },
             setOwner(){
                 this.$refs.onsetOwnerChild._data.setOwner=true;
+            },
+            singleBoard(){
+                this.$refs.onsingleBoardChild._data.singleBoard=true;
             },
             gameStyle(e){
                 let [Host, Etxt] = [this.host, e.target.innerText];
