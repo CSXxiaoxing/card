@@ -97,7 +97,7 @@
             .left{
             	float: left;
             	span{
-            		background:url('../../img/chart_Room3.png') no-repeat;
+            		
             	}
             }
             .right{

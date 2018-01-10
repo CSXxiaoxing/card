@@ -163,7 +163,7 @@
                     <li :class='init.prizeNum == 7 ? "b7" : "a5" '>
                         <img v-for='dat in 5' src="../../img/room3.png">
                         
-                        <img  class="zhuang" src="../../img/room4.png"></span>
+                        <img  class="zhuang" src="../../img/room4.png"><b>庄</b>
                         <!-- 扑克牌 -->
                         <div class='testCard' :class='init.prizeNum == 7 ? "b7" : "a5" '>
                             <img v-if='host.gameOpen'
@@ -311,7 +311,7 @@
                 init: {
                     // 1是房主0是普通
                     ForT: 1,
-                    prizeNum:7,
+                    prizeNum:5,
                     before: '押注时间：',
                     time: 1,
                     oxK: '比K'
