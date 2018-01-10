@@ -260,7 +260,7 @@
             <ul>
                 <li><router-link to="/friend" >好友</router-link></li>
                 <li @click='cardURL.test = false'>
-                    <router-link to="/friend" >聊天室</router-link>
+                    <router-link to="/chartRoom/1" >聊天室</router-link>
                 </li>
                 <li v-show='init.ForT == 1'>
                     <router-link to="/message" >发布公告</router-link>
