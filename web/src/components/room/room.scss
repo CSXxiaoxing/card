@@ -465,9 +465,17 @@
                 li.a5:nth-of-type(4){
                     border:5px solid #F9BA6A;
                     .zhuang{
-                    position:relative;
-                    transform: translate(20%, 30%);      
-                } 
+                        position:relative;
+                        transform: translate(20%, 30%);      
+                    } 
+                    b{
+                        color:red;
+                        font-size:30px;
+                        font-weight:bolder;
+                        position:relative;
+                        right:60px;
+                        top:50px;
+                    }  
             }
 
             li.b7{
@@ -530,8 +538,16 @@
                 border:5px solid #F9BA6A;
                 .zhuang{
                     position:relative;
-                    transform: translate(40%, 30%); 
-                    }            
+                    transform: translate(30%, 30%); 
+                    }  
+                    b{
+                        color:red;
+                        font-size:30px;
+                        font-weight:bolder;
+                        position:relative;
+                        right:60px;
+                        top:50px;
+                    }          
                 }
             }
         }
