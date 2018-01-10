@@ -8,8 +8,9 @@ import GoodsListComponent from '../components/goodslist/goodslist.vue'
 import message from '../components/message/message.vue'
 import Room from '../components/room/room.vue'
 import friend from '../components/friend/friend.vue'
+import Water from '../components/room/waterReport.vue'
+import chartRoom from '../components/chart/chartRoom.vue'
 
-// message
 Vue.use(VueRouter)
 
 var router = new VueRouter({
@@ -44,7 +45,16 @@ var router = new VueRouter({
 			name: 'friend',
 			component: friend
 		},
-
+		{
+			path: '/water',
+			name: 'water',
+			component: Water
+		},
+		{
+			path: '/chartRoom',
+			name: 'chartRoom',
+			component: chartRoom
+		},
 	]
 })
 

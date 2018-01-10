@@ -25,7 +25,7 @@
                 </li>
                 <li>
                     <span @click='prize'><i></i>开奖记录</span>
-                    <span><i></i>流水报表</span>
+                    <span ><i></i><router-link to="/water" >流水报表</router-link></span>
                 </li>
             </ul>
             <dl>
@@ -70,7 +70,7 @@
                         </div>
                         <p>迷糊的大土</p>
                     </li>
-                    <li>
+                    <li @click="singleBoard">
                         <div>
                             <span>76000</span>
                         </div>
@@ -259,7 +259,9 @@
         <footer>
             <ul>
                 <li><router-link to="/friend" >好友</router-link></li>
-                <li @click='cardURL.test = false'>聊天室</li>
+                <li @click='cardURL.test = false'>
+                    <router-link to="/friend" >聊天室</router-link>
+                </li>
                 <li v-show='init.ForT == 1'>
                     <router-link to="/message" >发布公告</router-link>
                 </li>
@@ -277,7 +279,8 @@
         <applyOn ref="onapplyOnChild" :prizeNum='init.prizeNum' ></applyOn>
         <playerBottom ref="onplayerBottomChild" :prizeNum='init.prizeNum' ></playerBottom>
         <setOwner ref="onsetOwnerChild" :prizeNum='init.prizeNum' ></setOwner>
-    </div> 
+        <singleBoard ref="onsingleBoardChild" :prizeNum='init.prizeNum' ></singleBoard>
+    </div>
 </template>
 
 <script type="text/javascript">
@@ -291,12 +294,14 @@
     import playerBottom from '../../module/roomModule/playerBottom.vue';
     import applyOn from '../../module/roomModule/applyOn.vue';
     import setOwner from '../../module/roomModule/setOwner.vue';
+    import singleBoard from '../../module/roomModule/singleBoard.vue';
     Vue.component('toShare', toShare)
     Vue.component('prize', prize)
     Vue.component('ownerBottom', ownerBottom)
     Vue.component('applyOn', applyOn)
     Vue.component('playerBottom', playerBottom)
     Vue.component('setOwner', setOwner)
+    Vue.component('singleBoard', singleBoard)
 
     export default {
         data: function(){
@@ -366,6 +371,9 @@
             },
             setOwner(){
                 this.$refs.onsetOwnerChild._data.setOwner=true;
+            },
+            singleBoard(){
+                this.$refs.onsingleBoardChild._data.singleBoard=true;
             },
             gameStyle(e){
                 let [Host, Etxt] = [this.host, e.target.innerText];
