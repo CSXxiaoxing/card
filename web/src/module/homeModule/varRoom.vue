@@ -64,8 +64,8 @@
         <div></div>
     </mt-popup>
 <!-- touchstart touchmove touchend  -->
-    <h3 @click='varMo'>创建房间</h3>
-    <ul class='varRoomSet' @click="open" @change="inputChange">
+    <h3>创建房间<b></b></h3>
+    <ul class='varRoomSet' @click="open">
         <li>
             <label  @click="card = true">
                 房号：<span>{{init.roomID}}</span>
@@ -79,7 +79,7 @@
         </li>
         <li>
             <span>房名：</span>
-            <input type="text" v-model.trim="imgState.roomName" :Inp = '"roomN"' :placeholder='init.plaName' :class='init.error.roomName ? "error" : ""' @focus='init.error.roomName = false'/>
+            <input type="text" v-model.trim="imgState.roomName" :placeholder='init.plaName' :class='init.error.roomName ? "error" : ""' @focus='init.error.roomName = false' @change="inputChange"/>
         </li>
         <li>
             <span>新人进房确认</span>
@@ -152,17 +152,17 @@
             <p>
                 庄家封顶预赔分或最低上庄分数：
             </p>
-            <input type="text" value="imgState.minGrade" v-model='imgState.minGrade' :Inp = '"minG"'/>
+            <input type="text" value="imgState.minGrade" v-model.number='imgState.minGrade' :class='init.error.minG ? "error" : ""' @focus='init.error.minG = false'/>
         </li>
         <li>
             <span>玩家下注范围：</span>
-            <input type="text" value="imgState.minScope" v-model='imgState.minScope' :Inp = '"minS"'/>
+            <input type="text" value="imgState.minScope" v-model.number='imgState.minScope' :class='init.error.minS ? "error" : ""' @focus='init.error.minS = false'/>
             <i></i>
-            <input type="text" value="imgState.maxScope" v-model='imgState.maxScope':Inp = '"maxS"'/>
+            <input type="text" value="imgState.maxScope" v-model.number='imgState.maxScope' :class='init.error.maxS ? "error" : ""' @focus='init.error.maxS = false'/>
         </li>
         <li>
             <span>抽庄赢分比例：</span>
-            <input type="text" value="imgState.scale" v-model='imgState.scale':Inp = '"sca"'/>
+            <input type="text" value="imgState.scale" v-model.number='imgState.scale' :class='init.error.sca ? "error" : ""' @focus='init.error.sca = false'/>
             <span><span>%</span>(1-15)</span>
         </li>
     </ul>
@@ -186,7 +186,10 @@
                     plaName: '请输入房间名称',
                     error: {
                         roomName : false,
-
+                        minG: false,
+                        minS: false,
+                        maxS: false,
+                        sca : false,
                     },
                 }, 
                 oxOpen: {},
@@ -200,7 +203,6 @@
                     radio: "",
                 },
                 imgState: {
-                    state: false,
                     open: false,
                     roomName: '',
                     newMan: false,
@@ -239,73 +241,20 @@
                 } catch (er) {};
 
             },
-            inputChange(ev) {
-
-                try {
-                let [inp, inpTarget, inpVal] = [this.imgState, 
-                      ev.target.attributes["Inp"].nodeValue, ev.target.value];
-                // 规则判断
-                inpTarget == 'minG' ? 
-                (inpVal >= 1 && inpVal <= 99999 ? inp.minGrade = inpVal : inp.state = false) :
-                inpTarget == 'minS' ? 
-                (inpVal >= 1 ? inp.minScope = inpVal : inp.state = false) :
-                inpTarget == 'maxS' ? 
-                (inpVal > inp.minScope && inpVal <= 99999 ? inp.maxScope = inpVal : inp.state = false) :
-                inpTarget == 'sca' ? 
-                (inpVal >=1 && inpVal <=15 ? inp.scale = inpVal : inp.state = false) : false;
-
-
+            inputChange() {
                 // roon过滤
-                let badDI = this.$store.state.badDict;
-                let nameSize = this.oxOpen.nameLenth;
-                if(inpTarget == 'roomN') {
-                    
-                    var Val = [];
-                    var count = 0;
-                    var ValArray = inpVal.split('');
-
-                    for(var i=0; i<inpVal.length; i++){
-                        count += ValArray[i].replace(/[\u0391-\uFFE5]/g,"aa").length;
-                        if(count > nameSize){
-                            break;
-                        } else {
-                            Val.push(ValArray[i]);
-                        }
-                        console.count("a")
+                let [inp, badDI, nameSize] = [this.imgState, this.$store.state.badDict, this.oxOpen.nameLenth];
+                inp.roomName = inp.roomName.replace(badDI,'*');
+                var [Val, count, ValArray] = [ [], 0, inp.roomName.split('') ];
+                for(var i=0; i<inp.roomName.length; i++){
+                    count += ValArray[i].replace(/[\u0391-\uFFE5]/g,"aa").length;
+                    if(count > nameSize){
+                        break;
+                    } else {
+                        Val.push(ValArray[i]);
                     }
-                    console.log(Val)
-                    console.log(Val.join(''))
-                    // console.log(nameSize)
-                    // if(num1 > nameSize){
-                    //     num1 - nameSize  // 4
-                    //     inpVal.slice(0, nameSize)
-                    // }
-
-
-                    // inpVal.replace(/[\u0391-\uFFE5]/g,"aa").length > 
-                    // nameSize ? inp.roomName =  : false;
-
-                    // inp.roomName = inpVal.replace(badDI,'*');
                 }
-// 那就是八个字咯哈
-
-                } catch (err) {};
-                // var numTrue = numT => {
-                //     // 验证数字
-                //     var reg = new RegExp("^[0-9]*$");
-                //     if(!reg.test(ev.target.value)){
-                //         inp.state = false;
-                //         ev.target.value = 1;
-                //         return false;
-                //     } else if(ev.target.value == 0){
-                //         inp.state = false;
-                //         return false;
-                //     } else {
-                //         console.log(ev.target.value.replace(/^[0]+/,''))
-                //         // this.moreCard = false;match
-                //     }
-                // }
-                
+                inp.roomName = Val.join('');
             },
             varMo() {
                 var [vModal, Cvar] = [document.getElementsByClassName('varR_modal')[0].style, 
@@ -339,14 +288,21 @@
             },
             // 确认创建
             end(eve) {
-                let [initErr, git] = [this.init.error, this.imgState];
+                let [Err, git] = [this.init.error, this.imgState];
                 
-                if(git.roomName == '' ) {
-                    initErr.roomName = true;
-                    return false;
+                // 规则判断
+                git.roomName == '' ? Err.roomName = true : 
+                git.minGrade <= 0 ? Err.minG = true : 
+                git.minScope <= 0 ? Err.minS = true :
+                git.maxScope < git.minScope ? Err.maxS = true :
+                git.scale < 1 || git.scale > 15 ? Err.sca = true : false;
+
+                if(!Err.roomName && !Err.minG && !Err.minS && !Err.maxS && !Err.sca) {
+                    console.log(this.imgState)
+                    console.log(this.oxOpen)
+                    this.boxState.CvarRoom = false;
                 }
-                console.log(this.imgState)
-                this.boxState.CvarRoom = false ;
+
             }
         }
     }

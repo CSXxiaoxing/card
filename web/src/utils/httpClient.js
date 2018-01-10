@@ -1,46 +1,49 @@
-import axios from 'axios'
-// 192.168.1.25
-var baseUrl = 'http://192.168.31.84:666/';
+//http://visionmedia.github.io/superagent/
+import request from 'superagent';
 
-var filterUrl = function(url){
-	if(url.startsWith('http')){
-		return url;
-	}
-	return baseUrl + url;
+const LOCAL_SERVER = 'http://192.168.31.142:3000';
+
+const DEV_SERVER = '';
+const PRO_SERVER = '';
+
+function getUrl(path) {
+    if (path.startsWith('http')) {
+        return path;
+    }
+    return `${LOCAL_SERVER}${path}`;
 }
 
-export default {
-	get: (opts) => new Promise((resolve, reject) => {
-		if(opts.vm){
-			opts.vm[opts.loading || 'loadingShow'] = true;
-		}
-		axios.get(filterUrl(opts.url), opts.params).then(function(response){
-			if(opts.vm){
-				opts.vm[opts.loading || 'loadingShow'] = false;
-			}
-			resolve(response);
-		}).catch(function(error){
-			if(opts.vm){
-				opts.vm[opts.loading || 'loadingShow'] = false;
-			}			
-			reject(error);
-		})
-	}),
-	post: (opts) => new Promise((resolve, reject) => {
-		if(opts.vm){
-			opts.vm[opts.loading || 'loadingShow'] = true;
-		}
-		axios.post(filterUrl(opts.url), opts.params).then(function(response){
-			if(opts.vm){
-				opts.vm[opts.loading || 'loadingShow'] = false;
-			}
-			resolve(response);
-		}).catch(function(error){
-			if(opts.vm){
-				alert('请求有误');
-				opts.vm[opts.loading || 'loadingShow'] = false;
-			}			
-			reject(error);
-		})
-	})
-}
+const HttpClient = {
+    get: (path, query) => new Promise((resolve, reject) => {
+        var req = request
+            .get(getUrl(path))
+            .query(query)
+            .end((err, res) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(res.body);
+                }
+            });
+    }),
+
+    post: (path, formdata, query, vm) => new Promise((resolve, reject) => {
+    	// if(vm){ vm['loadingShow'] = true }
+        request
+            .post(getUrl(path))
+            .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
+            .query(query)
+            .send(formdata)
+            .end((err, res) => {
+                if (err) {
+                    reject(err);
+                    vm['loadingShow'] = false;
+                } else {
+                    resolve(res.body);
+                    vm['loadingShow'] = false;
+                }
+            });
+    })
+};
+
+export default HttpClient;

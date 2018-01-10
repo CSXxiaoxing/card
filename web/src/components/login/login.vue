@@ -9,7 +9,7 @@
 		    <h4>注册</h4>
 		    <label> 
 			    <span>您的昵称</span> 
-			    <input type="text" placeholder='输入昵称' v-model='username'/> 
+			    <input type="text" placeholder='输入昵称' v-model='nikeName'/> 
 		    </label>
 	        <label> 
 	    	    <span>输入密码</span> 
@@ -21,10 +21,10 @@
 		    </label>
 		    <label> 
 			    <span>验证码</span> 
-			    <input type="text" placeholder='输入验证码' v-model='verify'/> 
+			    <input type="text" placeholder='输入验证码' v-model=' code'/> 
 			    <i>获取验证码</i>
 		    </label>
-		    <span @touchend="zhuce = false">确定</span>
+		    <span @touchend="zhuCe" >确定</span>
 		</mt-popup>
 
 		<mt-popup
@@ -36,7 +36,7 @@
 		    <h4>登录</h4>
 		    <label> 
 			    <span>手机号码</span> 
-			    <input type="text" placeholder='输入手机号' v-model='username'/> 
+			    <input type="text" placeholder='输入手机号' v-model='cell'/> 
 		    </label>
 	        <label> 
 	    	    <span>输入密码</span> 
@@ -44,7 +44,8 @@
 	        </label>
 	        <label @click='find = true'>忘记密码？点击找回！</label>
 	        <hr/>
-		    <span @touchend="phone = false">确定</span>
+		    <span @touchend="loging">确定</span>
+		    <!-- @touchend="phone = false" -->
 		</mt-popup>
 
 		<mt-popup
@@ -56,11 +57,11 @@
 		    <h4>找回密码</h4>
 		    <label> 
 			    <span>手机号码</span> 
-			    <input type="text" placeholder='输入手机号' v-model='username'/> 
+			    <input type="text" placeholder='输入手机号' v-model='cell'/>
 		    </label>
 		    <label> 
 			    <span>验证码</span> 
-			    <input type="text" placeholder='输入验证码' v-model='verify'/> 
+			    <input type="text" placeholder='输入验证码' v-model=' code'/>
 			    <i>获取验证码</i>
 		    </label>
 	        <label> 
@@ -68,17 +69,15 @@
 	    	    <input type="text" placeholder='输入新的密码' v-model='password'/> 
 	        </label>
 	        <hr/>
-		    <span @touchend="phone = false">确定</span>
+		    <span @touchend="findPassword">确定</span>
 		</mt-popup>
 
 		<div class='logo'></div>
 		<span class='spanLog'>微信登录</span>
 		<span class='spanLog' @click='phone = true'>手机登录</span>
 		<p>还没有账号？<span @click='zhuce = true'>注册</span></p>
-		<!-- <input type="text" v-model="username">
-		<input type="password" v-model="password">
-		<input type="button" value="Login" @click="loginHandler">
-		<loading v-show="loadingShow"></loading> -->
+
+		<loading v-show='loadingShow'></loading>
 	</div>
 </template>
 
@@ -389,11 +388,11 @@
 
 <script type="text/javascript">
 	import Vue from 'vue';
-	import loading from '../loading/loading.vue'
-	import http from '../../utils/httpClient.js'
+	import loading from '../loading/loading.vue';
+	import http from '../../utils/httpClient.js';
 	import router from '../../router/';
 
-
+	Vue.component('loading', loading)
 
 	export default {
 		data(){
@@ -403,24 +402,72 @@
 				find: false,
 				phone:false,
 				// 用户资料
-				username: '',
+				nikeName: '',
 				password: '',
 				cell: '',
-				verify: '',
+				code: '',
 				loadingShow: false
 			}
 		},
+		mounted: function(){
+
+		},
 		methods: {
 			loginHandler: function(){
-				http.post('/login', {username: this.username, password: this.password}).then(res => {
-					router.push({name: 'home'});
-				})
+				// http.post('/login', {cell: this.username, password: this.password}).then(res => {
+				// 	router.push({name: 'home'});
+				// })
 			},
 			loginTo(){
 				router.push('home')
 			},
+			loging() {
+				var self = this;
+				http.post( '/Member/login', {
+							mobile: self.cell,
+							password: self.password
+						}, '', this )
+					.then(res => {
+						console.log(res)
+						if(status == 1){
+							router.push({name: 'home'});
+						}
+						self.phone = false;
+					})
+			},
+			zhuCe() {
+				var self = this;
+				http.post( '/Member/login', {
+							mobile: self.cell,
+							password: self.password,
+							code: self.code,
+							nikeName: self.nikeName
+						}, '', this )
+					.then(res => {
+						console.log(res)
+						if(status == 1){
+							router.push({name: 'home'});
+						}
+						self.zhuce = false;
+					})
+			},
+			findPassword() {
+				// find = false
+				var self = this;
+				http.post( '/Member/login', {
+							mobile: self.cell,
+							password: self.password,
+							code: self.code
+						}, '', this )
+					.then(res => {
+						console.log(res)
+						if(status == 1){
+							router.push({name: 'home'});
+						}
+						self.find = false;
+					})
+			}
 		},
-
 		components: {
 			loading
 		}

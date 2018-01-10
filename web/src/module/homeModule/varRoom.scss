@@ -16,7 +16,28 @@
 // input错误提示
 input.error {
     border: 2px solid #ff3333!important;
+    transition-duration: .2s;
+    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
+    animation: inputmove .1s linear 6; 
 }
+
+@keyframes inputmove{
+   0%{
+       transform: translate(0%, -2%);
+   }
+   100%{
+       transform: translate(0%, 2%);
+   }
+}
+@-webkit-keyframes inputmove{
+   0%{
+       transform: translate(0%, -2%);
+   }
+   100%{
+       transform: translate(0%, 2%);
+   }
+}
+
 // 创建房间
 .Cvar{
     width: 900px;
@@ -400,6 +421,7 @@ input.error {
       color: #fff;
       width:357px;
       height: 110px;
+      border-radius: 55px;
       line-height: 100px;
       font-size:60px;
       border: none;
@@ -587,8 +609,7 @@ input.error {
                     transition: transform .2s, -webkit-transform .2s;
                     -webkit-transform: scale(0);
                             transform: scale(0);
-                }
-                
+                } 
             }
         }
 
@@ -609,7 +630,6 @@ input.error {
                     float: left;
                 }
                 .add{
-                    
                     margin: 0 -60px;
                     float: right;
                     button {
@@ -632,13 +652,13 @@ input.error {
                     }
                     button:active{
                         position: relative;
+                        border-radius: 30px;
                         left: 1px ;
                         top: 3px ;
                     }
                 } 
             }
-        }
-        
+        }    
     }
     &>button{
         &:active{

@@ -7,6 +7,7 @@ import HomeComponent from '../components/home/home.vue'
 import GoodsListComponent from '../components/goodslist/goodslist.vue'
 import message from '../components/message/message.vue'
 import Room from '../components/room/room.vue'
+import friend from '../components/friend/friend.vue'
 
 // message
 Vue.use(VueRouter)
@@ -37,6 +38,11 @@ var router = new VueRouter({
 			path: '/message',
 			name: 'message',
 			component: message
+		},
+		{
+			path: '/friend',
+			name: 'friend',
+			component: friend
 		},
 
 	]

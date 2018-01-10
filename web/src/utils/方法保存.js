@@ -53,3 +53,22 @@ Math.random()*13+1>>0
 
 // 计算字符长度
 '字符串'.replace(/[\u0391-\uFFE5]/g,"aa").length
+
+// 原生ajax
+//创建异步对象  
+var xhr = new XMLHttpRequest();
+//设置请求的类型及url
+//post请求一定要添加请求头才行不然会报错
+// xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+xhr.open('post', 'http://192.168.31.142:3000/Member/test' );
+//发送请求
+xhr.send('name=fox&age=18');
+xhr.onreadystatechange = function () {
+    // 这步为判断服务器是否正确响应
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        console.log(xhr.responseText);
+      }
+};
+
+// placeholder占位符样式
+input::-webkit-input-placeholder{color: #ccc;}

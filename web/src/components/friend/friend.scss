@@ -1,0 +1,191 @@
+#friend {
+    background: #ECEDF1;
+    height: 100%;
+    // display: flex;
+    // flex-direction: column;
+    
+    header {
+        height: 202px;
+        background: #2F2E34;
+        padding: 103px 32px 0;
+        box-sizing: border-box;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        ul {
+            display: flex;
+            color: #fff;
+            text-align: center;
+            justify-content: space-between;
+            li:first-child {
+                &>i {
+                    display: inline-block;
+                    width: 70px;
+                    height: 55px;
+                    background: url('../../img/room_all.png') -470px -160px no-repeat;
+                    background-size: 600px;
+                    position: relative;
+                    top: 50%;
+                    transform: translate(0, -50%);
+                    a {
+                        padding: 28px 40px;
+                    }
+                }
+            }
+            li:last-child {
+                i {
+                    display: inline-block;
+                    width: 60px;
+                    height: 60px;
+                    background: url('../../img/room_all.png') -300px -250px no-repeat;
+                    background-size: 600px;
+                    position: relative;
+                    top: 50%;
+                    transform: translate(0, -50%);
+                    a {
+                        padding: 28px 40px;
+                    }
+                }
+            }
+        }
+    }
+    .friMain {
+        ul {
+            overflow: hidden;
+            padding-top: 202px;
+            li {
+                padding: 0px 35px;
+                box-sizing: border-box;
+            }
+            li:nth-of-type(2n) {
+                background: #fff;
+                height: 0;
+                overflow: hidden;
+                padding: 0px 35px;
+                box-shadow: 0px -2px 20px #CFD0D2;
+                dl {
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                    max-height: 1020px;
+                    dd {
+                        padding: 30px 0;
+                        display: flex;
+                        font-size: 44px;
+                        border-bottom: 2px solid #CACACA;
+                        span:nth-of-type(1) {
+                            display: inline-block;
+                            height: 145px;
+                            width: 141px;
+                            background: url('../../img/room_all.png') -450px -400px no-repeat;
+                            background-size: 600px;
+                        }
+                        span:nth-of-type(2) {
+                            flex: 1;
+                            line-height: 120px;
+                            text-align: left;
+                            padding-left: 46px;
+                        }
+                        span:nth-of-type(3) {
+                            width: 220px;
+                            height: 96px;
+                            margin-top: 22px;
+                            box-sizing: border-box;
+                            border: 3px solid #B7DBB5;
+                            border-radius: 48px;
+                            position: relative;
+                            line-height: 94px;
+                            text-align: right;
+                            padding-right: 35px; 
+                            color: #09BA07;
+                            i {
+                                display: inline-block;
+                                position: absolute;
+                                width: 46px;
+                                height: 44px;
+                                left: 10px;
+                                top: 50%;
+                                transform: translate(50%, -50%);
+                                background: url('../../img/room_all.png') -470px -240px no-repeat;
+                                background-size: 600px;
+                            }
+                            i.Iadd {
+                                width: 47px;
+                                height: 46px;
+                                background: url('../../img/room_all.png') -530px -240px no-repeat;
+                                background-size: 600px;
+                            }
+                        }
+                    }
+                }
+                dl::-webkit-scrollbar {
+                    display: none;
+                } 
+            }
+            li.show { 
+                height: 1020px;
+                max-height: 1020px;
+                margin-top: -46px;
+                transition: all 2s;
+            }
+            li.hide {
+                height: 0px;
+                margin-top: 0px;
+                transition: all 2s;
+            }
+            li:nth-of-type(2n-1) {
+                height: 200px;
+                background: #fff;
+                box-shadow: 0px 2px 20px #CFD0D2;
+                margin-bottom: 46px;
+                
+                padding-top: 35px;
+                padding-bottom: 46px;
+                display: flex;
+                span:nth-of-type(1) {
+                    display: inline-block;
+                    height: 118px;
+                    width: 120px;
+                    background: url('../../img/room_all.png') 0px -410px no-repeat;
+                    background-size: 600px;
+                }
+                span:nth-of-type(2) {
+                    flex: 1;
+                    line-height: 118px;
+                }
+                span:nth-of-type(3) {
+                    width: 120px;
+                    position: relative;
+                    i {
+                        display: inline-block;
+                        position: absolute;
+                        width: 42px;
+                        height: 24px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        background: url('../../img/room_all.png') -400px -250px no-repeat;
+                        background-size: 600px;
+                        z-index: 0;
+                    }
+                    i.Iup {
+                        background: url('../../img/room_all.png') -400px -290px no-repeat;
+                        background-size: 600px;
+                    }
+                }
+            }
+            li:nth-of-type(3) {
+                span:nth-of-type(1) {
+                    background: url('../../img/room_all.png') -150px -410px no-repeat;
+                    background-size: 600px;
+                }
+            }
+            li:nth-of-type(5) {
+                span:nth-of-type(1) {
+                    background: url('../../img/room_all.png') -300px -410px no-repeat;
+                    background-size: 600px;
+                }
+            }
+
+        }
+    }
+}

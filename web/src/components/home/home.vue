@@ -43,7 +43,7 @@
 
 		<footer>
 			<ul>
-				<li>好友</li>
+				<li><router-link to="/friend" >好友</router-link></li>
 				<li @click='varRoom'>创建房间</li>
 				<li @click='joinRoom'>进入房间</li>
 				<li @click='myRoom'>我的房间</li>
@@ -91,13 +91,13 @@
 			}
 		},
 		mounted: function(){
-			var self = this;
-			http.post({
-		        url: 'sel',vm:this
-		    }).then(res => {
-	            self.datagrid = res.data;
-	            console.log(res.data)
-	        })
+			// var self = this;
+			// http.post({
+		 //        url: 'sel',vm:this
+		 //    }).then(res => {
+	  //           self.datagrid = res.data;
+	  //           console.log(res.data)
+	  //       })
 		},
 		methods: {
 			joinRoom(){
@@ -139,7 +139,6 @@
 			},
 			generateToolBar: function(obj){
 				//动态生成按钮
-				
 			},
 		}
 	}

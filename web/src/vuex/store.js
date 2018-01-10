@@ -10,6 +10,12 @@ export default new Vuex.Store({
    // 使用demo : this.$store.state.initRoom
    state: {
         name:666,
+        // 用户信息
+        self: {
+            userName: '',
+            userID: '',
+            userImg: '',
+        },
         // 默认数据
         initRoom: {
             ox: ['牛一', '牛二', '牛三', '牛四', '牛五', '牛六', '牛七', '牛八', '牛九', '牛牛', '五花牛'],
@@ -20,6 +26,8 @@ export default new Vuex.Store({
             oxNumber: [1, 1, 1, 1, 1, 1, 2, 2, 3, 5, 10],
             // 一个中文两个字节
             nameLenth: 16,
+            // 最低上分数
+            minG: 500,
         },
         badDict: bad,
       // 牛？倍数

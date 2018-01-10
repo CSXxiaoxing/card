@@ -489,10 +489,36 @@
                             background-size:600px 600px;
                             color:#FBDD2A;
                             font-size:28px;
+                            display: none;
                         }  
                         b:nth-of-type(2){
                             color:black;
                         }
+                        // ----
+                        b.showoff {
+                            display: inline-block;
+                            // border: 2px solid #ff3333!important;
+                            // transition-duration: .2s;
+                            // transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
+                            animation: inputmove .1s linear 6; 
+                        }
+                        @keyframes inputmove{
+                           0%{
+                               transform: translate(-5%, 0%);
+                           }
+                           100%{
+                               transform: translate(5%, 0%);
+                           }
+                        }
+                        @-webkit-keyframes inputmove{
+                           0%{
+                               transform: translate(-5%, 0%);
+                           }
+                           100%{
+                               transform: translate(5%, 0%);
+                           }
+                        }
+                        // ------
                         position:relative;
                         margin-right:30px;
                     }
@@ -643,19 +669,16 @@
     transition-duration: .6s;
     transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
     transition-delay: .4s;
-
 }
 @mixin time01    {   
     transition-duration: .6s;
     transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
     transition-delay: .6s;
-
 }
 @mixin time01    {   
     transition-duration: .6s;
     transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
     transition-delay: .8s;
-
 } */
 @mixin time01    {  transition: all 0.6s linear;  }
 @mixin time02    {  transition: all 0.6s linear .2s; }

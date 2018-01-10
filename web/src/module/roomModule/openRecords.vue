@@ -18,7 +18,7 @@
             <table  cellspacing="0" class='bel2'>
                 <tbody>
                     <tr v-for='(obj, inx) in bureau'>
-                        <td>第 {{inx++}} 局</td>
+                        <td>第 {{index[inx]}} 局</td>
                         <td v-for='data in obj'>{{data}}</td>
                     </tr>
                 </tbody>
@@ -145,7 +145,7 @@ import http from '../../utils/httpClient.js'
                 19 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
             },
             // unshift
-            index : [2, 1]
+            index : [19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2, 1]
           }
         },
         props: ['prizeNum'],

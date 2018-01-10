@@ -233,15 +233,15 @@
 
         };
         },
-          mounted: function(){
-            var self = this;
-            http.post({
-                  url: 'sel',vm:this
-              }).then(res => {
-                    self.datagrid = res.data;
-                    console.log(res.data)
-                })
-          },
+          // mounted: function(){
+          //   var self = this;
+          //   http.post({
+          //         url: 'sel',vm:this
+          //     }).then(res => {
+          //           self.datagrid = res.data;
+          //           console.log(res.data)
+          //       })
+          // },
         methods: {
             openS(e){
               let Etar = e.target;
