@@ -1,5 +1,13 @@
 <template>
 	<div id="water">
+		<header>
+            <ul>
+                <li>
+                    <i><router-link to="/room" ></router-link></i>
+                </li>
+                <li>流水报表</li>
+            </ul>
+        </header>
 		<table border="1" cellpadding="0" cellspacing="0">
 			<thead>
 				<tr>

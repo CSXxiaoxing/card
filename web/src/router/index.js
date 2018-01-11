@@ -11,6 +11,7 @@ import friend from '../components/friend/friend.vue'
 import Water from '../components/room/waterReport.vue'
 import chartRoom from '../components/chart/chartRoom.vue'
 import chartList from '../components/chart/chartList.vue'
+import chartDelete from '../components/chart/chartDelete.vue'
 
 Vue.use(VueRouter)
 
@@ -57,9 +58,14 @@ var router = new VueRouter({
 			component: chartRoom
 		},
 		{
-			path: '/chartList',
+			path: '/chartList/:id',
 			name: 'chartList',
 			component: chartList
+		},
+		{
+			path: '/chartDelete',
+			name: 'chartDelete',
+			component: chartDelete
 		},
 	]
 })

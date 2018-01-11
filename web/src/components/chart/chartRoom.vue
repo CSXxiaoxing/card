@@ -5,10 +5,12 @@
                 <li>
                     <i><router-link to="/room" ></router-link></i>
                 </li>
-                <li>迷糊的大土</li>
-                <li>联系客服</li>
-                <li><img src="../../img/chart_Room5.png" alt="">加友</li>
-                <li  @click = 'give == 0 ? give = 1 : give = 0'>给他＋/－分</li>
+                <li v-show='roomstatus == 1 || roomstatus == 2'>迷糊的大土</li>
+                <li v-show='roomstatus == 0'>联系客服</li>
+                <li v-show='roomstatus == 3'>聊天室（5）</li>
+                <li v-show='roomstatus == 3'><img src="../../img/chart_Room7.png" alt=""></li>
+                <li  v-show='roomstatus == 1 && a == 1'  @click = 'give == 0 ? give = 1 : give = 0'>给他＋/－分</li>
+                <li v-show='(roomstatus == 1 || roomstatus == 2)&& isfriend == 0'><img src="../../img/chart_Room5.png" alt="">加友</li>
             </ul>
         </header>
         <div class='chart'>
@@ -57,8 +59,18 @@
                 img{
                 	vertical-align: sub;
                 }
+                li:nth-of-type(2){
+                   position:absolute;
+                   left:150px;
+                }
                 li:nth-of-type(3){
-                    margin-left:100px;
+                   position:absolute;
+                   left:480px;
+                }
+                li:nth-of-type(4){
+                   position:absolute;
+                   left:440px;
+                   font-size:50px;
                 }
                 li:first-child {
                     &>i {
@@ -69,24 +81,22 @@
                         background-size: 600px;
                         position: relative;
                         top: 50%;
-                        transform: translate(0, -50%);
+                        transform: translate(0%, -50%);
                         a {
                             padding: 28px 40px;
                         }
                     }
                 }
-                li:nth-of-type(4){
-                	margin-right: 258px;
-                }
-                li:last-child{
+                li:nth-of-type(6){
                 	background:url('../../img/chart_Room6.png') no-repeat;
-                	background-position:center;
-                	padding-left: 12px;
-                	width:258px;
-                	line-height:80px;
-                	position:absolute;
-                	right:20px;
+                    background-position:center;
+                    padding-left: 12px;
+                    width:258px;
+                    line-height:80px;
+                    position:absolute;
+                    right:180px;
                 }
+                
             }
         }
         
@@ -204,7 +214,9 @@
         data: function(){
             return {
             	a: this.$route.params.id,
-            	give:0,
+            	give:0,         
+                roomstatus:1,   //客服0  聊天（房主）1  聊天（玩家）2 群聊3
+                isfriend:0,   //是好友1  不是0
             }
         },
         mounted: function(){

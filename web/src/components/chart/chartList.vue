@@ -1,5 +1,18 @@
 <template>
     <div class='chartList'>
+
+        <mt-popup 
+          v-model="putRoom"
+          popup-transition="popup-fade" 
+          class="tip" >
+          <span>退出房间</span>
+          <p>退出房间分数将会清零，你是否要退出房间？</p>
+          <mt-button @click="putRoom = false">  确定
+          </mt-button>
+          <mt-button @click="putRoom = false">  取消
+          </mt-button>
+        </mt-popup >
+
     	<header>
             <ul>
                 <li>
@@ -14,68 +27,74 @@
             	<li>
             		<img src="../../img/chart_Room2.png" alt="">
             		<b>迷糊的大土</b>
-                    <span><img src="../../img/chart_List1.png" alt="">加友</span>
+                    <span v-show = 'a == 0'><img src="../../img/chart_List1.png" alt="">加友</span>
             	</li>
             	<li class="clear"></li>
             	<li>
                     <img src="../../img/chart_Room2.png" alt="">
                     <b>迷糊的大土</b>
-                    <span><img src="../../img/chart_List1.png" alt="">备注</span>
+                    <span><img src="../../img/chart_List4.png" alt="">备注</span>
                 </li>
                 <li class="clear"></li>
                 <li>
                     <img src="../../img/chart_Room2.png" alt="">
                     <b>迷糊的大土</b>
-                    <span><img src="../../img/chart_List1.png" alt="">备注</span>
+                    <span><img src="../../img/chart_List4.png" alt="">备注</span>
                 </li>
                 <li class="clear"></li>
                 <li>
                     <img src="../../img/chart_Room2.png" alt="">
                     <b>迷糊的大土</b>
-                    <span><img src="../../img/chart_List1.png" alt="">备注</span>
+                    <span><img src="../../img/chart_List4.png" alt="">备注</span>
                 </li>
                 <li class="clear"></li>
                 <li>
                     <img src="../../img/chart_Room2.png" alt="">
                     <b>迷糊的大土</b>
-                    <span><img src="../../img/chart_List1.png" alt="">备注</span>
+                    <span><img src="../../img/chart_List4.png" alt="">备注</span>
                 </li>
                 <li class="clear"></li>
                 <li>
                     <img src="../../img/chart_Room2.png" alt="">
                     <b>迷糊的大土</b>
-                    <span><img src="../../img/chart_List1.png" alt="">备注</span>
+                    <span><img src="../../img/chart_List4.png" alt="">备注</span>
                 </li>
                 <li class="clear"></li>
                 <li>
                     <img src="../../img/chart_Room2.png" alt="">
                     <b>迷糊的大土</b>
-                    <span><img src="../../img/chart_List1.png" alt="">备注</span>
+                    <span><img src="../../img/chart_List4.png" alt="">备注</span>
                 </li>
                 <li class="clear"></li>
                 <li>
                     <img src="../../img/chart_Room2.png" alt="">
                     <b>迷糊的大土</b>
-                    <span><img src="../../img/chart_List1.png" alt="">备注</span>
+                    <span><img src="../../img/chart_List4.png" alt="">备注</span>
                 </li>
                 <li class="clear"></li>
                 <li>
                     <img src="../../img/chart_Room2.png" alt="">
                     <b>迷糊的大土</b>
-                    <span><img src="../../img/chart_List1.png" alt="">备注</span>
+                    <span><img src="../../img/chart_List4.png" alt="">备注</span>
                 </li>
                 <li class="clear"></li>
                 <li>
                     <img src="../../img/chart_Room2.png" alt="">
                     <b>迷糊的大土</b>
-                    <span><img src="../../img/chart_List1.png" alt="">备注</span>
+                    <span><img src="../../img/chart_List4.png" alt="">备注</span>
                 </li>
                 <li class="clear"></li>
             </ul>
             
         </div>
         <footer>
-        	<mt-button type="primary"  @click="idMessage = false">
+            <mt-button v-show = 'a == 1' type="primary"  @click="idMessage = false">
+                    解散房间
+            </mt-button>
+            <mt-button v-show = 'a == 1' type="primary"  @click="idMessage = false">
+                    删除房间
+            </mt-button>
+        	<mt-button v-show = 'a == 0' type="primary"  @click="putRoom = true">
                     退出房间
                 </mt-button>
         </footer>
@@ -181,36 +200,87 @@
         footer{
             width:100%;
             button{
-                  width:438px;
+                  width:444px;
                   height:112px;
                   line-height: 100px;
                   font-size:60px;
                   border: none;
                   background: url(../../img/chart_list2.png) no-repeat;
                   background-position:center;
-                  position: absolute;
-                  bottom: 30px ;
-                  left: 300px;
+                  margin-top: 30px;
                 }
-                button:active {
+            button:active {
                     position: absolute;
                     left: 310px;
                     bottom: 20px;
-                }
+            }
+            button:nth-of-type(1){
+                background: url(../../img/chart_list3.png) no-repeat;
+                background-position:center;
+            }
         }
+    }
+
+    .tip{
+      width: 766px;
+      border-radius: 30px;
+      position: absolute;
+      top:890px;
+      span{
+        display: block;
+        color:white;
+        font-size: 66px;
+        width:958px;
+        height:230px;
+        line-height: 195px;
+        background: url("../../img/module_home_no1.png") no-repeat;
+        background-position: center;
+        text-align: center;
+        position: relative;
+        right: 94px;
+        bottom: 50px;
+      }
+
+      p{
+        height:180px;
+        line-height:100px;
+        font-size:50px;
+        color:red;
+        width:606px;
+        position:relative;
+        left:80px;
+        bottom:50px;
+      }
+      button{
+        width:300px;
+        height: 108px;
+        line-height:100px;
+        border-radius: 55px;
+        font-size:60px;
+        margin-bottom:50px;
+        border: 0 none;
+        color: white;
+        background: url(../../img/home_all.png) -210px -150px no-repeat;
+        background-size: 600px 600px;
+      }
+      button:active {
+          position: relative;
+          left: 2px;
+          bottom: -5px;
+      }
     }
 </style>
 
 <script type="text/javascript">
+    import Vue from 'vue';
     export default {
         data: function(){
             return {
-
+                a: this.$route.params.id,
+                putRoom:false,
             }
         },
         methods: {
             }
-                
-            
         }
 </script>
