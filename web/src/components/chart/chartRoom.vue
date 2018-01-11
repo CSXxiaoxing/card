@@ -5,7 +5,12 @@
                 <li>
                     <i><router-link to="/room" ></router-link></i>
                 </li>
-                <li>联系客服</li>
+                <li v-show='roomstatus == 1 || roomstatus == 2'>迷糊的大土</li>
+                <li v-show='roomstatus == 0'>联系客服</li>
+                <li v-show='roomstatus == 3'>聊天室（5）</li>
+                <li v-show='roomstatus == 3'><img src="../../img/chart_Room7.png" alt=""></li>
+                <li  v-show='roomstatus == 1 && a == 1'  @click = 'give == 0 ? give = 1 : give = 0'>给他＋/－分</li>
+                <li v-show='(roomstatus == 1 || roomstatus == 2)&& isfriend == 0'><img src="../../img/chart_Room5.png" alt="">加友</li>
             </ul>
         </header>
         <div class='chart'>
@@ -20,6 +25,12 @@
             		<img src="../../img/chart_Room2.png" alt="">
             	</li>
             </ul>
+            <div :class = '[(give == 1?"open":"close"),("control")]'>
+            	<ul>
+            		<li>加分 :<input type="text" placeholder="输入分数"><b @click = 'give == 0 ? give = 1 : give = 0'>确定</b></li>
+            		<li>减分 :<input type="text" placeholder="输入分数"></li>
+            	</ul>
+            </div>
             
         </div>
         <footer>
@@ -44,9 +55,22 @@
                 line-height: 86px;
                 display: flex;
                 justify-content: space-between;
+                font-size:40px;
+                img{
+                	vertical-align: sub;
+                }
                 li:nth-of-type(2){
-                    text-align: center;
-                    margin-right: 400px;
+                   position:absolute;
+                   left:150px;
+                }
+                li:nth-of-type(3){
+                   position:absolute;
+                   left:480px;
+                }
+                li:nth-of-type(4){
+                   position:absolute;
+                   left:440px;
+                   font-size:50px;
                 }
                 li:first-child {
                     &>i {
@@ -57,12 +81,22 @@
                         background-size: 600px;
                         position: relative;
                         top: 50%;
-                        transform: translate(0, -50%);
+                        transform: translate(0%, -50%);
                         a {
                             padding: 28px 40px;
                         }
                     }
                 }
+                li:nth-of-type(6){
+                	background:url('../../img/chart_Room6.png') no-repeat;
+                    background-position:center;
+                    padding-left: 12px;
+                    width:258px;
+                    line-height:80px;
+                    position:absolute;
+                    right:180px;
+                }
+                
             }
         }
         
@@ -96,17 +130,51 @@
             }
             .left{
             	float: left;
-            	span{
-            		
-            	}
             }
             .right{
             	float:right;
-            	span{
-            		background:url('../../img/chart_Room4.png') no-repeat;
-            		
+            }
+
+            .control{
+            	overflow:hidden;
+            	box-shadow: 1px 1px 20px #A9A9AB;
+            	width:100%;
+            	height:0px;
+            	position:absolute;
+            	left:0px;
+            	top:0px;
+            	background-color:white;
+            	font-size:44px;
+            	text-align:left;
+            	li{
+
+            		margin-top: 30px;
+            		margin-left:62px;
+            		font-weight:bold;
+            		input{
+            		height:78px;
+            		line-height:78px;
+            		width:344px;
+            		margin-left:30px;
+            		font-size:30px;
+            		border:1px solid black;
+            		padding-left:30px;
+            		}
+            		b{
+            			float:right;
+            			margin-right:36px;
+            			color:#1C9ED9;
+            			font-weight:normal;
+            		}
             	}
-            	
+            }
+            .control.open{
+            	height:282px;
+            	transition: all 1s;
+            }
+            .control.close{
+            	height:0px;
+            	transition: all 1s;
             }
         }
 
@@ -140,15 +208,24 @@
 </style>
 
 <script type="text/javascript">
+	import Vue from 'vue';
+
 	export default {
         data: function(){
             return {
-
+            	a: this.$route.params.id,
+            	give:0,         
+                roomstatus:1,   //客服0  聊天（房主）1  聊天（玩家）2 群聊3
+                isfriend:0,   //是好友1  不是0
             }
         },
+        mounted: function(){
+        	console.log(this.a)
+        },
         methods: {
-            }
+
+        }
                 
             
-        }
+    }
 </script>

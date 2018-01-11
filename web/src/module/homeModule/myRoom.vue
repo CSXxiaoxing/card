@@ -11,8 +11,9 @@
         </h3>
         <div class="select" >
             <div>
-                <button @click='removeright'>我开的房间</button>
-                <button>加入的房间</button>
+                <img  :class ='sel == 0 ? "left":"right"' src="../../img/module_home_myRoom1.png" alt="">
+                <button @click='sel = 0'>我开的房间</button>
+                <button @click='sel = 1'>加入的房间</button>
             </div>
         </div>
 
@@ -92,25 +93,32 @@
                 border: none;
                 background-color: transparent;
                 position: relative;
+
                 //z-index: 999;
             }
             button:nth-of-type(1){
                 // color:white;
                 margin-right:60px; 
             }
-          img{
-            position:fixed;
-            left:120px;
-            top:177px;
-            z-index: 9;
-            animation:mymove 4s infinite;
-            -webkit-animation:mymove 4s infinite; /*Safari and Chrome*/
-          }
-          @keyframes mymove
-          {
-          from {background: url('../../img/module_home_myRoom1.png') 0px 0 no-repeat}
-          to {background: url('../../img/module_home_myRoom1.png') 300px 0 no-repeat}
-          }
+            img{
+              width:320px;
+              height:102px;
+              position:absolute;
+              left:80px;
+              top:180px;
+            }
+            img.right{
+              position:absolute;
+              left:400px;
+              top:180px;
+              transition:all 1s;
+            }
+            img.left{
+              position:absolute;
+              left:80px;
+              top:180px;
+               transition:all 1s;
+            }
         }
 
           // @-webkit-keyframes mymove /*Safari and Chrome*/
@@ -230,6 +238,7 @@
             val: '',
             tabPosition: 'top',
             datagrid: '',
+            sel:0,
 
         };
         },

@@ -4,6 +4,40 @@
 		background-color:#ECEDF1;
 		height: auto;
 		padding-top:20px;
+
+		header {
+		    height: 202px;
+		    padding: 110px 30px 0px;
+		    box-sizing: border-box;
+		    background: #2F2E34;
+		    color: #fff;
+		    font-size:46px;
+		    ul {
+		        height: 86px;
+		        line-height: 86px;
+		        display: flex;
+		        justify-content: space-between;
+		        li:nth-of-type(2){
+		           position:absolute;
+                   left:480px;
+		        }
+		        li:first-child {
+		            &>i {
+		                display: inline-block;
+		                width: 70px;
+		                height: 55px;
+		                background: url('../../img/room_all.png') -470px -160px no-repeat;
+		                background-size: 600px;
+		                position: relative;
+		                top: 50%;
+		                transform: translate(0, -50%);
+		                a {
+		                    padding: 28px 40px;
+		                }
+		            }
+		        }
+		    }
+		}
 		table{
 			margin-top: 32px;
 			width:1024px;
