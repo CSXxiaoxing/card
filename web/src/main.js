@@ -10,7 +10,11 @@ import 'mint-ui/lib/style.css';
 
 import store from './vuex/store.js';
 
+// import websdk from 'easemob-websdk';
+// let IM = window.WebIM = websdk;
+
 Vue.use(MintUI);
+// Vue.use(IM);
 
 new Vue({
   el: '#app',

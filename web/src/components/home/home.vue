@@ -94,8 +94,8 @@
 			var self = this;
 			http.post('http://192.168.31.83:666/sel'
 		    ).then(res => {
-	            self.datagrid = res.data;
-	            console.log(res.data)
+	            self.datagrid = res;
+	            console.log(res)
 	        })
 		},
 		methods: {
