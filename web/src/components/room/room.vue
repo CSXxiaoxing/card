@@ -53,7 +53,7 @@
         <div class='roomMain'>
             <div class='left'>
                 <ul>
-                    <li @click="playerBottom">
+                    <li>
                         <div>
                             <img src="../../img/room1.png">
                             <span>76000</span>
@@ -66,7 +66,7 @@
                         </div>
                         <p>迷糊的大土</p>
                     </li>
-                    <li @click="setOwner">
+                    <li>
                         <div>
                             <span>76000</span>
                         </div>
@@ -90,161 +90,45 @@
                         </div>
                         <p>迷糊的大土</p>
                     </li>
-                    <li  @click="applyOn">{{apply}}</li>
+                    <li  @click="applyOn" class='tips'>{{apply}}</li>
                 </ul>
             </div>
-
 
             <div class='center'>
-                <h1 v-if='!host.gameOpen' @click='gameStart'>游戏开始</h1>
-                <h1 v-if='host.gameOpen'>{{init.before}}<span>{{init.time}}秒</span></h1>
-                <p>还可下注：1090.56</p>
+                <h1 v-if='!host.gameOpen' @click='gameStart'>{{init.h1Name}}</h1>
+                <h1 v-if='host.gameOpen'>{{init.before}}
+                    <span v-show='cardURL.result.length < 1'>{{init.time}}秒</span>
+                    <span v-show='host.gameOpen && cardURL.result.length >= 1' @click='gameStart'>(下一盘)</span>
+                </h1>
+                <!-- 还可下注：1090.56 -->
+                <p :class='cardURL.result.length >= 1 ? "showTime" : ""'>还可下注：{{init.pond}}</p>
                 <ul>
-                    <li :class='init.prizeNum == 7 ? "b7" : "a5" '>
+                    <li v-for='(datalist,index) in 7' 
+                        :class='init.prizeNum == 7 ? "b7" : "a5" '
+                        v-show='init.prizeNum == 5 ? index != 2 && index != 6 : true'
+                         @click="playerBottom">
 
-                        <img v-for='dat in 5' src="../../img/room3.png">
-
-                        <span>
-                            <b :class='[(init.prizeNum == 7 ? "b7" : "a5"),(gameOver.show)]'>{{cardURL.result[0]}}</b>
-                            <br/>{{init.scope[0]}}<br/>
-                            <b>{{init.scope[1]}}</b>
-                        </span>
-                        <!-- 扑克牌 -->
-                        <div class='testCard' :class='init.prizeNum == 7 ? "b7" : "a5" '>
-                            <img v-if='host.gameOpen'
-                            v-for='(data, idx) in 5'  
-                            :src="cardURL.src[1]+cardURL.card[idx]+'.png'"  
-                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("initNum")]'/>
-                            <!-- 卡片 -->
-                            <img :src="cardURL.src[0]"  v-for='(data, idx) in 5' 
-                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reversal)]' />
-                        </div>
-                    </li>
-                
-                    <li :class='init.prizeNum == 7 ? "b7" : "a5" '>
-                        <img v-for='dat in 5' src="../../img/room3.png">
-                        <span>
-                            <b :class='[(init.prizeNum == 7 ? "b7" : "a5"),(gameOver.show)]'>{{cardURL.result[1]}}</b>
-                            <br/>{{init.scope[0]}}<br/>
-                            <b>{{init.scope[1]}}</b>
-                        </span>
-                        <!-- 扑克牌 -->
-                        <div class='testCard' :class='init.prizeNum == 7 ? "b7" : "a5" '>
-                            <img v-if='host.gameOpen'
-                            v-for='(data, idx) in 5'  
-                            :src="cardURL.src[1]+cardURL.card[idx+5]+'.png'"  
-                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("initNum")]'/>
-                            <!-- 卡片 -->
-                            <img :src="cardURL.src[0]"  v-for='(data, idx) in 5' 
-                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reversal)]' />
-                        </div>
-                    </li>
-
-                    <li v-show='init.prizeNum == 7' :class='init.prizeNum == 7 ? "b7" : "a5" '>
-                        <img v-for='dat in 5' src="../../img/room3.png">
-                        
-                        <span>
-                            <b :class='[(init.prizeNum == 7 ? "b7" : "a5"),(gameOver.show)]'>
-                                {{cardURL.result[2]}}
-                            </b>
-                            <br/>100.01<br/>
-                            <b>99999.00</b>
-                        </span>
-                        <!-- 扑克牌 -->
-                        <div class='testCard' :class='init.prizeNum == 7 ? "b7" : "a5" '>
-                            <img v-if='host.gameOpen'
-                            v-for='(data, idx) in 5'  
-                            :src="cardURL.src[1]+cardURL.card[idx+10]+'.png'"  
-                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("initNum")]'/>
-                            <!-- 卡片 -->
-                            <img :src="cardURL.src[0]"  v-for='(data, idx) in 5' 
-                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reversal)]' />
-                        </div>
-                    </li>
-                
-                    <li :class='init.prizeNum == 7 ? "b7" : "a5" '>
-                        <img v-for='dat in 5' src="../../img/room3.png">
-                        
-                        <img  class="zhuang" src="../../img/room4.png"><b>庄</b>
-                        <!-- 扑克牌 -->
-                        <div class='testCard' :class='init.prizeNum == 7 ? "b7" : "a5" '>
-                            <img v-if='host.gameOpen'
-                            v-for='(data, idx) in 5'  
-                            :src="cardURL.src[1]+cardURL.card[idx+15]+'.png'"  
-                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("initNum")]'/>
-                            <!-- 卡片 -->
-                            <img :src="cardURL.src[0]"  v-for='(data, idx) in 5' 
-                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reversal)]' />
-                        </div>
-                    </li>
-                
-                    <li :class='init.prizeNum == 7 ? "b7" : "a5" '>
-                        <img v-for='dat in 5' src="../../img/room3.png">
-                        <span :class='init.prizeNum == 7 ? "b7" : "a5" '>
-                            <b :class='[(init.prizeNum == 7 ? "b7" : "a5"),(gameOver.show)]'>{{cardURL.result[4]}}</b>
-                            <br/>100.01<br/>
-                            <b>99999.00</b>
-                        </span>
-                        <!-- 扑克牌 -->
-                        <div class='testCard' :class='init.prizeNum == 7 ? "b7" : "a5" '>
-                            <img v-if='host.gameOpen'
-                            v-for='(data, idx) in 5'  
-                            :src="cardURL.src[1]+cardURL.card[idx+20]+'.png'"  
-                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("initNum")]'/>
-                            <!-- 卡片 -->
-                            <img :src="cardURL.src[0]"  v-for='(data, idx) in 5' 
-                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reversal)]' />
-                        </div>
-                    </li>
-
-                    <li :class='init.prizeNum == 7 ? "b7" : "a5" '>
                         <img v-for='dat in 5' src="../../img/room3.png">
                         <span>
                             <b :class='[(init.prizeNum == 7 ? "b7" : "a5"),(gameOver.show)]'>
-                            {{cardURL.result[5]}}
+                                {{index == 3 && cardURL.result.length < 1 ? '庄' : cardURL.result[ index ]}}
                             </b>
-                            <br/>100.01<br/>
-                            <b>99999.00</b>
+                            <b>{{index == 3 ? '' : init.scope[0]}}</b>
+                            <b>{{index == 3 ? '' : init.scope[1]}}</b>
                         </span>
                         <!-- 扑克牌 -->
                         <div class='testCard' :class='init.prizeNum == 7 ? "b7" : "a5" '>
                             <img v-if='host.gameOpen'
                             v-for='(data, idx) in 5'  
-                            :src="cardURL.src[1]+cardURL.card[idx+25]+'.png'"  
+                            :src="cardURL.src[1]+cardURL.card[idx+index*5]+'.png'"
                             :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("initNum")]'/>
                             <!-- 卡片 -->
                             <img :src="cardURL.src[0]"  v-for='(data, idx) in 5' 
                             :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reversal)]' />
                         </div>
                     </li>
-
-                    
-                    <li v-show='init.prizeNum == 7' :class='init.prizeNum == 7 ? "b7" : "a5" '>
-                        <img v-for='dat in 5' src="../../img/room3.png">
-                        
-                        <span>
-                            <b :class='[(init.prizeNum == 7 ? "b7" : "a5"),(gameOver.show)] '>
-                            {{cardURL.result[6]}}
-                            </b>
-                            <br/>100.01<br/>
-                            <b>99999.00</b>
-                        </span>
-
-                        <div class='testCard' :class='init.prizeNum == 7 ? "b7" : "a5" '>
-                            <img v-if='host.gameOpen'
-                            v-for='(data, idx) in 5'  
-                            :src="cardURL.src[1]+cardURL.card[idx+30]+'.png'"  
-                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("initNum")]'/>
-                            <!-- 卡片 -->
-                            <img :src="cardURL.src[0]"  v-for='(data, idx) in 5' 
-                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reversal)]' />
-                        </div>
-                    </li>
-
-
                 </ul>
             </div>
-
 
             <div class='right'>
                 <ul>
@@ -277,12 +161,13 @@
         
         <varRoom ref="onvarRoomChild" ></varRoom>
         <toShare ref="ontoShareChild" :share='"room"'></toShare>
-        <prize ref="onprizeChild" :prizeNum='init.prizeNum' ></prize>
-        <ownerBottom ref="onownerBottomChild" :prizeNum='init.prizeNum' ></ownerBottom>
-        <applyOn ref="onapplyOnChild" :prizeNum='init.prizeNum' ></applyOn>
-        <playerBottom ref="onplayerBottomChild" :prizeNum='init.prizeNum' ></playerBottom>
-        <setOwner ref="onsetOwnerChild" :prizeNum='init.prizeNum' ></setOwner>
-        <singleBoard ref="onsingleBoardChild" :prizeNum='init.prizeNum' ></singleBoard>
+        <prize ref="onprizeChild" ></prize>
+        <ownerBottom ref="onownerBottomChild" ></ownerBottom>
+        <applyOn ref="onapplyOnChild" ></applyOn>
+        <playerBottom ref="onplayerBottomChild" ></playerBottom>
+        <setOwner ref="onsetOwnerChild" ></setOwner>
+        <singleBoard ref="onsingleBoardChild"></singleBoard>
+
     </div>
 </template>
 
@@ -311,17 +196,20 @@
     export default {
         data: function(){
             return {
-                // 显示隐藏
-                
                 // 初始化
                 init: {
                     // 1是房主0是普通
                     ForT: 1,
-                    prizeNum:5,
+                    prizeNum: 7,
                     before: '押注时间：',
-                    time: 100,
+                    timeAll: 20,
+                    time: 0,
                     oxK: '比K',
                     scope: [100, 99999],
+                    // 可下注池
+                    pond: 1000,
+                    // h1标注
+                    h1Name: '游戏开始',
                 },
                 // 主人
                 host: {
@@ -345,13 +233,13 @@
                     // 牌-号码-输赢结果
                     card: [],
                     cardEnd: [[],[],[],[],[],[],[]],
-                    // 结果
                     result: [],
                 },
                 // 游戏结果处理
                 gameOver: {
                     // 出现
                     show: '',
+                    bet: false,
                 },
                 datagrid : '',
                 apply: '申请上庄',
@@ -374,13 +262,17 @@
                 this.$refs.onownerBottomChild._data.ownerBottom=true;
             },
             playerBottom(){
-                this.$refs.onplayerBottomChild._data.playerBottom=true;
+                if(this.gameOver.bet){
+                    this.$refs.onplayerBottomChild._data.playerBottom=true; 
+                }
             },
             applyOn(){
-                this.$refs.onapplyOnChild._data.applyOn=true;
-            },
-            setOwner(){
-                this.$refs.onsetOwnerChild._data.setOwner=true;
+                if(this.init.ForT == 1) {
+                    this.$refs.onsetOwnerChild._data.setOwner=true;
+                } else if(this.init.ForT == 0){
+                    this.$refs.onapplyOnChild._data.applyOn=true;
+                }
+                
             },
             singleBoard(){
                 this.$refs.onsingleBoardChild._data.singleBoard=true;
@@ -389,13 +281,29 @@
                 let [Host, Etxt] = [this.host, e.target.innerText];
                 Host.style = false;
                 Host.styleName = Etxt;
+                
+                // if(Etxt == '游戏中'){
+                    
+                // }else {
+                //     this.init.h1Name = Etxt;
+                // }
                 Etxt == '游戏中' ? Host.gameOpen = true : Host.gameOpen = false;
             },
             gameStart(){
+                // 开局状态请0
+                this.cardURL.reversal = '';
+                this.cardURL.reveEnd = '';
+                this.cardURL.start = '';
+                this.cardURL.move = '';
+                this.gameOver.show = '';
+                this.cardURL.result = [];
                 this.host.gameOpen = true;
+                this.gameOver.bet = true;
+                this.init.time = this.init.timeAll;
+
+
                 let num = this.init.prizeNum;
-                // 牛牛计算 -- 五花牛未完成 -- 比大小未完成
-                // 卡牌结果
+                // 牛牛计算 -- 比大小未完成
                 let color = ['spade', 'heart', 'clubs', 'dianmond'];
                 let card = this.cardURL.card;
                 let cardEnd = [];
@@ -405,8 +313,6 @@
                 ! function result () {
                     var ResNum = Math.random()*13+1>>0;
                     var Res = color[Math.random()*4>>0] + `${ResNum}`;
-
-                    // var oxNum = ResNum >10 ? 10 : ResNum;
 
                     card.indexOf(Res) < 0 ? card.push(Res) && cardEnd.push(ResNum) && result () : 
                     card.length < 35 ? result () : false;
@@ -468,18 +374,24 @@
                 }
                 if(maxNum <= 0){
                     oxArr.push('没牛')
+
                 } else {
                     oxArr.push('牛'+maxNum)
                 }
+                // 五花牛算法
+                var wuhuaOX = 0;
+                for(var i=0; i<5; i++){
+                    OXcard[Q][i] > 10 ? wuhuaOX++ : false;
+                }
+                wuhuaOX >= 5 ? oxArr.splice(Q, 1, '五花牛') : false;
             }
+            // 无牛比大小
+            
             console.log(oxArr)
 
                 this.host.styleName = '游戏中';
                 this.cardURL.start = 'start' ;
-                var setCard;
-                var setT1;
-                var setT2;
-                var setT3;
+                var [setCard, setT1, setT2, setT3] = [,,,];
                 clearInterval(setCard);
                 clearTimeout(setT1);
                 clearTimeout(setT2);
@@ -500,6 +412,7 @@
                             this.cardURL.reversal = 'reversal';
                             this.cardURL.reveEnd = 'reveEnd';
                             FZ();
+                            this.gameOver.bet = false;
                             clearInterval(setCard);
                         }
                     } , 1000);
@@ -514,6 +427,7 @@
                     setT3 = setTimeout(()=>{
                         self.gameOver.show='showoff'
                         theUrl.result = oxArr;
+                        self.init.before = '开奖结果';
                     }, 250)
                 }
             },

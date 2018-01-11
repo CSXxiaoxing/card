@@ -383,21 +383,40 @@
 
                 }
                 li:last-child {
-                    width:150px;
+                    width: 150px;
                     height: 56px;
-                    line-height:56px;
-                    text-align:center;
-                    font-size:30px;
-                    background:url('../../img/room_all.png') 0px -160px no-repeat;
-                    background-size:600px 600px;
-                    color:#6E410F;
+                    border-radius: 28px;
+                    line-height: 56px;
+                    text-align: center;
+                    font-size: 30px;
+                    background: url('../../img/room_all.png') 0px -160px no-repeat;
+                    background-size: 600px 600px;
+                    color: #6E410F;
                     font-weight: bold;
-                    position:relative;
-                     left:50%;
-                     transform: translate(-50%, 50%);
-
+                    position: relative;
+                    left: 50%;
+                    transform: translate(-50%, 50%);
                 }
-
+                li:last-child.tips{
+                    box-sizing: border-box;
+                    animation: zhuanTips .5s linear infinite alternate;
+                }
+                @keyframes zhuanTips{
+                   0%{
+                       border: 0px solid red;
+                   }
+                   100%{
+                        border: 1px solid red;
+                   }
+                }
+                @-webkit-keyframes zhuanTips{
+                   0%{
+                       border: 0px solid red;
+                   }
+                   100%{
+                        border: 1px solid red;
+                   }
+                }
             }
         }
         .center {
@@ -414,6 +433,9 @@
                 font-size:38px;
                 color:#508F31;
             }
+            p.showTime {
+                visibility: hidden;
+            }
             ul{
 
                 li{
@@ -421,15 +443,21 @@
                     border-radius:10px;
                     border:4px solid #DFDEDC;
                     span{
+                        flex: 1;
                         font-size:30px;
                         float:right;
                         text-align:left;
-                        color:red;
-
+                        text-align: center;
+                        b{
+                            text-align: center;
+                            display: block;
+                        }
+                        b:nth-of-type(2){
+                            color: red;
+                        }
                     }
                 }
                 
-
                 li.a5{
                     width:690px;
                     height:150px;
@@ -443,8 +471,9 @@
                     }
                     span{
                         position:relative;
-                        padding-right:10px;
-
+                        padding-right:20px;
+                        text-align: left;
+                        margin-top: -10px;
                         b:nth-of-type(1){
                             display:inline-block;
                             width:108px;
@@ -454,31 +483,51 @@
                             background-size:600px 600px;
                             color:#FBDD2A;
                             font-size:28px;
-                            text-align:center;
+                            text-align: center;
+                            visibility: hidden;
                         }  
-                        b:nth-of-type(2){
-                            color:black;
+                        // b:nth-of-type(2){
+                        //     color:black;
+                        // }
+                        b.showoff {
+                            // display: inline-block;
+                            visibility: visible;
+                            animation: inputmove .1s linear 6; 
+                        }
+                        @keyframes inputmove{
+                           0%{
+                               transform: translate(-5%, 0%);
+                           }
+                           100%{
+                               transform: translate(5%, 0%);
+                           }
+                        }
+                        @-webkit-keyframes inputmove{
+                           0%{
+                               transform: translate(-5%, 0%);
+                           }
+                           100%{
+                               transform: translate(5%, 0%);
+                           }
                         }
                     }
                 }
-                
                 li.a5:nth-of-type(4){
                     border:5px solid #F9BA6A;
-                    .zhuang{
-                        position:relative;
-                        transform: translate(20%, 30%);      
-                    } 
-                    b{
-                        color:red;
-                        font-size:30px;
-                        font-weight:bolder;
-                        position:relative;
-                        right:60px;
-                        top:50px;
-                    }  
-            }
-
-            li.b7{
+                    b:first-child{
+                        visibility: visible;
+                        color: #8F4C06;
+                        display: block;
+                        position: relative;
+                        transform: translate(-4%, 30%);
+                        width: 124px;
+                        height: 84px;
+                        line-height: 110px;
+                        background:url('../../img/room4.png') no-repeat;
+                        background-size: 124px 84px;
+                    }
+                }
+                li.b7{
                     height:145px;
                     width:720px;
                     padding-top:8px;
@@ -490,9 +539,10 @@
                         margin-left:5px;
                     }
                     span{
-                        text-align:center;
+                        text-align: center;
                         b:nth-of-type(1){
                             display:inline-block;
+
                             width:108px;
                             height:67px;
                             line-height:90px;
@@ -500,17 +550,15 @@
                             background-size:600px 600px;
                             color:#FBDD2A;
                             font-size:28px;
-                            display: none;
+                            visibility: hidden;
                         }  
                         b:nth-of-type(2){
-                            color:black;
+                            // color:black;
+                            color: red;
                         }
                         // ----
                         b.showoff {
-                            display: inline-block;
-                            // border: 2px solid #ff3333!important;
-                            // transition-duration: .2s;
-                            // transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
+                            visibility: visible;
                             animation: inputmove .1s linear 6; 
                         }
                         @keyframes inputmove{
@@ -534,20 +582,39 @@
                         margin-right:30px;
                     }
                 }
-            li.b7:nth-of-type(4){
-                border:5px solid #F9BA6A;
-                .zhuang{
-                    position:relative;
-                    transform: translate(30%, 30%); 
-                    }  
-                    b{
-                        color:red;
-                        font-size:30px;
-                        font-weight:bolder;
-                        position:relative;
-                        right:60px;
-                        top:50px;
-                    }          
+                li.b7:nth-of-type(4){
+                    border:5px solid #F9BA6A;
+                    b:first-child{
+                        visibility: visible;
+                        display: block;
+                        color: #8F4C06;
+                        position: relative;
+                        transform: translate( 0%, 30%);
+                        width: 124px;
+                        height: 84px;
+                        line-height: 110px;
+                        background:url('../../img/room4.png') no-repeat;
+                        background-size: 124px 84px;
+                    }
+                    b:first-child.showoff {
+                        animation: first .1s linear 6; 
+                    }
+                    @keyframes first{
+                       0%{
+                           transform: translate(-5%, 30%);
+                       }
+                       100%{
+                           transform: translate(5%, 30%);
+                       }
+                    }
+                    @-webkit-keyframes first{
+                       0%{
+                           transform: translate(-5%, 30%);
+                       }
+                       100%{
+                           transform: translate(5%, 30%);
+                       }
+                    }
                 }
             }
         }

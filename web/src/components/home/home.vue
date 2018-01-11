@@ -91,13 +91,12 @@
 			}
 		},
 		mounted: function(){
-			// var self = this;
-			// http.post({
-		 //        url: 'sel',vm:this
-		 //    }).then(res => {
-	  //           self.datagrid = res.data;
-	  //           console.log(res.data)
-	  //       })
+			var self = this;
+			http.post('http://192.168.31.83:666/sel'
+		    ).then(res => {
+	            self.datagrid = res.data;
+	            console.log(res.data)
+	        })
 		},
 		methods: {
 			joinRoom(){
