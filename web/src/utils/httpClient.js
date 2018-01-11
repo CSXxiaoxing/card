@@ -37,10 +37,10 @@ const HttpClient = {
             .end((err, res) => {
                 if (err) {
                     reject(err);
-                    vm['loadingShow'] = false;
+                    // vm['loadingShow'] = false;
                 } else {
                     resolve(res.body);
-                    vm['loadingShow'] = false;
+                    // vm['loadingShow'] = false;
                 }
             });
     })

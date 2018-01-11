@@ -200,7 +200,7 @@
                 init: {
                     // 1是房主0是普通
                     ForT: 1,
-                    prizeNum: 7,
+                    prizeNum: 5,
                     before: '押注时间：',
                     timeAll: 20,
                     time: 0,
@@ -209,7 +209,7 @@
                     // 可下注池
                     pond: 1000,
                     // h1标注
-                    h1Name: '游戏开始',
+                    h1Name: '准备开始',
                 },
                 // 主人
                 host: {
