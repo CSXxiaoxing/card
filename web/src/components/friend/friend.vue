@@ -1,12 +1,42 @@
 <template>
     <div id='friend'>
+
+        <mt-popup 
+          v-model="addFriend"
+          popup-transition="popup-fade" 
+          class="addFriend" >
+          <span>查找好友</span>
+          <p><input type="text" placeholder="请输入要查找的ID"></input>
+          </p>
+          <mt-button @click="addFriend = false">  取消
+          </mt-button>
+          <mt-button @click="findFriend = true , addFriend = false ">  搜索
+          </mt-button>
+        </mt-popup >
+
+        <mt-popup 
+          v-model="findFriend"
+          popup-transition="popup-fade" 
+          class="findFriend" >
+          <div>
+             <i v-on:click="findFriend = false">×</i>
+            <img src="../../img/friend1.png" alt="">
+            <ul>
+                <li>咔咔</li>
+                <li>9577655189</li>
+            </ul>
+          </div>
+          <mt-button @click="findFriend = false">  添加
+          </mt-button>
+        </mt-popup >
+
         <header>
             <ul>
                 <li>
                     <i><router-link to="/room" ></router-link></i>
                 </li>
                 <li>好友列表</li>
-                <li>
+                <li @click="addFriend = true">
                     <i></i>
                 </li>
             </ul>
@@ -68,6 +98,8 @@
             return {
                 // 上下箭头
                 arrows: 0,
+                addFriend:false,
+                findFriend:false,
             }
         },
         methods: {

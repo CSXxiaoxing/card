@@ -13,6 +13,18 @@
           </mt-button>
         </mt-popup >
 
+        <mt-popup 
+          v-model="dissolveRoom"
+          popup-transition="popup-fade" 
+          class="diss" >
+          <span>解散房间</span>
+          <p>房间玩家分数未清零你是否确定要解散房间？</p>
+          <mt-button @click="dissolveRoom = false">  确定
+          </mt-button>
+          <mt-button @click="dissolveRoom = false">  取消
+          </mt-button>
+        </mt-popup >
+
     	<header>
             <ul>
                 <li>
@@ -88,7 +100,7 @@
             
         </div>
         <footer>
-            <mt-button v-show = 'a == 1' type="primary"  @click="idMessage = false">
+            <mt-button v-show = 'a == 1' type="primary"  @click="dissolveRoom = true">
                     解散房间
             </mt-button>
             <mt-button v-show = 'a == 1' type="primary"  @click="idMessage = false">
@@ -102,6 +114,55 @@
 </template>
 
 <style lang='scss' scoped>
+    .mut{
+        width: 766px;
+        border-radius: 30px;
+        position: absolute;
+        top:890px;
+        span{
+          display: block;
+          color:white;
+          font-size: 66px;
+          width:958px;
+          height:230px;
+          line-height: 195px;
+          background: url("../../img/module_home_no1.png") no-repeat;
+          background-position: center;
+          text-align: center;
+          position: relative;
+          right: 94px;
+          bottom: 50px;
+        }
+
+        p{
+          height:180px;
+          line-height:80px;
+          font-size:50px;
+          width:606px;
+          position:relative;
+          left:80px;
+          bottom:50px;
+          text-align:left;
+        }
+        button{
+          width:300px;
+          height: 108px;
+          line-height:100px;
+          border-radius: 55px;
+          font-size:60px;
+          margin-bottom:50px;
+          border: 0 none;
+          color: white;
+          background: url(../../img/home_all.png) -210px -150px no-repeat;
+          background-size: 600px 600px;
+        }
+        button:active {
+            position: relative;
+            left: 2px;
+            bottom: -5px;
+        }
+    }
+
     .chartList {
         height: 100%;
         background: #ECEDF1;
@@ -210,9 +271,9 @@
                   margin-top: 30px;
                 }
             button:active {
-                    position: absolute;
-                    left: 310px;
-                    bottom: 20px;
+                    position: relative;
+                    left: 2px;
+                    bottom: -5px;
             }
             button:nth-of-type(1){
                 background: url(../../img/chart_list3.png) no-repeat;
@@ -222,52 +283,18 @@
     }
 
     .tip{
-      width: 766px;
-      border-radius: 30px;
-      position: absolute;
-      top:890px;
-      span{
-        display: block;
-        color:white;
-        font-size: 66px;
-        width:958px;
-        height:230px;
-        line-height: 195px;
-        background: url("../../img/module_home_no1.png") no-repeat;
-        background-position: center;
-        text-align: center;
-        position: relative;
-        right: 94px;
-        bottom: 50px;
-      }
-
+      @extend .mut;
       p{
-        height:180px;
-        line-height:100px;
-        font-size:50px;
         color:red;
-        width:606px;
-        position:relative;
-        left:80px;
-        bottom:50px;
       }
-      button{
-        width:300px;
-        height: 108px;
-        line-height:100px;
-        border-radius: 55px;
-        font-size:60px;
-        margin-bottom:50px;
-        border: 0 none;
-        color: white;
-        background: url(../../img/home_all.png) -210px -150px no-repeat;
-        background-size: 600px 600px;
-      }
-      button:active {
-          position: relative;
-          left: 2px;
-          bottom: -5px;
-      }
+    }
+
+    .diss{
+      @extend .mut;
+        button:nth-of-type(2){
+            background: url(../../img/chart_list3.png) no-repeat;
+            background-position:center;
+        }
     }
 </style>
 
@@ -278,6 +305,7 @@
             return {
                 a: this.$route.params.id,
                 putRoom:false,
+                dissolveRoom:false,
             }
         },
         methods: {
