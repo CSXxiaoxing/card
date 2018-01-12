@@ -1,5 +1,7 @@
 <template>
     <div id='room'>
+        <!-- <div class="varR_modal" style='z-index: 2000' @click='noModal'></div> -->
+
         <header>
             <ul>
                 <li>
@@ -36,7 +38,7 @@
                 <dd  v-show='init.ForT == 0'>分数：<span>10999</span></dd>
                 <!-- 房主 -->
                 <dd  v-show='init.ForT == 1'>房总分：<span>71666</span></dd>
-                <dd  v-show='init.ForT == 1'><i></i>房间设置</dd>
+                <dd  v-show='init.ForT == 1' @click='varRoom'><i></i>房间设置</dd>
 
                 <dd  @click="toShare">
                     <i></i>
@@ -104,8 +106,8 @@
 
                         <span>
                             <b :class='[(init.prizeNum == 7 ? "b7" : "a5"),(gameOver.show)]'>{{cardURL.result[0]}}</b>
-                            <br/>100.01<br/>
-                            <b>99999.00</b>
+                            <br/>{{init.scope[0]}}<br/>
+                            <b>{{init.scope[1]}}</b>
                         </span>
                         <!-- 扑克牌 -->
                         <div class='testCard' :class='init.prizeNum == 7 ? "b7" : "a5" '>
@@ -123,8 +125,8 @@
                         <img v-for='dat in 5' src="../../img/room3.png">
                         <span>
                             <b :class='[(init.prizeNum == 7 ? "b7" : "a5"),(gameOver.show)]'>{{cardURL.result[1]}}</b>
-                            <br/>100.01<br/>
-                            <b>99999.00</b>
+                            <br/>{{init.scope[0]}}<br/>
+                            <b>{{init.scope[1]}}</b>
                         </span>
                         <!-- 扑克牌 -->
                         <div class='testCard' :class='init.prizeNum == 7 ? "b7" : "a5" '>
@@ -273,6 +275,7 @@
             </ul>
         </footer>
         
+        <varRoom ref="onvarRoomChild" ></varRoom>
         <toShare ref="ontoShareChild" :share='"room"'></toShare>
         <prize ref="onprizeChild" :prizeNum='init.prizeNum' ></prize>
         <ownerBottom ref="onownerBottomChild" :prizeNum='init.prizeNum' ></ownerBottom>
@@ -295,6 +298,7 @@
     import applyOn from '../../module/roomModule/applyOn.vue';
     import setOwner from '../../module/roomModule/setOwner.vue';
     import singleBoard from '../../module/roomModule/singleBoard.vue';
+    import setRoom from '../../module/homeModule/varRoom.vue';
     Vue.component('toShare', toShare)
     Vue.component('prize', prize)
     Vue.component('ownerBottom', ownerBottom)
@@ -302,19 +306,22 @@
     Vue.component('playerBottom', playerBottom)
     Vue.component('setOwner', setOwner)
     Vue.component('singleBoard', singleBoard)
+    Vue.component('varRoom', setRoom)
 
     export default {
         data: function(){
             return {
-                test: '',
+                // 显示隐藏
+                
                 // 初始化
                 init: {
                     // 1是房主0是普通
                     ForT: 1,
                     prizeNum:5,
                     before: '押注时间：',
-                    time: 1,
-                    oxK: '比K'
+                    time: 100,
+                    oxK: '比K',
+                    scope: [100, 99999],
                 },
                 // 主人
                 host: {
@@ -353,7 +360,10 @@
         mounted: function(){
         },
         methods: {
-
+            varRoom(){
+                this.$refs.onvarRoomChild._data.boxState.CvarRoom=true;
+                this.$refs.onvarRoomChild.noModal();
+            },
             toShare(){
                 this.$refs.ontoShareChild._data.toShare=true;
             },
