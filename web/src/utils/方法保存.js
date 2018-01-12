@@ -72,3 +72,6 @@ xhr.onreadystatechange = function () {
 
 // placeholder占位符样式
 input::-webkit-input-placeholder{color: #ccc;}
+
+// 颜色console.log
+console.log('%c [opened] 已经成功建立连接', 'color: green')

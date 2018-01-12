@@ -124,7 +124,7 @@
 </style>
 
 <script type="es6">
-
+    import { MessageBox } from 'mint-ui';
   export default {
     data() {
       return {
@@ -132,7 +132,7 @@
       };
     },
     methods:{
-
-  }
-};
+        
+    }
+  };
 </script>

@@ -7,7 +7,7 @@
                 <li>
                     <i><router-link to="/home" ></router-link></i>
                     <span>第<i>20</i>局</span>
-                    <p :class='host.gameOpen ? "open" : "" '>
+                    <p :class='init.textStyle >= 1 ? "open" : "" '>
                         <span>{{host.styleName}}</span>
                         <i v-show='init.ForT == 1' @click='host.style = true'>
                             <b></b>
@@ -16,10 +16,8 @@
                             v-model="host.style"
                             :modal='false'
                             popup-transition="popup-fade"
-                            class='gameStyle'
-                            @click='style = false'>
+                            class='gameStyle'>
                                 <span @click='gameStyle'>游戏中</span>
-                                <span @click='gameStyle'>休息中</span>
                                 <span @click='gameStyle'>暂停中</span>
                                 <i class='triangle-up'></i>
                         </mt-popup>
@@ -95,30 +93,36 @@
             </div>
 
             <div class='center'>
-                <h1 v-if='!host.gameOpen' @click='gameStart'>{{init.h1Name}}</h1>
-                <h1 v-if='host.gameOpen'>{{init.before}}
-                    <span v-show='cardURL.result.length < 1'>{{init.time}}秒</span>
-                    <span v-show='host.gameOpen && cardURL.result.length >= 1' @click='gameStart'>(下一盘)</span>
+
+                <h1>{{init.text[init.textStyle]}}
+
+                    <span v-show='init.textStyle >= 1 && init.textStyle != 4'>{{init.time}}秒</span>
+
                 </h1>
                 <!-- 还可下注：1090.56 -->
-                <p :class='cardURL.result.length >= 1 ? "showTime" : ""'>还可下注：{{init.pond}}</p>
+                <p :style='{visibility: init.textStyle == 4 ? "hidden" : "none"}'>还可下注：{{init.pond}}</p>
                 <ul>
+                    <!-- li -->
                     <li v-for='(datalist,index) in 7' 
-                        :class='init.prizeNum == 7 ? "b7" : "a5" '
+                        :class='[(init.prizeNum == 7 ? "b7" : "a5"), 
+                        (time.index == index ? "bgccc" : ""), 
+                        (ordinary.bg ? "bg" : "")] '
+                        :size = index
                         v-show='init.prizeNum == 5 ? index != 2 && index != 6 : true'
-                         @click="playerBottom">
+                         @click="time.index != index ? playerBottom() : false" >
 
                         <img v-for='dat in 5' src="../../img/room3.png">
+
                         <span>
                             <b :class='[(init.prizeNum == 7 ? "b7" : "a5"),(gameOver.show)]'>
-                                {{index == 3 && cardURL.result.length < 1 ? '庄' : cardURL.result[ index ]}}
+                                {{time.index == index && cardURL.result.length < 1 ? '庄' : cardURL.result[ index ]}}
                             </b>
-                            <b>{{index == 3 ? '' : init.scope[0]}}</b>
-                            <b>{{index == 3 ? '' : init.scope[1]}}</b>
+                            <b>{{init.scope[0]}}</b>
+                            <b>{{init.scope[1]}}</b>
                         </span>
                         <!-- 扑克牌 -->
                         <div class='testCard' :class='init.prizeNum == 7 ? "b7" : "a5" '>
-                            <img v-if='host.gameOpen'
+                            <img v-if='init.textStyle >= 1'
                             v-for='(data, idx) in 5'  
                             :src="cardURL.src[1]+cardURL.card[idx+index*5]+'.png'"
                             :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("initNum")]'/>
@@ -144,7 +148,7 @@
 
         <footer>
             <ul>
-                <li><router-link to="/chartList/0" >好友</router-link></li>
+                <li><router-link to="/chartList/1" >好友</router-link></li>
                 <li @click='cardURL.test = false'>
                     <router-link to="/chartRoom/1" >聊天室</router-link>
                 </li>
@@ -164,6 +168,7 @@
         <prize ref="onprizeChild" ></prize>
         <ownerBottom ref="onownerBottomChild" ></ownerBottom>
         <applyOn ref="onapplyOnChild" ></applyOn>
+
         <playerBottom ref="onplayerBottomChild" ></playerBottom>
         <setOwner ref="onsetOwnerChild" ></setOwner>
         <singleBoard ref="onsingleBoardChild"></singleBoard>
@@ -193,6 +198,7 @@
     Vue.component('singleBoard', singleBoard)
     Vue.component('varRoom', setRoom)
 
+    
     export default {
         data: function(){
             return {
@@ -200,30 +206,43 @@
                 init: {
                     // 1是房主0是普通
                     ForT: 1,
-                    prizeNum: 5,
-                    before: '押注时间：',
-                    timeAll: 20,
+                    prizeNum: 7,
+                    // 游戏时间控制 
                     time: 0,
                     oxK: '比K',
                     scope: [100, 99999],
                     // 可下注池
                     pond: 1000,
-                    // h1标注
-                    h1Name: '准备开始',
+                    // 游戏状态
+                    text: ['游戏暂未开始', '准备开始：', '随机庄牌：', '可押注时间：', '庄家开牌', '开牌结果'],
+                    // 对应状态码   [0, 1, 2, 3, 4]
+                    textStyle : 0,
+                },
+                time: {
+                    // 准备开始倒计时
+                    initTime: 5,
+                    // 随机庄牌倒计时
+                    random: 3,
+                    // 随机背景
+                    index: -1,
+                    // 随机背景的速度
+                    speed: 80,
+                    // 押注倒计时
+                    timeAll: 20,
                 },
                 // 主人
                 host: {
                     // 游戏开始
-                    gameOpen: false,
-                    styleName: '休息中',
+                    styleName: '暂停中',
                     style: false,
                     gainNum: 150000,
                 },
                 // 普通
                 ordinary: {
-
+                    // 背景渐变
+                    bg: false,
                 },
-                // 扑克牌黑桃(spade)红心（heart）梅花（clubs）方块（dianmond）
+                // 扑克牌黑桃(spade)红心（heart）梅花（clubs）方块（dianmond） 
                 cardURL: {
                     src: ["./src/img/z999.png", "./src/img/cardPlus/"],
                     start: "",
@@ -241,11 +260,16 @@
                     show: '',
                     bet: false,
                 },
-                datagrid : '',
                 apply: '申请上庄',
             }
         },
         mounted: function(){
+            // init
+            this.time.initTime = this.$store.state.time.initTime;
+            this.time.random = this.$store.state.time.random;
+            // console.log(this.time.random)
+            this.$store.dispatch('login_IM')
+            this.$imConn.onOpened()
         },
         methods: {
             varRoom(){
@@ -262,7 +286,7 @@
                 this.$refs.onownerBottomChild._data.ownerBottom=true;
             },
             playerBottom(){
-                if(this.gameOver.bet){
+                if(this.init.textStyle == 3){
                     this.$refs.onplayerBottomChild._data.playerBottom=true; 
                 }
             },
@@ -281,13 +305,15 @@
                 let [Host, Etxt] = [this.host, e.target.innerText];
                 Host.style = false;
                 Host.styleName = Etxt;
-                
-                // if(Etxt == '游戏中'){
-                    
-                // }else {
-                //     this.init.h1Name = Etxt;
-                // }
-                Etxt == '游戏中' ? Host.gameOpen = true : Host.gameOpen = false;
+                switch (Etxt) {
+                    case '游戏中' :
+                        this.init.textStyle = 1;
+                        this.gameStart();
+                        break;
+                    default :
+                        this.init.textStyle = 0;
+                        console.log(66)
+                }
             },
             gameStart(){
                 // 开局状态请0
@@ -297,144 +323,184 @@
                 this.cardURL.move = '';
                 this.gameOver.show = '';
                 this.cardURL.result = [];
-                this.host.gameOpen = true;
+                this.init.textStyle = 1;
                 this.gameOver.bet = true;
-                this.init.time = this.init.timeAll;
-
-
-                let num = this.init.prizeNum;
-                // 牛牛计算 -- 比大小未完成
-                let color = ['spade', 'heart', 'clubs', 'dianmond'];
-                let card = this.cardURL.card;
-                let cardEnd = [];
-                let OXcard = this.cardURL.cardEnd;
-
-                console.time('a')
-                ! function result () {
-                    var ResNum = Math.random()*13+1>>0;
-                    var Res = color[Math.random()*4>>0] + `${ResNum}`;
-
-                    card.indexOf(Res) < 0 ? card.push(Res) && cardEnd.push(ResNum) && result () : 
-                    card.length < 35 ? result () : false;
-                } ()
-                console.timeEnd('a')
-
-                // 数组分离
-                for(var i=0; i<7; i++){
-                    for(var o=0; o<5; o++){
-                        OXcard[i].push(cardEnd[i*5 + o])
-                    }
-                }
-                console.log(card)
-                console.log(cardEnd)
-                console.log(OXcard)
-                var oxArr = [];
-            for(var Q=0; Q<7; Q++) {
-                // 牛几计算
-                let count = 0;
-                // 算牛
-                let suanOX = 0;
-                let maxNum = 0;
-                oxIS(0,1,2)
-                    // 结果
-                function oxIS (i,j,o) {
-                    // console.log(i + ',' +j+','+o)
-                    count++;
-                    var iox = OXcard[Q][i] > 10 ? 10 : OXcard[Q][i];
-                    var jox = OXcard[Q][j] > 10 ? 10 : OXcard[Q][j];
-                    var oox = OXcard[Q][o] > 10 ? 10 : OXcard[Q][o];
-                    if(((iox + jox + oox) / 10)%1 === 0){
-
-                        var arr = [0, 1, 2, 3, 4];
-                        var arrNum = 0;
-                        arr.forEach(item=>{
-                            if(item != i && item != j && item != o) {
-                                arrNum += OXcard[Q][item] > 10 ? 10 : OXcard[Q][item];
-                            } 
-                        })
-                        arrNum = arrNum%10;
-
-                        if(arrNum > maxNum && arrNum != 0){
-                            maxNum = arrNum;
-                        } else if(arrNum == 0){
-                            maxNum = '牛';
-                        }
-                    }
-                    o++;
-                    if(o > 4) { j++; o = 3; }
-                    if(j > 3) { i++; j = 2; }
-                    i >= j ? j=i+1 : false;
-                    j >= o ? o=j+1 : false;
-
-                    if(count >= 10) {
-                        return false;
-                    } else {
-                        oxIS (i,j,o)
-                    }
-                }
-                if(maxNum <= 0){
-                    oxArr.push('没牛')
-
-                } else {
-                    oxArr.push('牛'+maxNum)
-                }
-                // 五花牛算法
-                var wuhuaOX = 0;
-                for(var i=0; i<5; i++){
-                    OXcard[Q][i] > 10 ? wuhuaOX++ : false;
-                }
-                wuhuaOX >= 5 ? oxArr.splice(Q, 1, '五花牛') : false;
-            }
-            // 无牛比大小
-            
-            console.log(oxArr)
-
-                this.host.styleName = '游戏中';
-                this.cardURL.start = 'start' ;
+                this.ordinary.bg = false;
                 var [setCard, setT1, setT2, setT3] = [,,,];
                 clearInterval(setCard);
                 clearTimeout(setT1);
                 clearTimeout(setT2);
                 clearTimeout(setT3);
+                // 5秒倒计时
+                this.init.time = this.time.initTime;
+                    // 牛牛计算 -- 比大小未完成
+                    let color = ['spade', 'heart', 'clubs', 'dianmond'];
+                    let card = this.cardURL.card;
+                    let cardEnd = [];
+                    let OXcard = this.cardURL.cardEnd;
+                    console.time('a')
+                    ! function result () {
+                        var ResNum = Math.random()*13+1>>0;
+                        var Res = color[Math.random()*4>>0] + `${ResNum}`;
 
-                setT1 = setTimeout( ()=>{
-                    this.cardURL.move = 'card0' ;
-                } , 500 );
+                        card.indexOf(Res) < 0 ? card.push(Res) && cardEnd.push(ResNum) && result () : 
+                        card.length < 35 ? result () : false;
+                    } ()
+                    console.timeEnd('a')
 
-                // 延时器-发完牌后倒计时
-                setT2 = setTimeout( ()=>{
-
-                    setCard = setInterval( ()=> {
-
-                        if(this.init.time >= 1){
-                            this.init.time-- ;
-                        } else {
-                            this.cardURL.reversal = 'reversal';
-                            this.cardURL.reveEnd = 'reveEnd';
-                            FZ();
-                            this.gameOver.bet = false;
-                            clearInterval(setCard);
+                    // 数组分离
+                    for(var i=0; i<7; i++){
+                        for(var o=0; o<5; o++){
+                            OXcard[i].push(cardEnd[i*5 + o])
                         }
-                    } , 1000);
-                } , 1300 );
+                    }
+                    console.log(card)
+                    console.log(cardEnd)
+                    console.log(OXcard)
+                    var oxArr = [];
+                for(var Q=0; Q<7; Q++) {
+                    // 牛几计算
+                    let count = 0;
+                    // 算牛
+                    let suanOX = 0;
+                    let maxNum = 0;
+                    oxIS(0,1,2)
+                        // 结果
+                    function oxIS (i,j,o) {
+                        // console.log(i + ',' +j+','+o)
+                        count++;
+                        var iox = OXcard[Q][i] > 10 ? 10 : OXcard[Q][i];
+                        var jox = OXcard[Q][j] > 10 ? 10 : OXcard[Q][j];
+                        var oox = OXcard[Q][o] > 10 ? 10 : OXcard[Q][o];
+                        if(((iox + jox + oox) / 10)%1 === 0){
 
-                var theUrl = this.cardURL;
-                var ceshi = document.getElementsByClassName("i02");
-                // 翻转FZ
+                            var arr = [0, 1, 2, 3, 4];
+                            var arrNum = 0;
+                            arr.forEach(item=>{
+                                if(item != i && item != j && item != o) {
+                                    arrNum += OXcard[Q][item] > 10 ? 10 : OXcard[Q][item];
+                                } 
+                            })
+                            arrNum = arrNum%10;
+
+                            if(arrNum > maxNum && arrNum != 0){
+                                maxNum = arrNum;
+                            } else if(arrNum == 0){
+                                maxNum = '牛';
+                            }
+                        }
+                        o++;
+                        if(o > 4) { j++; o = 3; }
+                        if(j > 3) { i++; j = 2; }
+                        i >= j ? j=i+1 : false;
+                        j >= o ? o=j+1 : false;
+
+                        if(count >= 10) {
+                            return false;
+                        } else {
+                            oxIS (i,j,o)
+                        }
+                    }
+                    if(maxNum <= 0){
+                        oxArr.push('没牛')
+
+                    } else {
+                        oxArr.push('牛'+maxNum)
+                    }
+                    // 五花牛算法
+                    var wuhuaOX = 0;
+                    for(var i=0; i<5; i++){
+                        OXcard[Q][i] > 10 ? wuhuaOX++ : false;
+                    }
+                    wuhuaOX >= 5 ? oxArr.splice(Q, 1, '五花牛') : false;
+                }
+                // 无牛比大小
+                console.log(oxArr)
+
+                let self = this;
+                let downTime; // 准备
+                let random; // 随机庄家
+                // 1、准备开始倒计时(downTime)
+                clearInterval(downTime)
+                clearInterval(random)
+                downTime = setInterval( ()=> {
+                    self.init.time--;
+                    if(self.init.time < 0) {
+                        this.init.textStyle = 2;
+                        bank()
+                        clearInterval(downTime)
+                    }
+                },1000)
                 
-                var self = this;
+                // 2、随机选庄家牌
+                let num = this.init.prizeNum;
+
+                var a123;
+                function bank(){
+                    let arr5 = [0, 1, 3, 4, 5];
+
+                    self.init.time = self.time.random;
+                    random = setInterval( ()=> {
+                        self.init.time--;
+                        if(self.init.time < 0) {
+                            self.time.index = arr5[Math.random()*5>>0];
+                            self.ordinary.bg = true;
+                            self.init.textStyle = 3;
+                            countDown();
+                            clearInterval(a123)
+                            clearInterval(random)
+                        }
+                    },1000)
+                    let i = -1;
+                    a123 = setInterval(function(){
+                        i++;
+                        if(num == 7){
+                            i >= 7 ? i=0 : false; 
+                            self.time.index = i; 
+                        } else if(num == 5){
+                             i >= 5 ? i=0 : false; 
+                            self.time.index = arr5[i];
+                        }
+                    },self.time.speed)
+                }
+
+                // 3、发牌以及倒计时
+                function countDown(){
+                    self.init.time = self.time.timeAll;
+                    self.cardURL.start = 'start' ;
+                    
+                    setT1 = setTimeout( ()=>{
+                        self.cardURL.move = 'card0' ;
+                    } , 500 );
+
+                    // 延时器-发完牌后倒计时
+                    setT2 = setTimeout( ()=>{
+
+                        setCard = setInterval( ()=> {
+
+                            if(self.init.time >= 1){
+                                self.init.time-- ;
+                            } else {
+                                self.cardURL.reversal = 'reversal';
+                                self.cardURL.reveEnd = 'reveEnd';
+                                FZ();
+                                self.gameOver.bet = false;
+                                clearInterval(setCard);
+                            }
+                        } , 1000);
+                    } , 1300 );
+                }
+                // 翻转FZ
+                var theUrl = this.cardURL;
+                var self2 = this;
                 function FZ(){
                     setT3 = setTimeout(()=>{
-                        self.gameOver.show='showoff'
+                        self2.gameOver.show='showoff'
                         theUrl.result = oxArr;
-                        self.init.before = '开奖结果';
+                        self2.init.textStyle = 4;
                     }, 250)
                 }
-            },
-            generateToolBar: function(obj){
-                //动态生成按钮
-            },
-            
+            }, 
         }
     }
    

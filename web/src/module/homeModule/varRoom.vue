@@ -299,6 +299,7 @@
 
                 if(!Err.roomName && !Err.minG && !Err.minS && !Err.maxS && !Err.sca) {
                     console.log(this.imgState)
+                    this.$store.state.setRoom = this.imgState;
                     console.log(this.oxOpen)
                     this.boxState.CvarRoom = false;
                 }

@@ -437,7 +437,6 @@
                 visibility: hidden;
             }
             ul{
-
                 li{
                     clear: both;
                     border-radius:10px;
@@ -512,9 +511,18 @@
                         }
                     }
                 }
-                li.a5:nth-of-type(4){
+                // 随机背景样式
+                li.bgccc {
+                    background: #ccc;
+                }
+                li.bgccc.bg {
                     border:5px solid #F9BA6A;
-                    b:first-child{
+                    background: none;
+                    transition: all 2s;
+                    b{
+                        display: none;
+                    }
+                    b:first-child {
                         visibility: visible;
                         color: #8F4C06;
                         display: block;
@@ -525,6 +533,35 @@
                         line-height: 110px;
                         background:url('../../img/room4.png') no-repeat;
                         background-size: 124px 84px;
+                        transition: all 1s;
+                    }
+                }
+                li.b7.bgccc.bg {
+                    b:first-child {
+                        transform: translate(5%, 30%);
+                        background:url('../../img/room4.png') no-repeat;
+                        background-size: 124px 84px;
+                        transition: all 1s;
+                    }
+                    b.showoff {
+                        visibility: visible;
+                        animation: Bmove .1s linear 6; 
+                    }
+                    @keyframes Bmove{
+                       0%{
+                           transform: translate(-5%, 30%);
+                       }
+                       100%{
+                           transform: translate(5%, 30%);
+                       }
+                    }
+                    @-webkit-keyframes Bmove{
+                       0%{
+                           transform: translate(-5%, 30%);
+                       }
+                       100%{
+                           transform: translate(5%, 30%);
+                       }
                     }
                 }
                 li.b7{
@@ -582,43 +619,9 @@
                         margin-right:30px;
                     }
                 }
-                li.b7:nth-of-type(4){
-                    border:5px solid #F9BA6A;
-                    b:first-child{
-                        visibility: visible;
-                        display: block;
-                        color: #8F4C06;
-                        position: relative;
-                        transform: translate( 0%, 30%);
-                        width: 124px;
-                        height: 84px;
-                        line-height: 110px;
-                        background:url('../../img/room4.png') no-repeat;
-                        background-size: 124px 84px;
-                    }
-                    b:first-child.showoff {
-                        animation: first .1s linear 6; 
-                    }
-                    @keyframes first{
-                       0%{
-                           transform: translate(-5%, 30%);
-                       }
-                       100%{
-                           transform: translate(5%, 30%);
-                       }
-                    }
-                    @-webkit-keyframes first{
-                       0%{
-                           transform: translate(-5%, 30%);
-                       }
-                       100%{
-                           transform: translate(5%, 30%);
-                       }
-                    }
-                }
             }
         }
-
+//showTime
         .right {
             @include LR;
             ul::-webkit-scrollbar{display: none;}
