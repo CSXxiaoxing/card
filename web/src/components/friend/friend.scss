@@ -317,4 +317,11 @@
             bottom: -5px;
         }
     }
+
+    .sendFriend{
+        @extend .addFriend;
+        p{
+            margin-bottom: 50px;
+        }
+    }
 }

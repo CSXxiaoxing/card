@@ -26,7 +26,19 @@
                 <li>9577655189</li>
             </ul>
           </div>
-          <mt-button @click="findFriend = false">  添加
+          <mt-button @click="findFriend = false , sendFriend = true ">  添加
+          </mt-button>
+        </mt-popup >
+
+        <mt-popup 
+          v-model="sendFriend"
+          popup-transition="popup-fade" 
+          class="sendFriend" >
+          <span>查找好友</span>
+
+          <p>添加好友请求已发送</p>
+
+          <mt-button @click="sendFriend = false"> 确定
           </mt-button>
         </mt-popup >
 
@@ -100,6 +112,7 @@
                 arrows: 0,
                 addFriend:false,
                 findFriend:false,
+                sendFriend:false,
             }
         },
         methods: {

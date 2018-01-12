@@ -12,6 +12,7 @@ import Water from '../components/room/waterReport.vue'
 import chartRoom from '../components/chart/chartRoom.vue'
 import chartList from '../components/chart/chartList.vue'
 import chartDelete from '../components/chart/chartDelete.vue'
+import chartMessage from '../components/chart/chartMessage.vue'
 
 Vue.use(VueRouter)
 
@@ -67,6 +68,12 @@ var router = new VueRouter({
 			name: 'chartDelete',
 			component: chartDelete
 		},
+		{
+			path: '/chartMessage',
+			name: 'chartMessage',
+			component: chartMessage
+		},
+
 	]
 })
 
