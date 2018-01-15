@@ -60,9 +60,40 @@
                     <span>最新消息</span>
                     <span><i :class='arrows == 1 ? "Iup" : ""'></i></span>
                 </li>
-                <li :class='arrows == 1 ? "show" : "hide"'>
-                    
+                <li  :class='arrows == 1 ? "show" : "hide"'>
+                    <dl>
+                        <dt>
+                            <span><i></i></span>
+                        </dt>
+                        <dd>
+                            <b>[系统消息]</b>
+                            <b>您已被清除房间，ID74543...</b>
+                            <b></b>
+                            <b>●</b>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>
+                            <span><i></i></span>
+                        </dt>
+                        <dd>
+                            <b>[系统消息]</b>
+                            <b>昨天：17：00您的房卡不足，您的.....</b>
+                            <b></b>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>
+                            <span><i></i></span>
+                        </dt>
+                        <dd>
+                            <p><i>寂寞的心</i>要求添加你为好友</p>
+                            <p>同意</p>
+                        </dd>
+                    </dl>
                 </li>
+
+
                 <li @touchend='near'>
                     <span><i></i></span>
                     <span>最近联系</span>

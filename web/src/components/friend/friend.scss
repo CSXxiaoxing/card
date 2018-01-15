@@ -57,6 +57,7 @@
             li {
                 padding: 0px 35px;
                 box-sizing: border-box;
+                overflow:hidden;
             }
             li:nth-of-type(2n) {
                 background: #fff;
@@ -185,6 +186,96 @@
                     background-size: 600px;
                 }
             }
+
+            li:nth-of-type(2){
+                padding:0px;
+                overflow:hidden;
+                dl{
+                    border-bottom:2px solid #D5D5D5;
+                    width:100%;
+                    height:182px;
+                    dt{
+                        float: left;
+                        span{
+                            display: inline-block;
+                            height: 96px;
+                            width: 89px;
+                            background: url('../../img/friend2.png') no-repeat;
+                            position:relative;
+                            top:62px;
+                            left:35px;
+                        }
+                    }
+                    dd{
+                        border: none;
+                        font-size:40px;
+                        b{
+                            font-weight:normal;
+                        }
+                        b:nth-of-type(2){
+                            position:relative;
+                            top:74px;
+                            right:98px;
+                            color:#878787;
+                        }
+                        b:nth-of-type(1){
+                            position:relative;
+                            left:82px;
+                            top:10px;
+                        }
+                        b:nth-of-type(3){
+                            height: 182px;
+                            width: 24px;
+                            background: url('../../img/friend3.png') no-repeat;
+                            position:absolute;
+                            right:50px;
+                            z-index:0;
+                        }
+                        b:nth-of-type(4){
+                            font-size:60px;
+                            color:#DA480D;
+                            border-radius:100%;
+                            position:relative;
+                            left:260px;
+                            bottom:40px;
+                        }
+                    }
+                }
+
+                dl:nth-of-type(3){
+                    span{
+                            display: inline-block;
+                            height: 96px;
+                            width: 89px;
+                            background: url('../../img/friend4.png') no-repeat;
+                            position:relative;
+                            top:60px;
+                            left:35px;
+                        }
+                    p:nth-of-type(1){
+                        margin-left:80px;
+                        i{
+                            color:#2D9C2A;
+                            line-height:140px;
+                            margin-right: 20px;
+                        }
+                    }
+                    p:nth-of-type(2){
+                       width:198px;
+                       position:absolute;
+                       right:50px;
+                       line-height:84px;
+                       color:#18BE17;
+                       border:2px solid #B3DEAE;
+                       border-radius:100px;
+                       margin-top:24px;
+                    }
+                    
+
+
+                }
+            }
+
 
         }
     }
