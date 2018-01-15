@@ -27,13 +27,13 @@ export default new Vuex.Store({
             // 一个中文两个字节
             nameLenth: 16,
             // 最低上分数
-            minG: 500,
+            minG: 5000,
         },
         time: {
             // 游戏初始化准备时间
-            initTime: 5,
+            initTime: 1,
             // 游戏选择庄牌时间
-            random: 3,
+            random: 1,
         }, //基础时间设置
         // 设置值
         setRoom: {},

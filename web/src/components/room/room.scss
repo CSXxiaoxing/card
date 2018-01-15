@@ -621,7 +621,7 @@
                 }
             }
         }
-//showTime
+        //showTime
         .right {
             @include LR;
             ul::-webkit-scrollbar{display: none;}
@@ -790,8 +790,7 @@
         // transition-duration: .8s;
         // transition-timing-function: cubic-bezier(0.68,-.55,.265,1.55);
     }
-    
-    // 出牌
+    // 翻牌
     img.reveEnd {
         z-index: 99;
         transform: translate(-400%, 0px) rotateY(360deg);
@@ -803,6 +802,7 @@
     }
 }
 
+//show
 .testCard.a5{
     img {
         @include imgSTA;
@@ -857,6 +857,7 @@
         right: 220px;
         @include time01;
     }
+
     img.card02 {
         @include img7;
         right: 120px;
@@ -878,4 +879,76 @@
         @include time05;
     }
     @include card;
+}
+
+ul{
+    .testCard.three{
+        img:nth-of-type(6){
+            transform: translate(-400%, 0px) rotateY(90deg);
+            transition: all .6s ease-in-out;
+        }
+        img:nth-of-type(7){
+            transform: translate(-400%, 0px) rotateY(90deg);
+            transition: all .6s ease-in-out;
+        }
+        img:nth-of-type(8){
+            transform: translate(-400%, 0px) rotateY(90deg);
+            transition: all .6s ease-in-out;
+        }
+        img:nth-of-type(1){
+            z-index: 99;
+            transform: translate(-400%, 0px) rotateY(360deg);
+            transition: all 1.2s linear;
+        }
+        img:nth-of-type(2){
+            z-index: 99;
+            transform: translate(-400%, 0px) rotateY(360deg);
+            transition: all 1.2s linear;
+        }
+        img:nth-of-type(3){
+            z-index: 99;
+            transform: translate(-400%, 0px) rotateY(360deg);
+            transition: all 1.2s linear;
+        }
+        // 点击暂时(temporary)翻开
+        .beimian {
+            transform: translate(-400%, 0px) rotateY(90deg);
+            transition: all .6s ease-in-out;
+        }
+        .beimian02 {
+            transform: translate(-400%, 0px) rotateY(0deg);
+            transition: all .6s ease-in-out;
+        }
+        .temporary {
+            z-index: 99;
+            transform: translate(-400%, 0px) rotateY(360deg);
+            transition: transform 1.2s linear;
+        }
+        .temporary02 {
+            z-index: 99;
+            transform: translate(-400%, 0px) rotateY(180deg);
+            transition: transform 1.2s linear;
+        }
+    }
+    .testCard.threeEng{
+        img:nth-of-type(9){
+            transform: translate(-400%, 0px) rotateY(90deg);
+            transition: all .6s ease-in-out;
+        }
+        img:nth-of-type(10){
+            transform: translate(-400%, 0px) rotateY(90deg);
+            transition: all .6s ease-in-out;
+        }
+        img:nth-of-type(4){
+            z-index: 99;
+            transform: translate(-400%, 0px) rotateY(360deg);
+            transition: all 1.2s linear;
+        }
+        img:nth-of-type(5){
+            z-index: 99;
+            transform: translate(-400%, 0px) rotateY(360deg);
+            transition: all 1.2s linear;
+        }
+    }
+    
 }

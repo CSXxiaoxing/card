@@ -1,7 +1,6 @@
 <template>
     <div id='room'>
         <!-- <div class="varR_modal" style='z-index: 2000' @click='noModal'></div> -->
-
         <header>
             <ul>
                 <li>
@@ -58,7 +57,7 @@
                         </div>
                         <p>迷糊的大土</p>
                     </li>
-                    <li @click="ownerBottom">
+                    <li>
                         <div>
                             <span>76000</span>
                         </div>
@@ -96,7 +95,7 @@
 
                 <h1>{{init.text[init.textStyle]}}
 
-                    <span v-show='init.textStyle >= 1 && init.textStyle != 4'>{{init.time}}秒</span>
+                    <span v-show='init.textStyle >= 1 && init.textStyle != 4 && init.textStyle != 6'>{{init.time}}秒</span>
 
                 </h1>
                 <!-- 还可下注：1090.56 -->
@@ -109,26 +108,37 @@
                         (ordinary.bg ? "bg" : "")] '
                         :size = index
                         v-show='init.prizeNum == 5 ? index != 2 && index != 6 : true'
-                         @click="time.index != index ? playerBottom() : false" >
+
+                         @click="[(time.index != index && cardURL.clck == -1 ? playerBottom(index) : false), (cardURL.clck=index)]" 
+                         @touchend='ordinary.Pn = index'>
 
                         <img v-for='dat in 5' src="../../img/room3.png">
 
                         <span>
-                            <b :class='[(init.prizeNum == 7 ? "b7" : "a5"),(gameOver.show)]'>
-                                {{time.index == index && cardURL.result.length < 1 ? '庄' : cardURL.result[ index ]}}
+                            <!-- 出牛 -->
+                            <b :class='[(init.prizeNum == 7 ? "b7" : "a5"),
+                            ((time.index == index && init.textStyle >= 4) || init.textStyle == 6 ? "showoff" : "")]'>
+
+                                {{init.textStyle > 4 ? cardURL.result[ index ] : '庄'}}
                             </b>
-                            <b>{{init.scope[0]}}</b>
-                            <b>{{init.scope[1]}}</b>
+                            <b v-show='ordinary.allPay>0'>{{ordinary.allPay}}</b>
+                            <b v-show='ordinary.pay[index][2]>0'>{{ ordinary.pay[index][2] }}</b>
                         </span>
+
                         <!-- 扑克牌 -->
-                        <div class='testCard' :class='init.prizeNum == 7 ? "b7" : "a5" '>
+                        <div class='testCard' :class='[(init.prizeNum == 7 ? "b7" : "a5" ), (time.index != index && gameOver.show ? "three":""), (gameOver.timeEng ? "threeEng" : "")]'>
+                            <!-- 翻开卡片 -->
                             <img v-if='init.textStyle >= 1'
-                            v-for='(data, idx) in 5'  
+                            v-for='(data, idx) in 5'
                             :src="cardURL.src[1]+cardURL.card[idx+index*5]+'.png'"
-                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reveEnd),("initNum")]'/>
-                            <!-- 卡片 -->
+
+                            :class='[(cardURL.start),(cardURL.move+(idx+1)),
+                            (time.index == index ? cardURL.reveEnd : ""),
+                            ("initNum"), (idx > 2 && init.textStyle == 5 && cardURL.clck == index ? "temporary" : "temporary02")]'/>
+                            <!-- 背部卡片 -->
                             <img :src="cardURL.src[0]"  v-for='(data, idx) in 5' 
-                            :class='[(cardURL.start),(cardURL.move+(idx+1)),(cardURL.reversal)]' />
+                            :class='[(cardURL.start),(cardURL.move+(idx+1)),
+                            (time.index == index ? cardURL.reversal : ""), (idx > 2 && init.textStyle == 5 && cardURL.clck == index ? "beimian" : "beimian02")]' />
                         </div>
                     </li>
                 </ul>
@@ -166,10 +176,9 @@
         <varRoom ref="onvarRoomChild" ></varRoom>
         <toShare ref="ontoShareChild" :share='"room"'></toShare>
         <prize ref="onprizeChild" ></prize>
-        <ownerBottom ref="onownerBottomChild" ></ownerBottom>
         <applyOn ref="onapplyOnChild" ></applyOn>
 
-        <playerBottom ref="onplayerBottomChild" ></playerBottom>
+        <playerBottom ref="onplayerBottomChild" :p='ordinary.Pn'></playerBottom>
         <setOwner ref="onsetOwnerChild" ></setOwner>
         <singleBoard ref="onsingleBoardChild"></singleBoard>
 
@@ -183,7 +192,6 @@
     // 组件
     import toShare from '../../module/shareModule/toShare.vue';
     import prize from '../../module/roomModule/openRecords.vue';
-    import ownerBottom from '../../module/roomModule/ownerBottom.vue';
     import playerBottom from '../../module/roomModule/playerBottom.vue';
     import applyOn from '../../module/roomModule/applyOn.vue';
     import setOwner from '../../module/roomModule/setOwner.vue';
@@ -191,14 +199,13 @@
     import setRoom from '../../module/homeModule/varRoom.vue';
     Vue.component('toShare', toShare)
     Vue.component('prize', prize)
-    Vue.component('ownerBottom', ownerBottom)
     Vue.component('applyOn', applyOn)
     Vue.component('playerBottom', playerBottom)
     Vue.component('setOwner', setOwner)
     Vue.component('singleBoard', singleBoard)
     Vue.component('varRoom', setRoom)
 
-    
+    //reversal
     export default {
         data: function(){
             return {
@@ -210,12 +217,13 @@
                     // 游戏时间控制 
                     time: 0,
                     oxK: '比K',
+                    // 可下注范围
                     scope: [100, 99999],
-                    // 可下注池
+                    // 设定可下注池
                     pond: 1000,
                     // 游戏状态
-                    text: ['游戏暂未开始', '准备开始：', '随机庄牌：', '可押注时间：', '庄家开牌', '开牌结果'],
-                    // 对应状态码   [0, 1, 2, 3, 4]
+                    text: ['游戏暂未开始', '准备开始：', '随机庄牌：', '可押注时间：', '庄家开牌', '开牌倒计时', '开牌结果'],
+                    // 对应状态码   [0, 1, 2, 3, 4, 5, 6]
                     textStyle : 0,
                 },
                 time: {
@@ -223,12 +231,15 @@
                     initTime: 5,
                     // 随机庄牌倒计时
                     random: 3,
-                    // 随机背景
+                    // 随机背景/庄家
                     index: -1,
                     // 随机背景的速度
                     speed: 80,
                     // 押注倒计时
-                    timeAll: 20,
+                    timeAll: 1,
+                    // 全开倒计时
+                    countTime: 1000,
+
                 },
                 // 主人
                 host: {
@@ -236,11 +247,29 @@
                     styleName: '暂停中',
                     style: false,
                     gainNum: 150000,
+
                 },
                 // 普通
                 ordinary: {
                     // 背景渐变
                     bg: false,
+                    // 可下注池
+                    pond: 0,
+                    // 总下注
+                    allPay: 999,
+                    //自己下---翻倍/不翻倍/总下注
+                    pay: {
+                        0 : [0, 0, 0],
+                        1 : [0, 0, 0],
+                        2 : [0, 0, 0],
+                        3 : [0, 0, 0],
+                        4 : [0, 0, 0],
+                        5 : [0, 0, 0],
+                        6 : [0, 0, 0],
+                        7 : [0, 0, 0],
+                    },
+                    // 第几个下注框
+                    Pn: -1,
                 },
                 // 扑克牌黑桃(spade)红心（heart）梅花（clubs）方块（dianmond） 
                 cardURL: {
@@ -253,12 +282,16 @@
                     card: [],
                     cardEnd: [[],[],[],[],[],[],[]],
                     result: [],
+                    // 点击翻转
+                    clck: -1,
                 },
                 // 游戏结果处理
                 gameOver: {
                     // 出现
-                    show: '',
+                    show: false,
                     bet: false,
+                    // 倒计时结束
+                    timeEng: false,
                 },
                 apply: '申请上庄',
             }
@@ -282,21 +315,28 @@
             prize(){
                 this.$refs.onprizeChild._data.onprize=true;
             },
-            ownerBottom(){
-                this.$refs.onownerBottomChild._data.ownerBottom=true;
-            },
-            playerBottom(){
-                if(this.init.textStyle == 3){
+            playerBottom(index){
+                let init = this.init;
+                let self = this;
+                
+                if(init.textStyle == 3 && this.ordinary.pond > init.scope[0]){
                     this.$refs.onplayerBottomChild._data.playerBottom=true; 
+                }
+                if(init.textStyle == 5){
+                    let temporary;
+                    temporary = setTimeout(function(){
+                        self.cardURL.clck = -1;
+                        clearTimeout(temporary);
+                    }, 1500)
                 }
             },
             applyOn(){
-                if(this.init.ForT == 1) {
+                let init = this.init;
+                if(init.ForT == 1) {
                     this.$refs.onsetOwnerChild._data.setOwner=true;
-                } else if(this.init.ForT == 0){
+                } else if(init.ForT == 0){
                     this.$refs.onapplyOnChild._data.applyOn=true;
                 }
-                
             },
             singleBoard(){
                 this.$refs.onsingleBoardChild._data.singleBoard=true;
@@ -321,11 +361,14 @@
                 this.cardURL.reveEnd = '';
                 this.cardURL.start = '';
                 this.cardURL.move = '';
-                this.gameOver.show = '';
+                this.gameOver.show = false;
                 this.cardURL.result = [];
                 this.init.textStyle = 1;
                 this.gameOver.bet = true;
                 this.ordinary.bg = false;
+                this.gameOver.timeEng = false;
+                // 初始化可投注
+                this.ordinary.pond = this.init.pond;
                 var [setCard, setT1, setT2, setT3] = [,,,];
                 clearInterval(setCard);
                 clearTimeout(setT1);
@@ -451,7 +494,7 @@
                             clearInterval(random)
                         }
                     },1000)
-                    let i = -1;
+                    let i = self.time.index;
                     a123 = setInterval(function(){
                         i++;
                         if(num == 7){
@@ -471,6 +514,7 @@
                     
                     setT1 = setTimeout( ()=>{
                         self.cardURL.move = 'card0' ;
+                        clearTimeout(setT1);
                     } , 500 );
 
                     // 延时器-发完牌后倒计时
@@ -492,12 +536,27 @@
                 }
                 // 翻转FZ
                 var theUrl = this.cardURL;
-                var self2 = this;
+                let sheTimeEnd;
                 function FZ(){
+                    self.gameOver.show=true;
+                    theUrl.result = oxArr;
+                    self.init.textStyle = 4;
+
+                    // 翻转剩下的牌
                     setT3 = setTimeout(()=>{
-                        self2.gameOver.show='showoff'
-                        theUrl.result = oxArr;
-                        self2.init.textStyle = 4;
+                        self.init.textStyle = 5;
+                        self.init.time = self.time.countTime;
+                        setCard = setInterval( ()=> {
+                            if(self.init.time >= 1){
+                                self.init.time-- ;
+                            } else {
+                                self.gameOver.timeEng = true;
+                                self.init.textStyle = 6;
+
+                                clearInterval(setCard);
+                            }
+                        } , 1000);
+
                     }, 250)
                 }
             }, 
