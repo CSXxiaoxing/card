@@ -207,6 +207,7 @@
                         }
                     }
                     dd{
+                        position:relative;
                         border: none;
                         font-size:40px;
                         b{
@@ -269,7 +270,9 @@
                        border:2px solid #B3DEAE;
                        border-radius:100px;
                        margin-top:24px;
+                       transition-delay: 5s;
                     }
+                    
                     
 
 
