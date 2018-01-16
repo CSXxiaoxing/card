@@ -14,7 +14,8 @@ a{
 }
 html,body{
     font-style: '微软雅黑';
-    font-size: 14px;
+    font-size: 48px;
+    font-size: 48px;
     height:100%;
     background: #fff;
     margin: 0;
@@ -25,7 +26,7 @@ html,body{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  font-size: 48px;
+  // font-size: 48px;
   /*color: #2c3e50;*/
   /*margin-top: 60px;*/
   width: 100%;
@@ -36,7 +37,7 @@ html,body{
 
 // input错误提示
 input.error {
-    border: 2px solid #ff3333!important;
+    border: 0.026667rem solid #ff3333!important;
     transition-duration: .2s;
     transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
     animation: inputmove .1s linear 6; 

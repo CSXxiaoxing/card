@@ -8,7 +8,7 @@
                     <span>第<i>20</i>局</span>
                     <p :class='init.textStyle >= 1 ? "open" : "" '>
                         <span>{{host.styleName}}</span>
-                        <i v-show='init.ForT == 1' @click='host.style = true'>
+                        <i v-show='init.ForT == 1' @click='host.style == true ? host.style = false : host.style = true'>
                             <b></b>
                         </i>
                         <mt-popup
@@ -95,7 +95,7 @@
 
                 <h1>{{init.text[init.textStyle]}}
 
-                    <span v-show='init.textStyle >= 1 && init.textStyle != 4 && init.textStyle != 6'>{{init.time}}秒</span>
+                    <span v-show='init.textStyle >= 1'>{{init.time}}秒</span>
 
                 </h1>
                 <!-- 还可下注：1090.56 -->
@@ -134,11 +134,11 @@
 
                             :class='[(cardURL.start),(cardURL.move+(idx+1)),
                             (time.index == index ? cardURL.reveEnd : ""),
-                            ("initNum"), (idx > 2 && init.textStyle == 5 && cardURL.clck == index ? "temporary" : "temporary02")]'/>
+                            ("initNum"), (idx > 2 && init.textStyle == 4 && cardURL.clck == index ? "temporary" : "temporary02")]'/>
                             <!-- 背部卡片 -->
                             <img :src="cardURL.src[0]"  v-for='(data, idx) in 5' 
                             :class='[(cardURL.start),(cardURL.move+(idx+1)),
-                            (time.index == index ? cardURL.reversal : ""), (idx > 2 && init.textStyle == 5 && cardURL.clck == index ? "beimian" : "beimian02")]' />
+                            (time.index == index ? cardURL.reversal : ""), (idx > 2 && init.textStyle == 4 && cardURL.clck == index ? "beimian" : "beimian02")]' />
                         </div>
                     </li>
                 </ul>
@@ -205,7 +205,13 @@
     Vue.component('singleBoard', singleBoard)
     Vue.component('varRoom', setRoom)
 
-    //reversal
+    // 定义所有定时器
+    // 游戏中定时器 [01准备5s, 02随机庄家, 03随机庄位置, 04押注倒计时, 05牌全开, 06-10s下一盘]
+    let pageTimer = {};
+    // 游戏状态码 {
+    //      0 : 执行游戏
+    //      
+    // }
     export default {
         data: function(){
             return {
@@ -222,7 +228,7 @@
                     // 设定可下注池
                     pond: 1000,
                     // 游戏状态
-                    text: ['游戏暂未开始', '准备开始：', '随机庄牌：', '可押注时间：', '庄家开牌', '开牌倒计时', '开牌结果'],
+                    text: ['游戏暂未开始', '准备开始：', '随机庄牌：', '可押注时间：', '开牌倒计时', '开牌结果'],
                     // 对应状态码   [0, 1, 2, 3, 4, 5, 6]
                     textStyle : 0,
                 },
@@ -236,9 +242,9 @@
                     // 随机背景的速度
                     speed: 80,
                     // 押注倒计时
-                    timeAll: 1,
+                    timeAll: 5,
                     // 全开倒计时
-                    countTime: 1000,
+                    countTime: 10,
 
                 },
                 // 主人
@@ -294,6 +300,7 @@
                     timeEng: false,
                 },
                 apply: '申请上庄',
+
             }
         },
         mounted: function(){
@@ -303,6 +310,7 @@
             // console.log(this.time.random)
             this.$store.dispatch('login_IM')
             this.$imConn.onOpened()
+            
         },
         methods: {
             varRoom(){
@@ -318,7 +326,6 @@
             playerBottom(index){
                 let init = this.init;
                 let self = this;
-                
                 if(init.textStyle == 3 && this.ordinary.pond > init.scope[0]){
                     this.$refs.onplayerBottomChild._data.playerBottom=true; 
                 }
@@ -348,29 +355,52 @@
                 switch (Etxt) {
                     case '游戏中' :
                         this.init.textStyle = 1;
-                        this.gameStart();
+                        this.gameType(0);
                         break;
                     default :
                         this.init.textStyle = 0;
                         console.log(66)
                 }
             },
-            gameStart(){
+            // 游戏开始控制状态中转
+            gameType(n) {
+                // 清除所有定时器
+                for(var each in pageTimer) {
+                    clearInterval(pageTimer[each])
+                }
+                switch (n) {
+                    case 0 :
+                        this.gameStart();   // 执行游戏
+                        break;
+
+                }
+                
+                
+            },
+            gameStart() {
                 // 开局状态请0
                 this.cardURL.reversal = '';
                 this.cardURL.reveEnd = '';
                 this.cardURL.start = '';
                 this.cardURL.move = '';
-                this.gameOver.show = false;
                 this.cardURL.result = [];
                 this.init.textStyle = 1;
                 this.gameOver.bet = true;
+                this.gameOver.show = false;
                 this.ordinary.bg = false;
                 this.gameOver.timeEng = false;
-                // 初始化可投注
+                this.cardURL.clck = -1;
+                
+                
+                var [setT4] = [,,,,,,];
+
+                console.log(pageTimer)
+
                 this.ordinary.pond = this.init.pond;
-                var [setCard, setT1, setT2, setT3] = [,,,];
-                clearInterval(setCard);
+                var [setT1, setT2, setT3,] = [,,,,];
+
+                clearInterval(setT4);
+
                 clearTimeout(setT1);
                 clearTimeout(setT2);
                 clearTimeout(setT3);
@@ -461,41 +491,39 @@
                 console.log(oxArr)
 
                 let self = this;
-                let downTime; // 准备
-                let random; // 随机庄家
-                // 1、准备开始倒计时(downTime)
-                clearInterval(downTime)
-                clearInterval(random)
-                downTime = setInterval( ()=> {
+                
+                // 1、准备开始倒计时
+                pageTimer["timer01"] = setInterval( ()=> {
                     self.init.time--;
                     if(self.init.time < 0) {
                         this.init.textStyle = 2;
                         bank()
-                        clearInterval(downTime)
+                        clearInterval(pageTimer["timer01"])
                     }
                 },1000)
                 
                 // 2、随机选庄家牌
                 let num = this.init.prizeNum;
 
-                var a123;
+                
                 function bank(){
                     let arr5 = [0, 1, 3, 4, 5];
 
                     self.init.time = self.time.random;
-                    random = setInterval( ()=> {
+                    pageTimer["timer02"] = setInterval( ()=> {
                         self.init.time--;
                         if(self.init.time < 0) {
                             self.time.index = arr5[Math.random()*5>>0];
                             self.ordinary.bg = true;
                             self.init.textStyle = 3;
                             countDown();
-                            clearInterval(a123)
-                            clearInterval(random)
+                            clearInterval(pageTimer["timer03"])
+                            clearInterval(pageTimer["timer02"])
                         }
                     },1000)
                     let i = self.time.index;
-                    a123 = setInterval(function(){
+
+                    pageTimer["timer03"] = setInterval(function(){
                         i++;
                         if(num == 7){
                             i >= 7 ? i=0 : false; 
@@ -519,9 +547,7 @@
 
                     // 延时器-发完牌后倒计时
                     setT2 = setTimeout( ()=>{
-
-                        setCard = setInterval( ()=> {
-
+                        pageTimer['timer04'] = setInterval( ()=> {
                             if(self.init.time >= 1){
                                 self.init.time-- ;
                             } else {
@@ -529,7 +555,7 @@
                                 self.cardURL.reveEnd = 'reveEnd';
                                 FZ();
                                 self.gameOver.bet = false;
-                                clearInterval(setCard);
+                                clearInterval(pageTimer['timer04']);
                             }
                         } , 1000);
                     } , 1300 );
@@ -540,20 +566,30 @@
                 function FZ(){
                     self.gameOver.show=true;
                     theUrl.result = oxArr;
-                    self.init.textStyle = 4;
 
                     // 翻转剩下的牌
                     setT3 = setTimeout(()=>{
-                        self.init.textStyle = 5;
+                        self.init.textStyle = 4;
                         self.init.time = self.time.countTime;
-                        setCard = setInterval( ()=> {
+
+                        pageTimer["timer05"] = setInterval( ()=> {
                             if(self.init.time >= 1){
                                 self.init.time-- ;
                             } else {
                                 self.gameOver.timeEng = true;
-                                self.init.textStyle = 6;
+                                // self.gameStart();
+                                self.init.time = 10;
+                                self.init.textStyle = 5;
 
-                                clearInterval(setCard);
+                                pageTimer["timer06"] = setInterval(()=>{
+                                    if(self.init.time >= 1){
+                                        self.init.time-- ;
+                                    } else {
+                                        self.gameStart();
+                                        clearInterval(pageTimer["timer06"]);
+                                    }
+                                }, 1000)
+                                clearInterval(pageTimer["timer05"]);
                             }
                         } , 1000);
 
