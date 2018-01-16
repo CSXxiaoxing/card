@@ -9,11 +9,18 @@ $fontsize38: 0.351852rem;
 $fontsize40: 0.37037rem;
 $fontsize44: 0.407407rem;
 
-
+// 0.51852rem px
 .pub{
     color: #fff;
     font-size: $fontsize24;
     display:inline-block;
+    position: absolute;
+    bottom: 0.046296rem;
+    height: 0.333333rem;
+    line-height: 0.333333rem;
+    left: 0;
+    width: 100%;
+    background-color:rgba(32,16,17,0.63);
 }
 // room01
 #room {
@@ -121,6 +128,8 @@ $fontsize44: 0.407407rem;
                         border-bottom-right-radius: 0.092593rem;
                         background: #fff;
                         position: relative;
+                        vertical-align: text-top;
+                        margin-top: -0.018519rem;
                         margin-left: -0.074074rem;
                         b{
                             width: 0;
@@ -182,6 +191,7 @@ $fontsize44: 0.407407rem;
                 position: absolute;
                 top: 0.166667rem;
                 left: 0.138889rem;
+
                 img{width: 100%; height: 100%;}
             }
             dd:nth-of-type(1){
@@ -300,99 +310,101 @@ $fontsize44: 0.407407rem;
             height: 100%;
             padding-top: 0.055556rem;
             background-origin: content-box;
-        }
-
-        
-
-        // @include xx
-        .left {
-            @include LR;
             ul {
                 display: flex;
                 flex-direction: column;
-                height: 12.037037rem;
                 background: $room02 no-repeat;
                 border-radius: 0.046296rem;
                 width:1.537037rem;
                 
                 li{
                     width: 100%;
-                    height: 193px;
+                    height: 1.787037rem;
                     &>div {
-                         width:1.388889rem;
-                         height:1.435185rem;
-                         position:relative;
-                         left:50%;
-                         top: 50%;
-                         transform: translate(-50%, -50%);
-                         
-                        span{
-                            @extend .pub;
-                            position:relative;
-                            top:0.740741rem;
+                        width:1.388889rem;
+                        height:1.435185rem;
+                        position: relative;
+                        left:50%;
+                        top: 50%;
+                        transform: translate(-50%, -55%);
+                        
+                        &>.leftZhuan {
+                            position: absolute;
+                            left: 0.559259rem;
+                            top: -0.404815rem;
+                            width: 1.185185rem;
+                            height: 0.777778rem;
+                            z-index: 3;
+                        }
+                        &>img:nth-of-type(1) {
+                            width: 1.296296rem;
+                            height: 1.296296rem;
+                            position: absolute;
+                            left:50%;
+                            top: 50%;
+                            transform: translate(-50%, -55%);
+                            z-index: 2;
+                        }
+                        &>img:nth-of-type(2) {
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            z-index: 3;
+                        }
+                        &>span {
+                            color: #fff;
+                            position: absolute;
+                            left: 0.12963rem;
+                            top: 0.037037rem;
+                            font-size: 0.333333rem;
+                            z-index: 3;
                         }
                     }
                     p {
                         font-size: $fontsize24;
                         color: #fff;
-                        padding-top: 0.092593rem;
+                        padding-top: 0.05rem;
+                    }
+                    // 左边图片
+                    .leftImg {
+                        width: 1.296296rem;
+                        height: 1.296296rem;
+                        position: absolute;
+                        left:50%;
+                        top: 50%;
+                        transform: translate(-50%, -55%);
+                        overflow: hidden;
+                        border-radius: 38px;
+                        img {
+                            width: 100%;
+                            height: 100%;
+                        }
+                        img:nth-of-type(1) {
+                            z-index: 1;
+                        }
+                        span{
+                            @extend .pub;
+
+                        }
                     }
                 }
-                li:nth-of-type(2){
-                    div{
-                        background: $roomAll -1.388889rem 0.0rem no-repeat;
-                        background-size: $width600;
-                    }        
-                }
-                li:nth-of-type(3){
-                    div{
-                        background: $roomAll -2.777778rem 0.0rem no-repeat;
-                        background-size: $width600;
-                    }        
-                }
-                li:nth-of-type(4){
-                    div{
-                        background: $roomAll -4.166667rem 0.0rem no-repeat;
-                        background-size: $width600;
-                    }        
-                }
-                li:nth-of-type(5){
-                    div{
-                        background: $roomAll -4.166667rem 0.0rem no-repeat;
-                        background-size: $width600;
-                    }        
-                }
-                li:nth-of-type(6){
-                    div{
-                        background: $roomAll -4.166667rem 0.0rem no-repeat;
-                        background-size: $width600;
-                    }        
-                }
+            }
+        }
 
+        // @include xx
+        .left {
+            @include LR;
+            ul{
+                height: 12.037037rem;
                 li:first-child {
                     height: 2.148148rem;
                     background-color: #3D3D3D;
                     border-radius:0.046296rem 0.046296rem 0px 0px;
                     p{
-                       padding-top: 0.185185rem;
+                       padding-top: 0.265rem;
                     }
-                    div{
-                        background: $roomAll -0px 0px no-repeat;
-                        background-size: $width600;
-                        position:relative;
-                         left:50%;
-                         top: 50%;
-                         transform: translate(-50%, -55%);
-                         img{
-                             position:absolute;
-                             left:0.509259rem;
-                             top:-0.314815rem;
-                         }
-                    }
-
-                    
-
                 }
+                
                 li:last-child {
                     width: 1.388889rem;
                     height: $height56;
@@ -452,6 +464,12 @@ $fontsize44: 0.407407rem;
                     clear: both;
                     border-radius:0.092593rem;
                     border:0.037037rem solid #DFDEDC;
+                    &>img {
+                        float:left;
+                        margin-left:0.046296rem;
+                        height: 1.314815rem;
+                        weight: 0.916667rem;
+                    }
                     span{
                         flex: 1;
                         font-size: $fontsize30;
@@ -475,10 +493,6 @@ $fontsize44: 0.407407rem;
                     margin-left:0.092593rem;
                     margin-top:0.092593rem;
                     position: relative;
-                    img{
-                        float:left;
-                        margin-left:0.046296rem;
-                    }
                     span{
                         position:relative;
                         padding-right:0.185185rem;
@@ -495,12 +509,8 @@ $fontsize44: 0.407407rem;
                             font-size:0.259259rem;
                             text-align: center;
                             visibility: hidden;
-                        }  
-                        // b:nth-of-type(2){
-                        //     color:black;
-                        // }
+                        } 
                         b.showoff {
-                            // display: inline-block;
                             visibility: visible;
                             animation: inputmove .1s linear 6; 
                         }
@@ -581,10 +591,7 @@ $fontsize44: 0.407407rem;
                     margin-left:0.092593rem;
                     margin-top:0.138889rem;
                     position: relative;
-                    img{
-                        float:left;
-                        margin-left:0.046296rem;
-                    }
+                    
                     span{
                         text-align: center;
                         b:nth-of-type(1){
@@ -634,43 +641,11 @@ $fontsize44: 0.407407rem;
         //showTime
         .right {
             @include LR;
-            ul::-webkit-scrollbar{display: none;}
             ul {
                 overflow-y: auto;
                 overflow-x: hidden;
-                display: flex;
-                flex-direction: column;
-                height: 99%;
-                background: $room02 no-repeat;
-                border-radius: 0.046296rem;
-                width: 1.537037rem;
-                li{
-                    width: 100%;
-                    height: 1.814815rem;
-                    &>div {
-                         background: $roomAll 0px -2.222222rem no-repeat;
-                         background-size: $width600;
-                         width:1.388889rem;
-                         height:1.435185rem;
-                         position:relative;
-                         left:50%;
-                         top: 50%;
-                         transform: translate(-45%, -50%);
-                         
-                        span{
-                            @extend .pub;
-                            position:relative;
-                            top:0.740741rem;
-
-                        }
-                    }
-                    p {
-                        font-size: $fontsize24;
-                        color: #fff;
-                        margin-top: 0.074074rem;
-                    }
-                }
             }
+            ul::-webkit-scrollbar{display: none;}
         }
     }
     // 底部
@@ -700,6 +675,7 @@ $fontsize44: 0.407407rem;
             justify-content: space-between;
             align-items: center;
             color: #fff;
+            font-size: 0.444444rem;
             li {
                 flex: 1;
                 text-align: center;

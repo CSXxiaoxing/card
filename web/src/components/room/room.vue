@@ -52,42 +52,79 @@
                 <ul>
                     <li>
                         <div>
-                            <img src="../../img/room1.png">
-                            <span>76000</span>
+                            <img src="../../img/roomK02.png" alt="" />
+                            <img src="../../img/roomPage01.png" alt="" />
+                            <span>1</span>
+                            <img class='leftZhuan' src="../../img/room1.png">
+                            <div class='leftImg'>
+                                <img src="../../img/friend1.png" alt="" />
+                                <span>76000</span>
+                            </div>
                         </div>
                         <p>迷糊的大土</p>
                     </li>
                     <li>
                         <div>
-                            <span>76000</span>
+                            <img src="../../img/roomK03.png" alt="" />
+                            <img src="../../img/roomPage02.png" alt="" />
+                            <span>2</span>
+                            <div class='leftImg'>
+                                <img src="../../img/friend1.png" alt="" />
+                                <span>76000</span>
+                            </div>
                         </div>
                         <p>迷糊的大土</p>
                     </li>
                     <li>
                         <div>
-                            <span>76000</span>
+                            <img src="../../img/roomK03.png" alt="" />
+                            <img src="../../img/roomPage03.png" alt="" />
+                            <span>3</span>
+                            <div class='leftImg'>
+                                <img src="../../img/friend1.png" alt="" />
+                                <span>76000</span>
+                            </div>
                         </div>
                         <p>迷糊的大土</p>
                     </li>
                     <li @click="singleBoard">
                         <div>
-                            <span>76000</span>
+                            <img src="../../img/roomK03.png" alt="" />
+                            <img src="../../img/roomPage04.png" alt="" />
+                            <span>4</span>
+                            <div class='leftImg'>
+                                <img src="../../img/friend1.png" alt="" />
+                                <span>76000</span>
+                            </div>
                         </div>
                         <p>迷糊的大土</p>
                     </li>
                     <li>
                         <div>
-                            <span>76000</span>
+                            <img src="../../img/roomK03.png" alt="" />
+                            <img src="../../img/roomPage03.png" alt="" />
+                            <span>5</span>
+                            <div class='leftImg'>
+                                <img src="../../img/friend1.png" alt="" />
+                                <span>76000</span>
+                            </div>
                         </div>
                         <p>迷糊的大土</p>
                     </li>
                     <li>
                         <div>
-                            <span>76000</span>
+                            <img src="../../img/roomK03.png" alt="" />
+                            <img src="../../img/roomPage03.png" alt="" />
+                            <span>6</span>
+                            <div class='leftImg'>
+                                <img src="../../img/friend1.png" alt="" />
+                                <span>76000</span>
+                            </div>
                         </div>
                         <p>迷糊的大土</p>
                     </li>
-                    <li  @click="applyOn" class='tips'>{{apply}}</li>
+                    <!-- <li  @click="applyOn" class='tips'>{{apply}}</li> -->
+                    <li  @click="applyOn" >{{apply}}</li>
                 </ul>
             </div>
 
@@ -146,9 +183,15 @@
 
             <div class='right'>
                 <ul>
-                    <li v-for='data in 10'>
+                    <li v-for='data in 15'>
                         <div>
-                            <span>76000</span>
+                            <img src="../../img/roomK03.png" alt="" />
+                            <img src="../../img/roomPage03.png" alt="" />
+                            <span>6</span>
+                            <div class='leftImg'>
+                                <img src="../../img/friend1.png" alt="" />
+                                <span>76000</span>
+                            </div>
                         </div>
                         <p>迷糊的大土</p>
                     </li>
