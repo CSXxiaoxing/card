@@ -159,6 +159,9 @@
         <footer>
             <ul>
                 <li><router-link to="/chartList/1" >好友</router-link></li>
+
+                <!-- <li><router-link to="/friend" >好友</router-link></li> -->
+
                 <li @click='cardURL.test = false'>
                     <router-link to="/chartRoom/1" >聊天室</router-link>
                 </li>

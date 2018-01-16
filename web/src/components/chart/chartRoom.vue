@@ -17,13 +17,35 @@
             <ul>
             	<li class="left">
             		<img src="../../img/chart_Room2.png" alt="">
-            		<span>你好在吗？</span>
+                    <div class="test">
+                        <span class="bot"></span>
+                       你好在吗？
+                    </div>
             	</li>
             	<li class="clear"></li>
             	<li class="right">
-            		<span>在的呢。有什么可以帮到您</span>
-            		<img src="../../img/chart_Room2.png" alt="">
+                    <img src="../../img/chart_Room2.png" alt="">
+                    <div class="test">
+                        <span class="bot"></span>
+                       在的呢。有什么可以帮到您
+                    </div>
             	</li>
+                <li class="left">
+                    <img src="../../img/chart_Room2.png" alt="">
+                    <div class="test">
+                        <span class="bot"></span>
+                       你好在吗？
+                    </div>
+                </li>
+                <li class="clear"></li>
+                <li class="right">
+                    <img src="../../img/chart_Room2.png" alt="">
+                    <div class="test">
+                        <span class="bot"></span>
+                       在的呢。有什么可以帮到您就算了空间撒尽量减少地方撒旦法方式发到各分公司的丰富的
+                    </div>
+                    
+                </li>
             </ul>
             <div :class = '[(give == 1?"open":"close"),("control")]'>
             	<ul>
@@ -111,28 +133,58 @@
             box-sizing: border-box;
             font-size:42px;
             li{
-            	span{
-            		display:inline-block;
-					min-width:320px;
-            		min-height: 129px;
-            		line-height:130px;
-            		background-position: center;
-            		background-size:cover;
-            		position:relative;
-            		bottom:50px;
-            	}
+                text-align:left;
+
+                clear: both;
+                position:relative;
+            	.test{max-width:600px; padding:30px 20px; border:3px solid #E4E3E8; position:relative;border-radius:20px;padding-left:20px;}
+                .test span{width:0; height:0; font-size:0; overflow:hidden; position:absolute;}
+                .test span.bot{
+                    border-width:20px; 
+                    border-style:solid dashed dashed; 
+                }
+
             }
             .chart{
             	width:100%;
             }
             .clear{
             	clear: both;
+                height:20px;
             }
             .left{
-            	float: left;
+                img{
+                    float:left;
+                }
+                .test{
+                    background-color:white;
+                    float:left;
+                    left:50px;
+                    top:30px;
+                }
+                .test span.bot{
+                    border-color:transparent white transparent transparent; 
+                    left:-40px;
+                    bottom:40px;
+                }
             }
             .right{
-            	float:right;
+                color: white;
+                img{
+                    float:right;
+                }
+                .test{
+                    background-color:#07AD05;
+                    bottom:-20px;
+                    float:right;
+                    right:30px;
+                }
+                .test span.bot{
+                    border-color:transparent  transparent transparent #07AD05; 
+                    right:-38px; 
+                    top:40px;
+                    
+                }
             }
 
             .control{

@@ -1,12 +1,54 @@
 <template>
     <div id='friend'>
+
+        <mt-popup 
+          v-model="addFriend"
+          popup-transition="popup-fade" 
+          class="addFriend" >
+          <span>查找好友</span>
+          <p><input type="text" placeholder="请输入要查找的ID"></input>
+          </p>
+          <mt-button @click="addFriend = false">  取消
+          </mt-button>
+          <mt-button @click="findFriend = true , addFriend = false ">  搜索
+          </mt-button>
+        </mt-popup >
+
+        <mt-popup 
+          v-model="findFriend"
+          popup-transition="popup-fade" 
+          class="findFriend" >
+          <div>
+             <i v-on:click="findFriend = false">×</i>
+            <img src="../../img/friend1.png" alt="">
+            <ul>
+                <li>咔咔</li>
+                <li>9577655189</li>
+            </ul>
+          </div>
+          <mt-button @click="findFriend = false , sendFriend = true ">  添加
+          </mt-button>
+        </mt-popup >
+
+        <mt-popup 
+          v-model="sendFriend"
+          popup-transition="popup-fade" 
+          class="sendFriend" >
+          <span>查找好友</span>
+
+          <p>添加好友请求已发送</p>
+
+          <mt-button @click="sendFriend = false"> 确定
+          </mt-button>
+        </mt-popup >
+
         <header>
             <ul>
                 <li>
                     <i><router-link to="/room" ></router-link></i>
                 </li>
                 <li>好友列表</li>
-                <li>
+                <li @click="addFriend = true">
                     <i></i>
                 </li>
             </ul>
@@ -18,9 +60,40 @@
                     <span>最新消息</span>
                     <span><i :class='arrows == 1 ? "Iup" : ""'></i></span>
                 </li>
-                <li :class='arrows == 1 ? "show" : "hide"'>
-                    
+                <li  :class='arrows == 1 ? "show" : "hide"'>
+                    <dl>
+                        <dt>
+                            <span><i></i></span>
+                        </dt>
+                        <dd>
+                            <b>[系统消息]</b>
+                            <b>您已被清除房间，ID74543...</b>
+                            <b :class='arrows == 1 ? "show" : "hide"'></b>
+                            <b>●</b>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>
+                            <span><i></i></span>
+                        </dt>
+                        <dd>
+                            <b>[系统消息]</b>
+                            <b>昨天：17：00您的房卡不足，您的.....</b>
+                            <b  :class='arrows == 1 ? "show" : "hide"'></b>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>
+                            <span><i></i></span>
+                        </dt>
+                        <dd>
+                            <p><i>寂寞的心</i>要求添加你为好友</p>
+                            <p>同意</p>
+                        </dd>
+                    </dl>
                 </li>
+
+
                 <li @touchend='near'>
                     <span><i></i></span>
                     <span>最近联系</span>
@@ -68,6 +141,9 @@
             return {
                 // 上下箭头
                 arrows: 0,
+                addFriend:false,
+                findFriend:false,
+                sendFriend:false,
             }
         },
         methods: {
