@@ -87,7 +87,7 @@
                         </div>
                         <p>迷糊的大土</p>
                     </li>
-                    <li @click="singleBoard">
+                    <li>
                         <div>
                             <img src="../../img/roomK03.png" alt="" />
                             <img src="../../img/roomPage04.png" alt="" />
@@ -102,7 +102,7 @@
                     <li>
                         <div>
                             <img src="../../img/roomK03.png" alt="" />
-                            <img src="../../img/roomPage03.png" alt="" />
+                            <img src="../../img/roomPage04.png" alt="" />
                             <span>5</span>
                             <div class='leftImg'>
                                 <img src="../../img/friend1.png" alt="" />
@@ -114,7 +114,7 @@
                     <li>
                         <div>
                             <img src="../../img/roomK03.png" alt="" />
-                            <img src="../../img/roomPage03.png" alt="" />
+                            <img src="../../img/roomPage04.png" alt="" />
                             <span>6</span>
                             <div class='leftImg'>
                                 <img src="../../img/friend1.png" alt="" />
@@ -186,7 +186,7 @@
                     <li v-for='data in 15'>
                         <div>
                             <img src="../../img/roomK03.png" alt="" />
-                            <img src="../../img/roomPage03.png" alt="" />
+                            <img src="../../img/roomPage04.png" alt="" />
                             <span>6</span>
                             <div class='leftImg'>
                                 <img src="../../img/friend1.png" alt="" />
@@ -201,9 +201,9 @@
 
         <footer>
             <ul>
-                <li><router-link to="/chartList/1" >好友</router-link></li>
+                <!-- <li><router-link to="/chartList/1" >好友</router-link></li> -->
 
-                <!-- <li><router-link to="/friend" >好友</router-link></li> -->
+                <li><router-link to="/friend" >好友</router-link></li>
 
                 <li @click='cardURL.test = false'>
                     <router-link to="/chartRoom/1" >聊天室</router-link>
@@ -212,7 +212,8 @@
                     <router-link to="/message" >发布公告</router-link>
                 </li>
                 <li v-show='init.ForT == 0'>联系房主</li>
-                <li class='roomScore' v-show='init.ForT == 1'>
+                <li class='roomScore' v-show='init.ForT == 1' 
+                    @click="$refs.onapplyOnChild._data.details=true;">
                     <b>{{host.gainNum}}</b>
                     <b>抽水分数</b>
                 </li>
@@ -225,7 +226,6 @@
         <applyOn ref="onapplyOnChild" ></applyOn>
 
         <playerBottom ref="onplayerBottomChild" :p='ordinary.Pn'></playerBottom>
-        <setOwner ref="onsetOwnerChild" ></setOwner>
         <singleBoard ref="onsingleBoardChild"></singleBoard>
 
     </div>
@@ -240,18 +240,16 @@
     import prize from '../../module/roomModule/openRecords.vue';
     import playerBottom from '../../module/roomModule/playerBottom.vue';
     import applyOn from '../../module/roomModule/applyOn.vue';
-    import setOwner from '../../module/roomModule/setOwner.vue';
     import singleBoard from '../../module/roomModule/singleBoard.vue';
     import setRoom from '../../module/homeModule/varRoom.vue';
     Vue.component('toShare', toShare)
     Vue.component('prize', prize)
     Vue.component('applyOn', applyOn)
     Vue.component('playerBottom', playerBottom)
-    Vue.component('setOwner', setOwner)
     Vue.component('singleBoard', singleBoard)
     Vue.component('varRoom', setRoom)
 
-    // 定义所有定时器
+    // 定义所有定时器 applyOn
     // 游戏中定时器 [01准备5s, 02随机庄家, 03随机庄位置, 04押注倒计时, 05牌全开, 06-10s下一盘]
     let pageTimer = {};
     // 游戏状态码 {
@@ -291,6 +289,8 @@
                     timeAll: 5,
                     // 全开倒计时
                     countTime: 10,
+                    // 开牌结果等待时间
+                    endTime: 10,
 
                 },
                 // 主人
@@ -386,13 +386,10 @@
             applyOn(){
                 let init = this.init;
                 if(init.ForT == 1) {
-                    this.$refs.onsetOwnerChild._data.setOwner=true;
+                    this.$refs.onapplyOnChild._data.setOwner=true;
                 } else if(init.ForT == 0){
                     this.$refs.onapplyOnChild._data.applyOn=true;
                 }
-            },
-            singleBoard(){
-                this.$refs.onsingleBoardChild._data.singleBoard=true;
             },
             gameStyle(e){
                 let [Host, Etxt] = [this.host, e.target.innerText];
@@ -440,8 +437,6 @@
                 
                 var [setT4] = [,,,,,,];
 
-                console.log(pageTimer)
-
                 this.ordinary.pond = this.init.pond;
                 var [setT1, setT2, setT3,] = [,,,,];
 
@@ -474,7 +469,6 @@
                         }
                     }
                     console.log(card)
-                    console.log(cardEnd)
                     console.log(OXcard)
                     var oxArr = [];
                 for(var Q=0; Q<7; Q++) {
@@ -623,16 +617,18 @@
                                 self.init.time-- ;
                             } else {
                                 self.gameOver.timeEng = true;
-                                // self.gameStart();
-                                self.init.time = 10;
+                                self.init.time = self.time.endTime;
                                 self.init.textStyle = 5;
-
+                                // 单局结算的10s
                                 pageTimer["timer06"] = setInterval(()=>{
                                     if(self.init.time >= 1){
                                         self.init.time-- ;
                                     } else {
                                         self.gameStart();
                                         clearInterval(pageTimer["timer06"]);
+                                    }
+                                    if(self.init.time == self.time.endTime/2){
+                                        self.$refs.onsingleBoardChild._data.singleBoard=true;
                                     }
                                 }, 1000)
                                 clearInterval(pageTimer["timer05"]);

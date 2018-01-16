@@ -644,6 +644,9 @@ $fontsize44: 0.407407rem;
             ul {
                 overflow-y: auto;
                 overflow-x: hidden;
+                display: flex;
+                flex-direction: column;
+                height: 99%;
             }
             ul::-webkit-scrollbar{display: none;}
         }
