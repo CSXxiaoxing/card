@@ -65,11 +65,11 @@
                         <dt>
                             <span><i></i></span>
                         </dt>
-                        <dd>
+                        <dd @click="show = 0">
                             <b>[系统消息]</b>
                             <b>您已被清除房间，ID74543...</b>
                             <b :class='arrows == 1 ? "show" : "hide"'></b>
-                            <b>●</b>
+                            <b v-show="show == 1" >●</b>
                         </dd>
                     </dl>
                     <dl>
@@ -104,7 +104,7 @@
                         <dd>
                             <span><i></i></span>
                             <span>测试一号</span>
-                            <span><i></i>备注</span>
+                            <span><i></i>添加</span>
                         </dd>
                         <dd>
                             <span><i></i></span>
@@ -144,6 +144,8 @@
                 addFriend:false,
                 findFriend:false,
                 sendFriend:false,
+                show:1, //1新消息  0 点击后
+
             }
         },
         methods: {

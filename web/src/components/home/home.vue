@@ -19,7 +19,18 @@
 				</dd>
 				<dd></dd>
 			</dl>
-			<p><i></i><span>公告：健康游戏，请勿赌博，谢谢合作。</span></p>
+			
+			<mt-swipe :show-indicators="false">
+			  <mt-swipe-item>
+			  	<p><i></i><span>公告：健康游戏，请勿赌博，谢谢合作。</span></p>
+			  </mt-swipe-item>
+			  <mt-swipe-item>
+			  	<p><i></i><span>公告：健康游戏，请勿赌博，谢谢合作。</span></p>
+			  </mt-swipe-item>
+			  <mt-swipe-item>
+			  	<p><i></i><span>公告：健康游戏，请勿赌博，谢谢合作。</span></p>
+			  </mt-swipe-item>
+			</mt-swipe>
 			<span class='homeServer'><b>客<br>服</b> </span>
 		</header>
 		<div class='homeMain'>

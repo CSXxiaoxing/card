@@ -42,7 +42,18 @@
                     <span>邀请好友</span>
                 </dd>
                 <dd>
-                    <i></i><span>房主公告：健康游戏，请勿赌博，谢谢合作。</span>
+                    <mt-swipe :show-indicators="false">
+                      <mt-swipe-item>
+                        <i></i><span>房主公告：健康游戏，请勿赌博，谢谢合作。</span>
+                    </mt-swipe-item>
+                      <mt-swipe-item>
+                        <i></i><span>房主公告：健康游戏，请勿赌博，谢谢合作。</span>
+                    </mt-swipe-item>
+                      <mt-swipe-item>
+                        <i></i><span>房主公告：健康游戏，请勿赌博，谢谢合作。</span>
+                    </mt-swipe-item>
+                    </mt-swipe>
+                    
                 </dd>
             </dl>
         </header>
@@ -202,19 +213,21 @@
                 </ul>
             </div>
 
-            <div class='right'>
+
+
+            <div class='right' @click='orderPower(players)'>
                 <ul>
-                    <li v-for='data in 15'>
+                    <li v-for='player in players '>
                         <div>
                             <img src="../../img/roomK03.png" alt="" />
                             <img src="../../img/roomPage04.png" alt="" />
                             <span>6</span>
                             <div class='leftImg'>
                                 <img src="../../img/friend1.png" alt="" />
-                                <span>76000</span>
+                                <span>{{player.power}}</span>
                             </div>
                         </div>
-                        <p>迷糊的大土</p>
+                        <p>{{player.name}}</p>
                     </li>
                 </ul>
             </div>
@@ -256,6 +269,7 @@
     import './room.scss';
     import Vue from 'vue';
     import http from '../../utils/httpClient.js';
+    import { Swipe, SwipeItem } from 'mint-ui';
     // 组件
     import toShare from '../../module/shareModule/toShare.vue';
     import prize from '../../module/roomModule/openRecords.vue';
@@ -370,6 +384,63 @@
                     // 倒计时结束
                     timeEng: false,
                 },
+                //右边玩家
+                players:
+                    [  
+                        { name: '4', power: 5000 ,status:1},  
+                        { name: '1', power: 9000 ,status:1},  
+                        { name: '3', power: 7000 ,status:0},  
+                        { name: '2', power: 8000 ,status:1},
+                        { name: '5', power: 1000 ,status:0}, 
+                        { name: '6', power: 2000 ,status:1}, 
+                        { name: '7', power: 3000 ,status:0}, 
+                        { name: '8', power: 4000 ,status:1},  
+                        { name: '2', power: 8800 ,status:1},
+                        { name: '5', power: 1700 ,status:0}, 
+                        { name: '6', power: 2500 ,status:1}, 
+                        { name: '7', power: 300 ,status:0}, 
+                        { name: '8', power: 400 ,status:1},
+                        { name: '4', power: 5000 ,status:1},  
+                        { name: '1', power: 9000 ,status:1},  
+                        { name: '3', power: 7000 ,status:0},  
+                        { name: '2', power: 8000 ,status:1},
+                        { name: '5', power: 1000 ,status:0}, 
+                        { name: '6', power: 2000 ,status:1}, 
+                        { name: '7', power: 3000 ,status:0}, 
+                        { name: '8', power: 4000 ,status:1},  
+                        { name: '2', power: 8800 ,status:1},
+                        { name: '5', power: 1700 ,status:0}, 
+                        { name: '6', power: 2500 ,status:1}, 
+                        { name: '7', power: 300 ,status:0}, 
+                        { name: '8', power: 400 ,status:1}, 
+                        { name: '4', power: 5000 ,status:1},  
+                        { name: '1', power: 9000 ,status:1},  
+                        { name: '3', power: 7000 ,status:0},  
+                        { name: '2', power: 8000 ,status:1},
+                        { name: '5', power: 1000 ,status:0}, 
+                        { name: '6', power: 2000 ,status:1}, 
+                        { name: '7', power: 3000 ,status:0}, 
+                        { name: '8', power: 4000 ,status:1},  
+                        { name: '2', power: 8800 ,status:1},
+                        { name: '5', power: 1700 ,status:0}, 
+                        { name: '6', power: 2500 ,status:1}, 
+                        { name: '7', power: 300 ,status:0}, 
+                        { name: '8', power: 400 ,status:1},
+                        { name: '4', power: 5000 ,status:1},  
+                        { name: '1', power: 9000 ,status:1},  
+                        { name: '3', power: 7000 ,status:0},  
+                        { name: '2', power: 8000 ,status:1},
+                        { name: '5', power: 1000 ,status:0}, 
+                        { name: '6', power: 2000 ,status:1}, 
+                        { name: '7', power: 3000 ,status:0}, 
+                        { name: '8', power: 4000 ,status:1},  
+                        { name: '2', power: 8800 ,status:1},
+                        { name: '5', power: 1700 ,status:0}, 
+                        { name: '6', power: 2500 ,status:1}, 
+                        { name: '7', power: 300 ,status:0}, 
+                        { name: '8', power: 400 ,status:1}, 
+                    ],  
+                datagrid : '',
                 apply: '申请上庄',
 
             }
@@ -442,8 +513,7 @@
                         this.gameStart();   // 执行游戏
                         break;
                 }
-                
-                
+
             },
             clearGameStyle () {
                 // 开局状态请0
@@ -741,8 +811,57 @@
 
                     }, 250)
                 }
-            }, 
-        }
-    }
+            },
+            generateToolBar: function(obj){
+                //动态生成按钮
+            },
+            orderPower(players){
+               console.time('a')
+               if(players.length <=1){
+                return players;
+               }
+               var online = [];
+               var notline = [];
+               
+               for(var i = 0; i<players.length; i++){
+                    if(players[i].status==1){
+                        online.push(players[i]);
+                    }else{
+                        notline.push(players[i]);
+                    }
+               }
+
+
+
+
+               for(var i=0;i<online.length-1;i++){ 
+                       for(var j=i+1;j<online.length;j++){ 
+                           if(online[i].power>online[j].power){
+                               var list=online[i].power; 
+                               online[i].power=online[j].power; 
+                               online[j].power=list; 
+                           }  
+                       } 
+                   }  
+
+                for(var i=0;i<notline.length-1;i++){ 
+                        for(var j=i+1;j<notline.length;j++){ 
+                            if(notline[i].power>notline[j].power){
+                                var list=notline[i].power; 
+                                notline[i].power=notline[j].power; 
+                                notline[j].power=list; 
+                            }  
+                        } 
+                    }   
+                online.reverse(); 
+                notline.reverse(); 
+                this.players = online.concat(notline);
+                console.table(this.players);
+                console.timeEnd('a');
+            },
+
+
+    },
+}
    
 </script>
