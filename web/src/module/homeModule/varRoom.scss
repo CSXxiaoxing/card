@@ -13,30 +13,6 @@
 .clear{
     clear: both;
 }
-// input错误提示
-input.error {
-    border: 2px solid #ff3333!important;
-    transition-duration: .2s;
-    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
-    animation: inputmove .1s linear 6; 
-}
-
-@keyframes inputmove{
-   0%{
-       transform: translate(0%, -2%);
-   }
-   100%{
-       transform: translate(0%, 2%);
-   }
-}
-@-webkit-keyframes inputmove{
-   0%{
-       transform: translate(0%, -2%);
-   }
-   100%{
-       transform: translate(0%, 2%);
-   }
-}
 
 // 创建房间
 .Cvar{

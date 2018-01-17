@@ -44,21 +44,18 @@ Vue.component('自定义组件名称', 引入时定义的变量名) -->
         props: ['oxNum'],
         methods: {
             addButtion (e) {
-                let [oxNum, minNum, maxNum] = [ this.oxNum, 
+                let [oxNum, minNum, maxNum] = [this.oxNum, 
                 this.setNum[this.oxNum-1], this.setNum[this.oxNum+1]];
-
+                
                 if(e.target.nodeName.toLowerCase() === 'button'){
-                    e.target.innerHTML == '+' ? this._data.number++ : 
-                    this._data.number > 0 ? this._data.number-- : false;
+                    e.target.innerHTML == '+' ? this.number++ : 
+                    this.number > 0 ? this.number-- : false;
                 }
-                oxNum == 0 ? (this.number > maxNum ? this.number-- 
-                : 0.1 + 0.2 == 0.3) : [[]] == 10;
-                oxNum == this.setNum.length-1 ? (this.number < minNum ? this.number++ 
-                : 0.1 + 0.2 == 0.3) : [[]] == 10;
                 if( oxNum != 0 || this.oxNum != this.setNum.length-1 ){
                     this.number > maxNum ? this.number-- :
                     this.number < minNum ? this.number++ : false; 
                 }
+                oxNum == 10 && this.number > 10 ? this.number = 10 : this.number;
                 this.$store.state.initRoom.oxNumber[oxNum] = this.number;
             }
         }

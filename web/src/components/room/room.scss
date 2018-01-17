@@ -1,7 +1,26 @@
+@import '../../utils/baseImg.scss';
+// 随机背景颜色
+$bgColor: #ccc;
+$width600: 5.555556rem;
+$height56: 0.518519rem;
+$fontsize24: 0.222222rem;
+$fontsize30: 0.277778rem;
+$fontsize38: 0.351852rem;
+$fontsize40: 0.37037rem;
+$fontsize44: 0.407407rem;
+
+// 0.51852rem px
 .pub{
     color: #fff;
-    font-size: 24px;
+    font-size: $fontsize24;
     display:inline-block;
+    position: absolute;
+    bottom: 0.046296rem;
+    height: 0.333333rem;
+    line-height: 0.333333rem;
+    left: 0;
+    width: 100%;
+    background-color:rgba(32,16,17,0.63);
 }
 // room01
 #room {
@@ -12,16 +31,16 @@
     overflow-y: hidden;
 
     header {
-        height: 290px;
-        padding: 110px 0px 0px;
+        height: 2.685185rem;
+        padding: 1.018519rem 0.0rem 0.0rem;
         box-sizing: border-box;
         background: #2F2E34;
         color: #fff;
         ul {
-            height: 82px;
+            height: 0.759259rem;
             display: flex;
             // border-top: 1px solid #fff;
-            padding-top: 8px;
+            padding-top: 0.074074rem;
             li {
                 flex: 1;
                 // align-content: center;
@@ -35,21 +54,21 @@
                 // align-self: baseline;
                 &>i {
                     display: inline-block;
-                    width: 70px;
-                    height: 55px;
-                    margin-top: -4px;
-                    background: url('../../img/room_all.png') -470px -160px no-repeat;
-                    background-size: 600px;
+                    width: 0.648148rem;
+                    height: 0.509259rem;
+                    margin-top: -0.037037rem;
+                    background: $roomAll -4.351852rem -1.481481rem no-repeat;
+                    background-size: $width600;
                     a {
-                        padding: 28px 40px;
+                        padding: 0.259259rem 0.37037rem;
                     }
                 }
                 &>span {
                     display: inline-block;
                     vertical-align: top;
-                    height: 56px;
-                    line-height: 56px;
-                    font-size: 44px;
+                    height: $height56;
+                    line-height: $height56;
+                    font-size: $fontsize44;
                     i{
                         color: #FFE87A;
                         font-style: normal;
@@ -58,36 +77,36 @@
                 p {
                     display: inline-block;
                     background: #FF4B1A;
-                    border-radius: 10px;
+                    border-radius: 0.092593rem;
                     color: #333;
-                    height: 56px;
+                    height: $height56;
                     position: relative;
                     // 弹出框
                     .gameStyle{
                         position: absolute;
                         width: 100%;
                         // top: 230px;
-                        border-radius: 30px;
+                        border-radius: 0.277778rem;
                         transform: translate(-50%, 28%);
-                        border: 1px solid #F2D923;
+                        border: 0.009259rem solid #F2D923;
                         span{
                             width: 100%;
                             padding: 0;
-                            height: 80px;
-                            line-height: 80px;
+                            height: 0.740741rem;
+                            line-height: 0.740741rem;
                         }
                         span:nth-of-type(3){
                              border: none;
                         }
                         .triangle-up {
                             position: absolute;
-                            right: 10px;
-                            top: -20px;
+                            right: 0.092593rem;
+                            top: -0.185185rem;
                             width: 0;
                             height: 0;
-                            border-left: 20px solid transparent;
-                            border-right: 20px solid transparent;
-                            border-bottom: 30px solid #fff;
+                            border-left: 0.185185rem solid transparent;
+                            border-right: 0.185185rem solid transparent;
+                            border-bottom: 0.277778rem solid #fff;
                         }
                     }
                     span{
@@ -95,28 +114,30 @@
                         top: 0;
                         left: 0;
                         text-align: center;
-                        height: 56px;
-                        font-size: 40px;
-                        line-height: 56px;
+                        height: $height56;
+                        font-size: $fontsize40;
+                        line-height: $height56;
                         vertical-align: top;
-                        padding: 0 14px;
+                        padding: 0 0.12963rem;
                     }
                     &>i{
                         display: inline-block;
-                        width: 56px;
-                        height: 56px;
-                        border-top-right-radius: 10px;
-                        border-bottom-right-radius: 10px;
+                        width: $height56;
+                        height: $height56;
+                        border-top-right-radius: 0.092593rem;
+                        border-bottom-right-radius: 0.092593rem;
                         background: #fff;
                         position: relative;
-                        margin-left: -8px;
+                        vertical-align: text-top;
+                        margin-top: -0.018519rem;
+                        margin-left: -0.074074rem;
                         b{
                             width: 0;
                             height: 0;
-                            border-width: 20px 12px 0;
+                            border-width: 0.185185rem 0.111111rem 0;
                             border-style: solid;
                             border-color: #333 transparent transparent;/*灰 透明 transparent透明 */
-                            margin: 0px auto;
+                            margin: 0.0rem auto;
                             position: absolute;
                             left: 50%;
                             top: 50%;
@@ -129,388 +150,469 @@
                 }
             }
             li:last-child {
-                font-size: 44px;
+                font-size: $fontsize44;
                 span{
                     display: inline-block;
                     vertical-align: top;
-                    padding-left: 60px;
+                    padding-left: 0.555556rem;
                     position: relative;
-                    height: 56px;
-                    line-height: 56px;
+                    height: $height56;
+                    line-height: $height56;
                     i{
                         position: absolute;
                         left: 0%;
                         top: 50%;
                         transform: translate(0%, -50%);
-                        width: 49px;
-                        height: 49px;
-                        background: url('../../img/room_all.png') -170px -165px no-repeat;
-                        background-size: 600px;
+                        width: 0.453704rem;
+                        height: 0.453704rem;
+                        background: $roomAll -1.574074rem -1.527778rem no-repeat;
+                        background-size: $width600;
                     }
                 }
                 span:last-child i{
-                    width: 45px;
-                    height: 47px;
-                    background: url('../../img/room_all.png') -250px -165px no-repeat;
-                        background-size: 600px;
+                    width: 0.416667rem;
+                    height: 0.435185rem;
+                    background: $roomAll -2.314815rem -1.527778rem no-repeat;
+                        background-size: $width600;
                 }
             }
         }
         dl{
-            height: 90px;
+            height: 0.833333rem;
             background: #404042;
             display: flex;
-            font-size: 38px;
+            font-size: $fontsize38;
             position: relative;
             // justify-content: space-around;
             justify-content: center;
             dt{
-                width: 149px;
-                height: 155px;
+                width: 1.37963rem;
+                height: 1.435185rem;
                 position: absolute;
-                top: 18px;
-                left: 15px;
+                top: 0.166667rem;
+                left: 0.138889rem;
+
                 img{width: 100%; height: 100%;}
             }
             dd:nth-of-type(1){
-                line-height: 88px;
-                padding-right: 5px;
-                min-width: 260px;
+                line-height: 0.814815rem;
+                padding-right: 0.046296rem;
+                min-width: 2.407407rem;
                 text-align: left;
                 white-space: wrap;
             }
             dd:nth-of-type(2){
-                line-height: 88px;
-                padding-left: 5px;
-                width: 380px;
+                line-height: 0.814815rem;
+                padding-left: 0.046296rem;
+                width: 3.518519rem;
                 text-align: left;
                 span{
                     color: #0DB80A;
                 }
             }
             dd:nth-of-type(3){
-                line-height: 88px;
-                min-width: 260px;
+                line-height: 0.814815rem;
+                min-width: 2.407407rem;
                 text-align: left;
                 span{
                     color: #0DB80A;
                 }
             }
             dd:nth-of-type(4){
-                line-height: 88px;
-                padding-right: 00px;
-                width: 380px;
-                // text-align: left;
+                line-height: 0.814815rem;
+                padding-right: 0.0rem;
+                width: 3.518519rem;
                 i{
                     display: inline-block;
-                    width: 52px;
-                    height: 53px;
-                    margin-right: 12px;
+                    width: 0.481481rem;
+                    height: 0.490741rem;
+                    margin-right: 0.111111rem;
                     position: relative;
                     left: 0;
                     top: 46%;
                     transform: translate(0, -50%);
-                    background: url('../../img/room_all.png') -320px -165px no-repeat;
-                    background-size: 600px;
+                    background: $roomAll -2.962963rem -1.527778rem no-repeat;
+                    background-size: $width600;
                 }
             }
             dd:nth-of-type(5){
-                height: 72px;
-                line-height: 70px;
-                width: 240px;
-                border-radius: 36px;
-                box-shadow: 0px 2px 3px 1px #2F2F25;
+                height: 0.666667rem;
+                line-height: 0.648148rem;
+                width: 2.222222rem;
+                border-radius: 0.333333rem;
+                box-shadow: 0px 0.018519rem 0.027778rem 0.009259rem #2F2F25;
                 position: absolute;
-                right: 10px;
+                right: 0.092593rem;
                 top: 50%;
                 transform: translate(0, -50%);
                 background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(#26CD4A), to(#108721));
                 background: -webkit-linear-gradient(top, #26CD4A, #108721);
                 i{
                     display: inline-block;
-                    width: 39px;
-                    height: 39px;
-                    margin-right: 0px;
+                    width: 0.361111rem;
+                    height: 0.361111rem;
+                    margin-right: 0.0rem;
                     position: relative;
                     left: 0;
                     top: 50%;
                     transform: translate(0, -76%);
-                    background: url('../../img/room_all.png') -400px -170px no-repeat;
-                    background-size: 600px;
+                    background: $roomAll -3.703704rem -1.574074rem no-repeat;
+                    background-size: $width600;
                 }
             }
             dd:last-child{
                 color: #fff;
-                height: 60px;
-                font-size: 30px;
-                line-height: 60px;
+                height: 0.555556rem;
+                font-size: $fontsize30;
+                line-height: 0.555556rem;
                 background: #222;
                 opacity: 0.6;
-                border-radius: 28px;
+                border-radius: 0.259259rem;
                 position: absolute;
-                right: 0px;
-                margin-right: 14px;
-                bottom: -72px;
+                right: 0.0rem;
+                margin-right: 0.12963rem;
+                bottom: -0.666667rem;
                 width: 80%;
                 span{
                     float: left;
-                    font-size: 30px;
-                    line-height: 60px;
-                    padding-left: 94px;
+                    font-size: $fontsize30;
+                    line-height: 0.555556rem;
+                    padding-left: 0.87037rem;
 
                 }
                 i{
                     position: absolute;
-                    left: 0px;
+                    left: 0.0rem;
                     top: 50%;
-                    margin-left: 2px;
+                    margin-left: 0.018519rem;
                     transform: translate(-20%,-50%);
                     text-align: left;
-                    left: 26px;
+                    left: 0.240741rem;
                     display: inline-block;
-                    width: 54px;
-                    height: 47px;
-                    background: url(../../img/home_all.png) -240px 0px no-repeat;
-                    background-size: 600px 600px;
+                    width: 0.5rem;
+                    height: 0.435185rem;
+                    background: $homeAll -2.222222rem 0.0rem no-repeat;
+                    background-size: $width600;
                 }
             }  
         }
     }
     .roomMain{
         flex: 1;
-        padding: 130px 0 68px;
-        margin-bottom: -20px;
-        background: url('../../img/room07.png') no-repeat;
+        padding: 1.203704rem 0 0.62963rem;
+        margin-bottom: -0.185185rem;
+        background: $room07 no-repeat;
         display: flex;
         justify-content: space-between;
         @mixin LR {
-            border-radius: 6px;
-            width: 166px;
+            border-radius: 0.055556rem;
+            width: 1.537037rem;
             height: 100%;
-            padding-top: 6px;
+            padding-top: 0.055556rem;
             background-origin: content-box;
-        }
+            ul {
+                display: flex;
+                flex-direction: column;
+                background: $room02 no-repeat;
+                border-radius: 0.046296rem;
+                width:1.537037rem;
+                
+                li{
+                    width: 100%;
+                    height: 1.787037rem;
+                    &>div {
+                        width:1.388889rem;
+                        height:1.435185rem;
+                        position: relative;
+                        left:50%;
+                        top: 50%;
+                        transform: translate(-50%, -55%);
+                        
+                        &>.leftZhuan {
+                            position: absolute;
+                            left: 0.559259rem;
+                            top: -0.404815rem;
+                            width: 1.185185rem;
+                            height: 0.777778rem;
+                            z-index: 3;
+                        }
+                        &>img:nth-of-type(1) {
+                            width: 1.296296rem;
+                            height: 1.296296rem;
+                            position: absolute;
+                            left:50%;
+                            top: 50%;
+                            transform: translate(-50%, -55%);
+                            z-index: 2;
+                        }
+                        &>img:nth-of-type(2) {
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            z-index: 3;
+                        }
+                        &>span {
+                            color: #fff;
+                            position: absolute;
+                            left: 0.12963rem;
+                            top: 0.037037rem;
+                            font-size: 0.333333rem;
+                            z-index: 3;
+                        }
+                    }
+                    p {
+                        font-size: $fontsize24;
+                        color: #fff;
+                        padding-top: 0.05rem;
+                    }
+                    // 左边图片
+                    .leftImg {
+                        width: 1.296296rem;
+                        height: 1.296296rem;
+                        position: absolute;
+                        left:50%;
+                        top: 50%;
+                        transform: translate(-50%, -55%);
+                        overflow: hidden;
+                        border-radius: 38px;
+                        img {
+                            width: 100%;
+                            height: 100%;
+                        }
+                        img:nth-of-type(1) {
+                            z-index: 1;
+                        }
+                        span{
+                            @extend .pub;
 
-        
+                        }
+                    }
+                }
+            }
+        }
 
         // @include xx
         .left {
             @include LR;
-            ul {
-                display: flex;
-                flex-direction: column;
-                height: 1300px;
-                background:url('../../img/room2.png') no-repeat;
-                border-radius:5px;
-                width:166px;
-                
-                li{
-                    width: 100%;
-                    height: 193px;
-                    &>div {
-                         width:150px;
-                         height:155px;
-                         position:relative;
-                         left:50%;
-                         top: 50%;
-                         transform: translate(-50%, -50%);
-                         
-                        span{
-                            @extend .pub;
-                            position:relative;
-                            top:80px;
-                        }
-                    }
-                    p {
-                        font-size: 24px;
-                        color: #fff;
-                        padding-top: 10px;
-                    }
-                }
-                li:nth-of-type(2){
-                    div{
-                        background: url('../../img/room_all.png') -150px 0px no-repeat;
-                        background-size:600px 600px;
-                    }        
-                }
-                li:nth-of-type(3){
-                    div{
-                        background: url('../../img/room_all.png') -300px 0px no-repeat;
-                        background-size:600px 600px;
-                    }        
-                }
-                li:nth-of-type(4){
-                    div{
-                        background: url('../../img/room_all.png') -450px 0px no-repeat;
-                        background-size:600px 600px;
-                    }        
-                }
-                li:nth-of-type(5){
-                    div{
-                        background: url('../../img/room_all.png') -450px 0px no-repeat;
-                        background-size:600px 600px;
-                    }        
-                }
-                li:nth-of-type(6){
-                    div{
-                        background: url('../../img/room_all.png') -450px 0px no-repeat;
-                        background-size:600px 600px;
-                    }        
-                }
-
+            ul{
+                height: 12.037037rem;
                 li:first-child {
-                    height: 232px;
+                    height: 2.148148rem;
                     background-color: #3D3D3D;
-                    border-radius:5px 5px 0px 0px;
+                    border-radius:0.046296rem 0.046296rem 0px 0px;
                     p{
-                       padding-top: 20px;
+                       padding-top: 0.265rem;
                     }
-                    div{
-                        background: url('../../img/room_all.png') -0px 0px no-repeat;
-                        background-size:600px 600px;
-                        position:relative;
-                         left:50%;
-                         top: 50%;
-                         transform: translate(-50%, -55%);
-                         img{
-                             position:absolute;
-                             left:55px;
-                             top:-34px;
-                         }
-                    }
-
-                    
-
                 }
+                
                 li:last-child {
-                    width:150px;
-                    height: 56px;
-                    line-height:56px;
-                    text-align:center;
-                    font-size:30px;
-                    background:url('../../img/room_all.png') 0px -160px no-repeat;
-                    background-size:600px 600px;
-                    color:#6E410F;
+                    width: 1.388889rem;
+                    height: $height56;
+                    border-radius: 0.259259rem;
+                    line-height: $height56;
+                    text-align: center;
+                    font-size: $fontsize30;
+                    background: $roomAll 0px -1.481481rem no-repeat;
+                    background-size: $width600;
+                    color: #6E410F;
                     font-weight: bold;
-                    position:relative;
-                     left:50%;
-                     transform: translate(-50%, 50%);
-
+                    position: relative;
+                    left: 50%;
+                    transform: translate(-50%, 50%);
                 }
-
+                li:last-child.tips{
+                    box-sizing: border-box;
+                    animation: zhuanTips .5s linear infinite alternate;
+                }
+                @keyframes zhuanTips{
+                   0%{
+                       border: 0.0rem solid red;
+                   }
+                   100%{
+                        border: 0.009259rem solid red;
+                   }
+                }
+                @-webkit-keyframes zhuanTips{
+                   0%{
+                       border: 0.0rem solid red;
+                   }
+                   100%{
+                        border: 0.009259rem solid red;
+                   }
+                }
             }
         }
         .center {
             position:relative;
-            bottom:30px;
+            bottom:0.277778rem;
             flex: 1;
             h1{
-                font-size:48px;
+                font-size:0.444444rem;
                 span{
                     color:red;
                 }
             }
             p{
-                font-size:38px;
+                font-size:$fontsize38;
                 color:#508F31;
             }
+            p.showTime {
+                visibility: hidden;
+            }
             ul{
-
                 li{
                     clear: both;
-                    border-radius:10px;
-                    border:4px solid #DFDEDC;
+                    border-radius:0.092593rem;
+                    border:0.037037rem solid #DFDEDC;
+                    &>img {
+                        float:left;
+                        margin-left:0.046296rem;
+                        height: 1.314815rem;
+                        weight: 0.916667rem;
+                    }
                     span{
-                        font-size:30px;
+                        flex: 1;
+                        font-size: $fontsize30;
                         float:right;
                         text-align:left;
-                        color:red;
-
-                    }
-                }
-                
-
-                li.a5{
-                    width:690px;
-                    height:150px;
-                    padding:34px 0px 32px 25px;
-                    margin-left:10px;
-                    margin-top:10px;
-                    position: relative;
-                    img{
-                        float:left;
-                        margin-left:5px;
-                    }
-                    span{
-                        position:relative;
-                        padding-right:10px;
-
-                        b:nth-of-type(1){
-                            display:inline-block;
-                            width:108px;
-                            height:67px;
-                            line-height:90px;
-                            background:url('../../img/room_all.png') -160px -240px no-repeat;
-                            background-size:600px 600px;
-                            color:#FBDD2A;
-                            font-size:28px;
-                            text-align:center;
-                        }  
+                        text-align: center;
+                        b{
+                            text-align: center;
+                            display: block;
+                        }
                         b:nth-of-type(2){
-                            color:black;
+                            color: red;
                         }
                     }
                 }
                 
-                li.a5:nth-of-type(4){
-                    border:5px solid #F9BA6A;
-                    .zhuang{
-                        position:relative;
-                        transform: translate(20%, 30%);      
-                    } 
-                    b{
-                        color:red;
-                        font-size:30px;
-                        font-weight:bolder;
-                        position:relative;
-                        right:60px;
-                        top:50px;
-                    }  
-            }
-
-            li.b7{
-                    height:145px;
-                    width:720px;
-                    padding-top:8px;
-                    margin-left:10px;
-                    margin-top:15px;
+                li.a5{
+                    width:6.388889rem;
+                    height:1.388889rem;
+                    padding:0.314815rem 0px 0.296296rem 0.231481rem;
+                    margin-left:0.092593rem;
+                    margin-top:0.092593rem;
                     position: relative;
-                    img{
-                        float:left;
-                        margin-left:5px;
-                    }
                     span{
-                        text-align:center;
+                        position:relative;
+                        padding-right:0.185185rem;
+                        text-align: left;
+                        margin-top: -0.092593rem;
                         b:nth-of-type(1){
                             display:inline-block;
-                            width:108px;
-                            height:67px;
-                            line-height:90px;
-                            background:url('../../img/room_all.png') -160px -240px no-repeat;
-                            background-size:600px 600px;
+                            width:1.0rem;
+                            height:0.62037rem;
+                            line-height:0.833333rem;
+                            background:$roomAll -1.481481rem -2.222222rem no-repeat;
+                            background-size: $width600;
                             color:#FBDD2A;
-                            font-size:28px;
-                            display: none;
+                            font-size:0.259259rem;
+                            text-align: center;
+                            visibility: hidden;
+                        } 
+                        b.showoff {
+                            visibility: visible;
+                            animation: inputmove .1s linear 6; 
+                        }
+                        @keyframes inputmove{
+                           0%{
+                               transform: translate(-5%, 0%);
+                           }
+                           100%{
+                               transform: translate(5%, 0%);
+                           }
+                        }
+                        @-webkit-keyframes inputmove{
+                           0%{
+                               transform: translate(-5%, 0%);
+                           }
+                           100%{
+                               transform: translate(5%, 0%);
+                           }
+                        }
+                    }
+                }
+                li.bgccc {
+                    background: $bgColor;
+                }
+                li.bgccc.bg {
+                    border:0.046296rem solid #F9BA6A;
+                    background: none;
+                    transition: all 2s;
+                    b{
+                        display: none;
+                    }
+                    b:first-child {
+                        visibility: visible;
+                        color: #8F4C06;
+                        display: block;
+                        position: relative;
+                        transform: translate(-4%, 30%);
+                        width: 1.148148rem;
+                        height: 0.777778rem;
+                        line-height: 1.018519rem;
+                        background: $room04 no-repeat;
+                        background-size: 1.148148rem 0.777778rem;
+                        transition: all 1s;
+                    }
+                }
+                li.b7.bgccc.bg {
+                    b:first-child {
+                        transform: translate(5%, 30%);
+                        background: $room04 no-repeat;
+                        background-size: 1.148148rem 0.777778rem;
+                        transition: all 1s;
+                    }
+                    b.showoff {
+                        visibility: visible;
+                        animation: Bmove .1s linear 6; 
+                    }
+                    @keyframes Bmove{
+                       0%{
+                           transform: translate(-5%, 30%);
+                       }
+                       100%{
+                           transform: translate(5%, 30%);
+                       }
+                    }
+                    @-webkit-keyframes Bmove{
+                       0%{
+                           transform: translate(-5%, 30%);
+                       }
+                       100%{
+                           transform: translate(5%, 30%);
+                       }
+                    }
+                }
+                li.b7{
+                    height:1.342593rem;
+                    width:6.666667rem;
+                    padding-top:0.074074rem;
+                    margin-left:0.092593rem;
+                    margin-top:0.138889rem;
+                    position: relative;
+                    
+                    span{
+                        text-align: center;
+                        b:nth-of-type(1){
+                            display:inline-block;
+
+                            width:1.0rem;
+                            height:0.62037rem;
+                            line-height:0.833333rem;
+                            background:$roomAll -1.481481rem -2.222222rem no-repeat;
+                            background-size: $width600;
+                            color:#FBDD2A;
+                            font-size:0.259259rem;
+                            visibility: hidden;
                         }  
                         b:nth-of-type(2){
-                            color:black;
+                            // color:black;
+                            color: red;
                         }
                         // ----
                         b.showoff {
-                            display: inline-block;
-                            // border: 2px solid #ff3333!important;
-                            // transition-duration: .2s;
-                            // transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
+                            visibility: visible;
                             animation: inputmove .1s linear 6; 
                         }
                         @keyframes inputmove{
@@ -531,84 +633,41 @@
                         }
                         // ------
                         position:relative;
-                        margin-right:30px;
+                        margin-right:0.277778rem;
                     }
-                }
-            li.b7:nth-of-type(4){
-                border:5px solid #F9BA6A;
-                .zhuang{
-                    position:relative;
-                    transform: translate(30%, 30%); 
-                    }  
-                    b{
-                        color:red;
-                        font-size:30px;
-                        font-weight:bolder;
-                        position:relative;
-                        right:60px;
-                        top:50px;
-                    }          
                 }
             }
         }
-
+        //showTime
         .right {
             @include LR;
-            ul::-webkit-scrollbar{display: none;}
             ul {
                 overflow-y: auto;
                 overflow-x: hidden;
                 display: flex;
                 flex-direction: column;
                 height: 99%;
-                background: url('../../img/room2.png') no-repeat;
-                border-radius: 5px;
-                width: 166px;
-                li{
-                    width: 100%;
-                    height: 196px;
-                    &>div {
-                         background: url('../../img/room_all.png') 0px -240px no-repeat;
-                         background-size:600px 600px;
-                         width:150px;
-                         height:155px;
-                         position:relative;
-                         left:50%;
-                         top: 50%;
-                         transform: translate(-45%, -50%);
-                         
-                        span{
-                            @extend .pub;
-                            position:relative;
-                            top:80px;
-
-                        }
-                    }
-                    p {
-                        font-size: 24px;
-                        color: #fff;
-                        margin-top: 8px;
-                    }
-                }
             }
+            ul::-webkit-scrollbar{display: none;}
         }
     }
     // 底部
     footer{
-        height: 137px;
+        // height: 1.268519rem;
+        height: 1.268519rem;
         z-index: 1;
-        border-top: 7px solid #474747;
-        border-top-left-radius: 26px;
-        border-top-right-radius: 26px;
+        border-top: 0.064815rem solid #474747;
+        border-top-left-radius: 0.240741rem;
+        border-top-right-radius: 0.240741rem;
         background: #2B2B2B;
         .roomScore{
             position: relative;
             right: 0;
-            top: -4px;
-            width: 264px;
-            height: 137px;
-            border-top: 7px solid #3A8C4A;
-            border-top-right-radius: 26px; 
+            top: -0.037037rem;
+            width: 2.444444rem;
+            height: 1.268519rem;
+            border-top: 0.064815rem solid #3A8C4A;
+            border-top-right-radius: 0.240741rem; 
             background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#12B633), to(#0D7B22));/*谷歌*/ 
             background: -webkit-linear-gradient(top, #12B633, #0D7B22);   /*Safari5.1 Chrome 10+*/
         }
@@ -619,6 +678,7 @@
             justify-content: space-between;
             align-items: center;
             color: #fff;
+            font-size: 0.444444rem;
             li {
                 flex: 1;
                 text-align: center;
@@ -630,15 +690,15 @@
                 justify-content: center;
                 z-index: 3;
                 b{
-                    font-size: 38px;
-                    line-height: 38px;
+                    font-size: $fontsize38;
+                    line-height: $fontsize38;
                 }
                 b:first-child{
                     color: #FDFF67;
-                    padding-bottom: 10px;
+                    padding-bottom: 0.092593rem;
                 }
                 b:last-child{
-                    padding-top: 10px;
+                    padding-top: 0.092593rem;
                     color: #03360B;
                 }
             }
@@ -655,21 +715,21 @@
     position: absolute;
     height: 0px;
     width: 0px;
-    top: -100px;
-    right: 17px;
+    top: -0.925926rem;
+    right: 0.157407rem;
     z-index: 99;
 }
 // 小牌样式
 @mixin img5 {
-    height: 142px;
-    width: 99px;
-    top: 30px;
+    height: 1.314815rem;
+    width: 0.916667rem;
+    top: 0.277778rem;
     transform: translate(-400%, 0px);
 }
 @mixin img7 {
-    height: 142px;
-    width: 99px;
-    top: 8px;
+    height: 1.314815rem;
+    width: 0.916667rem;
+    top: 0.074074rem;
     transform: translate(-400%, 0px);
 }
 // 出牌时间统一
@@ -720,8 +780,7 @@
         // transition-duration: .8s;
         // transition-timing-function: cubic-bezier(0.68,-.55,.265,1.55);
     }
-    
-    // 出牌
+    // 翻牌
     img.reveEnd {
         z-index: 99;
         transform: translate(-400%, 0px) rotateY(360deg);
@@ -733,40 +792,41 @@
     }
 }
 
+//show
 .testCard.a5{
     img {
         @include imgSTA;
     }
     // 卡牌出现
     img.start {
-        height: 172px;
-        width: 124px;
+        height: 1.592593rem;
+        width: 1.148148rem;
         @include timeStart;
     }
     // 发牌动效
     img.card01 {
         @include img5;
-        right: 192px;
+        right: 1.777778rem;
         @include time01;
     }
     img.card02 {
         @include img5;
-        right: 88px;
+        right: 0.814815rem;
         @include time02;
     }
     img.card03 {
         @include img5;
-        right: -19px;
+        right: -0.175926rem;
         @include time03;
     }
     img.card04 {
         @include img5;
-        right: -122px;
+        right: -1.12963rem;
         @include time04;
     }
     img.card05 {
         @include img5;
-        right: -227px;
+        right: -2.101852rem;
         @include time05;
     }
     @include card;
@@ -774,38 +834,111 @@
 .testCard.b7{
     img {
         @include imgSTA;
-        right: 44px;
+        right: 0.407407rem;
     }
     // 卡牌出现
     img.start {
-        height: 137.6px;//0.8
-        width: 99.2px;
+        height: 137.1.274074rem;//0.8
+        width: 99.0.918519rem;
         @include timeStart;
     }
     img.card01 {
         @include img7;
-        right: 220px;
+        right: 2.037037rem;
         @include time01;
     }
+
     img.card02 {
         @include img7;
-        right: 120px;
+        right: 1.111111rem;
         @include time02;
     }
     img.card03 {
         @include img7;
-        right: 16px;
+        right: 0.148148rem;
         @include time03;
     }
     img.card04 {
         @include img7;
-        right: -92px;
+        right: -0.851852rem;
         @include time04;
     }
     img.card05 {
         @include img7;
-        right: -200px;
+        right: -1.851852rem;
         @include time05;
     }
     @include card;
+}
+
+ul{
+    .testCard.three{
+        img:nth-of-type(6){
+            transform: translate(-400%, 0px) rotateY(90deg);
+            transition: all .6s ease-in-out;
+        }
+        img:nth-of-type(7){
+            transform: translate(-400%, 0px) rotateY(90deg);
+            transition: all .6s ease-in-out;
+        }
+        img:nth-of-type(8){
+            transform: translate(-400%, 0px) rotateY(90deg);
+            transition: all .6s ease-in-out;
+        }
+        img:nth-of-type(1){
+            z-index: 99;
+            transform: translate(-400%, 0px) rotateY(360deg);
+            transition: all 1.2s linear;
+        }
+        img:nth-of-type(2){
+            z-index: 99;
+            transform: translate(-400%, 0px) rotateY(360deg);
+            transition: all 1.2s linear;
+        }
+        img:nth-of-type(3){
+            z-index: 99;
+            transform: translate(-400%, 0px) rotateY(360deg);
+            transition: all 1.2s linear;
+        }
+        // 点击暂时(temporary)翻开
+        .beimian {
+            transform: translate(-400%, 0px) rotateY(90deg);
+            transition: all .6s ease-in-out;
+        }
+        .beimian02 {
+            transform: translate(-400%, 0px) rotateY(0deg);
+            transition: all .6s ease-in-out;
+        }
+        .temporary {
+            z-index: 99;
+            transform: translate(-400%, 0px) rotateY(360deg);
+            transition: transform 1.2s linear;
+        }
+        .temporary02 {
+            z-index: 99;
+            transform: translate(-400%, 0px) rotateY(180deg);
+            transition: transform 1.2s linear;
+        }
+    }
+    .testCard.threeEng{
+        img:nth-of-type(9){
+            transform: translate(-400%, 0px) rotateY(90deg);
+            transition: all .6s ease-in-out;
+        }
+        img:nth-of-type(10){
+            transform: translate(-400%, 0px) rotateY(90deg);
+            transition: all .6s ease-in-out;
+        }
+        img:nth-of-type(4){
+            z-index: 99;
+            transform: translate(-400%, 0px) rotateY(360deg);
+            transition: all 1.2s linear;
+        }
+        img:nth-of-type(5){
+            z-index: 99;
+            transform: translate(-400%, 0px) rotateY(360deg);
+            transition: all 1.2s linear;
+        }
+    }
+    
 }

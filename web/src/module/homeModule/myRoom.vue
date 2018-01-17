@@ -18,6 +18,7 @@
         </div>
 
         <div class="room"> 
+            <p>你还没有创建/加入房间，快去创建/加入</p>
             <ul @click='openS'>
                 <li v-for='(dataRoom) in datagrid' :key='dataRoom.key' :openState='dataRoom.open'>
                     <b v-if='dataRoom.open == "true"'></b>
@@ -93,7 +94,10 @@
                 border: none;
                 background-color: transparent;
                 position: relative;
-
+                border: none;
+                outline: none;
+                -webkit-tap-highlight-color: #000000;
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
                 //z-index: 999;
             }
             button:nth-of-type(1){
@@ -135,6 +139,15 @@
         overflow-x: hidden;
         height:965px;
         margin-bottom: 26px;
+        background:url('../../img/module_home_myRoom4.png') no-repeat;
+        background-size: cover;
+        background-position:center;
+        p{
+          font-size:48px;
+          color: #9B9A98;
+          width:638px;
+          margin:60px auto;
+        }
         ul{
             padding: 1%;
             display: flex;

@@ -73,9 +73,15 @@
 		</mt-popup>
 
 		<div class='logo'></div>
-		<span class='spanLog'>微信登录</span>
-		<span class='spanLog' @click='phone = true'>手机登录</span>
-		<p>还没有账号？<span @click='zhuce = true'>注册</span></p>
+		<div class="nouser" v-show="a == 0">
+			<span class='spanLog'>微信登录</span>
+			<span class='spanLog' @click='phone = true'>手机登录</span>
+			<p>还没有账号？<span @click='zhuce = true'>注册</span></p>
+		</div>
+		<div class="haveuser"  v-show="a == 1 ">
+			<span>{{a}}<b @click="a=0">切换</b></span>
+			<span>登录</span>
+		</div>
 
 		<loading v-show='loadingShow'></loading>
 	</div>
@@ -83,24 +89,24 @@
 
 <style  lang='scss' scoped>
     b{
-    	padding: 10px;
+    	padding: 0.092593rem;
     }
 	.login {
 		height: 100%;
 		width: 100%;
 		background: url(../../img/login0.png) no-repeat;
-		background-size: 1080px 1920px;
+		background-size: 10.0rem 17.777778rem;
 		background-position: center;
 		@mixin spans {
-			width: 558px;
-			height: 137px;
+			width: 5.166667rem;
+			height: 1.268519rem;
 			display: inline-block;
-			font-size: 78px;
-			line-height: 137px;
+			font-size: 0.722222rem;
+			line-height: 1.268519rem;
 			color: #fff;
 			position: absolute;
 			left: 50%;
-			bottom: 518px;
+			bottom: 4.796296rem;
 			transform: translate(-50%, 0);
 		}
 		@mixin position {
@@ -110,205 +116,234 @@
 		} 
 		.logo {
 			@include position;
-			top: 410px;
-			width: 768px;
-			height: 244px;
+			top: 3.796296rem;
+			width: 7.111111rem;
+			height: 2.259259rem;
 			background: url(../../img/z01.png) no-repeat;
-			background-size: 768px 244px;
+			background-size: 7.111111rem 2.259259rem;
 			background-position: center;
 		}
-		.spanLog:nth-of-type(1){
-			background: url(../../img/login.png) -20px -170px no-repeat;
-			background-size: 600px 600px;
-			width: 558px;
-			height: 137px;
-			@include spans;
-		}
-		.spanLog:nth-of-type(2){
-			background: url(../../img/login.png) -20px -10px no-repeat;
-			background-size: 600px 600px;
-			@include spans;
-			bottom: 320px;
-		}
-		.spanLog:active {
-	        transform: translate(-50%, 6px);
-	    }
-		p {
-			@include position;
-			bottom: 196px;
-			font-size: 58px;
-			height: 60px;
-			line-height: 60px;
-			color: #3A3C37;
-			span {
-				color: #089225;
-				border-bottom: 2px solid #089225;
+		.nouser{
+			.spanLog:nth-of-type(1){
+				background: url(../../img/login.png) -0.185185rem -1.574074rem no-repeat;
+				background-size: 5.555556rem 5.555556rem;
+				width: 5.166667rem;
+				height: 1.268519rem;
+				@include spans;
+				bottom: 5.2rem;
+			}
+			.spanLog:nth-of-type(2){
+				background: url(../../img/login.png) -0.185185rem -0.092593rem no-repeat;
+				background-size: 5.555556rem 5.555556rem;
+				@include spans;
+				bottom: 3.5rem;
+			}
+			.spanLog:active {
+		        transform: translate(-50%, 6px);
+		    }
+			p {
+				@include position;
+				bottom: 2.5rem;
+				font-size: 0.537037rem;
+				height: 0.555556rem;
+				line-height: 0.555556rem;
+				color: #3A3C37;
+				span {
+					color: #089225;
+					border-bottom: 0.018519rem solid #089225;
+				}
 			}
 		}
+
+		.haveuser{
+			span:nth-of-type(1){
+				position:absolute;
+				font-size:0.555556rem;
+				transform: translate(-50%, 0.0rem);
+				bottom: 5rem;
+				b{
+					text-decoration:underline;
+					color:#16942A;
+					font-weight: normal;
+				}
+			}
+			span:nth-of-type(2){
+				background: url(../../img/login.png) -0.185185rem -1.574074rem no-repeat;
+				background-size: 5.555556rem 5.555556rem;
+				width: 5.166667rem;
+				height: 1.268519rem;
+				@include spans;
+				bottom: 3rem;
+			}
+		}
+		
 	}
 	.zhuce {
-		width: 936px;
-		padding: 40px 40px 42px 68px;
+		width: 8.666667rem;
+		padding: 0.37037rem 0.37037rem 0.388889rem 0.62963rem;
 		box-sizing: border-box;
-		border-radius: 30px;
+		border-radius: 0.277778rem;
 		h4{
-			font-size: 66px;
+			font-size: 0.611111rem;
 			color: #3B3B3B;
-			line-height: 66px;
-			margin-bottom: 56px;
+			line-height: 0.611111rem;
+			margin-bottom: 0.518519rem;
 		}
 		span:last-child{
 			display: inline-block;
-			height: 137px;
-			width: 450px;
-			font-size: 78px;
-			line-height: 137px;
+			height: 1.268519rem;
+			width: 4.166667rem;
+			font-size: 0.722222rem;
+			line-height: 1.268519rem;
 			color: #fff;
 			transform: scale(0.79, 0.79);
-			background: url(../../img/login.png) -30px -440px no-repeat;
-			background-size: 600px 600px;
+			background: url(../../img/login.png) -0.277778rem -4.074074rem no-repeat;
+			background-size: 5.555556rem 5.555556rem;
 		}
 		span:last-child:active{
 			position: relative;
-			bottom: -4px;
-			left: 1px;
+			bottom: -0.037037rem;
+			left: 0.009259rem;
 		}
 		label{
 			display: block;
-			height: 92px;
-			padding: 14px 0;
+			height: 0.851852rem;
+			padding: 0.12963rem 0;
 			text-align: left;
 			span{
 				display: inline-block;
-				font-size: 48px;
-				line-height: 92px;
-				width: 210px;
+				font-size: 0.444444rem;
+				line-height: 0.851852rem;
+				width: 1.944444rem;
 			}
 			input{
-				border: 3px solid #D4D4D4;
-				height: 86px;
-				padding-left: 26px;
-				font-size: 40px;
-				line-height: 86px;
-				border-radius: 10px;
+				border: 0.027778rem solid #D4D4D4;
+				height: 0.796296rem;
+				padding-left: 0.240741rem;
+				font-size: 0.37037rem;
+				line-height: 0.796296rem;
+				border-radius: 0.092593rem;
 			}
 		}
 		label:nth-of-type(4){ 
-			padding-bottom: 32px; 
-			border-bottom: 3px solid #D4D4D4;
-			margin-bottom: 36px;
+			padding-bottom: 0.296296rem; 
+			border-bottom: 0.027778rem solid #D4D4D4;
+			margin-bottom: 0.333333rem;
 			position: relative;
 			input{
-				width: 330px;
-				margin-right: 12px;
+				width: 3.055556rem;
+				margin-right: 0.111111rem;
 			}
 			i {
 				font-style: normal;
-				font-size: 36px;
+				font-size: 0.333333rem;
 				color: #fff;
 				display: inline-block;
-				line-height: 92px;
-				height: 92px;
-				width: 234px;
+				line-height: 0.851852rem;
+				height: 0.851852rem;
+				width: 2.166667rem;
 				position: absolute;
-				top: 14px;
-				right: 0px;
+				top: 0.12963rem;
+				right: 0.0rem;
 				text-align: center;
-				background: url(../../img/login.png) -100px -324px no-repeat;
-				background-size: 600px 600px;
+				background: url(../../img/login.png) -0.925926rem -3.0rem no-repeat;
+				background-size: 5.555556rem 5.555556rem;
 			}
 		}
 		b{
-			right: 40px;
-			top: 48px;
+			right: 0.37037rem;
+			top: 0.444444rem;
 			position: absolute;
-			background: url(../../img/home_all.png) -190px -260px no-repeat;
-			background-size: 600px 600px;
-			height: 39px;
-			width: 39px;
+			background: url(../../img/home_all.png) -1.759259rem -2.407407rem no-repeat;
+			background-size: 5.555556rem 5.555556rem;
+			height: 0.361111rem;
+			width: 0.361111rem;
 		}
 	}
 	.phone{
-		width: 936px;
-		height:760px;
-		padding: 40px 40px 42px 68px;
+		width: 8.666667rem;
+		height:7.037037rem;
+		padding: 0.37037rem 0.37037rem 0.388889rem 0.62963rem;
 		box-sizing: border-box;
-		border-radius: 30px;
+		border-radius: 0.277778rem;
 		h4{
-			font-size: 66px;
+			font-size: 0.611111rem;
 			color: #3B3B3B;
-			line-height: 66px;
-			margin-bottom: 56px;
+			line-height: 0.611111rem;
+			margin-bottom: 0.518519rem;
 		}
 		span:last-child{
 			display: inline-block;
-			height: 137px;
-			width: 450px;
-			font-size: 78px;
+			height: 1.24rem;
+			width: 4.166667rem;
+			font-size: 0.722222rem;
 			color: #fff;
-			line-height: 137px;
-			transform: scale(0.79, 0.79);
-			background: url(../../img/login.png) -30px -440px no-repeat;
-			background-size: 600px 600px;
+			line-height: 1.268519rem;
+			position:relative;
+			bottom:0.2em;
+			right:0.2rem;
+			transform: scale(0.8, 0.8);
+			background: url(../../img/login.png) -0.277778rem -4.074074rem no-repeat;
+			background-size: 5.555556rem 5.555556rem;
 		}
 		span:last-child:active{
 			position: relative;
-			bottom: -4px;
-			left: 1px;
+			bottom: -0.037037rem;
+			left: 0.009259rem;
 		}
 		label{
 			display: block;
-			height: 92px;
-			padding: 14px 0;
+			height: 0.851852rem;
+			padding: 0.12963rem 0;
 			text-align: left;
-			margin: 24px 0px;
+			margin: 0.222222rem 0.0rem;
 			span{
 				display: inline-block;
-				font-size: 48px;
-				line-height: 92px;
-				width: 210px;
+				font-size: 0.444444rem;
+				line-height: 0.851852rem;
+				width: 1.944444rem;
 			}
 			input{
-				border: 3px solid #D4D4D4;
-				height: 86px;
-				padding-left: 26px;
-				font-size: 40px;
-				line-height: 86px;
-				border-radius: 10px;
+				border: 0.027778rem solid #D4D4D4;
+				height: 0.796296rem;
+				padding-left: 0.240741rem;
+				font-size: 0.37037rem;
+				line-height: 0.796296rem;
+				border-radius: 0.092593rem;
 			}
 		}
 		label:nth-of-type(3){
-			padding-right: 76px;
+			padding-right: 0.703704rem;
 			text-align:right;
 			color:#3DC93C;
-			font-size:42px;
+			font-size:0.388889rem;
 			text-decoration:underline;	
 			}
 		hr{
-			width:936px;
+			width:8.666667rem;
 			position:relative;
-			right:70px;
+			right:0.648148rem;
 		}
 		b{
-			right: 40px;
-			top: 48px;
+			right: 0.37037rem;
+			top: 0.444444rem;
 			position: absolute;
-			background: url(../../img/home_all.png) -190px -260px no-repeat;
-			background-size: 600px 600px;
-			height: 39px;
-			width: 39px;
+			background: url(../../img/home_all.png) -1.759259rem -2.407407rem no-repeat;
+			background-size: 5.555556rem 5.555556rem;
+			height: 0.361111rem;
+			width: 0.361111rem;
 		}
 	}
 	.find {
-		width: 936px;
-		padding: 40px 40px 42px 68px;
+		width: 8.666667rem;
+		padding: 0.37037rem 0.37037rem 0.388889rem 0.62963rem;
 		box-sizing: border-box;
-		border-radius: 30px;
+		border-radius: 0.277778rem;
 		h4{
-			font-size: 66px;
+			font-size: 0.611111rem;
 			color: #3B3B3B;
-			line-height: 66px;
-			margin-bottom: 56px;
+			line-height: 0.611111rem;
+			margin-bottom: 0.518519rem;
 		}
 		span:last-child{
 			display: inline-block;
@@ -317,71 +352,71 @@
 			// font-size: 58px;
 			// line-height: 108px;
 			color: #fff;
-			height: 137px;
-			width: 450px;
-			font-size: 78px;
-			line-height: 137px;
+			height: 1.268519rem;
+			width: 4.166667rem;
+			font-size: 0.722222rem;
+			line-height: 1.268519rem;
 			transform: scale(0.79, 0.79);
-			background: url(../../img/login.png) -30px -440px no-repeat;
-			background-size: 600px 600px;
+			background: url(../../img/login.png) -0.277778rem -4.074074rem no-repeat;
+			background-size: 5.555556rem 5.555556rem;
 		}
 		span:last-child:active{
 			position: relative;
-			bottom: -4px;
-			left: 1px;
+			bottom: -0.037037rem;
+			left: 0.009259rem;
 		}
 		label{
 			display: block;
-			height: 92px;
-			padding: 14px 0;
+			height: 0.851852rem;
+			padding: 0.12963rem 0;
 			text-align: left;
-			margin: 32px 0px;
+			margin: 0.296296rem 0.0rem;
 			span{
 				display: inline-block;
-				font-size: 48px;
-				line-height: 92px;
-				width: 210px;
+				font-size: 0.444444rem;
+				line-height: 0.851852rem;
+				width: 1.944444rem;
 			}
 			input{
-				border: 3px solid #D4D4D4;
-				height: 86px;
-				padding-left: 26px;
-				font-size: 40px;
-				line-height: 86px;
-				border-radius: 10px;
+				border: 0.027778rem solid #D4D4D4;
+				height: 0.796296rem;
+				padding-left: 0.240741rem;
+				font-size: 0.37037rem;
+				line-height: 0.796296rem;
+				border-radius: 0.092593rem;
 			}
 		}
 		label:nth-of-type(2){ 
 			position: relative;
 			input{
-				width: 330px;
-				margin-right: 12px;
+				width: 3.055556rem;
+				margin-right: 0.111111rem;
 			}
 			i {
 				font-style: normal;
-				font-size: 36px;
+				font-size: 0.333333rem;
 				color: #fff;
 				display: inline-block;
-				line-height: 92px;
-				height: 92px;
-				width: 234px;
+				line-height: 0.851852rem;
+				height: 0.851852rem;
+				width: 2.166667rem;
 				position: absolute;
-				top: 14px;
-				right: 0px;
+				top: 0.12963rem;
+				right: 0.0rem;
 				text-align: center;
-				background: url(../../img/login.png) -100px -324px no-repeat;
-				background-size: 600px 600px;
+				background: url(../../img/login.png) -0.925926rem -3.0rem no-repeat;
+				background-size: 5.555556rem 5.555556rem;
 			}
 		}
 
 		b{
-			right: 40px;
-			top: 48px;
+			right: 0.37037rem;
+			top: 0.444444rem;
 			position: absolute;
-			background: url(../../img/home_all.png) -190px -260px no-repeat;
-			background-size: 600px 600px;
-			height: 39px;
-			width: 39px;
+			background: url(../../img/home_all.png) -1.759259rem -2.407407rem no-repeat;
+			background-size: 5.555556rem 5.555556rem;
+			height: 0.361111rem;
+			width: 0.361111rem;
 		}
 	}
 </style>
@@ -406,7 +441,8 @@
 				password: '',
 				cell: '',
 				code: '',
-				loadingShow: false
+				loadingShow: false,
+				a: this.$route.params.id
 			}
 		},
 		mounted: function(){

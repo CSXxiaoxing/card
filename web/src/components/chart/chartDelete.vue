@@ -11,18 +11,16 @@
         </header>
         <div class='list'>
             <ul>
-                <li v-for='(data, player) in 50' :key='player' @click='sel = player'>
+                <li v-for='(data, player) in 50' :key='player' @click='imgStyle.indexOf(player) >= 0 ? imgStyle.splice(imgStyle.indexOf(player),1) : imgStyle.push(player)'>
                     <img src="../../img/chart_Room2.png" alt="">
                     <dl>
                         <dt>迷糊的大土</dt>
                         <dd>分数:<b>70000</b></dd>
                     </dl>
-                    <span><img v-show="sel == player" src="../../img/module_room_setOwner2.png" alt=""></span>
+                    <span><img v-show="imgStyle.indexOf(player) >= 0" src="../../img/module_room_setOwner2.png" alt=""></span>
                 </li>
             </ul>
-            
         </div>
-        
     </div>
 </template>
 
@@ -132,10 +130,14 @@
         data: function(){
             return {
                 a: this.$route.params.id,
-                sel: -1,
+                imgStyle: [],
             }
         },
+        mounted: function(){
+
+        },
         methods: {
-            }
+
+        }
         }
 </script>

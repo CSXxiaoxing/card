@@ -2,7 +2,7 @@
 import request from 'superagent';
 
 const LOCAL_SERVER = 'http://192.168.31.142:3000';
-
+// const LOCAL_SERVER = 'http://192.168.31.83:666';
 const DEV_SERVER = '';
 const PRO_SERVER = '';
 
@@ -37,10 +37,10 @@ const HttpClient = {
             .end((err, res) => {
                 if (err) {
                     reject(err);
-                    vm['loadingShow'] = false;
+                    // vm['loadingShow'] = false;
                 } else {
                     resolve(res.body);
-                    vm['loadingShow'] = false;
+                    // vm['loadingShow'] = false;
                 }
             });
     })

@@ -31,17 +31,20 @@
         </table>
     </mt-popup>
 
-    <span>可押1~10分 <i @click="playerBottom = false">×</i></span>
-    <p>输入押注分数</p>
+    <span>可押{{scope[0]}}~{{scope[1]}}分 <i @click="playerBottom = false">×</i></span>
+    <p :class='inpErr == 99 ? "TEXTerror" : ""'>{{text}}</p>
 
-    <p>翻倍<b @click="details = true">( 查看详情 )</b>   <input type="text" Placeholder="输入押注分数"></p>
+    <p>翻倍<b @click="details = true">( 查看详情 )</b>   
+        <input type="text" v-model.number='double' :class='inpErr == 0 ? "error" : ""' Placeholder="输入押注分数" @focus='inpErr = -1'>
+    </p>
 
-    <p>不翻<b>(1:1比大小)</b>  <input type="text" value=" 输入押注分数"></p>
+    <p>不翻<b>(1:1比大小)</b>  
+        <input type="text" v-model.number='noDouble' :class='inpErr == 1 ? "error" : ""' Placeholder="输入押注分数" @focus='inpErr = -1'>
+    </p>
 
-    <mt-button @click="playerBottom = false">确定</mt-button>
+    <mt-button @click="valueEnd">确定</mt-button>
     
   </mt-popup >
-
 </template>
 
 <style lang='scss' scoped>
@@ -52,7 +55,6 @@
     font-weight:normal;
 
   }
-
   .player{
     width: 766px;
     border-radius: 30px;
@@ -107,8 +109,8 @@
       height:84px;
       border-radius:10px;
       margin-left:20px;
-      font-size:26px;
-      
+      font-size: 28px;
+      padding-left: 14px;
     }
     input::-webkit-input-placeholder{color: #ccc;}
     
@@ -204,20 +206,99 @@
       }
     }
   }
-  
 </style>
 
 <script type="es6">
-
-  export default {
+    export default {
     data() {
-      return {
-        playerBottom: false,
-        details:false,
-      };
+        return {
+            playerBottom: false,
+            details:false,
+            double: '',
+            noDouble: '',
+            // 文字
+            text: '输入押注分数',
+            // 输入数值有误
+            inpErr: -1,
+            // 可压范围
+            scope: [this.$parent.init.scope[0], this.$parent.init.scope[1]],
+        };
+    },
+    props: ["p"],
+    beforeUpdate: function(){
+        // 有初始值
+        if(this.$parent.ordinary.pay[this.p][2] > 0){
+            this.text = '追加押注分数';
+        } else {
+            this.text = '输入押注分数';
+        }
     },
     methods:{
+        valueEnd() {
+            let pay01 = 0;
+            let pay02 = 0;
+            let theTxt = [this.text, '总值超出可下注范围', '超出押注范围'];
+            let idx = 1;
+            // 有初始值
+            if(this.$parent.ordinary.pay[this.p][2] > 0){
+                pay01 = this.$parent.ordinary.pay[this.p][0];
+                pay02 = this.$parent.ordinary.pay[this.p][1];
+            }
+            let val01 = Number(this.double) + Number(pay01);
+            let val02 = Number(this.noDouble) + Number(pay02);
+            // 值超出最小或最大范围
+            if((this.double < this.scope[0] || this.double > this.scope[1])
+             && this.double != ''){
+                console.log(idx)
+                this.inpErr = 0;
+                idx = 2;
+            }
+            if((this.noDouble < this.scope[0] || this.noDouble > this.scope[1] )
+                && this.noDouble != '') {
+                this.inpErr = 1;
+                idx = 2;
+            } else {idx=1}
 
-  }
-};
+            // 无初始值
+            switch (true) {
+                case !Number(this.double) && this.double != '' :
+                    this.inpErr = 0;
+                    console.log(this.inpErr)
+                    break;
+                case !Number(this.noDouble) && this.noDouble != '' :
+                    this.inpErr = 1;
+                    break;
+                // 大于注池/或者超出范围
+                case val01 + val02 > this.$parent.ordinary.pond || idx == 2 :
+                    let t;
+                    clearTimeout(t);
+                    t = setTimeout( ()=>{
+                        this.text = theTxt[0];
+                        this.double = '';
+                        this.noDouble = '';
+                        this.inpErr = -1;
+                        idx=1;
+                    }, 2000)
+                    this.text = theTxt[idx];
+                    this.inpErr = 99;
+                    break;
+                case this.double + this.noDouble > 0 :
+                    // 1/修改父元素值
+                    this.$parent.ordinary.pay[this.p] = [val01, val02, val01+val02];
+                    // 2/发起请求-把数据传给后台 (三个值)---------------------------------------
+                    // 
+                    // 3/请求完后清除数据
+                    this.double = '';
+                    this.noDouble = '';
+                    this.inpErr = -1;
+                    this.playerBottom = false;
+                    break;
+                default : 
+                    this.inpErr = -1;
+            }   
+            
+
+        }
+    }
+    };
 </script>
