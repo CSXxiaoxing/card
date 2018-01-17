@@ -31,9 +31,9 @@ export default new Vuex.Store({
         },
         time: {
             // 游戏初始化准备时间
-            initTime: 5,
+            initTime: 0,
             // 游戏选择庄牌时间
-            random: 3,
+            random: 1,
         }, //基础时间设置
         // 设置值
         setRoom: {},

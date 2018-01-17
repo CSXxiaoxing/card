@@ -1,6 +1,5 @@
 @import '../../utils/baseImg.scss';
-// 随机背景颜色
-$bgColor: #ccc;
+
 $width600: 5.555556rem;
 $height56: 0.518519rem;
 $fontsize24: 0.222222rem;
@@ -9,7 +8,6 @@ $fontsize38: 0.351852rem;
 $fontsize40: 0.37037rem;
 $fontsize44: 0.407407rem;
 
-// 0.51852rem px
 .pub{
     color: #fff;
     font-size: $fontsize24;

@@ -227,11 +227,11 @@
     props: ["p"],
     beforeUpdate: function(){
         // 有初始值
-        if(this.$parent.ordinary.pay[this.p][2] > 0){
-            this.text = '追加押注分数';
-        } else {
-            this.text = '输入押注分数';
-        }
+        // if(this.$parent.ordinary.pay[this.p][2] > 0){
+        //     this.text = '追加押注分数';
+        // } else {
+        //     this.text = '输入押注分数';
+        // }
     },
     methods:{
         valueEnd() {
@@ -258,7 +258,6 @@
                 this.inpErr = 1;
                 idx = 2;
             } else {idx=1}
-
             // 无初始值
             switch (true) {
                 case !Number(this.double) && this.double != '' :
@@ -278,11 +277,12 @@
                         this.noDouble = '';
                         this.inpErr = -1;
                         idx=1;
+                        clearTimeout(t);
                     }, 2000)
                     this.text = theTxt[idx];
                     this.inpErr = 99;
                     break;
-                case this.double + this.noDouble > 0 :
+                case this.double + this.noDouble > 0 && this.$parent.init.textStyle == 3:
                     // 1/修改父元素值
                     this.$parent.ordinary.pay[this.p] = [val01, val02, val01+val02];
                     // 2/发起请求-把数据传给后台 (三个值)---------------------------------------
