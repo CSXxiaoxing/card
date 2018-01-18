@@ -27,20 +27,20 @@
 
 <style  lang='scss' scoped>
     .join{
-        width: 776px;
-        margin-top: -30px;
-        border-radius: 30px;
+        width: 7.185185rem;
+        margin-top: -0.277778rem;
+        border-radius: 0.277778rem;
         .joinCenter{
-            padding: 0 43px 42px 43px;  
+            padding: 0 0.398148rem 0.388889rem 0.398148rem;  
         }
-    p{height: 180px; width: 100%;}
+    p{height: 1.666667rem; width: 100%;}
     h3{
-        font-size: 76px;
+        font-size: 0.703704rem;
         text-align: center;
-        line-height: 132px;
+        line-height: 1.222222rem;
         color: #5E4105;
-        width: 908px;
-        height: 180px;
+        width: 8.407407rem;
+        height: 1.666667rem;
         padding: 0;
         margin: 0;
         background: url('../../img/JoinTOP.png') no-repeat;
@@ -58,51 +58,51 @@
             position:absolute;
             right: 0;
             transform: translate(-135%, 65%);
-            height: 60px;
-            width: 60px;
-            background: url(../../img/home_all.png) -260px -260px no-repeat;
-            background-size: 600px 600px;
+            height: 0.555556rem;
+            width: 0.555556rem;
+            background: url(../../img/home_all.png) -2.407407rem -2.407407rem no-repeat;
+            background-size: 5.555556rem 5.555556rem;
         }    
     }
     input{
-        height: 122px;
+        height: 1.12963rem;
         width: 100%;
         color:#0FBA0E;
-        font-size: 72px;
-        line-height: 118px;
+        font-size: 0.666667rem;
+        line-height: 1.092593rem;
         text-align: center;
         border: 0 none;
         background: url('../../img/inputJoinRoom.png') no-repeat;
         background-position: center;
         background-size: cover;
-        margin-bottom: 18px;
+        margin-bottom: 0.166667rem;
     }
     ul{
-        width: 100%;;
-        font-size: 50px;
+        width: 100%;
+        font-size: 0.462963rem;
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
         li{
-            height: 133px;
-            width: 219px;
-            line-height: 133px;
-            font-size: 76px;
+            height: 1.231481rem;
+            width: 2.027778rem;
+            line-height: 1.231481rem;
+            font-size: 0.703704rem;
             text-align: center;
-            margin: 10px 0px;
+            margin: 0.092593rem 0.0rem;
             color:white;
-            background: url(../../img/home_all.png) -170px -330px no-repeat;
-            background-size: 600px 600px;
+            background: url(../../img/home_all.png) -1.574074rem -3.055556rem no-repeat;
+            background-size: 5.555556rem 5.555556rem;
         }
         li:active{
             position: relative;
-            left: 2px;
-            top: 5px;
+            left: 0.018519rem;
+            top: 0.046296rem;
         }
         .word{
-            font-size:80px;
-            background: url(../../img/home_all.png) -390px -330px no-repeat;
-            background-size: 600px 600px;
+            font-size:0.740741rem;
+            background: url(../../img/home_all.png) -3.611111rem -3.055556rem no-repeat;
+            background-size: 5.555556rem 5.555556rem;
         }
     }
   }

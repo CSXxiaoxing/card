@@ -45,18 +45,18 @@
    
 
     .mine{
-        width:770px;
-        border-radius: 28px;
-        p{height: 180px; width: 100%;}
+        width:7.12963rem;
+        border-radius: 0.259259rem;
+        p{height: 1.666667rem; width: 100%;}
         h3{
           padding: 0;
           margin: 0;
-          width: 908px;
+          width: 8.407407rem;
           color:#5B3F0D;
-          height: 180px;
+          height: 1.666667rem;
           text-align: center;
-          font-size: 76px;
-          line-height: 140px;
+          font-size: 0.703704rem;
+          line-height: 1.296296rem;
           background: url('../../img/JoinTOP.png') no-repeat;
           position: absolute;
           left: 50%;
@@ -68,29 +68,29 @@
                   transform: translate(-50%,-10%);
                     i{
                         position: absolute;
-                        right:90px;
-                        top: 30px;
-                        background: url(../../img/home_all.png) -420px -260px no-repeat;
-                        background-size: 600px 600px;
-                        width: 60px;
-                        height: 60px;
+                        right:0.833333rem;
+                        top: 0.277778rem;
+                        background: url(../../img/home_all.png) -3.888889rem -2.407407rem no-repeat;
+                        background-size: 5.555556rem 5.555556rem;
+                        width: 0.555556rem;
+                        height: 0.555556rem;
                     }     
         }
 
         .select{
-          margin-left:80px;
-          margin-bottom:28px;
-          padding:0px 30px;
-          width:560px;
-          height:90px;
-          line-height:94px;
-          border-radius:50px;
+          margin-left:0.740741rem;
+          margin-bottom:0.259259rem;
+          padding:0.0rem 0.277778rem;
+          width:5.185185rem;
+          height:0.833333rem;
+          line-height:0.87037rem;
+          border-radius:0.462963rem;
           background-color:white;
-          border:5px solid #E1DFE0;
+          border:0.046296rem solid #E1DFE0;
           div{
-            height:90px;
+            height:0.833333rem;
             button{
-                font-size: 45px;
+                font-size: 0.416667rem;
                 border: none;
                 background-color: transparent;
                 position: relative;
@@ -102,25 +102,25 @@
             }
             button:nth-of-type(1){
                 // color:white;
-                margin-right:60px; 
+                margin-right:0.555556rem; 
             }
             img{
-              width:320px;
-              height:102px;
+              width:2.962963rem;
+              height:0.944444rem;
               position:absolute;
-              left:80px;
-              top:180px;
+              left:0.740741rem;
+              top:1.666667rem;
             }
             img.right{
               position:absolute;
-              left:400px;
-              top:180px;
+              left:3.703704rem;
+              top:1.666667rem;
               transition:all 1s;
             }
             img.left{
               position:absolute;
-              left:80px;
-              top:180px;
+              left:0.740741rem;
+              top:1.666667rem;
                transition:all 1s;
             }
         }
@@ -137,16 +137,16 @@
         // border: 1px solid #000;
         overflow-y: auto;
         overflow-x: hidden;
-        height:965px;
-        margin-bottom: 26px;
+        height:8.935185rem;
+        margin-bottom: 0.240741rem;
         background:url('../../img/module_home_myRoom4.png') no-repeat;
         background-size: cover;
         background-position:center;
         p{
-          font-size:48px;
+          font-size:0.444444rem;
           color: #9B9A98;
-          width:638px;
-          margin:60px auto;
+          width:5.907407rem;
+          margin:0.555556rem auto;
         }
         ul{
             padding: 1%;
@@ -157,61 +157,61 @@
             li{
                 // width: 342px;
                 width: 32.2%;
-                height: 218px;
+                height: 2.018519rem;
                 // margin-right: 15px;
-                margin-top: 18px;
+                margin-top: 0.166667rem;
                 background: url('../../img/module_home_myRoom3.png') no-repeat;
                 background-size: cover;
                 background-position:center;
-                background-size: 242px 220px;
+                background-size: 2.240741rem 2.037037rem;
                 b{
                     display: block;
-                   background: url('../../img/home_all.png') -300px 0px no-repeat;
-                    background-size: 600px 600px;
-                    height: 90px;
-                    width: 94px;
+                   background: url('../../img/home_all.png') -2.777778rem 0.0rem no-repeat;
+                    background-size: 5.555556rem 5.555556rem;
+                    height: 0.833333rem;
+                    width: 0.87037rem;
                     float: right;
                     position: relative;
-                    bottom:3px;
-                    left:6px;
+                    bottom:0.027778rem;
+                    left:0.055556rem;
                 }
                 i{
                     display:block;
-                    height: 100px;
-                    width: 126px;
-                    background: url('../../img/home_all.png') -80px -130px no-repeat;
-                    background-size: 600px 600px;
+                    height: 0.925926rem;
+                    width: 1.166667rem;
+                    background: url('../../img/home_all.png') -0.740741rem -1.203704rem no-repeat;
+                    background-size: 5.555556rem 5.555556rem;
                     position: relative;
                     left: 50%;
-                    bottom:6px;
+                    bottom:0.055556rem;
                     transform: translate(-50%,0);
                 }
                 h4{
                     color: #fff;
-                    font-size: 28px;
+                    font-size: 0.259259rem;
                 }
                 div{
-                    height:100px;
-                    padding: 0px 18px 0px;
+                    height:0.925926rem;
+                    padding: 0.0rem 0.166667rem 0.0rem;
                     position: relative;
                     bottom: 0;
-                    border-radius:20px;
+                    border-radius:0.185185rem;
                     h5{
                         color: #fff;
-                        font-size: 28px;
-                        padding-top:5px;
+                        font-size: 0.259259rem;
+                        padding-top:0.046296rem;
                         margin: 0;
                     }
                     p{
-                        height:24px;
+                        height:0.222222rem;
                         color: #C4C4C4;
                         display: flex;
                         justify-content: space-between;
                         span{
-                            font-size: 24px;
+                            font-size: 0.222222rem;
                             text-align: right;
-                            padding: 2px 0px;
-                            height:24px;
+                            padding: 0.018519rem 0.0rem;
+                            height:0.222222rem;
                         }
                         span:nth-of-type(1){
                             flex: 1;

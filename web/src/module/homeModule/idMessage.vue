@@ -15,49 +15,49 @@
 <style lang='scss' scoped>
   .mess{
     width: 80%;
-    border-radius: 30px;
+    border-radius: 0.277778rem;
     position: absolute;
-    height:600px;
-    margin-top: -200px;
+    height:5.555556rem;
+    margin-top: -1.851852rem;
     img{
       position:absolute;
-      left:60px;
-      top:80px;
+      left:0.555556rem;
+      top:0.740741rem;
     }
     p{
-      font-size:44px;
-      line-height: 70px;
+      font-size:0.407407rem;
+      line-height: 0.648148rem;
       position:absolute;
-      left: 322px;
-      top:118px;
+      left: 2.981481rem;
+      top:1.092593rem;
     }
     i{
         position:absolute;
         display: inline-block;
-        top:48px;
-        right:30px;
-        width: 57px;
-        height: 57px;
-        background: url(../../img/home_all.png) -100px -250px no-repeat;
-        background-size: 600px;
+        top:0.444444rem;
+        right:0.277778rem;
+        width: 0.527778rem;
+        height: 0.527778rem;
+        background: url(../../img/home_all.png) -0.925926rem -2.314815rem no-repeat;
+        background-size: 5.555556rem;
       }
     button{
-      width:380px;
-      height: 110px;
-      line-height: 100px;
-      font-size:60px;
+      width:3.518519rem;
+      height: 1.018519rem;
+      line-height: 0.925926rem;
+      font-size:0.555556rem;
       border: none;
-      margin-left:250px;
-      background: url(../../img/home_all.png) -210px -150px no-repeat;
-      background-size: 600px;
+      margin-left:2.314815rem;
+      background: url(../../img/home_all.png) -1.944444rem -1.388889rem no-repeat;
+      background-size: 5.555556rem;
       position: absolute;
-      bottom: 100px ;
+      bottom: 0.925926rem ;
       left: 0;
     }
     button:active {
         position: absolute;
-        left: 0px;
-        bottom: 92px;
+        left: 0.0rem;
+        bottom: 0.851852rem;
     }
   }
 </style>

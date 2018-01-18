@@ -79,7 +79,7 @@
 			<p>还没有账号？<span @click='zhuce = true'>注册</span></p>
 		</div>
 		<div class="haveuser"  v-show="a == 1 ">
-			<span>{{a}}<b @click="a=0">切换</b></span>
+			<span>{{a}}<b @click="a=0" @touchend="loginOut">切换</b></span>
 			<span>登录</span>
 		</div>
 
@@ -442,7 +442,8 @@
 				cell: '',
 				code: '',
 				loadingShow: false,
-				a: this.$route.params.id
+				a: 1,
+
 			}
 		},
 		mounted: function(){
@@ -473,7 +474,7 @@
 			},
 			zhuCe() {
 				var self = this;
-				http.post( '/Member/login', {
+				http.post( '/Member/registered', {
 							mobile: self.cell,
 							password: self.password,
 							code: self.code,
@@ -502,10 +503,20 @@
 						}
 						self.find = false;
 					})
+			},
+			loginOut(){
+				var self =this;
+				http.post('/Member/login_out')
+				.then(res => {
+					console.log(res)
+						if(status == 1){
+							router.push({name: 'home'});
+						}
+					})
+				},
+			components: {
+				loading
 			}
-		},
-		components: {
-			loading
 		}
 	}
 </script>
