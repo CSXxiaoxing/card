@@ -1,7 +1,8 @@
 //  Sprites size
-$width600: 5.555556rem;
+$w600: 5.555556rem;
 // 随机庄背景颜色
-$bgColor: pink;
+$bgColor: #ccc;
+// Image================================
 // room url
 $roomAll: url('../../img/room_all.png');
 $room02: url('../../img/room2.png');
@@ -10,3 +11,10 @@ $room07: url('../../img/room07.png');
 
 // home url
 $homeAll: url('../../img/home_all.png');
+
+// var 常量 =============================
+$h: height;
+$w: width;
+$bg: background;
+$tf: transform;
+$ts: transition;

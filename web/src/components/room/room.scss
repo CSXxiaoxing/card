@@ -1,41 +1,40 @@
-@import '../../utils/baseImg.scss';
+@import '../../utils/baseVar.scss';
 
-$width600: 5.555556rem;
-$height56: 0.518519rem;
-$fontsize24: 0.222222rem;
-$fontsize30: 0.277778rem;
-$fontsize38: 0.351852rem;
-$fontsize40: 0.37037rem;
-$fontsize44: 0.407407rem;
+$h56: 0.518519rem;
+$fsize24: 0.222222rem;
+$fsize30: 0.277778rem;
+$fsize38: 0.351852rem;
+$fsize40: 0.37037rem;
+$fsize44: 0.407407rem;
 
 .pub{
     color: #fff;
-    font-size: $fontsize24;
+    font-size: $fsize24;
     display:inline-block;
     position: absolute;
     bottom: 0.046296rem;
-    height: 0.333333rem;
-    line-height: 0.333333rem;
+    #{$h}: 0.333333rem;
+    line-#{$h}: 0.333333rem;
     left: 0;
-    width: 100%;
-    background-color:rgba(32,16,17,0.63);
+    #{$w}: 100%;
+    #{$bg}-color:rgba(32,16,17,0.63);
 }
 // room01
 #room {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    #{$h}: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
 
     header {
-        height: 2.685185rem;
+        #{$h}: 2.685185rem;
         padding: 1.018519rem 0.0rem 0.0rem;
         box-sizing: border-box;
-        background: #2F2E34;
+        #{$bg}: #2F2E34;
         color: #fff;
         ul {
-            height: 0.759259rem;
+            #{$h}: 0.759259rem;
             display: flex;
             // border-top: 1px solid #fff;
             padding-top: 0.074074rem;
@@ -52,11 +51,11 @@ $fontsize44: 0.407407rem;
                 // align-self: baseline;
                 &>i {
                     display: inline-block;
-                    width: 0.648148rem;
-                    height: 0.509259rem;
+                    #{$w}: 0.648148rem;
+                    #{$h}: 0.509259rem;
                     margin-top: -0.037037rem;
-                    background: $roomAll -4.351852rem -1.481481rem no-repeat;
-                    background-size: $width600;
+                    #{$bg}: $roomAll -4.351852rem -1.481481rem no-repeat;
+                    #{$bg}-size: $w600;
                     a {
                         padding: 0.259259rem 0.37037rem;
                     }
@@ -64,9 +63,9 @@ $fontsize44: 0.407407rem;
                 &>span {
                     display: inline-block;
                     vertical-align: top;
-                    height: $height56;
-                    line-height: $height56;
-                    font-size: $fontsize44;
+                    #{$h}: $h56;
+                    line-#{$h}: $h56;
+                    font-size: $fsize44;
                     i{
                         color: #FFE87A;
                         font-style: normal;
@@ -74,24 +73,24 @@ $fontsize44: 0.407407rem;
                 }
                 p {
                     display: inline-block;
-                    background: #FF4B1A;
+                    #{$bg}: #FF4B1A;
                     border-radius: 0.092593rem;
                     color: #333;
-                    height: $height56;
+                    #{$h}: $h56;
                     position: relative;
                     // 弹出框
                     .gameStyle{
                         position: absolute;
-                        width: 100%;
+                        #{$w}: 100%;
                         // top: 230px;
                         border-radius: 0.277778rem;
-                        transform: translate(-50%, 28%);
+                        #{$tf}: translate(-50%, 28%);
                         border: 0.009259rem solid #F2D923;
                         span{
-                            width: 100%;
+                            #{$w}: 100%;
                             padding: 0;
-                            height: 0.740741rem;
-                            line-height: 0.740741rem;
+                            #{$h}: 0.740741rem;
+                            line-#{$h}: 0.740741rem;
                         }
                         span:nth-of-type(3){
                              border: none;
@@ -100,8 +99,8 @@ $fontsize44: 0.407407rem;
                             position: absolute;
                             right: 0.092593rem;
                             top: -0.185185rem;
-                            width: 0;
-                            height: 0;
+                            #{$w}: 0;
+                            #{$h}: 0;
                             border-left: 0.185185rem solid transparent;
                             border-right: 0.185185rem solid transparent;
                             border-bottom: 0.277778rem solid #fff;
@@ -112,169 +111,169 @@ $fontsize44: 0.407407rem;
                         top: 0;
                         left: 0;
                         text-align: center;
-                        height: $height56;
-                        font-size: $fontsize40;
-                        line-height: $height56;
+                        #{$h}: $h56;
+                        font-size: $fsize40;
+                        line-#{$h}: $h56;
                         vertical-align: top;
                         padding: 0 0.12963rem;
                     }
                     &>i{
                         display: inline-block;
-                        width: $height56;
-                        height: $height56;
+                        #{$w}: $h56;
+                        #{$h}: $h56;
                         border-top-right-radius: 0.092593rem;
                         border-bottom-right-radius: 0.092593rem;
-                        background: #fff;
+                        #{$bg}: #fff;
                         position: relative;
                         vertical-align: text-top;
-                        margin-top: -0.018519rem;
+                        margin-top: -0.008519rem;
                         margin-left: -0.074074rem;
                         b{
-                            width: 0;
-                            height: 0;
-                            border-width: 0.185185rem 0.111111rem 0;
+                            #{$w}: 0;
+                            #{$h}: 0;
+                            border-#{$w}: 0.185185rem 0.111111rem 0;
                             border-style: solid;
                             border-color: #333 transparent transparent;/*灰 透明 transparent透明 */
                             margin: 0.0rem auto;
                             position: absolute;
                             left: 50%;
                             top: 50%;
-                            transform: translate(-50%, -50%);
+                            #{$tf}: translate(-50%, -50%);
                         }
                     }
                 }
                 p.open {
-                    background: #0BB90A;
+                    #{$bg}: #0BB90A;
                 }
             }
             li:last-child {
-                font-size: $fontsize44;
+                font-size: $fsize44;
                 span{
                     display: inline-block;
                     vertical-align: top;
                     padding-left: 0.555556rem;
                     position: relative;
-                    height: $height56;
-                    line-height: $height56;
+                    #{$h}: $h56;
+                    line-#{$h}: $h56;
                     i{
                         position: absolute;
                         left: 0%;
                         top: 50%;
-                        transform: translate(0%, -50%);
-                        width: 0.453704rem;
-                        height: 0.453704rem;
-                        background: $roomAll -1.574074rem -1.527778rem no-repeat;
-                        background-size: $width600;
+                        #{$tf}: translate(0%, -50%);
+                        #{$w}: 0.453704rem;
+                        #{$h}: 0.453704rem;
+                        #{$bg}: $roomAll -1.574074rem -1.527778rem no-repeat;
+                        #{$bg}-size: $w600;
                     }
                 }
                 span:last-child i{
-                    width: 0.416667rem;
-                    height: 0.435185rem;
-                    background: $roomAll -2.314815rem -1.527778rem no-repeat;
-                        background-size: $width600;
+                    #{$w}: 0.416667rem;
+                    #{$h}: 0.435185rem;
+                    #{$bg}: $roomAll -2.314815rem -1.527778rem no-repeat;
+                        #{$bg}-size: $w600;
                 }
             }
         }
         dl{
-            height: 0.833333rem;
-            background: #404042;
+            #{$h}: 0.833333rem;
+            #{$bg}: #404042;
             display: flex;
-            font-size: $fontsize38;
+            font-size: $fsize38;
             position: relative;
             // justify-content: space-around;
             justify-content: center;
             dt{
-                width: 1.37963rem;
-                height: 1.435185rem;
+                #{$w}: 1.37963rem;
+                #{$h}: 1.435185rem;
                 position: absolute;
                 top: 0.166667rem;
                 left: 0.138889rem;
 
-                img{width: 100%; height: 100%;}
+                img{#{$w}: 100%; #{$h}: 100%;}
             }
             dd:nth-of-type(1){
-                line-height: 0.814815rem;
+                line-#{$h}: 0.814815rem;
                 padding-right: 0.046296rem;
-                min-width: 2.407407rem;
+                min-#{$w}: 2.407407rem;
                 text-align: left;
                 white-space: wrap;
             }
             dd:nth-of-type(2){
-                line-height: 0.814815rem;
+                line-#{$h}: 0.814815rem;
                 padding-left: 0.046296rem;
-                width: 3.518519rem;
+                #{$w}: 3.518519rem;
                 text-align: left;
                 span{
                     color: #0DB80A;
                 }
             }
             dd:nth-of-type(3){
-                line-height: 0.814815rem;
-                min-width: 2.407407rem;
+                line-#{$h}: 0.814815rem;
+                min-#{$w}: 2.407407rem;
                 text-align: left;
                 span{
                     color: #0DB80A;
                 }
             }
             dd:nth-of-type(4){
-                line-height: 0.814815rem;
+                line-#{$h}: 0.814815rem;
                 padding-right: 0.0rem;
-                width: 3.518519rem;
+                #{$w}: 3.518519rem;
                 i{
                     display: inline-block;
-                    width: 0.481481rem;
-                    height: 0.490741rem;
+                    #{$w}: 0.481481rem;
+                    #{$h}: 0.490741rem;
                     margin-right: 0.111111rem;
                     position: relative;
                     left: 0;
                     top: 46%;
-                    transform: translate(0, -50%);
-                    background: $roomAll -2.962963rem -1.527778rem no-repeat;
-                    background-size: $width600;
+                    #{$tf}: translate(0, -50%);
+                    #{$bg}: $roomAll -2.962963rem -1.527778rem no-repeat;
+                    #{$bg}-size: $w600;
                 }
             }
             dd:nth-of-type(5){
-                height: 0.666667rem;
-                line-height: 0.648148rem;
-                width: 2.222222rem;
+                #{$h}: 0.666667rem;
+                line-#{$h}: 0.648148rem;
+                #{$w}: 2.222222rem;
                 border-radius: 0.333333rem;
                 box-shadow: 0px 0.018519rem 0.027778rem 0.009259rem #2F2F25;
                 position: absolute;
                 right: 0.092593rem;
                 top: 50%;
-                transform: translate(0, -50%);
-                background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(#26CD4A), to(#108721));
-                background: -webkit-linear-gradient(top, #26CD4A, #108721);
+                #{$tf}: translate(0, -50%);
+                #{$bg}: -webkit-gradient(linear, 0% 0%, 0% 100%,from(#26CD4A), to(#108721));
+                #{$bg}: -webkit-linear-gradient(top, #26CD4A, #108721);
                 i{
                     display: inline-block;
-                    width: 0.361111rem;
-                    height: 0.361111rem;
+                    #{$w}: 0.361111rem;
+                    #{$h}: 0.361111rem;
                     margin-right: 0.0rem;
                     position: relative;
                     left: 0;
                     top: 50%;
-                    transform: translate(0, -76%);
-                    background: $roomAll -3.703704rem -1.574074rem no-repeat;
-                    background-size: $width600;
+                    #{$tf}: translate(0, -76%);
+                    #{$bg}: $roomAll -3.703704rem -1.574074rem no-repeat;
+                    #{$bg}-size: $w600;
                 }
             }
             dd:last-child{
                 color: #fff;
-                height: 0.555556rem;
-                font-size: $fontsize30;
-                line-height: 0.555556rem;
-                background: #222;
+                #{$h}: 0.555556rem;
+                font-size: $fsize30;
+                line-#{$h}: 0.555556rem;
+                #{$bg}: #222;
                 opacity: 0.6;
                 border-radius: 0.259259rem;
                 position: absolute;
                 right: 0.0rem;
                 margin-right: 0.12963rem;
                 bottom: -0.666667rem;
-                width: 80%;
+                #{$w}: 80%;
                 span{
                     float: left;
-                    font-size: $fontsize30;
-                    line-height: 0.555556rem;
+                    font-size: $fsize30;
+                    line-#{$h}: 0.555556rem;
                     padding-left: 0.87037rem;
 
                 }
@@ -283,14 +282,14 @@ $fontsize44: 0.407407rem;
                     left: 0.0rem;
                     top: 50%;
                     margin-left: 0.018519rem;
-                    transform: translate(-20%,-50%);
+                    #{$tf}: translate(-20%,-50%);
                     text-align: left;
                     left: 0.240741rem;
                     display: inline-block;
-                    width: 0.5rem;
-                    height: 0.435185rem;
-                    background: $homeAll -2.222222rem 0.0rem no-repeat;
-                    background-size: $width600;
+                    #{$w}: 0.5rem;
+                    #{$h}: 0.435185rem;
+                    #{$bg}: $homeAll -2.222222rem 0.0rem no-repeat;
+                    #{$bg}-size: $w600;
                 }
             }  
         }
@@ -299,48 +298,48 @@ $fontsize44: 0.407407rem;
         flex: 1;
         padding: 1.203704rem 0 0.62963rem;
         margin-bottom: -0.185185rem;
-        background: $room07 no-repeat;
+        #{$bg}: $room07 no-repeat;
         display: flex;
         justify-content: space-between;
         @mixin LR {
             border-radius: 0.055556rem;
-            width: 1.537037rem;
-            height: 100%;
+            #{$w}: 1.537037rem;
+            #{$h}: 100%;
             padding-top: 0.055556rem;
-            background-origin: content-box;
+            #{$bg}-origin: content-box;
             ul {
                 display: flex;
                 flex-direction: column;
-                background: $room02 no-repeat;
+                #{$bg}: $room02 no-repeat;
                 border-radius: 0.046296rem;
-                width:1.537037rem;
+                #{$w}:1.537037rem;
                 
                 li{
-                    width: 100%;
-                    height: 1.787037rem;
+                    #{$w}: 100%;
+                    #{$h}: 1.787037rem;
                     &>div {
-                        width:1.388889rem;
-                        height:1.435185rem;
+                        #{$w}:1.388889rem;
+                        #{$h}:1.435185rem;
                         position: relative;
                         left:50%;
                         top: 50%;
-                        transform: translate(-50%, -55%);
+                        #{$tf}: translate(-50%, -55%);
                         
                         &>.leftZhuan {
                             position: absolute;
                             left: 0.559259rem;
                             top: -0.404815rem;
-                            width: 1.185185rem;
-                            height: 0.777778rem;
+                            #{$w}: 1.185185rem;
+                            #{$h}: 0.777778rem;
                             z-index: 3;
                         }
                         &>img:nth-of-type(1) {
-                            width: 1.296296rem;
-                            height: 1.296296rem;
+                            #{$w}: 1.296296rem;
+                            #{$h}: 1.296296rem;
                             position: absolute;
                             left:50%;
                             top: 50%;
-                            transform: translate(-50%, -55%);
+                            #{$tf}: translate(-50%, -55%);
                             z-index: 2;
                         }
                         &>img:nth-of-type(2) {
@@ -359,23 +358,23 @@ $fontsize44: 0.407407rem;
                         }
                     }
                     p {
-                        font-size: $fontsize24;
+                        font-size: $fsize24;
                         color: #fff;
                         padding-top: 0.05rem;
                     }
                     // 左边图片
                     .leftImg {
-                        width: 1.296296rem;
-                        height: 1.296296rem;
+                        #{$w}: 1.296296rem;
+                        #{$h}: 1.296296rem;
                         position: absolute;
                         left:50%;
                         top: 50%;
-                        transform: translate(-50%, -55%);
+                        #{$tf}: translate(-50%, -55%);
                         overflow: hidden;
                         border-radius: 38px;
                         img {
-                            width: 100%;
-                            height: 100%;
+                            #{$w}: 100%;
+                            #{$h}: 100%;
                         }
                         img:nth-of-type(1) {
                             z-index: 1;
@@ -393,30 +392,32 @@ $fontsize44: 0.407407rem;
         .left {
             @include LR;
             ul{
-                height: 12.037037rem;
+                #{$h}: 12.037037rem;
                 li:first-child {
-                    height: 2.148148rem;
-                    background-color: #3D3D3D;
+                    #{$h}: 2.148148rem;
+                    #{$bg}-color: #3D3D3D;
                     border-radius:0.046296rem 0.046296rem 0px 0px;
                     p{
                        padding-top: 0.265rem;
                     }
+                    border: 2px solid transparent;
+                    box-sizing: border-box;
                 }
                 
                 li:last-child {
-                    width: 1.388889rem;
-                    height: $height56;
+                    #{$w}: 1.388889rem;
+                    #{$h}: $h56;
                     border-radius: 0.259259rem;
-                    line-height: $height56;
+                    line-#{$h}: $h56;
                     text-align: center;
-                    font-size: $fontsize30;
-                    background: $roomAll 0px -1.481481rem no-repeat;
-                    background-size: $width600;
+                    font-size: $fsize30;
+                    #{$bg}: $roomAll 0px -1.481481rem no-repeat;
+                    #{$bg}-size: $w600;
                     color: #6E410F;
                     font-weight: bold;
                     position: relative;
                     left: 50%;
-                    transform: translate(-50%, 50%);
+                    #{$tf}: translate(-50%, 50%);
                 }
                 li:last-child.tips{
                     box-sizing: border-box;
@@ -451,7 +452,7 @@ $fontsize44: 0.407407rem;
                 }
             }
             p{
-                font-size:$fontsize38;
+                font-size:$fsize38;
                 color:#508F31;
             }
             p.showTime {
@@ -465,12 +466,12 @@ $fontsize44: 0.407407rem;
                     &>img {
                         float:left;
                         margin-left:0.046296rem;
-                        height: 1.314815rem;
+                        #{$h}: 1.314815rem;
                         weight: 0.916667rem;
                     }
                     span{
                         flex: 1;
-                        font-size: $fontsize30;
+                        font-size: $fsize30;
                         float:right;
                         text-align:left;
                         text-align: center;
@@ -485,8 +486,8 @@ $fontsize44: 0.407407rem;
                 }
                 
                 li.a5{
-                    width:6.388889rem;
-                    height:1.388889rem;
+                    #{$w}:6.388889rem;
+                    #{$h}:1.388889rem;
                     padding:0.314815rem 0px 0.296296rem 0.231481rem;
                     margin-left:0.092593rem;
                     margin-top:0.092593rem;
@@ -498,11 +499,11 @@ $fontsize44: 0.407407rem;
                         margin-top: -0.092593rem;
                         b:nth-of-type(1){
                             display:inline-block;
-                            width:1.0rem;
-                            height:0.62037rem;
-                            line-height:0.833333rem;
-                            background:$roomAll -1.481481rem -2.222222rem no-repeat;
-                            background-size: $width600;
+                            #{$w}:1.0rem;
+                            #{$h}:0.62037rem;
+                            line-#{$h}:0.833333rem;
+                            #{$bg}:$roomAll -1.481481rem -2.222222rem no-repeat;
+                            #{$bg}-size: $w600;
                             color:#FBDD2A;
                             font-size:0.259259rem;
                             text-align: center;
@@ -514,29 +515,29 @@ $fontsize44: 0.407407rem;
                         }
                         @keyframes inputmove{
                            0%{
-                               transform: translate(-5%, 0%);
+                               #{$tf}: translate(-5%, 0%);
                            }
                            100%{
-                               transform: translate(5%, 0%);
+                               #{$tf}: translate(5%, 0%);
                            }
                         }
                         @-webkit-keyframes inputmove{
                            0%{
-                               transform: translate(-5%, 0%);
+                               #{$tf}: translate(-5%, 0%);
                            }
                            100%{
-                               transform: translate(5%, 0%);
+                               #{$tf}: translate(5%, 0%);
                            }
                         }
                     }
                 }
                 li.bgccc {
-                    background: $bgColor;
+                    #{$bg}: $bgColor;
                 }
                 li.bgccc.bg {
                     border:0.046296rem solid #F9BA6A;
-                    background: none;
-                    transition: all 2s;
+                    #{$bg}: none;
+                    #{$ts}: all 2s;
                     b{
                         display: none;
                     }
@@ -545,21 +546,21 @@ $fontsize44: 0.407407rem;
                         color: #8F4C06;
                         display: block;
                         position: relative;
-                        transform: translate(-4%, 30%);
-                        width: 1.148148rem;
-                        height: 0.777778rem;
-                        line-height: 1.018519rem;
-                        background: $room04 no-repeat;
-                        background-size: 1.148148rem 0.777778rem;
-                        transition: all 1s;
+                        #{$tf}: translate(-4%, 30%);
+                        #{$w}: 1.148148rem;
+                        #{$h}: 0.777778rem;
+                        line-#{$h}: 1.018519rem;
+                        #{$bg}: $room04 no-repeat;
+                        #{$bg}-size: 1.148148rem 0.777778rem;
+                        #{$ts}: all 1s;
                     }
                 }
                 li.b7.bgccc.bg {
                     b:first-child {
-                        transform: translate(5%, 30%);
-                        background: $room04 no-repeat;
-                        background-size: 1.148148rem 0.777778rem;
-                        transition: all 1s;
+                        #{$tf}: translate(5%, 30%);
+                        #{$bg}: $room04 no-repeat;
+                        #{$bg}-size: 1.148148rem 0.777778rem;
+                        #{$ts}: all 1s;
                     }
                     b.showoff {
                         visibility: visible;
@@ -567,24 +568,24 @@ $fontsize44: 0.407407rem;
                     }
                     @keyframes Bmove{
                        0%{
-                           transform: translate(-5%, 30%);
+                           #{$tf}: translate(-5%, 30%);
                        }
                        100%{
-                           transform: translate(5%, 30%);
+                           #{$tf}: translate(5%, 30%);
                        }
                     }
                     @-webkit-keyframes Bmove{
                        0%{
-                           transform: translate(-5%, 30%);
+                           #{$tf}: translate(-5%, 30%);
                        }
                        100%{
-                           transform: translate(5%, 30%);
+                           #{$tf}: translate(5%, 30%);
                        }
                     }
                 }
                 li.b7{
-                    height:1.342593rem;
-                    width:6.666667rem;
+                    #{$h}:1.342593rem;
+                    #{$w}:6.666667rem;
                     padding-top:0.074074rem;
                     margin-left:0.092593rem;
                     margin-top:0.138889rem;
@@ -595,11 +596,11 @@ $fontsize44: 0.407407rem;
                         b:nth-of-type(1){
                             display:inline-block;
 
-                            width:1.0rem;
-                            height:0.62037rem;
-                            line-height:0.833333rem;
-                            background:$roomAll -1.481481rem -2.222222rem no-repeat;
-                            background-size: $width600;
+                            #{$w}:1.0rem;
+                            #{$h}:0.62037rem;
+                            line-#{$h}:0.833333rem;
+                            #{$bg}:$roomAll -1.481481rem -2.222222rem no-repeat;
+                            #{$bg}-size: $w600;
                             color:#FBDD2A;
                             font-size:0.259259rem;
                             visibility: hidden;
@@ -615,18 +616,18 @@ $fontsize44: 0.407407rem;
                         }
                         @keyframes inputmove{
                            0%{
-                               transform: translate(-5%, 0%);
+                               #{$tf}: translate(-5%, 0%);
                            }
                            100%{
-                               transform: translate(5%, 0%);
+                               #{$tf}: translate(5%, 0%);
                            }
                         }
                         @-webkit-keyframes inputmove{
                            0%{
-                               transform: translate(-5%, 0%);
+                               #{$tf}: translate(-5%, 0%);
                            }
                            100%{
-                               transform: translate(5%, 0%);
+                               #{$tf}: translate(5%, 0%);
                            }
                         }
                         // ------
@@ -644,35 +645,35 @@ $fontsize44: 0.407407rem;
                 overflow-x: hidden;
                 display: flex;
                 flex-direction: column;
-                height: 99%;
+                #{$h}: 99%;
             }
             ul::-webkit-scrollbar{display: none;}
         }
     }
     // 底部
     footer{
-        // height: 1.268519rem;
-        height: 1.268519rem;
+        // #{$h}: 1.268519rem;
+        #{$h}: 1.268519rem;
         z-index: 1;
         border-top: 0.064815rem solid #474747;
         border-top-left-radius: 0.240741rem;
         border-top-right-radius: 0.240741rem;
-        background: #2B2B2B;
+        #{$bg}: #2B2B2B;
         .roomScore{
             position: relative;
             right: 0;
             top: -0.037037rem;
-            width: 2.444444rem;
-            height: 1.268519rem;
+            #{$w}: 2.444444rem;
+            #{$h}: 1.268519rem;
             border-top: 0.064815rem solid #3A8C4A;
             border-top-right-radius: 0.240741rem; 
-            background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#12B633), to(#0D7B22));/*谷歌*/ 
-            background: -webkit-linear-gradient(top, #12B633, #0D7B22);   /*Safari5.1 Chrome 10+*/
+            #{$bg}:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#12B633), to(#0D7B22));/*谷歌*/ 
+            #{$bg}: -webkit-linear-gradient(top, #12B633, #0D7B22);   /*Safari5.1 Chrome 10+*/
         }
         ul {
             z-index: 2;
             display: flex;
-            height: 100%;
+            #{$h}: 100%;
             justify-content: space-between;
             align-items: center;
             color: #fff;
@@ -688,8 +689,8 @@ $fontsize44: 0.407407rem;
                 justify-content: center;
                 z-index: 3;
                 b{
-                    font-size: $fontsize38;
-                    line-height: $fontsize38;
+                    font-size: $fsize38;
+                    line-#{$h}: $fsize38;
                 }
                 b:first-child{
                     color: #FDFF67;
@@ -711,82 +712,82 @@ $fontsize44: 0.407407rem;
     float: none;
     margin: 0;
     position: absolute;
-    height: 0px;
-    width: 0px;
+    #{$h}: 0px;
+    #{$w}: 0px;
     top: -0.925926rem;
     right: 0.157407rem;
     z-index: 99;
 }
 // 小牌样式
 @mixin img5 {
-    height: 1.314815rem;
-    width: 0.916667rem;
+    #{$h}: 1.314815rem;
+    #{$w}: 0.916667rem;
     top: 0.277778rem;
-    transform: translate(-400%, 0px);
+    #{$tf}: translate(-400%, 0px);
 }
 @mixin img7 {
-    height: 1.314815rem;
-    width: 0.916667rem;
+    #{$h}: 1.314815rem;
+    #{$w}: 0.916667rem;
     top: 0.074074rem;
-    transform: translate(-400%, 0px);
+    #{$tf}: translate(-400%, 0px);
 }
 // 出牌时间统一
-@mixin timeStart {  transition: all 0.5s linear;  }
+@mixin timeStart {  #{$ts}: all 0.5s linear;  }
 /* @mixin time01    {   
-    transition-duration: .6s;
-    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
-    transition-delay: 0s;
+    #{$ts}-duration: .6s;
+    #{$ts}-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
+    #{$ts}-delay: 0s;
 }
 @mixin time02    {   
-    transition-duration: .6s;
-    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
-    transition-delay: .2s;
+    #{$ts}-duration: .6s;
+    #{$ts}-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
+    #{$ts}-delay: .2s;
 }
 @mixin time03    {   
-    transition-duration: .6s;
-    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
-    transition-delay: .4s;
+    #{$ts}-duration: .6s;
+    #{$ts}-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
+    #{$ts}-delay: .4s;
 }
 @mixin time01    {   
-    transition-duration: .6s;
-    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
-    transition-delay: .6s;
+    #{$ts}-duration: .6s;
+    #{$ts}-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
+    #{$ts}-delay: .6s;
 }
 @mixin time01    {   
-    transition-duration: .6s;
-    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
-    transition-delay: .8s;
+    #{$ts}-duration: .6s;
+    #{$ts}-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
+    #{$ts}-delay: .8s;
 } */
-@mixin time01    {  transition: all 0.6s linear;  }
-@mixin time02    {  transition: all 0.6s linear .2s; }
-@mixin time03    {  transition: all 0.6s linear .4s;  }
-@mixin time04    {  transition: all 0.6s linear .6s;  }
-@mixin time05    {  transition: all 0.6s linear .8s;  }
+@mixin time01    {  #{$ts}: all 0.6s linear;  }
+@mixin time02    {  #{$ts}: all 0.6s linear .2s; }
+@mixin time03    {  #{$ts}: all 0.6s linear .4s;  }
+@mixin time04    {  #{$ts}: all 0.6s linear .6s;  }
+@mixin time05    {  #{$ts}: all 0.6s linear .8s;  }
 // 出牌翻转
 @mixin card {
     img.initNum {
-        transform: translate(-400%, 0px) rotateY(180deg);
+        #{$tf}: translate(-400%, 0px) rotateY(180deg);
         z-index: -100;
     }
     // 卡牌翻转动效
     img.reversal {
-        transform: translate(-400%, 0px) rotateY(90deg);
-        transition: all .6s ease-in-out;
-        // transition: all 2s cubic-bezier(0.68,-.55,.265,1.55);
-        // transition: all 4s linear;
+        #{$tf}: translate(-400%, 0px) rotateY(90deg);
+        #{$ts}: all .6s ease-in-out;
+        // #{$ts}: all 2s cubic-bezier(0.68,-.55,.265,1.55);
+        // #{$ts}: all 4s linear;
         // cubic-bezier(0.68,-.55,.265,1.55)
-        // transition-duration: .8s;
-        // transition-timing-function: cubic-bezier(0.68,-.55,.265,1.55);
+        // #{$ts}-duration: .8s;
+        // #{$ts}-timing-function: cubic-bezier(0.68,-.55,.265,1.55);
     }
     // 翻牌
     img.reveEnd {
         z-index: 99;
-        transform: translate(-400%, 0px) rotateY(360deg);
-        transition: all 1.2s linear;
-        // transition: all 2s ease-in-out;
-        // transition: all 4s cubic-bezier(0.68,-.55,.265,1.55);
-        // transition-duration: 1.6s;
-        // transition-timing-function: cubic-bezier(0.68,-.55,.265,1.55);
+        #{$tf}: translate(-400%, 0px) rotateY(360deg);
+        #{$ts}: all 1.2s linear;
+        // #{$ts}: all 2s ease-in-out;
+        // #{$ts}: all 4s cubic-bezier(0.68,-.55,.265,1.55);
+        // #{$ts}-duration: 1.6s;
+        // #{$ts}-timing-function: cubic-bezier(0.68,-.55,.265,1.55);
     }
 }
 
@@ -797,8 +798,8 @@ $fontsize44: 0.407407rem;
     }
     // 卡牌出现
     img.start {
-        height: 1.592593rem;
-        width: 1.148148rem;
+        #{$h}: 1.592593rem;
+        #{$w}: 1.148148rem;
         @include timeStart;
     }
     // 发牌动效
@@ -836,8 +837,8 @@ $fontsize44: 0.407407rem;
     }
     // 卡牌出现
     img.start {
-        height: 137.1.274074rem;//0.8
-        width: 99.0.918519rem;
+        #{$h}: 137.1.274074rem;//0.8
+        #{$w}: 99.0.918519rem;
         @include timeStart;
     }
     img.card01 {
@@ -872,70 +873,70 @@ $fontsize44: 0.407407rem;
 ul{
     .testCard.three{
         img:nth-of-type(6){
-            transform: translate(-400%, 0px) rotateY(90deg);
-            transition: all .6s ease-in-out;
+            #{$tf}: translate(-400%, 0px) rotateY(90deg);
+            #{$ts}: all .6s ease-in-out;
         }
         img:nth-of-type(7){
-            transform: translate(-400%, 0px) rotateY(90deg);
-            transition: all .6s ease-in-out;
+            #{$tf}: translate(-400%, 0px) rotateY(90deg);
+            #{$ts}: all .6s ease-in-out;
         }
         img:nth-of-type(8){
-            transform: translate(-400%, 0px) rotateY(90deg);
-            transition: all .6s ease-in-out;
+            #{$tf}: translate(-400%, 0px) rotateY(90deg);
+            #{$ts}: all .6s ease-in-out;
         }
         img:nth-of-type(1){
             z-index: 99;
-            transform: translate(-400%, 0px) rotateY(360deg);
-            transition: all 1.2s linear;
+            #{$tf}: translate(-400%, 0px) rotateY(360deg);
+            #{$ts}: all 1.2s linear;
         }
         img:nth-of-type(2){
             z-index: 99;
-            transform: translate(-400%, 0px) rotateY(360deg);
-            transition: all 1.2s linear;
+            #{$tf}: translate(-400%, 0px) rotateY(360deg);
+            #{$ts}: all 1.2s linear;
         }
         img:nth-of-type(3){
             z-index: 99;
-            transform: translate(-400%, 0px) rotateY(360deg);
-            transition: all 1.2s linear;
+            #{$tf}: translate(-400%, 0px) rotateY(360deg);
+            #{$ts}: all 1.2s linear;
         }
         // 点击暂时(temporary)翻开
         .beimian {
-            transform: translate(-400%, 0px) rotateY(90deg);
-            transition: all .6s ease-in-out;
+            #{$tf}: translate(-400%, 0px) rotateY(90deg);
+            #{$ts}: all .6s ease-in-out;
         }
         .beimian02 {
-            transform: translate(-400%, 0px) rotateY(0deg);
-            transition: all .6s ease-in-out;
+            #{$tf}: translate(-400%, 0px) rotateY(0deg);
+            #{$ts}: all .6s ease-in-out;
         }
         .temporary {
             z-index: 99;
-            transform: translate(-400%, 0px) rotateY(360deg);
-            transition: transform 1.2s linear;
+            #{$tf}: translate(-400%, 0px) rotateY(360deg);
+            #{$ts}: #{$tf} 1.2s linear;
         }
         .temporary02 {
             z-index: 99;
-            transform: translate(-400%, 0px) rotateY(180deg);
-            transition: transform 1.2s linear;
+            #{$tf}: translate(-400%, 0px) rotateY(180deg);
+            #{$ts}: #{$tf} 1.2s linear;
         }
     }
     .testCard.threeEng{
         img:nth-of-type(9){
-            transform: translate(-400%, 0px) rotateY(90deg);
-            transition: all .6s ease-in-out;
+            #{$tf}: translate(-400%, 0px) rotateY(90deg);
+            #{$ts}: all .6s ease-in-out;
         }
         img:nth-of-type(10){
-            transform: translate(-400%, 0px) rotateY(90deg);
-            transition: all .6s ease-in-out;
+            #{$tf}: translate(-400%, 0px) rotateY(90deg);
+            #{$ts}: all .6s ease-in-out;
         }
         img:nth-of-type(4){
             z-index: 99;
-            transform: translate(-400%, 0px) rotateY(360deg);
-            transition: all 1.2s linear;
+            #{$tf}: translate(-400%, 0px) rotateY(360deg);
+            #{$ts}: all 1.2s linear;
         }
         img:nth-of-type(5){
             z-index: 99;
-            transform: translate(-400%, 0px) rotateY(360deg);
-            transition: all 1.2s linear;
+            #{$tf}: translate(-400%, 0px) rotateY(360deg);
+            #{$ts}: all 1.2s linear;
         }
     }
     

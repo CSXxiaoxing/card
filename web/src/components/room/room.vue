@@ -8,7 +8,8 @@
                     <span>第<i>20</i>局</span>
                     <p :class='init.textStyle >= 1 ? "open" : "" '>
                         <span>{{host.styleName}}</span>
-                        <i v-show='init.ForT == 1' @click='host.style == true ? host.style = false : host.style = true'>
+                        <!-- 测试调整  0 ==> 1 -->
+                        <i v-show='init.ForT == 0' @click='host.style == true ? host.style = false : host.style = true'>
                             <b></b>
                         </i>
                         <mt-popup
@@ -16,8 +17,8 @@
                             :modal='false'
                             popup-transition="popup-fade"
                             class='gameStyle'>
-                                <span @click='gameStyle'>游戏中</span>
-                                <span @click='gameStyle'>暂停中</span>
+                                <span @click='gameStyle' @touchend='host.allType=1'>游戏中</span>
+                                <span @click='gameStyle' @touchend='host.allType=0'>暂停中</span>
                                 <i class='triangle-up'></i>
                         </mt-popup>
                     </p>
@@ -32,7 +33,7 @@
                     <img src="../../img/room03.png" height="155" width="149" alt="" />
                 </dt>
                 <dd  v-show='init.ForT == 0'>迷迷糊糊</dd>
-                <dd  v-show='init.ForT == 0'>分数：<span>10999</span></dd>
+                <dd  v-show='init.ForT == 0'>分数：<span>{{win.fen}}</span></dd>
                 <!-- 房主 -->
                 <dd  v-show='init.ForT == 1'>房总分：<span>71666</span></dd>
                 <dd  v-show='init.ForT == 1' @click='varRoom'><i></i>房间设置</dd>
@@ -42,7 +43,7 @@
                     <span>邀请好友</span>
                 </dd>
                 <dd>
-                    <mt-swipe :show-indicators="false">
+                   <!--  <mt-swipe :show-indicators="false">
                       <mt-swipe-item>
                         <i></i><span>房主公告：健康游戏，请勿赌博，谢谢合作。</span>
                     </mt-swipe-item>
@@ -52,7 +53,7 @@
                       <mt-swipe-item>
                         <i></i><span>房主公告：健康游戏，请勿赌博，谢谢合作。</span>
                     </mt-swipe-item>
-                    </mt-swipe>
+                    </mt-swipe> -->
                     
                 </dd>
             </dl>
@@ -61,7 +62,7 @@
         <div class='roomMain'>
             <div class='left'>
                 <ul>
-                    <li>
+                    <li @click='applyOn(0)'>
                         <div>
                             <img src="../../img/roomK02.png" alt="" />
                             <img src="../../img/roomPage01.png" alt="" />
@@ -69,7 +70,7 @@
                             <img class='leftZhuan' src="../../img/room1.png">
                             <div class='leftImg'>
                                 <img src="../../img/friend1.png" alt="" />
-                                <span>76000</span>
+                                <span>{{init.fen}}</span>
                             </div>
                         </div>
                         <p>迷糊的大土</p>
@@ -135,7 +136,7 @@
                         <p>迷糊的大土</p>
                     </li>
                     <!-- <li  @click="applyOn" class='tips'>{{apply}}</li> -->
-                    <li  @click="applyOn" >{{apply}}</li>
+                    <li  @click="applyOn(99)" >{{apply}}</li>
                 </ul>
             </div>
 
@@ -182,7 +183,7 @@
                         <!-- 扑克牌 -->
                         <div class='testCard' :class='[(init.prizeNum == 7 ? "b7" : "a5" ), (time.index != index && gameOver.show ? "three":""), (gameOver.timeEng ? "threeEng" : "")]'>
                             <!-- 翻开卡片 -->
-                            <img v-if='init.textStyle >= 1'
+                            <img v-if='init.textStyle >= 4'
                             v-for='(data, idx) in 5'
                             :src="cardURL.src[1]+cardURL.card[idx+index*5]+'.png'"
 
@@ -247,18 +248,19 @@
                 </li>
                 <li v-show='init.ForT == 0'>联系房主</li>
                 <li class='roomScore' v-show='init.ForT == 1' 
-                    @click="$refs.onapplyOnChild._data.details=true;">
+                    @click="$refs.onapplyOnChild.details=true;">
                     <b>{{host.gainNum}}</b>
                     <b>抽水分数</b>
                 </li>
             </ul>
         </footer>
         
-        <varRoom ref="onvarRoomChild" ></varRoom>
         <toShare ref="ontoShareChild" :share='"room"'></toShare>
+        <varRoom ref="onvarRoomChild" ></varRoom>
         <prize ref="onprizeChild" ></prize>
-        <applyOn ref="onapplyOnChild" ></applyOn>
-
+        <keep-alive>
+            <applyOn ref="onapplyOnChild" ></applyOn>
+        </keep-alive>
         <playerBottom ref="onplayerBottomChild" :p='ordinary.Pn'></playerBottom>
         <singleBoard ref="onsingleBoardChild"></singleBoard>
 
@@ -297,7 +299,7 @@
                 // 初始化
                 init: {
                     // 1是房主0是普通
-                    ForT: 1,
+                    ForT: 0,
                     prizeNum: 7,
                     // 游戏时间控制 
                     time: 0,
@@ -305,12 +307,17 @@
                     // 可下注范围
                     scope: [100, 99999],
                     // 设定可下注池
-                    pond: 1000,
+                    pond: 8000,
                     // 游戏状态
                     text: ['游戏暂未开始', '准备开始：', '随机庄牌：', '可押注时间：', '开牌倒计时', '开牌结果'],
                     // 对应状态码   [0, 1, 2, 3, 4, 5]
                     textStyle : 0,
+                    // 倍率
+                    oxNumber: this.$store.state.initRoom.oxNumber,
+                    // 庄总分
+                    fen: 5000000,
                 },
+                // 时间总控
                 time: {
                     // 准备开始倒计时
                     initTime: 5,
@@ -321,11 +328,17 @@
                     // 随机背景的速度
                     speed: 80,
                     // 押注倒计时
-                    timeAll: 4,
+                    timeAll: 3,
                     // 全开倒计时
                     countTime: 10,
                     // 开牌结果等待时间
-                    endTime: 10,
+                    endTime: 1000,
+                },
+                // 输赢结果
+                win: {
+                    // 个人总分
+                    fen : this.$store.state.self.fen,
+                    // fen : 100009,
                 },
                 // 主人
                 host: {
@@ -333,7 +346,8 @@
                     styleName: '暂停中',
                     style: false,
                     gainNum: 150000,
-
+                    // 游戏总控制 1 => 游戏中 0 => 暂停游戏   
+                    allType: 0,
                 },
                 // 普通
                 ordinary: {
@@ -369,12 +383,16 @@
                     move: "",
                     reversal: "",
                     reveEnd: "",
-                    // 牌-号码-输赢结果
+                    // 牌-号码-分离
                     card: [],
                     cardEnd: [[],[],[],[],[],[],[]],
                     result: [],
                     // 点击翻转
                     clck: -1,
+                    // 权重
+                    maxVal: [],
+                    // 结果
+                    end: [],
                 },
                 // 游戏结果处理
                 gameOver: {
@@ -455,21 +473,25 @@
             
         },
         methods: {
+            // 房间设置
             varRoom(){
-                this.$refs.onvarRoomChild._data.boxState.CvarRoom=true;
+                this.$refs.onvarRoomChild.boxState.CvarRoom=true;
                 this.$refs.onvarRoomChild.noModal();
             },
             toShare(){
-                this.$refs.ontoShareChild._data.toShare=true;
+                this.$refs.ontoShareChild.toShare=true;
             },
             prize(){
-                this.$refs.onprizeChild._data.onprize=true;
+                this.$refs.onprizeChild.onprize=true;
             },
             playerBottom(index){
                 let init = this.init;
                 let self = this;
+                if(this.init.ForT == 1) { //房主不参与游戏
+                    return false;
+                }
                 if(init.textStyle == 3 && this.ordinary.pond > init.scope[0]){
-                    this.$refs.onplayerBottomChild._data.playerBottom=true; 
+                    this.$refs.onplayerBottomChild.playerBottom=true; 
                 }
                 if(init.textStyle == 4){
                     let temporary;
@@ -480,12 +502,12 @@
                     }, 1500)
                 }
             },
-            applyOn(){
+            applyOn(i){
                 let init = this.init;
-                if(init.ForT == 1) {
-                    this.$refs.onapplyOnChild._data.setOwner=true;
-                } else if(init.ForT == 0){
-                    this.$refs.onapplyOnChild._data.applyOn=true;
+                if(init.ForT == 1 && i == 0) {
+                    this.$refs.onapplyOnChild.setOwner=true;
+                } else if(init.ForT == 0 && i == 99){
+                    this.$refs.onapplyOnChild.applyOn=true
                 }
             },
             gameStyle(e){
@@ -498,7 +520,7 @@
                         this.gameType(0);
                         break;
                     default :
-                        this.init.textStyle = 0;
+                        // this.init.textStyle = 0;
                 }
             },
             // 游戏开始控制状态中转
@@ -507,12 +529,17 @@
                 for(var each in pageTimer) {
                     clearInterval(pageTimer[each])
                 }
+                
                 switch (n) {
                     case 0 :
-                        this.clearGameStyle() // 状态清空
-                        this.gameStart();   // 执行游戏
+                        this.clearGameStyle()            // 状态清空
+                        if(this.host.allType == 1){     // 游戏状态允许
+                            this.gameStart();          // 执行游戏
+                        }
                         break;
                 }
+                
+                
 
             },
             clearGameStyle () {
@@ -683,15 +710,14 @@
                         } else {
                             maxVal.splice(idx, 1, Number(shu))
                         }
-                        
-                    } 
+                    }
                 }
                 console.log(maxVal)
                 console.log(oxArr)
                 this.cardURL.result = oxArr;
+                this.cardURL.maxVal = maxVal;
                 console.timeEnd('a')
             },
-
             gameStart() {
                 let self = this;
                 this.ordinary.pond = this.init.pond;
@@ -707,6 +733,7 @@
                 
                 // 1、准备开始倒计时
                 pageTimer["timer01"] = setInterval( ()=> {
+                    console.log('j'+1)
                     self.init.time--;
                     if(self.init.time < 0) {
                         this.init.textStyle = 2;
@@ -768,7 +795,7 @@
                                 self.cardURL.reveEnd = 'reveEnd';
                                 FZ();
                                 self.gameOver.bet = false;
-                                // self.$refs.onplayerBottomChild._data.playerBottom=false; 
+                                // self.$refs.onplayerBottomChild.playerBottom=false; 
                                 clearInterval(pageTimer['timer04']);
                             }
                         } , 1000);
@@ -778,7 +805,8 @@
                 let sheTimeEnd;
                 function FZ(){
                     self.gameOver.show=true;
-                    
+                    // 算输赢/发送胜负请求
+                    self.sf ()
 
                     // 翻转剩下的牌
                     setT3 = setTimeout(()=>{
@@ -792,19 +820,7 @@
                                 self.gameOver.timeEng = true;
                                 self.init.time = self.time.endTime;
                                 self.init.textStyle = 5;
-                                // 单局结算的10s
-                                pageTimer["timer06"] = setInterval(()=>{
-                                    if(self.init.time >= 1){
-                                        self.init.time-- ;
-                                    } else {
-                                        self.gameType(0);
-                                        clearInterval(pageTimer["timer06"]);
-                                    }
-                                    // 弹出单局结算
-                                    // if(self.init.time == self.time.endTime/2){
-                                    //     self.$refs.onsingleBoardChild._data.singleBoard=true;
-                                    // }
-                                }, 1000)
+                                self.settlement(0)
                                 clearInterval(pageTimer["timer05"]);
                             }
                         } , 1000);
@@ -812,11 +828,77 @@
                     }, 250)
                 }
             },
+            // 单局结算的10s
+            settlement (i) {
+                let self = this;
+                
+                if(i == 0) {
+                    pageTimer["timer06"] = setInterval(()=>{
+                        if(self.init.time >= 1){
+                            self.init.time-- ;
+                        } else {
+                            self.gameType(0);
+                            if(self.host.allType == 0) {   // 停止时
+                                self.init.textStyle = 0;
+                            }
+                            clearInterval(pageTimer["timer06"]);
+                        }
+                        // 弹出单局结算
+                        // if(self.init.time == self.time.endTime/2){
+                        //     self.$refs.onsingleBoardChild.singleBoard=true;
+                        // }
+                    }, 1000)
+                }     
+            },
+            // 输赢结果
+            sf () {
+                let maxVal = this.cardURL.maxVal;  // 权重
+                let idx = this.time.index;         // 庄位置
+                let ya = this.ordinary.pay;        // 押注分数
+                let db = this.init.oxNumber;       // 投注倍率
+                let oxK = this.init.oxK;           // 比什么
+                let maxValEng = [];                // 最终结果
+                // 输赢计算
+                ki(idx)
+                function ki(i){
+                    var DYval = 0;
+                    switch (oxK) {
+                        case '比Q' : 
+                            DYval = 4
+                            break;
+                        case '比K' : 
+                            DYval = 8
+                            break;
+                        case '无牛关机 (庄赢)' :
+                            DYval = 12
+                            break;
+                    }
+                    maxValEng[i] = 99;
+                    maxVal.map(function(k,index){
+                        if(index != i && Math.abs(maxVal[i]-k) > DYval ){
+                            maxVal[i] > k ? maxValEng[index] = 0 :
+                            maxValEng[index] = 1;
+                        } else if(index != i){
+                            maxValEng[index] = 0
+                        }
+                    })
+                }
+                this.cardURL.end = maxValEng;      // 发送输赢结果
+                // 根据压什么计算加减分
+                
+                console.log(db)
+                console.log(ya)
+                console.log(maxValEng)
+                // 输赢计算
+                for(var i=0; i<7; i++) {
+
+                }
+
+            },
             generateToolBar: function(obj){
                 //动态生成按钮
             },
             orderPower(players){
-               console.time('a')
                if(players.length <=1){
                 return players;
                }
@@ -830,10 +912,6 @@
                         notline.push(players[i]);
                     }
                }
-
-
-
-
                for(var i=0;i<online.length-1;i++){ 
                        for(var j=i+1;j<online.length;j++){ 
                            if(online[i].power>online[j].power){
@@ -856,8 +934,6 @@
                 online.reverse(); 
                 notline.reverse(); 
                 this.players = online.concat(notline);
-                console.table(this.players);
-                console.timeEnd('a');
             },
 
 

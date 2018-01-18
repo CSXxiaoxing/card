@@ -285,6 +285,7 @@
                 case this.double + this.noDouble > 0 && this.$parent.init.textStyle == 3:
                     // 1/修改父元素值
                     this.$parent.ordinary.pay[this.p] = [val01, val02, val01+val02];
+                    this.$parent.win.fen -= val01+val02;
                     // 2/发起请求-把数据传给后台 (三个值)---------------------------------------
                     // 
                     // 3/请求完后清除数据

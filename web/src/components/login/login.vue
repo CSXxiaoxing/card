@@ -347,10 +347,6 @@
 		}
 		span:last-child{
 			display: inline-block;
-			// height: 108px;
-			// width: 356px;
-			// font-size: 58px;
-			// line-height: 108px;
 			color: #fff;
 			height: 1.268519rem;
 			width: 4.166667rem;
