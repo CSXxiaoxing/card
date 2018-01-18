@@ -12,54 +12,54 @@
 
 <style lang='scss' scoped>
   .tip{
-    width: 766px;
-    border-radius: 30px;
+    width: 7.092593rem;
+    border-radius: 0.277778rem;
     position: absolute;
-    top:890px;
+    top:8.240741rem;
     span{
       display: block;
       color:white;
-      font-size: 66px;
-      width:958px;
-      height:230px;
-      line-height: 195px;
+      font-size: 0.611111rem;
+      width:8.87037rem;
+      height:2.12963rem;
+      line-height: 1.805556rem;
       background: url("../../img/module_home_no1.png") no-repeat;
       background-position: center;
       text-align: center;
       position: relative;
-      right: 94px;
-      bottom: 50px;
+      right: 0.87037rem;
+      bottom: 0.462963rem;
       
       i{
         position: absolute;
-        font-size: 140px;
+        font-size: 1.296296rem;
         color: #028B00;
-        right: 120px;
+        right: 1.111111rem;
       }
     }
 
     p{
-      height:180px;
-      line-height:100px;
+      height:1.666667rem;
+      line-height:0.925926rem;
       text-align:center;
-      font-size:50px;
+      font-size:0.462963rem;
     }
     button{
-      width:357px;
-      height: 110px;
-      line-height:100px;
-      border-radius: 55px;
-      font-size:60px;
-      margin-bottom:50px;
+      width:3.305556rem;
+      height: 1.018519rem;
+      line-height:0.925926rem;
+      border-radius: 0.509259rem;
+      font-size:0.555556rem;
+      margin-bottom:0.462963rem;
       border: 0 none;
       color: white;
-      background: url(../../img/home_all.png) -210px -150px no-repeat;
-      background-size: 600px 600px;
+      background: url(../../img/home_all.png) -1.944444rem -1.388889rem no-repeat;
+      background-size: 5.555556rem 5.555556rem;
     }
     button:active {
         position: relative;
-        left: 2px;
-        bottom: -5px;
+        left: 0.018519rem;
+        bottom: -0.046296rem;
     }
   }
 

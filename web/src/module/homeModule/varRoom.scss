@@ -7,7 +7,7 @@
         height: 100%;
         opacity: 0.5;
         background: #000;
-        padding: 50px 200px;
+        padding: 0.462963rem 1.851852rem;
 }
 // 消除浮动
 .clear{
@@ -16,18 +16,18 @@
 
 // 创建房间
 .Cvar{
-    width: 900px;
-    border-radius: 26px;
-    padding: 32px 76px 20px 76px;
+    width: 8.333333rem;
+    border-radius: 0.240741rem;
+    padding: 0.296296rem 0.703704rem 0.185185rem 0.703704rem;
     box-sizing: border-box;
     // overflow-y: auto;
     // overflow-x: hidden;
     position: absolute;
     // @extend .fontSize;
     .fontSize{
-        font-size: 44px;
-        height: 44px;
-        line-height: 46px;
+        font-size: 0.407407rem;
+        height: 0.407407rem;
+        line-height: 0.425926rem;
         text-align: left;
     }
     // @extend .flex;
@@ -37,9 +37,9 @@
     }
     // 圆点 @extend .circle;
     .circle{
-        margin-right: 20px;
-        width: 66px;
-        height: 66px;
+        margin-right: 0.185185rem;
+        width: 0.611111rem;
+        height: 0.611111rem;
         border-radius: 50%;
         background: #D3D3D3;
         float: left;
@@ -59,7 +59,7 @@
             pointer-events: none;
         }
         .mint-switch-label {
-            margin-left: 10px;
+            margin-left: 0.092593rem;
             display: inline-block;
         }
         .mint-switch-label:empty {
@@ -68,10 +68,10 @@
         .mint-switch-core {
             display: inline-block;
             position: relative;
-            width: 125px;
-            height: 62px;
-            border: 1px solid #d9d9d9;
-            border-radius: 30px;
+            width: 1.157407rem;
+            height: 0.574074rem;
+            border: 0.009259rem solid #d9d9d9;
+            border-radius: 0.277778rem;
             box-sizing: border-box;
             background: #d9d9d9;
         }
@@ -84,19 +84,19 @@
             transition: -webkit-transform .3s;
             transition: transform .3s;
             transition: transform .3s, -webkit-transform .3s;
-            border-radius: 15px;
+            border-radius: 0.138889rem;
         }
         .mint-switch-core::after {
-            width: 58px;
-            height: 58px;
+            width: 0.537037rem;
+            height: 0.537037rem;
             border-radius: 50%;
             background-color: #fff;
             box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
         }
         .mint-switch-core::before {
-            width: 125px;
-            height: 62px;
-            border-radius: 30px;
+            width: 1.157407rem;
+            height: 0.574074rem;
+            border-radius: 0.277778rem;
             background-color: #fdfdfd;
         }
         .mint-switch-input {
@@ -111,30 +111,30 @@
                     transform: scale(0);
         }
         .mint-switch-input:checked + .mint-switch-core::after {
-            -webkit-transform: translateX(65px);
-                    transform: translateX(65px);
+            -webkit-transform: translateX(0.601852rem);
+                    transform: translateX(0.601852rem);
         }
     }
 
     h3{
-        border-bottom: 2px solid #E4E4E4;
-        font-size: 64px;
-        line-height: 64px;
+        border-bottom: 0.018519rem solid #E4E4E4;
+        font-size: 0.592593rem;
+        line-height: 0.592593rem;
         font-weight: 300;
         text-align: center;
-        padding-bottom: 22px;
+        padding-bottom: 0.203704rem;
         i{
                 position: absolute;
-                font-size: 140px;
+                font-size: 1.296296rem;
                 color: #7A7A7A;
-                right: 70px;
+                right: 0.648148rem;
               }  
     }
     // 公共p
     p{
         // @extend .common;
-        font-size: 44px;
-        height: 44px;
+        font-size: 0.407407rem;
+        height: 0.407407rem;
         text-align: left;
     }
     input{
@@ -146,24 +146,24 @@
             @extend .flex;
             label:nth-of-type(1){
                 @extend .fontSize;
-                padding: 36px 0 22px;
+                padding: 0.333333rem 0 0.203704rem;
                 span{
-                    font-size: 42px;
+                    font-size: 0.388889rem;
                     color: #05B800;
                 }
             }
             label:nth-of-type(2){
                 float: right;
                 text-align: right;
-                font-size: 42px;
-                line-height: 64px;
-                padding-top: 22px;
+                font-size: 0.388889rem;
+                line-height: 0.592593rem;
+                padding-top: 0.203704rem;
                 span{
-                    margin-right: 24px;
+                    margin-right: 0.222222rem;
                     // padding: 25px 0 14px;
-                    width: 66px;
-                    height: 66px;
-                    border-radius: 10px;
+                    width: 0.611111rem;
+                    height: 0.611111rem;
+                    border-radius: 0.092593rem;
                     background: #D3D3D3;
                     float: left;
                     
@@ -172,52 +172,52 @@
         }
         // 房名
         li:nth-of-type(2){
-            height: 88px;
-            padding-bottom: 24px;
+            height: 0.814815rem;
+            padding-bottom: 0.222222rem;
             @extend .flex;
             span{
                 @extend .fontSize;
                 display: inline-block;
-                padding: 20px 0 22px;
+                padding: 0.185185rem 0 0.203704rem;
             }
             input{
                 flex: 1;
-                border: 2px solid #D2D2D2;
-                border-radius: 10px;
-                padding-left: 28px;
-                font-size: 38px;
-                line-height: 82px;
+                border: 0.018519rem solid #D2D2D2;
+                border-radius: 0.092593rem;
+                padding-left: 0.259259rem;
+                font-size: 0.351852rem;
+                line-height: 0.759259rem;
             }
 
         }
         // 新人进房确认
         li:nth-of-type(3){
-            height: 64px;
+            height: 0.592593rem;
             display: flex;
             align-items: center;
             &>span:nth-of-type(1){
                 @extend .fontSize;
                 display: inline-block;
-                padding: 8px 23px 8px 0;
+                padding: 0.074074rem 0.212963rem 0.074074rem 0;
             }
         }
         // 玩法
         li:nth-of-type(4){
-            height: 124px;
-            padding: 24px 0 32px;
+            height: 1.148148rem;
+            padding: 0.222222rem 0 0.296296rem;
             box-sizing: border-box;
             display: flex;
             &>span:nth-of-type(1){
                 @extend .fontSize;
                 display: inline-block;
-                padding: 12px 10px 10px 0; 
+                padding: 0.111111rem 0.092593rem 0.092593rem 0; 
             }
             label{
                 float: right;
                 text-align: right;
-                font-size: 42px;
-                line-height: 64px;
-                padding-right: 60px;
+                font-size: 0.388889rem;
+                line-height: 0.592593rem;
+                padding-right: 0.555556rem;
                 span{
                     @extend .circle;
                 }
@@ -229,8 +229,8 @@
                 @extend .fontSize;
                 span{
                     float: right;
-                    font-size: 38px;
-                    line-height: 44px;
+                    font-size: 0.351852rem;
+                    line-height: 0.407407rem;
                     color: #0BBB0E;
                     text-decoration: underline;
                 }
@@ -238,9 +238,9 @@
             label{
                 float: left;
                 text-align: right;
-                font-size: 42px;
-                line-height: 64px;
-                padding:20px 50px 24px 0;
+                font-size: 0.388889rem;
+                line-height: 0.592593rem;
+                padding:0.185185rem 0.462963rem 0.222222rem 0;
                 span{
                     @extend .circle;
                 }
@@ -250,11 +250,11 @@
         li:nth-of-type(6){
             p{
                 @extend .fontSize;
-                padding-bottom: 22px;
+                padding-bottom: 0.203704rem;
                 span{
                     float: right;
-                    font-size: 38px;
-                    line-height: 44px;
+                    font-size: 0.351852rem;
+                    line-height: 0.407407rem;
                     color: #0BBB0E;
                     text-decoration: underline;
                 }
@@ -262,9 +262,9 @@
         }
         // 倍率dl
         li:nth-of-type(7){
-            border: 2px solid #D1D1D1;
-            border-radius: 16px;
-            padding: 32px 20px 16px 68px;
+            border: 0.018519rem solid #D1D1D1;
+            border-radius: 0.148148rem;
+            padding: 0.296296rem 0.185185rem 0.148148rem 0.62963rem;
             dl{
                 display: flex;
                 flex-wrap: wrap;
@@ -272,16 +272,16 @@
                     text-align: left;
                 dt{
                     width: 100%;
-                    height: 38px;
-                    font-size: 38px;
-                    line-height: 38px;
-                    padding: 0 0 22px;
+                    height: 0.351852rem;
+                    font-size: 0.351852rem;
+                    line-height: 0.351852rem;
+                    padding: 0 0 0.203704rem;
                 }
                 dd{
                     width: 33%;
-                    height: 52px;
-                    font-size: 38px;
-                    line-height: 52px;
+                    height: 0.481481rem;
+                    font-size: 0.351852rem;
+                    line-height: 0.481481rem;
                 }
                 dd:last-child{
                     flex: 1;
@@ -292,7 +292,7 @@
         }
         // 可下注时间：
         li:nth-of-type(8){
-            padding: 22px 0 26px;
+            padding: 0.203704rem 0 0.240741rem;
             p{
                 @extend .fontSize;
             }
@@ -303,9 +303,9 @@
             label{
                 width: 33%;
                 text-align: left;
-                font-size: 42px;
-                line-height: 64px;
-                padding:20px 0px 0px;
+                font-size: 0.388889rem;
+                line-height: 0.592593rem;
+                padding:0.185185rem 0.0rem 0.0rem;
                 span{
                     @extend .circle;
                 }
@@ -317,83 +317,83 @@
                 @extend .fontSize;
             }
             input{
-                margin-top: 10px;
-                padding-left: 20px;
-                font-size: 36px;
-                line-height: 82px;
-                height: 82px;
+                margin-top: 0.092593rem;
+                padding-left: 0.185185rem;
+                font-size: 0.333333rem;
+                line-height: 0.759259rem;
+                height: 0.759259rem;
                 width: 100%;
                 box-sizing: border-box;
-                border: 2px solid #D3D3D3;
-                border-radius: 10px;
+                border: 0.018519rem solid #D3D3D3;
+                border-radius: 0.092593rem;
                 color: #0DC108;
             }
         }
         // 玩家下注范围：
         li:nth-of-type(10){
-            padding: 20px 0 16px;
+            padding: 0.185185rem 0 0.148148rem;
             display: flex;
             width: 100%;
             span{
                 @extend .fontSize;
                 display: inline-block;
-                width: 312px;
-                padding: 22px 0px 20px 0; 
+                width: 2.888889rem;
+                padding: 0.203704rem 0.0rem 0.185185rem 0; 
                 white-space: nowrap;
             }
             input{
-                width: 170px;
-                height: 88px;
-                border: 2px solid #D5D5D5;
-                border-radius: 10px;
+                width: 1.574074rem;
+                height: 0.814815rem;
+                border: 0.018519rem solid #D5D5D5;
+                border-radius: 0.092593rem;
                 box-sizing: border-box;
                 text-align: center;
-                font-size: 38px;
+                font-size: 0.351852rem;
                 color: #06BC05;
-                margin-right: 15px;
+                margin-right: 0.138889rem;
             }
             input:last-child{
-                margin-left: 15px;
-                margin-right: 0px;
+                margin-left: 0.138889rem;
+                margin-right: 0.0rem;
             }
             i{
                 display: inline-block;
-                width: 35px;
-                height: 4px;
+                width: 0.324074rem;
+                height: 0.037037rem;
                 background: #9E9E9E;
-                margin-top: 38px;
+                margin-top: 0.351852rem;
                 // margin-top: -10px;
                 position: relative;
             }
         }
         // 抽庄赢分比例
         li:nth-of-type(11){
-            height: 127px;
+            height: 1.175926rem;
             span{
                 @extend .fontSize;
                 display: inline-block;
-                padding: 20px 0 22px;
+                padding: 0.185185rem 0 0.203704rem;
                 float: left;
             }
             input{
                 float: left;
-                width: 250px;
-                height: 88px;
-                border: 2px solid #D5D5D5;
-                border-radius: 10px;
+                width: 2.314815rem;
+                height: 0.814815rem;
+                border: 0.018519rem solid #D5D5D5;
+                border-radius: 0.092593rem;
                 box-sizing: border-box;
                 text-align: center;
-                font-size: 38px;
+                font-size: 0.351852rem;
                 color: #06BC05;
-                margin-right: 15px;
+                margin-right: 0.138889rem;
             }
             span:last-child{
                 color: #14BE1D;
-                font-size: 34px;
-                line-height: 54px;
+                font-size: 0.314815rem;
+                line-height: 0.5rem;
                 &>span{
-                    font-size: 42px;
-                    line-height: 42px;
+                    font-size: 0.388889rem;
+                    line-height: 0.388889rem;
                     padding: 0;
                 }
             }
@@ -401,102 +401,102 @@
     }
     button{
       color: #fff;
-      width:357px;
-      height: 110px;
-      border-radius: 55px;
-      line-height: 100px;
-      font-size:60px;
+      width:3.305556rem;
+      height: 1.018519rem;
+      border-radius: 0.509259rem;
+      line-height: 0.925926rem;
+      font-size:0.555556rem;
       border: none;
-      background: url(../../img/home_all.png) -210px -150px no-repeat;
-      background-size: 600px 600px;
+      background: url(../../img/home_all.png) -1.944444rem -1.388889rem no-repeat;
+      background-size: 5.555556rem 5.555556rem;
     }
 }
 // 功能未开放
 .clo{
     //关闭叉叉
     position: absolute;
-    background: url(../../img/home_all.png) -190px -260px no-repeat;
-    background-size: 600px 600px;
-    height: 39px;
-    width: 39px;
+    background: url(../../img/home_all.png) -1.759259rem -2.407407rem no-repeat;
+    background-size: 5.555556rem 5.555556rem;
+    height: 0.361111rem;
+    width: 0.361111rem;
 }
 .no{
-    width: 843px;
-    height: 300px;
-    border-radius: 26px;
+    width: 7.805556rem;
+    height: 2.777778rem;
+    border-radius: 0.240741rem;
     margin-top: -26%;
     .close{
             @extend .clo;
-            right: 38px;
-            top: 30px;
+            right: 0.351852rem;
+            top: 0.277778rem;
         }
     p{
         color: #FF3C00;
-        font-size: 50px;
+        font-size: 0.462963rem;
         text-align: center;
-        line-height: 300px;
+        line-height: 2.777778rem;
     }
 }
 // 付费详情
 .card{
-    width: 936px;
+    width: 8.666667rem;
     margin-top: 10%;
     position: absolute;
-    border: 3px solid #000;
-    border-radius: 40px;
-    padding: 42px 50px 50px;
+    border: 0.027778rem solid #000;
+    border-radius: 0.37037rem;
+    padding: 0.388889rem 0.462963rem 0.462963rem;
     box-sizing: border-box;
     // left:-50px;
     p{
-        height: 70px;
-        font-size:70px;
-        line-height:70px;
-        width: 830px;
-        padding: 0px 0 32px;
-        border-bottom: 2px solid #C9C9C9;
+        height: 0.648148rem;
+        font-size:0.648148rem;
+        line-height:0.648148rem;
+        width: 7.685185rem;
+        padding: 0 0 0.296296rem;
+        border-bottom: 0.018519rem solid #C9C9C9;
         text-align:center;
         .close{
             position: absolute;
-            background: url(../../img/home_all.png) -100px -250px no-repeat;
-            background-size: 600px 600px;
-            height: 57px;
-            width: 57px;
-            right: 38px;
-            top: 47px;
+            background: url(../../img/home_all.png) -0.925926rem -2.314815rem no-repeat;
+            background-size: 5.555556rem 5.555556rem;
+            height: 0.527778rem;
+            width: 0.527778rem;
+            right: 0.351852rem;
+            top: 0.435185rem;
         }
     }
     div{
         position:relative;
-        margin-top: 40px;
-        width:830px;
-        height:1030px;
+        margin-top: 0.37037rem;
+        width:7.685185rem;
+        height:9.537037rem;
         background-color: #E6E6E6;
     }
 }
 // 倍率设置
 .set{
     // border: 3px solid #000;
-    width: 1032px;
+    width: 9.555556rem;
     // margin-top:10%;
     position: absolute;
-    border-radius: 30px;
-    padding: 42px 50px 30px;
+    border-radius: 0.277778rem;
+    padding: 0.388889rem 0.462963rem 0.277778rem;
     box-sizing: border-box;
     .top{
-        font-size: 64px;
-        line-height: 64px;
+        font-size: 0.592593rem;
+        line-height: 0.592593rem;
         color: #3D3D3D;
         text-align: center;
-        padding-bottom: 38px;
-        border-bottom: 2px solid #CBCBCB;
+        padding-bottom: 0.351852rem;
+        border-bottom: 0.018519rem solid #CBCBCB;
         .close{
             position: absolute;
-            background: url(../../img/home_all.png) -190px -260px no-repeat;
-            background-size: 600px 600px;
-            height: 57px;
-            width: 57px;
-            right: 50px;
-            top: 45px;
+            background: url(../../img/home_all.png) -1.759259rem -2.407407rem no-repeat;
+            background-size: 5.555556rem 5.555556rem;
+            height: 0.527778rem;
+            width: 0.527778rem;
+            right: 0.462963rem;
+            top: 0.416667rem;
         }
     }
 
@@ -504,17 +504,17 @@
     .DLUL {
         p{
             color: #F44400;
-            font-size: 40px;
-            line-height: 40px;
-            padding: 32px 0 52px;
+            font-size: 0.37037rem;
+            line-height: 0.37037rem;
+            padding: 0.296296rem 0 0.481481rem;
             text-align: center;
         }
         dl{
-            border-bottom: 2px solid #CACACA;
+            border-bottom: 0.018519rem solid #CACACA;
             dt{
-                width: 190px;
-                font-size: 50px;
-                line-height: 54px;
+                width: 1.759259rem;
+                font-size: 0.462963rem;
+                line-height: 0.5rem;
                 color: #0AB902;
                 float: left;
             }
@@ -535,18 +535,18 @@
                     display: flex;
                 }
                 .mint-radiolist-label:last-child {
-                    width: 400px;
+                    width: 3.703704rem;
                     padding: 0;
-                    margin: 35px 10px 28px;
+                    margin: 0.324074rem 0.092593rem 0.259259rem;
                 }
                 .mint-radio.is-right {
                     float: right;
                 }
                 .mint-radio-label {
                     vertical-align: middle;
-                    margin-left: 6px;
-                    font-size: 38px;
-                    line-height: 60px;
+                    margin-left: 0.055556rem;
+                    font-size: 0.351852rem;
+                    line-height: 0.555556rem;
                 }
                 .mint-radio-input {
                     display: none;
@@ -570,21 +570,21 @@
                     display: inline-block;
                     background-color: #fff;
                     border-radius: 100%;
-                    border: 1px solid #ccc;
+                    border: 0.009259rem solid #ccc;
                     position: relative;
-                    width: 60px;
-                    height: 60px;
+                    width: 0.555556rem;
+                    height: 0.555556rem;
                     vertical-align: middle;
-                    margin-right: 20px;
+                    margin-right: 0.185185rem;
                 }
                 .mint-radio-core::after {
                     content: " ";
                     border-radius: 100%;
-                    top: 7px;
-                    left: 7px;
+                    top: 0.064815rem;
+                    left: 0.064815rem;
                     position: absolute;
-                    width: 44px;
-                    height: 44px;
+                    width: 0.407407rem;
+                    height: 0.407407rem;
                     -webkit-transition: -webkit-transform .2s;
                     transition: -webkit-transform .2s;
                     transition: transform .2s;
@@ -596,47 +596,47 @@
         }
 
         ul{
-            font-size: 50px;
+            font-size: 0.462963rem;
             display: flex;
             flex-wrap: wrap;
-            padding: 35px 0 0;
+            padding: 0.324074rem 0 0;
             li{
                 width: 48%;
                 float:left;
                 color:#0BBF0A;
-                margin-bottom: 30px;
+                margin-bottom: 0.277778rem;
                 span{
-                    width: 196px;
+                    width: 1.814815rem;
                     display: inline-block;
-                    font-size: 50px;
+                    font-size: 0.462963rem;
                     float: left;
                 }
                 .add{
-                    margin: 0 -60px;
+                    margin: 0 -0.555556rem;
                     float: right;
                     button {
                         float: left;
                         display: inline-block;
-                        width: 60px;
-                        height: 60px;
-                        font-size:60px;
+                        width: 0.555556rem;
+                        height: 0.555556rem;
+                        font-size:0.555556rem;
                         border: none;
                         float: left;
-                        background: url(../../img/home_all.png) -80px -330px no-repeat;
-                        background-size: 600px 600px;
+                        background: url(../../img/home_all.png) -0.740741rem -3.055556rem no-repeat;
+                        background-size: 5.555556rem 5.555556rem;
                         position: relative;
-                        transform: translate(66px, 4px);
+                        transform: translate(0.611111rem, 0.037037rem);
                     }
                     button:last-child {
-                        background: url(../../img/home_all.png) -0px -330px no-repeat;
-                        background-size: 600px 600px;
-                        transform: translate(-64px, 4px);
+                        background: url(../../img/home_all.png) -0.0rem -3.055556rem no-repeat;
+                        background-size: 5.555556rem 5.555556rem;
+                        transform: translate(-0.592593rem, 0.037037rem);
                     }
                     button:active{
                         position: relative;
-                        border-radius: 30px;
-                        left: 1px ;
-                        top: 3px ;
+                        border-radius: 0.277778rem;
+                        left: 0.009259rem ;
+                        top: 0.027778rem;
                     }
                 } 
             }
@@ -645,17 +645,17 @@
     &>button{
         &:active{
             position: relative;
-            top: 5px;
-            left: 1px;
+            top: 0.046296rem;
+            left: 0.009259rem;
         }
       color: #fff;
-      width: 356px;
-      height: 108px;
-      font-size:60px;
-      border-radius: 54px;
+      width: 3.296296rem;
+      height: 1.0rem;
+      font-size:0.555556rem;
+      border-radius: 0.5rem;
       border: none;
-      background: url(../../img/home_all.png) -210px -150px no-repeat;
-      background-size: 600px 600px;
+      background: url(../../img/home_all.png) -1.944444rem -1.388889rem no-repeat;
+      background-size: 5.555556rem 5.555556rem;
     }
 }
 
