@@ -1,4 +1,4 @@
-                       <template>
+<template>
 	<div id='home'>
 		<header>
 			<dl>
@@ -6,7 +6,7 @@
 					<img src="../../img/home_head.png" alt="" />
 				</dt>
 				<dd>
-					<span>迷迷糊糊</span>
+					<span @click="loading()">迷迷糊糊</span>
 					<span @click="toShare"><i></i>分享</span>
 				</dd>
 				<dd>
@@ -76,6 +76,7 @@
 	import './home.scss';
 	import Vue from 'vue';
 	import http from '../../utils/httpClient.js';
+	import { Indicator } from 'mint-ui';
 	// 组件
 	import noOpen from '../../module/homeModule/noOpen.vue';
 	import joinRoom from '../../module/homeModule/joinRoom.vue';
@@ -150,6 +151,9 @@
 			generateToolBar: function(obj){
 				//动态生成按钮
 			},
+			loading(){
+				Indicator.open('加载中...');
+			}
 		}
 	}
 </script>

@@ -11,6 +11,7 @@
 </template>
 
 <style lang='scss' scoped>
+@import '../../utils/baseVar.scss';
   .tip{
     width: 7.092593rem;
     border-radius: 0.277778rem;
@@ -23,7 +24,7 @@
       width:8.87037rem;
       height:2.12963rem;
       line-height: 1.805556rem;
-      background: url("../../img/module_home_no1.png") no-repeat;
+      background: $home08 no-repeat;
       background-position: center;
       text-align: center;
       position: relative;
@@ -53,7 +54,7 @@
       margin-bottom:0.462963rem;
       border: 0 none;
       color: white;
-      background: url(../../img/home_all.png) -1.944444rem -1.388889rem no-repeat;
+      background: $homeAll -1.944444rem -1.388889rem no-repeat;
       background-size: 5.555556rem 5.555556rem;
     }
     button:active {

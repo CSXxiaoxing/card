@@ -24,17 +24,17 @@
   	width:100%;
   	background-color:#E8E8E8;
   	p:nth-of-type(1){
-		font-size: 50px;
-		line-height: 120px;
+		font-size: 0.462963rem;
+		line-height: 1.111111rem;
   	}
   	dl{
   		float:left;
-  		margin:10px 0px 84px 246px;
-  		font-size:40px;
+  		margin:0.092593rem 0.0rem 0.777778rem 2.277778rem;
+  		font-size:0.37037rem;
   	}
   	p:nth-of-type(2){
-		font-size: 50px;
-		line-height: 104px;
+		font-size: 0.462963rem;
+		line-height: 0.962963rem;
 		background-color:white;
 		clear: both;
   	}

@@ -33,35 +33,35 @@
 <style lang='scss' scoped>
      // position: sticky;
     .openRecords{
-        width: 1032px;
-        max-height: 1650px;
-        border-radius: 34px;
-        padding: 0px 42px;
+        width: 9.555556rem;
+        max-height: 15.277778rem;
+        border-radius: 0.314815rem;
+        padding: 0 0.388889rem;
         box-sizing: border-box;
         overflow-y: hidden;
         h3{
-            height: 94px;
-            font-size: 64px;
-            line-height: 64px;
+            height: 0.87037rem;
+            font-size: 0.592593rem;
+            line-height: 0.592593rem;
             text-align: center;
             font-weight: 200;
-            padding-top: 42px;
+            padding-top: 0.388889rem;
             i{
                 float: right;
                 font-weight: 200;
-                font-size: 100px;
+                font-size: 0.925926rem;
                 display: inline-block;
-                background: url('../../img/home_all.png') -100px -250px no-repeat;
-                background-size: 600px 600px;
-                height: 57px;
-                width: 57px;
+                background: url('../../img/home_all.png') -0.925926rem -2.314815rem no-repeat;
+                background-size: 5.555556rem 5.555556rem;
+                height: 0.527778rem;
+                width: 0.527778rem;
             }
         }
         .roll{
             width: 100%;
             overflow-y: auto;
             // overflow-x: hidden;
-            max-height: 1512px;
+            max-height: 14.0rem;
             // overflow: auto;
             position: relative;
         }
@@ -69,26 +69,26 @@
             display: none;
         } 
         table{
-            border: 1px solid #829369;
+            border: 0.009259rem solid #829369;
             width: 100%;
-            font-size: 32px;
+            font-size: 0.296296rem;
             th{
-                border: 1px solid #AAB19F;
+                border: 0.009259rem solid #AAB19F;
                 background: #D0E7B1;
-                font-size: 46px;
+                font-size: 0.425926rem;
                 color: #46592C;
                 font-weight: 500;
-                height: 82px;
+                height: 0.759259rem;
             }
             tr {
                 td{
-                    border: 1px solid #AAB19F;
-                    height: 82px;
-                    font-size: 32px;
+                    border: 0.009259rem solid #AAB19F;
+                    height: 0.759259rem;
+                    font-size: 0.296296rem;
                     font-weight: 700;
                 }
                 td:first-child{
-                    font-size: 40px;
+                    font-size: 0.37037rem;
                     font-weight: 400;
                     color: #298B98;
                     white-space: nowrap;
@@ -107,7 +107,7 @@
         table.bel2{
             border-top: 0 none;
             tr:nth-of-type(1){
-                margin-top: -1px;
+                margin-top: -0.009259rem;
                 td{
                     border-top: 0 none;
                 }
