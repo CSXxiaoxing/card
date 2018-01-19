@@ -65,3 +65,35 @@ input.error {
     transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
     animation: inputmove .1s linear 6; 
 }
+
+// 输赢/加减分
+.shu {
+    position: relative;
+    color: red;
+    animation: shuyin 5s linear 2; 
+    weight: 600;
+}
+.yin {
+    position: relative;
+    color: #33ffff;
+    animation: shuyin 5s linear 2; 
+    weight: 600;
+}
+@keyframes shuyin{
+    0%{
+        top: 50px;
+        opacity: 0;
+    }
+    30%{
+        top: 0px;
+        opacity: 1;
+    }
+    60%{
+        top: 0px;
+        opacity: 1;
+    }
+    100%{
+        top: -50px;
+        opacity: 0;
+    }
+}

@@ -153,13 +153,14 @@ export default new Vuex.Store({
             apiUrl: Vue.prototype.$WebIM.config.apiURL,
             user: 'hz_niuniu_'+localStorage.oxUid,
             pwd: '123456',
+            accessToken: 'token',
             appKey: Vue.prototype.$WebIM.config.appkey,
-            success: function (token) {
-                let tokenStr = token.access_token;
-                Vue.prototype.$WebIM.utils.setCookie('webim' + encryptUsername, tokenStr, 1);
-            },
-            error: function () {
-            }
+            // success: function (token) {
+            //     let tokenStr = token.access_token;
+            //     Vue.prototype.$WebIM.utils.setCookie('webim' + encryptUsername, tokenStr, 1);
+            // },
+            // error: function () {
+            // }
         })
         // Vue.prototype.$imConn.open({
         //     apiUrl: Vue.prototype.$WebIM.config.apiURL,

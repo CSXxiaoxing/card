@@ -56,7 +56,16 @@
             
         </div>
         <footer>
-        	<p><img src="../../img/chart_Room1.png" alt=""><span>按住 说话</span></p>
+
+        	<p v-if='speak == 0'>
+                <img src="../../img/chart_Room1.png" @touchend='speak = 1'>
+                <span>按住 说话</span>
+            </p>
+
+            <p v-if='speak == 1'>
+                <img src="../../img/724876052125097875.png" @touchend='speak = 0'>
+                <input type="text" />
+            </p>
         </footer>
     </div>
 </template>
@@ -231,7 +240,7 @@
         }
 
         footer{
-        	position:absolute;
+        	position: absolute;
         	width:100%;
         	bottom:0px;
         	height:130px;
@@ -241,19 +250,31 @@
         			margin:0px 20px 0px 0px;
         			padding-top: 20px;
         		}
+                // 复用
+                @mixin fuyon {
+                    display:inline-block;
+                    font-size:40px;
+                    width:880px;
+                    height:90px;
+                    line-height:90px;
+                    border:2px solid #DFDFE1;
+                    text-align:center;
+                    position:relative;
+                    bottom:30px;
+                    border-radius: 12px;
+                    background-color:white;
+                }
         		span{
-        			display:inline-block;
-        			font-size:40px;
-        			width:880px;
-        			height:90px;
-        			line-height:90px;
-        			border:2px solid #DFDFE1;
-        			text-align:center;
-        			position:relative;
-        			bottom:30px;
-        			border-radius: 12px;
-        			background-color:white;
+        			@include fuyon;
         		}
+                input {
+                    @include fuyon;
+                    text-align : left;
+                    padding : 0 40px;
+                    box-sizing: border-box;
+                    outline: none;
+                    border: none;
+                }
         	}
         }
     }
@@ -265,14 +286,18 @@
 	export default {
         data: function(){
             return {
-            	a: this.$route.params.id,
-            	give:0,         
-                roomstatus:1,   //客服0  聊天（房主）1  聊天（玩家）2 群聊3
-                isfriend:0,   //是好友1  不是0
+            	a: this.$route.params.id, 
+                speak: 1,         // 语音是0 输入是1 
+            	give:0,          // 
+                roomstatus:3,   // 客服0  聊天（房主）1  聊天（玩家）2 群聊3
+                isfriend:0,    // 是好友1  不是0
             }
         },
         mounted: function(){
-        	console.log(this.a)
+            // init
+            // console.log(this.time.random)
+            this.$store.dispatch('login_IM')
+            this.$imConn.onOpened()
         },
         methods: {
 

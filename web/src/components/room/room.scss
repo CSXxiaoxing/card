@@ -203,7 +203,7 @@ $fsize44: 0.407407rem;
                 padding-left: 0.046296rem;
                 #{$w}: 3.518519rem;
                 text-align: left;
-                span{
+                span:nth-of-type(1){
                     color: #0DB80A;
                 }
             }
@@ -395,6 +395,7 @@ $fsize44: 0.407407rem;
 
         // @include xx
         .left {
+            position: relative;
             @include LR;
             ul{
                 #{$h}: 12.037037rem;
@@ -443,6 +444,39 @@ $fsize44: 0.407407rem;
                    100%{
                         border: 0.009259rem solid red;
                    }
+                }
+            }
+            &>span {
+                position: absolute;
+                left: 110%;
+                top: 10px;
+                font-size: 60px;
+                weight: 600;
+            }
+            .shu {
+                color: red;
+                animation: shuyin 5s linear 2; 
+            }
+            .yin {
+                color: #0ad80a;
+                animation: shuyin 5s linear 2; 
+            }
+            @keyframes shuyin{
+                0%{
+                    top: 50px;
+                    opacity: 0;
+                }
+                30%{
+                    top: 0px;
+                    opacity: 1;
+                }
+                60%{
+                    top: 0px;
+                    opacity: 1;
+                }
+                100%{
+                    top: -50px;
+                    opacity: 0;
                 }
             }
         }
@@ -700,10 +734,22 @@ $fsize44: 0.407407rem;
                 b:first-child{
                     color: #FDFF67;
                     padding-bottom: 0.092593rem;
+                    position: relative;
+                    left: 50%;
+                    transform: translate(-52%,0);
+                    span{
+                        position: absolute;
+                        right: 20px;
+                    }
+                }
+                b:first-child.a{
+                    transform: translate(-60%,0);
+                    transition: all 1.5s;
                 }
                 b:last-child{
                     padding-top: 0.092593rem;
                     color: #03360B;
+
                 }
             }
         }

@@ -148,6 +148,12 @@
 
             }
         },
+        mounted: function(){
+            // init
+            // console.log(this.time.random)
+            this.$store.dispatch('login_IM')
+            this.$imConn.onOpened()
+        },
         methods: {
             newWord() {
                 if(this.arrows == 1) {

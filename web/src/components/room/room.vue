@@ -33,7 +33,12 @@
                     <img src="../../img/room03.png" height="155" width="149" alt="" />
                 </dt>
                 <dd  v-show='init.ForT == 0'>迷迷糊糊</dd>
-                <dd  v-show='init.ForT == 0'>分数：<span>{{win.fen}}</span></dd>
+                <dd  v-show='init.ForT == 0'>
+
+                    分数：<span>{{win.fen}}</span>
+                    <span :class='win.css[0]'>{{win.cssFen[0]}}</span>
+
+                </dd>
                 <!-- 房主 -->
                 <dd  v-show='init.ForT == 1'>房总分：<span>71666</span></dd>
                 <dd  v-show='init.ForT == 1' @click='varRoom'><i></i>房间设置</dd>
@@ -138,6 +143,7 @@
                     <!-- <li  @click="applyOn" class='tips'>{{apply}}</li> -->
                     <li  @click="applyOn(99)" >{{apply}}</li>
                 </ul>
+                <span :class='win.css[1]'>{{win.cssFen[1]}}</span>
             </div>
 
             <div class='center'>
@@ -249,7 +255,8 @@
                 <li v-show='init.ForT == 0'>联系房主</li>
                 <li class='roomScore' v-show='init.ForT == 1' 
                     @click="$refs.onapplyOnChild.details=true;">
-                    <b>{{host.gainNum}}</b>
+                    <b :class='win.css[2].length > 0 ? "a" : ""'>{{host.gainNum}}
+                    <span :class='win.css[2]' v-show='win.css[2].length > 0 ? true : false'>{{win.cssFen[2]}}</span></b>
                     <b>抽水分数</b>
                 </li>
             </ul>
@@ -261,7 +268,7 @@
         <keep-alive>
             <applyOn ref="onapplyOnChild" ></applyOn>
         </keep-alive>
-        <playerBottom ref="onplayerBottomChild" :p='ordinary.Pn'></playerBottom>
+        <playerBottom ref="onplayerBottomChild" :p='ordinary.Pn' ></playerBottom>
         <singleBoard ref="onsingleBoardChild"></singleBoard>
 
     </div>
@@ -299,7 +306,7 @@
                 // 初始化
                 init: {
                     // 1是房主0是普通
-                    ForT: 0,
+                    ForT: 1,
                     prizeNum: 7,
                     // 游戏时间控制 
                     time: 0,
@@ -307,7 +314,7 @@
                     // 可下注范围
                     scope: [100, 99999],
                     // 设定可下注池
-                    pond: 8000,
+                    pond: 80000,
                     // 游戏状态
                     text: ['游戏暂未开始', '准备开始：', '随机庄牌：', '可押注时间：', '开牌倒计时', '开牌结果'],
                     // 对应状态码   [0, 1, 2, 3, 4, 5]
@@ -343,6 +350,12 @@
                     // fen : 100009,
                     // 分数中转
                     zorp: [0,0],
+                    // 我/庄/房主
+                    css: ['shu', 'shu', 'yin'],
+                    cssFen: ['-1000', '-5000', '+0'],
+                    // 中转
+                    cssZZ: ['','',''],
+                    cssZZF: ['','',''],
                 },
                 // 主人
                 host: {
@@ -476,7 +489,6 @@
             // console.log(this.time.random)
             // this.$store.dispatch('login_IM')
             // this.$imConn.onOpened()
-            
         },
         methods: {
             // 房间设置
@@ -913,18 +925,34 @@
                         if(maxValEng[i] == 1){
                             fen += ya[i][1];
                             fen += ya[i][0]*db[ox[i]]
+                            var fenAll = ya[i][1] + ya[i][0]*db[ox[i]]
+
                             Zfen -= ya[i][1];
                             Zfen -= ya[i][0]*db[ox[i]]
+                            var ZfenAll = ya[i][1] + ya[i][0]*db[ox[i]]
+                            // 普赢庄输
+                            // this.win.cssZZ = ['yin',  'shu',  'yin']
+                            // this.win.cssZZF = [`+${fenAll}`, `-${ZfenAll}`, '+0']
 
                         } else {    // 亏了多少分
                             fen -= ya[i][1];
                             fen -= ya[i][0]*db[ox[idx]];
+                            var fenAll = ya[i][1] + ya[i][0]*db[ox[idx]]
+
                             Zfen += ya[i][1];
                             Zfen += ya[i][0]*db[ox[idx]]
+                            var ZfenAll = ya[i][1] + ya[i][0]*db[ox[idx]]
+                            // 庄赢
+                            // this.win.cssZZ = ['shu', 'yim', 'yin']
+                            // this.win.cssZZF = [`-${fenAll}`, `+${ZfenAll}`, `+${ZfenAll}`]
                         }
                     }
                 }
-                this.win.zorp = [Zfen, fen]     // 发送输赢分数=============================================
+                this.win.zorp = [Zfen, fen];
+
+                   // 发送输赢分数=============================================
+                   // 返回总分
+                
             },
             generateToolBar: function(obj){
                 //动态生成按钮

@@ -104,6 +104,12 @@
                 maxLength:50,
             }
         },
+        mounted: function(){
+            // init
+            // console.log(this.time.random)
+            // this.$store.dispatch('login_IM')
+            // this.$imConn.onOpened()
+        },
         methods: {
             textNum(){
                 if( this.content.length<50){

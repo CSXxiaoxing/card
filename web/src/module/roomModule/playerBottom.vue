@@ -32,7 +32,7 @@
     </mt-popup>
 
     <span>可押{{scope[0]}}~{{scope[1]}}分 <i @click="playerBottom = false">×</i></span>
-    <p :class='inpErr == 99 ? "TEXTerror" : ""'>{{text}}</p>
+    <p :class='inpErr == 99 ? "TEXTerror" : ""'>{{val[2] > 0 ? "追加押注分数" : text}}</p>
 
     <p>翻倍<b @click="details = true">( 查看详情 )</b>   
         <input type="text" v-model.number='double' :class='inpErr == 0 ? "error" : ""' Placeholder="输入押注分数" @focus='inpErr = -1'>
@@ -222,16 +222,13 @@
             inpErr: -1,
             // 可压范围
             scope: [this.$parent.init.scope[0], this.$parent.init.scope[1]],
+            // 初始值
+            val: [],
         };
     },
     props: ["p"],
-    beforeUpdate: function(){
-        // 有初始值
-        // if(this.$parent.ordinary.pay[this.p][2] > 0){
-        //     this.text = '追加押注分数';
-        // } else {
-        //     this.text = '输入押注分数';
-        // }
+    beforeUpdate(){
+      this.val = this.$parent.ordinary.pay[this.p]
     },
     methods:{
         valueEnd() {
