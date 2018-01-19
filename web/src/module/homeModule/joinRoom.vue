@@ -26,6 +26,7 @@
 </template>
 
 <style  lang='scss' scoped>
+    @import '../../utils/baseVar.scss';
     .join{
         width: 7.185185rem;
         margin-top: -0.277778rem;
@@ -43,7 +44,7 @@
         height: 1.666667rem;
         padding: 0;
         margin: 0;
-        background: url('../../img/JoinTOP.png') no-repeat;
+        background: $home04 no-repeat;
         background-position:center;
         background-size: cover;
         position: absolute;
@@ -60,7 +61,7 @@
             transform: translate(-135%, 65%);
             height: 0.555556rem;
             width: 0.555556rem;
-            background: url(../../img/home_all.png) -2.407407rem -2.407407rem no-repeat;
+            background: $homeAll -2.407407rem -2.407407rem no-repeat;
             background-size: 5.555556rem 5.555556rem;
         }    
     }
@@ -72,7 +73,7 @@
         line-height: 1.092593rem;
         text-align: center;
         border: 0 none;
-        background: url('../../img/inputJoinRoom.png') no-repeat;
+        background: $home05 no-repeat;
         background-position: center;
         background-size: cover;
         margin-bottom: 0.166667rem;
@@ -91,7 +92,7 @@
             text-align: center;
             margin: 0.092593rem 0.0rem;
             color:white;
-            background: url(../../img/home_all.png) -1.574074rem -3.055556rem no-repeat;
+            background: $homeAll -1.574074rem -3.055556rem no-repeat;
             background-size: 5.555556rem 5.555556rem;
         }
         li:active{
@@ -101,7 +102,7 @@
         }
         .word{
             font-size:0.740741rem;
-            background: url(../../img/home_all.png) -3.611111rem -3.055556rem no-repeat;
+            background: $homeAll -3.611111rem -3.055556rem no-repeat;
             background-size: 5.555556rem 5.555556rem;
         }
     }

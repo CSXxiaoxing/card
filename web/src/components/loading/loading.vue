@@ -1,10 +1,5 @@
 <template>
-    <div> 
-        <mt-spinner 
-            type="fading-circle"
-            color="yellow"
-            :size="600">
-        </mt-spinner>
+    <div class='a'> 
     </div>
 </template>
 

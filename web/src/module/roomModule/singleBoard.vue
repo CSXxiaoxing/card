@@ -81,67 +81,67 @@
 <style lang='scss' scoped>
 //details
   .single{
-    width: 1032px;
-    height:1612px;
-    border-radius: 30px;
+    width: 9.555556rem;
+    height:14.925926rem;
+    border-radius: 0.277778rem;
     &>span:nth-of-type(1){
       display: block;
-      font-size: 62px;
-      width:958px;
-      height:80px;
-      margin-left:40px;
-      line-height: 110px;
+      font-size: 0.574074rem;
+      width:8.87037rem;
+      height:0.740741rem;
+      margin-left:0.37037rem;
+      line-height: 1.018519rem;
       i{
         position: absolute;
-        font-size: 140px;
+        font-size: 1.296296rem;
         color: #7A7A7A;
-        right: 30px;
+        right: 0.277778rem;
       }
     }
     
     table{
-      width:964px;
-      margin: 32px 0px 30px 36px;
+      width:8.925926rem;
+      margin: 0.296296rem 0 0.277778rem 0.333333rem;
       text-align: center;
       background-color:white;
-      border: 1px solid #BCBFB7;
+      border: 0.009259rem solid #BCBFB7;
       img{
         position: relative;
-        top:10px;
+        top:0.092593rem;
       }
       tr{
-        line-height:84px;
+        line-height:0.777778rem;
       }
       thead{
         color:#4D6131;
         tr{
-          font-size:38px;
+          font-size:0.351852rem;
           background-color:#D0E7B1; 
           font-weight:bold;
         }
       }
       tbody{
         color:#5F8C25;
-        font-size:40px;
+        font-size:0.37037rem;
         tr:nth-of-type(2n){
           background-color: #EFF8E3;
 
         }
         td:nth-of-type(1){
           text-align:left;
-          padding-left: 30px;
+          padding-left: 0.277778rem;
           color:#499BA5;
-          width:280px;
+          width:2.592593rem;
         }
         .total{
           background-color:#D0E7B1;
           td{
-            padding-right: 30px;
+            padding-right: 0.277778rem;
             color:#548512;  
           }
           td:nth-of-type(2){
             text-align:right;
-            padding-right:70px;
+            padding-right:0.648148rem;
             }
         }
       }
@@ -151,31 +151,31 @@
   
 
   .down{
-    width:938px;
-    height:638px;
-    border-radius:30px;
+    width:8.685185rem;
+    height:5.907407rem;
+    border-radius:0.277778rem;
     i{
         position: absolute;
-        font-size: 140px;
+        font-size: 1.296296rem;
         color: #7A7A7A;
-        right: 120px;
+        right: 1.111111rem;
       }
     span{
       display:inline-block;
       color:red;
-      width:796px;
-      margin-top: 150px;
-      margin-bottom: 150px;
-      font-size:50px;
+      width:7.37037rem;
+      margin-top: 1.388889rem;
+      margin-bottom: 1.388889rem;
+      font-size:0.462963rem;
       text-align:left;
     }
 
     button{
-      width:292px;
-      height: 114px;
-      border-radius: 55px;
-      font-size:60px;
-      margin:0px 50px 30px 50px;
+      width:2.703704rem;
+      height: 1.055556rem;
+      border-radius: 0.509259rem;
+      font-size:0.555556rem;
+      margin:0 0.462963rem 0.277778rem 0.462963rem;
       border: 0 none;
       color: white;
       background: url(../../img/module_room_setOwner1.png) no-repeat;
@@ -185,8 +185,8 @@
 
     button:active {
         position: relative;
-        left: 2px;
-        bottom: -5px;
+        left: 0.018519rem;
+        bottom: -0.046296rem;
     }
   }
 

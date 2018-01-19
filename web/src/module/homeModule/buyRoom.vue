@@ -86,6 +86,7 @@
 </template>
 
 <style lang='scss' scoped>
+    @import '../../utils/baseVar.scss';
     .buyR_modal{
         position: absolute;
             left: 50%;
@@ -110,7 +111,7 @@
         }
     }
     .buy{
-        background: url(../../img/module_home_buy1.png) no-repeat;
+        background: $home02 no-repeat;
         width: 8.138889rem;
         height: 13.787037rem;
         position: absolute;
@@ -160,7 +161,7 @@
                 width:2.416667rem;
                 height:0.685185rem;
                 font-size:0.351852rem;
-                background: url(../../img/home_all.png) -0.0rem -4.351852rem no-repeat;
+                background: $homeAll -0.0rem -4.351852rem no-repeat;
                 background-size: 5.555556rem 5.555556rem;
                 @extend .button;
             }
@@ -201,7 +202,7 @@
         width:8.796296rem;
         height:1.805556rem;
         line-height: 1.527778rem;
-        background: url("../../img/module_home_buy4.png") no-repeat;
+        background: $home03 no-repeat;
         background-position: center;
         text-align: center;
         position: relative;
@@ -211,8 +212,8 @@
           b{
             position: absolute;
             float: right;
-            background: url(../../img/home_all.png) -3.148148rem -2.407407rem no-repeat;
-            background-size: 600px 600px;
+            background: $homeAll -3.148148rem -2.407407rem no-repeat;
+            background-size: 5.555556rem 5.555556rem;
             height: 0.555556rem;
             width: 0.555556rem;
             right: 1.018519rem;
@@ -254,7 +255,7 @@
         line-height: 0.962963rem;
         font-size:0.555556rem;
         margin: 0.398148rem 0;
-        background: url(../../img/home_all.png) -1.944444rem -1.388889rem no-repeat;
+        background: $homeAll -1.944444rem -1.388889rem no-repeat;
         background-size: 5.555556rem 5.555556rem;
         @extend .button;
       }
@@ -262,6 +263,7 @@
 </style>
 
 <script type="es6">
+
   export default {
     data() {
       return {

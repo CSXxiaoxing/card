@@ -1,4 +1,4 @@
-
+@import '../../utils/baseVar.scss';
 #home{
     display: flex;
     flex-direction: column;
@@ -26,6 +26,7 @@
                     float: left;
                     font-size: 0.425926rem;
                     
+                    
                 }
                 span:last-child{
                     float: right;
@@ -40,7 +41,7 @@
                         top: 50%;
                         transform: translate(-120%, -50%);
                         // margin-top: -2px;
-                        background: url('../../img/home_all.png') -1.111111rem 0.0rem no-repeat;
+                        background: $homeAll -1.111111rem 0.0rem no-repeat;
                         background-size: 5.555556rem 5.555556rem;
                     }
                 }
@@ -71,7 +72,7 @@
                         margin-top: 0.055556rem;
                     }
                     i:nth-of-type(1){
-                        background: url('../../img/home_all.png') 0.0rem 0.0rem no-repeat;
+                        background: $homeAll 0.0rem 0.0rem no-repeat;
                         background-size: 5.555556rem 5.555556rem;
                         font-size: 0.333333rem;
                         text-align: center;
@@ -86,7 +87,7 @@
                     i:nth-of-type(2){
                         height: 0.287037rem;
                         width: 0.287037rem;
-                        background: url('../../img/home_all.png') -1.759259rem 0.0rem no-repeat;
+                        background: $homeAll -1.759259rem 0.0rem no-repeat;
                         background-size:  5.555556rem 5.555556rem;
                         float: right;
                         position: absolute;
@@ -136,7 +137,7 @@
             }
         }
         .homeServer{
-            background: url('../../img/home_all.png') 0.0rem -0.740741rem no-repeat;
+            background: $homeAll 0.0rem -0.740741rem no-repeat;
             background-size:  5.555556rem 5.555556rem;
             width: 0.481481rem;
             height: 2.240741rem;
@@ -177,13 +178,13 @@
                 height: 2.777778rem;
                 // margin-right: 15px;
                 margin-top: 0.166667rem;
-                background: url('../../img/home_ox.png') no-repeat;
+                background: $home01 no-repeat;
                 background-size: cover;
                 background-position:center;
                 background-size: 3.166667rem 2.777778rem;
                 b{
                     display: block;
-                    background: url('../../img/home_all.png') -2.777778rem 0.0rem no-repeat;
+                    background: $homeAll -2.777778rem 0.0rem no-repeat;
                     background-size: 5.555556rem 5.555556rem;
                     height: 0.833333rem;
                     width: 0.87037rem;
@@ -196,7 +197,7 @@
                     display:block;
                     height: 1.37037rem;
                     width: 1.666667rem;
-                    background: url('../../img/home_all.png') -3.703704rem 0.0rem no-repeat;
+                    background: $homeAll -3.703704rem 0.0rem no-repeat;
                     background-size: 5.555556rem 5.555556rem;
                     position: relative;
                     left: 50%;

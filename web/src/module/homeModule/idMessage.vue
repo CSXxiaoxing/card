@@ -13,6 +13,7 @@
 </template>
 
 <style lang='scss' scoped>
+  @import '../../utils/baseVar.scss';
   .mess{
     width: 80%;
     border-radius: 0.277778rem;
@@ -38,7 +39,7 @@
         right:0.277778rem;
         width: 0.527778rem;
         height: 0.527778rem;
-        background: url(../../img/home_all.png) -0.925926rem -2.314815rem no-repeat;
+        background: $homeAll -0.925926rem -2.314815rem no-repeat;
         background-size: 5.555556rem;
       }
     button{
@@ -48,7 +49,7 @@
       font-size:0.555556rem;
       border: none;
       margin-left:2.314815rem;
-      background: url(../../img/home_all.png) -1.944444rem -1.388889rem no-repeat;
+      background: $homeAll -1.944444rem -1.388889rem no-repeat;
       background-size: 5.555556rem;
       position: absolute;
       bottom: 0.925926rem ;

@@ -42,7 +42,7 @@
 </template>
 
 <style  lang='scss' scoped>
-   
+   @import '../../utils/baseVar.scss';
 
     .mine{
         width:7.12963rem;
@@ -57,7 +57,7 @@
           text-align: center;
           font-size: 0.703704rem;
           line-height: 1.296296rem;
-          background: url('../../img/JoinTOP.png') no-repeat;
+          background: $home04 no-repeat;
           position: absolute;
           left: 50%;
           top: 0;
@@ -70,7 +70,7 @@
                         position: absolute;
                         right:0.833333rem;
                         top: 0.277778rem;
-                        background: url(../../img/home_all.png) -3.888889rem -2.407407rem no-repeat;
+                        background: $homeAll -3.888889rem -2.407407rem no-repeat;
                         background-size: 5.555556rem 5.555556rem;
                         width: 0.555556rem;
                         height: 0.555556rem;
@@ -139,7 +139,7 @@
         overflow-x: hidden;
         height:8.935185rem;
         margin-bottom: 0.240741rem;
-        background:url('../../img/module_home_myRoom4.png') no-repeat;
+        background:$home06 no-repeat;
         background-size: cover;
         background-position:center;
         p{
@@ -166,7 +166,7 @@
                 background-size: 2.240741rem 2.037037rem;
                 b{
                     display: block;
-                   background: url('../../img/home_all.png') -2.777778rem 0.0rem no-repeat;
+                   background: $homeAll -2.777778rem 0.0rem no-repeat;
                     background-size: 5.555556rem 5.555556rem;
                     height: 0.833333rem;
                     width: 0.87037rem;
@@ -179,7 +179,7 @@
                     display:block;
                     height: 0.925926rem;
                     width: 1.166667rem;
-                    background: url('../../img/home_all.png') -0.740741rem -1.203704rem no-repeat;
+                    background: $homeAll -0.740741rem -1.203704rem no-repeat;
                     background-size: 5.555556rem 5.555556rem;
                     position: relative;
                     left: 50%;
