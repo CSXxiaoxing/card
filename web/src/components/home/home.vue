@@ -1,4 +1,4 @@
-                       <template>
+ <template>
 	<div id='home'>
 		<header>
 			<dl>
@@ -10,7 +10,7 @@
 					<span @click="toShare"><i></i>分享</span>
 				</dd>
 				<dd>
-					<span>ID:777777</span>
+					<span>ID:{{id}}</span>
 					<span>
 						<i>房卡</i>
 						<b>27894</b>
@@ -68,7 +68,6 @@
 		<varRoom ref="onvarRoomChild" ></varRoom>
 		<myRoom ref="onmyRoomChild" ></myRoom>
 		<toShare ref="ontoShareChild" :share='"home"'></toShare>
-		
 	</div>
 </template>
 
@@ -76,6 +75,7 @@
 	import './home.scss';
 	import Vue from 'vue';
 	import http from '../../utils/httpClient.js';
+	import router from '../../router/';
 	// 组件
 	import noOpen from '../../module/homeModule/noOpen.vue';
 	import joinRoom from '../../module/homeModule/joinRoom.vue';
@@ -99,15 +99,18 @@
 		data: function(){
 			return {
 				datagrid : '',
+				id : 0,
 			}
 		},
 		mounted: function(){
 			var self = this;
-			http.post('http://192.168.31.83:666/sel'
-		    ).then(res => {
-	            self.datagrid = res;
-	            console.log(res)
-	        })
+			if(localStorage.oxToken && localStorage.oxUid){
+				this.id = localStorage.oxUid
+				// 房间请求
+			} else {
+				// 跳回登录页
+				router.push({name: '/'});
+			}
 		},
 		methods: {
 			joinRoom(){

@@ -29,6 +29,7 @@ const HttpClient = {
 
     post: (path, formdata, query, vm) => new Promise((resolve, reject) => {
     	// if(vm){ vm['loadingShow'] = true }
+
         request
             .post(getUrl(path))
             .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
@@ -45,5 +46,6 @@ const HttpClient = {
             });
     })
 };
+
 
 export default HttpClient;

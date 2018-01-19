@@ -6,25 +6,25 @@
 		    :modal='true'
 		    class="zhuce">
 		    <b class="close" @touchend="zhuce = false"></b>
-		    <h4>注册</h4>
+		    <h4 :class='TEXTerror'>{{TEXTerror.length >= 1 ? "输入不能为空" :text[0]}}</h4>
 		    <label> 
 			    <span>您的昵称</span> 
-			    <input type="text" placeholder='输入昵称' v-model='nikeName'/> 
+			    <input type="text" placeholder='输入昵称' v-model.trim='nikename'/> 
 		    </label>
 	        <label> 
 	    	    <span>输入密码</span> 
-	    	    <input type="text" placeholder='输入密码' v-model='password'/> 
+	    	    <input type="text" placeholder='输入密码' v-model.trim='password'/> 
 	        </label>
 	        <label> 
 			    <span>手机号码</span> 
-			    <input type="text" placeholder='输入手机号' v-model='cell'/> 
+			    <input type="text" placeholder='输入手机号' v-model.trim='cell'/> 
 		    </label>
 		    <label> 
 			    <span>验证码</span> 
-			    <input type="text" placeholder='输入验证码' v-model=' code'/> 
+			    <input type="text" placeholder='输入验证码' v-model.trim=' code'/> 
 			    <i>获取验证码</i>
 		    </label>
-		    <span @touchend="zhuCe" >确定</span>
+		    <span @touchend="input(4)" >确定</span>
 		</mt-popup>
 
 		<mt-popup
@@ -33,18 +33,18 @@
 		    :modal='true'
 		    class="phone">
 		    <b class="close" @touchend="phone = false"></b>
-		    <h4>登录</h4>
+		    <h4 :class='TEXTerror'>{{TEXTerror.length >= 1 ? "输入不能为空" :text[1]}}</h4>
 		    <label> 
 			    <span>手机号码</span> 
-			    <input type="text" placeholder='输入手机号' v-model='cell'/> 
+			    <input type="text" placeholder='输入手机号' v-model.trim='cell'/> 
 		    </label>
 	        <label> 
 	    	    <span>输入密码</span> 
-	    	    <input type="text" placeholder='输入密码' v-model='password'/> 
+	    	    <input type="text" placeholder='输入密码' v-model.trim='password'/> 
 	        </label>
 	        <label @click='find = true'>忘记密码？点击找回！</label>
 	        <hr/>
-		    <span @touchend="loging">确定</span>
+		    <span @touchend="input(2)">确定</span>
 		    <!-- @touchend="phone = false" -->
 		</mt-popup>
 
@@ -54,22 +54,22 @@
 		    :modal='true'
 		    class="find">
 		    <b class="close" @touchend="find = false"></b>
-		    <h4>找回密码</h4>
+		    <h4 :class='TEXTerror'>{{TEXTerror.length >= 1 ? "输入不能为空" :text[2]}}</h4>
 		    <label> 
 			    <span>手机号码</span> 
-			    <input type="text" placeholder='输入手机号' v-model='cell'/>
+			    <input type="text" placeholder='输入手机号' v-model.trim='cell'/>
 		    </label>
 		    <label> 
 			    <span>验证码</span> 
-			    <input type="text" placeholder='输入验证码' v-model=' code'/>
+			    <input type="text" placeholder='输入验证码' v-model.trim=' code'/>
 			    <i>获取验证码</i>
 		    </label>
 	        <label> 
 	    	    <span>新的密码</span> 
-	    	    <input type="text" placeholder='输入新的密码' v-model='password'/> 
+	    	    <input type="text" placeholder='输入新的密码' v-model.trim='password'/> 
 	        </label>
 	        <hr/>
-		    <span @touchend="findPassword">确定</span>
+		    <span @touchend="input(3)">确定</span>
 		</mt-popup>
 
 		<div class='logo'></div>
@@ -78,9 +78,10 @@
 			<span class='spanLog' @click='phone = true'>手机登录</span>
 			<p>还没有账号？<span @click='zhuce = true'>注册</span></p>
 		</div>
+
 		<div class="haveuser"  v-show="a == 1 ">
 			<span>{{a}}<b @click="a=0" @touchend="loginOut">切换</b></span>
-			<span>登录</span>
+			<span @touchend='local'>登录</span>
 		</div>
 
 		<loading v-show='loadingShow'></loading>
@@ -90,6 +91,59 @@
 <style  lang='scss' scoped>
     b{
     	padding: 0.092593rem;
+    }
+    @mixin h4 {
+		font-size: 0.611111rem;
+		color: #3B3B3B;
+		line-height: 0.611111rem;
+		margin-bottom: 0.518519rem;
+    }
+    @mixin min-active {
+		transform: scale(0.78, 0.78) translate(1%, 6px);
+    }
+    @mixin label {
+    	display: block;
+    	height: 0.851852rem;
+    	padding: 0.12963rem 0;
+    	text-align: left;
+    	span {
+    		display: inline-block;
+    		font-size: 0.444444rem;
+    		line-height: 0.851852rem;
+    		width: 1.944444rem;
+    	}
+    	input {
+			border: 0.027778rem solid #D4D4D4;
+			height: 0.796296rem;
+			padding-left: 0.240741rem;
+			font-size: 0.37037rem;
+			line-height: 0.796296rem;
+			border-radius: 0.092593rem;
+    	}
+    }
+    @mixin i {
+    	font-style: normal;
+    	font-size: 0.333333rem;
+    	color: #fff;
+    	display: inline-block;
+    	line-height: 0.851852rem;
+    	height: 0.851852rem;
+    	width: 2.166667rem;
+    	position: absolute;
+    	top: 0.12963rem;
+    	right: 0.0rem;
+    	text-align: center;
+    	background: url(../../img/login.png) -0.925926rem -3.0rem no-repeat;
+    	background-size: 5.555556rem 5.555556rem;
+    }
+    @mixin b {
+    	right: 0.37037rem;
+    	top: 0.444444rem;
+    	position: absolute;
+    	background: url(../../img/home_all.png) -1.759259rem -2.407407rem no-repeat;
+    	background-size: 5.555556rem 5.555556rem;
+    	height: 0.361111rem;
+    	width: 0.361111rem;
     }
 	.login {
 		height: 100%;
@@ -158,7 +212,7 @@
 		.haveuser{
 			span:nth-of-type(1){
 				position:absolute;
-				font-size:0.555556rem;
+				font-size: 0.555556rem;
 				transform: translate(-50%, 0.0rem);
 				bottom: 5rem;
 				b{
@@ -175,20 +229,14 @@
 				@include spans;
 				bottom: 3rem;
 			}
-		}
-		
+		}	
 	}
 	.zhuce {
 		width: 8.666667rem;
 		padding: 0.37037rem 0.37037rem 0.388889rem 0.62963rem;
 		box-sizing: border-box;
 		border-radius: 0.277778rem;
-		h4{
-			font-size: 0.611111rem;
-			color: #3B3B3B;
-			line-height: 0.611111rem;
-			margin-bottom: 0.518519rem;
-		}
+		h4{		@include h4;	}
 		span:last-child{
 			display: inline-block;
 			height: 1.268519rem;
@@ -200,31 +248,8 @@
 			background: url(../../img/login.png) -0.277778rem -4.074074rem no-repeat;
 			background-size: 5.555556rem 5.555556rem;
 		}
-		span:last-child:active{
-			position: relative;
-			bottom: -0.037037rem;
-			left: 0.009259rem;
-		}
-		label{
-			display: block;
-			height: 0.851852rem;
-			padding: 0.12963rem 0;
-			text-align: left;
-			span{
-				display: inline-block;
-				font-size: 0.444444rem;
-				line-height: 0.851852rem;
-				width: 1.944444rem;
-			}
-			input{
-				border: 0.027778rem solid #D4D4D4;
-				height: 0.796296rem;
-				padding-left: 0.240741rem;
-				font-size: 0.37037rem;
-				line-height: 0.796296rem;
-				border-radius: 0.092593rem;
-			}
-		}
+		span:last-child:active{ @include min-active; }
+		label{  @include label;  }
 		label:nth-of-type(4){ 
 			padding-bottom: 0.296296rem; 
 			border-bottom: 0.027778rem solid #D4D4D4;
@@ -234,31 +259,9 @@
 				width: 3.055556rem;
 				margin-right: 0.111111rem;
 			}
-			i {
-				font-style: normal;
-				font-size: 0.333333rem;
-				color: #fff;
-				display: inline-block;
-				line-height: 0.851852rem;
-				height: 0.851852rem;
-				width: 2.166667rem;
-				position: absolute;
-				top: 0.12963rem;
-				right: 0.0rem;
-				text-align: center;
-				background: url(../../img/login.png) -0.925926rem -3.0rem no-repeat;
-				background-size: 5.555556rem 5.555556rem;
-			}
+			i {	  @include i;   }
 		}
-		b{
-			right: 0.37037rem;
-			top: 0.444444rem;
-			position: absolute;
-			background: url(../../img/home_all.png) -1.759259rem -2.407407rem no-repeat;
-			background-size: 5.555556rem 5.555556rem;
-			height: 0.361111rem;
-			width: 0.361111rem;
-		}
+		b{	@include b;  }
 	}
 	.phone{
 		width: 8.666667rem;
@@ -266,12 +269,7 @@
 		padding: 0.37037rem 0.37037rem 0.388889rem 0.62963rem;
 		box-sizing: border-box;
 		border-radius: 0.277778rem;
-		h4{
-			font-size: 0.611111rem;
-			color: #3B3B3B;
-			line-height: 0.611111rem;
-			margin-bottom: 0.518519rem;
-		}
+		h4{		@include h4;	}
 		span:last-child{
 			display: inline-block;
 			height: 1.24rem;
@@ -279,38 +277,17 @@
 			font-size: 0.722222rem;
 			color: #fff;
 			line-height: 1.268519rem;
-			position:relative;
+			position: relative;
 			bottom:0.2em;
 			right:0.2rem;
 			transform: scale(0.8, 0.8);
 			background: url(../../img/login.png) -0.277778rem -4.074074rem no-repeat;
 			background-size: 5.555556rem 5.555556rem;
 		}
-		span:last-child:active{
-			position: relative;
-			bottom: -0.037037rem;
-			left: 0.009259rem;
-		}
+		span:last-child:active{ @include min-active; }
 		label{
-			display: block;
-			height: 0.851852rem;
-			padding: 0.12963rem 0;
-			text-align: left;
+			@include label;
 			margin: 0.222222rem 0.0rem;
-			span{
-				display: inline-block;
-				font-size: 0.444444rem;
-				line-height: 0.851852rem;
-				width: 1.944444rem;
-			}
-			input{
-				border: 0.027778rem solid #D4D4D4;
-				height: 0.796296rem;
-				padding-left: 0.240741rem;
-				font-size: 0.37037rem;
-				line-height: 0.796296rem;
-				border-radius: 0.092593rem;
-			}
 		}
 		label:nth-of-type(3){
 			padding-right: 0.703704rem;
@@ -324,27 +301,14 @@
 			position:relative;
 			right:0.648148rem;
 		}
-		b{
-			right: 0.37037rem;
-			top: 0.444444rem;
-			position: absolute;
-			background: url(../../img/home_all.png) -1.759259rem -2.407407rem no-repeat;
-			background-size: 5.555556rem 5.555556rem;
-			height: 0.361111rem;
-			width: 0.361111rem;
-		}
+		b{	@include b;  }
 	}
 	.find {
 		width: 8.666667rem;
 		padding: 0.37037rem 0.37037rem 0.388889rem 0.62963rem;
 		box-sizing: border-box;
 		border-radius: 0.277778rem;
-		h4{
-			font-size: 0.611111rem;
-			color: #3B3B3B;
-			line-height: 0.611111rem;
-			margin-bottom: 0.518519rem;
-		}
+		h4{		@include h4;	}
 		span:last-child{
 			display: inline-block;
 			color: #fff;
@@ -356,31 +320,10 @@
 			background: url(../../img/login.png) -0.277778rem -4.074074rem no-repeat;
 			background-size: 5.555556rem 5.555556rem;
 		}
-		span:last-child:active{
-			position: relative;
-			bottom: -0.037037rem;
-			left: 0.009259rem;
-		}
+		span:last-child:active{ @include min-active; }
 		label{
-			display: block;
-			height: 0.851852rem;
-			padding: 0.12963rem 0;
-			text-align: left;
+			@include label;
 			margin: 0.296296rem 0.0rem;
-			span{
-				display: inline-block;
-				font-size: 0.444444rem;
-				line-height: 0.851852rem;
-				width: 1.944444rem;
-			}
-			input{
-				border: 0.027778rem solid #D4D4D4;
-				height: 0.796296rem;
-				padding-left: 0.240741rem;
-				font-size: 0.37037rem;
-				line-height: 0.796296rem;
-				border-radius: 0.092593rem;
-			}
 		}
 		label:nth-of-type(2){ 
 			position: relative;
@@ -388,32 +331,10 @@
 				width: 3.055556rem;
 				margin-right: 0.111111rem;
 			}
-			i {
-				font-style: normal;
-				font-size: 0.333333rem;
-				color: #fff;
-				display: inline-block;
-				line-height: 0.851852rem;
-				height: 0.851852rem;
-				width: 2.166667rem;
-				position: absolute;
-				top: 0.12963rem;
-				right: 0.0rem;
-				text-align: center;
-				background: url(../../img/login.png) -0.925926rem -3.0rem no-repeat;
-				background-size: 5.555556rem 5.555556rem;
-			}
+			i {	  @include i;   }
 		}
 
-		b{
-			right: 0.37037rem;
-			top: 0.444444rem;
-			position: absolute;
-			background: url(../../img/home_all.png) -1.759259rem -2.407407rem no-repeat;
-			background-size: 5.555556rem 5.555556rem;
-			height: 0.361111rem;
-			width: 0.361111rem;
-		}
+		b{	@include b;  }
 	}
 </style>
 
@@ -432,87 +353,133 @@
 				login:false,
 				find: false,
 				phone:false,
+				text: ['注册', '登录', '找回密码'],
+				TEXTerror: '',
 				// 用户资料
-				nikeName: '',
+				nikename: '',
 				password: '',
 				cell: '',
 				code: '',
 				loadingShow: false,
-				a: 1,
-
+				a: 0,
 			}
 		},
 		mounted: function(){
-
+			if(localStorage.oxToken){
+				this.a = 1;
+			} else {
+				this.a = 0;
+			}
 		},
 		methods: {
-			loginHandler: function(){
-				// http.post('/login', {cell: this.username, password: this.password}).then(res => {
-				// 	router.push({name: 'home'});
-				// })
+			local () {
+				if(localStorage.oxToken){
+					router.push({name: 'home'});
+				} else {
+					this.a = 0;
+				}
 			},
-			loginTo(){
-				router.push('home')
+			input (n) {		//input非空验证 过滤 13450266666
+				var type = true;
+				var self = this;
+				if(n >= 2){
+					!this.password ? type = false : 0;
+					!this.cell ? type = false : 0;
+				}
+				if(n >= 3){
+					!this.code ? type = false : 0;
+				}
+				if(n >= 4){
+					!this.nikename ? type = false : 0;
+				}
+				function txtErr(){
+					self.TEXTerror = 'TEXTerror';
+					var a = setTimeout(()=>{
+						self.TEXTerror = '';
+						clearTimeout(a)
+					},2000)
+				}
+				if(type == false) {
+					txtErr()
+					return false;
+				} else {
+					switch (n) {
+						case 2 :
+							self.loging();
+							break;
+						case 3 :
+							self.findPassword();
+							break;
+						case 4 :
+							self.zhuCe();
+							break;
+					}
+				}
 			},
-			loging() {
+			loging() {		//登录
 				var self = this;
 				http.post( '/Member/login', {
-							mobile: self.cell,
-							password: self.password
-						}, '', this )
+						mobile: self.cell,
+						password: self.password
+					}, '', this )
 					.then(res => {
 						console.log(res)
-						if(status == 1){
+						if(res.status == 1){
+							localStorage['oxToken'] = res.data.token;
+							localStorage['oxUid'] = res.data.uid;
+							// localStorage['oxCell'] = self.cell;
 							router.push({name: 'home'});
 						}
 						self.phone = false;
 					})
 			},
-			zhuCe() {
+			zhuCe() {		//注册
 				var self = this;
 				http.post( '/Member/registered', {
 							mobile: self.cell,
 							password: self.password,
 							code: self.code,
-							nikeName: self.nikeName
+							nikename: self.nikename,
 						}, '', this )
 					.then(res => {
 						console.log(res)
-						if(status == 1){
-							router.push({name: 'home'});
+						if(res.status == 1){
+							self.loging()
 						}
 						self.zhuce = false;
 					})
 			},
-			findPassword() {
-				// find = false
+			findPassword() {	//找回密码
 				var self = this;
-				http.post( '/Member/login', {
+
+				http.post( '/Member/changePassword', {
 							mobile: self.cell,
 							password: self.password,
-							code: self.code
+							code: self.code,
 						}, '', this )
 					.then(res => {
+						console.log(123)
 						console.log(res)
 						if(status == 1){
-							router.push({name: 'home'});
+
+							// router.push({name: 'home'});
 						}
 						self.find = false;
 					})
 			},
-			loginOut(){
+			loginOut(){		//登出
 				var self =this;
+				localStorage.removeItem("oxToken")
 				http.post('/Member/login_out')
 				.then(res => {
 					console.log(res)
 						if(status == 1){
-							router.push({name: 'home'});
+							localStorage.removeItem('oxToken')
+							self.a = 0;
 						}
 					})
-				},
-			components: {
-				loading
-			}
+			},
+			
 		}
 	}
 </script>

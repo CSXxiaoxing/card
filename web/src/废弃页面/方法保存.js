@@ -75,3 +75,10 @@ input::-webkit-input-placeholder{color: #ccc;}
 
 // 颜色console.log
 console.log('%c [opened] 已经成功建立连接', 'color: green')
+
+// localstorage  or sessionStorage
+window.localStorage.setItem("c",9)      // 添加 
+window.localStorage.clear();            // 清空 
+window.localStorage.removeItem("a");    // 删除某个 
+window.localStorage.getItem(key);             // 获取某个 ?? 获取不到
+window.localStorage.c                   // 直接获取

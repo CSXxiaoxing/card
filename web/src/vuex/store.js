@@ -24,7 +24,7 @@ export default new Vuex.Store({
             oxK: '比Q',
             time: [30, 60, 120, 180, 300, 480],
             miss: ['秒', '分钟'],
-            oxNumber: [1, 1, 1, 1, 1, 1, 2, 2, 3, 5, 10],
+            oxNumber: [1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 5, 10],
             // 一个中文两个字节
             nameLenth: 16,
             // 最低上分数
@@ -149,24 +149,24 @@ export default new Vuex.Store({
             onMutedMessage: function(message){}        //如果用户在A群组被禁言，在A群发消息会走这个回调并且消息不会传递给群其它成员
         }),
         // 登录
+        Vue.prototype.$imConn.open({
+            apiUrl: Vue.prototype.$WebIM.config.apiURL,
+            user: 'hz_niuniu_'+localStorage.oxUid,
+            pwd: '123456',
+            appKey: Vue.prototype.$WebIM.config.appkey,
+            success: function (token) {
+                let tokenStr = token.access_token;
+                Vue.prototype.$WebIM.utils.setCookie('webim' + encryptUsername, tokenStr, 1);
+            },
+            error: function () {
+            }
+        })
         // Vue.prototype.$imConn.open({
         //     apiUrl: Vue.prototype.$WebIM.config.apiURL,
         //     user: 'hamingniao',
-        //     pwd: 'chen123456',
-        //     appKey: Vue.prototype.$WebIM.config.appkey,
-        //     success: function (token) {
-        //         let tokenStr = token.access_token;
-        //         Vue.prototype.$WebIM.utils.setCookie('webim' + encryptUsername, tokenStr, 1);
-        //     },
-        //     error: function () {
-        //     }
+        //     accessToken: 'token',
+        //     appKey: Vue.prototype.$WebIM.config.appkey
         // })
-        Vue.prototype.$imConn.open({
-            apiUrl: Vue.prototype.$WebIM.config.apiURL,
-            user: 'hamingniao',
-            accessToken: 'token',
-            appKey: Vue.prototype.$WebIM.config.appkey
-        })
       }
 
       

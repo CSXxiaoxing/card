@@ -300,6 +300,7 @@ $fsize44: 0.407407rem;
         padding: 1.203704rem 0 0.62963rem;
         margin-bottom: -0.185185rem;
         #{$bg}: $room07 no-repeat;
+        #{$bg}-size: 100%;
         display: flex;
         justify-content: space-between;
         @mixin LR {
@@ -312,8 +313,9 @@ $fsize44: 0.407407rem;
                 display: flex;
                 flex-direction: column;
                 #{$bg}: $room02 no-repeat;
+                #{$bg}-size: 100%;
                 border-radius: 0.046296rem;
-                #{$w}:1.537037rem;
+                #{$w}: 1.537037rem;
                 
                 li{
                     #{$w}: 100%;
@@ -344,16 +346,18 @@ $fsize44: 0.407407rem;
                             z-index: 2;
                         }
                         &>img:nth-of-type(2) {
+                            #{$w}: 0.676296rem;
+                            #{$h}: 0.676296rem;
                             position: absolute;
-                            left: 0;
-                            top: 0;
+                            left: -0.027778rem;
+                            top: -0.027778rem;
                             z-index: 3;
                         }
                         &>span {
                             color: #fff;
                             position: absolute;
-                            left: 0.12963rem;
-                            top: 0.037037rem;
+                            left: 0.17963rem;
+                            top: 0.08037rem;
                             font-size: 0.333333rem;
                             z-index: 3;
                         }

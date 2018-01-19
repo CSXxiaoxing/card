@@ -50,14 +50,14 @@ input.error {
        transform: translate(0%, -1%);
    }
 }
-@-webkit-keyframes inputmove{
-   0%{
-       transform: translate(-1%, 0%);
-   }
-   100%{
-       transform: translate(1%, 0%);
-   }
-}
+// @-webkit-keyframes inputmove{
+//    0%{
+//        transform: translate(-1%, 0%);
+//    }
+//    100%{
+//        transform: translate(1%, 0%);
+//    }
+// }
 // 文本-错误提示
 .TEXTerror {
     color: red!important;

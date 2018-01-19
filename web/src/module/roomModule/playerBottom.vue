@@ -246,10 +246,10 @@
             }
             let val01 = Number(this.double) + Number(pay01);
             let val02 = Number(this.noDouble) + Number(pay02);
+            
             // 值超出最小或最大范围
-            if((this.double < this.scope[0] || this.double > this.scope[1])
+            if((this.double < this.scope[0] || this.double > this.scope[1] )
              && this.double != ''){
-                console.log(idx)
                 this.inpErr = 0;
                 idx = 2;
             }
@@ -257,7 +257,7 @@
                 && this.noDouble != '') {
                 this.inpErr = 1;
                 idx = 2;
-            } else {idx=1}
+            }
             // 无初始值
             switch (true) {
                 case !Number(this.double) && this.double != '' :

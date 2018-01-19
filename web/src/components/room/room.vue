@@ -316,6 +316,8 @@
                     oxNumber: this.$store.state.initRoom.oxNumber,
                     // 庄总分
                     fen: 5000000,
+                    // 庄时状态为1
+                    ForZ: 0,
                 },
                 // 时间总控
                 time: {
@@ -328,17 +330,19 @@
                     // 随机背景的速度
                     speed: 80,
                     // 押注倒计时
-                    timeAll: 3,
+                    timeAll: 5,
                     // 全开倒计时
                     countTime: 10,
                     // 开牌结果等待时间
-                    endTime: 1000,
+                    endTime: 60,
                 },
                 // 输赢结果
                 win: {
                     // 个人总分
                     fen : this.$store.state.self.fen,
                     // fen : 100009,
+                    // 分数中转
+                    zorp: [0,0],
                 },
                 // 主人
                 host: {
@@ -387,6 +391,8 @@
                     card: [],
                     cardEnd: [[],[],[],[],[],[],[]],
                     result: [],
+                    // 数字牛几
+                    resultNum: [],
                     // 点击翻转
                     clck: -1,
                     // 权重
@@ -487,7 +493,8 @@
             playerBottom(index){
                 let init = this.init;
                 let self = this;
-                if(this.init.ForT == 1) { //房主不参与游戏
+                if(this.init.ForT == 1 || this.init.ForZ == 1) { 
+                //房主和庄家不参与游戏
                     return false;
                 }
                 if(init.textStyle == 3 && this.ordinary.pond > init.scope[0]){
@@ -499,7 +506,7 @@
                     temporary = setTimeout(function(){
                         self.cardURL.clck = -1;
                         clearTimeout(temporary);
-                    }, 1500)
+                    }, 2300)
                 }
             },
             applyOn(i){
@@ -570,6 +577,7 @@
             algorithm () {
                 console.time('a')
                 // 牛牛计算 -- 比大小未完成
+                let resultNum = this.cardURL.resultNum;
                 let color = this.cardURL.color;
                 let card = this.cardURL.card;
                 let OXcard = this.cardURL.cardEnd;
@@ -641,10 +649,12 @@
                     if(maxNum <= 0){
                         oxArr.push(nickname[0])
                         maxVal.push(0)
+                        resultNum.push(0)
 
                     } else {
                         oxArr.push(nickname[maxNum])
                         maxVal.push(maxNum)
+                        resultNum.push(maxNum)
                         // maxVal.push(20+Number(maxNum))
                     }
 
@@ -656,6 +666,7 @@
                     if(wuhuaOX >= 5){
                         oxArr.splice(Q, 1, nickname[11]);
                         maxVal.splice(Q, 1, 999);
+                        resultNum.splice(Q, 1, 11);
                     }
                 }
                 // 权重算法
@@ -733,7 +744,6 @@
                 
                 // 1、准备开始倒计时
                 pageTimer["timer01"] = setInterval( ()=> {
-                    console.log('j'+1)
                     self.init.time--;
                     if(self.init.time < 0) {
                         this.init.textStyle = 2;
@@ -833,11 +843,15 @@
                 let self = this;
                 
                 if(i == 0) {
+                    // 分数结果
+                    this.win.fen = this.win.zorp[1];             
+                    this.init.fen = this.win.zorp[0];
                     pageTimer["timer06"] = setInterval(()=>{
                         if(self.init.time >= 1){
                             self.init.time-- ;
                         } else {
                             self.gameType(0);
+
                             if(self.host.allType == 0) {   // 停止时
                                 self.init.textStyle = 0;
                             }
@@ -852,12 +866,15 @@
             },
             // 输赢结果
             sf () {
-                let maxVal = this.cardURL.maxVal;  // 权重
-                let idx = this.time.index;         // 庄位置
-                let ya = this.ordinary.pay;        // 押注分数
-                let db = this.init.oxNumber;       // 投注倍率
-                let oxK = this.init.oxK;           // 比什么
-                let maxValEng = [];                // 最终结果
+                let maxVal = this.cardURL.maxVal;   // 权重
+                let ox = this.cardURL.resultNum    // 牛结果数字化
+                let idx = this.time.index;        // 庄位置
+                let ya = this.ordinary.pay;      // 押注分数
+                let db = this.init.oxNumber;    // 投注倍率
+                let oxK = this.init.oxK;       // 比什么
+                let maxValEng = [];           // 最终结果
+                let fen = this.win.fen       // 个人分数
+                let Zfen = this.init.fen;   // 庄分数
                 // 输赢计算
                 ki(idx)
                 function ki(i){
@@ -883,17 +900,31 @@
                         }
                     })
                 }
-                this.cardURL.end = maxValEng;      // 发送输赢结果
+                this.cardURL.end = maxValEng;      // 发送输赢结果==========================================
                 // 根据压什么计算加减分
-                
+                console.log(ox)
                 console.log(db)
                 console.log(ya)
                 console.log(maxValEng)
-                // 输赢计算
+                // 输赢计算 --------普通玩家
                 for(var i=0; i<7; i++) {
+                    if(ya[i][2] > 0){
+                        fen += ya[i][2]
+                        if(maxValEng[i] == 1){
+                            fen += ya[i][1];
+                            fen += ya[i][0]*db[ox[i]]
+                            Zfen -= ya[i][1];
+                            Zfen -= ya[i][0]*db[ox[i]]
 
+                        } else {    // 亏了多少分
+                            fen -= ya[i][1];
+                            fen -= ya[i][0]*db[ox[idx]];
+                            Zfen += ya[i][1];
+                            Zfen += ya[i][0]*db[ox[idx]]
+                        }
+                    }
                 }
-
+                this.win.zorp = [Zfen, fen]     // 发送输赢分数=============================================
             },
             generateToolBar: function(obj){
                 //动态生成按钮
