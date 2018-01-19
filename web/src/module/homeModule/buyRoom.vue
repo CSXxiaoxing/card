@@ -88,7 +88,7 @@
 <style lang='scss' scoped>
     @import '../../utils/baseVar.scss';
     .buyR_modal{
-        position: absolute;
+            position: absolute;
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
@@ -112,6 +112,7 @@
     }
     .buy{
         background: $home02 no-repeat;
+        background-size:8.138889rem 13.787037rem;
         width: 8.138889rem;
         height: 13.787037rem;
         position: absolute;
@@ -142,9 +143,15 @@
             text-align: center;
             li{
                 table{
+                    img{
+                      width:2.388889rem;
+                      height:2.314815rem;
+                    }
                     position: relative;
                     left:3.314815rem;
                     bottom:0.277778rem;
+                    width:5.925926rem;
+                    height:2.5rem;
                     transform: translate(-50%, 0);
                 }
             }

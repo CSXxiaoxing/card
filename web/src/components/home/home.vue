@@ -3,7 +3,7 @@
 		<header>
 			<dl>
 				<dt @click.capture='mess'>
-					<img src="../../img/home_head.png" alt="" />
+					<img src="../../img/home_head.png"  alt="" />
 				</dt>
 				<dd>
 					<span @click="loading()">迷迷糊糊</span>
@@ -17,10 +17,9 @@
 						<i @click='buy'></i>
 					</span>
 				</dd>
-				<dd></dd>
 			</dl>
 			
-			<mt-swipe :show-indicators="false">
+			<mt-swipe class="auto" :show-indicators="false">
 			  <mt-swipe-item>
 			  	<p><i></i><span>公告：健康游戏，请勿赌博，谢谢合作。</span></p>
 			  </mt-swipe-item>
