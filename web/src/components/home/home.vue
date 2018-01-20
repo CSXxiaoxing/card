@@ -20,17 +20,22 @@
 				<dd></dd>
 			</dl>
 			
-			<mt-swipe :show-indicators="false">
+			<mt-swipe 
+			:show-indicators="false" 
+			:prevent = 'true'
+			:speed = '600'
+			class='homeSwipe'>
 			  <mt-swipe-item>
-			  	<p><i></i><span>公告：健康游戏，请勿赌博，谢谢合作。</span></p>
+			  	<p><i></i><span>公告：健康游戏。</span></p>
 			  </mt-swipe-item>
 			  <mt-swipe-item>
-			  	<p><i></i><span>公告：健康游戏，请勿赌博，谢谢合作。</span></p>
+			  	<p><i></i><span>公告：请勿赌博。</span></p>
 			  </mt-swipe-item>
 			  <mt-swipe-item>
-			  	<p><i></i><span>公告：健康游戏，请勿赌博，谢谢合作。</span></p>
+			  	<p><i></i><span>公告：谢谢合作。</span></p>
 			  </mt-swipe-item>
 			</mt-swipe>
+
 			<span class='homeServer'><b>客<br>服</b> </span>
 		</header>
 		<div class='homeMain'>

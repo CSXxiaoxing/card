@@ -57,15 +57,18 @@
         </div>
         <footer>
 
-        	<p v-if='speak == 0'>
+        	<div v-if='speak == 0'>
                 <img src="../../img/chart_Room1.png" @touchend='speak = 1'>
                 <span>按住 说话</span>
-            </p>
+            </div>
 
-            <p v-if='speak == 1'>
+            <div v-if='speak == 1'>
                 <img src="../../img/724876052125097875.png" @touchend='speak = 0'>
-                <input type="text" />
-            </p>
+                <form action="#">
+                  <input type="text" v-model='txt'/>
+                  <span @click='textPush'>发送</span>
+                </form>
+            </div>
         </footer>
     </div>
 </template>
@@ -245,20 +248,24 @@
         	bottom:0px;
         	height:130px;
         	background-color: #F4F4F6;
-        	p{
+        	&>div{
+                display: flex;
+                align-items: baseline;
+                flex-wrap: nowrap;
         		img{
-        			margin:0px 20px 0px 0px;
+                    height: 90px;
+                    width: 90px;
+        			margin:0px 20px 0px 20px;
         			padding-top: 20px;
         		}
                 // 复用
                 @mixin fuyon {
                     display:inline-block;
                     font-size:40px;
-                    width:880px;
                     height:90px;
                     line-height:90px;
                     border:2px solid #DFDFE1;
-                    text-align:center;
+                    text-align: center;
                     position:relative;
                     bottom:30px;
                     border-radius: 12px;
@@ -266,15 +273,32 @@
                 }
         		span{
         			@include fuyon;
+                    flex: 1;
+                    margin-right: 30px;
         		}
-                input {
-                    @include fuyon;
-                    text-align : left;
-                    padding : 0 40px;
-                    box-sizing: border-box;
-                    outline: none;
-                    border: none;
+                form {
+                    flex: 1;
+                    position: relative;
+                    bottom: 30px;
+                    height: 90px;
+                    input {
+                        @include fuyon;
+                        width: 75%;
+                        text-align : left;
+                        padding : 0 30px;
+                        box-sizing: border-box;
+                        bottom: 0px;
+                        outline: none;
+                        border: none;
+                    }
+                    span {
+                        @include fuyon;
+                        bottom: 0px;
+                        width: 20%;
+                        margin-right: 10px;
+                    }
                 }
+                
         	}
         }
     }
@@ -289,8 +313,9 @@
             	a: this.$route.params.id, 
                 speak: 1,         // 语音是0 输入是1 
             	give:0,          // 
-                roomstatus:3,   // 客服0  聊天（房主）1  聊天（玩家）2 群聊3
+                roomstatus:1,   // 客服0  聊天（房主）1  聊天（玩家）2 群聊3
                 isfriend:0,    // 是好友1  不是0
+                txt: '',
             }
         },
         mounted: function(){
@@ -300,6 +325,58 @@
             this.$imConn.onOpened()
         },
         methods: {
+            // 发送文本
+            textPush(){
+                console.log(Vue.prototype.$imConn)
+                console.log(Vue.prototype.$WebIM)
+                let self = this;
+                let conn = Vue.prototype.$imConn;
+                let WebIM = Vue.prototype.$WebIM;
+                // 单聊发送文本消息
+                var sendPrivateText = function () {
+                    var id = conn.getUniqueId();                 // 生成本地消息id
+                    var msg = new WebIM.message('txt', id);      // 创建文本消息
+                    msg.set({
+                        msg: self.txt,          // 消息内容
+                        to: 'hz_niuniu_949',   // 接收消息对象（用户id）
+                        roomType: false,
+                        success: function (id, serverMsgId) {
+                            console.log('send private text Success');
+                        },
+                        fail: function(e){
+                            console.log("Send private text error");
+                        }
+                    });
+                    msg.body.chatType = 'singleChat';
+                    conn.send(msg.body);
+                };
+                sendPrivateText()
+                // 群聊发送文本消息
+                var sendRoomText = function () {
+                    var id = Vue.prototype.$imConn.getUniqueId();         // 生成本地消息id
+                    var msg = new Vue.prototype.$WebIM.message('txt', id); // 创建文本消息
+                    var option = {
+                        msg: 'message csx',          // 消息内容
+                        to: 'chatroom id',               // 接收消息对象(聊天室id)
+                        roomType: true,
+                        chatType: 'chatRoom',
+                        success: function () {
+                            self.txt = '';
+                            console.log('send room text success');
+                        },
+                        fail: function () {
+                            console.log('failed');
+                        }
+                    };
+                    console.log(msg)
+                    msg.set(option);
+                    msg.setGroup('groupchat');
+                    Vue.prototype.$imConn.send(msg.body);
+                };
+                // console.log(sendRoomText())
+
+            },
+
 
         }
                 

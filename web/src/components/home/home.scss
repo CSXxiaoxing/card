@@ -1,4 +1,5 @@
 @import '../../utils/baseVar.scss';
+
 #home{
     display: flex;
     flex-direction: column;
@@ -42,7 +43,7 @@
                         transform: translate(-120%, -50%);
                         // margin-top: -2px;
                         background: $homeAll -1.111111rem 0.0rem no-repeat;
-                        background-size: 5.555556rem 5.555556rem;
+                        $w600: 5.555556rem;
                     }
                 }
             }
@@ -155,6 +156,12 @@
                 right: 0.037037rem;
                 top:2.222222rem;
             }
+        }
+        .homeSwipe {
+            overflow: hidden;
+            position: relative;
+            box-sizing: border-box;
+            z-index: 0;
         }
     }
     // 主体

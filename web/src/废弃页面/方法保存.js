@@ -77,8 +77,27 @@ input::-webkit-input-placeholder{color: #ccc;}
 console.log('%c [opened] 已经成功建立连接', 'color: green')
 
 // localstorage  or sessionStorage
-window.localStorage.setItem("c",9)      // 添加 
+window.localStorage.setItem("c",9)       // 添加 
 window.localStorage.clear();            // 清空 
-window.localStorage.removeItem("a");    // 删除某个 
-window.localStorage.getItem(key);             // 获取某个 ?? 获取不到
-window.localStorage.c                   // 直接获取
+window.localStorage.removeItem("a");   // 删除某个 
+window.localStorage.getItem(key);     // 获取某个
+window.localStorage.c                // 直接获取
+
+// 输入框为搜素字样
+ 9 <body>
+10     <form id="myform" action="" onsubmit="return false;">
+11     <input id="myinput" type="search">
+12     </form>
+13 </body>
+14 <script>
+15 //这两种都能用, 一个是在form上加id 一个是在input元素加id
+16 //对于苹果手机添加一个form元素是必要的,否则只能实现功能但是键盘的文字不能变成搜索字样
+17 //  $('#myform').bind('search', function () {
+18 //      //coding
+19 //      alert(1);
+20 //  });
+21     $('#myinput').bind('search', function () {
+22         //coding
+23         alert(1);
+24     });
+25 </script>
