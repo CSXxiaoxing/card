@@ -21,6 +21,10 @@
 </template>
 <style lang='scss' scoped>
   .share{
+    img{
+      width:1.611111rem;
+      height:1.611111rem;
+    }
   	width:100%;
   	background-color:#E8E8E8;
   	p:nth-of-type(1){

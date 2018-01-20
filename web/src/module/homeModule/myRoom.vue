@@ -58,6 +58,7 @@
           font-size: 0.703704rem;
           line-height: 1.296296rem;
           background: $home04 no-repeat;
+          background-size:8.45rem 1.666667rem;
           position: absolute;
           left: 50%;
           top: 0;
@@ -88,21 +89,33 @@
           background-color:white;
           border:0.046296rem solid #E1DFE0;
           div{
-            height:0.833333rem;
+            width:5rem;
+            height:0.8rem;
             button{
+                font-size:0.388889rem;
+                text-align:center;
+                width:2.4rem;
+                height:0.6rem;
                 font-size: 0.416667rem;
                 border: none;
                 background-color: transparent;
                 position: relative;
                 border: none;
                 outline: none;
+                position:relative;
+                bottom:0.074074rem;
                 -webkit-tap-highlight-color: #000000;
                 -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
                 //z-index: 999;
             }
             button:nth-of-type(1){
                 // color:white;
-                margin-right:0.555556rem; 
+               padding-right:0.1rem;
+            }
+            button:nth-of-type(2){
+                // color:white;
+                left:0.3rem; 
+                position:relative;
             }
             img{
               width:2.962963rem;

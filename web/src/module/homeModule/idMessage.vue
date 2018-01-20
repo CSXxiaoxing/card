@@ -15,6 +15,10 @@
 <style lang='scss' scoped>
   @import '../../utils/baseVar.scss';
   .mess{
+    img{
+      width:2.203704rem;
+      height:2.055556rem;
+    }
     width: 80%;
     border-radius: 0.277778rem;
     position: absolute;
