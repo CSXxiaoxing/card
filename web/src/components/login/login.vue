@@ -468,6 +468,7 @@
 						self.find = false;
 					})
 			},
+			
 			loginOut(){		//登出
 				var self =this;
 				localStorage.removeItem("oxToken")
