@@ -6,7 +6,7 @@
 					<img src="../../img/home_head.png"  alt="" />
 				</dt>
 				<dd>
-					<span @click="loading()">迷迷糊糊</span>
+					<span @click="loading()">{{name}}</span>
 					<span @click="toShare"><i></i>分享</span>
 				</dd>
 				<dd>
@@ -105,12 +105,14 @@
 			return {
 				datagrid : '',
 				id : 0,
+				name : '',
 			}
 		},
 		mounted: function(){
 			var self = this;
 			if(localStorage.oxToken && localStorage.oxUid){
 				this.id = localStorage.oxUid
+				this.name = localStorage.oxName
 				// 房间请求
 			} else {
 				// 跳回登录页

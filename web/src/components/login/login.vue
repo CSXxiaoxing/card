@@ -427,6 +427,7 @@
 						if(res.status == 1){
 							localStorage['oxToken'] = res.data.token;
 							localStorage['oxUid'] = res.data.uid;
+							localStorage['oxName'] = res.data.member_info.nickname;
 							// localStorage['oxCell'] = self.cell;
 							router.push({name: 'home'});
 						}
