@@ -326,18 +326,7 @@
             // this.$store.dispatch('login_IM')
             // this.$imConn.onOpened()
             // this.$imConn.onTextMessage()
-            var options2 = { 
-                username: 'hz_niuniu_'+localStorage.oxUid+'0000',
-                password: '123456',
-                nickname: 'cccasdasdwgaw--10086',
-                appKey: WebIM.config.appkey,
-                success: function () { 
-                    console.log('成功')
-                },  
-                error: function () { }, 
-                apiUrl: WebIM.config.apiURL
-            }; 
-            conn.registerUser(options2);
+            
 
             var options = { 
                 apiUrl: WebIM.config.apiURL,

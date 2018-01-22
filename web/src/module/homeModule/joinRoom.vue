@@ -116,7 +116,7 @@
     data() {
         return {
             joinRoom: false,
-            val: ''
+            val: '',
         };
     },
     methods: {
@@ -153,7 +153,18 @@
                 customClass: 'joinError',
                 duration: '9999999'
                 });
-            }
+            },
+        joinIn(){
+            var self = this ;
+            http.post( '/Room/joinRoom', {
+                roomid : self.val,
+                zn_member_id : localStorage.oxUid,
+                zc_nickname : localStorage.oxName,
+            }, '' ,this)
+            .then(res => {
+                console.log(res)
+            })
+        },
     }
   };
 </script>

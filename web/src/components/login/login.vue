@@ -429,14 +429,21 @@
 							localStorage['oxToken'] = res.data.token;
 							localStorage['oxUid'] = res.data.uid;
 							localStorage['oxName'] = res.data.member_info.nickname;
-
 							// 注册信号为true
 							if(self.zhuceType){
-								self.$store.dispatch('login_IM')
-								self.$imConn.onOpened()
+								var options2 = { 
+								    username: 'hz_niuniu_'+localStorage.oxUid,
+								    password: '123456',
+								    nickname: localStorage.oxName+'cc_10086',
+								    appKey: WebIM.config.appkey,
+								    success: function () { 
+								        console.log('注册成功')
+								    },  
+								    error: function () { }, 
+								    apiUrl: WebIM.config.apiURL
+								}; 
+								conn.registerUser(options2);
 							}
-
-							// localStorage['oxCell'] = self.cell;
 							router.push({name: 'home'});
 						}
 						self.phone = false;

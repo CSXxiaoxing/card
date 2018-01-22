@@ -259,14 +259,16 @@
 
     export default {
         data() {
-        return {
-            myRoom: false,
-            val: '',
-            tabPosition: 'top',
-            datagrid: '',
-            sel:0,
-
-        };
+            return {
+                myRoom: false,
+                val: '',
+                tabPosition: 'top',
+                datagrid: '',
+                sel:0,
+                pagesize:0,
+                type :0 ,
+                p: 0 ,
+            };
         },
           // mounted: function(){
           //   var self = this;
@@ -300,9 +302,17 @@
               //动态生成按钮
               
             },
-            removeright(){
-              
+            loadRoom(){
+              var self = this;
+              http.post( '/Room/getRoomList',{
+                  pagesize : self.pagesize,
+                  type : self.type,
+                  p : self.p,
+              }, '' ,this)
+              .then(res => {
+                console.log(res)
+              })
             }
-          }
-    };
+        }
+  }
 </script>
