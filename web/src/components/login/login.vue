@@ -354,6 +354,7 @@
 				find: false,
 				phone:false,
 				text: ['注册', '登录', '找回密码'],
+				zhuceType: false, 
 				TEXTerror: '',
 				// 用户资料
 				nikename: '',
@@ -379,7 +380,7 @@
 					this.a = 0;
 				}
 			},
-			input (n) {		//input非空验证 过滤 13450266666
+			input (n) {		//input非空验证 
 				var type = true;
 				var self = this;
 				if(n >= 2){
@@ -427,6 +428,14 @@
 						if(res.status == 1){
 							localStorage['oxToken'] = res.data.token;
 							localStorage['oxUid'] = res.data.uid;
+							localStorage['oxName'] = res.data.member_info.nickname;
+
+							// 注册信号为true
+							if(self.zhuceType){
+								self.$store.dispatch('login_IM')
+								self.$imConn.onOpened()
+							}
+
 							// localStorage['oxCell'] = self.cell;
 							router.push({name: 'home'});
 						}
@@ -444,7 +453,8 @@
 					.then(res => {
 						console.log(res)
 						if(res.status == 1){
-							self.loging()
+							self.zhuceType = true;
+							self.loging();
 						}
 						self.zhuce = false;
 					})

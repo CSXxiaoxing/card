@@ -289,7 +289,11 @@
             // 确认创建
             end(eve) {
                 let [Err, git] = [this.init.error, this.imgState];
-                
+                var a = this.$store.state.initRoom.oxK
+                var oxNumber = this.$store.state.initRoom.oxK
+                console.log(this.imgState)
+                console.log(oxNumber)
+                console.log(a)
                 // 规则判断
                 git.roomName == '' ? Err.roomName = true : 
                 git.minGrade <= 0 ? Err.minG = true : 

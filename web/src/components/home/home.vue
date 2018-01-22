@@ -105,12 +105,15 @@
 			return {
 				datagrid : '',
 				id : 0,
+				name: '',
 			}
 		},
 		mounted: function(){
 			var self = this;
 			if(localStorage.oxToken && localStorage.oxUid){
 				this.id = localStorage.oxUid
+				this.name = localStorage.getItem('oxName')
+				console.log(this.name)
 				// 房间请求
 			} else {
 				// 跳回登录页
