@@ -38,6 +38,7 @@
                     </div>
                 </li>
                 <li class="clear"></li>
+
                 <li class="right">
                     <img src="../../img/chart_Room2.png" alt="">
                     <div class="test">
@@ -244,9 +245,9 @@
 
         footer{
         	position: absolute;
-        	width:100%;
-        	bottom:0px;
-        	height:130px;
+        	width: 100%;
+        	bottom: 0px;
+        	height: 130px;
         	background-color: #F4F4F6;
         	&>div{
                 display: flex;
@@ -307,73 +308,79 @@
 <script type="text/javascript">
 	import Vue from 'vue';
 
+
 	export default {
         data: function(){
             return {
-            	a: this.$route.params.id, 
+            	a: this.$route.params.id,
                 speak: 1,         // 语音是0 输入是1 
             	give:0,          // 
                 roomstatus:1,   // 客服0  聊天（房主）1  聊天（玩家）2 群聊3
                 isfriend:0,    // 是好友1  不是0
                 txt: '',
+                // 总消息
             }
         },
         mounted: function(){
-            // init
-            // console.log(this.time.random)
-            this.$store.dispatch('login_IM')
-            this.$imConn.onOpened()
+            console.log(WebIM)
+            console.log(conn)
+            (function(){
+                if(!window.localStorage) {
+                    console.log('浏览器不支持localStorage');
+                }
+                var size = 0;
+                for(item in window.localStorage) {
+                    if(window.localStorage.hasOwnProperty(item)) {
+                        size += window.localStorage.getItem(item).length;
+                    }
+                }
+                console.log(123)
+                console.log('当前localStorage剩余容量为' + (size / 1024).toFixed(2) + 'KB');
+            })()
+            // 自动登录
+            var options = { 
+                apiUrl: WebIM.config.apiURL,
+                user: 'hz_niuniu_'+localStorage.oxUid,
+                pwd: '123456',
+                appKey: WebIM.config.appkey,
+                success: function () {
+                    console.log('登录成功')
+                },
+                error: function (aa) {
+                    console.log('登录失败')
+                    conn.open(options);
+                }
+            };
+            conn.open(options);
+
         },
         methods: {
             // 发送文本
             textPush(){
-                console.log(Vue.prototype.$imConn)
-                console.log(Vue.prototype.$WebIM)
+
                 let self = this;
-                let conn = Vue.prototype.$imConn;
-                let WebIM = Vue.prototype.$WebIM;
                 // 单聊发送文本消息
                 var sendPrivateText = function () {
                     var id = conn.getUniqueId();                 // 生成本地消息id
                     var msg = new WebIM.message('txt', id);      // 创建文本消息
+
                     msg.set({
                         msg: self.txt,          // 消息内容
-                        to: 'hz_niuniu_949',   // 接收消息对象（用户id）
+                        to: 'hz_niuniu_959',   // 接收消息对象（用户id）
                         roomType: false,
                         success: function (id, serverMsgId) {
-                            console.log('send private text Success');
+                            console.log('文本发送成功');
+                            self.txt = '';
                         },
                         fail: function(e){
-                            console.log("Send private text error");
+                            console.log("失败回调");
+                            self.txt = '';
                         }
                     });
                     msg.body.chatType = 'singleChat';
                     conn.send(msg.body);
                 };
                 sendPrivateText()
-                // 群聊发送文本消息
-                var sendRoomText = function () {
-                    var id = Vue.prototype.$imConn.getUniqueId();         // 生成本地消息id
-                    var msg = new Vue.prototype.$WebIM.message('txt', id); // 创建文本消息
-                    var option = {
-                        msg: 'message csx',          // 消息内容
-                        to: 'chatroom id',               // 接收消息对象(聊天室id)
-                        roomType: true,
-                        chatType: 'chatRoom',
-                        success: function () {
-                            self.txt = '';
-                            console.log('send room text success');
-                        },
-                        fail: function () {
-                            console.log('failed');
-                        }
-                    };
-                    console.log(msg)
-                    msg.set(option);
-                    msg.setGroup('groupchat');
-                    Vue.prototype.$imConn.send(msg.body);
-                };
-                // console.log(sendRoomText())
 
             },
 

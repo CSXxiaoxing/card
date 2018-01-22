@@ -84,8 +84,9 @@ export default new Vuex.Store({
             onTextMessage: function ( message ) { 
                 //在这里接收和处理信息，根据message.type区分消息来源，私信或者群聊或聊天室
                 console.log(message)
-                console.log(message.type)
+                // console.log(message.type)
                 console.log('Text')
+                
             },//收到文本消息
             onEmojiMessage: function ( message ) {
                 console.log('Emoji')
@@ -148,26 +149,34 @@ export default new Vuex.Store({
             onCreateGroup: function(message){},        //创建群组成功回执（需调用createGroupNew）
             onMutedMessage: function(message){}        //如果用户在A群组被禁言，在A群发消息会走这个回调并且消息不会传递给群其它成员
         }),
+        Vue.prototype.$imConn.open({
+            username: 'hz_niuniu_'+localStorage.oxUid,
+            password: '123456',
+            nickname: localStorage.oxName,
+            appKey: Vue.prototype.$WebIM.config.appkey,
+            success: function () { 
+              console.log('注册成功')
+            },  
+            error: function () { 
+              // console.log('注册失败')
+            }, 
+            apiUrl: Vue.prototype.$WebIM.config.apiURL
+        })
         // 登录
         Vue.prototype.$imConn.open({
             apiUrl: Vue.prototype.$WebIM.config.apiURL,
             user: 'hz_niuniu_'+localStorage.oxUid,
             pwd: '123456',
-            accessToken: 'token',
             appKey: Vue.prototype.$WebIM.config.appkey,
-            // success: function (token) {
-            //     let tokenStr = token.access_token;
-            //     Vue.prototype.$WebIM.utils.setCookie('webim' + encryptUsername, tokenStr, 1);
-            // },
-            // error: function () {
-            // }
+            success: function (token) {
+                console.log('登录成功')
+                // var token = token.access_token;
+                // Vue.prototype.$WebIM.utils.setCookie('webim_' + encryptUsername, token, 1);
+            },
+            error: function (aa) {
+                // console.log('登录失败')
+            }
         })
-        // Vue.prototype.$imConn.open({
-        //     apiUrl: Vue.prototype.$WebIM.config.apiURL,
-        //     user: 'hamingniao',
-        //     accessToken: 'token',
-        //     appKey: Vue.prototype.$WebIM.config.appkey
-        // })
       }
 
       

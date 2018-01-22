@@ -354,6 +354,7 @@
 				find: false,
 				phone:false,
 				text: ['注册', '登录', '找回密码'],
+				zhuceType: false, 
 				TEXTerror: '',
 				// 用户资料
 				nikename: '',
@@ -379,7 +380,7 @@
 					this.a = 0;
 				}
 			},
-			input (n) {		//input非空验证 过滤 13450266666
+			input (n) {		//input非空验证 
 				var type = true;
 				var self = this;
 				if(n >= 2){
@@ -428,7 +429,21 @@
 							localStorage['oxToken'] = res.data.token;
 							localStorage['oxUid'] = res.data.uid;
 							localStorage['oxName'] = res.data.member_info.nickname;
-							// localStorage['oxCell'] = self.cell;
+							// 注册信号为true
+							if(self.zhuceType){
+								var options2 = { 
+								    username: 'hz_niuniu_'+localStorage.oxUid,
+								    password: '123456',
+								    nickname: localStorage.oxName+'cc_10086',
+								    appKey: WebIM.config.appkey,
+								    success: function () { 
+								        console.log('注册成功')
+								    },  
+								    error: function () { }, 
+								    apiUrl: WebIM.config.apiURL
+								}; 
+								conn.registerUser(options2);
+							}
 							router.push({name: 'home'});
 						}
 						self.phone = false;
@@ -445,7 +460,8 @@
 					.then(res => {
 						console.log(res)
 						if(res.status == 1){
-							self.loging()
+							self.zhuceType = true;
+							self.loging();
 						}
 						self.zhuce = false;
 					})
@@ -471,11 +487,14 @@
 			
 			loginOut(){		//登出
 				var self =this;
-				localStorage.removeItem("oxToken")
-				http.post('/Member/login_out')
+				http.post('/Member/login_out',
+				{
+					token: localStorage.oxToken,
+					uid: localStorage.oxUid,
+				})
 				.then(res => {
-					console.log(res)
-						if(status == 1){
+						console.log(res)
+						if(res.status == 1){
 							localStorage.removeItem('oxToken')
 							self.a = 0;
 						}
