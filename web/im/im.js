@@ -14,6 +14,8 @@ var conn = new WebIM.connection({
     apiUrl: WebIM.config.apiURL,
     isAutoLogin: true,
 });
+
+//  REST
 conn.listen({
     onOpened: function ( message ) {            
         // 如果isAutoLogin设置为false，那么必须手动设置上线，否则无法收消息
@@ -26,7 +28,7 @@ conn.listen({
         //在这里接收和处理信息，根据message.type区分消息来源，私信或者群聊或聊天室
         console.log(message)
         // console.log(message.type)
-        console.log('Text')
+        // console.log('Text')
         
     },//收到文本消息
     onEmojiMessage: function ( message ) {

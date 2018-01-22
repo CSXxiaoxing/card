@@ -318,11 +318,25 @@
                 roomstatus:1,   // 客服0  聊天（房主）1  聊天（玩家）2 群聊3
                 isfriend:0,    // 是好友1  不是0
                 txt: '',
+                // 总消息
             }
         },
         mounted: function(){
             console.log(WebIM)
             console.log(conn)
+            (function(){
+                if(!window.localStorage) {
+                    console.log('浏览器不支持localStorage');
+                }
+                var size = 0;
+                for(item in window.localStorage) {
+                    if(window.localStorage.hasOwnProperty(item)) {
+                        size += window.localStorage.getItem(item).length;
+                    }
+                }
+                console.log(123)
+                console.log('当前localStorage剩余容量为' + (size / 1024).toFixed(2) + 'KB');
+            })()
             // 自动登录
             var options = { 
                 apiUrl: WebIM.config.apiURL,
@@ -338,31 +352,7 @@
                 }
             };
             conn.open(options);
-            // 拉取信息记录
-            
-            // {
-            //     "msg_id": "hz_niuniu_959", //消息ID
-            //     "timestamp": 1403099033211, //消息发送时间
-            //     "direction":"outgoing",
-            //     "to": "hz_niuniu_959", //接收人的username或者接收group的ID
-            //     "from": "hz_niuniu_959", //发送人username
-            //     "chat_type": "chat", //用来判断单聊还是群聊。chat: 单聊；groupchat: 群聊
-            //     "payload": {
-            //         "bodies": [ //消息bodies
-            //            {
-            //                "msg":"hello from test2",//消息内容
-            //                "type":"txt"//文本消息类型
-            //            }
-            //         ],
-            //         "ext": { //自定义扩展属性
-            //             "key1": "value1",   //你设置的key和value的值
-            //                ...
-            //          },
-            //          "from":"zw123",
-            //          "to":"1402541206787"
-            //     }
-            // }
-            
+
         },
         methods: {
             // 发送文本
@@ -379,7 +369,7 @@
                         to: 'hz_niuniu_959',   // 接收消息对象（用户id）
                         roomType: false,
                         success: function (id, serverMsgId) {
-                            console.log('成功');
+                            console.log('文本发送成功');
                             self.txt = '';
                         },
                         fail: function(e){
