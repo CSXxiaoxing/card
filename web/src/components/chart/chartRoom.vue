@@ -38,6 +38,7 @@
                     </div>
                 </li>
                 <li class="clear"></li>
+
                 <li class="right">
                     <img src="../../img/chart_Room2.png" alt="">
                     <div class="test">
@@ -322,35 +323,51 @@
         mounted: function(){
             console.log(WebIM)
             console.log(conn)
-            // onTextMessage()
-            // this.$store.dispatch('login_IM')
-            // this.$imConn.onOpened()
-            // this.$imConn.onTextMessage()
-            
-
+            // 自动登录
             var options = { 
                 apiUrl: WebIM.config.apiURL,
-                user: 'hz_niuniu_'+localStorage.oxUid+'0000',
+                user: 'hz_niuniu_'+localStorage.oxUid,
                 pwd: '123456',
                 appKey: WebIM.config.appkey,
                 success: function () {
                     console.log('登录成功')
-                    // var token = token.access_token;
-                    // Vue.prototype.$WebIM.utils.setCookie('webim_' + encryptUsername, token, 1);
                 },
                 error: function (aa) {
                     console.log('登录失败')
+                    conn.open(options);
                 }
             };
             conn.open(options);
-
-
+            // 拉取信息记录
+            
+            // {
+            //     "msg_id": "hz_niuniu_959", //消息ID
+            //     "timestamp": 1403099033211, //消息发送时间
+            //     "direction":"outgoing",
+            //     "to": "hz_niuniu_959", //接收人的username或者接收group的ID
+            //     "from": "hz_niuniu_959", //发送人username
+            //     "chat_type": "chat", //用来判断单聊还是群聊。chat: 单聊；groupchat: 群聊
+            //     "payload": {
+            //         "bodies": [ //消息bodies
+            //            {
+            //                "msg":"hello from test2",//消息内容
+            //                "type":"txt"//文本消息类型
+            //            }
+            //         ],
+            //         "ext": { //自定义扩展属性
+            //             "key1": "value1",   //你设置的key和value的值
+            //                ...
+            //          },
+            //          "from":"zw123",
+            //          "to":"1402541206787"
+            //     }
+            // }
+            
         },
         methods: {
             // 发送文本
             textPush(){
-                // console.log(Vue.prototype.$imConn)
-                // console.log(Vue.prototype.$WebIM)
+
                 let self = this;
                 // 单聊发送文本消息
                 var sendPrivateText = function () {
@@ -359,13 +376,15 @@
 
                     msg.set({
                         msg: self.txt,          // 消息内容
-                        to: 'hz_niuniu_9570000',   // 接收消息对象（用户id）
+                        to: 'hz_niuniu_959',   // 接收消息对象（用户id）
                         roomType: false,
                         success: function (id, serverMsgId) {
                             console.log('成功');
+                            self.txt = '';
                         },
                         fail: function(e){
                             console.log("失败回调");
+                            self.txt = '';
                         }
                     });
                     msg.body.chatType = 'singleChat';

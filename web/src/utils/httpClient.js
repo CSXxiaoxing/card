@@ -29,9 +29,11 @@ const HttpClient = {
 
     post: (path, formdata, query, vm) => new Promise((resolve, reject) => {
     	// if(vm){ vm['loadingShow'] = true }
-        formdata['token'] = localStorage.oxToken || '' ;
-        formdata['uid'] = localStorage.oxUid || '' ;
-        console.log(formdata)
+         
+        if (formdata) {
+            formdata['token'] = localStorage.oxToken || '' ;
+            formdata['uid'] = localStorage.oxUid || '' ;
+        }
         request
             .post(getUrl(path))
             .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')

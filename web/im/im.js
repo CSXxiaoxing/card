@@ -12,7 +12,7 @@ var conn = new WebIM.connection({
     autoReconnectNumMax: WebIM.config.autoReconnectNumMax,
     autoReconnectInterval: WebIM.config.autoReconnectInterval,
     apiUrl: WebIM.config.apiURL,
-    isAutoLogin: true
+    isAutoLogin: true,
 });
 conn.listen({
     onOpened: function ( message ) {            
@@ -90,3 +90,4 @@ conn.listen({
     onCreateGroup: function(message){},        //创建群组成功回执（需调用createGroupNew）
     onMutedMessage: function(message){}        //如果用户在A群组被禁言，在A群发消息会走这个回调并且消息不会传递给群其它成员
 });
+

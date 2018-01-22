@@ -486,11 +486,14 @@
 			},
 			loginOut(){		//登出
 				var self =this;
-				localStorage.removeItem("oxToken")
-				http.post('/Member/login_out')
+				http.post('/Member/login_out',
+				{
+					token: localStorage.oxToken,
+					uid: localStorage.oxUid,
+				})
 				.then(res => {
-					console.log(res)
-						if(status == 1){
+						console.log(res)
+						if(res.status == 1){
 							localStorage.removeItem('oxToken')
 							self.a = 0;
 						}
