@@ -45,7 +45,7 @@
         <header>
             <ul>
                 <li>
-                    <i><router-link to="/room" ></router-link></i>
+                    <i><a @click='$store.commit("ls")'></a></i>
                 </li>
                 <li>好友列表</li>
                 <li @click="addFriend = true">
@@ -149,10 +149,7 @@
             }
         },
         mounted: function(){
-            // init
-            // console.log(this.time.random)
-            this.$store.dispatch('login_IM')
-            this.$imConn.onOpened()
+            this.$store.dispatch('webIM')
         },
         methods: {
             newWord() {
@@ -176,7 +173,7 @@
                 } else {
                     this.arrows = 3;
                 }
-            }
+            },
         }
     }
 </script>

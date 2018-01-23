@@ -6,7 +6,7 @@
         <p></p>
         <h3>加入房间 <i v-on:click="joinRoom = false"></i> </h3>
         <div class="joinCenter">
-            <input type="text" maxlength='6' :value="val" readonly/>
+            <input type="text" maxlength='6' v-model.number='val' readonly/>
             <ul @click='number'>
                 <li>1</li>
                 <li>2</li>

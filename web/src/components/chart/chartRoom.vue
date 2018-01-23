@@ -3,7 +3,7 @@
     	<header>
             <ul>
                 <li>
-                    <i><router-link to="/room" ></router-link></i>
+                    <i><a @click='$store.commit("ls")'></a></i>
                 </li>
                 <li v-show='roomstatus == 1 || roomstatus == 2'>{{$store.state.test}}</li>
                 <li v-show='roomstatus == 0'>联系客服</li>
