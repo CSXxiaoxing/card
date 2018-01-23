@@ -1,5 +1,3 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import Vuex from 'vuex';
 import App from './App.vue';
@@ -10,23 +8,29 @@ import store from './vuex/store.js';
 import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
 
-// 环信
-// import websdk from 'easemob-websdk';
-// let webIM = window.WebIM = websdk;
-// Vue.prototype.$WebIM = webIM;
-// const imConn = new webIM.connection({
-//     isMultiLoginSessions: webIM.config.isMultiLoginSessions,
-//     https: typeof webIM.config.https === 'boolean' ? webIM.config.https : location.protocol === 'https:',
-//     url: webIM.config.xmppURL,
-//     heartBeatWait: webIM.config.heartBeatWait,
-//     autoReconnectNumMax: webIM.config.autoReconnectNumMax,
-//     autoReconnectInterval: webIM.config.autoReconnectInterval,
-//     apiUrl: webIM.config.apiURL,
-//     isAutoLogin: true
-// })
-// Vue.prototype.$imConn = imConn;
 
 Vue.use(MintUI);
+
+// 容量检测
+! function(){
+    if(!window.localStorage) {
+        console.log('浏览器不支持localStorage');
+    }
+    var size = 0;
+    for(var item in window.localStorage) {
+        if(window.localStorage.hasOwnProperty(item)) {
+            size += window.localStorage.getItem(item).length;
+        }
+    }
+    console.log('当前localStorage使用容量为' + (size / 1024).toFixed(2) + 'KB');
+} ()
+// 创建初始化聊天储存
+// localStorage.setItem('oxTxtAll', "{}")
+if(!localStorage.oxTxtAll){
+    localStorage.setItem('oxTxtAll', "{}")
+}
+
+
 
 new Vue({
   el: '#app',

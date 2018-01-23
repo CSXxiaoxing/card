@@ -306,7 +306,7 @@
                 // 初始化
                 init: {
                     // 1是房主0是普通
-                    ForT: 1,
+                    ForT: 0,
                     prizeNum: 7,
                     // 游戏时间控制 
                     time: 0,
@@ -337,11 +337,11 @@
                     // 随机背景的速度
                     speed: 80,
                     // 押注倒计时
-                    timeAll: 5,
+                    timeAll: 500,
                     // 全开倒计时
                     countTime: 10,
                     // 开牌结果等待时间
-                    endTime: 60,
+                    endTime: 1,
                 },
                 // 输赢结果
                 win: {

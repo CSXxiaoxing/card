@@ -51,6 +51,11 @@ background: url(../../img/home_all.png) -210px -150px no-repeat;
 // 1~13随机整数
 Math.random()*13+1>>0
 
+// 清除滚动条
+::-webkit-scrollbar {
+    display: none;
+} 
+
 // 计算字符长度
 '字符串'.replace(/[\u0391-\uFFE5]/g,"aa").length
 
@@ -77,11 +82,21 @@ input::-webkit-input-placeholder{color: #ccc;}
 console.log('%c [opened] 已经成功建立连接', 'color: green')
 
 // localstorage  or sessionStorage
-window.localStorage.setItem("c",9)       // 添加 
-window.localStorage.clear();            // 清空 
-window.localStorage.removeItem("a");   // 删除某个 
+window.localStorage.setItem("c",9)       // 添加
+window.localStorage.clear();            // 清空
+window.localStorage.removeItem("a");   // 删除某个
 window.localStorage.getItem(key);     // 获取某个
 window.localStorage.c                // 直接获取
+
+// 聊天信息储存转换
+var a = JSON.parse(localStorage.oxTxtAll)
+if(a["hz_niuniu_"+localStorage.oxUid]){
+    a["hz_niuniu_"+localStorage.oxUid].push(self.txt)
+} else {
+    a["hz_niuniu_"+localStorage.oxUid] = [];
+    a["hz_niuniu_"+localStorage.oxUid].push(self.txt)
+}
+localStorage.oxTxtAll = JSON.stringify(a)
 
 // 输入框为搜素字样
  9 <body>
@@ -131,3 +146,13 @@ ajaxPackage(url+"/job/signPower/submitMessage",json)
     .done(function (data) {
         // console.log(data);
     });
+
+// 调取聊天记录
+this.$store.state.obj = {
+    myId: "hz_niuniu_"+id,
+    toId: "hz_niuniu_961",
+    pageSize: 10,
+    p: 1,
+};
+this.$store.dispatch('webRecord')
+
