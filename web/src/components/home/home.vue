@@ -35,7 +35,7 @@
 			  </mt-swipe-item>
 			</mt-swipe>
 
-			<span class='homeServer'><router-link to="/friend" ><b>客<br>服</b></router-link></span>
+			<span class='homeServer'><router-link to="/chartRoom/0" ><b>客<br>服</b></router-link></span>
 		</header>
 		<div class='homeMain'>
 			<ul @click='openS'>

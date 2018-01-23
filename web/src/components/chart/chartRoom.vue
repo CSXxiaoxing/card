@@ -9,7 +9,7 @@
                 <li v-show='roomstatus == 0'>联系客服</li>
                 <li v-show='roomstatus == 3'>聊天室（5）</li>
                 <li v-show='roomstatus == 3'><img src="../../img/chart_Room7.png" alt=""></li>
-                <li  v-show='roomstatus == 1 && a == 1'  @click = 'give == 0 ? give = 1 : give = 0'>给他＋/－分</li>
+                <li  v-show='roomstatus == 1'  @click = 'give == 0 ? give = 1 : give = 0'>给他＋/－分</li>
                 <li v-show='(roomstatus == 1 || roomstatus == 2)&& isfriend == 0'><img src="../../img/chart_Room5.png" alt="">加友</li>
             </ul>
         </header>
@@ -294,10 +294,9 @@
 	export default {
         data: function(){
             return {
-            	a: this.$route.params.id,
                 speak: 1,         // 语音是0 输入是1 
             	give: 0,         // 加减分
-                roomstatus: 0,   // 客服0  聊天（房主）1  聊天（玩家）2 群聊3
+                roomstatus: this.$route.params.id,   // 客服0  聊天（房主）1  聊天（玩家）2 群聊3
                 isfriend: 0,    // 是好友1  不是0
                 txt: '',      //发送产生的文本
                 id: localStorage.oxUid,   //个人id
