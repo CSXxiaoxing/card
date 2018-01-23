@@ -1,0 +1,99 @@
+/*公共样式*/
+body,h1,h2,h3,h4,p,ul,li,ol,dl,dd,dt{
+    margin: 0;
+    padding: 0;
+}
+ul,li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
+.fl{
+    float:left;
+}
+html,body{
+    font-style: '微软雅黑';
+    font-size: 48px;
+    font-size: 48px;
+    height:100%;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+}
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  // font-size: 48px;
+  /*color: #2c3e50;*/
+  /*margin-top: 60px;*/
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+// input错误提示
+input.error {
+    border: 0.026667rem solid #ff3333!important;
+    transition-duration: .2s;
+    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
+    animation: inputmove .1s linear 6; 
+}
+@keyframes inputmove{
+   0%{
+       transform: translate(0%, 1%);
+   }
+   100%{
+       transform: translate(0%, -1%);
+   }
+}
+// @-webkit-keyframes inputmove{
+//    0%{
+//        transform: translate(-1%, 0%);
+//    }
+//    100%{
+//        transform: translate(1%, 0%);
+//    }
+// }
+// 文本-错误提示
+.TEXTerror {
+    color: red!important;
+    transition-duration: .2s;
+    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
+    animation: inputmove .1s linear 6; 
+}
+
+// 输赢/加减分
+.shu {
+    position: relative;
+    color: red;
+    animation: shuyin 5s linear 2; 
+    weight: 600;
+}
+.yin {
+    position: relative;
+    color: #33ffff;
+    animation: shuyin 5s linear 2; 
+    weight: 600;
+}
+@keyframes shuyin{
+    0%{
+        top: 50px;
+        opacity: 0;
+    }
+    30%{
+        top: 0px;
+        opacity: 1;
+    }
+    60%{
+        top: 0px;
+        opacity: 1;
+    }
+    100%{
+        top: -50px;
+        opacity: 0;
+    }
+}

@@ -1,0 +1,139 @@
+<template>
+	<div id="water">
+		<header>
+            <ul>
+                <li>
+                    <i><router-link to="/room" ></router-link></i>
+                </li>
+                <li>流水报表</li>
+            </ul>
+        </header>
+		<table border="1" cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<td colspan="4">第三局</td>
+				</tr>
+				<tr>
+					<td>昵称</td> <td>分数流水</td> <td>抽水分数</td> <td>结余分数</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>迷糊的诗诗 <img src="../../img/room_water1.png"></td> <td>+100</td> <td>10</td> <td>10</td>
+				</tr>
+				<tr>
+					<td>迷糊的诗诗</td> <td>-20</td> <td>0</td> <td>10</td>
+				</tr>
+				<tr>
+					<td>迷糊的诗诗</td> <td>+20</td> <td>10</td> <td>10</td>
+				</tr>
+				<tr>
+					<td>迷糊的诗诗</td> <td>+20</td> <td>10</td> <td>10</td>
+				</tr>
+				<tr  v-if="seen">
+					<td>迷糊的诗诗</td> <td>+20</td> <td>10</td> <td>10</td>
+				</tr>
+				<tr class="total"  v-if="seen">
+					<td>房间余剩分数</td> <td colspan="3">+20</td>
+				</tr>
+				<tr class="open" v-if="!seen">
+					<td colspan="4" @click="more">点击加载更多</td>
+				</tr>
+				
+			</tbody>
+		</table>
+
+		<table border="1" cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<td colspan="4">第三局</td>
+				</tr>
+				<tr>
+					<td>昵称</td> <td>分数流水</td> <td>抽水分数</td> <td>结余分数</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>迷糊的诗诗 <img src="../../img/room_water1.png"></td> <td>+100</td> <td>10</td> <td>10</td>
+				</tr>
+				<tr>
+					<td>迷糊的诗诗</td> <td>-20</td> <td>0</td> <td>10</td>
+				</tr>
+				<tr>
+					<td>迷糊的诗诗</td> <td>+20</td> <td>10</td> <td>10</td>
+				</tr>
+				<tr>
+					<td>迷糊的诗诗</td> <td>+20</td> <td>10</td> <td>10</td>
+				</tr>
+				<tr  v-if="seen">
+					<td>迷糊的诗诗</td> <td>+20</td> <td>10</td> <td>10</td>
+				</tr>
+				<tr class="total"  v-if="seen">
+					<td>房间余剩分数</td> <td colspan="3">+20</td>
+				</tr>
+				<tr class="open" v-if="!seen">
+					<td colspan="4" @click="more">点击加载更多</td>
+				</tr>
+				
+			</tbody>
+		</table>
+
+		<table border="1" cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<td colspan="4">第三局</td>
+				</tr>
+				<tr>
+					<td>昵称</td> <td>分数流水</td> <td>抽水分数</td> <td>结余分数</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>迷糊的诗诗 <img src="../../img/room_water1.png"></td> <td>+100</td> <td>10</td> <td>10</td>
+				</tr>
+				<tr>
+					<td>迷糊的诗诗</td> <td>-20</td> <td>0</td> <td>10</td>
+				</tr>
+				<tr>
+					<td>迷糊的诗诗</td> <td>+20</td> <td>10</td> <td>10</td>
+				</tr>
+				<tr>
+					<td>迷糊的诗诗</td> <td>+20</td> <td>10</td> <td>10</td>
+				</tr>
+				<tr  v-if="seen">
+					<td>迷糊的诗诗</td> <td>+20</td> <td>10</td> <td>10</td>
+				</tr>
+				<tr class="total"  v-if="seen">
+					<td>房间余剩分数</td> <td colspan="3">+20</td>
+				</tr>
+				<tr class="open" v-if="!seen">
+					<td colspan="4" @click="more">点击加载更多</td>
+				</tr>
+				
+			</tbody>
+		</table>
+
+	</div>
+</template>
+
+
+
+
+<script type="text/javascript">
+
+import './water.scss';
+
+  	 export default {
+    data() {
+      return {
+        water: false,
+        seen:false,
+      };
+    },
+    methods:{
+    	more(){
+    		this.seen =!this.seen;
+    	}
+  }
+};
+</script>
