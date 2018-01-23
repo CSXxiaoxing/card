@@ -25,7 +25,7 @@
 			:speed = '600'
 			class='homeSwipe auto'>
 			  <mt-swipe-item>
-			  	<p><i></i><span>公告：健康游戏。</span></p>
+			  	<p><i></i><span>公告：健康游戏a</span></p>
 			  </mt-swipe-item>
 			  <mt-swipe-item>
 			  	<p><i></i><span>公告：请勿赌博。</span></p>
@@ -35,7 +35,7 @@
 			  </mt-swipe-item>
 			</mt-swipe>
 
-			<span class='homeServer'><b>客<br>服</b> </span>
+			<span class='homeServer'><router-link to="/friend" ><b>客<br>服</b></router-link></span>
 		</header>
 		<div class='homeMain'>
 			<ul @click='openS'>

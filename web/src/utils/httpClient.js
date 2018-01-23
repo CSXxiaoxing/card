@@ -52,6 +52,5 @@ const HttpClient = {
             });
     })
 };
-// aaa
 
 export default HttpClient;
