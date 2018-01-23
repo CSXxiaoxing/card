@@ -6,7 +6,7 @@
     <img src="../../img/module_home_id1.png" height="222" width="238" alt="">
     <p>迷糊的诗诗<br>ID:755693</p>
     <i v-on:click="idMessage = false"></i>
-    <mt-button type="primary"  @click="idMessage = false">
+    <mt-button type="primary"  @click="loginOut">
         更换账号
     </mt-button>
   </mt-popup>
@@ -68,11 +68,42 @@
 </style>
 
 <script type="es6">
+  import Vue from 'vue';
+  import http from '../../utils/httpClient.js';
+  import router from '../../router/';
+
   export default {
     data() {
       return {
         idMessage: false,
-      };
-    }
-  };
+        a: 0,
+      }
+    },
+    mounted: function(){
+      if(localStorage.oxToken){
+        this.a = 1;
+      } else {
+        this.a = 0;
+      }
+    },
+    methods: {
+        loginOut(){   //登出
+          var self =this;
+          http.post('/Member/login_out',
+            {
+              token: localStorage.oxToken,
+              uid: localStorage.oxUid,
+            })
+          .then(res => {
+            console.log(res)
+              if(res.status == 1){
+                localStorage.removeItem('oxToken')
+                self.a = 0;
+                self.idMessage = false
+                router.push({name: '/'});
+            }
+          })
+        }
+      }
+   }
 </script>

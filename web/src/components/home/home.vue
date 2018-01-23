@@ -106,10 +106,11 @@
 				datagrid : '',
 				id : 0,
 				name: '',
-
+				roomNum : '',
 			}
 		},
 		mounted: function(){
+			this.$store.dispatch('webIM')
 			var self = this;
 			if(localStorage.oxToken && localStorage.oxUid){
 				this.id = localStorage.oxUid
@@ -122,23 +123,36 @@
 		},
 		methods: {
 			joinRoom(){
-				this.$refs.onjoinRoomChild._data.joinRoom=true;
+				this.$refs.onjoinRoomChild.joinRoom=true;
 			},
 			mess(){
-				this.$refs.onidMessageChild._data.idMessage=true;
+				this.$refs.onidMessageChild.idMessage=true;
 			},
 			buy(){
-				this.$refs.onbuyRoomChild._data.buyRoom=true;
+				this.$refs.onbuyRoomChild.buyRoom=true;
 			},
 			varRoom(){
-				this.$refs.onvarRoomChild._data.boxState.CvarRoom=true;
-				this.$refs.onvarRoomChild.noModal();
+				this.$refs.onvarRoomChild.boxState.CvarRoom=true;
+				var self = this;
+				http.post('/Room/getRoorNumber',
+				{
+					token: localStorage.oxToken,
+
+				})
+				.then(res => {
+					console.log(res.data)
+					self.roomNum = res.data;
+					this.$refs.onvarRoomChild.init.roomID =  res.data;
+					console.log(this.roomNum)
+					this.$refs.onvarRoomChild.noModal();
+				})
+
 			},
 			myRoom(){
-				this.$refs.onmyRoomChild._data.myRoom=true;
+				this.$refs.onmyRoomChild.myRoom=true;
 			},
 			toShare(){
-				this.$refs.ontoShareChild._data.toShare=true;
+				this.$refs.ontoShareChild.toShare=true;
 			},
 			openS(e){
 				let Etar = e.target;
@@ -146,7 +160,7 @@
 					var EtarName = Etar.nodeName.toLowerCase();
 					if(EtarName == 'li'){
 						Etar.attributes["openState"].nodeValue == 'false' ? 
-						this.$refs.onOpenChild._data.onOpenRoom =
+						this.$refs.onOpenChild.onOpenRoom =
 						++[[]][+[]]+[+[]] == 10 : 0.1+0.2 ==0.3;
 						return false;
 					} else if(EtarName == 'body'){
@@ -163,7 +177,7 @@
 			},
 			loading(){
 				Indicator.open('加载中...');
-			}
+			},
 		}
 	}
 </script>

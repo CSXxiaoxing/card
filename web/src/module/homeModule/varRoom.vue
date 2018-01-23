@@ -172,6 +172,7 @@
 
 <script>
     import Vue from 'vue';
+    import http from '../../utils/httpClient.js';
     import './varRoom.scss'
     import coreVisible from '../../module/homeModule/coreVisible.vue'
     import addButtion from '../addButton/addButtion.vue';
@@ -181,8 +182,9 @@
     export default {
         data() {
             return {
+                initType: 0,
                 init: {
-                    roomID : 777777,
+                    roomID : 0 ,
                     plaName: '请输入房间名称',
                     error: {
                         roomName : false,
@@ -213,12 +215,17 @@
                     minScope: 0,
                     maxScope: 100,
                     scale: 1,
+                    oxK: '',
                 }
             };
         },
         created: function() {
             this.oxOpen = this.$store.state.initRoom;
             this.boxState.radio = this.oxOpen.oxK;
+        },
+        mounted: function(){
+            
+
         },
         methods: {
             open(e) {
@@ -288,12 +295,19 @@
             },
             // 确认创建
             end(eve) {
+                var self = this;
+                var oxNumber = this.$store.state.initRoom.oxNumber
+                var oxK = this.$store.state.initRoom.oxK
+                // console.log(oxK)
+                oxNumber.push(oxK)
+                // console.log(oxNumber)
+                
+
                 let [Err, git] = [this.init.error, this.imgState];
-                var a = this.$store.state.initRoom.oxK
-                var oxNumber = this.$store.state.initRoom.oxK
-                console.log(this.imgState)
-                console.log(oxNumber)
-                console.log(a)
+
+                // console.log(this.imgState)
+                // console.log(oxNumber)
+                // console.log(a)
                 // 规则判断
                 git.roomName == '' ? Err.roomName = true : 
                 git.minGrade <= 0 ? Err.minG = true : 
@@ -302,13 +316,33 @@
                 git.scale < 1 || git.scale > 15 ? Err.sca = true : false;
 
                 if(!Err.roomName && !Err.minG && !Err.minS && !Err.maxS && !Err.sca) {
-                    console.log(this.imgState)
+                    http.post("/Room/createRoom",{
+                        zc_rate : JSON.stringify(oxNumber),
+                        zc_number : self.init.roomID,
+                        zn_min_score : self.imgState.minGrade,
+                        zn_bet_between_s : self.imgState.minScope,
+                        zn_bet_between_e : self.imgState.maxScope,
+                        zn_extract : self.imgState.scale,
+                        zn_room_type : self.imgState.open ? 1:2,
+                        zn_confirm : self.imgState.newMan ? 1:2,
+                        zn_pay_type : self.imgState.room ? 1:2,
+                        zn_play_type : self.imgState.cardFn ? 1:2,
+                        zn_bet_time : self.imgState.time,
+                        zc_title : self.init.plaName,
+
+                    } , '' ,this)
+                    .then(res=> {
+                        console.log(res)
+                        if(res.status == 1){
+                            
+                        }
+                    })
                     this.$store.state.setRoom = this.imgState;
-                    console.log(this.oxOpen)
                     this.boxState.CvarRoom = false;
                 }
 
-            }
+            },
+
         }
     }
 </script>

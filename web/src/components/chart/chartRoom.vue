@@ -16,7 +16,7 @@
         <div class='chart'  id='txtbox'>
             <ul>
                 <!-- 对方 -->
-                <li  v-for="(data, idx) in $store.state.txt" 
+                <li v-for="(data, idx) in (this.roomstatus == 2 ? $store.state.txt : '')" 
                 :class="$store.state.txt_idx[idx] >=0 ? 'left' : 'right'"   :key = '$store.state.txt_time[idx]'>
                     <img src="../../img/chart_Room2.png" alt="">
                     <div class="test">
@@ -297,8 +297,8 @@
             	a: this.$route.params.id,
                 speak: 1,         // 语音是0 输入是1 
             	give: 0,         // 加减分
-                roomstatus:1,   // 客服0  聊天（房主）1  聊天（玩家）2 群聊3
-                isfriend:0,    // 是好友1  不是0
+                roomstatus: 0,   // 客服0  聊天（房主）1  聊天（玩家）2 群聊3
+                isfriend: 0,    // 是好友1  不是0
                 txt: '',      //发送产生的文本
                 id: localStorage.oxUid,   //个人id
             }
