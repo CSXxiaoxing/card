@@ -110,6 +110,7 @@
 			}
 		},
 		mounted: function(){
+			this.$store.dispatch('webIM')
 			var self = this;
 			if(localStorage.oxToken && localStorage.oxUid){
 				this.id = localStorage.oxUid

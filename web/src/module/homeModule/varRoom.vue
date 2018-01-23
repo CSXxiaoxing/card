@@ -316,19 +316,19 @@
                 git.scale < 1 || git.scale > 15 ? Err.sca = true : false;
 
                 if(!Err.roomName && !Err.minG && !Err.minS && !Err.maxS && !Err.sca) {
-                    http.post("/Room/createRoom" ,{
+                    http.post("/Room/createRoom",{
                         zc_rate : JSON.stringify(oxNumber),
-                        zc_number : self.roomID,
+                        zc_number : self.init.roomID,
                         zn_min_score : self.imgState.minGrade,
                         zn_bet_between_s : self.imgState.minScope,
                         zn_bet_between_e : self.imgState.maxScope,
                         zn_extract : self.imgState.scale,
-                        zn_room_type : self.imgState.open ? '1':'2',
-                        zn_confirm : self.imgState.newMan ? '1':'2',
-                        zn_pay_type : self.imgState.room ? '1':'2',
-                        zn_play_type : self.imgState.cardFn ? '1':'2',
+                        zn_room_type : self.imgState.open ? 1:2,
+                        zn_confirm : self.imgState.newMan ? 1:2,
+                        zn_pay_type : self.imgState.room ? 1:2,
+                        zn_play_type : self.imgState.cardFn ? 1:2,
                         zn_bet_time : self.imgState.time,
-                        zc_title : self.plaName,
+                        zc_title : self.init.plaName,
                     } , '' ,this)
                     .then(res=> {
                         console.log(res)

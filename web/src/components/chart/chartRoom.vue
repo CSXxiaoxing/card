@@ -5,7 +5,7 @@
                 <li>
                     <i><router-link to="/room" ></router-link></i>
                 </li>
-                <li v-show='roomstatus == 1 || roomstatus == 2'>迷糊的大土</li>
+                <li v-show='roomstatus == 1 || roomstatus == 2'>{{$store.state.test}}</li>
                 <li v-show='roomstatus == 0'>联系客服</li>
                 <li v-show='roomstatus == 3'>聊天室（5）</li>
                 <li v-show='roomstatus == 3'><img src="../../img/chart_Room7.png" alt=""></li>
@@ -13,41 +13,20 @@
                 <li v-show='(roomstatus == 1 || roomstatus == 2)&& isfriend == 0'><img src="../../img/chart_Room5.png" alt="">加友</li>
             </ul>
         </header>
-        <div class='chart'>
+        <div class='chart'  id='txtbox'>
             <ul>
-            	<li class="left">
-            		<img src="../../img/chart_Room2.png" alt="">
-                    <div class="test">
-                        <span class="bot"></span>
-                       你好在吗？
-                    </div>
-            	</li>
-            	<li class="clear"></li>
-            	<li class="right">
+                <!-- 对方 -->
+                <li v-for="(data, idx) in (this.roomstatus == 2 ? $store.state.txt : '')" 
+                :class="$store.state.txt_idx[idx] >=0 ? 'left' : 'right'"   :key = '$store.state.txt_time[idx]'>
                     <img src="../../img/chart_Room2.png" alt="">
                     <div class="test">
                         <span class="bot"></span>
-                       在的呢。有什么可以帮到您
-                    </div>
-            	</li>
-                <li class="left">
-                    <img src="../../img/chart_Room2.png" alt="">
-                    <div class="test">
-                        <span class="bot"></span>
-                       你好在吗？
+                       {{data}}
                     </div>
                 </li>
-                <li class="clear"></li>
 
-                <li class="right">
-                    <img src="../../img/chart_Room2.png" alt="">
-                    <div class="test">
-                        <span class="bot"></span>
-                       在的呢。有什么可以帮到您就算了空间撒尽量减少地方撒旦法方式发到各分公司的丰富的
-                    </div>
-                    
-                </li>
             </ul>
+
             <div :class = '[(give == 1?"open":"close"),("control")]'>
             	<ul>
             		<li>加分 :<input type="text" placeholder="输入分数"><b @click = 'give == 0 ? give = 1 : give = 0'>确定</b></li>
@@ -78,7 +57,9 @@
     .chartRoom {
         height: 100%;
         background: #ECEDF1;
-        
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
         header {
             height: 202px;
             padding: 110px 30px 0px;
@@ -136,19 +117,19 @@
         }
         
         .chart{
+            flex: 1;
             width: 100%;
-            height:auto;
             background: #ECEDF1;
             padding: 27px 40px;
-            margin-bottom:140px;
             position: relative;
             overflow: hidden;
+            font-size: 42px;
             box-sizing: border-box;
-            font-size:42px;
+            overflow-y: auto;
+            overflow-x: hidden;
             li{
-                text-align:left;
-
-                clear: both;
+                text-align: left;
+                // padding-bottom: 20px;
                 position:relative;
             	.test{max-width:600px; padding:30px 20px; border:3px solid #E4E3E8; position:relative;border-radius:20px;padding-left:20px;}
                 .test span{width:0; height:0; font-size:0; overflow:hidden; position:absolute;}
@@ -158,12 +139,13 @@
                 }
 
             }
+            li:before,li:after {
+                content: "";
+                display: block;
+                clear: both;
+            }
             .chart{
             	width:100%;
-            }
-            .clear{
-            	clear: both;
-                height:20px;
             }
             .left{
                 img{
@@ -242,11 +224,11 @@
             	transition: all 1s;
             }
         }
-
+        .chart::-webkit-scrollbar {
+            display: none;
+        } 
         footer{
-        	position: absolute;
         	width: 100%;
-        	bottom: 0px;
         	height: 130px;
         	background-color: #F4F4F6;
         	&>div{
@@ -307,40 +289,32 @@
 
 <script type="text/javascript">
 	import Vue from 'vue';
-
+    import http from '../../utils/httpClient.js';
 
 	export default {
         data: function(){
             return {
             	a: this.$route.params.id,
                 speak: 1,         // 语音是0 输入是1 
-            	give:0,          // 
-                roomstatus:1,   // 客服0  聊天（房主）1  聊天（玩家）2 群聊3
-                isfriend:0,    // 是好友1  不是0
-                txt: '',
-                // 总消息
+            	give: 0,         // 加减分
+                roomstatus: 0,   // 客服0  聊天（房主）1  聊天（玩家）2 群聊3
+                isfriend: 0,    // 是好友1  不是0
+                txt: '',      //发送产生的文本
+                id: localStorage.oxUid,   //个人id
             }
         },
+        beforeMount: function(){
+            // 计算属性
+            this.$store.getters.txt;
+        },
         mounted: function(){
-            console.log(WebIM)
-            console.log(conn)
-            // (function(){
-            //     if(!window.localStorage) {
-            //         console.log('浏览器不支持localStorage');
-            //     }
-            //     var size = 0;
-            //     for(item in window.localStorage) {
-            //         if(window.localStorage.hasOwnProperty(item)) {
-            //             size += window.localStorage.getItem(item).length;
-            //         }
-            //     }
-            //     console.log(123)
-            //     console.log('当前localStorage剩余容量为' + (size / 1024).toFixed(2) + 'KB');
-            // })()
+            let id = this.id;
+            this.$store.dispatch('webIM')
+
             // 自动登录
             var options = { 
                 apiUrl: WebIM.config.apiURL,
-                user: 'hz_niuniu_'+localStorage.oxUid,
+                user: 'hz_niuniu_'+id,
                 pwd: '123456',
                 appKey: WebIM.config.appkey,
                 success: function () {
@@ -348,28 +322,71 @@
                 },
                 error: function (aa) {
                     console.log('登录失败')
-                    conn.open(options);
+                    var time = setTimeout(function(){
+                        conn.open(options);
+                        clearTimeout(time)
+                    },2000)
                 }
             };
             conn.open(options);
-
+            // 储存聊天记录
+            this.$store.state.obj = {
+                myId: "hz_niuniu_"+id,
+                toId: "hz_niuniu_961",
+                pageSize: 10,
+                p: 1,
+                d_q: 'chat',
+                type: [{      //消息bodies 
+                    "msg": "test",//消息内容
+                    "type": "txt",//文本消息类型
+                }],
+                time: new Date().getTime(),
+                msg_id: conn.getUniqueId(),
+                style: 2,
+                TAname: '^(*￣(oo)￣)^',
+            };
+            // this.$store.dispatch('webKeep')
+            // this.$store.dispatch('webRecord')
+            var timeD = setTimeout(function(){
+                var chat = document.getElementById("txtbox");
+                chat.scrollTop = chat.scrollHeight;
+                clearTimeout(timeD)
+            },100)
+            
+        },
+        beforeUpdated: function(){
+            console.log(this.$store.state.txt)
+        },
+        updated: function(){
+            // 计算属性
+            this.$store.getters.txt
+            var chat = document.getElementById("txtbox");
+            chat.scrollTop = chat.scrollHeight;
         },
         methods: {
             // 发送文本
-            textPush(){
-
+            textPush () { 
                 let self = this;
                 // 单聊发送文本消息
                 var sendPrivateText = function () {
-                    var id = conn.getUniqueId();                 // 生成本地消息id
+                    var id = conn.getUniqueId();                  // 生成本地消息id
                     var msg = new WebIM.message('txt', id);      // 创建文本消息
 
                     msg.set({
                         msg: self.txt,          // 消息内容
-                        to: 'hz_niuniu_959',   // 接收消息对象（用户id）
+                        to: 'hz_niuniu_961',   // 接收消息对象（用户id） 13450266666
                         roomType: false,
                         success: function (id, serverMsgId) {
-                            console.log('文本发送成功');
+                            // 本地消息储存
+                            var a = JSON.parse(localStorage.oxTxtAll)
+                            var date = new Date().getTime();
+                            if(a["hz_niuniu_"+self.id]){
+                                a["hz_niuniu_"+self.id][date] = self.txt;
+                            } else {
+                                a["hz_niuniu_"+self.id] = {};
+                                a["hz_niuniu_"+self.id][date] = self.txt;
+                            }
+                            localStorage.oxTxtAll = JSON.stringify(a)
                             self.txt = '';
                         },
                         fail: function(e){
@@ -381,8 +398,8 @@
                     conn.send(msg.body);
                 };
                 sendPrivateText()
-
             },
+
 
 
         }

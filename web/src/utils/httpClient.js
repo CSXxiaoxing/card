@@ -29,11 +29,12 @@ const HttpClient = {
 
     post: (path, formdata, query, vm) => new Promise((resolve, reject) => {
     	// if(vm){ vm['loadingShow'] = true }
-         
+        
         if (formdata) {
             formdata['token'] = localStorage.oxToken || '' ;
             formdata['uid'] = localStorage.oxUid || '' ;
         }
+        console.log(formdata)
         request
             .post(getUrl(path))
             .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
@@ -42,6 +43,7 @@ const HttpClient = {
             .end((err, res) => {
                 if (err) {
                     reject(err);
+                    console.log('请求错误')
                     // vm['loadingShow'] = false;
                 } else {
                     resolve(res.body);
