@@ -7,7 +7,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
    // 字符串数据存储
-   // 使用demo : this.$store.state.initRoom
+   // 使用demo : this.$store.state.initRoom.oxNumber
    state: {
         name:666,
         // 用户信息

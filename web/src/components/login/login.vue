@@ -22,7 +22,7 @@
 		    <label> 
 			    <span>验证码</span> 
 			    <input type="text" placeholder='输入验证码' v-model.trim=' code'/> 
-			    <i>获取验证码</i>
+			    <i @click="sendCode">获取验证码</i>
 		    </label>
 		    <span @touchend="input(4)" >确定</span>
 		</mt-popup>
@@ -42,7 +42,7 @@
 	    	    <span>输入密码</span> 
 	    	    <input type="text" placeholder='输入密码' v-model.trim='password'/> 
 	        </label>
-	        <label @click='find = true'>忘记密码？点击找回！</label>
+	        <label @click='[(find = true),(type = 2)]' >忘记密码？点击找回！</label>
 	        <hr/>
 		    <span @touchend="input(2)">确定</span>
 		    <!-- @touchend="phone = false" -->
@@ -62,7 +62,7 @@
 		    <label> 
 			    <span>验证码</span> 
 			    <input type="text" placeholder='输入验证码' v-model.trim=' code'/>
-			    <i>获取验证码</i>
+			    <i @click="sendCode">获取验证码</i>
 		    </label>
 	        <label> 
 	    	    <span>新的密码</span> 
@@ -75,8 +75,8 @@
 		<div class='logo'></div>
 		<div class="nouser" v-show="a == 0">
 			<span class='spanLog'>微信登录</span>
-			<span class='spanLog' @click='phone = true'>手机登录</span>
-			<p>还没有账号？<span @click='zhuce = true'>注册</span></p>
+			<span class='spanLog' @click='[(phone = true),(type = 1)]'>手机登录</span>
+			<p>还没有账号？<span @click='[(zhuce = true),(type = 3)]'>注册</span></p>
 		</div>
 
 		<div class="haveuser"  v-show="a == 1 ">
@@ -353,7 +353,7 @@
 				login:false,
 				find: false,
 				phone:false,
-				text: ['注册', '登录', '找回密码'],
+				text: ["注册", "登录", "找回密码"],
 				zhuceType: false, 
 				TEXTerror: '',
 				// 用户资料
@@ -363,6 +363,7 @@
 				code: '',
 				loadingShow: false,
 				a: 0,
+				type:0,
 			}
 		},
 		mounted: function(){
@@ -500,7 +501,20 @@
 						}
 					})
 			},
-			
+			sendCode(){
+				var self = this ;
+				console.log(self.type)
+				http.post('/Api/Sms/sendYzm',{
+					mobile : self.cell,
+					type : self.type,
+				}, '' ,this)
+				.then(res=> {
+					console.log(res)
+					if(res.status == 1){
+
+					}
+				})
+			},
 		}
 	}
 </script>
