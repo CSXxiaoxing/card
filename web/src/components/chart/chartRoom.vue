@@ -70,6 +70,9 @@
 </template>
 
 <style lang='scss' scoped>
+
+    @import '../../utils/baseVar.scss';
+
     .chartRoom {
         height: 100%;
         background: #ECEDF1;
@@ -77,56 +80,60 @@
         flex-direction: column;
         overflow: hidden;
         header {
-            height: 202px;
-            padding: 110px 30px 0px;
+            height: 1.87037rem;
+            padding: 1.018519rem 0.277778rem 0.0rem;
             box-sizing: border-box;
             background: #2F2E34;
             color: #fff;
             ul {
-                height: 86px;
-                line-height: 86px;
+                height: 0.796296rem;
+                line-height: 0.796296rem;
                 display: flex;
                 justify-content: space-between;
-                font-size:40px;
+                font-size:0.37037rem;
                 img{
                 	vertical-align: sub;
+                    width:0.824074rem;
+                    width:0.888889rem;
                 }
                 li:nth-of-type(2){
                    position:absolute;
-                   left:150px;
+                   left:1.388889rem;
                 }
                 li:nth-of-type(3){
                    position:absolute;
-                   left:480px;
+                   left:4.444444rem;
                 }
                 li:nth-of-type(4){
                    position:absolute;
-                   left:440px;
-                   font-size:50px;
+                   left:4.074074rem;
+                   font-size:0.462963rem;
                 }
                 li:first-child {
                     &>i {
                         display: inline-block;
-                        width: 70px;
-                        height: 55px;
-                        background: url('../../img/room_all.png') -470px -160px no-repeat;
-                        background-size: 600px;
+                        width: 0.648148rem;
+                        height: 0.509259rem;
+                        background: $roomAll no-repeat;
+                        background-position:-4.351852rem -1.481481rem ;
+                        background-size: 5.555556rem;
                         position: relative;
                         top: 50%;
                         transform: translate(0%, -50%);
                         a {
-                            padding: 28px 40px;
+                            padding: 0.259259rem 0.37037rem;
                         }
                     }
                 }
                 li:nth-of-type(6){
-                	background:url('../../img/chart_Room6.png') no-repeat;
+                	background:$chart01 no-repeat;
                     background-position:center;
-                    padding-left: 12px;
-                    width:258px;
-                    line-height:80px;
+                    background-size:2.388889rem 0.75rem;
+                    padding-left: 0.111111rem;
+                    width:2.388889rem;
+                    line-height:0.740741rem;
                     position:absolute;
-                    right:180px;
+                    right:2rem;
                 }
                 
             }
@@ -136,10 +143,10 @@
             flex: 1;
             width: 100%;
             background: #ECEDF1;
-            padding: 27px 40px;
+            padding: 0.25rem 0.37037rem;
             position: relative;
             overflow: hidden;
-            font-size: 42px;
+            font-size: 0.388889rem;
             box-sizing: border-box;
             overflow-y: auto;
             overflow-x: hidden;
@@ -147,10 +154,10 @@
                 text-align: left;
                 // padding-bottom: 20px;
                 position:relative;
-            	.test{max-width:600px; padding:30px 20px; border:3px solid #E4E3E8; position:relative;border-radius:20px;padding-left:20px;}
+            	.test{max-width:5.555556rem; padding:0.277778rem 0.185185rem; border:0.027778rem solid #E4E3E8; position:relative;border-radius:0.185185rem;padding-left:0.185185rem;}
                 .test span{width:0; height:0; font-size:0; overflow:hidden; position:absolute;}
                 .test span.bot{
-                    border-width:20px; 
+                    border-width:0.185185rem; 
                     border-style:solid dashed dashed; 
                 }
 
@@ -170,13 +177,13 @@
                 .test{
                     background-color:white;
                     float:left;
-                    left:50px;
-                    top:30px;
+                    left:0.462963rem;
+                    top:0.277778rem;
                 }
                 .test span.bot{
                     border-color:transparent white transparent transparent; 
-                    left:-40px;
-                    bottom:40px;
+                    left:-0.37037rem;
+                    bottom:0.37037rem;
                 }
             }
             .right{
@@ -186,57 +193,57 @@
                 }
                 .test{
                     background-color:#07AD05;
-                    bottom:-20px;
+                    bottom:-0.185185rem;
                     float:right;
-                    right:30px;
+                    right:0.277778rem;
                 }
                 .test span.bot{
                     border-color:transparent  transparent transparent #07AD05; 
-                    right:-38px; 
-                    top:40px;
+                    right:-0.351852rem; 
+                    top:0.37037rem;
                     
                 }
             }
 
             .control{
             	overflow:hidden;
-            	box-shadow: 1px 1px 20px #A9A9AB;
+            	box-shadow: 0.009259rem 0.009259rem 0.185185rem #A9A9AB;
             	width:100%;
-            	height:0px;
+            	height:0.0rem;
             	position:absolute;
-            	left:0px;
-            	top:0px;
+            	left:0.0rem;
+            	top:0.0rem;
             	background-color:white;
-            	font-size:44px;
+            	font-size:0.407407rem;
             	text-align:left;
             	li{
 
-            		margin-top: 30px;
-            		margin-left:62px;
+            		margin-top: 0.277778rem;
+            		margin-left:0.574074rem;
             		font-weight:bold;
             		input{
-            		height:78px;
-            		line-height:78px;
-            		width:344px;
-            		margin-left:30px;
-            		font-size:30px;
-            		border:1px solid black;
-            		padding-left:30px;
+            		height:0.722222rem;
+            		line-height:0.722222rem;
+            		width:3.185185rem;
+            		margin-left:0.277778rem;
+            		font-size:0.277778rem;
+            		border:0.009259rem solid black;
+            		padding-left:0.277778rem;
             		}
             		b{
             			float:right;
-            			margin-right:36px;
+            			margin-right:0.333333rem;
             			color:#1C9ED9;
             			font-weight:normal;
             		}
             	}
             }
             .control.open{
-            	height:282px;
+            	height:2.611111rem;
             	transition: all 1s;
             }
             .control.close{
-            	height:0px;
+            	height:0.0rem;
             	transition: all 1s;
             }
         }
@@ -245,56 +252,60 @@
         } 
         footer{
         	width: 100%;
-        	height: 130px;
+        	height: 1.203704rem;
         	background-color: #F4F4F6;
+            img{
+                width:0.833333rem;
+                height:0.833333rem;
+            }
         	&>div{
                 display: flex;
                 align-items: baseline;
                 flex-wrap: nowrap;
         		img{
-                    height: 90px;
-                    width: 90px;
-        			margin:0px 20px 0px 20px;
-        			padding-top: 20px;
+                    height: 0.833333rem;
+                    width: 0.833333rem;
+        			margin:0 0.185185rem 0 0.185185rem;
+        			padding-top: 0.185185rem;
         		}
                 // 复用
                 @mixin fuyon {
                     display:inline-block;
-                    font-size:40px;
-                    height:90px;
-                    line-height:90px;
-                    border:2px solid #DFDFE1;
+                    font-size:0.37037rem;
+                    height:0.833333rem;
+                    line-height:0.833333rem;
+                    border:0.018519rem solid #DFDFE1;
                     text-align: center;
                     position:relative;
-                    bottom:30px;
-                    border-radius: 12px;
+                    bottom:0.277778rem;
+                    border-radius: 0.111111rem;
                     background-color:white;
                 }
         		span{
         			@include fuyon;
                     flex: 1;
-                    margin-right: 30px;
+                    margin-right: 0.277778rem;
         		}
                 form {
                     flex: 1;
                     position: relative;
-                    bottom: 30px;
-                    height: 90px;
+                    bottom: 0.277778rem;
+                    height: 0.833333rem;
                     input {
                         @include fuyon;
                         width: 75%;
                         text-align : left;
-                        padding : 0 30px;
+                        padding : 0 0.277778rem;
                         box-sizing: border-box;
-                        bottom: 0px;
+                        bottom: 0.0rem;
                         outline: none;
                         border: none;
                     }
                     span {
                         @include fuyon;
-                        bottom: 0px;
+                        bottom: 0.0rem;
                         width: 20%;
-                        margin-right: 10px;
+                        margin-right: 0.092593rem;
                     }
                 }
                 

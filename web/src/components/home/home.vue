@@ -106,7 +106,6 @@
 				datagrid : '',
 				id : 0,
 				name: '',
-				
 				pagesize :30,
 				type :1 ,
 				p : 1,
@@ -129,7 +128,6 @@
                 }, '' ,this)
                 .then(res => {
                     console.log(res)
-                    self.datagrid.key = res.data
                     self.datagrid.open = res.data.zn_room_type ==1 ? true : false
                     self.datagrid.roomName = res.data.zc_title
                     self.datagrid.roomNumber = res.data.zc_number

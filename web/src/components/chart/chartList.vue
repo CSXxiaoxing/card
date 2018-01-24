@@ -64,52 +64,56 @@
 </template>
 
 <style lang='scss' scoped>
+
+    @import '../../utils/baseVar.scss';
+
     .mut{
-        width: 766px;
-        border-radius: 30px;
+        width: 7.092593rem;
+        border-radius: 0.277778rem;
         position: absolute;
-        top:890px;
+        top:8.240741rem;
         span{
           display: block;
           color:white;
-          font-size: 66px;
-          width:958px;
-          height:230px;
-          line-height: 195px;
-          background: url("../../img/module_home_no1.png") no-repeat;
+          font-size: 0.611111rem;
+          width:8.87037rem;
+          height:2.12963rem;
+          line-height: 1.805556rem;
+          background: $home08 no-repeat;
           background-position: center;
+          background-size:8.87037rem 1.805556rem;
           text-align: center;
           position: relative;
-          right: 94px;
-          bottom: 50px;
+          right: 0.87037rem;
+          bottom: 0.462963rem;
         }
 
         p{
-          height:180px;
-          line-height:80px;
-          font-size:50px;
-          width:606px;
+          height:1.666667rem;
+          line-height:0.740741rem;
+          font-size:0.462963rem;
+          width:5.611111rem;
           position:relative;
-          left:80px;
-          bottom:50px;
+          left:0.740741rem;
+          bottom:0.462963rem;
           text-align:left;
         }
         button{
-          width:300px;
-          height: 108px;
-          line-height:100px;
-          border-radius: 55px;
-          font-size:60px;
-          margin-bottom:50px;
+          width:2.777778rem;
+          height: 1.0rem;
+          line-height:0.925926rem;
+          border-radius: 0.509259rem;
+          font-size:0.555556rem;
+          margin-bottom:0.462963rem;
           border: 0 none;
           color: white;
-          background: url(../../img/home_all.png) -210px -150px no-repeat;
-          background-size: 600px 600px;
+          background: $homeAll -1.944444rem -1.388889rem no-repeat;
+          background-size: 5.555556rem 5.555556rem;
         }
         button:active {
             position: relative;
-            left: 2px;
-            bottom: -5px;
+            left: 0.018519rem;
+            bottom: -0.046296rem;
         }
     }
 
@@ -118,31 +122,32 @@
         background: #ECEDF1;
         
         header {
-            height: 202px;
-            padding: 110px 30px 0px;
+            height: 1.87037rem;
+            padding: 1.018519rem 0.277778rem 0.0rem;
             box-sizing: border-box;
             background: #2F2E34;
             color: #fff;
             ul {
-                height: 86px;
-                line-height: 86px;
+                height: 0.796296rem;
+                line-height: 0.796296rem;
                 display: flex;
                 justify-content: space-between;
+                font-size:0.462963rem;
                 li:nth-of-type(2){
                     text-align: center;
                 }
                 li:first-child {
                     &>i {
                         display: inline-block;
-                        width: 70px;
-                        height: 55px;
-                        background: url('../../img/room_all.png') -470px -160px no-repeat;
-                        background-size: 600px;
+                        width: 0.648148rem;
+                        height: 0.509259rem;
+                        background: $roomAll -4.351852rem -1.481481rem no-repeat;
+                        background-size: 5.555556rem;
                         position: relative;
                         top: 50%;
                         transform: translate(0, -50%);
                         a {
-                            padding: 28px 40px;
+                            padding: 0.259259rem 0.37037rem;
                         }
                     }
                 }
@@ -151,48 +156,52 @@
         
         .list{
             width: 100%;
-            height:1538px;
+            height:14.240741rem;
             overflow-y:auto;
             overflow-x:hidden;
             background:white;
-            font-size:42px;
+            font-size:0.388889rem;
             li{
-                height:190px;
+                height:1.759259rem;
                 text-align:left;
-                border-bottom: 2px solid #E6F0E6;
+                border-bottom: 0.018519rem solid #E6F0E6;
                 img{
-                    margin:10px 20px 0px 10px;
+                    margin:0.092593rem 0.185185rem 0 0.092593rem;
+                    width:1.407407rem;
+                    height:1.481481rem;
                 }
                 b{
                     display:inline-block;
-                    min-width:320px;
-                    min-height: 129px;
-                    line-height:130px;
+                    min-width:2.962963rem;
+                    min-height: 1.194444rem;
+                    line-height:1.203704rem;
                     background-position: center;
                     background-size:cover;
                     position:relative;
-                    bottom:50px;
+                    bottom:0.462963rem;
                     font-weight: normal;
                 }
                 span{
-                     width:198px;
-                     height:90px;
-                     border:3px solid #CDE9CC;
-                     border-radius:100px;
+                     width:1.833333rem;
+                     height:0.833333rem;
+                     border:0.027778rem solid #CDE9CC;
+                     border-radius:0.925926rem;
                      float:right;
                      position:relative;
-                     top:50px;
-                     right:50px;
+                     top:0.462963rem;
+                     right:0.462963rem;
                      color:#13BD11;
-                     font-size:44px;
-                     line-height: 60px;
-                     padding-right: 20px;
+                     font-size:0.407407rem;
+                     line-height: 0.555556rem;
+                     padding-right: 0.185185rem;
                      img{
                         position:relative;
                         display:inline-block;
                         vertical-align: sub;
-                        top:8px;
-                        margin-left:22px;
+                        top:0.074074rem;
+                        margin-left:0.203704rem;
+                        width:0.583333rem;
+                        height:0.574074rem;
                      }
                 }
             }
@@ -201,7 +210,7 @@
             }
             .clear{
                 clear: both;
-                height:0px;
+                height:0;
             }
         }
         .list::-webkit-scrollbar {
@@ -211,22 +220,24 @@
         footer{
             width:100%;
             button{
-                  width:444px;
-                  height:112px;
-                  line-height: 100px;
-                  font-size:60px;
+                  width:4.111111rem;
+                  height:1.037037rem;
+                  line-height: 0.925926rem;
+                  font-size:0.555556rem;
                   border: none;
-                  background: url(../../img/chart_list2.png) no-repeat;
+                  background:$chart03  no-repeat;
                   background-position:center;
-                  margin-top: 30px;
+                  background-size:4.231481rem 1.231481rem;
+                  margin-top: 0.277778rem;
                 }
             button:active {
                     position: relative;
-                    left: 2px;
-                    bottom: -5px;
+                    left: 0.018519rem;
+                    bottom: -0.046296rem;
             }
             button:nth-of-type(1){
-                background: url(../../img/chart_list3.png) no-repeat;
+                background: $chart04 no-repeat;
+                background-size:4.231481rem 1.231481rem;
                 background-position:center;
             }
         }

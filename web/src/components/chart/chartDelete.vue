@@ -25,20 +25,22 @@
 </template>
 
 <style lang='scss' scoped>
+
+@import '../../utils/baseVar.scss';
     .chartDelete {
         height: 100%;
         background: #ECEDF1;
         
         header {
-            height: 202px;
-            padding: 110px 30px 0px;
+            height: 1.87037rem;
+            padding: 1.018519rem 0.277778rem 0;
             box-sizing: border-box;
             background: #2F2E34;
             color: #fff;
-            font-size:46px;
+            font-size:0.425926rem;
             ul {
-                height: 86px;
-                line-height: 86px;
+                height: 0.796296rem;
+                line-height: 0.796296rem;
                 display: flex;
                 justify-content: space-between;
                 li:nth-of-type(2){
@@ -47,15 +49,16 @@
                 li:first-child {
                     &>i {
                         display: inline-block;
-                        width: 70px;
-                        height: 55px;
-                        background: url('../../img/room_all.png') -470px -160px no-repeat;
-                        background-size: 600px;
+                        width: 0.648148rem;
+                        height: 0.509259rem;
+                        background: $roomAll -4.351852rem -1.481481rem no-repeat;
+                        background-size: 5.555556rem;
+
                         position: relative;
                         top: 50%;
                         transform: translate(0, -50%);
                         a {
-                            padding: 28px 40px;
+                            padding: 0.259259rem 0.37037rem;
                         }
                     }
                 }
@@ -64,25 +67,28 @@
         
         .list{
             width: 100%;
-            height:1738px;
+            height:16.092593rem;
             overflow-y:auto;
             overflow-x:hidden;
             background:white;
-            font-size:42px;
+            font-size:0.388889rem;
             li{
-                height:190px;
+
+                height:1.759259rem;
                 text-align:left;
-                border-bottom: 2px solid #E6F0E6;
+                border-bottom: 0.018519rem solid #E6F0E6;
                 img{
-                    margin:10px 20px 0px 10px;
+                    width:1.407407rem;
+                    height:1.481481rem;
+                    margin:0.092593rem 0.185185rem 0.0rem 0.092593rem;
                 }
                 dl{
                     display:inline-block;
-                    line-height:60px;
+                    line-height:0.555556rem;
                     background-position: center;
                     background-size:cover;
                     position:relative;
-                    bottom:20px;
+                    bottom:0.185185rem;
                     font-weight: normal;
                 }
                 dd{
@@ -92,30 +98,32 @@
                     }
                 }
                 span{
-                     width:95px;
-                     height:100px;
+                     width:0.87963rem;
+                     height:0.925926rem;
                      float:right;
                      position:relative;
-                     top:50px;
-                     right:50px;
+                     top:0.462963rem;
+                     right:0.462963rem;
                      color:#13BD11;
-                     font-size:44px;
-                     line-height: 60px;
-                     background:url("../../img/module_room_setOwner3.png") no-repeat; 
+                     font-size:0.407407rem;
+                     line-height: 0.555556rem;
+                     background:$chart02 no-repeat; 
                      background-position: center;
                      background-size:cover; 
                      img{
                         position:relative;
                         display:inline-block;
                         vertical-align: sub;
-                        bottom:8px;
-                        right:8px;                     
+                        bottom:0.074074rem;
+                        right:0.074074rem;    
+                        width:0.87963rem;
+                        height:0.925926rem;           
                     }
                 }
             }
             .clear{
                 clear: both;
-                height:0px;
+                height:0.0rem;
             }
         }
         .list::-webkit-scrollbar {

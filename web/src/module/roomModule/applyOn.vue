@@ -84,6 +84,7 @@
 </template>
 
 <style lang='scss' scoped>
+  @import '../../utils/baseVar.scss';
   .apply{
     width: 7.092593rem;
     border-radius: 0.277778rem;
@@ -97,8 +98,9 @@
       width:8.87037rem;
       height:2.12963rem;
       line-height: 1.805556rem;
-      background: url("../../img/module_home_no1.png") no-repeat;
+      background: $home08 no-repeat;
       background-position: center;
+      background-size:8.87037rem 1.805556rem;
       text-align: center;
       position: relative;
       right: 0.87037rem;
@@ -187,6 +189,7 @@
       position: absolute;
       top:6.574074rem;
       height: 5.740741rem;
+      
       &>span:nth-of-type(1){
         display: block;
         color:white;
@@ -194,8 +197,9 @@
         width:8.87037rem;
         height:2.12963rem;
         line-height: 1.805556rem;
-        background: url("../../img/module_home_no1.png") no-repeat;
+        background: $home08 no-repeat;
         background-position: center;
+        background-size:8.87037rem 1.805556rem;
         text-align: center;
         position: relative;
         right: 0.87037rem;
@@ -258,7 +262,8 @@
         width:8.87037rem;
         height:2.12963rem;
         line-height: 1.805556rem;
-        background: url("../../img/module_home_no1.png") no-repeat;
+        background: $home08 no-repeat;
+        background-size:8.87037rem 1.805556rem;
         background-position: center;
         text-align: center;
         position: relative;
@@ -385,6 +390,10 @@
       height:10.185185rem;
       box-sizing: border-box;
       border-radius:0.277778rem;
+      img{
+        width:0.87963rem;
+        height:0.925926rem;
+      }
       span{
         display:inline-block;
         width:100%;

@@ -153,14 +153,11 @@
                                     // alert('房间号码不存在')
                                 } else if( res.status == 1 ){
                                     router.push({path: `room/${res.data.zc_number}`});
-
                                 }
                             })
 
                         }
                     })
-
-                
             }
         },
         open6() {

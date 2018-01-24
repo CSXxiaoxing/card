@@ -329,7 +329,6 @@
                         zn_play_type : self.imgState.cardFn ? 1:2,
                         zn_bet_time : self.imgState.time,
                         zc_title : self.imgState.roomName,
-
                     } , '' ,this)
                     .then(res=> {
                         console.log(res)
