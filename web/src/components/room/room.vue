@@ -419,8 +419,9 @@
                     number: self.$route.params.id,
                 })
                 .then(res => {
+                    console.log(res)
                     if(res.status == 1) {
-                        console.log(res.data)
+                        // console.log(res.data)
                         var data = res.data;
                         var bl = JSON.parse(data.zc_rate);
                         var vx = this.$store.state.idRoom;
@@ -430,8 +431,9 @@
                         } else {
                             self.init.ForT = 0;
                         }
-                        self.chartRoom = `/chartRoom/[3,${data.zc_number},${data.id},${self.init.ForT}]`,
+                        self.chartRoom = `/chartRoom/[3,${data.zc_number},${data.id},${self.init.ForT},${data.zn_chatid}]`,
                         vx.room_id = data.zc_number;
+                        vx.zn_chatid = data.zn_chatid;
                         vx.id = data.id;
                         vx.oxK = bl[12];
                         bl.splice(12,1)
@@ -452,9 +454,8 @@
                 })
         },
         methods: {
-            // 房间设置
-            varRoom(){
-                // console.log(this.init)
+            varRoom(){          // 房间设置
+                this.$refs.onvarRoomChild.initType = 1;
                 this.$refs.onvarRoomChild.imgState = this.$store.state.idRoom;
                 this.$refs.onvarRoomChild.boxState.CvarRoom=true;
                 this.$refs.onvarRoomChild.noModal();

@@ -139,7 +139,7 @@
                         number: this.val,
                     })
                     .then(res => {
-                        console.log(res)
+                        // console.log(res)
                         if(res.status == 1) {
 
                             http.post('/Room/joinRoom' ,

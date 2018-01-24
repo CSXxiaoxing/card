@@ -184,7 +184,7 @@
     export default {
         data() {
             return {
-                initType: 0,
+                initType: 0,       //  0 是初创   1 是修改
                 init: {
                     plaName: '请输入房间名称',
                     error: {
@@ -225,7 +225,8 @@
             this.boxState.radio = this.oxOpen.oxK;
         },
         mounted: function(){
-            
+            this.$store.dispatch('webIM')
+            this.$store.dispatch('dl')
         },
         methods: {
             open(e) {
@@ -293,20 +294,14 @@
                 this.varMo();
                 this.boxState.no = true;
             },
-            // 确认创建
-            end(eve) {
+            
+            end () {
                 var self = this;
                 var oxNumber = this.$store.state.initRoom.oxNumber
                 var oxK = this.$store.state.initRoom.oxK
-                // console.log(oxK)
                 oxNumber.push(oxK)
-                // console.log(oxNumber)
 
                 let [Err, git] = [this.init.error, this.imgState];
-
-                // console.log(this.imgState)
-                // console.log(oxNumber)
-                // console.log(a)
                 // 规则判断
                 git.roomName == '' ? Err.roomName = true : 
                 git.minGrade <= 0 ? Err.minG = true : 
@@ -315,32 +310,74 @@
                 git.scale < 1 || git.scale > 15 ? Err.sca = true : false;
 
                 if(!Err.roomName && !Err.minG && !Err.minS && !Err.maxS && !Err.sca) {
-                    http.post("/Room/createRoom",{
-                        zc_rate : JSON.stringify(oxNumber),
-                        zc_number : self.imgState.room_id,
-                        zn_min_score : self.imgState.minGrade,
-                        zn_bet_between_s : self.imgState.scope[0],
-                        zn_bet_between_e : self.imgState.scope[1],
-                        zn_extract : self.imgState.scale,
-                        // zn_room_type : self.imgState.open ? 1 : 2,
-                        zn_room_type : self.imgState.open ? 1 : 1,
-                        zn_confirm : self.imgState.newMan ? 1:2,
-                        zn_pay_type : self.imgState.room ? 1:2,
-                        zn_play_type : self.imgState.cardFn ? 1:2,
-                        zn_bet_time : self.imgState.time,
-                        zc_title : self.imgState.roomName,
-                    } , '' ,this)
-                    .then(res=> {
-                        console.log(res)
-                        console.log(999)
-                        if(res.status == 1 && self.imgState.room_id > 0){
-                            router.push({path: `room/${self.imgState.room_id}`});
-                        }
-                    })
+                    if(self.initType == 0) {
+                        var options = { // 创建聊天群组
+                            data: {
+                                groupname: '牛群'+localStorage.oxUid,
+                                desc: '聊天室开发测试',
+                                members: ['hz_niuniu_961','hz_niuniu_962'],
+                                public: false,
+                                approval: false,
+                                allowinvites: true,
+                            },
+                            success: function (respData) {
+                                console.log(respData) // 创建房间成功
+                                console.log(respData.data.groupid) // 创建房间成功
+                                http.post("/Room/createRoom",{
+                                    zc_rate : JSON.stringify(oxNumber),
+                                    zc_number : self.imgState.room_id,
+                                    zn_min_score : self.imgState.minGrade,
+                                    zn_bet_between_s : self.imgState.scope[0],
+                                    zn_bet_between_e : self.imgState.scope[1],
+                                    zn_extract : self.imgState.scale,
+                                    zn_chatid : respData.data.groupid,      // 群聊号码
+                                    // zn_room_type : self.imgState.open ? 1 : 2,
+                                    zn_room_type : self.imgState.open ? 1 : 1,
+                                    zn_confirm : self.imgState.newMan ? 1:2,
+                                    zn_pay_type : self.imgState.room ? 1:2,
+                                    zn_play_type : self.imgState.cardFn ? 1:2,
+                                    zn_bet_time : self.imgState.time,
+                                    zc_title : self.imgState.roomName,
+                                } , '' ,this)
+                                .then(res=> {
+                                    if(res.status == 1 && self.imgState.room_id > 0){
+                                        router.push({path: `room/${self.imgState.room_id}`});
+                                    }
+                                })
+                            },
+                            error: function (err) {
+                                console.log('创建失败')
+                            }
+                        };
+                        conn.createGroupNew(options);
+
+                    } else if(self.initType == 1){
+                        http.post("/Room/updatedRoom",{
+                            zc_rate : JSON.stringify(oxNumber),
+                            zn_chatid : self.$store.state.idRoom.zn_chatid,
+                            // zc_number : self.imgState.room_id,
+                            zn_min_score : self.imgState.minGrade,
+                            zn_bet_between_s : self.imgState.scope[0],
+                            zn_bet_between_e : self.imgState.scope[1],
+                            zn_extract : self.imgState.scale,
+                            // zn_room_type : self.imgState.open ? 1 : 2,
+                            zn_room_type : self.imgState.open ? 1 : 1,
+                            zn_confirm : self.imgState.newMan ? 1:2,
+                            zn_pay_type : self.imgState.room ? 1:2,
+                            zn_play_type : self.imgState.cardFn ? 1:2,
+                            zn_bet_time : self.imgState.time,
+                            zc_title : self.imgState.roomName,
+                        } , '' ,this)
+                        .then(res=> {
+                            if(res.status == 1 && self.imgState.room_id > 0){
+                                // router.push({path: `room/${self.imgState.room_id}`}); 通知更新
+                            }
+                        })
+                    }
+                    
                     this.$store.state.setRoom = this.imgState;
                     this.boxState.CvarRoom = false;
-                }
-
+                }       // 确认创建
             },
 
         }

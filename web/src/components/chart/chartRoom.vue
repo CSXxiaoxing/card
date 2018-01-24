@@ -20,7 +20,7 @@
         <div class='chart'  id='txtbox'>
             <ul v-if='roomstatus == 2'>
                 <!-- 单聊 -->
-                <li v-for="(data, idx) in (this.roomstatus == 2 ? $store.state.txt : '')" 
+                <li v-for="(data, idx) in (roomstatus == 2 ? $store.state.txt : '')" 
                 :class="$store.state.txt_idx[idx] >=0 ? 'left' : 'right'"   :key = '$store.state.txt_time[idx]'>
                     <img src="../../img/chart_Room2.png" alt="">
                     <div class="test">
@@ -32,7 +32,7 @@
             
             <ul v-if='roomstatus == 3'>
                 <!-- 群聊 -->
-                <li v-for="(data, idx) in (this.roomstatus == 2 ? $store.state.txt : '')" 
+                <li v-for="(data, idx) in (roomstatus == 3 ? $store.state.txt : '')" 
                 :class="$store.state.txt_idx[idx] >=0 ? 'left' : 'right'"   :key = '$store.state.txt_time[idx]'>
                     <img src="../../img/chart_Room2.png" alt="">
                     <div class="test">
@@ -324,6 +324,7 @@
                 chartList: '',      // 成员列表
                 lingth: 0,         // 成员人数
                 speak: 1,         // 语音是0 输入是1 
+                zn_chatid: 0,        // 群聊id
                 give: 0,         // 加减分
                 roomstatus: 99,   // 0-客服  1-聊天（房主）  2-聊天（玩家） 3-群聊
                 isfriend: 0,    // 是好友1  不是0
@@ -338,39 +339,47 @@
             this.$store.getters.txt;
         },
         mounted: function(){
+            var self = this;
             var params = JSON.parse(this.$route.params.id)
             this.roomstatus = params[0];
             this.roomNum = params[1];
             this.roomid = params[2];
+            this.zn_chatid = params[4];
             this.chartList = `/chartList/${this.$route.params.id}`;
             this.list()
+            if ( params[0] == 1 || params[0] == 2 ) {   // 确定聊天内容
+                this.$store.state.txt = JSON.parse(localStorage.oxTxtAll)  || '';
+            } else if ( params[0] == 3 ) {
+                var a = JSON.parse(localStorage.oxQun)
+                if(a['hz_niuniu_'+id]){
+                    a['hz_niuniu_'+id] = {}
+                }
 
+                this.$store.state.txt = JSON.parse(localStorage.oxQun) || '';
+            }
             let id = this.id;
             this.$store.dispatch('webIM')
-            
-            var dlCount = 0;
-            var options = {         // 自动登录
-                apiUrl: WebIM.config.apiURL,
-                user: 'hz_niuniu_'+id,
-                pwd: '123456',
-                appKey: WebIM.config.appkey,
-                success: function () {
-                    console.log('登录成功')
+            this.$store.dispatch('dl')
+
+            var options2 = {     // 获取用户加入的群组列表
+                success: function (resp) {
+                    console.log("Response: ", resp)
                 },
-                error: function (aa) {
-                    dlCount++;
-                    console.log('登录失败')
-                    if(dlCount < 5){
-                        var time = setTimeout(function(){
-                            conn.open(options);
-                            clearTimeout(time)
-                        },2000)
-                    } else {
-                        alert('网络状态差,无法连接')
-                    }
+                error: function (e) {
+                    console.log(e)
                 }
+            }
+            conn.getGroup(options2); 
+
+            var addGroupMembers = function () {     // 加入群聊
+                var option3 = {
+                    list: ['hz_niuniu_'+localStorage.oxUid],
+                    roomId: self.zn_chatid,
+                };
+                conn.addGroupMembers(option3);
             };
-            conn.open(options);
+            addGroupMembers()
+
             // 储存聊天记录
             this.$store.state.obj = {
                 myId: "hz_niuniu_"+id,
@@ -407,27 +416,29 @@
         methods: {
             // 发送文本
             textPush () { 
-                let self = this;
-                // 单聊发送文本消息
+                var self = this;
+                var type = this.roomstatus;  // 0-客服  1-聊天（房主）  2-聊天（玩家） 3-群聊
+                
                 var sendPrivateText = function () {
                     var id = conn.getUniqueId();                  // 生成本地消息id
                     var msg = new WebIM.message('txt', id);      // 创建文本消息
-
                     msg.set({
                         msg: self.txt,          // 消息内容
-                        to: 'hz_niuniu_961',   // 接收消息对象（用户id） 13450266666
+                        to: 'hz_niuniu_962',   // 接收消息对象（用户id） 13450266666
                         roomType: false,
                         success: function (id, serverMsgId) {
                             // 本地消息储存
                             var a = JSON.parse(localStorage.oxTxtAll)
                             var date = new Date().getTime();
+
                             if(a["hz_niuniu_"+self.id]){
                                 a["hz_niuniu_"+self.id][date] = self.txt;
                             } else {
                                 a["hz_niuniu_"+self.id] = {};
                                 a["hz_niuniu_"+self.id][date] = self.txt;
                             }
-                            localStorage.oxTxtAll = JSON.stringify(a)
+                            self.$store.state.txt = a;
+                            localStorage.oxTxtAll = JSON.stringify(a);
                             self.txt = '';
                         },
                         fail: function(e){
@@ -436,9 +447,51 @@
                         }
                     });
                     msg.body.chatType = 'singleChat';
-                    conn.send(msg.body);
+                    conn.send(msg.body);// 单聊发送文本消息
                 };
-                sendPrivateText()
+                
+                var sendGroupText = function () {
+                    var id = conn.getUniqueId();            // 生成本地消息id
+                    var msg = new WebIM.message('txt', id); // 创建文本消息
+                    var option = {
+                        msg: self.txt,             // 消息内容
+                        to: self.zn_chatid,        // 接收消息对象(群组id)
+                        roomType: false,
+                        chatType: 'chatRoom',
+                        success: function () {
+                            // console.log('群聊信息发送成功');
+                            // 本地消息储存
+                            var a = JSON.parse(localStorage.oxQun)
+                            var date = new Date().getTime();
+
+                            if(a["hz_niuniu_"+self.id]){
+                                a["hz_niuniu_"+self.id][date] = self.txt;
+                            } else {
+                                a["hz_niuniu_"+self.id] = {};
+                                a["hz_niuniu_"+self.id][date] = self.txt;
+                            }
+                            self.$store.state.txt = a;
+                            localStorage.oxQun = JSON.stringify(a);
+                            self.txt = '';
+                        },
+                        fail: function () {
+                            console.log('群聊信息发送失败');
+                            self.txt = '';
+                        }
+                    };
+                    msg.set(option);
+                    msg.setGroup('groupchat');
+                    conn.send(msg.body);// 群聊发送文本消息
+                };
+
+                if ( type == 1 || type == 2 ) {
+                    this.$store.state.txt = JSON.parse(localStorage.oxTxtAll)
+                    sendPrivateText()
+                } else if ( type == 3 ) {
+                    this.$store.state.txt = JSON.parse(localStorage.oxQun)
+                    sendGroupText()
+                }
+                
             },
             list () {   // 玩家数量
                 var self = this;
@@ -453,6 +506,7 @@
                     }
                 })
             },
+            
 
 
         }
