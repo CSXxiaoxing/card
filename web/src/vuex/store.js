@@ -40,9 +40,9 @@ export default new Vuex.Store({
         setRoom: {},
         badDict: bad,
         // 消息记录
-        txt: JSON.parse(localStorage.oxTxtAll),
-        txt_idx: [],
-        txt_time: [],
+        // txt: JSON.parse(localStorage.oxTxtAll),
+        // txt_idx: [],
+        // txt_time: [],
         // 消息传递
         obj: '',
     },
@@ -52,45 +52,45 @@ export default new Vuex.Store({
         doneTodos: state => {
             return state.todos.filter(todo => todo.done)
         },
-        txt: state => {
-            console.log(state.txt)
-            console.log(Object.values(state.txt))
-            var t = Object.values(state.txt)
-            // 计算时间轴
-            var arrTime = [];
-            var arr = [];
-            var arr2de = [];
-            var count = 0;
-            t.forEach(function(item){
-                count++;
-                for(var an in item){
-                    // console.log(an)
-                    if(arrTime.length == 0){
-                        arrTime.push(an)
-                        arr.push(item[an])
-                        arr2de.push(-1)
-                    } else {
-                        var i = 0;
-                        ! function duibi(){
-                            if(an <= arrTime[i]){
-                                i++;
-                                duibi()
-                            } else if(an > arrTime[i]){
-                                var a = count >= 2 ? i : -1; // i是对方，-1是自己right
-                                arrTime.splice(i, 0, an)
-                                arr.splice(i, 0, item[an])
-                                arr2de.splice(i, 0, a)
-                            }
-                        } ()
-                    }
-                }
-            })
-            // console.log(arr)
-            // console.log(arr2de)
-            state.txt = arr.reverse();
-            state.txt_idx = arr2de.reverse();
-            state.txt_time = arrTime.reverse();
-        }
+        // txt: state => {
+        //     console.log(state.txt)
+        //     console.log(Object.values(state.txt))
+        //     var t = Object.values(state.txt)
+        //     // 计算时间轴
+        //     var arrTime = [];
+        //     var arr = [];
+        //     var arr2de = [];
+        //     var count = 0;
+        //     t.forEach(function(item){
+        //         count++;
+        //         for(var an in item){
+        //             // console.log(an)
+        //             if(arrTime.length == 0){
+        //                 arrTime.push(an)
+        //                 arr.push(item[an])
+        //                 arr2de.push(-1)
+        //             } else {
+        //                 var i = 0;
+        //                 ! function duibi(){
+        //                     if(an <= arrTime[i]){
+        //                         i++;
+        //                         duibi()
+        //                     } else if(an > arrTime[i]){
+        //                         var a = count >= 2 ? i : -1; // i是对方，-1是自己right
+        //                         arrTime.splice(i, 0, an)
+        //                         arr.splice(i, 0, item[an])
+        //                         arr2de.splice(i, 0, a)
+        //                     }
+        //                 } ()
+        //             }
+        //         }
+        //     })
+        //     // console.log(arr)
+        //     // console.log(arr2de)
+        //     state.txt = arr.reverse();
+        //     state.txt_idx = arr2de.reverse();
+        //     state.txt_time = arrTime.reverse();
+        // }
    },
    // 方法，mutations必须同步执行
    // 使用demo : this.$store.commit('increment')

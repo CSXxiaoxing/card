@@ -6,7 +6,7 @@
         <p></p>
         <h3>加入房间 <i v-on:click="joinRoom = false"></i> </h3>
         <div class="joinCenter">
-            <input type="text" maxlength='6' :value="val" readonly/>
+            <input type="text" maxlength='6' v-model.number="val" readonly/>
             <ul @click='number'>
                 <li>1</li>
                 <li>2</li>
@@ -133,16 +133,20 @@
             }
             // 判断逻辑
             if(this.val.length == 6){
-                http.post({
-                    url: 'roomNumber',vm:this, params:{val: this.val}
-                }).then(res => {
+                http.post('/Room/joinRoom' ,
+                {
+                    roomid : self.val,
+                    token: localStorage.oxToken,
+                }, '' ,this)
+                .then(res => {
+                    console.log(res)
+                    console.log(res.data)
                     if( res.data == false ){
-                        // alert('房间号码不存在')
-                        // this.open6()
+                        alert('房间号码不存在')
+                        this.open6()
                     } else if( res.data == true ){
                         // window.location()
                     }
-                    console.log(res.data)
                 })
             }
         },
@@ -154,17 +158,6 @@
                 duration: '9999999'
                 });
             },
-        joinIn(){
-            var self = this ;
-            http.post( '/Room/joinRoom', {
-                roomid : self.val,
-                zn_member_id : localStorage.oxUid,
-                zc_nickname : localStorage.oxName,
-            }, '' ,this)
-            .then(res => {
-                console.log(res)
-            })
-        },
-    }
+        }
   };
 </script>

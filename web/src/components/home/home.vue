@@ -107,19 +107,42 @@
 				id : 0,
 				name: '',
 				roomNum : '',
+				pagesize :30,
+				type :1 ,
+				p : 1,
+				
 			}
 		},
-		mounted: function(){
-			this.$store.dispatch('webIM')
-			var self = this;
+		mounted: function(){		
 			if(localStorage.oxToken && localStorage.oxUid){
 				this.id = localStorage.oxUid
 				this.name = localStorage.getItem('oxName')
 				// 房间请求
+				this.$store.dispatch('webIM')
+				var self = this;
+
+				http.post('/Room/getRoomList' ,
+                {
+                    token: localStorage.oxToken,
+                    pagesize : self.pagesize,
+                    type : self.type,
+                    p : self.p,
+                }, '' ,this)
+                .then(res => {
+                    console.log(res)
+                    self.datagrid.key = res.data
+                    self.datagrid.open = res.data.zn_room_type ==1 ? true : false
+                    self.datagrid.roomName = res.data.zc_title
+                    self.datagrid.roomNumber = res.data.zc_number
+                    self.datagrid.number = res.data.pernumber
+
+
+                })
 			} else {
 				// 跳回登录页
 				router.push({name: '/'});
 			}
+
 		},
 		methods: {
 			joinRoom(){
