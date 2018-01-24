@@ -30,11 +30,26 @@ export default new Vuex.Store({
             // 最低上分数
             minG: 5000,
         },
+        idRoom: {
+            room_id: 0,         // 房间id
+            roomName: '',       // 房间名字
+            oxK: '',            // 比什么
+            scope: [0,100],     // 下注范围
+            oxNumber: [],       // 倍率
+            time: 30,           // 押注时间  
+            open: false,        // 是否开放
+            newMan: false,      // 新人确认
+            cardFn: 5,          // 玩法（几副牌）
+            room: 'bell',       // 房间计费方式
+            scale: 1,           // 抽水比例
+            minGrade: 10,       // 最小上庄分数
+        },
         time: {
-            // 游戏初始化准备时间
-            initTime: 0,
-            // 游戏选择庄牌时间
-            random: 1,
+            initTime: 6,    // 游戏初始化准备时间
+            random: 3,      // 游戏选择庄牌时间
+            speed: 80,      // 随机背景的速度
+            endTime: 5,     // 庄开牌后等待时间
+            countTime: 10,  // 剩下全开倒计时
         }, //基础时间设置
         // 设置值
         setRoom: {},

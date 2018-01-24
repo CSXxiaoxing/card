@@ -164,11 +164,11 @@
 
                     <!-- li -->
                     <li v-for='(datalist,index) in 7' 
-                        :class='[(init.cardFn == 7 ? "b7" : "a5"), 
+                        :class='[(init.prizeNum == 7 ? "b7" : "a5"), 
                         (time.index == index ? "bgccc" : ""), 
                         (ordinary.bg ? "bg" : "")] '
                         :size = index
-                        v-show='init.cardFn == 5 ? index != 2 && index != 6 : true'
+                        v-show='init.prizeNum == 5 ? index != 2 && index != 6 : true'
 
                          @click="[(time.index != index && cardURL.clck == -1 ? playerBottom(index) : false), (init.textStyle == 4 ? cardURL.clck=index : '')]" 
                          @touchend='ordinary.Pn = index '>
@@ -177,7 +177,7 @@
 
                         <span>
                             <!-- 出牛 -->
-                            <b :class='[(init.cardFn == 7 ? "b7" : "a5"),
+                            <b :class='[(init.prizeNum == 7 ? "b7" : "a5"),
                             ((time.index == index && init.textStyle >= 4) || init.textStyle == 5 ? "showoff" : "")]'>
 
                                 {{init.textStyle > 3 ? cardURL.result[ index ] : '庄'}}
@@ -187,7 +187,7 @@
                         </span>
 
                         <!-- 扑克牌 -->
-                        <div class='testCard' :class='[(init.cardFn == 7 ? "b7" : "a5" ), (time.index != index && gameOver.show ? "three":""), (gameOver.timeEng ? "threeEng" : "")]'>
+                        <div class='testCard' :class='[(init.prizeNum == 7 ? "b7" : "a5" ), (time.index != index && gameOver.show ? "three":""), (gameOver.timeEng ? "threeEng" : "")]'>
                             <!-- 翻开卡片 -->
                             <img v-if='init.textStyle >= 4'
                             v-for='(data, idx) in 5'
@@ -222,7 +222,7 @@
 
 
 
-            <div class='right'>
+            <div class='right' @click='orderPower(players)'>
                 <ul>
                     <li v-for='player in players '>
                         <div>
@@ -231,10 +231,10 @@
                             <span>6</span>
                             <div class='leftImg'>
                                 <img src="../../img/friend1.png" alt="" />
-                                <span>{{player.zn_points}}</span>
+                                <span>{{player.power}}</span>
                             </div>
                         </div>
-                        <p>{{player.zn_member_name}}</p>
+                        <p>{{player.name}}</p>
                     </li>
                 </ul>
             </div>
@@ -305,28 +305,44 @@
             return {
                 // 初始化
                 init: {
-                    ForT: 1,         // 1是房主0是普通
-                    time: 0,        // 游戏时间控制
-                    room_id: this.$store.state.idRoom.room_id,
-                    cardFn: this.$store.state.idRoom.cardFn,  //几牌  
-                    oxK: this.$store.state.idRoom.oxK,
-                    scope: this.$store.state.idRoom.scope,  // 可下注范围
-                    pond: this.$store.state.idRoom.minGrade,    // 设定可下注池
-                    text: ['游戏暂未开始', '准备开始：', '随机庄牌：', '可押注时间：', '开牌倒计时', '开牌结果'], // 游戏状态
-                    textStyle : 0, // 对应状态码   [0, 1, 2, 3, 4, 5]
-                    oxNumber: this.$store.state.idRoom.oxNumber,// 倍率
-                    fen: 5000000, // 庄总分
-                    ForZ: 0,// 庄时状态为1
+                    room_id: 0,
+                    // 1是房主0是普通
+                    ForT: 1,
+                    prizeNum: 7,
+                    // 游戏时间控制 
+                    time: 0,
+                    oxK: '比K',
+                    // 可下注范围
+                    scope: [100, 99999],
+                    // 设定可下注池
+                    pond: 80000,
+                    // 游戏状态
+                    text: ['游戏暂未开始', '准备开始：', '随机庄牌：', '可押注时间：', '开牌倒计时', '开牌结果'],
+                    // 对应状态码   [0, 1, 2, 3, 4, 5]
+                    textStyle : 0,
+                    // 倍率
+                    oxNumber: this.$store.state.initRoom.oxNumber,
+                    // 庄总分
+                    fen: 5000000,
+                    // 庄时状态为1
+                    ForZ: 0,
                 },
                 // 时间总控
                 time: {
-                    initTime: this.$store.state.time.initTime,
-                    random: this.$store.state.time.random,
-                    index: -1,      // 随机背景/庄家
-                    speed: this.$store.state.time.speed,
-                    timeAll:  this.$store.state.idRoom.time,
-                    endTime: this.$store.state.time.endTime,
-                    countTime: this.$store.state.time.countTime,
+                    // 准备开始倒计时
+                    initTime: 5,
+                    // 随机庄牌倒计时
+                    random: 3,
+                    // 随机背景/庄家
+                    index: -1,
+                    // 随机背景的速度
+                    speed: 80,
+                    // 押注倒计时
+                    timeAll: 500,
+                    // 全开倒计时
+                    countTime: 10,
+                    // 开牌结果等待时间
+                    endTime: 1,
                 },
                 // 输赢结果
                 win: {
@@ -406,8 +422,11 @@
                     // 倒计时结束
                     timeEng: false,
                 },
-                // { name: '4', power: 5000 ,status:1}, 
-                players:[],        // 右边玩家
+                //右边玩家
+                players:
+                    [  
+                        { name: '4', power: 5000 ,status:1},  
+                    ],  
                 datagrid : '',
                 apply: '申请上庄',
 
@@ -416,6 +435,8 @@
         mounted: function(){
             let self = this;
             // init
+            this.time.initTime = this.$store.state.time.initTime;
+            this.time.random = this.$store.state.time.random;
             http.post('/Room/getRooms',{
                     number: self.$route.params.id,
                 })
@@ -424,35 +445,22 @@
                         console.log(res.data)
                         var data = res.data;
                         var bl = JSON.parse(data.zc_rate);
-                        var vx = this.$store.state.idRoom;
-
-                        vx.room_id = data.zc_number;
+                        var vx = this.$store.state.initRoom;
+                        self.init.room_id = data.zc_number;
                         vx.oxK = bl[12];
                         bl.splice(12,1)
-                        vx.oxNumber = bl;
-                        vx.roomName = data.zc_title;
-                        vx.scope[0] = data.zn_bet_between_s;
-                        vx.scope[1] = data.zn_bet_between_e;
-                        vx.time  = data.zn_bet_time;
-                        vx.scale = data.zn_extract;
-                        vx.open = data.zn_room_type == 1 ? true : false; 
-                        vx.newMan = data.zn_confirm == 1 ? true : false;
-                        vx.cardFn = data.zn_play_type == 1 ? 5 : 7;
-                        vx.room = data.zn_pay_type == 1 ? 'bell' : 'day'
-                        vx.minGrade = data.zn_min_score;
+                        self.init.oxNumber = bl;
 
-                        // 右侧玩家
+                        console.log(bl)
+
                         http.post('/RoomJoin/getJoinRoomList',{
                             p: 1,
-                            pagesize: 100,
+                            pagesize: 200,
                             roomid: res.data.id,
                         })
                         .then(res => {
                             console.log(res)
-                            if(res.status == 1){
-                                self.orderPower(res.data)
-                                console.log(self.players)
-                            }
+
                         })
                     }
                 })
@@ -464,8 +472,6 @@
         methods: {
             // 房间设置
             varRoom(){
-                console.log(this.init)
-                this.$refs.onvarRoomChild.imgState = this.$store.state.idRoom;
                 this.$refs.onvarRoomChild.boxState.CvarRoom=true;
                 this.$refs.onvarRoomChild.noModal();
             },
@@ -496,11 +502,10 @@
             },
             applyOn(i){
                 let init = this.init;
-                if(init.ForT == 1 && i == 0) {  // 庄
+                if(init.ForT == 1 && i == 0) {
                     this.$refs.onapplyOnChild.setOwner=true;
-                } else if(init.ForT == 0 && i == 99){   // 普通玩家
-                    this.$refs.onapplyOnChild.applyOn = true;
-
+                } else if(init.ForT == 0 && i == 99){
+                    this.$refs.onapplyOnChild.applyOn=true
                 }
             },
             gameStyle(e){
@@ -739,7 +744,7 @@
                 },1000)
                 
                 // 2、随机选庄家牌
-                let num = this.init.cardFn;
+                let num = this.init.prizeNum;
 
                 
                 function bank(){
@@ -928,45 +933,47 @@
                    // 返回总分
                 
             },
+            generateToolBar: function(obj){
+                //动态生成按钮
+            },
             orderPower(players){
-                players = Object.values(players)
-                if(players.length <=1){
-                    return players;
-                }
-                var online = [];
-                var notline = [];
-                // 是否上线
-                for(var i = 0; i<players.length; i++){
-                    if(players[i].zl_visible==1){
+               if(players.length <=1){
+                return players;
+               }
+               var online = [];
+               var notline = [];
+               
+               for(var i = 0; i<players.length; i++){
+                    if(players[i].status==1){
                         online.push(players[i]);
                     }else{
                         notline.push(players[i]);
                     }
-                }
-
-                for(var i=0;i<online.length-1;i++){ 
-                    for(var j=i+1;j<online.length;j++){ 
-                        if(online[i].power>online[j].power){
-                            var list=online[i].power; 
-                            online[i].power=online[j].power; 
-                            online[j].power=list; 
-                        }  
-                    } 
-                }  
+               }
+               for(var i=0;i<online.length-1;i++){ 
+                       for(var j=i+1;j<online.length;j++){ 
+                           if(online[i].power>online[j].power){
+                               var list=online[i].power; 
+                               online[i].power=online[j].power; 
+                               online[j].power=list; 
+                           }  
+                       } 
+                   }  
 
                 for(var i=0;i<notline.length-1;i++){ 
-                    for(var j=i+1;j<notline.length;j++){ 
-                        if(notline[i].power>notline[j].power){
-                            var list=notline[i].power; 
-                            notline[i].power=notline[j].power; 
-                            notline[j].power=list; 
-                        }  
-                    } 
-                }
+                        for(var j=i+1;j<notline.length;j++){ 
+                            if(notline[i].power>notline[j].power){
+                                var list=notline[i].power; 
+                                notline[i].power=notline[j].power; 
+                                notline[j].power=list; 
+                            }  
+                        } 
+                    }   
                 online.reverse(); 
                 notline.reverse(); 
                 this.players = online.concat(notline);
             },
+
 
     },
 }

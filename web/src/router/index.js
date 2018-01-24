@@ -34,7 +34,7 @@ var router = new VueRouter({
 			component: LoginComponent
 		},
 		{
-			path: '/room',
+			path: '/room/:id',
 			name: 'room',
 			component: Room
 		},

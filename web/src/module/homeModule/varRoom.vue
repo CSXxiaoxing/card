@@ -68,7 +68,7 @@
     <ul class='varRoomSet' @click="open">
         <li>
             <label  @click="card = true">
-                房号：<span>{{init.roomID}}</span>
+                房号：<span>{{imgState.room_id}}</span>
             </label>
             <label :judge='"open"' @click='boxNo'>
                 <span>
@@ -156,9 +156,9 @@
         </li>
         <li>
             <span>玩家下注范围：</span>
-            <input type="text" value="imgState.minScope" v-model.number='imgState.minScope' :class='init.error.minS ? "error" : ""' @focus='init.error.minS = false'/>
+            <input type="text" v-model.number='imgState.scope[0]' :class='init.error.minS ? "error" : ""' @focus='init.error.minS = false'/>
             <i></i>
-            <input type="text" value="imgState.maxScope" v-model.number='imgState.maxScope' :class='init.error.maxS ? "error" : ""' @focus='init.error.maxS = false'/>
+            <input type="text" v-model.number='imgState.scope[1]' :class='init.error.maxS ? "error" : ""' @focus='init.error.maxS = false'/>
         </li>
         <li>
             <span>抽庄赢分比例：</span>
@@ -173,6 +173,8 @@
 <script>
     import Vue from 'vue';
     import http from '../../utils/httpClient.js';
+    import router from '../../router/';
+
     import './varRoom.scss'
     import coreVisible from '../../module/homeModule/coreVisible.vue'
     import addButtion from '../addButton/addButtion.vue';
@@ -184,7 +186,6 @@
             return {
                 initType: 0,
                 init: {
-                    roomID : 0 ,
                     plaName: '请输入房间名称',
                     error: {
                         roomName : false,
@@ -205,6 +206,7 @@
                     radio: "",
                 },
                 imgState: {
+                    room_id: 0,
                     open: false,
                     roomName: '',
                     newMan: false,
@@ -212,8 +214,7 @@
                     room: 'bell',
                     time: 30,
                     minGrade: 0,
-                    minScope: 0,
-                    maxScope: 100,
+                    scope: [0, 100],
                     scale: 1,
                     oxK: '',
                 }
@@ -225,7 +226,6 @@
         },
         mounted: function(){
             
-
         },
         methods: {
             open(e) {
@@ -301,7 +301,6 @@
                 // console.log(oxK)
                 oxNumber.push(oxK)
                 // console.log(oxNumber)
-                
 
                 let [Err, git] = [this.init.error, this.imgState];
 
@@ -311,30 +310,30 @@
                 // 规则判断
                 git.roomName == '' ? Err.roomName = true : 
                 git.minGrade <= 0 ? Err.minG = true : 
-                git.minScope <= 0 ? Err.minS = true :
-                git.maxScope < git.minScope ? Err.maxS = true :
+                git.scope[0] <= 0 ? Err.minS = true :
+                git.scope[1] < git.scope[0] ? Err.maxS = true :
                 git.scale < 1 || git.scale > 15 ? Err.sca = true : false;
 
                 if(!Err.roomName && !Err.minG && !Err.minS && !Err.maxS && !Err.sca) {
                     http.post("/Room/createRoom",{
                         zc_rate : JSON.stringify(oxNumber),
-                        zc_number : self.init.roomID,
+                        zc_number : self.imgState.room_id,
                         zn_min_score : self.imgState.minGrade,
-                        zn_bet_between_s : self.imgState.minScope,
-                        zn_bet_between_e : self.imgState.maxScope,
+                        zn_bet_between_s : self.imgState.scope[0],
+                        zn_bet_between_e : self.imgState.scope[1],
                         zn_extract : self.imgState.scale,
-                        zn_room_type : self.imgState.open ? 1:2,
+                        zn_room_type : self.imgState.open ? 1 : 2,
                         zn_confirm : self.imgState.newMan ? 1:2,
                         zn_pay_type : self.imgState.room ? 1:2,
                         zn_play_type : self.imgState.cardFn ? 1:2,
                         zn_bet_time : self.imgState.time,
-                        zc_title : self.init.plaName,
+                        zc_title : self.imgState.roomName,
 
                     } , '' ,this)
                     .then(res=> {
                         console.log(res)
-                        if(res.status == 1){
-                            
+                        if(res.status == 1 && self.imgState.room_id > 0){
+                            router.push({path: `room/${self.imgState.room_id}`});
                         }
                     })
                     this.$store.state.setRoom = this.imgState;

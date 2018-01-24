@@ -309,7 +309,6 @@
         mounted: function(){
             let id = this.id;
             this.$store.dispatch('webIM')
-
             // 自动登录
             var options = { 
                 apiUrl: WebIM.config.apiURL,

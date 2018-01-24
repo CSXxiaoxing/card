@@ -106,7 +106,6 @@
 				datagrid : '',
 				id : 0,
 				name: '',
-				roomNum : '',
 			}
 		},
 		mounted: function(){
@@ -134,19 +133,14 @@
 			varRoom(){
 				this.$refs.onvarRoomChild.boxState.CvarRoom=true;
 				var self = this;
-				http.post('/Room/getRoorNumber',
+				http.post('/Room/getRoomNumber',
 				{
 					token: localStorage.oxToken,
-
 				})
 				.then(res => {
-					console.log(res.data)
-					self.roomNum = res.data;
-					this.$refs.onvarRoomChild.init.roomID =  res.data;
-					console.log(this.roomNum)
-					this.$refs.onvarRoomChild.noModal();
+					this.$refs.onvarRoomChild.imgState.room_id =  res.data;
 				})
-
+				this.$refs.onvarRoomChild.noModal();
 			},
 			myRoom(){
 				this.$refs.onmyRoomChild.myRoom=true;

@@ -10,12 +10,12 @@ function length(o) {
 console.log(length(a));
 
 // GET/POST请求
-http.post({
-            url: ''''
-        ,vm:this}).then(res => {
-            self.datagrid = res.data;
-            console.log(res.data)
-        })
+http.post( '/Chat/createChat', {
+            zc_from: obj.myId, // 自己的id
+        }, '', this )
+    .then(res => {
+        console.log(res)
+})
 
 http.get({
             url: ''
@@ -156,3 +156,5 @@ this.$store.state.obj = {
 };
 this.$store.dispatch('webRecord')
 
+// 对象转数组
+ Object.values('对象')

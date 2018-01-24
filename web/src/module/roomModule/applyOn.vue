@@ -59,7 +59,7 @@
 
         <p>您是否确定申请上庄？</p>
 
-        <mt-button @click="applyOn = false">确定</mt-button>
+        <mt-button @click="sz">确定</mt-button>
     </mt-popup >
     
     <!-- 抽水 -->
@@ -447,6 +447,9 @@
 
 <script type="es6">
     import { MessageBox } from 'mint-ui';
+    import http from '../../utils/httpClient.js';
+
+
   export default {
     data() {
       return {
@@ -460,7 +463,19 @@
       };
     },
     methods:{
-        
+        sz () {
+            var self = this;
+            http.post( '/RoomJion/applyfor', {
+                        roomid: self.$store.state.idRoom.room_id,
+                        id: localStorage.oxUid || 0,
+                    }, '', this )
+                .then(res => {
+                    console.log(res)
+                    if(res.status != 0){
+                        self.applyOn = false;
+                    }
+                })
+        }
     }
   };
 </script>
