@@ -39,16 +39,16 @@
 		</header>
 		<div class='homeMain'>
 			<ul @click='openS'>
-				<li v-for='(dataRoom) in datagrid' :key='dataRoom.key' :openState='dataRoom.open'>
-					<b v-if='dataRoom.open == "true"'></b>
+				<li v-for='(dataRoom) in dataList' :key='dataRoom.key' :openState='dataRoom.open'>
+					<b v-if='dataRoom.open'></b>
 					<i></i>
 					<h4>大战牛群</h4>
 					<div>
 						<h5>{{dataRoom.roomName}}</h5>
 						<p>
 							<span v-show='dataRoom.open == "false"'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
-							<span v-show='dataRoom.open == "true"'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
-							<span v-if='dataRoom.open == "true"' id="roomNumber">房号：{{dataRoom.roomNumber}}</span>
+							<span v-show='dataRoom.open'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
+							<span v-if='dataRoom.open' id="roomNumber">房号：{{dataRoom.roomNumber}}</span>
 						</p>
 						<div></div>
 					</div>
@@ -109,6 +109,13 @@
 				pagesize :30,
 				type :1 ,
 				p : 1,
+
+				key : 0,
+				open : '',
+				roomName : '',
+				number : 0,
+				roomNumber:0,
+				dataList: [],
 			}
 		},
 		mounted: function(){		
@@ -128,12 +135,24 @@
                 }, '' ,this)
                 .then(res => {
                     console.log(res)
-                    self.datagrid.open = res.data.zn_room_type ==1 ? true : false
-                    self.datagrid.roomName = res.data.zc_title
-                    self.datagrid.roomNumber = res.data.zc_number
-                    self.datagrid.number = res.data.pernumber
+                    for(var i = 0 ; i < res.data.length ; i++){
+                    	self.key = res.data[i].id 
+                    	self.open = res.data[i].zn_room_type ==1 ? true : false
+                    	self.roomName = res.data[i].zc_title 
+                    	self.roomNumber= res.data[i].zc_number
+                    	self.number = res.data[i].pernumber
 
+                    	self.dataList.push({
+                    		key : self.key,
+                    		open : self.open,
+                    		roomName : self.roomName,
+                    		roomNumber : self.roomNumber,
+                    		number :self.number
+                    	})
 
+                    }
+                    
+                    console.log(self.dataList)
                 })
 			} else {
 				// 跳回登录页
