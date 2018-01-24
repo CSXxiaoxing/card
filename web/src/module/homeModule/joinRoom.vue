@@ -135,7 +135,7 @@
             if(this.val.length == 6){
                 http.post('/Room/joinRoom' ,
                 {
-                    roomid : self.val,
+                    roomid : Number(self.val),
                     token: localStorage.oxToken,
                 }, '' ,this)
                 .then(res => {

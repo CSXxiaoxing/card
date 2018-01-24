@@ -29,34 +29,34 @@
         background: #ECEDF1;
         
         header {
-            height: 202px;
-            padding: 110px 30px 0px;
+            height: 1.87037rem;
+            padding: 1.018519rem 0.277778rem 0.0rem;
             box-sizing: border-box;
             background: #2F2E34;
             color: #fff;
-            font-size:46px;
+            font-size:0.425926rem;
             ul {
-                height: 86px;
-                line-height: 86px;
+                height: 0.796296rem;
+                line-height: 0.796296rem;
                 display: flex;
                 justify-content: space-between;
                 li:nth-of-type(2){
                     text-align: center;
                     position:absolute;
-                    left:500px;
+                    left:4.62963rem;
                 }
                 li:first-child {
                     &>i {
                         display: inline-block;
-                        width: 70px;
-                        height: 55px;
-                        background: url('../../img/room_all.png') -470px -160px no-repeat;
-                        background-size: 600px;
+                        width: 0.648148rem;
+                        height: 0.509259rem;
+                        background: url('../../img/room_all.png') -4.351852rem -1.481481rem no-repeat;
+                        background-size: 5.555556rem;
                         position: relative;
                         top: 50%;
                         transform: translate(0, -50%);
                         a {
-                            padding: 28px 40px;
+                            padding: 0.259259rem 0.37037rem;
                         }
                     }
                 }
@@ -65,27 +65,27 @@
         
         .list{
             
-            height:1738px;
+            height:16.092593rem;
             overflow-y:auto;
             overflow-x:hidden;
             background:white;
-            font-size:42px;
+            font-size:0.388889rem;
             h3{
-                font-size:42px;
-                margin-top: 50px;
+                font-size:0.388889rem;
+                margin-top: 0.462963rem;
                 font-weight: normal;
             }
             p{
                 color:#7E8080;
-                font-size:34px;
-                margin-bottom: 80px;
-                margin-top: 20px;
+                font-size:0.314815rem;
+                margin-bottom: 0.740741rem;
+                margin-top: 0.185185rem;
             }
             span{
                 display:inline-block;
-                width:918px;
+                width:8.5rem;
                 text-align:left;
-                font-size:44px;
+                font-size:0.407407rem;
             }
         }
         .list::-webkit-scrollbar {
