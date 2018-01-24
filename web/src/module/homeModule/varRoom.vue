@@ -322,7 +322,8 @@
                         zn_bet_between_s : self.imgState.scope[0],
                         zn_bet_between_e : self.imgState.scope[1],
                         zn_extract : self.imgState.scale,
-                        zn_room_type : self.imgState.open ? 1 : 2,
+                        // zn_room_type : self.imgState.open ? 1 : 2,
+                        zn_room_type : self.imgState.open ? 1 : 1,
                         zn_confirm : self.imgState.newMan ? 1:2,
                         zn_pay_type : self.imgState.room ? 1:2,
                         zn_play_type : self.imgState.cardFn ? 1:2,
@@ -332,6 +333,7 @@
                     } , '' ,this)
                     .then(res=> {
                         console.log(res)
+                        console.log(999)
                         if(res.status == 1 && self.imgState.room_id > 0){
                             router.push({path: `room/${self.imgState.room_id}`});
                         }

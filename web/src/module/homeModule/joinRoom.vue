@@ -110,15 +110,16 @@
 </style>
 
 <script>
-  import http from '../../utils/httpClient.js';
+    import http from '../../utils/httpClient.js';
+    import router from '../../router/';
 
-  export default {
-    data() {
-        return {
-            joinRoom: false,
-            val: '',
-        };
-    },
+    export default {
+        data() {
+            return {
+                joinRoom: false,
+                val: '',
+            };
+        },
     methods: {
         number(e) {
             // 输入逻辑
@@ -133,21 +134,33 @@
             }
             // 判断逻辑
             if(this.val.length == 6){
-                http.post('/Room/joinRoom' ,
-                {
-                    roomid : self.val,
-                    token: localStorage.oxToken,
-                }, '' ,this)
-                .then(res => {
-                    console.log(res)
-                    console.log(res.data)
-                    if( res.data == false ){
-                        alert('房间号码不存在')
-                        this.open6()
-                    } else if( res.data == true ){
-                        // window.location()
-                    }
-                })
+                var zhi = this.val
+                http.post('/Room/getRooms',{
+                        number: this.val,
+                    })
+                    .then(res => {
+                        console.log(res)
+                        if(res.status == 1) {
+
+                            http.post('/Room/joinRoom' ,
+                            {
+                                zn_room_id : res.data.id,
+                            }, '' ,this)
+                            .then(res => {
+                                console.log(res)
+                                if( res.status == 3 ){
+                                    router.push({path: `room/${zhi}`});
+                                    // alert('房间号码不存在')
+                                } else if( res.status == 1 ){
+                                    router.push({path: `room/${res.data.zc_number}`});
+
+                                }
+                            })
+
+                        }
+                    })
+
+                
             }
         },
         open6() {

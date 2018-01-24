@@ -15,7 +15,6 @@ export default new Vuex.Store({
             userName: '',
             userID: '',
             userImg: '',
-            fen: 100000,
         },
         // 默认数据
         initRoom: {

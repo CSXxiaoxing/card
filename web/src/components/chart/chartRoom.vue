@@ -7,15 +7,19 @@
                 </li>
                 <li v-show='roomstatus == 1 || roomstatus == 2'>{{$store.state.test}}</li>
                 <li v-show='roomstatus == 0'>联系客服</li>
-                <li v-show='roomstatus == 3'>聊天室（5）</li>
-                <li v-show='roomstatus == 3'><img src="../../img/chart_Room7.png" alt=""></li>
+                <li v-show='roomstatus == 3'>聊天室（{{lingth}}）</li>
+                <li v-show='roomstatus == 3'>
+                    <router-link :to="chartList" >
+                    <img src="../../img/chart_Room7.png" alt="">
+                    </router-link>
+                </li>
                 <li  v-show='roomstatus == 1'  @click = 'give == 0 ? give = 1 : give = 0'>给他＋/－分</li>
                 <li v-show='(roomstatus == 1 || roomstatus == 2)&& isfriend == 0'><img src="../../img/chart_Room5.png" alt="">加友</li>
             </ul>
         </header>
         <div class='chart'  id='txtbox'>
-            <ul>
-                <!-- 对方 -->
+            <ul v-if='roomstatus == 2'>
+                <!-- 单聊 -->
                 <li v-for="(data, idx) in (this.roomstatus == 2 ? $store.state.txt : '')" 
                 :class="$store.state.txt_idx[idx] >=0 ? 'left' : 'right'"   :key = '$store.state.txt_time[idx]'>
                     <img src="../../img/chart_Room2.png" alt="">
@@ -24,8 +28,20 @@
                        {{data}}
                     </div>
                 </li>
-
             </ul>
+            
+            <ul v-if='roomstatus == 3'>
+                <!-- 群聊 -->
+                <li v-for="(data, idx) in (this.roomstatus == 2 ? $store.state.txt : '')" 
+                :class="$store.state.txt_idx[idx] >=0 ? 'left' : 'right'"   :key = '$store.state.txt_time[idx]'>
+                    <img src="../../img/chart_Room2.png" alt="">
+                    <div class="test">
+                        <span class="bot"></span>
+                       {{data}}
+                    </div>
+                </li>
+            </ul>
+
 
             <div :class = '[(give == 1?"open":"close"),("control")]'>
             	<ul>
@@ -294,10 +310,14 @@
 	export default {
         data: function(){
             return {
+                chartList: '',      // 成员列表
+                lingth: 0,         // 成员人数
                 speak: 1,         // 语音是0 输入是1 
-            	give: 0,         // 加减分
-                roomstatus: this.$route.params.id,   // 客服0  聊天（房主）1  聊天（玩家）2 群聊3
+                give: 0,         // 加减分
+                roomstatus: 99,   // 0-客服  1-聊天（房主）  2-聊天（玩家） 3-群聊
                 isfriend: 0,    // 是好友1  不是0
+                roomNum: 1,     // 房间号
+                roomid: 0,          // 房间id
                 txt: '',      //发送产生的文本
                 id: localStorage.oxUid,   //个人id
             }
@@ -307,10 +327,18 @@
             this.$store.getters.txt;
         },
         mounted: function(){
+            var params = JSON.parse(this.$route.params.id)
+            this.roomstatus = params[0];
+            this.roomNum = params[1];
+            this.roomid = params[2];
+            this.chartList = `/chartList/${this.$route.params.id}`;
+            this.list()
+
             let id = this.id;
             this.$store.dispatch('webIM')
-            // 自动登录
-            var options = { 
+            
+            var dlCount = 0;
+            var options = {         // 自动登录
                 apiUrl: WebIM.config.apiURL,
                 user: 'hz_niuniu_'+id,
                 pwd: '123456',
@@ -319,11 +347,16 @@
                     console.log('登录成功')
                 },
                 error: function (aa) {
+                    dlCount++;
                     console.log('登录失败')
-                    var time = setTimeout(function(){
-                        conn.open(options);
-                        clearTimeout(time)
-                    },2000)
+                    if(dlCount < 5){
+                        var time = setTimeout(function(){
+                            conn.open(options);
+                            clearTimeout(time)
+                        },2000)
+                    } else {
+                        alert('网络状态差,无法连接')
+                    }
                 }
             };
             conn.open(options);
@@ -350,7 +383,6 @@
                 chat.scrollTop = chat.scrollHeight;
                 clearTimeout(timeD)
             },100)
-            
         },
         beforeUpdated: function(){
             console.log(this.$store.state.txt)
@@ -397,7 +429,19 @@
                 };
                 sendPrivateText()
             },
-
+            list () {   // 玩家数量
+                var self = this;
+                http.post('/RoomJoin/getJoinRoomList',{
+                    p: 1,
+                    pagesize: 100,
+                    roomid: this.roomid,
+                })
+                .then(res => {
+                    if(res.status == 1){
+                        self.lingth =  Object.values(res.data).length-1;
+                    }
+                })
+            },
 
 
         }

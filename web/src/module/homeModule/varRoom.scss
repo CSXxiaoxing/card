@@ -1,4 +1,4 @@
-@import '../../utils/baseVar.scss';
+@import '../../utils/baseVar.scss'; // card
 .varR_modal{
     position: fixed;
         left: 50%;
@@ -447,7 +447,7 @@
     width: 8.666667rem;
     margin-top: 10%;
     position: absolute;
-    border: 0.027778rem solid #000;
+    // border: 0.027778rem solid #000;
     border-radius: 0.37037rem;
     padding: 0.388889rem 0.462963rem 0.462963rem;
     box-sizing: border-box;

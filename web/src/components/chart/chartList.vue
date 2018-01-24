@@ -1,25 +1,26 @@
 <template>
     <div class='chartList'>
-
+        <!-- 房间成员 -->
         <mt-popup 
           v-model="putRoom"
           popup-transition="popup-fade" 
           class="tip" >
           <span>退出房间</span>
           <p>退出房间分数将会清零，你是否要退出房间？</p>
-          <mt-button @click="putRoom = false">  确定
+          <mt-button @click="go" >  确定
           </mt-button>
           <mt-button @click="putRoom = false">  取消
           </mt-button>
         </mt-popup >
 
+        <!-- 解散房间 -->
         <mt-popup 
           v-model="dissolveRoom"
           popup-transition="popup-fade" 
           class="diss" >
           <span>解散房间</span>
           <p>房间玩家分数未清零你是否确定要解散房间？</p>
-          <mt-button @click="dissolveRoom = false">  确定
+          <mt-button @click="delRoom">  确定
           </mt-button>
           <mt-button @click="dissolveRoom = false">  取消
           </mt-button>
@@ -28,7 +29,7 @@
     	<header>
             <ul>
                 <li>
-                    <i><router-link to="/room" ></router-link></i>
+                    <i><a  @click='$store.commit("ls")'></a></i>
                 </li>
                 <li>房间成员</li>
                 <li>➕添加</li>
@@ -36,79 +37,28 @@
         </header>
         <div class='list'>
             <ul>
-            	<li>
+                <!-- 测试中 datalist ==> 5 -->
+            	<li v-for='(data, key) in datalist' :key='data.id' v-if='key != "count"' 
+                :class='data.zn_member_id == cli ? "click" : ""' @touchend='cli = data.zn_member_id'>
+                    
             		<img src="../../img/chart_Room2.png" alt="">
-            		<b>迷糊的大土</b>
-                    <span v-show = 'a == 0'><img src="../../img/chart_List1.png" alt="">加友</span>
+                    <b>{{data.zn_member_name}}</b>
+                    <span v-if='false'><img src="../../img/chart_List1.png" alt="">加友</span>
             	</li>
-            	<li class="clear"></li>
-            	<li>
-                    <img src="../../img/chart_Room2.png" alt="">
-                    <b>迷糊的大土</b>
-                    <span><img src="../../img/chart_List4.png" alt="">备注</span>
-                </li>
-                <li class="clear"></li>
-                <li>
-                    <img src="../../img/chart_Room2.png" alt="">
-                    <b>迷糊的大土</b>
-                    <span><img src="../../img/chart_List4.png" alt="">备注</span>
-                </li>
-                <li class="clear"></li>
-                <li>
-                    <img src="../../img/chart_Room2.png" alt="">
-                    <b>迷糊的大土</b>
-                    <span><img src="../../img/chart_List4.png" alt="">备注</span>
-                </li>
-                <li class="clear"></li>
-                <li>
-                    <img src="../../img/chart_Room2.png" alt="">
-                    <b>迷糊的大土</b>
-                    <span><img src="../../img/chart_List4.png" alt="">备注</span>
-                </li>
-                <li class="clear"></li>
-                <li>
-                    <img src="../../img/chart_Room2.png" alt="">
-                    <b>迷糊的大土</b>
-                    <span><img src="../../img/chart_List4.png" alt="">备注</span>
-                </li>
-                <li class="clear"></li>
-                <li>
-                    <img src="../../img/chart_Room2.png" alt="">
-                    <b>迷糊的大土</b>
-                    <span><img src="../../img/chart_List4.png" alt="">备注</span>
-                </li>
-                <li class="clear"></li>
-                <li>
-                    <img src="../../img/chart_Room2.png" alt="">
-                    <b>迷糊的大土</b>
-                    <span><img src="../../img/chart_List4.png" alt="">备注</span>
-                </li>
-                <li class="clear"></li>
-                <li>
-                    <img src="../../img/chart_Room2.png" alt="">
-                    <b>迷糊的大土</b>
-                    <span><img src="../../img/chart_List4.png" alt="">备注</span>
-                </li>
-                <li class="clear"></li>
-                <li>
-                    <img src="../../img/chart_Room2.png" alt="">
-                    <b>迷糊的大土</b>
-                    <span><img src="../../img/chart_List4.png" alt="">备注</span>
-                </li>
-                <li class="clear"></li>
+
             </ul>
-            
         </div>
+
         <footer>
             <mt-button v-show = 'a == 1' type="primary"  @click="dissolveRoom = true">
                     解散房间
             </mt-button>
             <mt-button v-show = 'a == 1' type="primary"  @click="idMessage = false">
-                    删除房间
+                    删除成员
             </mt-button>
         	<mt-button v-show = 'a == 0' type="primary"  @click="putRoom = true">
                     退出房间
-                </mt-button>
+            </mt-button>
         </footer>
     </div>
 </template>
@@ -246,7 +196,7 @@
                      }
                 }
             }
-            li:nth-of-type(1){
+            li.click{
                 background-color:#E3FFE3;
             }
             .clear{
@@ -300,15 +250,87 @@
 
 <script type="text/javascript">
     import Vue from 'vue';
+    import http from '../../utils/httpClient.js';
+    import router from '../../router/';
+
     export default {
         data: function(){
             return {
-                a: this.$route.params.id,
-                putRoom:false,
-                dissolveRoom:false,
+                a: 99,       // 0普通  1房主
+                roomid: 0,  // 房间id
+                datalist: '',   // 成员列表
+                cli: -1,         // 选中
+                putRoom: false,
+                dissolveRoom: false,
             }
         },
+
+        mounted: function(){
+            var self = this;
+            var params = JSON.parse(this.$route.params.id);
+            this.a = params[3];
+            this.roomid = params[2];
+            this.list()               // 玩家列表
+        },
+
         methods: {
-            }
+            delRoom () {        // 解散房间
+                http.post('/Room/dissolveRoom',{
+                    roomid: this.roomid,
+                })
+                .then(res => {
+                    console.log(res)
+                    if(res.status == 1){
+                        this.dissolveRoom = false;
+                    }
+                })
+            },
+            delPerson () {      // 删除成员
+                var self = this;
+                var data = self.datalist;
+                var cli = self.cli;
+                if(this.a == 1 && self.cli != -1) {
+                    http.post('/RoomJoin/closeRoom',{
+                        id: data.cli.id,
+                        roomid: this.roomid,
+                    })
+                    .then(res => {
+                        console.log(res)
+                        if(res.status == 1){
+                            self.list()
+                        }
+                    })
+                }
+            },
+            list () {       // 玩家列表
+                var self = this;
+                http.post('/RoomJoin/getJoinRoomList',{
+                    p: 1,
+                    pagesize: 100,
+                    roomid: this.roomid,
+                })
+                .then(res => {
+                    console.log(res)
+                    if(res.status == 1){
+                        self.datalist = res.data;
+                    }
+                })
+            },
+            go () {     // 退出房间
+                var self= this;
+                http.post('/RoomJoin/closeRoom',{
+                    id: localStorage.oxUid, // 
+                    roomid: this.roomid,
+                })
+                .then(res => {
+                    console.log(res)
+                    if(res.status == 1){
+                        self.list()
+                        self.putRoom = false
+                        router.push({path: `/home`});
+                    }
+                })
+            },
         }
+    }
 </script>
