@@ -149,9 +149,7 @@
                     		roomNumber : self.roomNumber,
                     		number :self.number
                     	})
-
                     }
-                    
                     console.log(self.dataList)
                 })
 			} else {
