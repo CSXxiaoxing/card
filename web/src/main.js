@@ -35,6 +35,31 @@ if(!localStorage.oxQun){ // 群聊
   localStorage.setItem('oxQun', "{}")
 }
 
+// 连接服务端
+var socket = io(socketURL); //这里当然填写真实的地址了
+// uid可以是自己网站的用户id，以便针对uid推送以及统计在线人数
+var uid = localStorage.oxUid;
+console.log(uid);
+// socket连接后以uid登录
+socket.on('connect', function () {
+    console.log('socket连接成功')
+    socket.emit('login', uid);
+});
+
+socket.on('new_msg', function (data) {  
+    var data = JSON.parse(data);
+    console.log(data)
+    switch(data.type){
+        case 10:
+        break;
+    }    
+});
+
+socket.emit('test_io', 10086);
+socket.on('answer', function (data) {
+    // console.log(data)
+    // console.log('socket依旧坚挺')
+});
 
 
 new Vue({

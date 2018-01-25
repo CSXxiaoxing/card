@@ -356,6 +356,7 @@
                             zc_rate : JSON.stringify(oxNumber),
                             zn_chatid : self.$store.state.idRoom.zn_chatid,
                             // zc_number : self.imgState.room_id,
+                            roomid: self.$store.state.idRoom.room_id,
                             zn_min_score : self.imgState.minGrade,
                             zn_bet_between_s : self.imgState.scope[0],
                             zn_bet_between_e : self.imgState.scope[1],
@@ -369,6 +370,7 @@
                             zc_title : self.imgState.roomName,
                         } , '' ,this)
                         .then(res=> {
+                            console.log(res)
                             if(res.status == 1 && self.imgState.room_id > 0){
                                 // router.push({path: `room/${self.imgState.room_id}`}); 通知更新
                             }

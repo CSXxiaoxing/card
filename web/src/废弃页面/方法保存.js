@@ -158,3 +158,13 @@ this.$store.dispatch('webRecord')
 
 // 对象转数组
  Object.values('对象')
+
+ // 房间公告
+ http.post('/RoomJoin/placard',{
+     content: '本房间即将解散',
+     roomid: 36,    // 房间id
+ })
+ .then(res => {
+     console.log(res)
+     console.log(995)
+ })
