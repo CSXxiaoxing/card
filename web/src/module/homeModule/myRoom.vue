@@ -12,26 +12,24 @@
         <div class="select" >
             <div>
                 <img  :class ='sel == 0 ? "left":"right"' src="../../img/module_home_myRoom1.png" alt="">
-                <button @click='sel = 0'>我开的房间</button>
-                <button @click='sel = 1'>加入的房间</button>
+                <button @click='sel = 0 , joinRoom()'>我开的房间</button>
+                <button @click='sel = 1 , joinRoom()'>加入的房间</button>
             </div>
         </div>
 
         <div class="room"> 
-            <p>你还没有创建/加入房间，快去创建/加入</p>
+            <p v-if = 'datagrid == 0'>你还没有创建/加入房间，快去创建/加入</p>
             <ul @click='openS'>
                 <li v-for='(dataRoom) in datagrid' :key='dataRoom.key' :openState='dataRoom.open'>
-                    <b v-if='dataRoom.open == "true"'></b>
+                    <b v-if='dataRoom.open'></b>
                     <i></i>
                     <h4>大战牛群</h4>
                     <div>
                         <h5>{{dataRoom.roomName}}</h5>
                         <p>
-                        <span v-show='dataRoom.open == "false"'>
-                        <strong class="roomNum">{{dataRoom.number}}</strong>人</span>
-                        <span v-show='dataRoom.open == "true"'>
-                        <strong class="roomNum">{{dataRoom.number}}</strong>人</span>
-                        <span v-if='dataRoom.open == "true"' id="roomNumber">房号：{{dataRoom.roomNumber}}</span>
+                        <span v-show='dataRoom.open == "false"'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
+                            <span v-show='dataRoom.open'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
+                            <span v-if='dataRoom.open' id="roomNumber">房号：{{dataRoom.roomNumber}}</span>
                         </p>
                     </div>
                 </li>
@@ -61,7 +59,7 @@
           background-size:8.45rem 1.666667rem;
           position: absolute;
           left: 50%;
-          top: 0;
+          top: 1%;
           -webkit-transform: translate(-50%,-10%);
              -moz-transform: translate(-50%,-10%);
               -ms-transform: translate(-50%,-10%);
@@ -146,98 +144,100 @@
         }
 
         .room{
-        flex: 1;
-        // border: 1px solid #000;
-        overflow-y: auto;
-        overflow-x: hidden;
-        height:8.935185rem;
-        margin-bottom: 0.240741rem;
-        background:$home06 no-repeat;
-        background-size: cover;
-        background-position:center;
-        p{
-          font-size:0.444444rem;
-          color: #9B9A98;
-          width:5.907407rem;
-          margin:0.555556rem auto;
-        }
-        ul{
-            padding: 1%;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            
-            li{
-                // width: 342px;
-                width: 32.2%;
-                height: 2.018519rem;
-                // margin-right: 15px;
-                margin-top: 0.166667rem;
-                background: url('../../img/module_home_myRoom3.png') no-repeat;
-                background-size: cover;
-                background-position:center;
-                background-size: 2.240741rem 2.037037rem;
-                b{
-                    display: block;
-                   background: $homeAll -2.777778rem 0.0rem no-repeat;
-                    background-size: 5.555556rem 5.555556rem;
-                    height: 0.833333rem;
-                    width: 0.87037rem;
-                    float: right;
-                    position: relative;
-                    bottom:0.027778rem;
-                    left:0.055556rem;
-                }
-                i{
-                    display:block;
-                    height: 0.925926rem;
-                    width: 1.166667rem;
-                    background: $homeAll -0.740741rem -1.203704rem no-repeat;
-                    background-size: 5.555556rem 5.555556rem;
-                    position: relative;
-                    left: 50%;
-                    bottom:0.055556rem;
-                    transform: translate(-50%,0);
-                }
-                h4{
-                    color: #fff;
-                    font-size: 0.259259rem;
-                }
-                div{
-                    height:0.925926rem;
-                    padding: 0.0rem 0.166667rem 0.0rem;
-                    position: relative;
-                    bottom: 0;
-                    border-radius:0.185185rem;
-                    h5{
+            flex: 1;
+            // border: 1px solid #000;
+            overflow-y: auto;
+            overflow-x: hidden;
+            height:8.935185rem;
+            margin-bottom: 0.240741rem;
+            background:$home06 no-repeat;
+            background-size: cover;
+            background-position:center;
+            p{
+              font-size:0.444444rem;
+              color: #9B9A98;
+              width:5.907407rem;
+              margin:0.555556rem auto;
+            }
+            ul{
+                padding: 1%;
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                
+                li{
+                    // width: 342px;
+                    width: 32.2%;
+                    height: 2.018519rem;
+                    // margin-right: 15px;
+                    margin-top: 0.166667rem;
+                    background: url('../../img/module_home_myRoom3.png') no-repeat;
+                    background-size: cover;
+                    background-position:center;
+                    background-size: 2.240741rem 2.037037rem;
+                    b{
+                        display: block;
+                        background: $homeAll -2.777778rem 0.0rem no-repeat;
+                        background-size: 5.555556rem 5.555556rem;
+                        height: 0.833333rem;
+                        width: 0.87037rem;
+                        float: right;
+                        position: relative;
+                        bottom:0.027778rem;
+                        left:0.13rem;
+                    }
+                    i{
+                        display:block;
+                        height: 0.925926rem;
+                        width: 1.166667rem;
+                        background: $homeAll -0.740741rem -1.203704rem no-repeat;
+                        background-size: 5.555556rem 5.555556rem;
+                        position: relative;
+                        left: 50%;
+                        bottom:0.055556rem;
+                        transform: translate(-50%,0);
+                    }
+                    h4{
                         color: #fff;
                         font-size: 0.259259rem;
-                        padding-top:0.046296rem;
-                        margin: 0;
                     }
-                    p{
-                        height:0.222222rem;
-                        color: #C4C4C4;
-                        display: flex;
-                        justify-content: space-between;
-                        span{
-                            font-size: 0.222222rem;
-                            text-align: right;
-                            padding: 0.018519rem 0.0rem;
+                    div{
+                        height:0.925926rem;
+                        padding: 0.0rem 0.166667rem 0.0rem;
+                        position: relative;
+                        bottom: 0;
+                        border-radius:0.185185rem;
+                        h5{
+                            color: #fff;
+                            font-size: 0.259259rem;
+                            padding-top:0.046296rem;
+                            margin: 0;
+                        }
+                        p{
+                            width:1.981481rem;
                             height:0.222222rem;
+                            color: #C4C4C4;
+                            display: flex;
+                            justify-content: space-between;
+                            span{
+                                position:relative;
+                                bottom:45px;
+                                font-size: 0.222222rem;
+                                text-align: right;
+                                height:0.222222rem;
+                            }
+                            span:nth-of-type(1){
+                                flex: 1;
+                                text-align: right;
+                            }
+                            span:nth-of-type(2){
+                                flex: 1;
+                                text-align: left;
+                            }
                         }
-                        span:nth-of-type(1){
-                            flex: 1;
-                            text-align: center;
-                        }
-                        span:nth-of-type(2){
-                            flex: 1;
-                            text-align: left;
-                        }
+                        .roomNum{color: #2FAB51;}
                     }
-                    .roomNum{color: #2FAB51;}
                 }
-            }
             // li:nth-of-type(3n){
             //     margin: 0;
             //     margin-top: 18px;
@@ -263,22 +263,53 @@
                 myRoom: false,
                 val: '',
                 tabPosition: 'top',
-                datagrid: '',
+                datagrid: [],
                 sel:0,
-                pagesize:0,
-                type :0 ,
-                p: 0 ,
+                pagesize:30,
+                type :2 ,
+                p: 1 ,
             };
         },
-          // mounted: function(){
-          //   var self = this;
-          //   http.post({
-          //         url: 'sel',vm:this
-          //     }).then(res => {
-          //           self.datagrid = res.data;
-          //           console.log(res.data)
-          //       })
-          // },
+        mounted: function(){       
+            if(localStorage.oxToken && localStorage.oxUid){
+                this.id = localStorage.oxUid
+                this.name = localStorage.getItem('oxName')
+                // 房间请求
+                this.$store.dispatch('webIM')
+                var self = this;
+
+                http.post('/Room/getRoomList' ,
+                {
+                    token: localStorage.oxToken,
+                    pagesize : self.pagesize,
+                    type : self.type,
+                    p : self.p,
+                }, '' ,this)
+                .then(res => {
+                    console.log(res)
+                    if(res.status == 1){
+                    for(var i = 0 ; i < res.data.length ; i++){
+                        self.key = res.data[i].id 
+                        self.open = res.data[i].zn_room_type == 1 ? true : false
+                        self.roomName = res.data[i].zc_title 
+                        self.roomNumber= res.data[i].zc_number
+                        self.number = res.data[i].pernumber
+                        self.datagrid.push({
+                            key : self.key,
+                            open : self.open,
+                            roomName : self.roomName,
+                            roomNumber : self.roomNumber,
+                            number :self.number
+                        })
+                    }
+                    console.log(self.datagrid)
+                    }
+                })
+            } else {
+                // 跳回登录页
+                router.push({name: '/'});
+            }
+        },
         methods: {
             openS(e){
               let Etar = e.target;
@@ -312,7 +343,77 @@
               .then(res => {
                 console.log(res)
               })
+            },
+            joinRoom(){
+
+                if(localStorage.oxToken && localStorage.oxUid){
+                this.id = localStorage.oxUid
+                this.name = localStorage.getItem('oxName')
+                // 房间请求
+                this.$store.dispatch('webIM')
+                var self = this;
+                if(this.sel == 0){
+                    self.datagrid = [];
+                    http.post('/Room/getRoomList' ,
+                    {
+                        token: localStorage.oxToken,
+                        pagesize : self.pagesize,
+                        type : self.type,
+                        p : self.p,
+                    }, '' ,this)
+                    .then(res => {
+                        console.log(res)
+                        if(res.status == 1){
+                            for(var i = 0 ; i < res.data.length ; i++){
+                                self.key = res.data[i].id 
+                                self.open = res.data[i].zn_room_type == 1 ? true : false
+                                self.roomName = res.data[i].zc_title 
+                                self.roomNumber= res.data[i].zc_number
+                                self.number = res.data[i].pernumber
+                                self.datagrid.push({
+                                    key : self.key,
+                                    open : self.open,
+                                    roomName : self.roomName,
+                                    roomNumber : self.roomNumber,
+                                    number :self.number
+                                })
+                            }
+                            console.log(self.datagrid)
+                        }
+                    })
+                }
+                else{
+                    self.datagrid = [];
+                    http.post('/Room/joinRoomList' ,
+                    {
+                       id : localStorage.oxUid,
+                    }, '' ,this)
+                    .then(res => {
+                        console.log(res)
+                        if(res.status == 1){
+                        for(var i = 0 ; i < res.data.length ; i++){
+                            self.key = res.data[i].id 
+                            self.open = res.data[i].zn_room_type == 1 ? true : false
+                            self.roomName = res.data[i].zc_title 
+                            self.roomNumber= res.data[i].zc_number
+                            self.number = res.data[i].pernumber
+                            self.datagrid.push({
+                                key : self.key,
+                                open : self.open,
+                                roomName : self.roomName,
+                                roomNumber : self.roomNumber,
+                                number :self.number
+                            })
+                        }
+                        console.log(self.datagrid)
+                        }
+                    })
+                }
+            } else {
+                // 跳回登录页
+                router.push({name: '/'});
             }
+            },
         }
   }
 </script>
