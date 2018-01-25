@@ -15,7 +15,6 @@ export default new Vuex.Store({
             userName: '',
             userID: '',
             userImg: '',
-            fen: 100000,
         },
         // 默认数据
         initRoom: {
@@ -43,6 +42,7 @@ export default new Vuex.Store({
             room: 'bell',       // 房间计费方式
             scale: 1,           // 抽水比例
             minGrade: 10,       // 最小上庄分数
+            zn_chatid: 0,       // 群聊号码
         },
         time: {
             initTime: 6,    // 游戏初始化准备时间
@@ -55,7 +55,7 @@ export default new Vuex.Store({
         setRoom: {},
         badDict: bad,
         // 消息记录
-        txt: localStorage.oxTxtAll ? JSON.parse(localStorage.oxTxtAll) : '',
+        txt: '',
         txt_idx: [],
         txt_time: [],
         // 消息传递
@@ -69,7 +69,23 @@ export default new Vuex.Store({
         },
         txt: state => {
             if(localStorage.oxTxtAll){
-                var t = Object.values(state.txt)
+                console.log('我被调用')
+                console.log(state.txt)
+                var t=[];
+                var tCount = 0;
+                var woid = 'hz_niuniu_'+localStorage.oxUid;
+                console.log(woid)
+                for(var and in state.txt){
+                    if(and == woid){
+                        t[0] = state.txt[and];
+                    } else {
+                        tCount++;
+                        t[tCount] = state.txt[and];
+                    }
+                }
+                console.log(t)
+                // var t = Object.values(state.txt)
+
                 // 计算时间轴
                 var arrTime = [];
                 var arr = [];
@@ -78,7 +94,7 @@ export default new Vuex.Store({
                 t.forEach(function(item){
                     count++;
                     for(var an in item){
-                        // console.log(an)
+
                         if(arrTime.length == 0){
                             arrTime.push(an)
                             arr.push(item[an])
@@ -105,7 +121,7 @@ export default new Vuex.Store({
             }
         }
     },
-    // 方法，mutations必须同步执行
+    // 方法，mutations必须同步执行 onCreateGroup
     // 使用demo : this.$store.commit('increment')
     mutations: {
         increment (state) {
@@ -142,20 +158,38 @@ export default new Vuex.Store({
             onTextMessage: function ( message ) { 
                 //在这里接收和处理信息，根据message.type区分消息来源，私信或者群聊或聊天室
                 console.log(message)
-                // localStorage.oxTxtAll[message.to] = message.data;
-                var a = JSON.parse(localStorage.oxTxtAll)
-                console.log(a)
-                var date = new Date().getTime();
-                if(a[message.from+'1']){
-                    a[message.from+'1'][date] = message.data;
-                } else {
-                    a[message.from+'1'] = {};
-                    a[message.from+'1'][date] = message.data;
+                console.log(message.type)
+                if (message.type == 'groupchat') {  // 群聊
+                    var a = JSON.parse(localStorage.oxQun)
+                    // console.log(a)
+                    var date = new Date().getTime();
+                    if(a[message.from+'1']){
+                        a[message.from+'1'][date] = message.data;
+                    } else {
+                        a[message.from+'1'] = {};
+                        a[message.from+'1'][date] = message.data;
+                    }
+                    self.state.txt = a;
+                    console.log(JSON.parse(localStorage.oxQun))
+                    localStorage.oxQun = JSON.stringify(a)
+                } 
+
+
+                else if (message.type == 'chat' ){      // 单聊
+                    var a = JSON.parse(localStorage.oxTxtAll)
+                    console.log(a)
+                    var date = new Date().getTime();
+                    if(a[message.from+'1']){
+                        a[message.from+'1'][date] = message.data;
+                    } else {
+                        a[message.from+'1'] = {};
+                        a[message.from+'1'][date] = message.data;
+                    }
+                    self.state.txt = a;
+                    localStorage.oxTxtAll = JSON.stringify(a)
                 }
-                self.state.txt = a;
-                localStorage.oxTxtAll = JSON.stringify(a)
-                // console.log(message.type)
-                // console.log('Text')
+
+
                 
             },//收到文本消息
             onEmojiMessage: function ( message ) {
@@ -200,12 +234,16 @@ export default new Vuex.Store({
                 };
                 WebIM.utils.download.call(conn, option);
             },   //收到视频消息
-            onPresence: function ( message ) {},       //处理“广播”或“发布-订阅”消息，如联系人订阅请求、处理群组、聊天室被踢解散等消息
+            onPresence: function ( message ) {
+                console.log(message)
+            },       //处理“广播”或“发布-订阅”消息，如联系人订阅请求、处理群组、聊天室被踢解散等消息
             onRoster: function ( message ) {
                 console.log('Roster')
                 console.log(message)
             },         //处理好友申请
-            onInviteMessage: function ( message ) {},  //处理群组邀请
+            onInviteMessage: function ( message ) {
+                console.log(message)
+            },  //处理群组邀请
             onOnline: function () {},                  //本机网络连接成功
             onOffline: function () {},                 //本机网络掉线
             onError: function ( message ) {},          //失败回调
@@ -216,9 +254,39 @@ export default new Vuex.Store({
             onReceivedMessage: function(message){},    //收到消息送达服务器回执
             onDeliveredMessage: function(message){},   //收到消息送达客户端回执
             onReadMessage: function(message){},        //收到消息已读回执
-            onCreateGroup: function(message){},        //创建群组成功回执（需调用createGroupNew）
+            onCreateGroup: function(message){
+                console.log('%c [opened] 群组创建成功', 'color: yellow')
+            },        //创建群组成功回执（需调用createGroupNew）
             onMutedMessage: function(message){}        //如果用户在A群组被禁言，在A群发消息会走这个回调并且消息不会传递给群其它成员
             });
+        },
+        dl () {
+            var dlCount = 0;
+            var id = localStorage.oxUid || 0
+            var options = {         // 自动登录
+                apiUrl: WebIM.config.apiURL,
+                user: 'hz_niuniu_'+id,
+                pwd: '123456',
+                appKey: WebIM.config.appkey,
+                success: function () {
+                    console.log('登录成功')
+                },
+                error: function (aa) {
+                    dlCount++;
+                    console.log('登录失败')
+                    if(dlCount < 5){
+                        var time = setTimeout(function(){
+                            conn.open(options);
+                            clearTimeout(time)
+                        },2000)
+                    } else {
+                        alert('网络状态差,无法连接')
+                    }
+                }
+            };
+            conn.open(options);
+
+            
         },
         // 调取用户聊天记录 page分页数 p当前页
         // {myId, toId, page, p}

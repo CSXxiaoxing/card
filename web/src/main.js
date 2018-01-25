@@ -10,7 +10,7 @@ import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
 
 
-Vue.use(MintUI);
+Vue.use(MintUI); 
 
 // 容量检测
 ! function(){
@@ -27,8 +27,12 @@ Vue.use(MintUI);
 } ()
 // 创建初始化聊天储存
 // localStorage.setItem('oxTxtAll', "{}")
-if(!localStorage.oxTxtAll){
-    localStorage.setItem('oxTxtAll', "{}")
+if(!localStorage.oxTxtAll){ // 单聊
+  localStorage.setItem('oxTxtAll', "{}")
+}
+// localStorage.setItem('oxQun', "{}")
+if(!localStorage.oxQun){ // 群聊
+  localStorage.setItem('oxQun', "{}")
 }
 
 

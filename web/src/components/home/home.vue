@@ -171,6 +171,7 @@
 				this.$refs.onbuyRoomChild.buyRoom=true;
 			},
 			varRoom(){
+				this.$refs.onvarRoomChild.initType = 0;
 				this.$refs.onvarRoomChild.boxState.CvarRoom=true;
 				var self = this;
 				http.post('/Room/getRoomNumber',
