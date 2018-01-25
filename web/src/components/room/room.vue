@@ -6,7 +6,7 @@
                     <i><router-link to="/home" ></router-link></i>
                     <span>第<i>20</i>局</span>
                     <p :class='init.textStyle >= 1 ? "open" : "" '>
-                        <span>{{host.styleName}}</span>
+                        <span>{{host.allType == 1 ?  "游戏中" : "暂停中"}}</span>
                         <i v-show='init.ForT == 1' @click='host.style == true ? host.style = false : host.style = true'>
                             <b></b>
                         </i>
@@ -312,7 +312,7 @@
                     cardFn: this.$store.state.idRoom.cardFn,  //几牌  
                     oxK: this.$store.state.idRoom.oxK,
                     scope: this.$store.state.idRoom.scope,  // 可下注范围
-                    pond: this.$store.state.idRoom.minGrade,    // 设定可下注池
+                    pond: this.$store.state.idRoom.minGrade,    // 设定下注池
                     text: ['游戏暂未开始', '准备开始：', '随机庄牌：', '可押注时间：', '开牌倒计时', '开牌结果'], // 游戏状态
                     textStyle : 0, // 对应状态码   [0, 1, 2, 3, 4, 5]
                     oxNumber: this.$store.state.idRoom.oxNumber,// 倍率
@@ -344,10 +344,8 @@
                 },
                 // 主人
                 host: {
-                    // 游戏开始
-                    styleName: '暂停中',
-                    style: false,
-                    gainNum: 150000,
+                    style: false,// 游戏开始
+                    gainNum: 150000,// 抽水
                     allType: 0,     // 游戏总控制 1 => 游戏中 || 0 => 暂停游戏  
                 },
                 // 普通
@@ -396,6 +394,7 @@
                 },
                 players:[],        // 右边玩家
                 apply: '申请上庄',
+                TTT: {},
 
             }
         },
@@ -443,15 +442,21 @@
             var socket = io(socketURL);
             socket.on('new_msg', function (data) {      // socket实时消息
                 var val = JSON.parse(data);
+                        console.log(val)
                 switch(val.type){
                     case 12:
                         var data = JSON.parse(val.data);
-                        console.log(data)
-                        self.cardURL = data;
+                        self.TTT = data;
                         break;
                 }    
+                console.log(self.TTT)
             });
-            console.log(self.cardURL)
+            // 状态跟随
+            self.clearStyle()       //清除
+            self.clearGameStyle()  // 清0
+            self.gameStart(5)       // 进入游戏阶段
+            
+            // self.cardURL = self.TTT;// 牛牛赋值
         },
         methods: {
             varRoom(){          // 房间设置
@@ -497,33 +502,35 @@
             },
             
             gameStyle(e){       // 游戏执行--开始
-                let [Host, Etxt] = [this.host, e.target.innerText];
-                Host.style = false;
-                Host.styleName = Etxt;
+                let Etxt = this.host.allType;
+                this.host.style = false;
                 if(this.init.textStyle == 0) {
                     switch (Etxt) {
-                    case '游戏中' :
+                    case 1 :
                     this.init.textStyle = 1;
                     this.gameType(0);
                     break;
-
+                    case 0 :
+                    this.roomStyle(1)
+                    break;
                     }
                 }
             },
-            gameType(n) {       // 游戏开始控制状态中转
-                
+            clearStyle(){       // 清除游戏余留状态
                 for(var each in pageTimer) {    // 清除所有定时器
                     clearInterval(pageTimer[each])
                 }
                 for(var each in Timeout) {    // 清除所有延时器
                     clearTimeout(Timeout[each])
-                }
-                
+                }  
+            },
+            gameType(n) {       // 游戏开始控制状态中转
+                this.clearStyle()
                 switch (n) {
                     case 0 :
                         this.clearGameStyle()            // 状态清空
                         if(this.host.allType == 1){     // 游戏状态允许
-                            this.gameStart();          // 执行游戏
+                            this.gameStart(1);          // 执行游戏
                             this.roomStyle(2);        // 游戏状态储存--开始
                         }
                         break;
@@ -702,137 +709,151 @@
                 this.cardURL.maxVal = maxVal;
                 this.roomStyle(4)   // 牛牛牌型以及权重发送
             },
-            gameStart() {
-                let self = this;
+            gameStart(type) {       // 游戏流程入口
                 this.ordinary.pond = this.init.pond;
-                // 5秒倒计时
+                this.host.allType = 1;  // 进入游戏状态
+
+                if(this.init.ForT == 1){    // 房主进行牛牛计算
+                    this.algorithm();
+                }
+                switch (type) {
+                    case 1 :
+                        this.daoTime ()     // 倒计时
+                    break;
+                    case 2 :
+                        this.bank ()        // 随机选庄
+                    break;
+                    case 3 :
+                        this.countDown ()   // 发牌以及倒计
+                    break;
+                    case 4 :
+                        this.FZ ()          // 翻转
+                    break;
+                    case 5 :
+                        this.settlement ()  // 单局结算等待
+                    break;
+                }
+            },
+            daoTime () {        // 1、准备开始倒计时
+                
+                let self = this;
                 this.init.time = this.time.initTime;
-                // 牛牛计算
-                this.algorithm();
-                
-                // 1、准备开始倒计时
-                
                 self.roomStyle(6)       // 游戏状态储存--准备开始
                 pageTimer["timer01"] = setInterval( ()=> {
                     self.init.time--;
                     if(self.init.time < 0) {
                         this.init.textStyle = 2;
                         self.roomStyle(7)   // 游戏状态储存--随机庄牌
-                        bank()
+                        self.bank(self)
                         clearInterval(pageTimer["timer01"])
                     }
                 },1000)
-                
-                // 2、随机选庄家牌
-                let num = this.init.cardFn;
-
-                
-                function bank(){
-                    let arr5 = [0, 1, 3, 4, 5];
-
-                    self.init.time = self.time.random;
-                    pageTimer["timer02"] = setInterval( ()=> {
-                        self.init.time--;
-                        if(self.init.time < 0) {
-                            self.time.index = arr5[Math.random()*5>>0];
-                            self.ordinary.bg = true;
-                            self.roomStyle(8)   // 游戏状态储存--可押注开始
-                            self.init.textStyle = 3;
-                            countDown();
-                            clearInterval(pageTimer["timer03"])
-                            clearInterval(pageTimer["timer02"])
-                        }
-                    },1000)
-                    let i = self.time.index;
-
-                    pageTimer["timer03"] = setInterval(function(){
-                        i++;
-                        if(num == 7){
-                            i >= 7 ? i=0 : false; 
-                            self.time.index = i; 
-                        } else if(num == 5){
-                             i >= 5 ? i=0 : false; 
-                            self.time.index = arr5[i];
-                        }
-                    },self.time.speed)
-                }
-
-                // 3、发牌以及倒计时
-                function countDown(){
-                    self.init.time = self.time.timeAll;
-                    self.cardURL.c3Type[0] = 'start' ;
-                    self.cardURL.c3Type[1] = 'card0' ;
-                    // 延时器-发完牌后 -- 押注倒计时
-                    Timeout['setT2'] = setTimeout( ()=>{
-                        pageTimer['timer04'] = setInterval( ()=> {
-                            if(self.init.time >= 1){
-                                self.init.time-- ;
-                            } else {
-                                self.cardURL.c3Type[2] = 'reversal';
-                                self.cardURL.c3Type[3] = 'reveEnd';
-                                FZ();
-                                clearInterval(pageTimer['timer04']);
-                            }
-                            if(self.init.time == 1){    // 中止下注
-                                self.roomStyle(3)
-                            }
-                        } , 1000);
-                    } , 800 );
-                }
-                // 翻转FZ
-                let sheTimeEnd;
-                function FZ(){
-                    self.gameOver.show=true;
-                    // 算输赢/发送胜负请求
-                    self.sf ()
-
-                    // 翻转剩下的牌
-                    Timeout['setT3'] = setTimeout(()=>{
-                        self.roomStyle(9) 
-                        self.init.textStyle = 4;
-                        self.init.time = self.time.countTime;
-
-                        pageTimer["timer05"] = setInterval( ()=> {
-                            if(self.init.time >= 1){
-                                self.init.time-- ;
-                            } else {
-                                self.gameOver.timeEng = true;
-                                self.init.time = self.time.endTime;
-                                self.roomStyle(10) 
-                                self.init.textStyle = 5;
-                                self.settlement(0)
-                                clearInterval(pageTimer["timer05"]);
-                            }
-                        } , 1000);
-
-                    }, 250)
-                }
             },
-            settlement (i) {         // 单局结算等待时间
+            bank () {           // 2、随机选庄家牌
                 let self = this;
-                
-                if(i == 0) {
-                    // 分数结果
-                    this.win.fen = this.win.zorp[1];             
-                    this.init.fen = this.win.zorp[0];
-                    pageTimer["timer06"] = setInterval(()=>{
+                let num = this.init.cardFn;
+                let arr5 = [0, 1, 3, 4, 5];
+
+                self.init.time = self.time.random;
+                pageTimer["timer02"] = setInterval( ()=> {
+                    self.init.time--;
+                    if(self.init.time < 0) {
+                        self.time.index = arr5[Math.random()*5>>0];
+                        self.ordinary.bg = true;
+                        self.roomStyle(8)   // 游戏状态储存--可押注开始
+                        self.init.textStyle = 3;
+                        self.countDown();
+                        clearInterval(pageTimer["timer03"])
+                        clearInterval(pageTimer["timer02"])
+                    }
+                },1000)
+                let i = self.time.index;
+
+                pageTimer["timer03"] = setInterval(function(){
+                    i++;
+                    if(num == 7){
+                        i >= 7 ? i=0 : false; 
+                        self.time.index = i; 
+                    } else if(num == 5){
+                         i >= 5 ? i=0 : false; 
+                        self.time.index = arr5[i];
+                    }
+                },self.time.speed)
+            },
+            countDown () {          // 3、发牌以及倒计时
+                let self = this;
+                self.init.time = self.time.timeAll;
+                self.cardURL.c3Type[0] = 'start' ;
+                self.cardURL.c3Type[1] = 'card0' ;
+                // 延时器-发完牌后 -- 押注倒计时
+                Timeout['setT2'] = setTimeout( ()=>{
+                    pageTimer['timer04'] = setInterval( ()=> {
                         if(self.init.time >= 1){
                             self.init.time-- ;
                         } else {
-                            self.gameType(0);
-
-                            if(self.host.allType == 0) {   // 停止时
-                                self.init.textStyle = 0;
-                            }
-                            clearInterval(pageTimer["timer06"]);
+                            self.cardURL.c3Type[2] = 'reversal';
+                            self.cardURL.c3Type[3] = 'reveEnd';
+                            self.FZ();
+                            clearInterval(pageTimer['timer04']);
                         }
-                        if(self.host.allType == 0) {   // 停止时
-                            self.roomStyle(1)  // 暂停
+                        if(self.init.time == 1){    // 中止下注
+                            self.roomStyle(3)
                         }
-                    }, 1000)
-                }     
+                    } , 1000);
+                } , 800 );
             },
-            sf () {                  // 输赢结果
+            FZ () {                 // 4、翻转FZ 算输赢
+                let self = this;
+                self.gameOver.show=true;
+                // 算输赢/发送胜负请求
+                self.sf ()
+
+                // 翻转剩下的牌
+                Timeout['setT3'] = setTimeout(()=>{
+                    self.roomStyle(9) 
+                    self.init.textStyle = 4;
+                    self.init.time = self.time.countTime;
+
+                    pageTimer["timer05"] = setInterval( ()=> {
+                        if(self.init.time >= 1){
+                            self.init.time-- ;
+                        } else {
+                            self.gameOver.timeEng = true;
+                            self.init.time = self.time.endTime;
+                            self.roomStyle(10) 
+                            self.init.textStyle = 5;
+                            self.settlement()
+                            clearInterval(pageTimer["timer05"]);
+                        }
+                    } , 1000);
+
+                }, 250)
+            },
+            settlement () {        // 5、单局结算等待时间
+                let self = this;
+                // 分数结果
+                this.win.fen = this.win.zorp[1];             
+                this.init.fen = this.win.zorp[0];
+                pageTimer["timer06"] = setInterval(()=>{
+                    if(self.init.time >= 1){
+                        self.init.time-- ;
+                    } else {
+                        self.gameType(0);
+
+                        if(self.host.allType == 0) {   // 手动停止
+                            self.init.textStyle = 0;
+                        }
+                        clearInterval(pageTimer["timer06"]);
+                    }
+                    if(self.init.fen < self.init.pond){ // 庄家下盘分数不够时
+                        self.host.allType = 0
+                    } else {
+                        self.host.allType = 1
+                    }
+                    
+                }, 1000)
+            },
+            sf () {                 // 输赢结果
                 let maxVal = this.cardURL.maxVal;   // 权重
                 let ox = this.cardURL.resultNum    // 牛结果数字化
                 let idx = this.time.index;        // 庄位置
@@ -908,7 +929,7 @@
                    // 发送输赢分数=============================================
                    // 返回总分  
             },
-            orderPower(players){     // 高分排列
+            orderPower(players){    // 高分排列
                 players = Object.values(players)
                 if(players.length <=1){
                     return players;
@@ -989,7 +1010,6 @@
                     })
                 }
             },
-
     },
 }
    

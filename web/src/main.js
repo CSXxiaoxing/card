@@ -39,10 +39,10 @@ if(!localStorage.oxQun){ // 群聊
 var socket = io(socketURL); //这里当然填写真实的地址了
 // uid可以是自己网站的用户id，以便针对uid推送以及统计在线人数
 var uid = localStorage.oxUid;
-console.log(uid);
+// console.log(uid);
 // socket连接后以uid登录
 socket.on('connect', function () {
-    console.log('socket连接成功')
+    // console.log('socket连接成功')
     socket.emit('login', uid);
 });
 

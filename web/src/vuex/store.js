@@ -54,7 +54,7 @@ export default new Vuex.Store({
         // 设置值
         setRoom: {},
         badDict: bad,
-        // 消息记录
+        // 聊天辅助
         txt: '',
         txt_idx: [],
         txt_time: [],
@@ -69,12 +69,8 @@ export default new Vuex.Store({
         },
         txt: state => {
             if(localStorage.oxTxtAll){
-                console.log('我被调用')
-                console.log(state.txt)
-                var t=[];
-                var tCount = 0;
+                var [t, arrTime, arr, arr2de, count, tCount]=[[], [], [], [], 0, 0];
                 var woid = 'hz_niuniu_'+localStorage.oxUid;
-                console.log(woid)
                 for(var and in state.txt){
                     if(and == woid){
                         t[0] = state.txt[and];
@@ -83,18 +79,10 @@ export default new Vuex.Store({
                         t[tCount] = state.txt[and];
                     }
                 }
-                console.log(t)
-                // var t = Object.values(state.txt)
-
                 // 计算时间轴
-                var arrTime = [];
-                var arr = [];
-                var arr2de = [];
-                var count = 0;
                 t.forEach(function(item){
                     count++;
                     for(var an in item){
-
                         if(arrTime.length == 0){
                             arrTime.push(an)
                             arr.push(item[an])
@@ -269,7 +257,7 @@ export default new Vuex.Store({
                 pwd: '123456',
                 appKey: WebIM.config.appkey,
                 success: function () {
-                    console.log('登录成功')
+                    // console.log('登录成功')
                 },
                 error: function (aa) {
                     dlCount++;
