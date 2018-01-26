@@ -1,19 +1,21 @@
 <template>
     <div id='friend'>
-
+        
+        <!-- 查找好友 -->
         <mt-popup 
           v-model="addFriend"
           popup-transition="popup-fade" 
           class="addFriend" >
           <span>查找好友</span>
-          <p><input type="text" placeholder="请输入要查找的ID"></input>
+          <p><input type="text" placeholder="请输入要查找的ID" v-model.number='findID'></input>
           </p>
           <mt-button @click="addFriend = false">  取消
           </mt-button>
-          <mt-button @click="findFriend = true , addFriend = false ">  搜索
+          <mt-button @click="Friend">  搜索
           </mt-button>
         </mt-popup >
 
+        <!-- 好友信息 -->
         <mt-popup 
           v-model="findFriend"
           popup-transition="popup-fade" 
@@ -30,6 +32,7 @@
           </mt-button>
         </mt-popup >
 
+        <!-- 请求已经发送 -->
         <mt-popup 
           v-model="sendFriend"
           popup-transition="popup-fade" 
@@ -135,21 +138,25 @@
 
 <script type="text/javascript">
     import './friend.scss';
+    import Vue from 'vue';
+    import http from '../../utils/httpClient.js';
 
     export default {
         data: function(){
             return {
                 // 上下箭头
                 arrows: 0,
-                addFriend:false,
-                findFriend:false,
-                sendFriend:false,
+                addFriend : false,    //  查找好友
+                findFriend: false,
+                sendFriend: false,
                 show:1, //1新消息  0 点击后
-
+                findID: '',  // 要寻找的id
             }
         },
         mounted: function(){
+            // 登录环信
             this.$store.dispatch('webIM')
+            this.$store.dispatch('dl')
         },
         methods: {
             newWord() {
@@ -158,7 +165,6 @@
                 } else {
                     this.arrows = 1;
                 }
-
             },
             near() {
                 if(this.arrows == 2) {
@@ -174,6 +180,17 @@
                     this.arrows = 3;
                 }
             },
+            Friend(){   // 添加好友
+                var self = this;
+                self.findFriend = true ;
+                self.addFriend  = false;
+                // http.post('/MemberNotice/applyFriend',{     
+                //     zn_mid: self.findID,
+                // })
+                // .then(res => {
+                //     console.log(res)
+                // })
+            }
         }
     }
 </script>

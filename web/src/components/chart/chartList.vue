@@ -43,7 +43,7 @@
                     
             		<img src="../../img/chart_Room2.png" alt="">
                     <b>{{data.zn_member_name}}</b>
-                    <span v-if='false'><img src="../../img/chart_List1.png" alt="">加友</span>
+                    <span><img src="../../img/chart_List1.png" alt="">加友</span>
             	</li>
 
             </ul>
@@ -53,7 +53,7 @@
             <mt-button v-show = 'a == 1' type="primary"  @click="dissolveRoom = true">
                     解散房间
             </mt-button>
-            <mt-button v-show = 'a == 1' type="primary"  @click="idMessage = true">
+            <mt-button v-show = 'a == 1' type="primary" @click='chartDelete'>
                     删除成员
             </mt-button>
         	<mt-button v-show = 'a == 0' type="primary"  @click="putRoom = true">
@@ -229,6 +229,7 @@
                   background-position:center;
                   background-size:4.231481rem 1.231481rem;
                   margin-top: 0.277778rem;
+                  a{color: #fff;}
                 }
             button:active {
                     position: relative;
@@ -267,6 +268,7 @@
     export default {
         data: function(){
             return {
+                chartDel: '', // 路由
                 a: 99,       // 0普通  1房主
                 roomid: 0,  // 房间id
                 datalist: '',   // 成员列表
@@ -296,23 +298,6 @@
                     }
                 })
             },
-            delPerson () {      // 删除成员
-                var self = this;
-                var data = self.datalist;
-                var cli = self.cli;
-                if(this.a == 1 && self.cli != -1) {
-                    http.post('/RoomJoin/closeRoom',{
-                        id: data.cli.id,
-                        roomid: this.roomid,
-                    })
-                    .then(res => {
-                        console.log(res)
-                        if(res.status == 1){
-                            self.list()
-                        }
-                    })
-                }
-            },
             list () {       // 玩家列表
                 var self = this;
                 http.post('/RoomJoin/getJoinRoomList',{
@@ -324,6 +309,7 @@
                     console.log(res)
                     if(res.status == 1){
                         self.datalist = res.data;
+                        self.chartDel = `/chartDelete/${JSON.stringify([res.data])}`
                     }
                 })
             },
@@ -341,6 +327,10 @@
                         router.push({path: `/home`});
                     }
                 })
+            },
+            chartDelete () {
+                var self = this;
+                router.push({path: self.chartDel});
             },
             
         }

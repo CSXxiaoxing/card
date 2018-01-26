@@ -3,19 +3,19 @@
     	<header>
             <ul>
                 <li>
-                    <i><router-link to="/room" ></router-link></i>
+                    <i><a @click='$store.commit("ls")'></a></i>
                 </li>
                 <li>删除房间成员</li>
-                <li>确认</li>
+                <li @click='delPerson'>确认</li>
             </ul>
         </header>
         <div class='list'>
             <ul>
-                <li v-for='(data, player) in 50' :key='player' @click='imgStyle.indexOf(player) >= 0 ? imgStyle.splice(imgStyle.indexOf(player),1) : imgStyle.push(player)'>
+                <li v-for='(data, player) in datalist' :key='data.id' @click='imgStyle.indexOf(player) >= 0 ? imgStyle.splice(imgStyle.indexOf(player),1) : imgStyle.push(player)'v-if='player != "count"'>
                     <img src="../../img/chart_Room2.png" alt="">
                     <dl>
-                        <dt>迷糊的大土</dt>
-                        <dd>分数:<b>70000</b></dd>
+                        <dt>{{data.zn_member_name}}</dt>
+                        <dd>分数:<b>{{data.zn_points}}</b></dd>
                     </dl>
                     <span><img v-show="imgStyle.indexOf(player) >= 0" src="../../img/module_room_setOwner2.png" alt=""></span>
                 </li>
@@ -25,8 +25,7 @@
 </template>
 
 <style lang='scss' scoped>
-
-@import '../../utils/baseVar.scss';
+    @import '../../utils/baseVar.scss';
     .chartDelete {
         height: 100%;
         background: #ECEDF1;
@@ -134,18 +133,39 @@
 
 <script type="text/javascript">
     import Vue from 'vue';
+    import http from '../../utils/httpClient.js';
+    import router from '../../router/';
+
     export default {
         data: function(){
             return {
-                a: this.$route.params.id,
                 imgStyle: [],
+                datalist: {},
+                roomid: 0,
             }
         },
         mounted: function(){
-
+            this.datalist = JSON.parse(this.$route.params.msg)[0];
         },
         methods: {
-
+            delPerson () {      // 删除成员
+                var self = this;
+                var data = self.datalist;
+                var imgStyle = self.imgStyle;
+                imgStyle.forEach(function(item){
+                    http.post('/RoomJoin/closeRoom',{
+                        id: data[item].zn_member_id,
+                        roomid: data[item].zn_room_id,
+                    })
+                    .then(res => {
+                        console.log(res)
+                        if(res.status == 1){
+                            delete data[item]
+                            self.datalist = data;
+                        }
+                    })
+                })
+            },
         }
         }
 </script>

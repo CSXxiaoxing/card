@@ -56,10 +56,14 @@ export default new Vuex.Store({
         badDict: bad,
         // 聊天辅助
         txt: '',
+        txtType: 0,     // 聊天分类头
         txt_idx: [],
         txt_time: [],
         // 消息传递
         obj: '',
+        data: {
+            dating: {},
+        },   // 存放各种数据避免重复请求
     },
     // 属性计算
     // 使用demo ：this.$store.getters.doneTodos
@@ -70,13 +74,17 @@ export default new Vuex.Store({
         txt: state => {
             if(localStorage.oxTxtAll){
                 var [t, arrTime, arr, arr2de, count, tCount]=[[], [], [], [], 0, 0];
+                var type = state.txtType;
+                // console.log(state.txt)
+                var txt = state.txt[type];      // 筛选要搞的东西
+                
                 var woid = 'hz_niuniu_'+localStorage.oxUid;
-                for(var and in state.txt){
+                for(var and in txt){
                     if(and == woid){
-                        t[0] = state.txt[and];
+                        t[0] = txt[and];
                     } else {
                         tCount++;
-                        t[tCount] = state.txt[and];
+                        t[tCount] = txt[and];
                     }
                 }
                 // 计算时间轴
@@ -104,6 +112,7 @@ export default new Vuex.Store({
                     }
                 })
                 state.txt = arr.reverse();
+                // console.log(state.txt)
                 state.txt_idx = arr2de.reverse();
                 state.txt_time = arrTime.reverse();
             }
@@ -148,18 +157,23 @@ export default new Vuex.Store({
                 console.log(message)
                 console.log(message.type)
                 if (message.type == 'groupchat') {  // 群聊
-                    var a = JSON.parse(localStorage.oxQun)
-                    // console.log(a)
-                    var date = new Date().getTime();
-                    if(a[message.from+'1']){
-                        a[message.from+'1'][date] = message.data;
-                    } else {
-                        a[message.from+'1'] = {};
-                        a[message.from+'1'][date] = message.data;
+                    var qunid = message.to;         // 群id
+                    var an = JSON.parse(localStorage.oxQun)
+                    
+                    if(!an[qunid]){
+                        an[qunid] = {}
                     }
-                    self.state.txt = a;
-                    console.log(JSON.parse(localStorage.oxQun))
-                    localStorage.oxQun = JSON.stringify(a)
+                    
+                    // var a = an[qunid];
+                    var date = new Date().getTime();
+                    if(an[qunid][message.from]){
+                        an[qunid][message.from][date] = message.data;
+                    } else {
+                        an[qunid][message.from] = {};
+                        an[qunid][message.from][date] = message.data;
+                    }
+                    self.state.txt = an;
+                    localStorage.oxQun = JSON.stringify(an)
                 } 
 
 
@@ -167,11 +181,11 @@ export default new Vuex.Store({
                     var a = JSON.parse(localStorage.oxTxtAll)
                     console.log(a)
                     var date = new Date().getTime();
-                    if(a[message.from+'1']){
-                        a[message.from+'1'][date] = message.data;
+                    if(a[message.from]){
+                        a[message.from][date] = message.data;
                     } else {
-                        a[message.from+'1'] = {};
-                        a[message.from+'1'][date] = message.data;
+                        a[message.from] = {};
+                        a[message.from][date] = message.data;
                     }
                     self.state.txt = a;
                     localStorage.oxTxtAll = JSON.stringify(a)

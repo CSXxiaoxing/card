@@ -359,6 +359,7 @@
                 this.zn_chatid = params[4];     // 群聊id
                 this.chartList = `/chartList/${this.$route.params.id}`; // 群聊列表
                 qunliao()
+
             } 
 
             else if(params[0] == 2){    //  个人
@@ -369,19 +370,20 @@
                 };
                 
             }
-            
+            if ( params[0] == 1 || params[0] == 2 ) {   // 确定聊天位置
+                self.$store.state.txt = JSON.parse(localStorage.oxTxtAll)  || '';
+            }
             
             function qunliao() {
                 self.list()                                 // 请求群员
-                if ( params[0] == 1 || params[0] == 2 ) {   // 确定聊天位置
-                    self.$store.state.txt = JSON.parse(localStorage.oxTxtAll)  || '';
-                } else if ( params[0] == 3 ) {
-                    var a = JSON.parse(localStorage.oxQun)
-                    if(a['hz_niuniu_'+id]){
-                        a['hz_niuniu_'+id] = {}
-                    }
-                    self.$store.state.txt = JSON.parse(localStorage.oxQun) || '';
+                 
+                var a = JSON.parse(localStorage.oxQun)
+                if(!a[`${self.zn_chatid}`]){
+                    a[`${self.zn_chatid}`] = {}
                 }
+                localStorage.oxQun = JSON.stringify(a)
+                self.$store.state.txt = JSON.parse(localStorage.oxQun) || '';
+
                 var options2 = {                        // 获取用户加入的群组列表
                     success: function (resp) {
                         console.log("Response: ", resp)
@@ -400,8 +402,8 @@
                     conn.addGroupMembers(option3);
                 };
                 addGroupMembers()   // 群聊
+
             }
-            
 
             // 储存聊天记录
             this.$store.state.obj = {
@@ -426,6 +428,8 @@
                 chat.scrollTop = chat.scrollHeight;
                 clearTimeout(timeD)
             },100)
+
+            self.$store.state.txtType = self.zn_chatid;
         },
         beforeUpdated: function(){
             console.log(this.$store.state.txt)
@@ -483,16 +487,22 @@
                         roomType: false,
                         chatType: 'chatRoom',
                         success: function () {
-                            // console.log('群聊信息发送成功');
+                            self.$store.state.txtType = self.zn_chatid;
                             // 本地消息储存
                             var a = JSON.parse(localStorage.oxQun)
+                            var qid = self.zn_chatid;
                             var date = new Date().getTime();
 
-                            if(a["hz_niuniu_"+self.id]){
-                                a["hz_niuniu_"+self.id][date] = self.txt;
+                            if(!a[qid]){
+                                a[qid] = {}
+                            }
+
+                            // console.log('群聊信息发送成功');
+                            if(a[qid]["hz_niuniu_"+self.id]){
+                                a[qid]["hz_niuniu_"+self.id][date] = self.txt;
                             } else {
-                                a["hz_niuniu_"+self.id] = {};
-                                a["hz_niuniu_"+self.id][date] = self.txt;
+                                a[qid]["hz_niuniu_"+self.id] = {};
+                                a[qid]["hz_niuniu_"+self.id][date] = self.txt;
                             }
                             self.$store.state.txt = a;
                             localStorage.oxQun = JSON.stringify(a);

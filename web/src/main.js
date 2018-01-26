@@ -25,6 +25,8 @@ Vue.use(MintUI);
     }
     console.log('当前localStorage使用容量为' + (size / 1024).toFixed(2) + 'KB');
 } ()
+
+
 // 创建初始化聊天储存
 // localStorage.setItem('oxTxtAll', "{}")
 if(!localStorage.oxTxtAll){ // 单聊
@@ -34,6 +36,7 @@ if(!localStorage.oxTxtAll){ // 单聊
 if(!localStorage.oxQun){ // 群聊
   localStorage.setItem('oxQun', "{}")
 }
+
 
 // 连接服务端
 var socket = io(socketURL); //这里当然填写真实的地址了
@@ -54,7 +57,7 @@ socket.on('new_msg', function (data) {
         break;
     }    
 });
-
+  // socket连接检测
 socket.emit('test_io', 10086);
 socket.on('answer', function (data) {
     // console.log(data)

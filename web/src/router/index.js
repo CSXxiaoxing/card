@@ -64,7 +64,7 @@ var router = new VueRouter({
 			component: chartList
 		},
 		{
-			path: '/chartDelete',
+			path: '/chartDelete/:msg',
 			name: 'chartDelete',
 			component: chartDelete
 		},

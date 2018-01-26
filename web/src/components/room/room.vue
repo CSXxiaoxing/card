@@ -304,9 +304,9 @@
         data: function(){
             return {
                 chartRoom: '',  // 群聊路由
-                fangzhu: '',     // 房主
-                // 初始化
-                init: {
+                fangzhu: '',    // 房主
+                
+                init: {     // 初始化
                     ForT: 0,          // 1是房主0是普通
                     time: 0,         // 游戏时间控制
                     ju: 20,         // 游戏局数
@@ -319,11 +319,11 @@
                     text: ['游戏暂未开始', '准备开始：', '随机庄牌：', '可押注时间：', '开牌倒计时', '开牌结果'], // 游戏状态
                     textStyle : 0, // 对应状态码   [0, 1, 2, 3, 4, 5]
                     oxNumber: this.$store.state.idRoom.oxNumber,// 倍率
-                    fen: 5000000, // 庄总分
+                    fen: 5000, // 庄总分
                     ForZ: 0,// 庄时状态为1
                 },
-                // 时间总控
-                time: {
+               
+                time: {     // 时间总控
                     initTime: this.$store.state.time.initTime,
                     random: this.$store.state.time.random,
                     index: -1,      // 随机背景/庄家
@@ -332,8 +332,8 @@
                     endTime: this.$store.state.time.endTime,
                     countTime: this.$store.state.time.countTime,
                 },
-                // 输赢结果
-                win: {
+                
+                win: {      // 输赢结果
                     // 个人总分
                     fen : 0,
                     // 分数中转
@@ -345,22 +345,21 @@
                     cssZZ: ['','',''],
                     cssZZF: ['','',''],
                 },
-                // 主人
-                host: {
+                
+                host: {     // 主人
                     style: false,// 游戏开始
                     gainNum: 150000,// 抽水
                     allType: 0,     // 游戏总控制 1 => 游戏中 || 0 => 暂停游戏  
                 },
-                // 普通
-                ordinary: {
+                
+                ordinary: {     // 普通
                     // 背景渐变
                     bg: false,
                     // 可下注池
                     pond: 0,
                     // 总下注
                     allPay: [999, 888, 777, 666, 555, 0, 333],
-                    //自己下---翻倍/不翻倍/总下注
-                    pay: {
+                    pay: {      //自己下---翻倍/不翻倍/总下注
                         0 : [0, 0, 0],
                         1 : [0, 0, 0],
                         2 : [0, 0, 0],
@@ -370,8 +369,7 @@
                         6 : [0, 0, 0],
                         7 : [0, 0, 0],
                     },
-                    // 第几个下注框
-                    Pn: -1,
+                    Pn: -1,     // 第几个下注框
                 },
                 // 扑克牌黑桃(spade)红心（heart）梅花（clubs）方块（dianmond） 
                 cardURL: {
