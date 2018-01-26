@@ -39,7 +39,7 @@
 		</header>
 		<div class='homeMain'>
 			<ul @click='openS'>
-				<li v-for='(dataRoom) in dataList' :key='dataRoom.key' :openState='dataRoom.open'>
+				<li v-for='(dataRoom) in dataList' :key='dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
 					<b v-if='dataRoom.open'></b>
 					<i></i>
 					<h4>大战牛群</h4>
@@ -48,7 +48,7 @@
 						<p>
 							<span v-show='dataRoom.open == "false"'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
 							<span v-show='dataRoom.open'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
-							<span v-if='dataRoom.open' id="roomNumber">房号：{{dataRoom.roomNumber}}</span>
+							<span v-show='dataRoom.open' id="roomNumber">房号：{{dataRoom.roomNumber}}</span>
 						</p>
 						<div></div>
 					</div>
@@ -116,6 +116,7 @@
 				number : 0,
 				roomNumber:0,
 				dataList: [],
+				sendId : 0,
 			}
 		},
 		mounted: function(){		
@@ -192,9 +193,37 @@
 				var Tar = () => {
 					var EtarName = Etar.nodeName.toLowerCase();
 					if(EtarName == 'li'){
-						Etar.attributes["openState"].nodeValue == 'false' ? 
-						this.$refs.onOpenChild.onOpenRoom =
+						var nodeValue = Etar.attributes["openState"].nodeValue;
+
+						nodeValue == 'false' ? this.$refs.onOpenChild.onOpenRoom =
 						++[[]][+[]]+[+[]] == 10 : 0.1+0.2 ==0.3;
+
+						if(nodeValue == 'true'){
+							this.sendId = Etar.attributes["roomid"].nodeValue
+							console.log(Etar.attributes["roomid"].nodeValue)
+							http.post('/Room/getRooms',{
+		                        number: this.sendId,
+		                    })
+		                    .then(res => {
+		                        // console.log(res)
+		                        if(res.status == 1) {
+		                            http.post('/Room/joinRoom' ,
+		                            {
+		                                zn_room_id : res.data.id,
+		                            }, '' ,this)
+		                            .then(res => {
+		                                console.log(res)
+		                                if( res.status == 3 ){
+		                                    router.push({path: `room/${Etar.attributes["roomid"].nodeValue}`});
+		                                    // alert('房间号码不存在')
+		                                } else if( res.status == 1 ){
+		                                    router.push({path: `room/${res.data.zc_number}`});
+		                                }
+		                            })
+
+		                        }
+		                    })
+						}
 						return false;
 					} else if(EtarName == 'body'){
 						return false;
@@ -211,6 +240,9 @@
 			loading(){
 				Indicator.open('加载中...');
 			},
+			messAuto(){
+				
+			}
 		}
 	}
 </script>

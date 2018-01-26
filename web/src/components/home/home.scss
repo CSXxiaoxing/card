@@ -186,7 +186,8 @@
         ul{
             padding: 1%;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
+            flex-direction:row;
             flex-wrap: wrap;
 
             li{
@@ -199,6 +200,7 @@
                 background-size: cover;
                 background-position:center;
                 background-size: 3.166667rem 2.777778rem;
+                margin-right:0.075rem;
                 b{
                     display: block;
                     background: $homeAll -2.777778rem 0.0rem no-repeat;
