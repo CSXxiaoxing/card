@@ -5,9 +5,9 @@
                 <li>
                     <i><a @click='$store.commit("ls")'></a></i>
                 </li>
-                <li v-show='roomstatus == 1 || roomstatus == 2'>{{$store.state.test}}</li>
+                <li v-show='roomstatus != 0 && roomstatus != 3'>{{shename}}</li>
                 <li v-show='roomstatus == 0'>联系客服</li>
-                <li v-show='roomstatus == 3'>聊天室（{{lingth}}）</li>
+                <li v-show='roomstatus == 3'>聊天室（{{lingth+1}}）</li>
                 <li v-show='roomstatus == 3'>
                     <router-link :to="chartList" >
                     <img src="../../img/chart_Room7.png" alt="">
@@ -98,7 +98,12 @@
                 }
                 li:nth-of-type(2){
                    position:absolute;
-                   left:1.388889rem;
+                   left: 50%;
+                   -webkit-transform: translate(-50%,-8%);
+                      -moz-transform: translate(-50%,-8%);
+                       -ms-transform: translate(-50%,-8%);
+                        -o-transform: translate(-50%,-8%);
+                           transform: translate(-50%,-8%);
                 }
                 li:nth-of-type(3){
                    position:absolute;
@@ -317,21 +322,24 @@
 <script type="text/javascript">
 	import Vue from 'vue';
     import http from '../../utils/httpClient.js';
-
+    // [2,961109,961,0,112233] 路由数据案例
 	export default {
         data: function(){
             return {
-                chartList: '',      // 成员列表
-                lingth: 0,         // 成员人数
-                speak: 1,         // 语音是0 输入是1 
-                zn_chatid: 0,        // 群聊id
-                give: 0,         // 加减分
-                roomstatus: 99,   // 0-客服  1-聊天（房主）  2-聊天（玩家） 3-群聊
-                isfriend: 0,    // 是好友1  不是0
-                roomNum: 1,     // 房间号
+                chartList: '',      // 成员列表（群）
+                lingth: 0,          // 成员人数（群）
+                zn_chatid: 0,       // 群聊id（群）
+                zn_name: '',        // 群名称 （群）
+                speak: 1,           // 语音是0 输入是1 
+                give: 0,            // 加减分
+                roomstatus: 99,     // 0-客服  1-聊天（房主）  2-聊天（玩家） 3-群聊
+                isfriend: 0,        // 是好友1  不是0
+                roomNum: 1,         // 房间号
                 roomid: 0,          // 房间id
-                txt: '',      //发送产生的文本
-                id: localStorage.oxUid,   //个人id
+                txt: '',            // 发送产生的文本
+                id: localStorage.oxUid,   //个人id（单聊）
+                sheId: 0,                 // 对方id（单聊）
+                shename: '网络不好暂时无法显示',// 对方名字（单聊）
             }
         },
         beforeMount: function(){
@@ -339,46 +347,61 @@
             this.$store.getters.txt;
         },
         mounted: function(){
-            var self = this;
-            var params = JSON.parse(this.$route.params.id)
-            this.roomstatus = params[0];
-            this.roomNum = params[1];
-            this.roomid = params[2];
-            this.zn_chatid = params[4];
-            this.chartList = `/chartList/${this.$route.params.id}`;
-            this.list()
-            if ( params[0] == 1 || params[0] == 2 ) {   // 确定聊天内容
-                this.$store.state.txt = JSON.parse(localStorage.oxTxtAll)  || '';
-            } else if ( params[0] == 3 ) {
-                var a = JSON.parse(localStorage.oxQun)
-                if(a['hz_niuniu_'+id]){
-                    a['hz_niuniu_'+id] = {}
-                }
+            var [self, id] = [this, this.id];
+            this.$store.dispatch('webIM')   // 配置
+            this.$store.dispatch('dl')      // 登录
 
-                this.$store.state.txt = JSON.parse(localStorage.oxQun) || '';
-            }
-            let id = this.id;
-            this.$store.dispatch('webIM')
-            this.$store.dispatch('dl')
+            var params = JSON.parse(this.$route.params.id)  // 路由参数
+            this.roomstatus = params[0];    // 状态
+            if(params[0] == 3){         // 聊天室
+                this.roomNum = params[1];       // 房间号
+                this.roomid = params[2];        // 房间id
+                this.zn_chatid = params[4];     // 群聊id
+                this.chartList = `/chartList/${this.$route.params.id}`; // 群聊列表
+                qunliao()
+            } 
 
-            var options2 = {     // 获取用户加入的群组列表
-                success: function (resp) {
-                    console.log("Response: ", resp)
-                },
-                error: function (e) {
-                    console.log(e)
-                }
-            }
-            conn.getGroup(options2); 
-
-            var addGroupMembers = function () {     // 加入群聊
-                var option3 = {
-                    list: ['hz_niuniu_'+localStorage.oxUid],
-                    roomId: self.zn_chatid,
+            else if(params[0] == 2){    //  个人
+                if (params[1] > 99999) {    // 群聊室找群主的
+                    this.roomNum = params[1];       // 房间号
+                    this.zn_name = params[4];     // 房间名字
+                    this.sheId = params[2];         // 房主id
                 };
-                conn.addGroupMembers(option3);
-            };
-            addGroupMembers()
+                
+            }
+            
+            
+            function qunliao() {
+                self.list()                                 // 请求群员
+                if ( params[0] == 1 || params[0] == 2 ) {   // 确定聊天位置
+                    self.$store.state.txt = JSON.parse(localStorage.oxTxtAll)  || '';
+                } else if ( params[0] == 3 ) {
+                    var a = JSON.parse(localStorage.oxQun)
+                    if(a['hz_niuniu_'+id]){
+                        a['hz_niuniu_'+id] = {}
+                    }
+                    self.$store.state.txt = JSON.parse(localStorage.oxQun) || '';
+                }
+                var options2 = {                        // 获取用户加入的群组列表
+                    success: function (resp) {
+                        console.log("Response: ", resp)
+                    },
+                    error: function (e) {
+                        console.log(e)
+                    }
+                }
+                conn.getGroup(options2); 
+
+                var addGroupMembers = function () {     // 加入群聊
+                    var option3 = {
+                        list: ['hz_niuniu_'+localStorage.oxUid],
+                        roomId: self.zn_chatid,
+                    };
+                    conn.addGroupMembers(option3);
+                };
+                addGroupMembers()   // 群聊
+            }
+            
 
             // 储存聊天记录
             this.$store.state.obj = {
@@ -418,6 +441,7 @@
             textPush () { 
                 var self = this;
                 var type = this.roomstatus;  // 0-客服  1-聊天（房主）  2-聊天（玩家） 3-群聊
+
                 
                 var sendPrivateText = function () {
                     var id = conn.getUniqueId();                  // 生成本地消息id

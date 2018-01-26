@@ -53,7 +53,7 @@
             <mt-button v-show = 'a == 1' type="primary"  @click="dissolveRoom = true">
                     解散房间
             </mt-button>
-            <mt-button v-show = 'a == 1' type="primary"  @click="idMessage = false">
+            <mt-button v-show = 'a == 1' type="primary"  @click="idMessage = true">
                     删除成员
             </mt-button>
         	<mt-button v-show = 'a == 0' type="primary"  @click="putRoom = true">

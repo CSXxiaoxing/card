@@ -249,7 +249,9 @@
                 <li v-show='init.ForT == 1'>
                     <router-link to="/message" >发布公告</router-link>
                 </li>
-                <li v-show='init.ForT == 0'>联系房主</li>
+                <li v-show='init.ForT == 0'>
+                    <router-link :to="fangzhu" >联系房主</router-link>
+                </li>
                 <li class='roomScore' v-show='init.ForT == 1' 
                     @click="$refs.onapplyOnChild.details=true;">
                     <b :class='win.css[2].length > 0 ? "a" : ""'>{{host.gainNum}}
@@ -301,7 +303,8 @@
     export default {
         data: function(){
             return {
-                chartRoom: '',
+                chartRoom: '',  // 群聊路由
+                fangzhu: '',     // 房主
                 // 初始化
                 init: {
                     ForT: 0,          // 1是房主0是普通
@@ -417,7 +420,10 @@
                         } else {
                             self.init.ForT = 0;
                         }
-                        self.chartRoom = `/chartRoom/[3,${data.zc_number},${data.id},${self.init.ForT},${data.zn_chatid}]`,
+                        self.fangzhu = `/chartRoom/[2,${data.zc_number},${data.zn_member_id},${self.init.ForT},${data.zc_title}]`;
+
+                        self.chartRoom = `/chartRoom/[3,${data.zc_number},${data.id},${self.init.ForT},${data.zn_chatid}]`;
+
                         vx.room_id = data.zc_number;
                         vx.zn_chatid = data.zn_chatid;
                         vx.id = data.id;
@@ -452,10 +458,10 @@
                 console.log(self.TTT)
             });
             // 状态跟随
-            self.clearStyle()       //清除
-            self.clearGameStyle()  // 清0
-            self.gameStart(5)       // 进入游戏阶段
-            
+            // self.clearStyle()       //清除
+            // self.clearGameStyle()  // 清0
+            // self.gameStart(5)       // 进入游戏阶段
+            // self.roomStyle(4)
             // self.cardURL = self.TTT;// 牛牛赋值
         },
         methods: {
@@ -847,9 +853,10 @@
                     }
                     if(self.init.fen < self.init.pond){ // 庄家下盘分数不够时
                         self.host.allType = 0
-                    } else {
-                        self.host.allType = 1
                     }
+                    //  else if(self.host.allType != 0){
+                    //     self.host.allType = 1
+                    // }
                     
                 }, 1000)
             },
@@ -990,19 +997,21 @@
             roomStyle (type) {       // 游戏状态
                 // console.log(type)
                 if(type == 4){
-                    console.log(4)
+                    // console.log(4)
                     var data = JSON.stringify(this.cardURL)
                     http.post('/Room/setRoomStatus',{     
-                        zn_room_id: this.init.id,
+                        zn_room_id: 39,
                         zn_status: type,
                         zn_text: data,
                     })
                     .then(res => {
                         console.log(res)
                     })
-                } else {
+                } else{
+                    console.log(this.init.id)
+
                     http.post('/Room/setRoomStatus',{     
-                        zn_room_id: this.init.id,
+                        zn_room_id: 39,
                         zn_status: type,
                     })
                     .then(res => {
