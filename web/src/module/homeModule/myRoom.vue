@@ -12,15 +12,15 @@
         <div class="select" >
             <div>
                 <img  :class ='sel == 0 ? "left":"right"' src="../../img/module_home_myRoom1.png" alt="">
-                <button @click='sel = 0 , joinRoom()'>我开的房间</button>
-                <button @click='sel = 1 , joinRoom()'>加入的房间</button>
+                <button @click='sel = 0'>我开的房间</button>
+                <button @click='sel = 1'>加入的房间</button>
             </div>
         </div>
 
         <div class="room"> 
             <p v-if = 'datagrid == 0'>你还没有创建/加入房间，快去创建/加入</p>
             <ul @click='openS'>
-                <li v-for='(dataRoom) in datagrid' :key='dataRoom.key' :openState='dataRoom.open'>
+                <li v-show = 'sel==0' v-for='(dataRoom) in datagrid' :key='dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
                     <b v-if='dataRoom.open'></b>
                     <i></i>
                     <h4>大战牛群</h4>
@@ -29,7 +29,21 @@
                         <p>
                         <span v-show='dataRoom.open == "false"'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
                             <span v-show='dataRoom.open'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
-                            <span v-if='dataRoom.open' id="roomNumber">房号：{{dataRoom.roomNumber}}</span>
+                            <span v-show='dataRoom.open' id="roomNumber">房号：{{dataRoom.roomNumber}}</span>
+                        </p>
+                    </div>
+                </li>
+
+                <li v-show = 'sel==1' v-for='(dataRoom) in datajoin' :key='dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
+                    <b v-if='dataRoom.open'></b>
+                    <i></i>
+                    <h4>大战牛群</h4>
+                    <div>
+                        <h5>{{dataRoom.roomName}}</h5>
+                        <p>
+                        <span v-show='dataRoom.open == "false"'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
+                            <span v-show='dataRoom.open'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
+                            <span v-show='dataRoom.open' id="roomNumber">房号：{{dataRoom.roomNumber}}</span>
                         </p>
                     </div>
                 </li>
@@ -162,9 +176,9 @@
             ul{
                 padding: 1%;
                 display: flex;
-                justify-content: space-between;
+                justify-content: flex-start;
+                flex-direction:row;
                 flex-wrap: wrap;
-                
                 li{
                     // width: 342px;
                     width: 32.2%;
@@ -175,6 +189,7 @@
                     background-size: cover;
                     background-position:center;
                     background-size: 2.240741rem 2.037037rem;
+                    margin-right:0.075rem;
                     b{
                         display: block;
                         background: $homeAll -2.777778rem 0.0rem no-repeat;
@@ -221,7 +236,7 @@
                             justify-content: space-between;
                             span{
                                 position:relative;
-                                bottom:45px;
+                                bottom:0.5rem;
                                 font-size: 0.222222rem;
                                 text-align: right;
                                 height:0.222222rem;
@@ -256,6 +271,8 @@
   
 <script>
     import http from '../../utils/httpClient.js';
+    import router from '../../router/';
+    import Vue from 'vue';
 
     export default {
         data() {
@@ -264,6 +281,7 @@
                 val: '',
                 tabPosition: 'top',
                 datagrid: [],
+                datajoin: [],
                 sel:0,
                 pagesize:30,
                 type :2 ,
@@ -305,6 +323,32 @@
                     console.log(self.datagrid)
                     }
                 })
+
+
+                 http.post('/Room/joinRoomList' ,
+                    {
+                       id : localStorage.oxUid,
+                    }, '' ,this)
+                    .then(res => {
+                        console.log(res)
+                        if(res.status == 1){
+                        for(var i = 0 ; i < res.data.length ; i++){
+                            self.key = res.data[i].id 
+                            self.open = res.data[i].zn_room_type == 1 ? true : false
+                            self.roomName = res.data[i].zc_title 
+                            self.roomNumber= res.data[i].zc_number
+                            self.number = res.data[i].pernumber
+                            self.datajoin.push({
+                                key : self.key,
+                                open : self.open,
+                                roomName : self.roomName,
+                                roomNumber : self.roomNumber,
+                                number :self.number
+                            })
+                        }
+                        console.log(self.datajoin)
+                        }
+                    })
             } else {
                 // 跳回登录页
                 router.push({name: '/'});
@@ -314,20 +358,47 @@
             openS(e){
               let Etar = e.target;
               var Tar = () => {
-                var EtarName = Etar.nodeName.toLowerCase();
-                if(EtarName == 'li'){
-                  console.log(this.$refs)
-                  Etar.attributes["openState"].nodeValue == 'false' ? 
-                  this.$refs.onOpenChild._data.onOpenRoom=true : false;
-                  return false;
-                } else if(EtarName == 'body'){
-                  return false;
-                } else {
-                  Etar = Etar.parentElement;
-                  Tar();
-                }
-              };
-              Tar();
+               var EtarName = Etar.nodeName.toLowerCase();
+                        if(EtarName == 'li'){
+                          var nodeValue = Etar.attributes["openState"].nodeValue;
+
+                          nodeValue == 'false' ? this.$refs.onOpenChild.onOpenRoom =
+                          ++[[]][+[]]+[+[]] == 10 : 0.1+0.2 ==0.3;
+
+                          if(nodeValue == 'true'){
+                            this.sendId = Etar.attributes["roomid"].nodeValue
+                            console.log(Etar.attributes["roomid"].nodeValue)
+                            http.post('/Room/getRooms',{
+                                          number: this.sendId,
+                                      })
+                            .then(res => {
+                                // console.log(res)
+                                if(res.status == 1) {
+                                    http.post('/Room/joinRoom' ,
+                                    {
+                                        zn_room_id : res.data.id,
+                                    }, '' ,this)
+                                    .then(res => {
+                                    console.log(res)
+                                    if( res.status == 3 ){
+                                    router.push({path: `room/${Etar.attributes["roomid"].nodeValue}`});
+                                        // alert('房间号码不存在')
+                                    } else if( res.status == 1 ){
+                                        router.push({path: `room/${res.data.zc_number}`});
+                                    }
+                                })
+                                }
+                            })
+                          }
+                          return false;
+                        } else if(EtarName == 'body'){
+                          return false;
+                        } else {
+                          Etar = Etar.parentElement;
+                          Tar();
+                        }
+                      };
+                      Tar();
             },
             generateToolBar: function(obj){
               //动态生成按钮
@@ -343,76 +414,6 @@
               .then(res => {
                 console.log(res)
               })
-            },
-            joinRoom(){
-
-                if(localStorage.oxToken && localStorage.oxUid){
-                this.id = localStorage.oxUid
-                this.name = localStorage.getItem('oxName')
-                // 房间请求
-                this.$store.dispatch('webIM')
-                var self = this;
-                if(this.sel == 0){
-                    self.datagrid = [];
-                    http.post('/Room/getRoomList' ,
-                    {
-                        token: localStorage.oxToken,
-                        pagesize : self.pagesize,
-                        type : self.type,
-                        p : self.p,
-                    }, '' ,this)
-                    .then(res => {
-                        console.log(res)
-                        if(res.status == 1){
-                            for(var i = 0 ; i < res.data.length ; i++){
-                                self.key = res.data[i].id 
-                                self.open = res.data[i].zn_room_type == 1 ? true : false
-                                self.roomName = res.data[i].zc_title 
-                                self.roomNumber= res.data[i].zc_number
-                                self.number = res.data[i].pernumber
-                                self.datagrid.push({
-                                    key : self.key,
-                                    open : self.open,
-                                    roomName : self.roomName,
-                                    roomNumber : self.roomNumber,
-                                    number :self.number
-                                })
-                            }
-                            console.log(self.datagrid)
-                        }
-                    })
-                }
-                else{
-                    self.datagrid = [];
-                    http.post('/Room/joinRoomList' ,
-                    {
-                       id : localStorage.oxUid,
-                    }, '' ,this)
-                    .then(res => {
-                        console.log(res)
-                        if(res.status == 1){
-                        for(var i = 0 ; i < res.data.length ; i++){
-                            self.key = res.data[i].id 
-                            self.open = res.data[i].zn_room_type == 1 ? true : false
-                            self.roomName = res.data[i].zc_title 
-                            self.roomNumber= res.data[i].zc_number
-                            self.number = res.data[i].pernumber
-                            self.datagrid.push({
-                                key : self.key,
-                                open : self.open,
-                                roomName : self.roomName,
-                                roomNumber : self.roomNumber,
-                                number :self.number
-                            })
-                        }
-                        console.log(self.datagrid)
-                        }
-                    })
-                }
-            } else {
-                // 跳回登录页
-                router.push({name: '/'});
-            }
             },
         }
   }
