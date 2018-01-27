@@ -1,5 +1,14 @@
 <template>
     <div id='room'>
+        <mt-popup 
+            v-model="careTip"
+            popup-transition="popup-fade" :modal='false'
+            class="care" >
+            <span>通知 <i @click="careTip = false">×</i></span>
+            <p>该房间尚未公开</p>
+            <mt-button @click="careTip = false">  确定
+            </mt-button>
+        </mt-popup >
         <header>
             <ul>
                 <li>
@@ -305,7 +314,7 @@
             return {
                 chartRoom: '',  // 群聊路由
                 fangzhu: '',    // 房主
-                
+                careTip : false,
                 init: {     // 初始化
                     ForT: 0,          // 1是房主0是普通
                     time: 0,         // 游戏时间控制

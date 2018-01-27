@@ -11,7 +11,7 @@
 </template>
 
 <style lang='scss' scoped>
-@import '../../utils/baseVar.scss';
+ @import '../../utils/baseVar.scss';
   .tip{
     width: 7.092593rem;
     border-radius: 0.277778rem;

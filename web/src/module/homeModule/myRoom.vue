@@ -12,15 +12,16 @@
         <div class="select" >
             <div>
                 <img  :class ='sel == 0 ? "left":"right"' src="../../img/module_home_myRoom1.png" alt="">
-                <button @click='sel = 0 , showNone()'>我开的房间</button>
-                <button @click='sel = 1 , showNone2()'>加入的房间</button>
+                <button @click='sel = 0 '>我开的房间</button>
+                <button @click='sel = 1 '>加入的房间</button>
             </div>
         </div>
 
         <div class="room"> 
             
             <ul @click='openS'>
-                <p v-show = '(show == 0 && sel == 0) || (show2 == 0 && sel ==1)'>你还没有创建/加入房间，快去创建/加入</p>
+                <p v-show = '(!datagrid && sel == 0) || (!datajoin && sel ==1)'>你还没有创建/加入房间，快去创建/加入</p>
+
                 <li v-show = 'sel==0' v-for='(dataRoom) in datagrid' :key='dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
                     <b v-if='dataRoom.open'></b>
                     <i></i>
@@ -167,6 +168,7 @@
             background:$home06 no-repeat;
             background-size: cover;
             background-position:center;
+            border-radius: 0.259259rem;
             p{
               font-size:0.444444rem;
               color: #9B9A98;
@@ -310,12 +312,6 @@
                     console.log(res)
                     self.status = res.status
                     console.log(res.status)
-                    if(self.status==0){
-                        self.show = 0;
-                    }
-                    else{
-                        self.show = 1;
-                    }
                     if(res.status == 1){
                     for(var i = 0 ; i < res.data.length ; i++){
                         self.key = res.data[i].id 
@@ -343,12 +339,6 @@
                     .then(res => {
                         console.log(res)
                         console.log(res.status)
-                        if(self.status==0){
-                            self.show2 = 0;
-                        }
-                        else{
-                            self.show2 = 1;
-                        }
                         if(res.status == 1){
                         for(var i = 0 ; i < res.data.length ; i++){
                             self.key = res.data[i].id 
@@ -432,20 +422,6 @@
               .then(res => {
                 console.log(res)
               })
-            },
-            showNone(){
-                if(this.status == 0 && this.sel == 0){
-                    this.show = 0
-                }else{
-                    this.show = 1
-                }
-            },
-            showNone2(){
-                if(this.status == 0 && this.sel == 1){
-                      this.show = 0
-                }else{
-                    this.show = 1
-                }
             },
         }
   }
