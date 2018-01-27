@@ -1,3 +1,4 @@
+@import '../../utils/baseVar.scss';
 #friend {
     background: #ECEDF1;
     height: 100%;
@@ -5,9 +6,9 @@
     // flex-direction: column;
     
     header {
-        height: 202px;
+        height: 1.87037rem;
         background: #2F2E34;
-        padding: 103px 32px 0;
+        padding: 0.953704rem 0.296296rem 0;
         box-sizing: border-box;
         position: fixed;
         width: 100%;
@@ -21,30 +22,30 @@
             li:first-child {
                 &>i {
                     display: inline-block;
-                    width: 70px;
-                    height: 55px;
-                    background: url('../../img/room_all.png') -470px -160px no-repeat;
-                    background-size: 600px;
+                    width: 0.648148rem;
+                    height: 0.509259rem;
+                    background: $roomAll -4.351852rem -1.481481rem no-repeat;
+                    background-size: 5.555556rem;
                     position: relative;
                     top: 50%;
                     transform: translate(0, -50%);
                     a {
-                        padding: 28px 40px;
+                        padding: 0.259259rem 0.37037rem;
                     }
                 }
             }
             li:last-child {
                 i {
                     display: inline-block;
-                    width: 60px;
-                    height: 60px;
-                    background: url('../../img/room_all.png') -300px -250px no-repeat;
-                    background-size: 600px;
+                    width: 0.555556rem;
+                    height: 0.555556rem;
+                    background: $roomAll -2.777778rem -2.314815rem no-repeat;
+                    background-size: 5.555556rem;
                     position: relative;
                     top: 50%;
                     transform: translate(0, -50%);
                     a {
-                        padding: 28px 40px;
+                        padding: 0.259259rem 0.37037rem;
                     }
                 }
             }
@@ -53,9 +54,9 @@
     .friMain {
         ul {
             overflow: hidden;
-            padding-top: 202px;
+            padding-top: 1.87037rem;
             li {
-                padding: 0px 35px;
+                padding: 0 0.324074rem;
                 box-sizing: border-box;
                 overflow:hidden;
             }
@@ -63,58 +64,59 @@
                 background: #fff;
                 height: 0;
                 overflow: hidden;
-                padding: 0px 35px;
-                box-shadow: 0px -2px 20px #CFD0D2;
+                padding: 0 0.324074rem;
+                box-shadow: 0 -0.018519rem 0.185185rem #CFD0D2;
                 dl {
                     overflow-y: auto;
                     overflow-x: hidden;
-                    max-height: 1020px;
+                    max-height: 9.444444rem;
                     dd {
-                        padding: 30px 0;
+                        padding: 0.277778rem 0;
                         display: flex;
-                        font-size: 44px;
-                        border-bottom: 2px solid #CACACA;
+                        font-size: 0.407407rem;
+                        border-bottom: 0.018519rem solid #CACACA;
                         span:nth-of-type(1) {
                             display: inline-block;
-                            height: 145px;
-                            width: 141px;
-                            background: url('../../img/room_all.png') -450px -400px no-repeat;
-                            background-size: 600px;
+                            height: 1.342593rem;
+                            width: 1.305556rem;
+                            background: $roomAll -4.166667rem -3.703704rem no-repeat;
+                            background-size: 5.555556rem;
                         }
                         span:nth-of-type(2) {
                             flex: 1;
-                            line-height: 120px;
+                            line-height: 1.111111rem;
                             text-align: left;
-                            padding-left: 46px;
+                            padding-left: 0.425926rem;
                         }
                         span:nth-of-type(3) {
-                            width: 220px;
-                            height: 96px;
-                            margin-top: 22px;
+                            width: 2.037037rem;
+                            height: 0.888889rem;
+                            margin-top: 0.203704rem;
                             box-sizing: border-box;
-                            border: 3px solid #B7DBB5;
-                            border-radius: 48px;
+                            border: 0.027778rem solid #B7DBB5;
+                            border-radius: 0.444444rem;
                             position: relative;
-                            line-height: 94px;
+                            line-height: 0.87037rem;
                             text-align: right;
-                            padding-right: 35px; 
+                            padding-right: 0.324074rem; 
                             color: #09BA07;
                             i {
                                 display: inline-block;
                                 position: absolute;
-                                width: 46px;
-                                height: 44px;
-                                left: 10px;
+                                width: 0.425926rem;
+                                height: 0.407407rem;
+                                left: 0.092593rem;
                                 top: 50%;
                                 transform: translate(50%, -50%);
-                                background: url('../../img/room_all.png') -470px -240px no-repeat;
-                                background-size: 600px;
+                                background: $roomAll -4.351852rem -2.222222rem no-repeat;
+                                background-size: 5.555556rem;
+
                             }
                             i.Iadd {
-                                width: 47px;
-                                height: 46px;
-                                background: url('../../img/room_all.png') -530px -240px no-repeat;
-                                background-size: 600px;
+                                width: 0.435185rem;
+                                height: 0.425926rem;
+                                background: $roomAll -4.907407rem -2.222222rem no-repeat;
+                                background-size: 5.555556rem;
                             }
                         }
                     }
@@ -124,121 +126,123 @@
                 } 
             }
             li.show { 
-                height: 1020px;
-                max-height: 1020px;
-                margin-top: -46px;
+                height: 9.444444rem;
+                max-height: 9.444444rem;
+                margin-top: -0.425926rem;
                 transition: height 2s;
             }
             li.hide {
-                height: 0px;
-                margin-top: 0px;
+                height: 0;
+                margin-top: 0;
                 transition: all 2s;
             }
             li:nth-of-type(2n-1) {
-                height: 200px;
+                height: 1.851852rem;
                 background: #fff;
-                box-shadow: 0px 2px 20px #CFD0D2;
-                margin-bottom: 46px;
+                box-shadow: 0.0rem 0.018519rem 0.185185rem #CFD0D2;
+                margin-bottom: 0.425926rem;
                 
-                padding-top: 35px;
-                padding-bottom: 46px;
+                padding-top: 0.324074rem;
+                padding-bottom: 0.425926rem;
                 display: flex;
                 span:nth-of-type(1) {
                     display: inline-block;
-                    height: 118px;
-                    width: 120px;
-                    background: url('../../img/room_all.png') 0px -410px no-repeat;
-                    background-size: 600px;
+                    height: 1.092593rem;
+                    width: 1.111111rem;
+                    background: $roomAll 0 -3.796296rem no-repeat;
+                    background-size: 5.555556rem;
                 }
                 span:nth-of-type(2) {
                     flex: 1;
-                    line-height: 118px;
+                    line-height: 1.092593rem;
                 }
                 span:nth-of-type(3) {
-                    width: 120px;
+                    width: 1.111111rem;
                     position: relative;
                     i {
                         display: inline-block;
                         position: absolute;
-                        width: 42px;
-                        height: 24px;
+                        width: 0.388889rem;
+                        height: 0.222222rem;
                         top: 50%;
                         transform: translateY(-50%);
-                        background: url('../../img/room_all.png') -400px -250px no-repeat;
-                        background-size: 600px;
+                        background: $roomAll -3.703704rem -2.314815rem no-repeat;
+                        background-size: 5.555556rem;
                         z-index: 0;
                     }
                     i.Iup {
-                        background: url('../../img/room_all.png') -400px -290px no-repeat;
-                        background-size: 600px;
+                        background: $roomAll -3.703704rem -2.685185rem no-repeat;
+                        background-size: 5.555556rem;
                     }
                 }
             }
             li:nth-of-type(3) {
                 span:nth-of-type(1) {
-                    background: url('../../img/room_all.png') -150px -410px no-repeat;
-                    background-size: 600px;
+                    background: $roomAll -1.388889rem -3.796296rem no-repeat;
+                    background-size: 5.555556rem;
                 }
             }
             li:nth-of-type(5) {
                 span:nth-of-type(1) {
-                    background: url('../../img/room_all.png') -300px -410px no-repeat;
-                    background-size: 600px;
+                    background: $roomAll -2.777778rem -3.796296rem no-repeat;
+                    background-size: 5.555556rem;
                 }
             }
 
             li:nth-of-type(2){
-                padding:0px;
+                padding:0;
                 overflow:hidden;
                 dl{
                     border-bottom:2px solid #D5D5D5;
                     width:100%;
-                    height:182px;
+                    height:1.685185rem;
                     dt{
                         float: left;
                         span{
                             display: inline-block;
-                            height: 96px;
-                            width: 89px;
-                            background: url('../../img/friend2.png') no-repeat;
+                            height: 0.888889rem;
+                            width: 0.824074rem;
+                            background: $friend01  no-repeat;
+                            background-size:0.824074rem 0.888889rem;
                             position:relative;
-                            top:62px;
-                            left:35px;
+                            top:0.574074rem;
+                            left:0.324074rem;
                         }
                     }
                     dd{
                         position:relative;
                         border: none;
-                        font-size:40px;
+                        font-size:0.37037rem;
                         b{
                             font-weight:normal;
                         }
                         b:nth-of-type(2){
                             position:relative;
-                            top:74px;
-                            right:98px;
+                            top:0.685185rem;
+                            right:0.907407rem;
                             color:#878787;
                         }
                         b:nth-of-type(1){
                             position:relative;
-                            left:82px;
-                            top:10px;
+                            left:0.759259rem;
+                            top:0.092593rem;
                         }
                         b:nth-of-type(3){
-                            height: 182px;
-                            width: 24px;
-                            background: url('../../img/friend3.png') no-repeat;
+                            height: 1.685185rem;
+                            width: 0.222222rem;
+                            background: $friend02 no-repeat;
+                            background-size:0.222222rem 1.314815rem;
                             position:absolute;
-                            right:50px;
+                            right:0.462963rem;
                             z-index:0;
                         }
                         b:nth-of-type(4){
-                            font-size:60px;
+                            font-size:0.555556rem;
                             color:#DA480D;
                             border-radius:100%;
                             position:relative;
-                            left:260px;
-                            bottom:40px;
+                            left:2.407407rem;
+                            bottom:0.37037rem;
                         }
                     }
                 }
@@ -246,133 +250,133 @@
                 dl:nth-of-type(3){
                     span{
                             display: inline-block;
-                            height: 96px;
-                            width: 89px;
-                            background: url('../../img/friend4.png') no-repeat;
+                            height: 0.888889rem;
+                            width: 0.824074rem;
+                            background: $friend03 no-repeat;
+                            background-size:0.824074rem 0.888889rem;
                             position:relative;
-                            top:60px;
-                            left:35px;
+                            top:0.555556rem;
+                            left:0.324074rem;
                         }
                     p:nth-of-type(1){
-                        margin-left:80px;
+                        margin-left:0.740741rem;
                         i{
                             color:#2D9C2A;
-                            line-height:140px;
-                            margin-right: 20px;
+                            line-height:1.296296rem;
+                            margin-right: 0.185185rem;
                         }
                     }
                     p:nth-of-type(2){
-                       width:198px;
+                       width:1.833333rem;
                        position:absolute;
-                       right:50px;
-                       line-height:84px;
+                       right:0.462963rem;
+                       line-height:0.777778rem;
                        color:#18BE17;
-                       border:2px solid #B3DEAE;
-                       border-radius:100px;
-                       margin-top:24px;
+                       border:0.018519rem solid #B3DEAE;
+                       border-radius:0.925926rem;
+                       margin-top:0.222222rem;
                        transition-delay: 5s;
-                    }
-                    
-                    
-
-
+                    }   
                 }
             }
-
-
         }
     }
 
     .addFriend{
-        width: 766px;
-        border-radius: 30px;
+        width: 7.092593rem;
+        border-radius: 0.277778rem;
         position: absolute;
-        top:890px;
+        top:8.240741rem;
         span{
           display: block;
           color:white;
-          font-size: 66px;
-          width:958px;
-          height:230px;
-          line-height: 195px;
-          background: url("../../img/module_home_no1.png") no-repeat;
+          font-size: 0.611111rem;
+          width:8.87037rem;
+          height:2.12963rem;
+          line-height: 1.805556rem;
+          background: $home08 no-repeat;
+          background-size:8.87037rem 1.805556rem;
           background-position: center;
           text-align: center;
           position: relative;
-          right: 94px;
-          bottom: 50px;
+          right: 0.87037rem;
+          bottom: 0.4rem;
         }
 
         p{
           input{
-              border-radius:10px;
-              height:100px;
-              line-height:80px;
-              font-size:50px;
-              width:500px;
+              border-radius:0.092593rem;
+              height:0.925926rem;
+              line-height:0.740741rem;
+              font-size:0.462963rem;
+              width:4.62963rem;
               position:relative;
-              padding-left:20px;
-              bottom:50px;
+              padding-left:0.185185rem;
+              bottom:0.5rem;
               text-align:left;
           }
           
         }
         button{
-          width:300px;
-          height: 108px;
-          line-height:100px;
-          border-radius: 55px;
-          font-size:60px;
-          margin-bottom:50px;
+          width:2.777778rem;
+          height: 1.0rem;
+          line-height:0.925926rem;
+          border-radius: 0.509259rem;
+          font-size:0.555556rem;
+          margin-bottom:0.462963rem;
           border: 0 none;
           color: white;
-          background: url(../../img/home_all.png) -210px -150px no-repeat;
-          background-size: 600px 600px;
+          background: $homeAll -1.944444rem -1.388889rem no-repeat;
+          background-size: 5.555556rem 5.555556rem;
         }
         button:active {
             position: relative;
-            left: 2px;
-            bottom: -5px;
+            left: 0.018519rem;
+            bottom: -0.046296rem;
         }
     }
 
     .findFriend{
-        width: 942px;
-        height:500px;
-        box-shadow:5px 5px 20px #ADACB1;
-        border-radius: 30px;
+        width: 8.722222rem;
+        height:4.62963rem;
+        box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
+        border-radius: 0.277778rem;
         position: absolute;
-        top:890px;
+        top:8.240741rem;
+        img{
+            width:1.972222rem;
+            height:1.972222rem;
+        }
         i{
             position:absolute;
-            line-height:100px;
-            font-size:160px;
+            line-height:0.925926rem;
+            font-size:1.481481rem;
             font-weight:lighter;
             color:#797979;
-            right:20px;
-            top:20px;
-            width:90px;
-            height:100px;
+            right:0.185185rem;
+            top:0.185185rem;
+            width:0.833333rem;
+            height:0.925926rem;
             border-radius:100%;
-            padding-right:10px;
+            padding-right:0.092593rem;
         }
         img{
             position:absolute;
-            left:104px;
-            top:70px;
+            left:0.962963rem;
+            top:0.648148rem;
         }
         ul{
             li{
                 text-align:left;
-                margin-left: 300px;
+                margin-left: 2.777778rem;
                 position:relative;
-                left:60px;
-                top:100px;
+                left:0.555556rem;
+                top:0.925926rem;
             }
            
             li:nth-of-type(1){
                 color:red;
-                font-size:62px;
+                font-size:0.574074rem;
             }
              li:nth-of-type(2){
                 color:#676767;
@@ -380,42 +384,42 @@
         }
         p{
           input{
-              border-radius:10px;
-              height:100px;
-              line-height:80px;
-              font-size:50px;
-              width:500px;
+              border-radius:0.092593rem;
+              height:0.925926rem;
+              line-height:0.740741rem;
+              font-size:0.462963rem;
+              width:4.62963rem;
               position:relative;
-              padding-left:20px;
-              bottom:50px;
+              padding-left:0.185185rem;
+              bottom:0.462963rem;
               text-align:left;
           }
           
         }
         button{
-          width:300px;
-          height: 108px;
-          line-height:100px;
-          border-radius: 55px;
-          font-size:60px;
-          margin-bottom:50px;
+          width:2.777778rem;
+          height: 1.0rem;
+          line-height:0.925926rem;
+          border-radius: 0.509259rem;
+          font-size:0.555556rem;
+          margin-bottom:0.462963rem;
           border: 0 none;
           color: white;
-          background: url(../../img/home_all.png) -210px -150px no-repeat;
-          background-size: 600px 600px;
-          margin-top:200px;
+          background: $homeAll -1.944444rem -1.388889rem no-repeat;
+          background-size: 5.555556rem 5.555556rem;
+          margin-top:1.851852rem;
         }
         button:active {
             position: relative;
-            left: 2px;
-            bottom: -5px;
+            left: 0.018519rem;
+            bottom: -0.046296rem;
         }
     }
 
     .sendFriend{
         @extend .addFriend;
         p{
-            margin-bottom: 50px;
+            margin-bottom: 0.462963rem;
         }
     }
 }

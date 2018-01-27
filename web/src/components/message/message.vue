@@ -134,10 +134,13 @@
                     this.num = 50;
                     this.content=this.content.slice(0,this.maxLength) + '' ;
                 }
-                
+            },  
+            placard(){
+                var self = this;
+                http.post( '/RoomJoin/placard' ,{
+                    
+                })
             }
-                
-            
         }
     }
 </script>
