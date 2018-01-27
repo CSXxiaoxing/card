@@ -15,7 +15,7 @@
                     <i><router-link to="/room" ></router-link></i>
                 </li>
                 <li>发布公告</li>
-                <li>发布</li>
+                <li @click="placard()">发布</li>
             </ul>
         </header>
         <div class='imp'>
@@ -106,6 +106,7 @@
 </style>
 
 <script type="text/javascript">
+    import http from '../../utils/httpClient.js';
     import Vue from 'vue';
     import loading from '../loading/loading.vue';
     Vue.component('loading', loading)
@@ -118,6 +119,7 @@
                 num: 0,
                 maxLength:50,
                 careTip : false,
+                room_id: this.$store.state.idRoom.room_id,
             }
         },
         mounted: function(){
@@ -138,9 +140,17 @@
             placard(){
                 var self = this;
                 http.post( '/RoomJoin/placard' ,{
-                    
-                })
-            }
+                    content : self.content,
+                    token: localStorage.oxToken,
+                    zn_room_id : self.room_id,
+                }, '' , this)
+                    .then(res => {
+                        console.log(res)
+                        if(res.status == 1){
+                            self.content="";
+                        }
+                    })
+                }
         }
     }
 </script>
