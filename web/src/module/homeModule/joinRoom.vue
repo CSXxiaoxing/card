@@ -1,4 +1,5 @@
 <template>
+    <div>
     <mt-popup
     v-model="joinRoom"
     popup-transition="popup-fade" 
@@ -23,6 +24,8 @@
             </ul>
         </div>
     </mt-popup>
+    <loading v-if='loading'></loading>
+    </div>
 </template>
 
 <style  lang='scss' scoped>
@@ -112,10 +115,14 @@
 <script>
     import http from '../../utils/httpClient.js';
     import router from '../../router/';
+    import Vue from 'vue';
+    import loading from '../../components/loading/loading.vue';
+    Vue.component('loading', loading)
 
     export default {
         data() {
             return {
+                loading: false,     // loading
                 joinRoom: false,
                 val: '',
             };

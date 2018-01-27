@@ -1,4 +1,5 @@
 <template>
+    <div>
   <mt-popup 
   v-model="boxState.CvarRoom" 
   popup-transition="popup-fade"  
@@ -167,8 +168,10 @@
         </li>
     </ul>
     <button @click="end">确定</button>
-    <loading v-if='loading'></loading>
   </mt-popup>
+  
+    <loading v-if='loading'></loading>
+  </div>
 </template>
 
 <script>

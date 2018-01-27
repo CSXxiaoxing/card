@@ -1,4 +1,5 @@
 <template>
+    <div>
     <mt-popup
         v-model="onprize"
         popup-transition="popup-fade"
@@ -24,10 +25,9 @@
                 </tbody>
             </table>
             </div>
-
-            <!-- <button @click='inverted'></button> -->
-
     </mt-popup>
+    <loading v-if='loading'></loading>
+    </div>
 </template>
 <!-- cellspacing="0" -->
 <style lang='scss' scoped>
@@ -118,10 +118,13 @@
  
 <script type="text/javascript">
 import http from '../../utils/httpClient.js'
-
+import Vue from 'vue';
+import loading from '../../components/loading/loading.vue';
+Vue.component('loading', loading)
     export default {
         data: function () {
           return {
+            loading: false,     // loading
             onprize : false,
             bureau : {
                 1 : ['牛二', '牛3', '牛二', '牛二', '牛二'],

@@ -1,4 +1,5 @@
 <template>
+<div>
 <mt-popup 
   width="80%"
   :visible.sync="set"
@@ -36,17 +37,21 @@
     <hr/>
     <mt-button type="success" round v-on:click="idMessage = false">更换账号</mt-button>
 </mt-popup >
+<loading v-if='loading'></loading>
+</div>
 </template>
 
 <style lang='scss' scoped>
 </style>
 
 <script>
-
+    import Vue from 'vue';
+    import loading from '../../components/loading/loading.vue';
+    Vue.component('loading', loading)
     export default {
         data() {
             return {
-                
+                loading: false,     // loading
             };
         },
         mounted: function(){

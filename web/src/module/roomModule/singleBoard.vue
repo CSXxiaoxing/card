@@ -1,4 +1,5 @@
 <template>
+<div>
   <mt-popup 
     v-model="singleBoard"
     popup-transition="popup-fade" 
@@ -76,6 +77,8 @@
       </tbody>
     </table>
   </mt-popup >
+    <loading v-if='loading'></loading>
+</div>
 </template>
 
 <style lang='scss' scoped>
@@ -189,15 +192,16 @@
         bottom: -0.046296rem;
     }
   }
-
 </style>
 
 <script type="es6">
   import Vue from 'vue';
-
+  import loading from '../../components/loading/loading.vue';
+  Vue.component('loading', loading)
   export default {
     data() {
       return {
+        loading: false,     // loading
         singleBoard: false,
         down:false,
       };

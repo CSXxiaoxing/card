@@ -1,4 +1,5 @@
 <template>
+<div>
   <mt-popup 
     v-model="playerBottom"
     popup-transition="popup-fade" 
@@ -45,6 +46,8 @@
     <mt-button @click="valueEnd">确定</mt-button>
     
   </mt-popup >
+  <loading v-if='loading'></loading>
+</div>
 </template>
 
 <style lang='scss' scoped>
@@ -209,9 +212,14 @@
 </style>
 
 <script type="es6">
+import Vue from 'vue';
+import loading from '../../components/loading/loading.vue';
+Vue.component('loading', loading)
+
     export default {
     data() {
         return {
+          loading: false,     // loading
             playerBottom: false,
             details:false,
             double: '',

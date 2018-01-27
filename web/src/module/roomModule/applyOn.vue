@@ -79,7 +79,7 @@
         <mt-button @click="details = false">重新开局</mt-button>
         <span>( 重新开始，房间局数，开奖记录。流水报表和抽水分数都将清零。房间成员分数保持不变)</span>
     </mt-popup>
-
+    <loading v-if='loading'></loading>
     </div>
 </template>
 
@@ -457,11 +457,14 @@
 <script type="es6">
     import { MessageBox } from 'mint-ui';
     import http from '../../utils/httpClient.js';
-
+    import Vue from 'vue';
+    import loading from '../../components/loading/loading.vue';
+    Vue.component('loading', loading)
 
   export default {
     data() {
       return {
+        loading: false,     // loading
         applyOn: false,
         details:false,
 

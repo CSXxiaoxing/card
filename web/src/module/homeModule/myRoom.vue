@@ -1,4 +1,5 @@
 <template>
+    <div>
     <mt-popup
         v-model="myRoom"
         popup-transition="popup-fade" 
@@ -22,7 +23,7 @@
             <ul @click='openS'>
                 <p v-show = '(!datagrid && sel == 0) || (!datajoin && sel ==1)'>你还没有创建/加入房间，快去创建/加入</p>
 
-                <li v-show = 'sel==0' v-for='(dataRoom) in datagrid' :key='dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
+                <li v-show = 'sel==0' v-for='(dataRoom) in datagrid' :key='"my"+dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
                     <b v-if='dataRoom.open'></b>
                     <i></i>
                     <h4>大战牛群</h4>
@@ -51,9 +52,10 @@
                 </li>
             </ul>
         </div>
-
     </mt-popup>
-</template>
+        <loading v-if='loading'></loading>
+    </div>
+</template> 
 
 <style  lang='scss' scoped>
    @import '../../utils/baseVar.scss';
@@ -275,10 +277,13 @@
     import http from '../../utils/httpClient.js';
     import router from '../../router/';
     import Vue from 'vue';
+    import loading from '../../components/loading/loading.vue';
+    Vue.component('loading', loading)
 
     export default {
         data() {
             return {
+                loading: false,     // loading
                 myRoom: false,
                 val: '',
                 tabPosition: 'top',

@@ -1,4 +1,5 @@
 <template>
+  <div>
   <mt-popup 
   v-model="buyRoom" 
   popup-transition="popup-fade" 
@@ -82,6 +83,8 @@
       </li>
     </ul>
   </mt-popup>
+  <loading v-if='loading'></loading>
+  </div>
 </template>
 
 <style lang='scss' scoped>
@@ -196,8 +199,6 @@
             
         }
     }
-       
-  
   .more{
       width:7.083333rem;
       border-radius:0.185185rem;
@@ -269,10 +270,13 @@
 </style>
 
 <script type="es6">
-
+  import Vue from 'vue';
+  import loading from '../../components/loading/loading.vue';
+  Vue.component('loading', loading)
   export default {
     data() {
       return {
+        loading: false,     // loading
         buyRoom: false,
         moreCard: false,
         cardNum: '',
