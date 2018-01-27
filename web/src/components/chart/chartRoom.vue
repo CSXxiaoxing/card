@@ -1,5 +1,14 @@
   <template>
     <div class='chartRoom'>
+        <mt-popup 
+            v-model="careTip"
+            popup-transition="popup-fade" :modal='false'
+            class="care" >
+            <span>通知 <i @click="careTip = false">×</i></span>
+            <p>该房间尚未公开</p>
+            <mt-button @click="careTip = false">  确定
+            </mt-button>
+        </mt-popup >
     	<header>
             <ul>
                 <li>
@@ -344,6 +353,7 @@
                 id: localStorage.oxUid,   //个人id（单聊）
                 sheId: 0,                 // 对方id（单聊）
                 shename: '网络不好暂时无法显示',// 对方名字（单聊）
+                careTip : false,
             }
         },
         beforeMount: function(){

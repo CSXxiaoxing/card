@@ -1,5 +1,14 @@
 <template>
 	<div id='home'>
+		<mt-popup 
+          v-model="careTip"
+          popup-transition="popup-fade" :modal='false'
+          class="care" >
+          <span>通知 <i @click="careTip = false">×</i></span>
+          <p>该房间尚未公开</p>
+          <mt-button @click="careTip = false">  确定
+          </mt-button>
+      </mt-popup >
 		<header>
 			<dl>
 				<dt @click.capture='mess'>
@@ -117,6 +126,7 @@
 		data: function(){
 			return {
 				loading: false,		// loading
+				careTip : false,
 				datagrid : '',
 				id : 0,
 				name: '',

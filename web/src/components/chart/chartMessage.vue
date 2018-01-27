@@ -1,5 +1,14 @@
 <template>
     <div class='chartMessage'>
+        <mt-popup 
+            v-model="careTip"
+            popup-transition="popup-fade" :modal='false'
+            class="care" >
+            <span>通知 <i @click="careTip = false">×</i></span>
+            <p>该房间尚未公开</p>
+            <mt-button @click="careTip = false">  确定
+            </mt-button>
+        </mt-popup >
     	<header>
             <ul>
                 <li>
@@ -104,6 +113,7 @@
             return {
                 loading: false,     // loading
                 a: this.$route.params.id,
+                careTip : false,
             }
         },
         methods: {

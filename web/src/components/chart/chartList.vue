@@ -1,5 +1,14 @@
 <template>
     <div class='chartList'>
+      <mt-popup 
+          v-model="careTip"
+          popup-transition="popup-fade" :modal='false'
+          class="care" >
+          <span>通知 <i @click="careTip = false">×</i></span>
+          <p>该房间尚未公开</p>
+          <mt-button @click="careTip = false">  确定
+          </mt-button>
+      </mt-popup >
         <!-- 房间成员 -->
         <mt-popup 
           v-model="putRoom"
@@ -279,6 +288,7 @@
                 cli: -1,         // 选中
                 putRoom: false,
                 dissolveRoom: false,
+                careTip : false,
             }
         },
 

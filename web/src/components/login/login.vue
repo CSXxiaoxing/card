@@ -1,5 +1,14 @@
 <template>
 	<div class='login'>
+		<mt-popup 
+		    v-model="careTip"
+		    popup-transition="popup-fade" :modal='false'
+		    class="care" >
+		    <span>通知 <i @click="careTip = false">×</i></span>
+		    <p>该房间尚未公开</p>
+		    <mt-button @click="careTip = false">  确定
+		    </mt-button>
+		</mt-popup >
 		<mt-popup
 		    v-model="zhuce"
 		    popup-transition="popup-fade" 
@@ -365,6 +374,7 @@
 				code: '',
 				a: 0,
 				type:0,
+				careTip : false,
 			}
 		},
 		mounted: function(){
