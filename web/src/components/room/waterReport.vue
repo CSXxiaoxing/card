@@ -134,19 +134,19 @@
 	import loading from '../loading/loading.vue';
 	Vue.component('loading', loading)
 
-  	 export default {
+  	export default {
     data() {
-      return {
-      	loading: false,		// loading
-        water: false,
-        seen:false,
-        careTip : false,
-      };
+      	return {
+      		loading: false,		// loading
+        	water: false,
+        	seen:false,
+        	careTip : false,
+      	};
     },
     methods:{
     	more(){
     		this.seen =!this.seen;
     	}
-  }
-};
+  	}
+	};
 </script>

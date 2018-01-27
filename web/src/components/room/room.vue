@@ -488,7 +488,7 @@
             var socket = io(socketURL);
             socket.on('new_msg', function (data) {      // socket实时消息
                 var val = JSON.parse(data);
-                console.log(val)
+                // console.log(val)
                 switch(val.type){
                     case 1 :                            // 通知有人加入
                         break;
@@ -507,6 +507,7 @@
                     case 9 :                            // 压分
                         break;
                     case 10:                            // 公告
+                        console.log(val)
                         break;
                     case 11:                            // 重新开局
                         break;

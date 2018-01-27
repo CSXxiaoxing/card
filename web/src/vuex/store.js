@@ -67,6 +67,10 @@ export default new Vuex.Store({
             DTtimeos: 2000,// 延迟时间，防止到底后无限请求
             DTpage: 1,  // 大厅页数
             DTid: [],   // 房间id,防重复ID
+            MYkai: [],  // 我开过的房间
+            MYkaiid: [],  // id,防止重复渲染
+            MYjoin: [], // 我进过的房间
+            MYjoinid: [], // id,防止重复渲染
         },   // 存放各种数据避免重复请求
     },
     // 属性计算

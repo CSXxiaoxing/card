@@ -21,9 +21,9 @@
         <div class="room"> 
             
             <ul @click='openS'>
-                <p v-show = '(!datagrid && sel == 0) || (!datajoin && sel ==1)'>你还没有创建/加入房间，快去创建/加入</p>
+                <p v-show = '(!$store.state.data.MYkai[0] && sel == 0) || (!$store.state.data.MYjoin[0] && sel ==1)'>你还没有创建/加入房间，快去创建/加入</p>
 
-                <li v-show = 'sel==0' v-for='(dataRoom) in datagrid' :key='"my"+dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
+                <li v-show = 'sel==0' v-for='(dataRoom) in $store.state.data.MYkai' :key='"my"+dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
                     <b v-if='dataRoom.open'></b>
                     <i></i>
                     <h4>大战牛群</h4>
@@ -37,7 +37,7 @@
                     </div>
                 </li>
 
-                <li v-show = 'sel==1' v-for='(dataRoom) in datajoin' :key='dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
+                <li v-show = 'sel==1' v-for='(dataRoom) in $store.state.data.MYjoin' :key='dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
                     <b v-if='dataRoom.open'></b>
                     <i></i>
                     <h4>大战牛群</h4>
@@ -153,12 +153,6 @@
                transition:all 1s;
             }
         }
-
-          // @-webkit-keyframes mymove /*Safari and Chrome*/
-          // {
-          // from {left:120px;}
-          // to {left:420px;}
-          // }
         }
 
         .room{
@@ -265,12 +259,11 @@
             //     margin-top: 0;
             // }
         }
+        }
+        .room::-webkit-scrollbar {
+            display: none;
+        } 
     }
-    .room::-webkit-scrollbar {
-        display: none;
-    } 
-}
-
 </style>
   
 <script>
@@ -286,16 +279,14 @@
                 loading: false,     // loading
                 myRoom: false,
                 val: '',
-                tabPosition: 'top',
+                tabPosition: 'top', 
                 datagrid: [],
                 datajoin: [],
                 sel:0,
-                pagesize:30,
+                MYpagesize: 100,
                 type :2 ,
                 p: 1 ,
                 status:0,
-                show:0,
-                show2:0,
             };
         },
         mounted: function(){       
@@ -309,30 +300,34 @@
                 http.post('/Room/getRoomList' ,
                 {
                     token: localStorage.oxToken,
-                    pagesize : self.pagesize,
+                    pagesize : self.MYpagesize,
                     type : self.type,
                     p : self.p,
-                }, '' ,this)
+                }, '')
                 .then(res => {
-                    console.log(res)
-                    self.status = res.status
-                    console.log(res.status)
                     if(res.status == 1){
+                    var arrK = [];
+
                     for(var i = 0 ; i < res.data.length ; i++){
-                        self.key = res.data[i].id 
-                        self.open = res.data[i].zn_room_type == 1 ? true : false
-                        self.roomName = res.data[i].zc_title 
-                        self.roomNumber= res.data[i].zc_number
-                        self.number = res.data[i].pernumber
-                        self.datagrid.push({
-                            key : self.key,
-                            open : self.open,
-                            roomName : self.roomName,
-                            roomNumber : self.roomNumber,
-                            number :self.number
-                        })
+                        var kaiid = self.$store.state.data.MYkaiid;
+                        if(kaiid.indexOf(res.data[i].id) < 0){
+                            arrK.push({
+                                key : res.data[i].id ,
+                                open : res.data[i].zn_room_type == 1 ? true : false,
+                                roomName : res.data[i].zc_title,
+                                roomNumber : res.data[i].zc_number,
+                                number : res.data[i].pernumber,
+                            })
+                            self.$store.state.data.MYkaiid.push(res.data[i].id)
+                        }
                     }
-                    console.log(self.datagrid)
+
+                    var arrK01 = self.$store.state.data.MYkai;  // 合并数据
+                    if(!arrK01){
+                        self.$store.state.data.MYkai = arrK01.concat(arrK);
+                    } else {
+                        self.$store.state.data.MYkai = arrK;
+                    }
                     }
                 })
 
@@ -340,26 +335,32 @@
                  http.post('/Room/joinRoomList' ,
                     {
                        id : localStorage.oxUid,
-                    }, '' ,this)
+                    }, '')
                     .then(res => {
-                        console.log(res)
-                        console.log(res.status)
+
                         if(res.status == 1){
+                            var arrJ = [];
+
                         for(var i = 0 ; i < res.data.length ; i++){
-                            self.key = res.data[i].id 
-                            self.open = res.data[i].zn_room_type == 1 ? true : false
-                            self.roomName = res.data[i].zc_title 
-                            self.roomNumber= res.data[i].zc_number
-                            self.number = res.data[i].pernumber
-                            self.datajoin.push({
-                                key : self.key,
-                                open : self.open,
-                                roomName : self.roomName,
-                                roomNumber : self.roomNumber,
-                                number :self.number
-                            })
+                            var joinid = self.$store.state.data.MYjoinid;
+                            if(joinid.indexOf(res.data[i].id) < 0){
+                                arrJ.push({
+                                    key : res.data[i].id ,
+                                    open : res.data[i].zn_room_type == 1 ? true : false,
+                                    roomName : res.data[i].zc_title,
+                                    roomNumber : res.data[i].zc_number,
+                                    number : res.data[i].pernumber,
+                                })
+                                self.$store.state.data.MYjoinid.push(res.data[i].id)
+                            }
                         }
-                        console.log(self.datajoin)
+
+                        var arrJ01 = self.$store.state.data.MYjoin;  // 合并数据
+                        if(!arrJ01){
+                            self.$store.state.data.MYjoin = arrJ01.concat(arrJ);
+                        } else {
+                            self.$store.state.data.MYjoin = arrJ;
+                        }
                         }
                     })
 
@@ -420,7 +421,7 @@
             loadRoom(){
               var self = this;
               http.post( '/Room/getRoomList',{
-                  pagesize : self.pagesize,
+                  pagesize : self.MYpagesize,
                   type : self.type,
                   p : self.p,
               }, '' ,this)

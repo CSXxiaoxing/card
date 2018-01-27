@@ -1,5 +1,5 @@
 <template>
-	<div id='home'>
+	<div id='home'> 
 		<mt-popup 
           v-model="careTip"
           popup-transition="popup-fade" :modal='false'
@@ -51,7 +51,7 @@
 			:class='spinner == 1 ? "ul01":""'
 			v-infinite-scroll="loadMore"
   			:infinite-scroll-distance="20">
-				<li v-for='(dataRoom) in this.$store.state.data.DT' :key='dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
+				<li v-for='(dataRoom) in $store.state.data.DT' :key='dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
 					<b v-if='dataRoom.open'></b>
 					<i></i>
 					<h4>大战牛群</h4>
@@ -120,7 +120,6 @@
 	Vue.component('varRoom', setRoom)
 	Vue.component('myRoom', myRoom)
 	Vue.component('toShare', toShare)
-
 	
 	export default {
 		data: function(){
@@ -148,7 +147,7 @@
 				this.id = localStorage.oxUid
 				this.name = localStorage.getItem('oxName')
 				// 房间请求
-				if(VX_data.DT.length < 1 || (VX_time-VX_data.DTtime) > 6e4){
+				if(VX_data.DT.length < 1 || (VX_time-VX_data.DTtime) > 6e5){
 					http.post('/Room/getRoomList' ,
 	                {
 	                    pagesize : self.pagesize,
@@ -278,6 +277,7 @@
                 	if(res.status == 1){
                 	var arr = [];
                 	var dtid = self.$store.state.data.DTid;
+                	var arrlength = Object.values(res.data).length;
                     var DTcount = 0;
                     for(let i in res.data){
                     	var val = res.data[i];
@@ -290,18 +290,19 @@
 	                    		number 	   : val.pernumber,		// 房间人数
 	                    	})
 	                    	self.$store.state.data.DTid.push(val.id)
-	                    	DTcount++;
+                    	} else {
+                    		DTcount++;
                     	}
                     }
-                    if(DTcount <= 6){
+                    if(DTcount >= arrlength-1){
                     	self.$store.state.data.DTtimeos = 5000;
+                    	self.$store.state.data.DTpage++
                     } else {
                     	self.$store.state.data.DTtimeos = 0;
                     }
                     var arr01 = self.$store.state.data.DT;
                     self.$store.state.data.DT = arr01.concat(arr);
                     self.$store.state.data.DTtime = time;
-                    self.$store.state.data.DTpage++
                 	}
                     self.spinner = 0;
                 })} else {
