@@ -12,8 +12,8 @@
 				<dd>
 					<span>ID:{{id}}</span>
 					<span>
-						<i>房卡</i>
-						<b>27894</b>
+						<i @click='loading = false'>房卡</i>
+						<b @click='loading = true'>27894</b>
 						<i @click='buy'></i>
 					</span>
 				</dd>
@@ -41,7 +41,6 @@
 			<ul @click='openS' 
 			:class='spinner == 1 ? "ul01":""'
 			v-infinite-scroll="loadMore"
-  			:infinite-scroll-disabled="loading"
   			:infinite-scroll-distance="20">
 				<li v-for='(dataRoom) in this.$store.state.data.DT' :key='dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
 					<b v-if='dataRoom.open'></b>
@@ -82,6 +81,8 @@
 		<varRoom ref="onvarRoomChild" ></varRoom>
 		<myRoom ref="onmyRoomChild" ></myRoom>
 		<toShare ref="ontoShareChild" :share='"home"'></toShare>
+		
+		<loading v-if='loading'></loading>
 	</div>
 </template>
 
@@ -100,6 +101,8 @@
 	import myRoom from '../../module/homeModule/myRoom.vue';
 	import toShare from '../../module/shareModule/toShare.vue';
 	
+	import loading from '../loading/loading.vue';
+	Vue.component('loading', loading)
 	
 	Vue.component('noOpen', noOpen)
 	Vue.component('joinRoom', joinRoom)
@@ -113,11 +116,12 @@
 	export default {
 		data: function(){
 			return {
+				loading: false,		// loading
 				datagrid : '',
 				id : 0,
 				name: '',
 
-				pagesize :30,	// 请求条数
+				pagesize :15,	// 请求条数
 				type :1 ,		// 1 所有房间 2 自己开的房间
 				p : 1,			// 当前页
 
@@ -140,8 +144,9 @@
 	                    pagesize : self.pagesize,
 	                    type 	 : self.type,
 	                    p 		 : self.$store.state.data.DTpage,
-	                }, '' ,this)
+	                }, '')
 	                .then(res => {
+	                	console.log(res)
 	                	if(res.status == 1){
 	                	var arr = [];
 	                    for(let i in res.data){
@@ -157,7 +162,7 @@
 	                    }
 	                    self.$store.state.data.DT = arr;
 	                    self.$store.state.data.DTtime = VX_time;
-	                    self.$store.state.data.DTpage++;
+	                    // self.$store.state.data.DTpage++;
 	                	}
 	                })
 				}
@@ -240,32 +245,26 @@
 				};
 				Tar();
 			},
-			loading(){
-				Indicator.open({
-					text: '加载中...',
-					spinnerType: 'fading-circle',
-				});
-			},
 			loadMore(){		// 无限加载
 				var self = this;
 				var VX_data = this.$store.state.data;
 				var time = new Date().getTime();
 				var VX_time = self.$store.state.data.DTtime;
-				if((time - VX_time) < 800){
+				if((time - VX_time) < 800 || VX_data.DT.length < 15){
 					return false;
 				}
 				this.spinner = 1;
 				if((time - VX_time) > self.$store.state.data.DTtimeos){
-				console.log(time)
-				console.log(VX_time)
+				// console.log(time)
+				// console.log(VX_time)
 				http.post('/Room/getRoomList' ,	// 房间请求
                 {
                     pagesize : self.pagesize,
                     type 	 : self.type,
                     p 		 : self.$store.state.data.DTpage,
-                }, '' ,this)
+                }, '')
                 .then(res => {
-                	console.log(res)
+                	// console.log(res)
                 	if(res.status == 1){
                 	var arr = [];
                 	var dtid = self.$store.state.data.DTid;
@@ -301,7 +300,6 @@
 					    clearTimeout(atime)
 					  }, 2500);
 				}
-
 			}
 		}
 	}

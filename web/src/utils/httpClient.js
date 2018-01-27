@@ -28,8 +28,9 @@ const HttpClient = {
     }),
 
     post: (path, formdata, query, vm) => new Promise((resolve, reject) => {
-    	// if(vm){ vm['loadingShow'] = true }
         
+        if(vm){ vm['loading'] = true }
+    	
         if (formdata) {
             formdata['token'] = localStorage.oxToken || '' ;
             formdata['uid'] = localStorage.oxUid || '' ;
@@ -42,10 +43,10 @@ const HttpClient = {
             .end((err, res) => {
                 if (err) {
                     reject(err);
-                    console.log('请求错误')
                 } else {
                     resolve(res.body);
                 }
+                if(vm)(vm['loading'] = false)
             });
     })
 };

@@ -60,6 +60,7 @@
                     退出房间
             </mt-button>
         </footer>
+        <loading v-if='loading'></loading>
     </div>
 </template>
 
@@ -264,10 +265,13 @@
     import Vue from 'vue';
     import http from '../../utils/httpClient.js';
     import router from '../../router/';
+    import loading from '../loading/loading.vue';
+    Vue.component('loading', loading)
 
     export default {
         data: function(){
             return {
+                loading: false,   // loading
                 chartDel: '', // 路由
                 a: 99,       // 0普通  1房主
                 roomid: 0,  // 房间id

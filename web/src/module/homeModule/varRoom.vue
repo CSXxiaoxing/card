@@ -167,6 +167,7 @@
         </li>
     </ul>
     <button @click="end">确定</button>
+    <loading v-if='loading'></loading>
   </mt-popup>
 </template>
 
@@ -181,9 +182,13 @@
     Vue.component('addButtion', addButtion);
     Vue.component('coreVisible', coreVisible)
 
+    import loading from '../../components/loading/loading.vue';
+    Vue.component('loading', loading)
+
     export default {
         data() {
             return {
+                loading: false,     // loading
                 initType: 0,       //  0 是初创   1 是修改
                 init: {
                     plaName: '请输入房间名称',

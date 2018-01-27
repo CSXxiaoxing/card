@@ -66,6 +66,7 @@
                 </form>
             </div>
         </footer>
+        <loading v-if='loading'></loading>
     </div>
 </template>
 
@@ -322,10 +323,13 @@
 <script type="text/javascript">
 	import Vue from 'vue';
     import http from '../../utils/httpClient.js';
+    import loading from '../loading/loading.vue';
+    Vue.component('loading', loading)
     // [2,961109,961,0,112233] 路由数据案例
 	export default {
         data: function(){
             return {
+                loading: false,     // loading
                 chartList: '',      // 成员列表（群）
                 lingth: 0,          // 成员人数（群）
                 zn_chatid: 0,       // 群聊id（群）

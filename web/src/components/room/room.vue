@@ -269,7 +269,8 @@
         </keep-alive>
         <playerBottom ref="onplayerBottomChild" :p='ordinary.Pn' ></playerBottom>
         <singleBoard ref="onsingleBoardChild"></singleBoard>
-
+        
+        <loading v-if='loading'></loading>
     </div>
 </template>
 
@@ -285,6 +286,10 @@
     import applyOn from '../../module/roomModule/applyOn.vue';
     import singleBoard from '../../module/roomModule/singleBoard.vue';
     import setRoom from '../../module/homeModule/varRoom.vue';
+
+    import loading from '../loading/loading.vue';
+    Vue.component('loading', loading)
+
     Vue.component('toShare', toShare)
     Vue.component('prize', prize)
     Vue.component('applyOn', applyOn)
@@ -303,6 +308,7 @@
     export default {
         data: function(){
             return {
+                loading: false,     // loading
                 chartRoom: '',  // 群聊路由
                 fangzhu: '',    // 房主
                 fanzhuID: '',   // 房主id

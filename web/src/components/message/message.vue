@@ -18,6 +18,7 @@
             <!-- <input type="text" placeholder='输入公告内容'/> -->
             <p><span>{{num}}</span>/50</p>
         </div>
+        <loading v-if='loading'></loading>
     </div>
 </template>
 
@@ -96,9 +97,14 @@
 </style>
 
 <script type="text/javascript">
+    import Vue from 'vue';
+    import loading from '../loading/loading.vue';
+    Vue.component('loading', loading)
+
 	export default {
         data: function(){
             return {
+                loading: false,     // loading
                 content: '',
                 num: 0,
                 maxLength:50,

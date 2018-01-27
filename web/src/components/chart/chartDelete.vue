@@ -21,6 +21,8 @@
                 </li>
             </ul>
         </div>
+
+        <loading v-if='loading'></loading>
     </div>
 </template>
 
@@ -135,10 +137,14 @@
     import Vue from 'vue';
     import http from '../../utils/httpClient.js';
     import router from '../../router/';
+    import loading from '../loading/loading.vue';
+    Vue.component('loading', loading)
+
 
     export default {
         data: function(){
             return {
+                loading: false, 
                 imgStyle: [],
                 datalist: {},
                 roomid: 0,

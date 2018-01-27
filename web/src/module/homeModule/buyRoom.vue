@@ -81,7 +81,6 @@
         </table>
       </li>
     </ul>
-
   </mt-popup>
 </template>
 

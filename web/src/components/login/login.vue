@@ -84,7 +84,7 @@
 			<span @touchend='local'>登录</span>
 		</div>
 
-		<loading v-show='loadingShow'></loading>
+		<loading v-if='loading'></loading>
 	</div>
 </template>
 
@@ -341,6 +341,7 @@
 <script type="text/javascript">
 	import Vue from 'vue';
 	import loading from '../loading/loading.vue';
+	Vue.component('loading', loading)
 	import http from '../../utils/httpClient.js';
 	import router from '../../router/';
 
@@ -349,6 +350,7 @@
 	export default {
 		data(){
 			return {
+				loading: false,		// loading
 				zhuce: false,
 				login:false,
 				find: false,
@@ -361,7 +363,6 @@
 				password: '',
 				cell: '',
 				code: '',
-				loadingShow: false,
 				a: 0,
 				type:0,
 			}

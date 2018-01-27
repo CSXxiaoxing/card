@@ -112,7 +112,7 @@
 				
 			</tbody>
 		</table>
-
+		<loading v-if='loading'></loading>
 	</div>
 </template>
 
@@ -120,12 +120,15 @@
 
 
 <script type="text/javascript">
-
-import './water.scss';
+	import Vue from 'vue';
+	import './water.scss';
+	import loading from '../loading/loading.vue';
+	Vue.component('loading', loading)
 
   	 export default {
     data() {
       return {
+      	loading: false,		// loading
         water: false,
         seen:false,
       };

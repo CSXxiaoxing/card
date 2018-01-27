@@ -132,7 +132,7 @@
                 </li>
             </ul>
         </div>
-
+        <loading v-if='loading'></loading>
     </div>
 </template>
 
@@ -144,8 +144,8 @@
     export default {
         data: function(){
             return {
-                // 上下箭头
-                arrows: 0,
+                loading: false,     // loading
+                arrows: 0,  // 上下箭头
                 addFriend : false,    //  查找好友
                 findFriend: false,
                 sendFriend: false,

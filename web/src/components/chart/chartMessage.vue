@@ -20,7 +20,7 @@
                 这里是内容这里是内容这里是内容这里是内容这里是内容
             </span>
         </div>
-        
+        <loading v-if='loading'></loading>
     </div>
 </template>
 
@@ -97,9 +97,12 @@
 
 <script type="text/javascript">
     import Vue from 'vue';
+    import loading from '../loading/loading.vue';
+    Vue.component('loading', loading)
     export default {
         data: function(){
             return {
+                loading: false,     // loading
                 a: this.$route.params.id,
             }
         },
