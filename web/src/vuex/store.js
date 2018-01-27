@@ -62,7 +62,11 @@ export default new Vuex.Store({
         // 消息传递
         obj: '',
         data: {
-            dating: {},
+            DT: [],     // 大厅数据
+            DTtime: 0,  // 大厅数据存放时间
+            DTtimeos: 0,// 延迟时间，防止到底后无限请求
+            DTpage: 1,  // 大厅页数
+            DTid: [],   // 房间id,防重复ID
         },   // 存放各种数据避免重复请求
     },
     // 属性计算
@@ -287,8 +291,6 @@ export default new Vuex.Store({
                 }
             };
             conn.open(options);
-
-            
         },
         // 调取用户聊天记录 page分页数 p当前页
         // {myId, toId, page, p}

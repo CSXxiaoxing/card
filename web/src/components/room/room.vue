@@ -221,7 +221,7 @@
 
             <div class='right'>
                 <ul>
-                    <li v-for='player in players '>
+                    <li v-for='player in players ' v-if='fanzhuID != player.zn_member_id'>
                         <div>
                             <img src="../../img/roomK03.png" alt="" />
                             <img src="../../img/roomPage04.png" alt="" />
@@ -305,11 +305,12 @@
             return {
                 chartRoom: '',  // 群聊路由
                 fangzhu: '',    // 房主
+                fanzhuID: '',   // 房主id
                 
                 init: {     // 初始化
                     ForT: 0,          // 1是房主0是普通
                     time: 0,         // 游戏时间控制
-                    ju: 20,         // 游戏局数
+                    ju: 20,          // 游戏局数
                     id: 0,          // 房间id
                     room_id: this.$store.state.idRoom.room_id,
                     cardFn: this.$store.state.idRoom.cardFn,  //几牌  
@@ -387,28 +388,29 @@
                     resultNum : [], // 牛几（数字提取）
                     maxVal : [],    // 权重
                     end : [],       // 结果
+                    dataT: 0,       // 时间相差三秒内可继续游戏
                 },
                 // 游戏结果处理
                 gameOver: {
                     show: false,        // 出现
-                    timeEng: false,      // 倒计时结束
+                    timeEng: false,     // 倒计时结束
                 },
                 players:[],        // 右边玩家
                 apply: '申请上庄',
                 TTT: {},
-
             }
         },
         mounted: function(){
+            console.log(this.$store.state.test)
             let self = this;
             // init
             http.post('/Room/getRooms',{
                     number: self.$route.params.id,
                 })
                 .then(res => {
-                    console.log(res)
+                    // console.log(res)
                     if(res.status == 1) {
-                        // console.log(res.data)
+                        
                         var data = res.data;
                         var bl = JSON.parse(data.zc_rate);
                         var vx = this.$store.state.idRoom;
@@ -422,6 +424,7 @@
 
                         self.chartRoom = `/chartRoom/[3,${data.zc_number},${data.id},${self.init.ForT},${data.zn_chatid}]`;
 
+                        self.fanzhuID = data.zn_member_id;
                         vx.room_id = data.zc_number;
                         vx.zn_chatid = data.zn_chatid;
                         vx.id = data.id;
@@ -440,22 +443,74 @@
                         vx.minGrade = data.zn_min_score;
                         self.init.id = res.data.id
                         self.list()
+                        initType()
                     }
                 })
-            
+            // 状态跟随 -- 初次进入状态
+            function initType(){
+                if(self.init.ForT == 0){
+                http.post('/Room/getRoomStatus',{
+                    roomid: self.init.id,
+                })
+                .then(res => {
+                    console.log(res)
+                    if(res.status == 1){
+                        var num = Number(res.data.zn_status);
+                        var jsontxt = res.data.zn_text
+                        if(num >5){
+                            num -= 5;
+                            self.clearStyle()         //清除
+                            self.cardURL = JSON.parse(jsontxt);
+                            self.gameStart(num)       // 进入游戏阶段
+                        }
+                    }
+                })
+                }
+                    
+                
+            }
+
             var socket = io(socketURL);
             socket.on('new_msg', function (data) {      // socket实时消息
                 var val = JSON.parse(data);
-                        console.log(val)
+                console.log(val)
                 switch(val.type){
-                    case 12:
-                        var data = JSON.parse(val.data);
-                        self.TTT = data;
+                    case 1 :                            // 通知有人加入
+                        break;
+                    case 2 :                            // 通知房主有人加入
+                        break;
+                    case 4 :                            // 通知房间已解散
+                        break;
+                    case 5 :                            // 通知有人分数变化
+                        break;
+                    case 6 :                            // 通知有人退出房间
+                        break;
+                    case 7 :                            // 通知有人退出房间
+                        break;
+                    case 8 :                            // 通知房主有人申请上庄
+                        break;
+                    case 9 :                            // 压分
+                        break;
+                    case 10:                            // 公告
+                        break;
+                    case 11:                            // 重新开局
+                        break;
+                    case 12:                            // 发牌中
+                        break;
+                    case 13:                            // 房主暂停游戏
+                        break;
+                    case 14:                            // 房主开始游戏
+                        break;
+                    case 15:                            // 中止下注
+                        break;
+                    case 16:                            // 更新房间信息
                         break;
                 }    
                 console.log(self.TTT)
             });
-            // 状态跟随
+            
+
+           
             // self.clearStyle()       //清除
             // self.clearGameStyle()  // 清0
             // self.gameStart(5)       // 进入游戏阶段
@@ -513,6 +568,7 @@
                     case 1 :
                     this.init.textStyle = 1;
                     this.gameType(0);
+                    this.roomStyle(2);        // 游戏状态储存--开始
                     break;
                     case 0 :
                     this.roomStyle(1)
@@ -535,7 +591,6 @@
                         this.clearGameStyle()            // 状态清空
                         if(this.host.allType == 1){     // 游戏状态允许
                             this.gameStart(1);          // 执行游戏
-                            this.roomStyle(2);        // 游戏状态储存--开始
                         }
                         break;
                 }       
@@ -746,9 +801,7 @@
                 pageTimer["timer01"] = setInterval( ()=> {
                     self.init.time--;
                     if(self.init.time < 0) {
-                        this.init.textStyle = 2;
-                        self.roomStyle(7)   // 游戏状态储存--随机庄牌
-                        self.bank(self)
+                        self.bank()
                         clearInterval(pageTimer["timer01"])
                     }
                 },1000)
@@ -757,15 +810,14 @@
                 let self = this;
                 let num = this.init.cardFn;
                 let arr5 = [0, 1, 3, 4, 5];
-
+                this.init.textStyle = 2;
+                self.roomStyle(7)   // 游戏状态储存--随机庄牌
                 self.init.time = self.time.random;
                 pageTimer["timer02"] = setInterval( ()=> {
                     self.init.time--;
                     if(self.init.time < 0) {
                         self.time.index = arr5[Math.random()*5>>0];
                         self.ordinary.bg = true;
-                        self.roomStyle(8)   // 游戏状态储存--可押注开始
-                        self.init.textStyle = 3;
                         self.countDown();
                         clearInterval(pageTimer["timer03"])
                         clearInterval(pageTimer["timer02"])
@@ -786,9 +838,13 @@
             },
             countDown () {          // 3、发牌以及倒计时
                 let self = this;
+                self.roomStyle(8)   // 游戏状态储存--可押注开始
+                self.init.textStyle = 3;
+                
                 self.init.time = self.time.timeAll;
                 self.cardURL.c3Type[0] = 'start' ;
                 self.cardURL.c3Type[1] = 'card0' ;
+                
                 // 延时器-发完牌后 -- 押注倒计时
                 Timeout['setT2'] = setTimeout( ()=>{
                     pageTimer['timer04'] = setInterval( ()=> {
@@ -824,8 +880,7 @@
                         } else {
                             self.gameOver.timeEng = true;
                             self.init.time = self.time.endTime;
-                            self.roomStyle(10) 
-                            self.init.textStyle = 5;
+                            
                             self.settlement()
                             clearInterval(pageTimer["timer05"]);
                         }
@@ -835,6 +890,8 @@
             },
             settlement () {        // 5、单局结算等待时间
                 let self = this;
+                self.roomStyle(10) 
+                self.init.textStyle = 5;
                 // 分数结果
                 this.win.fen = this.win.zorp[1];             
                 this.init.fen = this.win.zorp[0];
@@ -985,7 +1042,7 @@
                     roomid: this.init.id,
                 })
                 .then(res => {
-                    console.log(res)
+                    // console.log(res)
                     if(res.status == 1){
                         self.orderPower(res.data)
                         // self.win.fen = res.data.zn_points
@@ -993,29 +1050,18 @@
                 })
             },
             roomStyle (type) {       // 游戏状态
-                // console.log(type)
-                if(type == 4){
-                    // console.log(4)
-                    var data = JSON.stringify(this.cardURL)
-                    http.post('/Room/setRoomStatus',{     
-                        zn_room_id: 39,
-                        zn_status: type,
-                        zn_text: data,
-                    })
-                    .then(res => {
-                        console.log(res)
-                    })
-                } else{
-                    console.log(this.init.id)
-
-                    http.post('/Room/setRoomStatus',{     
-                        zn_room_id: 39,
-                        zn_status: type,
-                    })
-                    .then(res => {
-                        // console.log(res)
-                    })
-                }
+                
+                console.log(this.init.id)
+                var data = JSON.stringify(this.cardURL)
+                http.post('/Room/setRoomStatus',{     
+                    zn_room_id: this.init.id,
+                    zn_status: type,
+                    zn_text: data,
+                })
+                .then(res => {
+                    console.log(res)
+                })
+                
             },
     },
 }

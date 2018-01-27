@@ -37,9 +37,13 @@
 
 			<span class='homeServer'><router-link to="/chartRoom/0" ><b>客<br>服</b></router-link></span>
 		</header>
-		<div class='homeMain'>
-			<ul @click='openS'>
-				<li v-for='(dataRoom) in dataList' :key='dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
+		<div class='homeMain' id='dataUL'>
+			<ul @click='openS' 
+			:class='spinner == 1 ? "ul01":""'
+			v-infinite-scroll="loadMore"
+  			:infinite-scroll-disabled="loading"
+  			:infinite-scroll-distance="20">
+				<li v-for='(dataRoom) in this.$store.state.data.DT' :key='dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
 					<b v-if='dataRoom.open'></b>
 					<i></i>
 					<h4>大战牛群</h4>
@@ -54,6 +58,12 @@
 					</div>
 				</li>
 			</ul>
+			<mt-spinner 
+			type="triple-bounce"
+			:size="110" 
+			v-show='spinner == 1'>
+				
+			</mt-spinner>
 		</div>
 
 		<footer>
@@ -80,7 +90,7 @@
 	import Vue from 'vue';
 	import http from '../../utils/httpClient.js';
 	import router from '../../router/';
-	import { Indicator } from 'mint-ui';
+	import { Indicator, InfiniteScroll } from 'mint-ui';
 	// 组件
 	import noOpen from '../../module/homeModule/noOpen.vue';
 	import joinRoom from '../../module/homeModule/joinRoom.vue';
@@ -106,58 +116,54 @@
 				datagrid : '',
 				id : 0,
 				name: '',
-				pagesize :30,
-				type :1 ,
-				p : 1,
 
-				key : 0,
-				open : '',
-				roomName : '',
-				number : 0,
-				roomNumber:0,
-				dataList: [],
+				pagesize :30,	// 请求条数
+				type :1 ,		// 1 所有房间 2 自己开的房间
+				p : 1,			// 当前页
+
 				sendId : 0,
+				spinner: 0,		// 懒加载loding
 			}
 		},
 		mounted: function(){		
+			var self = this;
+			var VX_data = this.$store.state.data;
+			var VX_time = new Date().getTime();
 			if(localStorage.oxToken && localStorage.oxUid){
+				this.$store.dispatch('webIM')
 				this.id = localStorage.oxUid
 				this.name = localStorage.getItem('oxName')
 				// 房间请求
-				this.$store.dispatch('webIM')
-				var self = this;
-
-				http.post('/Room/getRoomList' ,
-                {
-                    token: localStorage.oxToken,
-                    pagesize : self.pagesize,
-                    type : self.type,
-                    p : self.p,
-                }, '' ,this)
-                .then(res => {
-                    console.log(res)
-                    for(var i = 0 ; i < res.data.length ; i++){
-                    	self.key = res.data[i].id 
-                    	self.open = res.data[i].zn_room_type ==1 ? true : false
-                    	self.roomName = res.data[i].zc_title 
-                    	self.roomNumber= res.data[i].zc_number
-                    	self.number = res.data[i].pernumber
-
-                    	self.dataList.push({
-                    		key : self.key,
-                    		open : self.open,
-                    		roomName : self.roomName,
-                    		roomNumber : self.roomNumber,
-                    		number :self.number
-                    	})
-                    }
-                    console.log(self.dataList)
-                })
+				if(VX_data.DT.length < 1 || (VX_time-VX_data.DTtime) > 6e4){
+					http.post('/Room/getRoomList' ,
+	                {
+	                    pagesize : self.pagesize,
+	                    type 	 : self.type,
+	                    p 		 : self.$store.state.data.DTpage,
+	                }, '' ,this)
+	                .then(res => {
+	                	if(res.status == 1){
+	                	var arr = [];
+	                    for(let i in res.data){
+	                    	var val = res.data[i];
+	                    	arr.push({
+	                    		key 	   : val.id,			// key值
+	                    		open 	   : val.zn_room_type ==1 ? true : false,// 是否开放
+	                    		roomName   : val.zc_title,		// 房间名字
+	                    		roomNumber : val.zc_number,		// 房间号码
+	                    		number 	   : val.pernumber,		// 房间人数
+	                    	})
+	                    	self.$store.state.data.DTid.push(val.id)
+	                    }
+	                    self.$store.state.data.DT = arr;
+	                    self.$store.state.data.DTtime = VX_time;
+	                    self.$store.state.data.DTpage++;
+	                	}
+	                })
+				}
 			} else {
-				// 跳回登录页
-				router.push({name: '/'});
+				router.push({name: '/'});	// 跳回登录页
 			}
-
 		},
 		methods: {
 			joinRoom(){
@@ -234,14 +240,68 @@
 				};
 				Tar();
 			},
-			generateToolBar: function(obj){
-				//动态生成按钮
-			},
 			loading(){
-				Indicator.open('加载中...');
+				Indicator.open({
+					text: '加载中...',
+					spinnerType: 'fading-circle',
+				});
 			},
-			messAuto(){
-				
+			loadMore(){		// 无限加载
+				var self = this;
+				var VX_data = this.$store.state.data;
+				var time = new Date().getTime();
+				var VX_time = self.$store.state.data.DTtime;
+				if((time - VX_time) < 800){
+					return false;
+				}
+				this.spinner = 1;
+				if((time - VX_time) > self.$store.state.data.DTtimeos){
+				console.log(time)
+				console.log(VX_time)
+				http.post('/Room/getRoomList' ,	// 房间请求
+                {
+                    pagesize : self.pagesize,
+                    type 	 : self.type,
+                    p 		 : self.$store.state.data.DTpage,
+                }, '' ,this)
+                .then(res => {
+                	console.log(res)
+                	if(res.status == 1){
+                	var arr = [];
+                	var dtid = self.$store.state.data.DTid;
+                    var DTcount = 0;
+                    for(let i in res.data){
+                    	var val = res.data[i];
+                    	if(dtid.indexOf(val.id) < 0){	// id识别是否重复
+	                    	arr.push({
+	                    		key 	   : val.id,			// key值
+	                    		open 	   : val.zn_room_type ==1 ? true : false,// 是否开放
+	                    		roomName   : val.zc_title,		// 房间名字
+	                    		roomNumber : val.zc_number,		// 房间号码
+	                    		number 	   : val.pernumber,		// 房间人数
+	                    	})
+	                    	self.$store.state.data.DTid.push(val.id)
+	                    	DTcount++;
+                    	}
+                    }
+                    if(DTcount <= 6){
+                    	self.$store.state.data.DTtimeos = 5000;
+                    } else {
+                    	self.$store.state.data.DTtimeos = 0;
+                    }
+                    var arr01 = self.$store.state.data.DT;
+                    self.$store.state.data.DT = arr01.concat(arr);
+                    self.$store.state.data.DTtime = time;
+                    self.$store.state.data.DTpage++
+                	}
+                    self.spinner = 0;
+                })} else {
+					var atime = setTimeout(() => {
+					    self.spinner = 0;
+					    clearTimeout(atime)
+					  }, 2500);
+				}
+
 			}
 		}
 	}

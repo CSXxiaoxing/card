@@ -168,3 +168,10 @@ this.$store.dispatch('webRecord')
      console.log(res)
      console.log(995)
  })
+
+// 简
+for(let i in data)
+
+// 等值
+10000000 = 1e7
+

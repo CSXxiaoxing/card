@@ -183,16 +183,24 @@
         
         flex: 1;
         overflow-y: auto;
+        &>span>div{
+            transform: translate(0, -50px)
+        }
         ul{
             padding: 1%;
             display: flex;
             justify-content: flex-start;
             flex-direction:row;
             flex-wrap: wrap;
-
+            padding-left: 0.185185rem;
+            &.ul01{
+                padding-bottom: 80px;
+                transition: all 1s;
+            }
+            
             li{
                 // width: 342px;
-                width: 32.2%;
+                width: 32.4%;
                 height: 2.777778rem;
                 // margin-right: 15px;
                 margin-top: 0.166667rem;
