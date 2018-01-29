@@ -43,6 +43,7 @@ export default new Vuex.Store({
             scale: 1,           // 抽水比例
             minGrade: 10,       // 最小上庄分数
             zn_chatid: 0,       // 群聊号码
+            message:'',             //房间公告
         },
         time: {
             initTime: 6,    // 游戏初始化准备时间

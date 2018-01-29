@@ -12,7 +12,7 @@
     	<header>
             <ul>
                 <li>
-                    <i><router-link to="/room" ></router-link></i>
+                    <i @click='$store.commit("ls")'></router-link></i>
                 </li>
                 <li>发布公告</li>
                 <li @click="placard()">发布</li>
@@ -119,7 +119,8 @@
                 num: 0,
                 maxLength:50,
                 careTip : false,
-                room_id: this.$store.state.idRoom.room_id,
+                roomid: this.$store.state.idRoom.room_id,
+                mess : '',
             }
         },
         mounted: function(){
@@ -142,12 +143,15 @@
                 http.post( '/RoomJoin/placard' ,{
                     content : self.content,
                     token: localStorage.oxToken,
-                    zn_room_id : self.room_id,
+                    roomid : self.roomid,
                 }, '' , this)
                     .then(res => {
-                        console.log(res)
                         if(res.status == 1){
+                            console.log(res)
+                            var vx = this.$store.state.idRoom;
                             self.content="";
+                            vx.message = res.content;
+                            console.log(res.content)
                         }
                     })
                 }
