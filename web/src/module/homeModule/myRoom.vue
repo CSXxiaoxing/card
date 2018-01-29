@@ -23,7 +23,7 @@
             <ul @click='openS'>
                 <p v-show = '(!$store.state.data.MYkai[0] && sel == 0) || (!$store.state.data.MYjoin[0] && sel ==1)'>你还没有创建/加入房间，快去创建/加入</p>
 
-                <li v-show = 'sel==0' v-for='(dataRoom) in $store.state.data.MYkai' :key='"my"+dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
+                <li v-show = 'sel==0' v-for='(dataRoom) in this.$store.state.data.MYkai' :key='"my"+dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
                     <b v-if='dataRoom.open'></b>
                     <i></i>
                     <h4>大战牛群</h4>
@@ -37,7 +37,7 @@
                     </div>
                 </li>
 
-                <li v-show = 'sel==1' v-for='(dataRoom) in $store.state.data.MYjoin' :key='dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
+                <li v-show = 'sel==1' v-for='(dataRoom) in this.$store.state.data.MYjoin' :key='dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
                     <b v-if='dataRoom.open'></b>
                     <i></i>
                     <h4>大战牛群</h4>
@@ -371,6 +371,7 @@
         },
         methods: {
             openS(e){
+                var self = this;
               let Etar = e.target;
               var Tar = () => {
                var EtarName = Etar.nodeName.toLowerCase();
@@ -387,7 +388,6 @@
                                           number: this.sendId,
                                       })
                             .then(res => {
-                                // console.log(res)
                                 if(res.status == 1) {
                                     http.post('/Room/joinRoom' ,
                                     {
@@ -400,6 +400,9 @@
                                         // alert('房间号码不存在')
                                     } else if( res.status == 1 ){
                                         router.push({path: `room/${res.data.zc_number}`});
+                                    } else if( res.status == 0 ){
+                                        self.$parent.errorTips = '你已在房间内，请退出当前房间';
+                                        self.$parent.careTip = true;
                                     }
                                 })
                                 }

@@ -16,7 +16,7 @@
                 </li>
                 <li v-show='roomstatus != 0 && roomstatus != 3'>{{shename}}</li>
                 <li v-show='roomstatus == 0'>联系客服</li>
-                <li v-show='roomstatus == 3'>聊天室（{{lingth+1}}）</li>
+                <li v-show='roomstatus == 3'>聊天室（{{lingth}}）</li>
                 <li v-show='roomstatus == 3'>
                     <router-link :to="chartList" >
                     <img src="../../img/chart_Room7.png" alt="">
@@ -353,6 +353,7 @@
                 id: localStorage.oxUid,   //个人id（单聊）
                 sheId: 0,                 // 对方id（单聊）
                 shename: '网络不好暂时无法显示',// 对方名字（单聊）
+                toid: 0,                        // 对方的uid
                 careTip : false,
             }
         },
@@ -366,6 +367,7 @@
             this.$store.dispatch('dl')      // 登录
 
             var params = JSON.parse(this.$route.params.id)  // 路由参数
+            console.log(params)
             this.roomstatus = params[0];    // 状态
             if(params[0] == 3){         // 聊天室
                 this.roomNum = params[1];       // 房间号
@@ -377,10 +379,20 @@
             } 
 
             else if(params[0] == 2){    //  个人
-                if (params[1] > 99999) {    // 群聊室找群主的
+                if (params[1] > 12345) {    // 群聊室找群主的
                     this.roomNum = params[1];       // 房间号
                     this.zn_name = params[4];     // 房间名字
                     this.sheId = params[2];         // 房主id
+
+                    http.post('/MemberFriend/getFriend',{
+                        id : params[2],
+                    })
+                    .then(res => {
+                        if(res.status == 1){
+                            self.shename = res.data.zc_nickname+'(房主)'
+                        }
+
+                    })
                 };
                 
             }
@@ -416,13 +428,12 @@
                     conn.addGroupMembers(option3);
                 };
                 addGroupMembers()   // 群聊
-
             }
 
             // 储存聊天记录
             this.$store.state.obj = {
                 myId: "hz_niuniu_"+id,
-                toId: "hz_niuniu_961",
+                toId: "hz_niuniu_"+self.sheId,
                 pageSize: 10,
                 p: 1,
                 d_q: 'chat',
@@ -466,7 +477,7 @@
                     var msg = new WebIM.message('txt', id);      // 创建文本消息
                     msg.set({
                         msg: self.txt,          // 消息内容
-                        to: 'hz_niuniu_962',   // 接收消息对象（用户id） 13450266666
+                        to: self.sheId,   // 接收消息对象（用户id） 13450266666
                         roomType: false,
                         success: function (id, serverMsgId) {
                             // 本地消息储存
@@ -550,6 +561,7 @@
                 })
                 .then(res => {
                     if(res.status == 1){
+                        console.log(res.data)
                         self.lingth =  Object.values(res.data).length-1;
                     }
                 })

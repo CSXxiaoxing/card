@@ -63,7 +63,7 @@ module.exports = {
     noInfo: true,
     overlay: true,
     port: 8090,
-    //host:'192.168.31.83'
+    // host:'192.168.31.83'
   },
   // host: '192.168.0.104',
   // plugins: [  

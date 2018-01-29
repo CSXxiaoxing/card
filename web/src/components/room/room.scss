@@ -445,6 +445,9 @@ $fsize44: 0.407407rem;
                         border: 0.009259rem solid red;
                    }
                 }
+                li:last-child.zhuan {
+                    background: #ccc;
+                }
             }
             &>span {
                 position: absolute;

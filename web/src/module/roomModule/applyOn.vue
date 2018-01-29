@@ -24,7 +24,7 @@
 
 
       <span>轮庄设置 <i @click="setOwner = false">×</i></span>
-      <p>上庄最低分数：<b>9999</b></p>
+      <p>上庄最低分数：<b>{{$store.state.idRoom.minGrade}}</b></p>
       <hr/>
       <div>
           <label>
@@ -37,14 +37,15 @@
               自动轮庄
               <div :class='play == 0 ? "height":"close"'>
                 <p>输入轮庄局数</p>
-                <input value="500" type="text">
+                <input v-model='zhuanNum' type="text">
                 <p>换庄</p>
               </div>
           </label>
         </div>
         <hr/>
-        <mt-button @click="setOwner = false">确定</mt-button>
+        <mt-button @click="zhuan">确定</mt-button>
     </mt-popup >
+
     <!-- 普通玩家 -->
     <mt-popup 
         v-model="applyOn"
@@ -53,9 +54,9 @@
 
         <span>申请上庄 <i @click="applyOn = false">×</i></span>
 
-        <p>当前设置连庄 :<b>5局</b></p>
+        <p>当前设置连庄 :<b>{{$store.state.idRoom.ju}}局</b></p>
 
-        <p>上庄最低分数 :<b>5000</b></p>
+        <p>上庄最低分数 :<b>{{$store.state.idRoom.minGrade}}</b></p>
 
         <p>您是否确定申请上庄？</p>
 
@@ -471,23 +472,39 @@
         setOwner: false,
         details01:false,
         sel: -1,
-        play:1,
+        play: 1,    // 1锁定 0自动
+        zhuanNum: 50,     // 轮庄数
       };
     },
     methods:{
         sz () {
             var self = this;
-            http.post( '/RoomJion/applyfor', {
-                        roomid: self.$store.state.idRoom.room_id,
+            http.post( '/RoomJoin/applyfor', {
+                        roomid: self.$store.state.idRoom.id,
                         id: localStorage.oxUid || 0,
                     }, '', this )
                 .then(res => {
                     console.log(res)
-                    if(res.status != 0){
-                        self.applyOn = false;
+                    if(res.status == 0){    //  错误
+                        self.$parent.errorTips = res.msg;
+                        self.$parent.careTip = true;
+                        // console.log(self.$parent)
                     }
                 })
-        }
+            self.applyOn = false;
+        },
+        zhuan () {
+            var self = this;
+            http.post('/Room/setRoomMakers',{
+                roomid: self.$store.state.idRoom.id, // 房间id
+                maker: self.play == 1 ? 1 : 2,   // 庄家模式 1，指定，2轮庄
+                makernumber: self.zhuanNum,  // 轮庄局数
+            })
+            .then(res => {
+                console.log(res)
+            })
+            // this.setOwner = false
+        },
     }
   };
 </script>

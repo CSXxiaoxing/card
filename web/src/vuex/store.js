@@ -30,7 +30,8 @@ export default new Vuex.Store({
             minG: 5000,
         },
         idRoom: {
-            room_id: 0,         // 房间id
+            id: 0,              // 房间id
+            room_id: 0,         // 房间number
             roomName: '',       // 房间名字
             oxK: '',            // 比什么
             scope: [0,100],     // 下注范围
@@ -41,8 +42,9 @@ export default new Vuex.Store({
             cardFn: 5,          // 玩法（几副牌）
             room: 'bell',       // 房间计费方式
             scale: 1,           // 抽水比例
-            minGrade: 10,       // 最小上庄分数
+            minGrade: 100,      // 最小上庄分数
             zn_chatid: 0,       // 群聊号码
+            ju: 1,              // 上庄局数
         },
         time: {
             initTime: 6,    // 游戏初始化准备时间
@@ -71,7 +73,10 @@ export default new Vuex.Store({
             MYkaiid: [],  // id,防止重复渲染
             MYjoin: [], // 我进过的房间
             MYjoinid: [], // id,防止重复渲染
+
+            Room: {},      // 房间数据
         },   // 存放各种数据避免重复请求
+
     },
     // 属性计算
     // 使用demo ：this.$store.getters.doneTodos

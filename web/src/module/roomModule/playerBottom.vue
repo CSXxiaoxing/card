@@ -72,7 +72,7 @@
       height:2.12963rem;
       line-height: 1.805556rem;
       background: url("../../img/module_home_no1.png") no-repeat;
-      background-position: center;
+      background-size: 8.87037rem 2.12963rem;
       text-align: center;
       position: relative;
       right: 0.87037rem;
@@ -213,6 +213,7 @@
 
 <script type="es6">
 import Vue from 'vue';
+import http from '../../utils/httpClient.js';
 import loading from '../../components/loading/loading.vue';
 Vue.component('loading', loading)
 
@@ -244,6 +245,7 @@ Vue.component('loading', loading)
             let pay02 = 0;
             let theTxt = [this.text, '总值超出可下注范围', '超出押注范围'];
             let idx = 1;
+            var self = this;
             // 有初始值
             if(this.$parent.ordinary.pay[this.p][2] > 0){
                 pay01 = this.$parent.ordinary.pay[this.p][0];
@@ -273,7 +275,7 @@ Vue.component('loading', loading)
                     this.inpErr = 1;
                     break;
                 // 大于注池/或者超出范围
-                case val01 + val02 > this.$parent.ordinary.pond || idx == 2 :
+                case (val01*10 + val02) > this.$parent.ordinary.pond*10 || idx == 2 :
                     let t;
                     clearTimeout(t);
                     t = setTimeout( ()=>{
@@ -291,13 +293,26 @@ Vue.component('loading', loading)
                     // 1/修改父元素值
                     this.$parent.ordinary.pay[this.p] = [val01, val02, val01+val02];
                     this.$parent.win.fen -= val01+val02;
-                    // 2/发起请求-把数据传给后台 (三个值)---------------------------------------
-                    // 
-                    // 3/请求完后清除数据
-                    this.double = '';
-                    this.noDouble = '';
-                    this.inpErr = -1;
-                    this.playerBottom = false;
+                    // 2/发起请求-把数据传给后台 (三个值)
+                    http.post('/RoomJoin/chargePoints',{
+                        id: localStorage.oxUid,     // 个人uid
+                        roomid: self.$store.state.idRoom.id, // 房间id
+                        score: val01+val02,   // 压分分数
+                        few: self.p,         // 第几副牌
+                    })
+                    .then(res => {
+                        console.log(res)
+                        if(res.status == 1){
+                            this.double = '';
+                            this.noDouble = '';
+                            this.inpErr = -1;
+                            this.playerBottom = false;
+                        } else {
+                            this.playerBottom = false;
+                            self.$parent.errorTips = res.msg;
+                            self.$parent.careTip = true;
+                        }
+                    })
                     break;
                 default : 
                     this.inpErr = -1;

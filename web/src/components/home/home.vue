@@ -2,10 +2,10 @@
 	<div id='home'> 
 		<mt-popup 
           v-model="careTip"
-          popup-transition="popup-fade" :modal='false'
+          popup-transition="popup-fade"
           class="care" >
           <span>通知 <i @click="careTip = false">×</i></span>
-          <p>该房间尚未公开</p>
+          <p>{{errorTips}}</p>
           <mt-button @click="careTip = false">  确定
           </mt-button>
       </mt-popup >
@@ -126,6 +126,7 @@
 			return {
 				loading: false,		// loading
 				careTip : false,
+				errorTips: '',		// 错误信息
 				datagrid : '',
 				id : 0,
 				name: '',
@@ -147,7 +148,7 @@
 				this.id = localStorage.oxUid
 				this.name = localStorage.getItem('oxName')
 				// 房间请求
-				if(VX_data.DT.length < 1 || (VX_time-VX_data.DTtime) > 6e5){
+				if(VX_data.DT.length < 1 || (VX_time-VX_data.DTtime) > 6e1){
 					http.post('/Room/getRoomList' ,
 	                {
 	                    pagesize : self.pagesize,
@@ -158,20 +159,28 @@
 	                	console.log(res)
 	                	if(res.status == 1){
 	                	var arr = [];
+	                	var dtid = self.$store.state.data.DTid;
 	                    for(let i in res.data){
 	                    	var val = res.data[i];
-	                    	arr.push({
-	                    		key 	   : val.id,			// key值
-	                    		open 	   : val.zn_room_type ==1 ? true : false,// 是否开放
-	                    		roomName   : val.zc_title,		// 房间名字
-	                    		roomNumber : val.zc_number,		// 房间号码
-	                    		number 	   : val.pernumber,		// 房间人数
-	                    	})
-	                    	self.$store.state.data.DTid.push(val.id)
+	                    	if(dtid.indexOf(val.id) < 0){	// id识别是否重复
+		                    	arr.push({
+		                    		key 	   : val.id,			// key值
+		                    		open 	   : val.zn_room_type ==1 ? true : false,// 是否开放
+		                    		roomName   : val.zc_title,		// 房间名字
+		                    		roomNumber : val.zc_number,		// 房间号码
+		                    		number 	   : val.pernumber,		// 房间人数
+		                    	})
+	                    		self.$store.state.data.DTid.push(val.id)
+	                    	}
 	                    }
-	                    self.$store.state.data.DT = arr;
+	                    if(self.$store.state.data.DT.length > 0){
+	                    	var arr01 = self.$store.state.data.DT;
+	                    	self.$store.state.data.DT = arr01.concat(arr);
+	                    }else {
+	                    	self.$store.state.data.DT = arr;
+	                    }
+
 	                    self.$store.state.data.DTtime = VX_time;
-	                    // self.$store.state.data.DTpage++;
 	                	}
 	                })
 				}
@@ -196,7 +205,7 @@
 				http.post('/Room/getRoomNumber',
 				{
 					token: localStorage.oxToken,
-				})
+				},'',this)
 				.then(res => {
 					this.$refs.onvarRoomChild.imgState.room_id =  res.data;
 				})
@@ -210,6 +219,7 @@
 			},
 			openS(e){
 				let Etar = e.target;
+				var self=this;
 				var Tar = () => {
 					var EtarName = Etar.nodeName.toLowerCase();
 					if(EtarName == 'li'){
@@ -220,10 +230,9 @@
 
 						if(nodeValue == 'true'){
 							this.sendId = Etar.attributes["roomid"].nodeValue
-							console.log(Etar.attributes["roomid"].nodeValue)
 							http.post('/Room/getRooms',{
 		                        number: this.sendId,
-		                    })
+		                    },'',this)
 		                    .then(res => {
 		                        // console.log(res)
 		                        if(res.status == 1) {
@@ -238,6 +247,9 @@
 		                                    // alert('房间号码不存在')
 		                                } else if( res.status == 1 ){
 		                                    router.push({path: `room/${res.data.zc_number}`});
+		                                } else if( res.status == 0 ){
+		                                    self.errorTips = '你已在房间内，请退出当前房间';
+		                                    self.careTip = true;
 		                                }
 		                            })
 
@@ -273,15 +285,17 @@
                     p 		 : self.$store.state.data.DTpage,
                 }, '')
                 .then(res => {
-                	// console.log(res)
+                	console.log(res)
                 	if(res.status == 1){
                 	var arr = [];
                 	var dtid = self.$store.state.data.DTid;
                 	var arrlength = Object.values(res.data).length;
                     var DTcount = 0;
+                    var weiyi = 0;
                     for(let i in res.data){
                     	var val = res.data[i];
                     	if(dtid.indexOf(val.id) < 0){	// id识别是否重复
+                    		weiyi++;
 	                    	arr.push({
 	                    		key 	   : val.id,			// key值
 	                    		open 	   : val.zn_room_type ==1 ? true : false,// 是否开放
@@ -296,7 +310,7 @@
                     }
                     if(DTcount >= arrlength-1){
                     	self.$store.state.data.DTtimeos = 5000;
-                    	self.$store.state.data.DTpage++
+                    	self.$store.state.data.DTpage++;
                     } else {
                     	self.$store.state.data.DTtimeos = 0;
                     }

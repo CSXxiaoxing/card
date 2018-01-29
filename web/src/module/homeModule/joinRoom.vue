@@ -129,6 +129,7 @@
         },
     methods: {
         number(e) {
+            var self = this;
             // 输入逻辑
             if(e.target.nodeName.toLowerCase() == 'li'){
                 if(e.target.innerText == '重输'){
@@ -144,27 +145,32 @@
                 var zhi = this.val
                 http.post('/Room/getRooms',{
                         number: this.val,
-                    })
+                    },'',this)
                     .then(res => {
-                        // console.log(res)
+                        console.log(res)
                         if(res.status == 1) {
-
                             http.post('/Room/joinRoom' ,
                             {
                                 zn_room_id : res.data.id,
                             }, '' ,this)
                             .then(res => {
-                                console.log(res)
                                 if( res.status == 3 ){
                                     router.push({path: `room/${zhi}`});
-                                    // alert('房间号码不存在')
-                                } else if( res.status == 1 ){
+                                } else if( res.status == 1){
                                     router.push({path: `room/${res.data.zc_number}`});
+                                } else if( res.status == 0 ){
+                                    self.$parent.errorTips = '你已在房间内，请退出当前房间';
+                                    self.$parent.careTip = true;
                                 }
                             })
 
+                        } else if( res.status == 0 ){
+                            self.$parent.errorTips = '该房间不存在或不对外开放';
+                            self.$parent.careTip = true;
                         }
                     })
+            }else if(this.val.length > 6){
+                this.val = this.val.slice(0,6)
             }
         },
         open6() {
