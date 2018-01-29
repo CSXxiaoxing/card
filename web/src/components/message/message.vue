@@ -15,7 +15,7 @@
                     <i><a @click='$store.commit("ls")'></a></i>
                 </li>
                 <li>发布公告</li>
-                <li>发布</li>
+                <li @click="placard()">发布</li>
             </ul>
         </header>
         <div class='imp'>
@@ -106,6 +106,7 @@
 </style>
 
 <script type="text/javascript">
+    import http from '../../utils/httpClient.js';
     import Vue from 'vue';
     import loading from '../loading/loading.vue';
     Vue.component('loading', loading)
@@ -118,6 +119,8 @@
                 num: 0,
                 maxLength:50,
                 careTip : false,
+                roomid: this.$store.state.idRoom.room_id,
+                mess : '',
             }
         },
         mounted: function(){
@@ -138,9 +141,20 @@
             placard(){
                 var self = this;
                 http.post( '/RoomJoin/placard' ,{
-                    
-                })
-            }
+                    content : self.content,
+                    token: localStorage.oxToken,
+                    roomid : self.roomid,
+                }, '' , this)
+                    .then(res => {
+                        if(res.status == 1){
+                            console.log(res)
+                            var vx = this.$store.state.idRoom;
+                            self.content="";
+                            vx.message = res.content;
+                            console.log(res.content)
+                        }
+                    })
+                }
         }
     }
 </script>

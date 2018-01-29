@@ -57,13 +57,13 @@
                 <dd>
                     <mt-swipe :show-indicators="false">
                       <mt-swipe-item>
-                        <i></i><span>房主公告：健康游戏，请勿赌博，谢谢合作。</span>
+                        <i></i><span>房主公告：{{message}}</span>
                     </mt-swipe-item>
                       <mt-swipe-item>
-                        <i></i><span>房主公告：健康游戏，请勿赌博，谢谢合作。</span>
+                        <i></i><span>房主公告：{{message}}</span>
                     </mt-swipe-item>
                       <mt-swipe-item>
-                        <i></i><span>房主公告：健康游戏，请勿赌博，谢谢合作。</span>
+                        <i></i><span>房主公告：{{message}}</span>
                     </mt-swipe-item>
                     </mt-swipe>
                 </dd>
@@ -317,6 +317,7 @@
                 fangzhu: '',    // 房主路由
                 fanzhuID: '',   // 房主id
                 fanzhuName: '',   // 房主名字
+                message : '健康游戏，请勿赌博，谢谢合作',
                 init: {     // 初始化
                     ForT: 1,          // 1是房主0是普通
                     time: 0,         // 游戏时间控制
@@ -479,7 +480,8 @@
             }
 
             var socket = io(socketURL);
-            socket.on('new_msg', function (data) {      // socket实时消息
+            socket.on('new_msg', function (data) {    
+                  // socket实时消息
                 var val = JSON.parse(data);
                 // console.log(val)
                 switch(val.type){
@@ -499,8 +501,11 @@
                         break;
                     case 9 :                            // 压分
                         break;
-                    case 10:                            // 公告
-                        console.log(val)
+                    case 10:  
+                        var vx = this.$store.state.idRoom;
+                        console.log(val.content)      // 公告
+                        vx.message = val.content;
+                        self.message = vx.message;
                         break;
                     case 11:                            // 重新开局
                         break;
