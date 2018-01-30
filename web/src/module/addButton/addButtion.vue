@@ -3,18 +3,18 @@
 Vue.component('自定义组件名称', 引入时定义的变量名) -->
 <style lang='scss' scoped>
     #addButtion{
-        width-min: 200px;
+        width-min: 1.851852rem;
         button{
-            font-size: 0px;
+            font-size: 0.0rem;
         }
         input {
-            width: 242px;
-            height: 68px;
+            width: 2.240741rem;
+            height: 0.62963rem;
             background: #E3E3E3;
-            font-size: 32px;
-            line-height: 68px;
-            padding: 4px 4px;
-            border-radius: 10px;
+            font-size: 0.296296rem;
+            line-height: 0.62963rem;
+            padding: 0.037037rem 0.037037rem;
+            border-radius: 0.092593rem;
             box-sizing: border-box;
             float: left;
             margin: 0;

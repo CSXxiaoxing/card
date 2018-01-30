@@ -45,8 +45,9 @@ export default new Vuex.Store({
             minGrade: 100,      // 最小上庄分数
             zn_chatid: 0,       // 群聊号码
             ju: 1,              // 上庄局数
-            
-            message:'',             //房间公告
+        },
+        placard:{
+             message:'健康游戏，请勿赌博，谢谢合作',             //房间公告
         },
         time: {
             initTime: 6,    // 游戏初始化准备时间

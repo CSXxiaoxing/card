@@ -37,16 +37,16 @@
         background: #ECEDF1;
         
         header {
-            height: 202px;
-            padding: 110px 30px 0px;
+            height: 1.87037rem;
+            padding: 1.018519rem 0.277778rem 0.0rem;
             box-sizing: border-box;
             background: #2F2E34;
             color: #fff;
             ul {
-                height: 86px;
-                line-height: 86px;
+                height: 0.796296rem;
+                line-height: 0.796296rem;
                 display: flex;
-                padding-bottom: 4px;
+                padding-bottom: 0.037037rem;
                 justify-content: space-between;
                 li:nth-of-type(2){
                     text-align: center;
@@ -54,15 +54,15 @@
                 li:first-child {
                     &>i {
                         display: inline-block;
-                        width: 70px;
-                        height: 55px;
-                        background: url('../../img/room_all.png') -470px -160px no-repeat;
-                        background-size: 600px;
+                        width: 0.648148rem;
+                        height: 0.509259rem;
+                        background: url('../../img/room_all.png') -4.351852rem -1.481481rem no-repeat;
+                        background-size: 5.555556rem;
                         position: relative;
                         top: 50%;
                         transform: translate(0, -50%);
                         a {
-                            padding: 28px 40px;
+                            padding: 0.259259rem 0.37037rem;
                         }
                     }
                 }
@@ -73,7 +73,7 @@
             width: 100%;
             height: 860px;
             background: #fff;
-            padding: 27px 40px;
+            padding: 0.25rem 0.37037rem;
             position: relative;
             overflow: hidden;
             box-sizing: border-box;
@@ -81,8 +81,8 @@
             textarea {
                 width: 100%;
                 height: 100%;
-                line-height: 70px;
-                font-size: 42px;
+                line-height: 0.648148rem;
+                font-size: 0.388889rem;
                 white-space: wrap;
                 -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
                 -webkit-user-select: none;
@@ -94,8 +94,8 @@
             }
             p {
                 position: absolute;
-                bottom: 30px;
-                right: 0px;
+                bottom: 0.277778rem;
+                right: 0;
                 transform: translate(-50%, 0);
             }
             span {
@@ -119,7 +119,7 @@
                 num: 0,
                 maxLength:50,
                 careTip : false,
-                roomid: this.$store.state.idRoom.room_id,
+                roomid: this.$store.state.idRoom.id,
                 mess : '',
             }
         },
@@ -139,19 +139,22 @@
                 }
             },  
             placard(){
+                var vx = this.$store.state.placard;
                 var self = this;
                 http.post( '/RoomJoin/placard' ,{
                     content : self.content,
                     token: localStorage.oxToken,
                     roomid : self.roomid,
                 }, '' , this)
-                    .then(res => {
-                        if(res.status == 1){
+                    .then(res => {                      
+                        if(res.status == 0){
+                            
+                        }else{
                             console.log(res)
-                            var vx = this.$store.state.idRoom;
+                            vx.message = self.content;
+                            console.log(vx.message);
                             self.content="";
-                            vx.message = res.content;
-                            console.log(res.content)
+                            self.num = 0;
                         }
                     })
                 }

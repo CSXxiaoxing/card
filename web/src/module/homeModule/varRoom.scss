@@ -1,6 +1,6 @@
 @import '../../utils/baseVar.scss'; // card
 .varR_modal{
-    position: fixed;
+        position: fixed;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
@@ -96,7 +96,7 @@
             height: 0.537037rem;
             border-radius: 50%;
             background-color: #fff;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+            box-shadow: 0 0.009259rem 0.027778rem rgba(0, 0, 0, .4);
         }
         .mint-switch-core::before {
             width: 1.157407rem;
@@ -478,6 +478,7 @@
         background-color: #E6E6E6;
     }
 }
+
 // 倍率设置
 .set{
     // border: 3px solid #000;
@@ -536,8 +537,9 @@
                 .mint-radiolist-label {
                     display: block;
                     // padding: 0 10px;
-                    width: 30%;
+                    width: 2rem;
                     display: flex;
+                    line-height:0.509259rem;
                 }
                 .mint-radiolist-label:last-child {
                     width: 3.703704rem;
