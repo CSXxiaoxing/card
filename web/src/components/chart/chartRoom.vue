@@ -2,10 +2,10 @@
     <div class='chartRoom'>
         <mt-popup 
             v-model="careTip"
-            popup-transition="popup-fade" :modal='false'
+            popup-transition="popup-fade"
             class="care" >
             <span>通知 <i @click="careTip = false">×</i></span>
-            <p>该房间尚未公开</p>
+            <p>{{errorTips}}</p>
             <mt-button @click="careTip = false">  确定
             </mt-button>
         </mt-popup >
@@ -14,7 +14,7 @@
                 <li>
                     <i><a @click='$store.commit("ls")'></a></i>
                 </li>
-                <li v-show='roomstatus ==1'>{{shename}}</li>
+                <li v-show='roomstatus == 1'>{{shename}}</li>
                 <li v-show='roomstatus == 0'>联系客服</li>
                 <li v-show='roomstatus == 3'>聊天室（{{lingth}}）</li>
                 <li v-show='roomstatus == 3'>
@@ -31,7 +31,7 @@
             <ul v-if='roomstatus == 2 || roomstatus == 1'>
                 <!-- 单聊 -->
                 <li v-for="(data, idx) in (roomstatus == 2 || roomstatus == 1 ? $store.state.txt : '')" 
-                :class="$store.state.txt_idx[idx] >=0 ? 'left' : 'right'"   :key = '$store.state.txt_time[idx]'>
+                :class="$store.state.txt_idx[idx] >=0 ? 'left' : 'right'"   :key = '$store.state.txt_time[idx]' v-if='data != ""'>
                     <img src="../../img/chart_Room2.png" alt="">
                     <div class="test">
                         <span class="bot"></span>
@@ -52,14 +52,15 @@
                 </li>
             </ul>
 
-
+            <!-- 加减分 -->
             <div :class = '[(give == 1?"open":"close"),("control")]'>
             	<ul>
-            		<li>加分 :<input type="text" placeholder="输入分数"><b @click = 'give == 0 ? give = 1 : give = 0'>确定</b></li>
-            		<li>减分 :<input type="text" placeholder="输入分数"></li>
+            		<li>加分 :<input type="text" placeholder="输入分数" v-model.number = 'add' @focus='jian = ""'>
+                        <b @click = 'addfen'>确定</b>
+                    </li>
+            		<li>减分 :<input type="text" placeholder="输入分数" v-model.number = 'jian' @focus='add = ""'></li>
             	</ul>
             </div>
-            
         </div>
         <footer>
 
@@ -194,6 +195,7 @@
             }
             .chart{
             	width:100%;
+                position: relative;
             }
             .left{
                 img{
@@ -231,16 +233,17 @@
             }
 
             .control{
-            	overflow:hidden;
+            	overflow: hidden;
             	box-shadow: 0.009259rem 0.009259rem 0.185185rem #A9A9AB;
             	width:100%;
             	height:0.0rem;
-            	position:absolute;
+            	position: fixed;
+                top: 1.87037rem;
             	left:0.0rem;
-            	top:0.0rem;
             	background-color:white;
             	font-size:0.407407rem;
             	text-align:left;
+
             	li{
 
             		margin-top: 0.277778rem;
@@ -344,7 +347,7 @@
     import http from '../../utils/httpClient.js';
     import loading from '../loading/loading.vue';
     Vue.component('loading', loading)
-    // [2,961109,961,0,112233] 路由数据案例
+    // [2,961109,961,0,112233] 路由数据案例 // open
 	export default {
         data: function(){
             return {
@@ -364,7 +367,10 @@
                 sheId: 0,                 // 对方id（单聊）
                 shename: '网络不好暂时无法显示',// 对方名字（单聊）
                 toid: 0,                        // 对方的uid
-                careTip : false,
+                careTip : false,    // 提示窗
+                errorTips: '',      // 错误提示
+                add: '', // 加分
+                jian: '', // 减分
             }
         },
         beforeMount: function(){
@@ -404,7 +410,7 @@
                             self.shename = res.data.zc_nickname
                         }
                         self.$store.state.txtType = "hz_niuniu_"+self.sheId;     // 聊天状态头
-                        console.log(self.sheId)
+                        self.textPush() // 先发送一波
                     })
                 };
             }
@@ -466,7 +472,7 @@
                 var chat = document.getElementById("txtbox");
                 chat.scrollTop = chat.scrollHeight;
                 clearTimeout(timeD)
-            },100)
+            },200)
 
             
         },
@@ -583,6 +589,46 @@
                         console.log(res.data)
                         self.lingth =  Object.values(res.data).length-1;
                     }
+                })
+            },
+            addfen () {     // 加减分
+
+                var self = this;
+                var zhi = 0;
+                var jj = 3;
+
+                if(this.add > 0){
+                    zhi = this.add
+                    jj = 1;
+                } else if(this.jian > 0) {
+                    zhi = this.jian
+                    jj = 2;
+                } else {
+                    this.give == 0 ? this.give = 1 : this.give = 0
+                    return false;
+                }
+                if(self.sheId < 99){
+                    return false;
+                }
+                this.give == 0 ? this.give = 1 : this.give = 0
+                http.post('/RoomJoin/chagePoint',{
+                    id: self.sheId,  // 设置人id
+                    points: zhi,     // 增加或减少分数
+                    roomid: JSON.parse(self.$route.params.id)[5],    // 房间id
+                    type: jj,    // 1加分 2减分
+                })
+                .then(res => {
+                    if(res.status == 1){
+                        self.jian = '';
+                        self.add = '';
+                        self.$store.state.self.addtype = 1;
+                        self.errorTips = res.msg;
+                        self.careTip = true;
+                    } else {
+                        self.errorTips = res.msg;
+                        self.careTip = true;
+                    }
+                    
                 })
             },
         }

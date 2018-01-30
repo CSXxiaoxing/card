@@ -57,7 +57,7 @@
     width: 99%;
     height: 99%;
     color: #fff;
-    box-shadow: 0 0 80px 1px #fff inset;
+    box-shadow: 0 0 0.740741rem 0.009259rem #fff inset;
     background: rgba(0,0,0,0.66);
     &>span{
         position: absolute;
@@ -70,7 +70,7 @@
         top: 60%;
         left: 50%;
         transform: translate(-50%, -50%);
-        border: solid 1px #fff;
+        border: solid 0.009259rem #fff;
         font-size: 0.444444rem;
         padding: 0.185185rem 0.925926rem;
         background: rgba(100,120,96,0.8);
@@ -79,10 +79,10 @@
     }
     @keyframes loading{
        0%{
-           box-shadow: 0 0 50px 3px #fff;
+           box-shadow: 0 0 0.462963rem 0.027778rem #fff;
        }
        100%{
-           box-shadow: 0 0 50px 3px #333;
+           box-shadow: 0 0 0.462963rem 0.027778rem #333;
        }
     }
 }

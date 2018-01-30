@@ -448,12 +448,19 @@ $fsize44: 0.407407rem;
                     #{$bg}-size: $w600;
                     color: #6E410F;
                     font-weight: bold;
-                    position: relative;
+                    position: absolute;
                     left: 50%;
-                    #{$tf}: translate(-50%, 50%);
+                    bottom: 0;
+                    #{$tf}: translate(-50%, -50%);
                 }
-                li:last-child.tips{
+                li:last-child.win {
+                    background: url('../../img/chart_list3.png') no-repeat;
+                    #{$bg}-size: 1.388889rem 0.518519rem;
+                    color: #fff;
+                }
+                li:first-child.tips{
                     box-sizing: border-box;
+                    box-shadow: 0 0 0.092593rem 0.018519rem #fff inset;
                     animation: zhuanTips .5s linear infinite alternate;
                 }
                 @keyframes zhuanTips{
@@ -461,7 +468,7 @@ $fsize44: 0.407407rem;
                        border: 0.0rem solid red;
                    }
                    100%{
-                        border: 0.009259rem solid red;
+                        border: 0.012259rem solid red;
                    }
                 }
                 @-webkit-keyframes zhuanTips{
@@ -469,7 +476,7 @@ $fsize44: 0.407407rem;
                        border: 0.0rem solid red;
                    }
                    100%{
-                        border: 0.009259rem solid red;
+                        border: 0.012259rem solid red;
                    }
                 }
                 li:last-child.zhuan {

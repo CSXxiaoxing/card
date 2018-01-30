@@ -13,8 +13,8 @@
           class="details01">
           <span>选择锁定 <i @click="details01 = false">×</i></span>
           <ul>
-              <li v-for='(data, player) in 50' :key='player' @click='sel = player'>
-                  这里是玩家昵称 
+              <li v-for='(data, player) in $store.state.data.Zlist' :key='data.zn_member_id' @click='sel = player'>
+                  {{data.zn_member_name}} 
                   <b><img v-show="sel == player" src="../../img/module_room_setOwner2.png" alt=""></b>
               </li>
 
@@ -29,7 +29,7 @@
       <div>
           <label>
               <span @click="play = 1"><img src="../../img/varTrue.png" v-show="play" height="60" width="59" alt="" /></span>
-              锁定庄家:<b>迷糊的诗诗</b> <img @click="details01 =true" class="list" src="../../img/module_room_setOwner.png" alt="">
+              锁定庄家:<b>迷糊的诗诗</b> <img @click="suo" class="list" src="../../img/module_room_setOwner.png" alt="">
           </label>
           <hr/>
           <label>
@@ -54,9 +54,11 @@
 
         <span>申请上庄 <i @click="applyOn = false">×</i></span>
 
-        <p>当前设置连庄 :<b>{{$store.state.idRoom.ju}}局</b></p>
+        <p>当前设置连庄 :
+            <b>{{this.$store.state.idRoom.ju == '' ? "5": this.$store.state.idRoom.ju}}局</b>
+        </p>
 
-        <p>上庄最低分数 :<b>{{$store.state.idRoom.minGrade}}</b></p>
+        <p>上庄最低分数 :<b>{{this.$store.state.idRoom.minGrade}}</b></p>
 
         <p>您是否确定申请上庄？</p>
 
@@ -236,7 +238,7 @@
         color: white;
         background: url(../../img/module_room_setOwner1.png) no-repeat;
         background-position:center;
-        background-size: center;
+        background-size: 4.018519rem 1.037037rem;
       }
       button:active {
           position: relative;
@@ -304,7 +306,7 @@
         color: white;
         background: url(../../img/module_room_setOwner1.png) no-repeat;
         background-position:center;
-        background-size: center;
+        background-size: 5.555556rem 1.037037rem;
       }
       button:active {
           position: relative;
@@ -412,23 +414,30 @@
           font-size:0.444444rem;
           width:8.055556rem;
           height:6.481481rem;
+          
           overflow-y:auto;
           overflow-x:hidden;  
           li{
             border-bottom: 0.018519rem solid #D7D7D7;
             margin-left:0.555556rem;
             line-height:1.111111rem;
+            position: relative;
             b{
               display:inline-block;
-              text-align:right;
+
               width:0.87963rem;
               height:0.925926rem;
-              background:url("../../img/module_room_setOwner3.png") no-repeat; 
+              background: url("../../img/module_room_setOwner3.png") no-repeat; 
               background-position: center;
-              background-size:cover; 
-              position:relative;
-              left:3.055556rem;
-              top: 0.222222rem;
+              background-size: 0.87963rem 0.925926rem; 
+              position: absolute;
+              right: 0.092593rem;
+              top: 50%;
+              transform: translate(0,-50%);
+              img{
+                height: 0.925926rem;
+                width: 0.87963rem;
+              }
             }
           }
           li:nth-of-type(1){
@@ -448,7 +457,6 @@
           background-size: 5.555556rem 5.555556rem;
           }
     }
-
 
     ul::-webkit-scrollbar {
         display: none;
@@ -479,31 +487,71 @@
     methods:{
         sz () {
             var self = this;
-            http.post( '/RoomJoin/applyfor', {
-                        roomid: self.$store.state.idRoom.id,
-                        id: localStorage.oxUid || 0,
-                    }, '', this )
-                .then(res => {
-                    console.log(res)
-                    if(res.status == 0){    //  错误
-                        self.$parent.errorTips = res.msg;
-                        self.$parent.careTip = true;
-                        // console.log(self.$parent)
-                    }
-                })
+            if(self.$store.state.data.apptype == 0){ // 申请上庄
+                http.post( '/RoomJoin/applyfor', {
+                            roomid: self.$store.state.idRoom.id,
+                            id: localStorage.oxUid || 0,
+                        }, '', this )
+                    .then(res => {
+                        console.log(res)
+                        if(res.status == 1){
+                            self.$store.state.data.apptype = 1;
+                        }
+                        else if(res.status == 0){    //  错误
+                            self.$parent.errorTips = res.msg;
+                            self.$parent.careTip = true;
+                            // console.log(self.$parent)
+                        }
+                    })
+            } else {        // 取消上庄
+                http.post( '/RoomJion/setMakers', {
+                            id: localStorage.oxUid || 0,
+                            roomid: self.$store.state.idRoom.id,
+                            type: 2,
+                        }, '', this )
+                    .then(res => {
+                        console.log(res)
+                        if(res.status == 1){
+                            self.$store.state.data.apptype = 0;
+                        }
+                        else if(res.status == 0){    //  错误
+                            self.$parent.errorTips = res.msg;
+                            self.$parent.careTip = true;
+                            // console.log(self.$parent)
+                        }
+                    })
+            }
+            
             self.applyOn = false;
         },
-        zhuan () {
+        zhuan () {  // 庄模式设置
             var self = this;
+            self.setOwner = false;
             http.post('/Room/setRoomMakers',{
                 roomid: self.$store.state.idRoom.id, // 房间id
                 maker: self.play == 1 ? 1 : 2,   // 庄家模式 1，指定，2轮庄
                 makernumber: self.zhuanNum,  // 轮庄局数
             })
             .then(res => {
-                console.log(res)
+                self.$parent.errorTips = res.msg;
+                self.$parent.careTip = true;
             })
             // this.setOwner = false
+        },
+        suo () {      // 锁定庄家--获取申请上庄玩家列表
+            var self = this;
+            self.details01 =true
+            if(!self.$store.state.data.Zlist[0]){
+                http.post('/RoomJoin/getMakerList',{
+                    roomid: self.$store.state.idRoom.id, // 房间id
+                }, '',this)
+                .then(res => {
+                    if(res.status == 1){
+                        self.$store.state.data.Zlist=res.data
+                    }
+                })
+            }
+
         },
     }
   };

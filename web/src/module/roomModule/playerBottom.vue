@@ -16,18 +16,18 @@
             <tr> <td>牌型</td><td>赔率</td> </tr>
           </thead>
           <tbody>
-            <tr> <td>无牛</td><td>比K</td> </tr>
-            <tr> <td>牛一</td><td>X10</td> </tr>
-            <tr> <td>牛二</td><td>X10</td> </tr>
-            <tr> <td>牛三</td><td>X5</td> </tr>
-            <tr> <td>牛四</td><td>X10</td> </tr>
-            <tr> <td>牛五</td><td>X10</td> </tr>
-            <tr> <td>牛六</td><td>X10</td> </tr>
-            <tr> <td>牛七</td><td>X10</td> </tr>
-            <tr> <td>牛八</td><td>X10</td> </tr>
-            <tr> <td>牛九</td><td>X10</td> </tr>
-            <tr> <td>牛牛</td><td>X10</td> </tr>
-            <tr> <td>五花牛</td><td>X10</td> </tr>
+            <tr> <td>无牛</td><td>{{$store.state.idRoom.oxK}}</td> </tr>
+            <tr> <td>牛一</td><td>X{{$store.state.idRoom.oxNumber[1]}}</td> </tr>
+            <tr> <td>牛二</td><td>X{{$store.state.idRoom.oxNumber[2]}}</td> </tr>
+            <tr> <td>牛三</td><td>X{{$store.state.idRoom.oxNumber[3]}}</td> </tr>
+            <tr> <td>牛四</td><td>X{{$store.state.idRoom.oxNumber[4]}}</td> </tr>
+            <tr> <td>牛五</td><td>X{{$store.state.idRoom.oxNumber[5]}}</td> </tr>
+            <tr> <td>牛六</td><td>X{{$store.state.idRoom.oxNumber[6]}}</td> </tr>
+            <tr> <td>牛七</td><td>X{{$store.state.idRoom.oxNumber[7]}}</td> </tr>
+            <tr> <td>牛八</td><td>X{{$store.state.idRoom.oxNumber[8]}}</td> </tr>
+            <tr> <td>牛九</td><td>X{{$store.state.idRoom.oxNumber[9]}}</td> </tr>
+            <tr> <td>牛牛</td><td>X{{$store.state.idRoom.oxNumber[10]}}</td> </tr>
+            <tr> <td>五花牛</td><td>X{{$store.state.idRoom.oxNumber[11]}}</td> </tr>
           </tbody>
         </table>
     </mt-popup>
@@ -232,12 +232,14 @@ Vue.component('loading', loading)
             // 可压范围
             scope: [this.$parent.init.scope[0], this.$parent.init.scope[1]],
             // 初始值
-            val: [],
+            val: [0,0,0],
         };
     },
     props: ["p"],
     beforeUpdate(){
-      this.val = this.$parent.ordinary.pay[this.p]
+        if(!!this.$parent.ordinary.pay[this.p]){
+            this.val = this.$parent.ordinary.pay[this.p]
+        }
     },
     methods:{
         valueEnd() {
@@ -260,7 +262,7 @@ Vue.component('loading', loading)
                 this.inpErr = 0;
                 idx = 2;
             }
-            if((this.noDouble < this.scope[0] || this.noDouble > this.scope[1] )
+            if((this.noDouble < this.scope[0] || this.noDouble > this.scope[1]*10 )
                 && this.noDouble != '') {
                 this.inpErr = 1;
                 idx = 2;
@@ -275,7 +277,7 @@ Vue.component('loading', loading)
                     this.inpErr = 1;
                     break;
                 // 大于注池/或者超出范围
-                case (val01*10 + val02) > this.$parent.ordinary.pond*10 || idx == 2 :
+                case (val01 + val02/10) > this.$parent.ordinary.pond || idx == 2 :
                     let t;
                     clearTimeout(t);
                     t = setTimeout( ()=>{
@@ -293,6 +295,7 @@ Vue.component('loading', loading)
                     // 1/修改父元素值
                     this.$parent.ordinary.pay[this.p] = [val01, val02, val01+val02];
                     this.$parent.win.fen -= val01+val02;
+                    this.playerBottom = false;
                     // 2/发起请求-把数据传给后台 (三个值)
                     http.post('/RoomJoin/chargePoints',{
                         id: localStorage.oxUid,     // 个人uid
@@ -306,13 +309,18 @@ Vue.component('loading', loading)
                             this.double = '';
                             this.noDouble = '';
                             this.inpErr = -1;
-                            this.playerBottom = false;
                         } else {
-                            this.playerBottom = false;
+                            // 1/修改父元素值失败
+                            this.$parent.ordinary.pay[this.p] = [0, 0, 0];
+                            this.$parent.win.fen += val01+val02;
+                            this.double = '';
+                            this.noDouble = '';
+                            this.inpErr = -1;
                             self.$parent.errorTips = res.msg;
                             self.$parent.careTip = true;
                         }
                     })
+
                     break;
                 default : 
                     this.inpErr = -1;

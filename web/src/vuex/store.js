@@ -15,6 +15,7 @@ export default new Vuex.Store({
             userName: '',
             userID: '',
             userImg: '',
+            addtype: 0, // 加分状态
         },
         // 默认数据
         initRoom: {
@@ -44,7 +45,7 @@ export default new Vuex.Store({
             scale: 1,           // 抽水比例
             minGrade: 100,      // 最小上庄分数
             zn_chatid: 0,       // 群聊号码
-            ju: 1,              // 上庄局数
+            ju: 5,              // 上庄局数
             ForT: 0,            // 是否房主
             message:'',             //房间公告
         },
@@ -81,6 +82,7 @@ export default new Vuex.Store({
             zhaoFZ: [],     // 找房主聊天的人，排队盒子
 
             Room: {},      // 房间数据
+            Zlist: [],     // 申请庄的列表
         },   // 存放各种数据避免重复请求
 
     },
@@ -175,6 +177,9 @@ export default new Vuex.Store({
                 //在这里接收和处理信息，根据message.type区分消息来源，私信或者群聊或聊天室
                 console.log(message)
                 console.log(message.type)
+                if(message.sourceMsg == ""){
+                    return false;
+                }
                 if (message.type == 'groupchat') {  // 群聊
                     var qunid = message.to;         // 群id
                     var an = JSON.parse(localStorage.oxQun)
