@@ -5,6 +5,7 @@
   popup-transition="popup-fade"  
   class="Cvar" >
     <div class="varR_modal" style='z-index: 2000' @click='noModal'></div>
+    
     <mt-popup 
       v-model="boxState.coreVisible"
       popup-transition="popup-fade"

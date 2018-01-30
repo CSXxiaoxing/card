@@ -33,14 +33,9 @@
 			:prevent = 'true'
 			:speed = '600'
 			class='homeSwipe auto'>
-			  <mt-swipe-item>
-			  	<p><i></i><span>公告：健康游戏a</span></p>
-			  </mt-swipe-item>
-			  <mt-swipe-item>
-			  	<p><i></i><span>公告：请勿赌博。</span></p>
-			  </mt-swipe-item>
-			  <mt-swipe-item>
-			  	<p><i></i><span>公告：谢谢合作。</span></p>
+
+			  <mt-swipe-item v-for='(notices) in notice'>
+			  	<p><i></i><span>{{notices.content}}</span></p>
 			  </mt-swipe-item>
 			</mt-swipe>
 
@@ -130,13 +125,12 @@
 				datagrid : '',
 				id : 0,
 				name: '',
-
 				pagesize :15,	// 请求条数
 				type :1 ,		// 1 所有房间 2 自己开的房间
 				p : 1,			// 当前页
-
 				sendId : 0,
 				spinner: 0,		// 懒加载loding
+				notice : [],
 			}
 		},
 		mounted: function(){		
@@ -149,18 +143,19 @@
 				this.name = localStorage.getItem('oxName')
 				// 房间请求
 				if(VX_data.DT.length < 1 || (VX_time-VX_data.DTtime) > 6e1){
+
 					http.post('/Room/getRoomList' ,
 	                {
 	                    pagesize : self.pagesize,
 	                    type 	 : self.type,
 	                    p 		 : self.$store.state.data.DTpage,
-	                }, '')
+	                }, '',this)
 	                .then(res => {
 	                	console.log(res)
 	                	if(res.status == 1){
 	                	var arr = [];
 	                	var dtid = self.$store.state.data.DTid;
-	                    for(let i in res.data){
+	                    for(var i = 0 ; i < res.data.length ; i++){
 	                    	var val = res.data[i];
 	                    	if(dtid.indexOf(val.id) < 0){	// id识别是否重复
 		                    	arr.push({
@@ -181,6 +176,22 @@
 	                    }
 
 	                    self.$store.state.data.DTtime = VX_time;
+	                	}
+	                });
+
+	                http.post('/MemberNotice/getAnnouncement',{
+	                    id : self.id
+	                }, '' ,this)
+	                .then(res => {
+	                	if(res.status == 1){
+	                		console.log(res);
+	                		self.notice = [];
+	                		for(let i in res.data){
+	                			self.notice.push({
+	                				content : res.data[i].zc_content,
+	                			})
+	                		}
+	                		console.log(self.notice);
 	                	}
 	                })
 				}

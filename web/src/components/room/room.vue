@@ -320,7 +320,7 @@
                 fangzhu: '',    // 房主路由
                 fanzhuID: '',   // 房主id
                 fanzhuName: '',   // 房主名字
-                message : '健康游戏，请勿赌博，谢谢合作',
+                message : this.$store.state.placard.message,
                 init: {     // 初始化
                     ForT: this.$store.state.idRoom.ForT,          // 1是房主0是普通
                     time: 0,         // 游戏时间控制
@@ -487,6 +487,8 @@
                 // }
             }
 
+            
+
             var socket = io(socketURL);
             var uid = localStorage.oxUid;
             socket.on('connect', function () {
@@ -496,6 +498,7 @@
             socket.on('new_msg', function (data) { 
                   // socket实时消息
                 var val = JSON.parse(data);
+                console.log(val.content);
                 // console.log(val)
                 switch(val.type){
                     case 1 :                            // 通知有人加入
@@ -515,10 +518,7 @@
                     case 9 :                            // 压分
                         break;
                     case 10:  
-                        var vx = this.$store.state.idRoom;
-                        console.log(val.content)      // 公告
-                        vx.message = val.content;
-                        self.message = vx.message;
+                        self.message = vx.message; // 公告
                         break;
                     case 11:                            // 重新开局
                         break;

@@ -48,6 +48,9 @@ export default new Vuex.Store({
             ForT: 0,            // 是否房主
             message:'',             //房间公告
         },
+        placard:{
+             message:'健康游戏，请勿赌博，谢谢合作',             //房间公告
+        },
         time: {
             initTime: 6,    // 游戏初始化准备时间
             random: 3,      // 游戏选择庄牌时间
