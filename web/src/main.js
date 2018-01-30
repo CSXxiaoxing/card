@@ -45,13 +45,12 @@ var uid = localStorage.oxUid;
 // console.log(uid);
 // socket连接后以uid登录
 socket.on('connect', function () {
-    // console.log('socket连接成功')
+    console.log('socket连接成功')
     socket.emit('login', uid);
 });
 
 socket.on('new_msg', function (data) {  
     var data = JSON.parse(data);
-    console.log(data)
     switch(data.type){
         case 10:
         break;

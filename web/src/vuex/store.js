@@ -39,13 +39,13 @@ export default new Vuex.Store({
             time: 30,           // 押注时间  
             open: false,        // 是否开放
             newMan: false,      // 新人确认
-            cardFn: 5,          // 玩法（几副牌）
+            cardFn: 0,          // 玩法（几副牌）
             room: 'bell',       // 房间计费方式
             scale: 1,           // 抽水比例
             minGrade: 100,      // 最小上庄分数
             zn_chatid: 0,       // 群聊号码
             ju: 1,              // 上庄局数
-            
+            ForT: 0,            // 是否房主
             message:'',             //房间公告
         },
         time: {
@@ -75,6 +75,7 @@ export default new Vuex.Store({
             MYkaiid: [],  // id,防止重复渲染
             MYjoin: [], // 我进过的房间
             MYjoinid: [], // id,防止重复渲染
+            zhaoFZ: [],     // 找房主聊天的人，排队盒子
 
             Room: {},      // 房间数据
         },   // 存放各种数据避免重复请求
@@ -193,17 +194,32 @@ export default new Vuex.Store({
 
 
                 else if (message.type == 'chat' ){      // 单聊
+                    
+                    var fanid = self.state.idRoom.id;
                     var a = JSON.parse(localStorage.oxTxtAll)
-                    console.log(a)
+                    var o = message.from    // 来自谁
                     var date = new Date().getTime();
-                    if(a[message.from]){
-                        a[message.from][date] = message.data;
+                    if(!a[o]){
+                        a[o] = {}
+                    }
+                    if(a[o][message.from]){
+                        a[o][message.from][date] = message.data;
                     } else {
-                        a[message.from] = {};
-                        a[message.from][date] = message.data;
+                        a[o][message.from] = {};
+                        a[o][message.from][date] = message.data;
                     }
                     self.state.txt = a;
+                    // console.log(a)
                     localStorage.oxTxtAll = JSON.stringify(a)
+
+                    if(self.state.idRoom.ForT == 1){    // 只有是房主
+                        var nu = o.slice(10)
+                        if(self.state.data.Room[fanid+'id'].indexOf(nu) >= 0){  // 在房间内
+                            if(self.state.data.zhaoFZ.indexOf(nu) < 0){
+                                self.state.data.zhaoFZ.push(nu) // 呼叫房主等待页面
+                            }
+                        }
+                    }
                 }
 
 
@@ -252,7 +268,7 @@ export default new Vuex.Store({
                 WebIM.utils.download.call(conn, option);
             },   //收到视频消息
             onPresence: function ( message ) {
-                console.log(message)
+                // console.log(message)
             },       //处理“广播”或“发布-订阅”消息，如联系人订阅请求、处理群组、聊天室被踢解散等消息
             onRoster: function ( message ) {
                 console.log('Roster')

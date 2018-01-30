@@ -14,7 +14,7 @@
                 <li>
                     <i><a @click='$store.commit("ls")'></a></i>
                 </li>
-                <li v-show='roomstatus != 0 && roomstatus != 3'>{{shename}}</li>
+                <li v-show='roomstatus ==1'>{{shename}}</li>
                 <li v-show='roomstatus == 0'>联系客服</li>
                 <li v-show='roomstatus == 3'>聊天室（{{lingth}}）</li>
                 <li v-show='roomstatus == 3'>
@@ -24,12 +24,13 @@
                 </li>
                 <li  v-show='roomstatus == 1'  @click = 'give == 0 ? give = 1 : give = 0'>给他＋/－分</li>
                 <li v-show='(roomstatus == 1 || roomstatus == 2)&& isfriend == 0'><img src="../../img/chart_Room5.png" alt="">加友</li>
+                <li v-show='roomstatus ==2'>{{shename}}</li>
             </ul>
         </header>
         <div class='chart'  id='txtbox'>
-            <ul v-if='roomstatus == 2'>
+            <ul v-if='roomstatus == 2 || roomstatus == 1'>
                 <!-- 单聊 -->
-                <li v-for="(data, idx) in (roomstatus == 2 ? $store.state.txt : '')" 
+                <li v-for="(data, idx) in (roomstatus == 2 || roomstatus == 1 ? $store.state.txt : '')" 
                 :class="$store.state.txt_idx[idx] >=0 ? 'left' : 'right'"   :key = '$store.state.txt_time[idx]'>
                     <img src="../../img/chart_Room2.png" alt="">
                     <div class="test">
@@ -108,7 +109,7 @@
                 }
                 li:nth-of-type(2){
                    position:absolute;
-                   left: 50%;
+                   left: 32%;
                    -webkit-transform: translate(-50%,-8%);
                       -moz-transform: translate(-50%,-8%);
                        -ms-transform: translate(-50%,-8%);
@@ -149,6 +150,15 @@
                     line-height:0.740741rem;
                     position:absolute;
                     right:2rem;
+                }
+                li:last-child {
+                    position:absolute;
+                    left: 50%;
+                    -webkit-transform: translate(-50%,-8%);
+                       -moz-transform: translate(-50%,-8%);
+                        -ms-transform: translate(-50%,-8%);
+                         -o-transform: translate(-50%,-8%);
+                            transform: translate(-50%,-8%);
                 }
                 
             }
@@ -378,7 +388,7 @@
 
             } 
 
-            else if(params[0] == 2){    //  个人
+            else if(params[0] == 2 || params[0] == 1){    //  个人
                 if (params[1] > 12345) {    // 群聊室找群主的
                     this.roomNum = params[1];       // 房间号
                     this.zn_name = params[4];     // 房间名字
@@ -388,13 +398,15 @@
                         id : params[2],
                     })
                     .then(res => {
-                        if(res.status == 1){
+                        if(res.status == 1 && params[0] == 2){
                             self.shename = res.data.zc_nickname+'(房主)'
+                        } else {
+                            self.shename = res.data.zc_nickname
                         }
-
+                        self.$store.state.txtType = "hz_niuniu_"+self.sheId;     // 聊天状态头
+                        console.log(self.sheId)
                     })
                 };
-                
             }
             if ( params[0] == 1 || params[0] == 2 ) {   // 确定聊天位置
                 self.$store.state.txt = JSON.parse(localStorage.oxTxtAll)  || '';
@@ -428,6 +440,8 @@
                     conn.addGroupMembers(option3);
                 };
                 addGroupMembers()   // 群聊
+
+                self.$store.state.txtType = self.zn_chatid; // 聊天状态头
             }
 
             // 储存聊天记录
@@ -454,7 +468,7 @@
                 clearTimeout(timeD)
             },100)
 
-            self.$store.state.txtType = self.zn_chatid;
+            
         },
         beforeUpdated: function(){
             console.log(this.$store.state.txt)
@@ -473,22 +487,28 @@
 
                 
                 var sendPrivateText = function () {
+                    
                     var id = conn.getUniqueId();                  // 生成本地消息id
                     var msg = new WebIM.message('txt', id);      // 创建文本消息
                     msg.set({
                         msg: self.txt,          // 消息内容
-                        to: self.sheId,   // 接收消息对象（用户id） 13450266666
+                        to: "hz_niuniu_"+self.sheId,   // 接收消息对象（用户id） 13450266666
                         roomType: false,
                         success: function (id, serverMsgId) {
                             // 本地消息储存
                             var a = JSON.parse(localStorage.oxTxtAll)
+                            var tauid = "hz_niuniu_"+self.sheId;
                             var date = new Date().getTime();
 
-                            if(a["hz_niuniu_"+self.id]){
-                                a["hz_niuniu_"+self.id][date] = self.txt;
+                            if(!a[tauid]){
+                                a[tauid] = {}
+                            }
+
+                            if(a[tauid]["hz_niuniu_"+self.id]){
+                                a[tauid]["hz_niuniu_"+self.id][date] = self.txt;
                             } else {
-                                a["hz_niuniu_"+self.id] = {};
-                                a["hz_niuniu_"+self.id][date] = self.txt;
+                                a[tauid]["hz_niuniu_"+self.id] = {};
+                                a[tauid]["hz_niuniu_"+self.id][date] = self.txt;
                             }
                             self.$store.state.txt = a;
                             localStorage.oxTxtAll = JSON.stringify(a);
@@ -500,7 +520,7 @@
                         }
                     });
                     msg.body.chatType = 'singleChat';
-                    conn.send(msg.body);// 单聊发送文本消息
+                    conn.send(msg.body);// 单聊发送文本消息txtType
                 };
                 
                 var sendGroupText = function () {
@@ -521,7 +541,6 @@
                             if(!a[qid]){
                                 a[qid] = {}
                             }
-
                             // console.log('群聊信息发送成功');
                             if(a[qid]["hz_niuniu_"+self.id]){
                                 a[qid]["hz_niuniu_"+self.id][date] = self.txt;
@@ -566,9 +585,6 @@
                     }
                 })
             },
-            
-
-
         }
                 
             

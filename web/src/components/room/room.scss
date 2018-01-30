@@ -191,6 +191,33 @@ $fsize44: 0.407407rem;
 
                 img{#{$w}: 100%; #{$h}: 100%;}
             }
+            dt.DTtips{
+                animation: DTtips 1s linear infinite alternate; 
+                overflow: hidden;
+                z-index: 3;
+                border-radius: 50%;
+                box-shadow: 0 0 50px 1px red;
+            }
+            @keyframes DTtips{
+               0%{
+                   transform: scale(1, 1);
+                   box-shadow: 0 0 50px 1px #ccc;
+               }
+               100%{
+                   transform: scale(1.05, 1.05);
+                   box-shadow: 0 0 50px 1px red;
+               }
+            }
+            @-webkit-keyframes DTtips{
+               0%{
+                   transform: scale(1, 1);
+                   box-shadow: 0 0 50px 1px #ccc;
+               }
+               100%{
+                   transform: scale(1.05, 1.05);
+                   box-shadow: 0 0 50px 1px red;
+               }
+            }
             dd:nth-of-type(1){
                 line-#{$h}: 0.814815rem;
                 padding-right: 0.046296rem;

@@ -117,36 +117,6 @@ localStorage.oxTxtAll = JSON.stringify(a)
 24     });
 25 </script>
 
-
-
-// 临时放这里
-var msgId = message.id;
-var data = message.data;
-var formId = message.from;
-var toId =message.to;
-var time = Date.parse(new Date());
-var ext = message.ext;
-$("#side2 li.current").data("toUser",ext);//设置对方信息
-var userData= $('.personConLeftHeadText').data("uesrData");
-isAgree(msgId,userData);
-var json ={
-    "messageId":msgId,
-    "toUserId":formId,
-    "myUserId":toId,
-    "target":1,
-    "time":time,
-    "type":"txt",
-    "message":data,
-    "bodies":JSON.stringify({"type":"txt","msg":data}),
-    "ext":JSON.stringify(ext),
-    "state":0,
-}
-console.log(message)
-ajaxPackage(url+"/job/signPower/submitMessage",json)
-    .done(function (data) {
-        // console.log(data);
-    });
-
 // 调取聊天记录
 this.$store.state.obj = {
     myId: "hz_niuniu_"+id,

@@ -130,7 +130,7 @@
         <li>
             <dl>
                 <dt>无牛({{oxOpen.oxK}})</dt>
-                <dd v-for='(cent,index) in oxOpen.oxNumber'>
+                <dd v-for='(cent,index) in oxOpen.oxNumber' v-if='index < 11'>
                     {{oxOpen.ox[index]}}(X{{cent}})
                 </dd>
                 <dd></dd>
@@ -146,14 +146,13 @@
                     </span>
                     {{times/60 >= 1 ? (times/60 + oxOpen.miss[1]): (times+oxOpen.miss[0])}}
                 </label>
-
             </div>
         </li>
         <li>
             <p>
                 庄家封顶预赔分或最低上庄分数：
             </p>
-            <input type="text" value="imgState.minGrade" v-model.number='imgState.minGrade' :class='init.error.minG ? "error" : ""' @focus='init.error.minG = false'/>
+            <input type="text"  v-model.number='imgState.minGrade' :class='init.error.minG ? "error" : ""' @focus='init.error.minG = false'/>
         </li>
         <li>
             <span>玩家下注范围：</span>
@@ -163,7 +162,7 @@
         </li>
         <li>
             <span>抽庄赢分比例：</span>
-            <input type="text" value="imgState.scale" v-model.number='imgState.scale' :class='init.error.sca ? "error" : ""' @focus='init.error.sca = false'/>
+            <input type="text"  v-model.number='imgState.scale' :class='init.error.sca ? "error" : ""' @focus='init.error.sca = false'/>
             <span><span>%</span>(1-15)</span>
         </li>
     </ul>
@@ -223,6 +222,7 @@
                     time: 30,
                     minGrade: 0,
                     scope: [0, 100],
+
                     scale: 1,
                     oxK: '',
                 }
@@ -238,13 +238,24 @@
         },
         methods: {
             open(e) {
-                let [img, judgeVal, nodeName, labelTarget, spanTarget, imgTarget] =  
-                [this.imgState, void 0, 
+                var [img, judgeVal, nodeName, labelTarget, spanTarget, imgTarget] =  
+                [this.$store.state.initRoom, void 0, 
                 e.target.nodeName.toLowerCase(), 
                 e.target.attributes["judge"], 
                 e.target.parentElement.attributes["judge"], 
                 e.target.parentElement.parentElement.attributes["judge"]];
                 try {
+                    labelTarget ? judgeVal = labelTarget.nodeValue : 
+                    nodeName == 'span' ? judgeVal = spanTarget.nodeValue : 
+                    judgeVal = imgTarget.nodeValue;
+                    judgeVal == 'open' ? (img.open == false? img.open = false : img.open = false) : 
+                    judgeVal == 'cardFn5' ? img.cardFn = 5 : 
+                    judgeVal == 'cardFn7'? img.cardFn = 7 : 
+                    judgeVal == 'bell' ? img.room = 'bell' : 
+                    judgeVal == 'day' ? img.room = 'day' : 
+                    judgeVal >= 30 ? img.time = judgeVal : false;
+
+                    var img = this.imgState
                     labelTarget ? judgeVal = labelTarget.nodeValue : 
                     nodeName == 'span' ? judgeVal = spanTarget.nodeValue : 
                     judgeVal = imgTarget.nodeValue;
@@ -304,13 +315,19 @@
             },
             
             end () {
-                var self = this;
-                var oxNumber = this.$store.state.initRoom.oxNumber
-                var oxK = this.$store.state.initRoom.oxK
-                oxNumber.push(oxK)
 
-                let [Err, git] = [this.init.error, this.imgState];
+                var self = this;
+                var oxNumber = this.$store.state.initRoom.oxNumber;
+                var oxK = this.$store.state.initRoom.oxK;
+                var [Err, git] = [this.init.error, this.$store.state.idRoom];
                 // 规则判断
+                git.roomName == '' ? Err.roomName = true : 
+                git.minGrade <= 0 ? Err.minG = true : 
+                git.scope[0] <= 0 ? Err.minS = true :
+                git.scope[1] < git.scope[0] ? Err.maxS = true :
+                git.scale < 1 || git.scale > 15 ? Err.sca = true : false;
+
+                var git = this.imgState;
                 git.roomName == '' ? Err.roomName = true : 
                 git.minGrade <= 0 ? Err.minG = true : 
                 git.scope[0] <= 0 ? Err.minS = true :
@@ -329,8 +346,7 @@
                                 allowinvites: true,
                             },
                             success: function (respData) {
-                                console.log(respData) // 创建房间成功
-                                console.log(respData.data.groupid) // 创建房间成功
+                                oxNumber.push(oxK)
                                 http.post("/Room/createRoom",{
                                     zc_rate : JSON.stringify(oxNumber),
                                     zc_number : self.imgState.room_id,
@@ -342,8 +358,8 @@
                                     // zn_room_type : self.imgState.open ? 1 : 2,
                                     zn_room_type : self.imgState.open ? 1 : 1,
                                     zn_confirm : self.imgState.newMan ? 1:2,
-                                    zn_pay_type : self.imgState.room ? 1:2,
-                                    zn_play_type : self.imgState.cardFn ? 1:2,
+                                    zn_pay_type : self.imgState.room == "bell" ? 1:2,
+                                    zn_play_type : self.imgState.cardFn == 5 ? 1:2,
                                     zn_bet_time : self.imgState.time,
                                     zc_title : self.imgState.roomName,
                                 } , '' ,this)
@@ -354,7 +370,8 @@
                                 })
                             },
                             error: function (err) {
-                                console.log('创建失败')
+                                self.$parent.errorTips = '创建失败';
+                                self.$parent.careTip = true;
                             }
                         };
                         conn.createGroupNew(options);
@@ -365,17 +382,17 @@
                             zn_chatid : self.$store.state.idRoom.zn_chatid,
                             // zc_number : self.imgState.room_id,
                             roomid: self.$store.state.idRoom.room_id,
-                            zn_min_score : self.imgState.minGrade,
-                            zn_bet_between_s : self.imgState.scope[0],
-                            zn_bet_between_e : self.imgState.scope[1],
-                            zn_extract : self.imgState.scale,
-                            // zn_room_type : self.imgState.open ? 1 : 2,
-                            zn_room_type : self.imgState.open ? 1 : 1,
-                            zn_confirm : self.imgState.newMan ? 1:2,
-                            zn_pay_type : self.imgState.room ? 1:2,
-                            zn_play_type : self.imgState.cardFn ? 1:2,
-                            zn_bet_time : self.imgState.time,
-                            zc_title : self.imgState.roomName,
+                            zn_min_score : self.$store.state.idRoom.minGrade,
+                            zn_bet_between_s : self.$store.state.idRoom.scope[0],
+                            zn_bet_between_e : self.$store.state.idRoom.scope[1],
+                            zn_extract : self.$store.state.idRoom.scale,
+                            // zn_room_type : self.$store.state.idRoom.open ? 1 : 2,
+                            zn_room_type : self.$store.state.idRoom.open ? 1 : 1,
+                            zn_confirm : self.$store.state.idRoom.newMan ? 1:2,
+                            zn_pay_type : self.$store.state.idRoom.room == "bell" ? 1:2,
+                            zn_play_type : self.$store.state.idRoom.cardFn == 5 ? 1:2,
+                            zn_bet_time : self.$store.state.idRoom.time,
+                            zc_title : self.$store.state.idRoom.roomName,
                         } , '' ,this)
                         .then(res=> {
                             console.log(res)

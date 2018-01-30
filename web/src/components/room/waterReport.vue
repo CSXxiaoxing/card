@@ -12,7 +12,7 @@
 		<header>
             <ul>
                 <li>
-                    <i><router-link to="/room" ></router-link></i>
+                    <i><a @click='$store.commit("ls")'></a></i>
                 </li>
                 <li>流水报表</li>
             </ul>

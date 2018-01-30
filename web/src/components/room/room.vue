@@ -36,7 +36,9 @@
                 </li>
             </ul>
             <dl>
-                <dt>
+                <!-- 个人头像 -->
+                <dt :class='!this.$store.state.data.zhaoFZ[0] ? "" : "DTtips"'
+                @click='liaotian'>
                     <img src="../../img/room03.png" height="155" width="149" alt="" />
                 </dt>
                 <dd  v-show='init.ForT == 0'>{{playersName}}</dd>
@@ -224,7 +226,7 @@
 
             <div class='right'>
                 <ul>
-                    <li v-for='player in this.$store.state.data.Room[init.id] || players' v-if='fanzhuID != player.zn_member_id'>
+                    <li v-for='player in $store.state.data.Room[init.id] || players' v-if='fanzhuID != player.zn_member_id'>
                         <div>
                             <img src="../../img/roomK03.png" alt="" />
                             <img src="../../img/roomPage04.png" alt="" />
@@ -280,6 +282,7 @@
 <script type="text/javascript">
     import './room.scss';
     import Vue from 'vue';
+    import router from '../../router/';
     import http from '../../utils/httpClient.js';
     import { Swipe, SwipeItem } from 'mint-ui';
     // 组件
@@ -319,7 +322,7 @@
                 fanzhuName: '',   // 房主名字
                 message : '健康游戏，请勿赌博，谢谢合作',
                 init: {     // 初始化
-                    ForT: 1,          // 1是房主0是普通
+                    ForT: this.$store.state.idRoom.ForT,          // 1是房主0是普通
                     time: 0,         // 游戏时间控制
                     ju: 20,          // 游戏局数
                     id: 0,          // 房间id
@@ -365,12 +368,12 @@
                 },
                 
                 ordinary: {     // 普通
-                    // 背景渐变
-                    bg: false,
-                    // 可下注池
-                    pond: 0,
-                    // 总下注
-                    allPay: [999, 888, 777, 666, 555, 0, 333],
+                    
+                    bg: false,// 背景渐变
+                    
+                    pond: 0,// 可下注池
+                    
+                    allPay: [999, 888, 777, 666, 555, 0, 333],// 总下注
                     pay: {      //自己下---翻倍/不翻倍/总下注
                         0 : [0, 0, 0],
                         1 : [0, 0, 0],
@@ -407,7 +410,7 @@
                     timeEng: false,     // 倒计时结束
                 },
                 players: [],        // 右边玩家
-                playersName: '',        // 右边玩家姓名
+                playersName: '',    // 右边玩家姓名
                 apply: '申请上庄',
                 TTT: {},
             }
@@ -417,9 +420,9 @@
             // init/Room/getRoom
             http.post('/Room/getRooms',{
                     number: self.$route.params.id,
-                },'',this)
+                })
                 .then(res => {
-                    console.log(res)
+                    // console.log(res)
                     if(res.status == 1) {
                         
                         var data = res.data;
@@ -428,13 +431,17 @@
 
                         if(data.zn_member_id == localStorage.oxUid){
                             self.init.ForT = 1;
+                            vx.ForT = 1;
                         } else {
                             self.init.ForT = 0;
+                            vx.ForT = 0;
                         }
                         self.fangzhu = `/chartRoom/[2,${data.zc_number},${data.zn_member_id},${self.init.ForT},${JSON.stringify(data.zc_title)}]`;
                         self.chartRoom = `/chartRoom/[3,${data.zc_number},${data.id},${self.init.ForT},${data.zn_chatid}]`;
 
                         self.fanzhuID = data.zn_member_id;
+
+
                         vx.room_id = data.zc_number;
                         vx.zn_chatid = data.zn_chatid;
                         vx.ju = data.zn_maker_number;
@@ -450,6 +457,7 @@
                         vx.open = data.zn_room_type == 1 ? true : false; 
                         vx.newMan = data.zn_confirm == 1 ? true : false;
                         vx.cardFn = data.zn_play_type == 1 ? 5 : 7;
+                        self.init.cardFn = data.zn_play_type == 1 ? 5 : 7;
                         vx.room = data.zn_pay_type == 1 ? 'bell' : 'day'
                         vx.minGrade = data.zn_min_score;
                         self.init.id = res.data.id
@@ -480,7 +488,12 @@
             }
 
             var socket = io(socketURL);
-            socket.on('new_msg', function (data) {    
+            var uid = localStorage.oxUid;
+            socket.on('connect', function () {
+                socket.emit('login', uid);
+            });
+
+            socket.on('new_msg', function (data) { 
                   // socket实时消息
                 var val = JSON.parse(data);
                 // console.log(val)
@@ -513,9 +526,16 @@
                         console.log(val)
                         // console.log(JSON.parse(val))
                         break;
-                    case 13:                            // 房主暂停游戏
+                    case 13:                            // 房主开始游戏
+                        console.log(val)
+                        self.host.allType = 1;
+                        self.init.textStyle == 0
+                        self.gameStyle()
                         break;
-                    case 14:                            // 房主开始游戏
+                    case 14:                            // 房主暂停游戏
+                        console.log(val)
+                        self.host.allType = 0;
+                        self.clearStyle();
                         break;
                     case 15:                            // 中止下注
                         break;
@@ -568,7 +588,7 @@
                 // }
             },
             
-            gameStyle(e){       // 游戏执行--开始
+            gameStyle(){       // 游戏执行--开始
                 let Etxt = this.host.allType;
                 this.host.style = false;
                 if(this.init.textStyle == 0) {
@@ -824,7 +844,9 @@
                 pageTimer["timer02"] = setInterval( ()=> {
                     self.init.time--;
                     if(self.init.time < 0) {
-                        self.time.index = arr5[Math.random()*5>>0];
+
+                        self.time.index = arr5[Math.random()*5>>0]; // 庄的位置
+
                         self.ordinary.bg = true;
                         self.countDown();
                         clearInterval(pageTimer["timer03"])
@@ -1016,22 +1038,27 @@
                     }
                 }
 
-                var fanid = self.init .id;
-
-                for(var i=0;i<online.length-1;i++){ 
+                var fanid = self.init.id;
+                for(var i=0;i<online.length;i++){ 
                     for(var j=i+1;j<online.length;j++){ 
                         if(online[i].power>online[j].power){
                             var list=online[i].power; 
                             online[i].power=online[j].power; 
                             online[j].power=list; 
 
-                        }  
+                        }
                     }
                     if(online[i].zn_member_id == localStorage.oxUid){   // sx-姓名分数
                         self.playersName = online[i].zn_member_name;
                         self.win.fen = online[i].zn_points
                     }
-                }  
+                    if(!self.$store.state.data.Room[fanid+'id']){
+                        self.$store.state.data.Room[fanid+'id'] = [];
+                    }
+                    if(self.$store.state.data.Room[fanid+'id'].indexOf(online[i].zn_member_id)<0){
+                        self.$store.state.data.Room[fanid+'id'].push(online[i].zn_member_id)
+                    }
+                }
 
                 for(var i=0;i<notline.length-1;i++){ 
                     for(var j=i+1;j<notline.length;j++){ 
@@ -1071,17 +1098,25 @@
                 })
             },
             roomStyle (type) {       // 游戏状态
-                var data = JSON.stringify(this.cardURL)
-                http.post('/Room/setRoomStatus',{     
-                    zn_room_id: this.init.id,
-                    zn_status: type,
-                    zn_text: data,
-                })
-                .then(res => {
-                    console.log(res)
-                })
-                
+                if(self.init.ForT == 1){
+                    var data = JSON.stringify(this.cardURL)
+                    http.post('/Room/setRoomStatus',{     
+                        zn_room_id: this.init.id,
+                        zn_status: type,
+                        zn_text: data,
+                    })
+                    .then(res => {
+                        console.log(res)
+                    })
+                }
             },
+            liaotian () {   // 找房主的人
+                if(!!this.$store.state.data.zhaoFZ[0]) {    // 有人等待的时候
+                    var zid = this.$store.state.data.zhaoFZ[0]
+                    router.push({path: `/chartRoom/[1,${this.$store.state.idRoom.room_id},${zid},1,"找房主的人"]`});
+                    this.$store.state.data.zhaoFZ.shift()
+                }
+            }
     },
 }
    
