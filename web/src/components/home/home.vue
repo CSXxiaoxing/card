@@ -41,6 +41,7 @@
 
 			<span class='homeServer'><router-link to="/chartRoom/0" ><b>客<br>服</b></router-link></span>
 		</header>
+
 		<div class='homeMain' id='dataUL'>
 			<ul @click='openS' 
 			:class='spinner == 1 ? "ul01":""'
@@ -61,6 +62,7 @@
 					</div>
 				</li>
 			</ul>
+			
 			<mt-spinner 
 			type="triple-bounce"
 			:size="110" 
