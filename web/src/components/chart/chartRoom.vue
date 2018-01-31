@@ -16,7 +16,7 @@
                 </li>
                 <li v-show='roomstatus == 1'>{{shename}}</li>
                 <li v-show='roomstatus == 0'>联系客服</li>
-                <li v-show='roomstatus == 3'>聊天室（{{lingth}}）</li>
+                <li v-show='roomstatus == 3'>聊天室（{{lingth*1+1}}）</li>
                 <li v-show='roomstatus == 3'>
                     <router-link :to="chartList" >
                     <img src="../../img/chart_Room7.png" alt="">
@@ -477,7 +477,7 @@
             
         },
         beforeUpdated: function(){
-            console.log(this.$store.state.txt)
+            // console.log(this.$store.state.txt)
         },
         updated: function(){
             // 计算属性
@@ -586,8 +586,7 @@
                 })
                 .then(res => {
                     if(res.status == 1){
-                        console.log(res.data)
-                        self.lingth =  Object.values(res.data).length-1;
+                        self.lingth =  res.data.count;
                     }
                 })
             },

@@ -50,7 +50,9 @@ socket.on('connect', function () {
 });
 
 socket.on('new_msg', function (data) {  
-    // var data = JSON.parse(data);
+    if(JSON.parse(data)){
+        var data = JSON.parse(data)
+    }
     switch(data.type){
         case 10:
         break;

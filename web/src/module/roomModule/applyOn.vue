@@ -19,7 +19,7 @@
               </li>
 
           </ul>
-          <mt-button @click="details01 = false">确定</mt-button>
+          <mt-button @click="know0">确定</mt-button>
       </mt-popup>
 
 
@@ -29,7 +29,7 @@
       <div>
           <label>
               <span @click="play = 1"><img src="../../img/varTrue.png" v-show="play" height="60" width="59" alt="" /></span>
-              锁定庄家:<b>迷糊的诗诗</b> <img @click="suo" class="list" src="../../img/module_room_setOwner.png" alt="">
+              锁定庄家:<b>{{zhuanList[0]}}</b> <img @click="suo" class="list" src="../../img/module_room_setOwner.png" alt="">
           </label>
           <hr/>
           <label>
@@ -52,7 +52,7 @@
         popup-transition="popup-fade" 
         class="apply" >
 
-        <span>申请上庄 <i @click="applyOn = false">×</i></span>
+        <span>{{this.$store.state.data.apptype == 0 ? "申请上庄" : "取消上庄"}}<i @click="applyOn = false">×</i></span>
 
         <p>当前设置连庄 :
             <b>{{this.$store.state.idRoom.ju == '' ? "5": this.$store.state.idRoom.ju}}局</b>
@@ -60,7 +60,7 @@
 
         <p>上庄最低分数 :<b>{{this.$store.state.idRoom.minGrade}}</b></p>
 
-        <p>您是否确定申请上庄？</p>
+        <p>您是否确定{{$store.state.data.apptype == 0 ? "申请上庄" : "取消上庄"}}？</p>
 
         <mt-button @click="sz">确定</mt-button>
     </mt-popup >
@@ -287,7 +287,7 @@
         font-size:0.481481rem;
         margin-left:0.462963rem;
         b{
-          color:red;
+          color: red;
           font-size:0.5rem;
           font-weight: normal;
         }
@@ -332,10 +332,10 @@
             left:0.444444rem;
           }
           b{
-            font-size:0.37037rem;
-            color:#29A345;
-            font-weight:normal;
-            margin-left:0.185185rem;
+            font-size: 0.35rem;
+            color: #29A345;
+            font-weight: normal;
+            margin-left:0.08rem;
           }
           .list{
             position:absolute;
@@ -479,9 +479,10 @@
 
         setOwner: false,
         details01:false,
-        sel: -1,
+        sel: 0,
         play: 1,    // 1锁定 0自动
         zhuanNum: 50,     // 轮庄数
+        zhuanList: ['', ''],  // 申请上庄的人的列表-默认
       };
     },
     methods:{
@@ -504,7 +505,7 @@
                         }
                     })
             } else {        // 取消上庄
-                http.post( '/RoomJion/setMakers', {
+                http.post( '/RoomJoin/setMakers', {
                             id: localStorage.oxUid || 0,
                             roomid: self.$store.state.idRoom.id,
                             type: 2,
@@ -522,19 +523,41 @@
                     })
             }
             
-            self.applyOn = false;
+            self.applyOn = false;   // 申请上庄下庄
         },
         zhuan () {  // 庄模式设置
             var self = this;
+            if(self.zhuanList[1] == ''){
+                self.$parent.errorTips = '请指定庄家';
+                self.$parent.careTip = true;
+                return false;
+            }
             self.setOwner = false;
+            if(self.play == 1){     // 指定谁上庄
+                http.post('/RoomJoin/setMakers',{
+                    roomid: self.$store.state.idRoom.id, // 房间id
+                    type: 1,  // 1为设置庄家，2为下庄
+                    id: self.zhuanList[1],  // 用户id
+                })
+                .then(res => {
+                    if(res.status == 0){
+                        self.$parent.errorTips = '锁定庄家'+res.msg;
+                        self.$parent.careTip = true;
+                    } else if(res.status == 1){
+                        self.$parent.list()
+                    }
+                })
+            }
             http.post('/Room/setRoomMakers',{
                 roomid: self.$store.state.idRoom.id, // 房间id
                 maker: self.play == 1 ? 1 : 2,   // 庄家模式 1，指定，2轮庄
                 makernumber: self.zhuanNum,  // 轮庄局数
             })
             .then(res => {
-                self.$parent.errorTips = res.msg;
-                self.$parent.careTip = true;
+                if(res.status == 0){
+                    self.$parent.errorTips = res.msg;
+                    self.$parent.careTip = true;
+                }
             })
             // this.setOwner = false
         },
@@ -551,7 +574,13 @@
                     }
                 })
             }
-
+        },
+        know0 () {   // 上庄列表锁定人员
+            if(this.sel >= 0){
+                this.zhuanList[0] = this.$store.state.data.Zlist[this.sel]['zn_member_name'];
+                this.zhuanList[1] = this.$store.state.data.Zlist[this.sel]['zn_member_id'];
+            }
+            this.details01 = false
         },
     }
   };

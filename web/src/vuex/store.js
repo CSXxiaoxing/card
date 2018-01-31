@@ -73,16 +73,20 @@ export default new Vuex.Store({
             DT: [],     // 大厅数据
             DTtime: 0,  // 大厅数据存放时间
             DTtimeos: 2000,// 延迟时间，防止到底后无限请求
-            DTpage: 1,  // 大厅页数
-            DTid: [],   // 房间id,防重复ID
-            MYkai: [],  // 我开过的房间
+            DTpage: 1,      // 大厅页数
+            DTid: [],    // 房间id,防重复ID
+            MYkai: [],   // 我开过的房间
             MYkaiid: [],  // id,防止重复渲染
-            MYjoin: [], // 我进过的房间
+            MYjoin: [],     // 我进过的房间
             MYjoinid: [], // id,防止重复渲染
             zhaoFZ: [],     // 找房主聊天的人，排队盒子
 
             Room: {},      // 房间数据
+            Ztype : {},     // 房间内，庄的数据
+
             Zlist: [],     // 申请庄的列表
+            apptype: 0,     // 1 上庄成功 0 没上庄
+
         },   // 存放各种数据避免重复请求
 
     },

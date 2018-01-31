@@ -487,8 +487,6 @@
 							code: self.code,
 						}, '', this )
 					.then(res => {
-						console.log(123)
-						console.log(res)
 						if(status == 1){
 
 							// router.push({name: 'home'});

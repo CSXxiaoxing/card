@@ -16,7 +16,7 @@
             <tr> <td>牌型</td><td>赔率</td> </tr>
           </thead>
           <tbody>
-            <tr> <td>无牛</td><td>{{$store.state.idRoom.oxK}}</td> </tr>
+            <tr> <td>无牛</td><td>X1</td> </tr>
             <tr> <td>牛一</td><td>X{{$store.state.idRoom.oxNumber[1]}}</td> </tr>
             <tr> <td>牛二</td><td>X{{$store.state.idRoom.oxNumber[2]}}</td> </tr>
             <tr> <td>牛三</td><td>X{{$store.state.idRoom.oxNumber[3]}}</td> </tr>

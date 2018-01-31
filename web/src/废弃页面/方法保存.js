@@ -127,7 +127,7 @@ this.$store.state.obj = {
 this.$store.dispatch('webRecord')
 
 // 对象转数组
- Object.values('对象')
+ Object.values('对象') // 不推荐
 
  // 房间公告
  http.post('/RoomJoin/placard',{
@@ -145,3 +145,6 @@ for(let i in data)
 // 等值
 10000000 = 1e7
 
+// 错误提示
+self.$parent.errorTips = res.msg;
+self.$parent.careTip = true;
