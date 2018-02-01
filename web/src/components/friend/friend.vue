@@ -70,6 +70,20 @@
               </mt-button>
               
         </mt-popup>
+        <!--删除好友-->
+        <mt-popup 
+            v-model="deleFriend"
+            popup-transition="popup-fade" :modal='false'
+            class="sendFriend" >
+              <span>删除好友</span>
+              <p>是否确认删除此好友</input>
+              </p>
+              <mt-button @click="deleteFri(),deleFriend=false">  确定
+              </mt-button>
+              <mt-button @click="deleFriend = false">  取消
+              </mt-button>
+              
+        </mt-popup>
 
         <header>
             <ul>
@@ -92,13 +106,13 @@
                 
                 <li  :class='arrows == 1 ? "show" : "hide"'>
                     <!--系统消息-->
-                    <dl class='sys' v-for='(sys,squest) in systemMess' :key='squest' @touchend='sysSel = squest' @click='setRead()'>
+                    <dl class='sys' v-for='(sys,squest) in systemMess' :key='squest' @touchend='sysSel = squest' @click='setRead(),changeTime()'>
                         <dt>
                             <span><i></i></span>
                         </dt>
                         <dd @click="show = 0">
                             <b>[系统消息]</b>
-                            <b>{{sys.content}}</b>
+                            <b>{{sys.title}}</b>
                             <b :class='arrows == 1 ? "show" : "hide"'></b>
                             <b v-show="sys.read == 1" >●</b>
                         </dd>
@@ -145,7 +159,7 @@
                 <li :class='arrows == 3 ? "show" : "hide"'>
                     <dl>
                         <dd v-for='(friends,fquest) in friendList' :key='fquest'>
-                            <span><i></i></span>
+                            <span @touchend='friQuest = fquest' @click='deleFriend = true'><i></i></span>
                             <span>{{friends.mname}}</span>
                             <span @touchend='friQuest = fquest' @click='markFriend =true'><i></i>备注</span>
                         </dd>
@@ -161,6 +175,7 @@
     import './friend.scss';
     import Vue from 'vue';
     import http from '../../utils/httpClient.js';
+    import router from '../../router/';
 
     export default {
         data: function(){
@@ -171,15 +186,17 @@
                 findFriend: false,
                 sendFriend: false,
                 markFriend: false,
+                deleFriend : false,
                 findID: '',  // 要寻找的id
                 careTip : false,
                 friendId : 0,   //对方id
                 friendName: '',  //对方名字
                 systemMess: [],  //系统信息
                 friendApply :[],  //好友信息
+                sysTime : '', //系统信息时间
                 friSel :-1, 
                 friQuest :-1,
-                sysSel:-1, 
+                sysSel:-1,
                 markName:'',
                 pagesize : 15,
                 p :1,
@@ -213,6 +230,8 @@
                                     id  :res.data[i].id, //信息id
                                     content : res.data[i].zc_content,//信息内容
                                     read : res.data[i].zn_read,//已读未读
+                                    time : res.data[i].zn_cdate, //信息时间
+                                    title : res.data[i].zc_title, //信息标题
                                 })
                             }
                         }
@@ -326,15 +345,28 @@
                 .then(res =>{
                     console.log(res)
                     if(res.status==1 || res.status ==2){
-                        self.deleteFri();
+                        self.deleteApplyFri();
                     }
                 })
             },
             //删除好友申请信息
-            deleteFri(){
+            deleteApplyFri(){
                 var self = this;
                 http.post('/MemberNotice/delNotify',{
                     id : Number( self.friendApply[self.friSel].id),
+                })
+                .then(res =>{
+                    console.log(res)
+                    if(res.status == 1){
+                        window.location.reload();
+                    }
+                })
+            },
+            //删除系统信息
+            deleteApplyFri(){
+                var self = this;
+                http.post('/MemberNotice/delNotify',{
+                    id : Number( self.systemMess[self.sysSel].id),
                 })
                 .then(res =>{
                     console.log(res)
@@ -370,10 +402,45 @@
                 .then(res=>{
                     console.log(res)
                     if(res.status == 1){
+                        var vx = this.$store.state.systemMess;
+                        vx.time = self.sysTime;
+                        vx.title = self.systemMess[self.sysSel].title;
+                        vx.content = self.systemMess[self.sysSel].content;
+                        router.push({name: 'chartMessage'});
+                    }
+                })
+            },
+            //删除好友
+            deleteFri(){
+                var self = this;
+                console.log(self.friQuest)
+                http.post('/MemberFriend/delFriend',{
+                    id : localStorage.oxUid,
+                    friendid : Number( self.friendList[self.friQuest].mid),
+                })
+                .then(res=>{
+                    console.log(res)
+                    if(res.status==1){
                         window.location.reload();
                     }
                 })
-            }
+            },
+            //时间戳转换时间
+            changeTime(){
+                var self = this;
+                self.sysTime = self.timestampToTime(self.systemMess[self.sysSel].time);
+                console.log(self.sysTime)
+            },
+            timestampToTime(timestamp) {
+                    var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                    var Y = date.getFullYear() + '-';
+                    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+                    var D = date.getDate() + ' ';
+                    var h = date.getHours() + ':';
+                    var m = date.getMinutes() + ':';
+                    var s = date.getSeconds();
+                    return Y+M+D+h+m+s;
+            },
         }
     }
 </script>
