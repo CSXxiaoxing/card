@@ -1118,6 +1118,7 @@
                     roomid: self.$store.state.idRoom.id, // 房间id
                 })
                 .then(res => {
+                    console.log(res)
                     if(res.status == 1){
                         self.$store.state.data.Zlist=res.data
                         for(var i=0; i<res.data.length; i++){
