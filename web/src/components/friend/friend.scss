@@ -240,14 +240,14 @@
                             font-size:0.555556rem;
                             color:#DA480D;
                             border-radius:100%;
-                            position:relative;
-                            left:2.407407rem;
-                            bottom:0.37037rem;
+                            position:absolute;
+                            right:0.092593rem;
+                            line-height:0.092593rem;
                         }
                     }
                 }
 
-                dl:nth-of-type(3){
+                .fri{
                     span{
                             display: inline-block;
                             height: 0.888889rem;
