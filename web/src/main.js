@@ -38,6 +38,7 @@ if(!localStorage.oxQun){ // 群聊
 }
 
 
+
 // 连接服务端
 var socket = io(socketURL); //这里当然填写真实的地址了
 // uid可以是自己网站的用户id，以便针对uid推送以及统计在线人数

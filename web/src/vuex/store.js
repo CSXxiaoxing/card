@@ -35,7 +35,7 @@ export default new Vuex.Store({
             room_id: 0,         // 房间number
             roomName: '',       // 房间名字
             oxK: '',            // 比什么
-            scope: [0,100],     // 下注范围
+            scope: [1,100],     // 下注范围
             oxNumber: [],       // 倍率
             time: 30,           // 押注时间  
             open: false,        // 是否开放
@@ -45,7 +45,7 @@ export default new Vuex.Store({
             scale: 1,           // 抽水比例
             minGrade: 100,      // 最小上庄分数
             zn_chatid: 0,       // 群聊号码
-            ju: 5,              // 上庄局数
+            ju: '',              // 上庄局数
             ForT: 0,            // 是否房主
             message:'',             //房间公告
         },
@@ -87,6 +87,7 @@ export default new Vuex.Store({
             Zlist: [],     // 申请庄的列表
             apptype: 0,     // 1 上庄成功 0 没上庄
 
+            listOver: [],   // 所有游戏结果
         },   // 存放各种数据避免重复请求
 
     },

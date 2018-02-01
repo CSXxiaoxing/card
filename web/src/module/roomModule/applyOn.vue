@@ -38,7 +38,7 @@
               <div :class='play == 0 ? "height":"close"'>
                 <p>输入轮庄局数</p>
                 <input v-model='zhuanNum' type="text">
-                <p>换庄</p>
+                <p>更新轮庄局数</p>
               </div>
           </label>
         </div>
@@ -55,7 +55,7 @@
         <span>{{this.$store.state.data.apptype == 0 ? "申请上庄" : "取消上庄"}}<i @click="applyOn = false">×</i></span>
 
         <p>当前设置连庄 :
-            <b>{{this.$store.state.idRoom.ju == '' ? "5": this.$store.state.idRoom.ju}}局</b>
+            <b>{{this.$store.state.idRoom.ju == '' ? zhuanNum : this.$store.state.idRoom.ju}}局</b>
         </p>
 
         <p>上庄最低分数 :<b>{{this.$store.state.idRoom.minGrade}}</b></p>
@@ -481,7 +481,7 @@
         details01:false,
         sel: 0,
         play: 1,    // 1锁定 0自动
-        zhuanNum: 50,     // 轮庄数
+        zhuanNum: 5,     // 轮庄数
         zhuanList: ['', ''],  // 申请上庄的人的列表-默认
       };
     },
@@ -492,9 +492,8 @@
                 http.post( '/RoomJoin/applyfor', {
                             roomid: self.$store.state.idRoom.id,
                             id: localStorage.oxUid || 0,
-                        }, '', this )
+                        })
                     .then(res => {
-                        console.log(res)
                         if(res.status == 1){
                             self.$store.state.data.apptype = 1;
                         }
@@ -509,16 +508,11 @@
                             id: localStorage.oxUid || 0,
                             roomid: self.$store.state.idRoom.id,
                             type: 2,
-                        }, '', this )
+                        })
                     .then(res => {
                         console.log(res)
                         if(res.status == 1){
                             self.$store.state.data.apptype = 0;
-                        }
-                        else if(res.status == 0){    //  错误
-                            self.$parent.errorTips = res.msg;
-                            self.$parent.careTip = true;
-                            // console.log(self.$parent)
                         }
                     })
             }
@@ -527,7 +521,7 @@
         },
         zhuan () {  // 庄模式设置
             var self = this;
-            if(self.zhuanList[1] == ''){
+            if(self.zhuanList[1] == '' && self.play == 1){
                 self.$parent.errorTips = '请指定庄家';
                 self.$parent.careTip = true;
                 return false;
@@ -563,7 +557,7 @@
         },
         suo () {      // 锁定庄家--获取申请上庄玩家列表
             var self = this;
-            self.details01 =true
+            self.details01 = true
             if(!self.$store.state.data.Zlist[0]){
                 http.post('/RoomJoin/getMakerList',{
                     roomid: self.$store.state.idRoom.id, // 房间id

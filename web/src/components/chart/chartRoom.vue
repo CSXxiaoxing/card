@@ -383,7 +383,7 @@
             this.$store.dispatch('dl')      // 登录
 
             var params = JSON.parse(this.$route.params.id)  // 路由参数
-            console.log(params)
+            
             this.roomstatus = params[0];    // 状态
             if(params[0] == 3){         // 聊天室
                 this.roomNum = params[1];       // 房间号

@@ -36,7 +36,7 @@ $fsize44: 0.407407rem;
         ul {
             #{$h}: 0.759259rem;
             display: flex;
-            // border-top: 1px solid #fff;
+            // border-top: 1px solid #fff; // yin
             padding-top: 0.074074rem;
             li {
                 flex: 1;
@@ -492,11 +492,12 @@ $fsize44: 0.407407rem;
             }
             .shu {
                 color: red;
-                animation: shuyin 5s linear 2; 
+                animation: shuyin 3s linear 2; 
             }
             .yin {
                 color: #0ad80a;
-                animation: shuyin 5s linear 2; 
+                opacity: 0;
+                animation: shuyin 3s linear 2; 
             }
             @keyframes shuyin{
                 0%{

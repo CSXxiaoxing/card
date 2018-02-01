@@ -35,12 +35,22 @@
     <span>可押{{scope[0]}}~{{scope[1]}}分 <i @click="playerBottom = false">×</i></span>
     <p :class='inpErr == 99 ? "TEXTerror" : ""'>{{val[2] > 0 ? "追加押注分数" : text}}</p>
 
+
     <p>翻倍<b @click="details = true">( 查看详情 )</b>   
-        <input type="text" v-model.number='double' :class='inpErr == 0 ? "error" : ""' Placeholder="输入押注分数" @focus='inpErr = -1'>
+        <input type="text" v-model.number='double' 
+        :class='inpErr == 0 ? "error" : ""' 
+        Placeholder="输入押注分数" 
+        @focus='inpErr = -1'
+        :readonly = 'noDouble > 0 || d02 > 0 ? true : false' >
     </p>
 
+
     <p>不翻<b>(1:1比大小)</b>  
-        <input type="text" v-model.number='noDouble' :class='inpErr == 1 ? "error" : ""' Placeholder="输入押注分数" @focus='inpErr = -1'>
+        <input type="text" v-model.number='noDouble' 
+        :class='inpErr == 1 ? "error" : ""' 
+        Placeholder="输入押注分数" 
+        @focus='inpErr = -1'
+        :readonly = 'double > 0 || d01 > 0 ? true : false' >
     </p>
 
     <mt-button @click="valueEnd">确定</mt-button>
@@ -224,7 +234,9 @@ Vue.component('loading', loading)
             playerBottom: false,
             details:false,
             double: '',
+            d01: 0,
             noDouble: '',
+            d02: 0,
             // 文字
             text: '输入押注分数',
             // 输入数值有误
@@ -232,13 +244,15 @@ Vue.component('loading', loading)
             // 可压范围
             scope: [this.$parent.init.scope[0], this.$parent.init.scope[1]],
             // 初始值
-            val: [0,0,0],
+            val: [0,0,0],  // 0 翻倍 1 不翻倍 2 总分数
         };
     },
     props: ["p"],
     beforeUpdate(){
         if(!!this.$parent.ordinary.pay[this.p]){
-            this.val = this.$parent.ordinary.pay[this.p]
+            this.val = this.$parent.ordinary.pay[this.p];
+            this.d01 = this.$parent.ordinary.pay[this.p][0]
+            this.d02 = this.$parent.ordinary.pay[this.p][1]
         }
     },
     methods:{
@@ -257,12 +271,12 @@ Vue.component('loading', loading)
             let val02 = Number(this.noDouble) + Number(pay02);
             
             // 值超出最小或最大范围
-            if((this.double < this.scope[0] || this.double > this.scope[1] )
+            if((val01 < this.scope[0] || val01 > this.scope[1] )
              && this.double != ''){
                 this.inpErr = 0;
                 idx = 2;
             }
-            if((this.noDouble < this.scope[0] || this.noDouble > this.scope[1]*10 )
+            if((val02 < this.scope[0] || val02 > this.scope[1]*10 )
                 && this.noDouble != '') {
                 this.inpErr = 1;
                 idx = 2;
@@ -292,34 +306,42 @@ Vue.component('loading', loading)
                     this.inpErr = 99;
                     break;
                 case this.double + this.noDouble > 0 && this.$parent.init.textStyle == 3:
-                    // 1/修改父元素值
-                    this.$parent.ordinary.pay[this.p] = [val01, val02, val01+val02];
-                    this.$parent.win.fen -= val01+val02;
+                    
                     this.playerBottom = false;
+                    var maxBel = this.$store.state.idRoom.oxNumber[11]
+                    var [v01,v02] = [0,0]
+                    if(self.d01 > 0 || self.double > 0){    
+                        v01 = val01 - Number(pay01);
+                    } else if(self.d02 > 0 || self.noDouble > 0){     // 无倍
+                        maxBel = 1;
+                        v02 = val02 - Number(pay02);
+                    }
                     // 2/发起请求-把数据传给后台 (三个值)
                     http.post('/RoomJoin/chargePoints',{
                         id: localStorage.oxUid,     // 个人uid
                         roomid: self.$store.state.idRoom.id, // 房间id
-                        score: val01+val02,   // 压分分数
+                        score: v01+v02,   // 压分分数
                         few: self.p,         // 第几副牌
+                        maxmag: maxBel,          // 倍率
                     })
                     .then(res => {
-                        console.log(res)
                         if(res.status == 1){
-                            this.double = '';
-                            this.noDouble = '';
-                            this.inpErr = -1;
+                            // 1/修改父元素值
+                            // self.$parent.ordinary.pay[self.p] = [val01, val02, val01+val02];
+                            self.$parent.win.fen -= val01+val02;
+                            self.double = '';
+                            self.noDouble = '';
+                            self.inpErr = -1;
                         } else {
-                            // 1/修改父元素值失败
-                            this.$parent.ordinary.pay[this.p] = [0, 0, 0];
-                            this.$parent.win.fen += val01+val02;
-                            this.double = '';
-                            this.noDouble = '';
-                            this.inpErr = -1;
+                            self.double = '';
+                            self.noDouble = '';
+                            self.inpErr = -1;
                             self.$parent.errorTips = res.msg;
                             self.$parent.careTip = true;
                         }
                     })
+
+                    
 
                     break;
                 default : 
