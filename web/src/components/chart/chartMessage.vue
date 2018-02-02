@@ -12,21 +12,16 @@
     	<header>
             <ul>
                 <li>
-                    <i><router-link to="/room" ></router-link></i>
+                    <i @click='$store.commit("ls")'></i>
                 </li>
                 <li>消息</li>
             </ul>
         </header>
         <div class='list'>
-            <h3>这里是标题你已经被清楚请出房间，ID71543</h3>
-            <p>2017-12-15 17:00</p>
+            <h3>{{title}}</h3>
+            <p>{{time}}</p>
             <span>
-                系统消息
-                这里是内容这里是内容这里是内容这里是内容这里是内容
-                这里是内容这里是内容这里是内容这里是内容这里是内容
-                这里是内容这里是内容这里是内容这里是内容这里是内容
-                这里是内容这里是内容这里是内容这里是内容这里是内容
-                这里是内容这里是内容这里是内容这里是内容这里是内容
+                {{content}}
             </span>
         </div>
         <loading v-if='loading'></loading>
@@ -114,6 +109,9 @@
                 loading: false,     // loading
                 a: this.$route.params.id,
                 careTip : false,
+                time : this.$store.state.systemMess.time,
+                title : this.$store.state.systemMess.title,
+                content : this.$store.state.systemMess.content,
             }
         },
         methods: {

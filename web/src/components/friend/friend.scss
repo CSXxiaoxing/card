@@ -194,8 +194,10 @@
                 overflow:hidden;
                 dl{
                     border-bottom:2px solid #D5D5D5;
-                    width:100%;
+                    width:11.703704rem;
                     height:1.685185rem;
+                    position:relative;
+                    user-select: none;
                     dt{
                         float: left;
                         span{
@@ -209,10 +211,12 @@
                             left:0.324074rem;
                         }
                     }
-                    dd{
+                    dd:nth-of-type(1){
                         position:relative;
                         border: none;
                         font-size:0.37037rem;
+                        //    设置过渡动画
+                        transition: 0.3s;
                         b{
                             font-weight:normal;
                         }
@@ -233,7 +237,7 @@
                             background: $friend02 no-repeat;
                             background-size:0.222222rem 1.314815rem;
                             position:absolute;
-                            right:0.462963rem;
+                            right:2.292593rem;
                             z-index:0;
                         }
                         b:nth-of-type(4){
@@ -241,10 +245,21 @@
                             color:#DA480D;
                             border-radius:100%;
                             position:absolute;
-                            right:0.092593rem;
+                            right:1.851852rem;
                             line-height:0.092593rem;
-                        }
+                        }   
                     }
+                    dd:nth-of-type(2){
+                            line-height:1.685185rem;
+                            width:1.703704rem;
+                            background-color: #DA480D;
+                            color:white;
+                            position:absolute;
+                            right:0.0rem;
+                            top:0px;
+                            text-align:center;
+                            padding:0rem 0rem;
+                        }
                 }
 
                 .fri{

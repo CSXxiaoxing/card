@@ -89,7 +89,11 @@ export default new Vuex.Store({
 
             listOver: [],   // 所有游戏结果
         },   // 存放各种数据避免重复请求
-
+        systemMess:{
+            title :'', //信息标题
+            content : '', //信息内容
+            time :'', //信息时间
+        }
     },
     // 属性计算
     // 使用demo ：this.$store.getters.doneTodos

@@ -524,6 +524,13 @@
 					}
 				})
 			},
+			//手机验证码
+			phoneCode(){
+				var self = this ;
+				http.post('/Api/Sms/sendYzm',{
+					mobile 
+				})
+			}
 		}
 	}
 </script>

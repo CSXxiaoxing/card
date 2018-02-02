@@ -70,6 +70,20 @@
               </mt-button>
               
         </mt-popup>
+        <!--删除好友-->
+        <mt-popup 
+            v-model="deleFriend"
+            popup-transition="popup-fade" :modal='false'
+            class="sendFriend" >
+              <span>删除好友</span>
+              <p>是否确认删除此好友</input>
+              </p>
+              <mt-button @click="deleteFri(),deleFriend=false">  确定
+              </mt-button>
+              <mt-button @click="deleFriend = false">  取消
+              </mt-button>
+              
+        </mt-popup>
 
         <header>
             <ul>
@@ -92,16 +106,23 @@
                 
                 <li  :class='arrows == 1 ? "show" : "hide"'>
                     <!--系统消息-->
-                    <dl class='sys' v-for='(sys,squest) in systemMess' :key='squest' @touchend='sysSel = squest' @click='setRead()'>
+                    <dl class='sys' v-for='(sys,squest) in systemMess' :key='squest' @touchend='sysSel = squest' @click='setRead(),changeTime()' >
                         <dt>
                             <span><i></i></span>
                         </dt>
-                        <dd @click="show = 0">
+                        <dd @click="show = 0" 
+                          class="content" 
+                          @touchstart='touchStart'
+                          @touchmove='touchMove'
+                          @touchend='touchEnd'
+                          :style="deleteSlider">
                             <b>[系统消息]</b>
-                            <b>{{sys.content}}</b>
+                            <b>{{sys.title}}</b>
                             <b :class='arrows == 1 ? "show" : "hide"'></b>
                             <b v-show="sys.read == 1" >●</b>
+                            <b></b>
                         </dd>
+                        <dd class="remove" ref='remove'>删除</dd>
                     </dl>
                     <!--好友消息-->
                     <dl class="fri" v-for='(fri,quest) in friendApply' :key='quest'
@@ -145,7 +166,7 @@
                 <li :class='arrows == 3 ? "show" : "hide"'>
                     <dl>
                         <dd v-for='(friends,fquest) in friendList' :key='fquest'>
-                            <span><i></i></span>
+                            <span @touchend='friQuest = fquest' @click='deleFriend = true'><i></i></span>
                             <span>{{friends.mname}}</span>
                             <span @touchend='friQuest = fquest' @click='markFriend =true'><i></i>备注</span>
                         </dd>
@@ -161,6 +182,7 @@
     import './friend.scss';
     import Vue from 'vue';
     import http from '../../utils/httpClient.js';
+    import router from '../../router/';
 
     export default {
         data: function(){
@@ -171,20 +193,28 @@
                 findFriend: false,
                 sendFriend: false,
                 markFriend: false,
+                deleFriend : false,
                 findID: '',  // 要寻找的id
                 careTip : false,
                 friendId : 0,   //对方id
                 friendName: '',  //对方名字
                 systemMess: [],  //系统信息
                 friendApply :[],  //好友信息
+                sysTime : '', //系统信息时间
                 friSel :-1, 
                 friQuest :-1,
-                sysSel:-1, 
+                sysSel:-1,
                 markName:'',
                 pagesize : 15,
                 p :1,
                 friendList : [], //好友列表
                 friendListId : [], //好友列表id
+                del : 1,
+                startX:0,   //触摸位置
+                endX:0,     //结束位置
+                moveX: 0,   //滑动时的位置
+                disX: 0,    //移动距离
+                deleteSlider: '',//滑动时的效果,使用v-bind:style="deleteSlider"
             }
         },
         mounted: function(){
@@ -213,6 +243,8 @@
                                     id  :res.data[i].id, //信息id
                                     content : res.data[i].zc_content,//信息内容
                                     read : res.data[i].zn_read,//已读未读
+                                    time : res.data[i].zn_cdate, //信息时间
+                                    title : res.data[i].zc_title, //信息标题
                                 })
                             }
                         }
@@ -326,15 +358,28 @@
                 .then(res =>{
                     console.log(res)
                     if(res.status==1 || res.status ==2){
-                        self.deleteFri();
+                        self.deleteApplyFri();
                     }
                 })
             },
             //删除好友申请信息
-            deleteFri(){
+            deleteApplyFri(){
                 var self = this;
                 http.post('/MemberNotice/delNotify',{
                     id : Number( self.friendApply[self.friSel].id),
+                })
+                .then(res =>{
+                    console.log(res)
+                    if(res.status == 1){
+                        window.location.reload();
+                    }
+                })
+            },
+            //删除系统信息
+            deleteApplyFri(){
+                var self = this;
+                http.post('/MemberNotice/delNotify',{
+                    id : Number( self.systemMess[self.sysSel].id),
                 })
                 .then(res =>{
                     console.log(res)
@@ -370,10 +415,94 @@
                 .then(res=>{
                     console.log(res)
                     if(res.status == 1){
+                        var vx = this.$store.state.systemMess;
+                        vx.time = self.sysTime;
+                        vx.title = self.systemMess[self.sysSel].title;
+                        vx.content = self.systemMess[self.sysSel].content;
+                        router.push({name: 'chartMessage'});
+                    }
+                })
+            },
+            //删除好友
+            deleteFri(){
+                var self = this;
+                console.log(self.friQuest)
+                http.post('/MemberFriend/delFriend',{
+                    id : localStorage.oxUid,
+                    friendid : Number( self.friendList[self.friQuest].mid),
+                })
+                .then(res=>{
+                    console.log(res)
+                    if(res.status==1){
                         window.location.reload();
                     }
                 })
-            }
+            },
+            //时间戳转换时间
+            changeTime(){
+                var self = this;
+                self.sysTime = self.timestampToTime(self.systemMess[self.sysSel].time);
+                console.log(self.sysTime)
+            },
+            timestampToTime(timestamp) {
+                    var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                    var Y = date.getFullYear() + '-';
+                    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+                    var D = date.getDate() + ' ';
+                    var h = date.getHours() + ':';
+                    var m = date.getMinutes() + ':';
+                    var s = date.getSeconds();
+                    return Y+M+D+h+m+s;
+            },
+            //左滑
+                touchStart(ev){
+                    ev= ev || event
+                    //tounches类数组，等于1时表示此时有只有一只手指在触摸屏幕
+                    if(ev.touches.length == 1){
+                        // 记录开始位置
+                        this.startX = ev.touches[0].clientX;
+                    }
+                },
+                touchMove(ev){
+                    ev = ev || event;
+                    //获取删除按钮的宽度，此宽度为滑块左滑的最大距离
+                    let wd=this.$refs.remove.offsetWidth;
+                    if(ev.touches.length == 1) {
+                        // 滑动时距离浏览器左侧实时距离
+                        this.moveX = ev.touches[0].clientX
+                        //起始位置减去 实时的滑动的距离，得到手指实时偏移距离
+                        this.disX = this.startX - this.moveX;
+                        console.log(this.disX)
+                        // 如果是向右滑动或者不滑动，不改变滑块的位置
+                        if(this.disX < 0 || this.disX == 0) {
+                            this.deleteSlider = "transform:translateX(0px)";
+                            // 大于0，表示左滑了，此时滑块开始滑动 
+                        }else if (this.disX > 0) {
+                            //具体滑动距离我取的是 手指偏移距离*5。
+                            this.deleteSlider = "transform:translateX(-" + this.disX*5 + "px)";
+                            // 最大也只能等于删除按钮宽度 
+                            if (this.disX*5 >=wd) {
+                                this.deleteSlider = "transform:translateX(-" +wd+ "px)";
+                            }
+                        }
+                    }
+                },
+                touchEnd(ev){
+                    ev = ev || event;
+                    let wd=this.$refs.remove.offsetWidth;
+                    if (ev.changedTouches.length == 1) {
+                        let endX = ev.changedTouches[0].clientX;
+                            this.disX = this.startX - endX;
+                            console.log(this.disX)
+                            //如果距离小于删除按钮一半,强行回到起点
+                            if ((this.disX*5) < (wd/2)) {
+                                this.deleteSlider = "transform:translateX(0px)";
+                            }else{
+                                //大于一半 滑动到最大值
+                                this.deleteSlider = "transform:translateX(-"+wd+ "px)";
+                            }
+                        }
+                    }      
         }
     }
 </script>
