@@ -282,6 +282,7 @@
                     ForT: this.$store.state.idRoom.ForT || 0,          // 1是房主0是普通
                     time: 0,         // 游戏时间控制
                     ju: 5,          // 游戏局数
+                    juAll: 0,
                     juCount: 0,       // 下庄局数计算
                     id: 0,          // 房间id
                     uid: localStorage.oxUid,    // 自己的id
@@ -599,10 +600,10 @@
             gameStyle(){       // 游戏执行--开始
                 let Etxt = this.host.allType;
                 this.host.style = false;
-                if(this.win.fen > this.$store.state.idRoom.minGrade && Etxt == 1){
+                if(Number(this.$store.state.data.Ztype.zn_points) > Number(this.$store.state.idRoom.minGrade) && Etxt == 1){
                         this.roomStyle(2);        // 游戏状态储存--开始
                         
-                } else if(this.win.fen < this.$store.state.idRoom.minGrade){
+                } else if(Number(this.$store.state.data.Ztype.zn_points) < Number(this.$store.state.idRoom.minGrade)){
                     this.roomStyle(1);      // 游戏暂停
                     self.errorTips = '庄家分数低于最低上分数要求,游戏暂停。';
                     self.careTip = true;
@@ -619,8 +620,8 @@
                 this.clearGameStyle()            // 定时器清空
                 if(this.host.allType == 1){     // 游戏状态允许
                     this.gameStart(1);         // 执行游戏
-                    this.init.juCount++;  // 总局数累加
-
+                    this.init.juCount++;  // 庄局数
+                    this.init.juAll++; // 总局数累加
                 }
             },
             clearStyle(){       // 清除游戏余留状态
@@ -913,7 +914,6 @@
                         }
                         if(self.init.time == 1){    // 中止下注 
                             self.roomStyle(3)
-
                         }
                     } , 1000);
                 } , 800 );
@@ -952,7 +952,7 @@
 
                 self.win.css = self.win.cssZZ
                 self.win.cssFen = self.win.cssZZF
-                this.win.fen += (self.win.zorp[1])*1       // 个人分数
+                this.win.fen += Number(self.win.zorp[1])      // 个人分数
                 this.$store.state.data.Ztype.zn_points += (self.win.zorp[0])*1;   // 庄分数
 
 
@@ -1092,13 +1092,17 @@
             gameO (obj) {   // 存储游戏结果
                 var self = this;
                 var idRoom = this.$store.state.idRoom
+                console.log(obj)
+                console.log(self.init.juAll)
+                console.log(self.init.ForZ == 1 ? Number(obj.fen)+Number(obj.zfen) : Number(obj.fen)+Number(obj.syfen))
                 http.post('/GameLog/createGameLog',{
                     zn_member: localStorage.oxUid,   // 用户id
+                    zn_points_total: 0,     // 房间总分
                     zn_room_id: idRoom.id,  // 房间id
                     zc_is_boss: self.init.ForZ == 1 ? 1 : 2,
                     zn_number: self.init.juAll,     // 总游戏局数
                     zn_points_give: self.init.ForZ == 1 ? obj.sF : 0,     // 抽水分数
-                    zn_points_left: self.init.ForZ == 1 ? Number(obj.fen+obj.zfen) : Number(obj.fen+obj.fenAll),  // 结余分数
+                    zn_points_left: self.init.ForZ == 1 ? Number(obj.fen)+Number(obj.zfen) : Number(obj.fen)+Number(obj.syfen),  // 结余分数
                     zn_few: 0,  // 第几副牌
                     zc_name: localStorage.oxName,   // 用户昵称
 
