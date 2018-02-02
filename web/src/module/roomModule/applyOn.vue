@@ -15,7 +15,7 @@
           <ul>
               <li v-for='(data, player) in $store.state.data.Zlist' :key='data.zn_member_id' @click='sel = player'>
                   {{data.zn_member_name}} 
-                  <b><img v-show="sel == player" src="../../img/module_room_setOwner2.png" alt=""></b>
+                  <b><img v-show="sel == player" src="/dist/module_room_setOwner2.png" alt=""></b>
               </li>
 
           </ul>
@@ -28,12 +28,12 @@
       <hr/>
       <div>
           <label>
-              <span @click="play = 1"><img src="../../img/varTrue.png" v-show="play" height="60" width="59" alt="" /></span>
-              锁定庄家:<b>{{zhuanList[0]}}</b> <img @click="suo" class="list" src="../../img/module_room_setOwner.png" alt="">
+              <span @click="play = 1"><img src="/dist/varTrue.png" v-show="play" height="60" width="59" alt="" /></span>
+              锁定庄家:<b>{{zhuanList[0]}}</b> <img @click="suo" class="list" src="/dist/module_room_setOwner.png" alt="">
           </label>
           <hr/>
           <label>
-            <span @click="play = 0"><img src="../../img/varTrue.png" v-show="!play" height="60" width="59" alt="" /></span>
+            <span @click="play = 0"><img src="/dist/varTrue.png" v-show="!play" height="60" width="59" alt="" /></span>
               自动轮庄
               <div :class='play == 0 ? "height":"close"'>
                 <p>输入轮庄局数</p>
@@ -153,7 +153,7 @@
       margin:0.277778rem 0.0rem 0.462963rem 0;
       border: 0 none;
       color: white;
-      background: url(../../img/home_all.png) -1.944444rem -1.388889rem no-repeat;
+      background: $homeAll -1.944444rem -1.388889rem no-repeat;
       background-size: 5.555556rem 5.555556rem;
     }
     button:active {
@@ -236,7 +236,7 @@
         margin:0.092593rem 0 0.277778rem 0;
         border: 0 none;
         color: white;
-        background: url(../../img/module_room_setOwner1.png) no-repeat;
+        background: $chart05 no-repeat;
         background-position:center;
         background-size: 4.018519rem 1.037037rem;
       }
@@ -304,7 +304,7 @@
         margin:0.092593rem 0.0rem 0.277778rem 0.0rem;
         border: 0 none;
         color: white;
-        background: url(../../img/module_room_setOwner1.png) no-repeat;
+        background: $chart05 no-repeat;
         background-position:center;
         background-size: 5.555556rem 1.037037rem;
       }
@@ -427,7 +427,7 @@
 
               width:0.87963rem;
               height:0.925926rem;
-              background: url("../../img/module_room_setOwner3.png") no-repeat; 
+              background: $chart02 no-repeat; 
               background-position: center;
               background-size: 0.87963rem 0.925926rem; 
               position: absolute;
@@ -453,7 +453,7 @@
           margin:0.462963rem 0 0 2.685185rem;
           border: 0 none;
           color: white;
-          background: url(../../img/home_all.png) -1.944444rem -1.388889rem no-repeat;
+          background: $homeAll -1.944444rem -1.388889rem no-repeat;
           background-size: 5.555556rem 5.555556rem;
           }
     }

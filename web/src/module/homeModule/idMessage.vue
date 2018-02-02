@@ -4,7 +4,7 @@
     v-model="idMessage"
     popup-transition="popup-fade"
     class="mess">
-    <img src="../../img/module_home_id1.png" height="222" width="238" alt="">
+    <img src="/dist/module_home_id1.png" height="222" width="238" alt="">
     <p>迷糊的诗诗<br>ID:755693</p>
     <i v-on:click="idMessage = false"></i>
     <mt-button type="primary"  @click="loginOut">

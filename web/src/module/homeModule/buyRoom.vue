@@ -28,7 +28,7 @@
       <li>
         <table>
           <tr>
-            <td rowspan="3"><img src="../../img/module_home_buy2.png" height="250" width="258" alt=""></td>
+            <td rowspan="3"><img src="/dist/module_home_buy2.png" height="250" width="258" alt=""></td>
             <td>房卡X5</td
           </tr>
           <tr>
@@ -42,7 +42,7 @@
       <li>
         <table>
           <tr>
-            <td rowspan="3"><img src="../../img/module_home_buy2.png" height="250" width="258" alt=""></td></td>
+            <td rowspan="3"><img src="/dist/module_home_buy2.png" height="250" width="258" alt=""></td></td>
             <td>房卡X5</td>
           </tr>
           <tr>
@@ -56,7 +56,7 @@
       <li>
         <table>
           <tr>
-            <td rowspan="3"><img src="../../img/module_home_buy2.png" height="250" width="258" alt=""></td></td>
+            <td rowspan="3"><img src="/dist/module_home_buy2.png" height="250" width="258" alt=""></td></td>
             <td>房卡X5</td>
           </tr>
           <tr>
@@ -70,7 +70,7 @@
       <li>
         <table>
           <tr>
-            <td rowspan="3"><img src="../../img/module_home_buy2.png" height="250" width="258" alt=""></td></td>
+            <td rowspan="3"><img src="/dist/module_home_buy2.png" height="250" width="258" alt=""></td></td>
             <td class="more">更多房卡</td>
           </tr>
           <tr>

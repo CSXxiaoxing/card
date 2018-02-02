@@ -26,7 +26,7 @@
       </thead>
       <tbody>
         <tr>
-          <td>迷糊的诗诗 <img src="../../img/room_water1.png"></td> <td>+100</td> <td>10</td> <td>10</td>
+          <td>迷糊的诗诗 <img src="/dist/room_water1.png"></td> <td>+100</td> <td>10</td> <td>10</td>
         </tr>
         <tr>
           <td>迷糊的诗诗</td> <td>-20</td> <td>0</td> <td>10</td>
@@ -82,6 +82,7 @@
 </template>
 
 <style lang='scss' scoped>
+  @import '../../utils/baseVar.scss';
 //details
   .single{
     width: 9.555556rem;
@@ -181,9 +182,9 @@
       margin:0 0.462963rem 0.277778rem 0.462963rem;
       border: 0 none;
       color: white;
-      background: url(../../img/module_room_setOwner1.png) no-repeat;
-      background-position:center;
-      background-size: center;
+     background: $chart05 no-repeat;
+             background-position:center;
+             background-size: 5.555556rem 1.037037rem;
     }
 
     button:active {
