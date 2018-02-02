@@ -4,33 +4,33 @@ $w600: 5.555556rem;
 $bgColor: #ccc;
 // Image================================
 // room url
-$roomAll: url('../../img/room_all.png');
-$room02: url('../../img/room2.png');
-$room04: url('../../img/room4.png');
-$room07: url('../../img/room07.png');
+$roomAll: url('/dist/room_all.png');
+$room02: url('/dist/room2.png');
+$room04: url('/dist/room4.png');
+$room07: url('/dist/room07.png');
 
 // home url
-$homeAll: url('../../img/home_all.png');
-$home01: url('../../img/home_ox.png');
-$home02: url('../../img/module_home_buy1.png');
-$home03: url('../../img/module_home_buy4.png');
-$home04: url('../../img/JoinTOP.png');
-$home05: url('../../img/inputJoinRoom.png');
-$home06: url('../../img/module_home_myRoom4.png');
-$home07: url('../../img/module_home_myRoom3.png');
-$home08: url('../../img/module_home_no1.png');
+$homeAll: url('/dist/home_all.png');
+$home01: url('/dist/home_ox.png');
+$home02: url('/dist/module_home_buy1.png');
+$home03: url('/dist/module_home_buy4.png');
+$home04: url('/dist/JoinTOP.png');
+$home05: url('/dist/inputJoinRoom.png');
+$home06: url('/dist/module_home_myRoom4.png');
+$home07: url('/dist/module_home_myRoom3.png');
+$home08: url('/dist/module_home_no1.png');
 
 //chart url
-$chart01 : url('../../img/chart_Room6.png');
-$chart02 : url("../../img/module_room_setOwner3.png") ;
-$chart03 : url("../../img/chart_list2.png");
-$chart04 : url("../../img/chart_list3.png");
-$chart05 : url("../../img/module_room_setOwner1.png");
+$chart01 : url('/dist/chart_Room6.png');
+$chart02 : url("/dist/module_room_setOwner3.png") ;
+$chart03 : url("/dist/chart_list2.png");
+$chart04 : url("/dist/chart_list3.png");
+$chart05 : url("/dist/module_room_setOwner1.png");
 
 //friend url
-$friend01 : url('../../img/friend2.png');
-$friend02 : url('../../img/friend3.png');
-$friend03 : url('../../img/friend4.png');
+$friend01 : url('/dist/friend2.png');
+$friend02 : url('/dist/friend3.png');
+$friend03 : url('/dist/friend4.png');
 // var 常量 =============================
 $h: height;
 $w: width;
