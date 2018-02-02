@@ -32,7 +32,7 @@
         </table>
     </mt-popup>
 
-    <span>可押{{scope[0]}}~{{scope[1]}}分 <i @click="playerBottom = false">×</i></span>
+    <span>可押{{$store.state.idRoom.scope[0]}}~{{$store.state.idRoom.scope[1]}}分 <i @click="playerBottom = false">×</i></span>
     <p :class='inpErr == 99 ? "TEXTerror" : ""'>{{val[2] > 0 ? "追加押注分数" : text}}</p>
 
 
@@ -241,8 +241,6 @@ Vue.component('loading', loading)
             text: '输入押注分数',
             // 输入数值有误
             inpErr: -1,
-            // 可压范围
-            scope: [this.$parent.init.scope[0], this.$parent.init.scope[1]],
             // 初始值
             val: [0,0,0],  // 0 翻倍 1 不翻倍 2 总分数
         };
@@ -271,12 +269,12 @@ Vue.component('loading', loading)
             let val02 = Number(this.noDouble) + Number(pay02);
             
             // 值超出最小或最大范围
-            if((val01 < this.scope[0] || val01 > this.scope[1] )
+            if((val01 < self.$store.state.idRoom.scope[0] || val01 > self.$store.state.idRoom.scope[1] )
              && this.double != ''){
                 this.inpErr = 0;
                 idx = 2;
             }
-            if((val02 < this.scope[0] || val02 > this.scope[1]*10 )
+            if((val02 < self.$store.state.idRoom.scope[0] || val02 > self.$store.state.idRoom.scope[1]*10 )
                 && this.noDouble != '') {
                 this.inpErr = 1;
                 idx = 2;

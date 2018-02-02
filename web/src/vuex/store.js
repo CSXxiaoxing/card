@@ -88,6 +88,7 @@ export default new Vuex.Store({
             apptype: 0,     // 1 上庄成功 0 没上庄
 
             listOver: [],   // 所有游戏结果
+            juAll: 0,      // 房间总局数
         },   // 存放各种数据避免重复请求
         systemMess:{
             title :'', //信息标题

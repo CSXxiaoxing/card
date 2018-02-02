@@ -73,10 +73,10 @@
         <span>抽水分数 <i @click="details = false">×</i></span>
         <ul>
             <li>
-                房间成员总分数  ：888
+                房间成员总分数  ：{{allFen}}
             </li>
             <li>
-                房 主 抽 水 分 数 : <b>120</b>
+                房 主 抽 水 分 数 : <b>{{allWater}}</b>
             </li>
         </ul>
         <mt-button @click="details = false">重新开局</mt-button>
@@ -483,6 +483,8 @@
         play: 1,    // 1锁定 0自动
         zhuanNum: 5,     // 轮庄数
         zhuanList: ['', ''],  // 申请上庄的人的列表-默认
+        allFen: 0,  // 房间总分
+        allWater: 0,  // 抽水分数
       };
     },
     methods:{
