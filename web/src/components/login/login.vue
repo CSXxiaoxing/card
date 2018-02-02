@@ -92,7 +92,7 @@
 			<span>{{a}}<b @click="a=0" @touchend="loginOut">切换</b></span>
 			<span @touchend='local'>登录</span>
 		</div>
-
+		
 		<loading v-if='loading'></loading>
 	</div>
 </template>
