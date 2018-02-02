@@ -12,7 +12,7 @@
         </h3>
         <div class="select" >
             <div>
-                <img  :class ='sel == 0 ? "left":"right"' src="../../img/module_home_myRoom1.png" alt="">
+                <img  :class ='sel == 0 ? "left":"right"' src="/dist/module_home_myRoom1.png" alt="">
                 <button @click='sel = 0 '>我开的房间</button>
                 <button @click='sel = 1 '>加入的房间</button>
             </div>
@@ -183,7 +183,7 @@
                     height: 2.018519rem;
                     // margin-right: 15px;
                     margin-top: 0.166667rem;
-                    background: url('../../img/module_home_myRoom3.png') no-repeat;
+                    background: url('/dist/module_home_myRoom3.png') no-repeat;
                     background-size: cover;
                     background-position:center;
                     background-size: 2.240741rem 2.037037rem;
