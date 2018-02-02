@@ -632,7 +632,7 @@
                 }
                 for(var each in Timeout) {    // 清除所有延时器
                     clearTimeout(Timeout[each])
-                }  
+                }
             },
             clearGameStyle () { // 游戏状态清零
                 let game = this.gameOver;
