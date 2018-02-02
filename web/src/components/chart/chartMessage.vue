@@ -55,7 +55,7 @@
                         display: inline-block;
                         width: 0.648148rem;
                         height: 0.509259rem;
-                        background: url('../../img/room_all.png') -4.351852rem -1.481481rem no-repeat;
+                        background: url('/dist/room_all.png') -4.351852rem -1.481481rem no-repeat;
                         background-size: 5.555556rem;
                         position: relative;
                         top: 50%;

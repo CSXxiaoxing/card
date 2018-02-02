@@ -39,7 +39,7 @@
                 <!-- 个人头像 -->
                 <dt :class='!this.$store.state.data.zhaoFZ[0] ? "" : "DTtips"'
                 @click='liaotian'>
-                    <img src="../../img/room03.png" height="155" width="149" alt="" />
+                    <img src="/dist/room03.png" height="155" width="149" alt="" />
                 </dt>
                 <dd  v-show='init.ForT == 0'>{{playersName}}</dd>
                 <dd  v-show='init.ForT == 0'>
@@ -77,12 +77,12 @@
                 <ul>
                     <li @click='applyOn(0)'>
                         <div>
-                            <img src="../../img/roomK02.png" alt="" />
-                            <img src="../../img/roomPage01.png" alt="" />
+                            <img src="/dist/roomK02.png" alt="" />
+                            <img src="/dist/roomPage01.png" alt="" />
                             <span>1</span>
-                            <img class='leftZhuan' src="../../img/room1.png">
+                            <img class='leftZhuan' src="/dist/room1.png">
                             <div class='leftImg'>
-                                <img src="../../img/friend1.png" alt="" />
+                                <img src="/dist/friend1.png" alt="" />
                                 <span>{{$store.state.data.Ztype.zn_points}}</span>
                             </div>
                         </div>
@@ -91,11 +91,11 @@
 
                     <li  v-for = '(data, index) in $store.state.data.Zlist' v-if='index <= 5' :key='data.zn_member_id'>
                         <div>
-                            <img src="../../img/roomK03.png" alt="" />
+                            <img src="/dist/roomK03.png" alt="" />
                             <img :src="'./src/img/roomPage0'+(index <= 1 ? index+2:4)+'.png'" alt="" />
                             <span>{{index+2}}</span>
                             <div class='leftImg'>
-                                <img src="../../img/friend1.png" alt="" />
+                                <img src="/dist/friend1.png" alt="" />
                                 <span>{{data.zn_points}}</span>
                             </div>
                         </div>
@@ -134,7 +134,7 @@
                          @click="[(time.index != index && cardURL.clck == -1 ? playerBottom(index) : false), (init.textStyle == 4 ? cardURL.clck=index : '')]" 
                          @touchend='ordinary.Pn = index '>
 
-                        <img v-for='dat in 5' src="../../img/room3.png">
+                        <img v-for='dat in 5' src="/dist/room3.png">
 
                         <span>
                             <!-- 出牛 -->
@@ -185,11 +185,11 @@
                 <ul>
                     <li v-for='player in $store.state.data.Room["id"]' v-if='fanzhuID != player.zn_member_id'>
                         <div>
-                            <img src="../../img/roomK03.png" alt="" />
-                            <img src="../../img/roomPage04.png" alt="" />
+                            <img src="/dist/roomK03.png" alt="" />
+                            <img src="/dist/roomPage04.png" alt="" />
                             <span>6</span>
                             <div class='leftImg'>
-                                <img src="../../img/friend1.png" alt="" />
+                                <img src="/dist/friend1.png" alt="" />
                                 <span>{{player.zn_points}}</span>
                             </div>
                         </div>

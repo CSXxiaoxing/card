@@ -4,7 +4,6 @@ import VueRouter from 'vue-router'
 import LoginComponent from '../components/login/login.vue'
 import HomeComponent from '../components/home/home.vue'
 
-import GoodsListComponent from '../components/goodslist/goodslist.vue'
 import message from '../components/message/message.vue'
 import Room from '../components/room/room.vue'
 import friend from '../components/friend/friend.vue'
@@ -22,11 +21,6 @@ var router = new VueRouter({
 			path: '/home',
 			name: 'home',
 			component: HomeComponent,
-			children: [{
-				path: 'goodslist',
-				name: 'goodslist',
-				component: GoodsListComponent
-			}]
 		},
 		{
 			path: '/',

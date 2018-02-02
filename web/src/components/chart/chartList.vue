@@ -50,9 +50,9 @@
             	<li v-for='(data, key) in datalist' :key='data.id' v-if='key != "count"' 
                 :class='data.zn_member_id == cli ? "click" : ""' @touchend='cli = data.zn_member_id'>
                     
-            		<img src="../../img/chart_Room2.png" alt="">
+            		<img src="/dist/chart_Room2.png" alt="">
                     <b>{{data.zn_member_name}}</b>
-                    <span><img src="../../img/chart_List1.png" alt="">加友</span>
+                    <span><img src="/dist/chart_List1.png" alt="">加友</span>
             	</li>
 
             </ul>
@@ -264,7 +264,7 @@
     .diss{
       @extend .mut;
         button:nth-of-type(2){
-            background: url(../../img/chart_list3.png) no-repeat;
+            background: url(/dist/chart_list3.png) no-repeat;
             background-position:center;
         }
     }
