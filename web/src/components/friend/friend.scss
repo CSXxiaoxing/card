@@ -194,10 +194,11 @@
                 overflow:hidden;
                 dl{
                     border-bottom:2px solid #D5D5D5;
-                    width:11.703704rem;
+                    width:12rem;
                     height:1.685185rem;
                     position:relative;
                     user-select: none;
+                    transition: 0.3s;
                     dt{
                         float: left;
                         span{
@@ -216,7 +217,7 @@
                         border: none;
                         font-size:0.37037rem;
                         //    设置过渡动画
-                        transition: 0.3s;
+                        
                         b{
                             font-weight:normal;
                         }
@@ -245,20 +246,22 @@
                             color:#DA480D;
                             border-radius:100%;
                             position:absolute;
-                            right:1.851852rem;
+                            right:2rem;
                             line-height:0.092593rem;
                         }   
                     }
-                    dd:nth-of-type(2){
+                    .remove{
                             line-height:1.685185rem;
-                            width:1.703704rem;
+                            width:1.3rem;
                             background-color: #DA480D;
                             color:white;
                             position:absolute;
-                            right:0.0rem;
+                            right:0rem;
                             top:0px;
                             text-align:center;
                             padding:0rem 0rem;
+                            padding-left:0.462963rem;
+
                         }
                 }
 
@@ -292,6 +295,7 @@
                        margin-top:0.222222rem;
                        transition-delay: 5s;
                     }   
+                    
                 }
             }
         }
