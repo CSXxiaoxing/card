@@ -143,7 +143,7 @@
 
                 <label v-for='times in oxOpen.time' :judge='times' >
                     <span>
-                        <img src="../../img/varTrue.png" v-show='imgState.time == times' height="81" width="76" alt="" />
+                        <img src="../../img/varTrue.png" v-show='imgState.time == times'/>
                     </span>
                     {{times/60 >= 1 ? (times/60 + oxOpen.miss[1]): (times+oxOpen.miss[0])}}
                 </label>
@@ -240,7 +240,7 @@
         methods: {
             open(e) {
                 var [img, judgeVal, nodeName, labelTarget, spanTarget, imgTarget] =  
-                [this.$store.state.initRoom, void 0, 
+                [this.$store.state.idRoom, void 0, 
                 e.target.nodeName.toLowerCase(), 
                 e.target.attributes["judge"], 
                 e.target.parentElement.attributes["judge"], 
@@ -316,24 +316,24 @@
             },
             
             end () {
+                this.init.error = {
+                                    roomName : false,
+                                    minG: false,
+                                    minS: false,
+                                    maxS: false,
+                                    sca : false,
+                                };
 
                 var self = this;
                 var oxNumber = this.$store.state.initRoom.oxNumber;
                 var oxK = this.$store.state.initRoom.oxK;
-                var [Err, git] = [this.init.error, this.$store.state.idRoom];
+                var [Err, git] = [this.init.error, this.imgState];
                 // 规则判断
                 git.roomName == '' ? Err.roomName = true : 
-                git.minGrade <= 0 ? Err.minG = true : 
-                git.scope[0] <= 0 ? Err.minS = true :
-                git.scope[1] < git.scope[0] ? Err.maxS = true :
-                git.scale < 1 || git.scale > 15 ? Err.sca = true : false;
-
-                var git = this.imgState;
-                git.roomName == '' ? Err.roomName = true : 
-                git.minGrade <= 0 ? Err.minG = true : 
-                git.scope[0] <= 0 ? Err.minS = true :
-                git.scope[1] < git.scope[0] ? Err.maxS = true :
-                git.scale < 1 || git.scale > 15 ? Err.sca = true : false;
+                Number(git.minGrade) <= 0 ? Err.minG = true : 
+                Number(git.scope[0]) <= 0 ? Err.minS = true :
+                Number(git.scope[1]) < Number(git.scope[0]) ? Err.maxS = true :
+                Number(git.scale) < 1 || Number(git.scale) > 15 ? Err.sca = true : false;
 
                 if(!Err.roomName && !Err.minG && !Err.minS && !Err.maxS && !Err.sca) {
                     if(self.initType == 0) {
@@ -382,7 +382,7 @@
                             zc_rate : JSON.stringify(oxNumber),
                             zn_chatid : self.$store.state.idRoom.zn_chatid,
                             // zc_number : self.imgState.room_id,
-                            roomid: self.$store.state.idRoom.room_id,
+                            roomid: self.$store.state.idRoom.id,
                             zn_min_score : self.$store.state.idRoom.minGrade,
                             zn_bet_between_s : self.$store.state.idRoom.scope[0],
                             zn_bet_between_e : self.$store.state.idRoom.scope[1],
@@ -396,9 +396,12 @@
                             zc_title : self.$store.state.idRoom.roomName,
                         } , '' ,this)
                         .then(res=> {
-                            console.log(res)
                             if(res.status == 1 && self.imgState.room_id > 0){
-                                // router.push({path: `room/${self.imgState.room_id}`}); 通知更新
+                                self.$parent.errorTips = res.msg;
+                                self.$parent.careTip = true;
+                            } else {
+                                self.$parent.errorTips = res.msg;
+                                self.$parent.careTip = true;
                             }
                         })
                     }

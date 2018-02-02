@@ -12,7 +12,7 @@
 		<header>
             <ul>
                 <li>
-                    <i><a @click='$store.commit("ls")'></a></i>
+                    <i><router-link :to='"/room/"+$store.state.idRoom.room_id'></router-link></i>
                 </li>
                 <li>流水报表</li>
             </ul>

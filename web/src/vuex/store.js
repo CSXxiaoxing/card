@@ -15,6 +15,7 @@ export default new Vuex.Store({
             userName: '',
             userID: '',
             userImg: '',
+            addtype: 0, // 加分状态
         },
         // 默认数据
         initRoom: {
@@ -34,7 +35,7 @@ export default new Vuex.Store({
             room_id: 0,         // 房间number
             roomName: '',       // 房间名字
             oxK: '',            // 比什么
-            scope: [0,100],     // 下注范围
+            scope: [1,100],     // 下注范围
             oxNumber: [],       // 倍率
             time: 30,           // 押注时间  
             open: false,        // 是否开放
@@ -44,7 +45,7 @@ export default new Vuex.Store({
             scale: 1,           // 抽水比例
             minGrade: 100,      // 最小上庄分数
             zn_chatid: 0,       // 群聊号码
-            ju: 1,              // 上庄局数
+            ju: '',              // 上庄局数
             ForT: 0,            // 是否房主
             message:'',             //房间公告
         },
@@ -72,15 +73,22 @@ export default new Vuex.Store({
             DT: [],     // 大厅数据
             DTtime: 0,  // 大厅数据存放时间
             DTtimeos: 2000,// 延迟时间，防止到底后无限请求
-            DTpage: 1,  // 大厅页数
-            DTid: [],   // 房间id,防重复ID
-            MYkai: [],  // 我开过的房间
+            DTpage: 1,      // 大厅页数
+            DTid: [],    // 房间id,防重复ID
+            MYkai: [],   // 我开过的房间
             MYkaiid: [],  // id,防止重复渲染
-            MYjoin: [], // 我进过的房间
+            MYjoin: [],     // 我进过的房间
             MYjoinid: [], // id,防止重复渲染
             zhaoFZ: [],     // 找房主聊天的人，排队盒子
 
             Room: {},      // 房间数据
+            Ztype : {},     // 房间内，庄的数据
+
+            Zlist: [],     // 申请庄的列表
+            apptype: 0,     // 1 上庄成功 0 没上庄
+
+            listOver: [],   // 所有游戏结果
+            juAll: 0,      // 房间总局数
         },   // 存放各种数据避免重复请求
         systemMess:{
             title :'', //信息标题
@@ -179,6 +187,9 @@ export default new Vuex.Store({
                 //在这里接收和处理信息，根据message.type区分消息来源，私信或者群聊或聊天室
                 console.log(message)
                 console.log(message.type)
+                if(message.sourceMsg == ""){
+                    return false;
+                }
                 if (message.type == 'groupchat') {  // 群聊
                     var qunid = message.to;         // 群id
                     var an = JSON.parse(localStorage.oxQun)

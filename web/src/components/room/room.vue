@@ -12,8 +12,8 @@
         <header>
             <ul>
                 <li>
-                    <i><router-link to="/home" ></router-link></i>
-                    <span>第<i>20</i>局</span>
+                    <i><a  @touchend='exit'></a></i>
+                    <span>第<i>{{$store.state.data.juAll}}</i>局</span>
                     <p :class='init.textStyle >= 1 ? "open" : "" '>
                         <span>{{host.allType == 1 ?  "游戏中" : "暂停中"}}</span>
                         <i v-show='init.ForT == 1' @click='host.style == true ? host.style = false : host.style = true'>
@@ -49,7 +49,7 @@
 
                 </dd>
                 <!-- 房主 -->
-                <dd  v-show='init.ForT == 1'>房总分：<span>71666</span></dd>
+                <dd  v-show='init.ForT == 1'>房总分：<span>{{init.totalFen}}</span></dd>
                 <dd  v-show='init.ForT == 1' @click='varRoom'><i></i>房间设置</dd>
 
                 <dd  @click="to(1)">
@@ -83,73 +83,30 @@
                             <img class='leftZhuan' src="../../img/room1.png">
                             <div class='leftImg'>
                                 <img src="../../img/friend1.png" alt="" />
-                                <span>{{init.fen}}</span>
+                                <span>{{$store.state.data.Ztype.zn_points}}</span>
                             </div>
                         </div>
-                        <p>迷糊的大土</p>
+                        <p>{{$store.state.data.Ztype.zn_member_name}}</p>
                     </li>
-                    <li>
+
+                    <li  v-for = '(data, index) in $store.state.data.Zlist' v-if='index <= 5' :key='data.zn_member_id'>
                         <div>
                             <img src="../../img/roomK03.png" alt="" />
-                            <img src="../../img/roomPage02.png" alt="" />
-                            <span>2</span>
+                            <img :src="'./src/img/roomPage0'+(index <= 1 ? index+2:4)+'.png'" alt="" />
+                            <span>{{index+2}}</span>
                             <div class='leftImg'>
                                 <img src="../../img/friend1.png" alt="" />
-                                <span>76000</span>
+                                <span>{{data.zn_points}}</span>
                             </div>
                         </div>
-                        <p>迷糊的大土</p>
+                        <p>{{data.zn_member_name}}</p>
                     </li>
-                    <li>
-                        <div>
-                            <img src="../../img/roomK03.png" alt="" />
-                            <img src="../../img/roomPage03.png" alt="" />
-                            <span>3</span>
-                            <div class='leftImg'>
-                                <img src="../../img/friend1.png" alt="" />
-                                <span>76000</span>
-                            </div>
-                        </div>
-                        <p>迷糊的大土</p>
-                    </li>
-                    <li>
-                        <div>
-                            <img src="../../img/roomK03.png" alt="" />
-                            <img src="../../img/roomPage04.png" alt="" />
-                            <span>4</span>
-                            <div class='leftImg'>
-                                <img src="../../img/friend1.png" alt="" />
-                                <span>76000</span>
-                            </div>
-                        </div>
-                        <p>迷糊的大土</p>
-                    </li>
-                    <li>
-                        <div>
-                            <img src="../../img/roomK03.png" alt="" />
-                            <img src="../../img/roomPage04.png" alt="" />
-                            <span>5</span>
-                            <div class='leftImg'>
-                                <img src="../../img/friend1.png" alt="" />
-                                <span>76000</span>
-                            </div>
-                        </div>
-                        <p>迷糊的大土</p>
-                    </li>
-                    <li>
-                        <div>
-                            <img src="../../img/roomK03.png" alt="" />
-                            <img src="../../img/roomPage04.png" alt="" />
-                            <span>6</span>
-                            <div class='leftImg'>
-                                <img src="../../img/friend1.png" alt="" />
-                                <span>76000</span>
-                            </div>
-                        </div>
-                        <p>迷糊的大土</p>
-                    </li>
+
                     <!-- <li  @click="applyOn" class='tips'>{{apply}}</li> -->
-                    <li  @click="applyOn(99)" :class='init.ForT == 1 ? "zhuan" : ""'>{{apply}}</li>
+                    <li  @click="applyOn(99)" :class='[(init.ForT == 1 ? "zhuan" : ""),($store.state.data.apptype == 1 ? "win" : "")]'>
+                        {{$store.state.data.apptype == 1 ? "取消上庄" : "申请上庄"}}
+                    </li>
+
                 </ul>
                 <span :class='win.css[1]'>{{win.cssFen[1]}}</span>
             </div>
@@ -226,7 +183,7 @@
 
             <div class='right'>
                 <ul>
-                    <li v-for='player in $store.state.data.Room[init.id] || players' v-if='fanzhuID != player.zn_member_id'>
+                    <li v-for='player in $store.state.data.Room["id"]' v-if='fanzhuID != player.zn_member_id'>
                         <div>
                             <img src="../../img/roomK03.png" alt="" />
                             <img src="../../img/roomPage04.png" alt="" />
@@ -258,8 +215,8 @@
                     <router-link :to="fangzhu" >联系房主</router-link>
                 </li>
                 <li class='roomScore' v-show='init.ForT == 1' 
-                    @click="$refs.onapplyOnChild.details=true;">
-                    <b :class='win.css[2].length > 0 ? "a" : ""'>{{host.gainNum}}
+                    @click="to(3)">
+                    <b :class='win.css[2].length > 0 ? "a" : ""'>{{host.oxWater}}
                     <span :class='win.css[2]' v-show='win.css[2].length > 0 ? true : false'>{{win.cssFen[2]}}</span></b>
                     <b>抽水分数</b>
                 </li>
@@ -322,28 +279,32 @@
                 fanzhuName: '',   // 房主名字
                 message : this.$store.state.placard.message,
                 init: {     // 初始化
-                    ForT: this.$store.state.idRoom.ForT,          // 1是房主0是普通
+                    ForT: this.$store.state.idRoom.ForT || 0,          // 1是房主0是普通
                     time: 0,         // 游戏时间控制
-                    ju: 20,          // 游戏局数
+                    ju: 5,          // 游戏局数
+                    juCount: 0,       // 下庄局数计算
                     id: 0,          // 房间id
+                    uid: localStorage.oxUid,    // 自己的id
                     room_id: this.$store.state.idRoom.room_id,
                     cardFn: this.$store.state.idRoom.cardFn,  //几牌  
                     oxK: this.$store.state.idRoom.oxK,
                     scope: this.$store.state.idRoom.scope,  // 可下注范围
-                    pond: this.$store.state.idRoom.minGrade,    // 设定下注池
+                    pond: 1,    // 设定下注池
                     text: ['游戏暂未开始', '准备开始：', '随机庄牌：', '可押注时间：', '开牌倒计时', '开牌结果'], // 游戏状态
                     textStyle : 0, // 对应状态码   [0, 1, 2, 3, 4, 5]
                     oxNumber: this.$store.state.idRoom.oxNumber,// 倍率
+                    totalFen: 0,    // 房总分
+
                     fen: 5000, // 庄总分
                     ForZ: 0,// 庄时状态为1
                 },
-               
+                
                 time: {     // 时间总控
                     initTime: this.$store.state.time.initTime,
                     random: this.$store.state.time.random,
                     index: -1,      // 随机背景/庄家
                     speed: this.$store.state.time.speed,
-                    timeAll:  this.$store.state.idRoom.time,
+
                     endTime: this.$store.state.time.endTime,
                     countTime: this.$store.state.time.countTime,
                 },
@@ -354,8 +315,8 @@
                     // 分数中转
                     zorp: [0,0],
                     // 我/庄/房主
-                    css: ['shu', 'shu', 'yin'],
-                    cssFen: ['-1000', '-5000', '+0'],
+                    css: ['', '', ''],
+                    cssFen: ['', '', ''],
                     // 中转
                     cssZZ: ['','',''],
                     cssZZF: ['','',''],
@@ -363,8 +324,8 @@
                 
                 host: {     // 主人
                     style: false,// 游戏开始
-                    gainNum: 150000,// 抽水
                     allType: 0,     // 游戏总控制 1 => 游戏中 || 0 => 暂停游戏  
+                    oxWater: 0,
                 },
                 
                 ordinary: {     // 普通
@@ -373,7 +334,7 @@
                     
                     pond: 0,// 可下注池
                     
-                    allPay: [999, 888, 777, 666, 555, 0, 333],// 总下注
+                    allPay: [0, 0, 0, 0, 0, 0, 0],// 总下注
                     pay: {      //自己下---翻倍/不翻倍/总下注
                         0 : [0, 0, 0],
                         1 : [0, 0, 0],
@@ -396,13 +357,14 @@
                     c3Type : ["", "", "", ""],  // c3状态控制[ 0卡牌出现, 1发牌效果, 2翻牌动效, 3翻牌2]
                     clck : -1, // 点击翻转
 
-                    card : [],      // 牌型
                     cardEnd : [],   // 7副牌数字
-                    result : [],    // 牛几
-                    resultNum : [], // 牛几（数字提取）
-                    maxVal : [],    // 权重
+                    card : [],      // 牌型 --
+                    result : [],    // 牛几 --
+                    resultNum : [], // 牛几（数字提取）--
+                    maxVal : [],    // 权重 --
                     end : [],       // 结果
                     dataT: 0,       // 时间相差三秒内可继续游戏
+                    zhuang: 0,      // 庄的结果
                 },
                 // 游戏结果处理
                 gameOver: {
@@ -411,12 +373,16 @@
                 },
                 players: [],        // 右边玩家
                 playersName: '',    // 右边玩家姓名
-                apply: '申请上庄',
-                TTT: {},
+                TTT: {},    // 牌型中转
+                count: 0,  // 轮庄计算
             }
         },
         mounted: function(){
             let self = this;
+            // if(self.$store.state.self.addtype == 1){    // 更新分数
+            //     self.list() 
+            //     console.log(self.$store.state.self.addtype)
+            // }
             // init/Room/getRoom
             http.post('/Room/getRooms',{
                     number: self.$route.params.id,
@@ -436,16 +402,17 @@
                             self.init.ForT = 0;
                             vx.ForT = 0;
                         }
+
                         self.fangzhu = `/chartRoom/[2,${data.zc_number},${data.zn_member_id},${self.init.ForT},${JSON.stringify(data.zc_title)}]`;
                         self.chartRoom = `/chartRoom/[3,${data.zc_number},${data.id},${self.init.ForT},${data.zn_chatid}]`;
 
                         self.fanzhuID = data.zn_member_id;
-
-
                         vx.room_id = data.zc_number;
+
                         vx.zn_chatid = data.zn_chatid;
                         vx.ju = data.zn_maker_number;
                         vx.id = data.id;
+                        self.init.id = data.id;
                         vx.oxK = bl[12];
                         bl.splice(12,1)
                         vx.oxNumber = bl;
@@ -463,31 +430,38 @@
                         self.init.id = res.data.id
                         self.list()
                         initType()
+                        self.applyList()
+                        self.gameResult(data.id) // 查询游戏结果
                     }
                 })
+            
             // 状态跟随 -- 初次进入状态
             function initType(){
-                // if(self.init.ForT == 0){
-                // http.post('/Room/getRoomStatus',{
-                //     roomid: self.init.id,
-                // })
-                // .then(res => {
-                //     console.log(res)
-                //     if(res.status == 1){
-                //         var num = Number(res.data.zn_status);
-                //         var jsontxt = res.data.zn_text
-                //         if(num >5){
-                //             num -= 5;
-                //             self.clearStyle()         //清除
-                //             self.cardURL = JSON.parse(jsontxt);
-                //             self.gameStart(num)       // 进入游戏阶段
-                //         }
-                //     }
-                // })
-                // }
+                if(self.init.ForT == 0){
+                http.post('/Room/getRoomStatus',{
+                    roomid: self.init.id,
+                })
+                .then(res => {
+                    if(res.status == 1){
+                        var val = res.data.zn_status;
+                        if(val >= 2 && val < 10){
+                            self.init.text[0] = '游戏已经开始,请您耐心等候下一盘'
+                        } else if(val == 1 || val == 10){
+                            self.init.textStyle == 0;
+                            self.init.text[0] = '游戏暂未开始'
+                        }
+                        // var num = Number(res.data.zn_status);
+                        // var jsontxt = res.data.zn_text
+                        // if(num >5){
+                        //     num -= 5;
+                        //     self.clearStyle()         //清除
+                        //     self.cardURL = JSON.parse(jsontxt);
+                        //     self.gameStart(num)       // 进入游戏阶段
+                        // }
+                    }
+                })
+                }
             }
-
-            
 
             var socket = io(socketURL);
             var uid = localStorage.oxUid;
@@ -497,59 +471,91 @@
 
             socket.on('new_msg', function (data) { 
                   // socket实时消息
-                var val = JSON.parse(data);
-                console.log(val.content);
-                // console.log(val)
-                switch(val.type){
+                if(JSON.parse(data)){
+                    var data = JSON.parse(data)
+                }
+                switch(Number(data.type)){
                     case 1 :                            // 通知有人加入
+                        self.list()  // 更新成员
                         break;
                     case 2 :                            // 通知房主有人加入
+                        console.log(data)
                         break;
                     case 4 :                            // 通知房间已解散
+                        console.log(data)
+                        router.push({name: 'home'});
                         break;
                     case 5 :                            // 通知有人分数变化
+                        self.init.totalFen = data.totalPoints;
+                        self.list()  // 更新分数
                         break;
                     case 6 :                            // 通知有人退出房间
+                        console.log(data)
+                        self.list()  // 退出房间
                         break;
-                    case 7 :                            // 通知有人退出房间
+                    case 7 :                            // 通知有人成为庄家
+                        console.log(data)
+                        self.list()  // 新庄家
+                        self.applyList ()
                         break;
-                    case 8 :                            // 通知房主有人申请上庄
+                    case 8 :                            // 通知有人申请上庄
+                        console.log(data)
+                        self.applyList ()
                         break;
                     case 9 :                            // 压分
+                        console.log(data)
+                        self.ordinary.allPay[(data.few)*1] += (data.score)*1; // 项和
+                        self.init.pond -=  (data.score)*(data.maxmag)   // 分池
+                        if(self.init.ForT == 1 || self.init.ForZ == 1 || data.id == localStorage.oxUid){
+                            var i = 1;
+                            if(data.maxmag > 1){    // 翻倍
+                                i = 0;
+                            }
+                            self.ordinary.pay[`${data.few}`][2] += (data.score)*1
+                            self.ordinary.pay[`${data.few}`][i] += (data.score)*1
+                        }
+                        
                         break;
                     case 10:  
-                        self.message = vx.message; // 公告
+                        // self.message = vx.message; // 公告
                         break;
                     case 11:                            // 重新开局
+                        console.log(data)
                         break;
                     case 12:                            // 发牌中
-                        console.log(val)
-                        // console.log(JSON.parse(val))
+                        self.TTT = JSON.parse(data.data);
                         break;
                     case 13:                            // 房主开始游戏
-                        console.log(val)
                         self.host.allType = 1;
-                        self.init.textStyle == 0
-                        self.gameStyle()
+                        self.init.textStyle == 0;
+                        self.K ()
                         break;
                     case 14:                            // 房主暂停游戏
-                        console.log(val)
                         self.host.allType = 0;
-                        self.clearStyle();
+                        self.init.textStyle == 0;
+                        self.init.text[0] = '游戏暂未开始'
                         break;
                     case 15:                            // 中止下注
+                        console.log(data)
                         break;
                     case 16:                            // 更新房间信息
+                        console.log(data)
+                        self.initGame()
                         break;
                 }    
             });
         },
         methods: {
             varRoom(){          // 房间设置
-                this.$refs.onvarRoomChild.initType = 1;
-                this.$refs.onvarRoomChild.imgState = this.$store.state.idRoom;
-                this.$refs.onvarRoomChild.boxState.CvarRoom=true;
-                this.$refs.onvarRoomChild.noModal();
+                if(this.host.allType == 0){   // 游戏暂停方可打开
+                    this.$refs.onvarRoomChild.initType = 1;
+                    this.$refs.onvarRoomChild.imgState = this.$store.state.idRoom;
+                    this.$refs.onvarRoomChild.boxState.CvarRoom=true;
+                    this.$refs.onvarRoomChild.noModal();
+                } else if(this.host.allType == 1){
+                    this.errorTips = '请在游戏暂停时重置房间配置';
+                    this.careTip = true;
+                }
             },
             to(n){              // 弹框控制
                 switch (n) {
@@ -559,49 +565,65 @@
                     case 2 :    // 开奖记录
                         this.$refs.onprizeChild.onprize=true;
                         break;
+                    case 3 :    // 抽水分数999
+                        this.$refs.onapplyOnChild.details=true;
+                        this.$refs.onapplyOnChild.allFen = this.init.totalFen;
+                        this.$refs.onapplyOnChild.allWater= 0; // 抽水分数
+                        break;
                 }
             },
             applyOn(i){         // 申请上庄or选择做庄
                 let init = this.init;
                 if(init.ForT == 1 && i == 0) {  // 庄
                     this.$refs.onapplyOnChild.setOwner=true;
-                } else if(init.ForT == 0 && i == 99){   // 普通玩家
+                } else if(init.ForT == 0 && i == 99 && init.ForZ != 1){   // 普通玩家
                     this.$refs.onapplyOnChild.applyOn = true;
                 }
             },
             playerBottom(){     // 压分
                 let [init, self] = [this.init, this];
-                this.$refs.onplayerBottomChild.playerBottom=true; 
 
-                // if(init.ForT == 1 || init.ForZ == 1) {  //房主和庄家不参与游戏
-                //     return false;
-                // }
-                // if(init.textStyle == 3 && this.ordinary.pond > init.scope[0]){
-                //     this.$refs.onplayerBottomChild.playerBottom=true; 
-                // }
-                // if(init.textStyle == 4){
-                //     clearTimeout(Timeout['setT1']);
-                //     Timeout['setT1'] = setTimeout(function(){
-                //         self.cardURL.clck = -1;
-                //         clearTimeout(Timeout['setT1']);
-                //     }, 2300)
-                // }
+                if(init.ForT == 1 || init.ForZ == 1) {  //房主和庄家不参与游戏
+                    return false;
+                }
+                if(init.textStyle == 3 && this.ordinary.pond > init.scope[0]){
+                    this.$refs.onplayerBottomChild.playerBottom=true; 
+                }
+                if(init.textStyle == 4){
+                    clearTimeout(Timeout['setT1']);
+                    Timeout['setT1'] = setTimeout(function(){
+                        self.cardURL.clck = -1;
+                        clearTimeout(Timeout['setT1']);
+                    }, 2300)
+                }
             },
             
             gameStyle(){       // 游戏执行--开始
                 let Etxt = this.host.allType;
                 this.host.style = false;
-                if(this.init.textStyle == 0) {
-                    switch (Etxt) {
-                    case 1 :
-                    this.init.textStyle = 1;
-                    this.gameType(0);
-                    this.roomStyle(2);        // 游戏状态储存--开始
-                    break;
-                    case 0 :
-                    this.roomStyle(1)
-                    break;
-                    }
+                if(Number(this.$store.state.data.Ztype.zn_points) > Number(this.$store.state.idRoom.minGrade) && Etxt == 1){
+                        this.roomStyle(2);        // 游戏状态储存--开始
+                        
+                } else if(Number(this.$store.state.data.Ztype.zn_points) < Number(this.$store.state.idRoom.minGrade)){
+                    this.roomStyle(1);      // 游戏暂停
+                    self.errorTips = '庄家分数低于最低上分数要求,游戏暂停。';
+                    self.careTip = true;
+                }
+                if(Etxt == 1){
+                    this.roomStyle(1);      // 游戏暂停
+                }
+                
+            },
+            K (){   // 游戏开始控制状态中转
+                this.init.textStyle = 1;
+                this.init.pond = (this.$store.state.idRoom.minGrade)*1;
+                this.clearStyle()               // 定时器清空
+                this.clearStyle()               // 定时器清空
+                this.clearGameStyle()            
+                if(this.host.allType == 1){     // 游戏状态允许
+                    this.gameStart(1);         // 执行游戏
+                    this.init.juCount++;  // 庄局数
+                    this.$store.state.data.juAll++; // 总局数累加
                 }
             },
             clearStyle(){       // 清除游戏余留状态
@@ -610,18 +632,7 @@
                 }
                 for(var each in Timeout) {    // 清除所有延时器
                     clearTimeout(Timeout[each])
-                }  
-            },
-            gameType(n) {       // 游戏开始控制状态中转
-                this.clearStyle()
-                switch (n) {
-                    case 0 :
-                        this.clearGameStyle()            // 状态清空
-                        if(this.host.allType == 1){     // 游戏状态允许
-                            this.gameStart(1);          // 执行游戏
-                        }
-                        break;
-                }       
+                }
             },
             clearGameStyle () { // 游戏状态清零
                 let game = this.gameOver;
@@ -640,6 +651,8 @@
                     6 : [0, 0, 0],
                     7 : [0, 0, 0],     
                 }
+                this.win.css = ['', '', ''];
+                this.win.cssFen = ['', '', ''];
             },
             algorithm () {      // 牛牛计算-权重输赢
                 let resultNum = this.cardURL.resultNum;
@@ -790,15 +803,22 @@
                         }
                     }
                 }
-                // console.log(maxVal)
-                // console.log(oxArr)
                 this.cardURL.result = oxArr;
                 this.cardURL.maxVal = maxVal;
-                this.roomStyle(4)   // 牛牛牌型以及权重发送
+
+                let num = this.init.cardFn;
+                this.cardURL.zhuang = Math.random()*num>>0 // 庄牌位置
+
+                this.roomStyle(4)   // 牛牛牌型、权重、庄位发送
             },
             gameStart(type) {       // 游戏流程入口
                 this.ordinary.pond = this.init.pond;
-                this.host.allType = 1;  // 进入游戏状态
+                if(this.$store.state.data.Ztype['zn_room_id'] == this.$store.state.idRoom.id){
+                    this.host.allType = 1;  // 进入游戏状态
+                } else {
+                    this.host.allType = 0;  // 无庄不能开
+                }
+                this.ordinary.allPay = [0, 0, 0, 0, 0, 0, 0]
 
                 if(this.init.ForT == 1){    // 房主进行牛牛计算
                     this.algorithm();
@@ -824,7 +844,11 @@
             daoTime () {        // 1、准备开始倒计时
                 
                 let self = this;
+
+                var $idRoom = self.$store.state.idRoom;
                 this.init.time = this.time.initTime;
+                
+                
                 self.roomStyle(6)       // 游戏状态储存--准备开始
                 pageTimer["timer01"] = setInterval( ()=> {
                     self.init.time--;
@@ -836,16 +860,17 @@
             },
             bank () {           // 2、随机选庄家牌
                 let self = this;
+                self.cardURL.zhuang = self.TTT.zhuang     // 庄位置
                 let num = this.init.cardFn;
-                let arr5 = [0, 1, 3, 4, 5];
+                let arrZ = num == 5 ? [0, 1, 3, 4, 5] : [0,1,2,3,4,5,6];
                 this.init.textStyle = 2;
                 self.roomStyle(7)   // 游戏状态储存--随机庄牌
                 self.init.time = self.time.random;
                 pageTimer["timer02"] = setInterval( ()=> {
                     self.init.time--;
-                    if(self.init.time < 0) {
+                    if(self.init.time < 0) {    
 
-                        self.time.index = arr5[Math.random()*5>>0]; // 庄的位置
+                        self.time.index = arrZ[self.cardURL.zhuang]; // 庄的位置
 
                         self.ordinary.bg = true;
                         self.countDown();
@@ -862,16 +887,18 @@
                         self.time.index = i; 
                     } else if(num == 5){
                          i >= 5 ? i=0 : false; 
-                        self.time.index = arr5[i];
+                        self.time.index = arrZ[i];
                     }
                 },self.time.speed)
             },
             countDown () {          // 3、发牌以及倒计时
                 let self = this;
+                if(self.$store.state.idRoom.ForT == 0){     // 普通玩家
+                    self.cardURL = self.TTT     // 上牌型
+                }
                 self.roomStyle(8)   // 游戏状态储存--可押注开始
                 self.init.textStyle = 3;
-                
-                self.init.time = self.time.timeAll;
+                self.init.time = self.$store.state.idRoom.time;
                 self.cardURL.c3Type[0] = 'start' ;
                 self.cardURL.c3Type[1] = 'card0' ;
                 
@@ -886,7 +913,7 @@
                             self.FZ();
                             clearInterval(pageTimer['timer04']);
                         }
-                        if(self.init.time == 1){    // 中止下注
+                        if(self.init.time == 1){    // 中止下注 
                             self.roomStyle(3)
                         }
                     } , 1000);
@@ -894,10 +921,11 @@
             },
             FZ () {                 // 4、翻转FZ 算输赢
                 let self = this;
+                try{this.$refs.onplayerBottomChild['playerBottom']=false;}catch(e){};
+               
                 self.gameOver.show=true;
                 // 算输赢/发送胜负请求
-                self.sf ()
-
+                self.sfEng ()
                 // 翻转剩下的牌
                 Timeout['setT3'] = setTimeout(()=>{
                     self.roomStyle(9) 
@@ -920,41 +948,60 @@
             },
             settlement () {        // 5、单局结算等待时间
                 let self = this;
-                self.roomStyle(10) 
+                self.roomStyle(10)
                 self.init.textStyle = 5;
-                // 分数结果
-                this.win.fen = this.win.zorp[1];             
-                this.init.fen = this.win.zorp[0];
+
+                self.win.css = self.win.cssZZ
+                self.win.cssFen = self.win.cssZZF
+                this.win.fen += Number(self.win.zorp[1])      // 个人分数
+                var f = this.$store.state.data.Ztype.zn_points;
+                this.$store.state.data.Ztype.zn_points = Number(f)+Number(self.win.zorp[0]);   // 庄分数
+
+
                 pageTimer["timer06"] = setInterval(()=>{
                     if(self.init.time >= 1){
                         self.init.time-- ;
                     } else {
-                        self.gameType(0);
-
+                        self.gameStyle ();
+                        self.list()
                         if(self.host.allType == 0) {   // 手动停止
+                            self.clearGameStyle()
                             self.init.textStyle = 0;
+                            self.roomStyle(1)
                         }
                         clearInterval(pageTimer["timer06"]);
                     }
-                    if(self.init.fen < self.init.pond){ // 庄家下盘分数不够时
-                        self.host.allType = 0
+
+                    if(self.$store.state.idRoom.ju != '' && Number(self.init.juCount) >= Number(self.$store.state.idRoom.ju)){ // 庄家局数够时
+                        self.host.allType = 0;
+                        self.init.juCount = 0;  // 当场游戏局数清0
+                        if(self.$store.state.data.Zlist[0] != undefined && self.$store.state.idRoom.ForT == 1){
+                            self.shangZ()
+                        } // 庄列表查询，有人则自动切换
                     }
-                    //  else if(self.host.allType != 0){
-                    //     self.host.allType = 1
-                    // }
-                    
                 }, 1000)
             },
-            sf () {                 // 输赢结果
+            shangZ () {
+                var self = this;
+                http.post( '/RoomJoin/applyfor', { // 直接下一个上庄
+                            roomid: self.$store.state.idRoom.id,
+                            id: self.$store.state.data.Zlist[0].zn_member_id || 0,
+                        })
+                    .then(res => {
+                        if(res.status == 0){
+                            self.shangZ()
+                        }
+                    })
+            },
+            sfEng () {                 // 输赢结果
                 let maxVal = this.cardURL.maxVal;   // 权重
                 let ox = this.cardURL.resultNum    // 牛结果数字化
                 let idx = this.time.index;        // 庄位置
                 let ya = this.ordinary.pay;      // 押注分数
-                let db = this.init.oxNumber;    // 投注倍率
+                let db = this.$store.state.idRoom.oxNumber;  // 投注倍率
                 let oxK = this.init.oxK;       // 比什么
                 let maxValEng = [];           // 最终结果
-                let fen = this.win.fen       // 个人分数
-                let Zfen = this.init.fen;   // 庄分数
+                
                 // 输赢计算
                 ki(idx)
                 function ki(i){
@@ -985,103 +1032,138 @@
                 // console.log(ox)
                 // console.log(db)
                 // console.log(ya)
-                console.log(maxValEng)
+                // console.log(maxValEng)
                 // 输赢计算 --------普通玩家
+                var water = this.$store.state.idRoom.scale; // 抽水比例
+                var zFenAll = 0;    // 庄的输赢总分
+                var fenAll = 0;     // 普通玩家输赢总分
                 for(var i=0; i<7; i++) {
                     if(ya[i][2] > 0){
-                        fen += ya[i][2]
+                        fenAll += ya[i][2]
                         if(maxValEng[i] == 1){
-                            fen += ya[i][1];
-                            fen += ya[i][0]*db[ox[i]]
-                            var fenAll = ya[i][1] + ya[i][0]*db[ox[i]]
-
-                            Zfen -= ya[i][1];
-                            Zfen -= ya[i][0]*db[ox[i]]
-                            var ZfenAll = ya[i][1] + ya[i][0]*db[ox[i]]
+                            fenAll += (ya[i][1])*1 + (ya[i][0])*(db[ox[i]*1]*1)     // 闲赢
+                            zFenAll -= (ya[i][1])*1 + (ya[i][0])*(db[ox[i]*1]*1);    // 庄输
                             // 普赢庄输
                             // this.win.cssZZ = ['yin',  'shu',  'yin']
                             // this.win.cssZZF = [`+${fenAll}`, `-${ZfenAll}`, '+0']
 
                         } else {    // 亏了多少分
-                            fen -= ya[i][1];
-                            fen -= ya[i][0]*db[ox[idx]];
-                            var fenAll = ya[i][1] + ya[i][0]*db[ox[idx]]
-
-                            Zfen += ya[i][1];
-                            Zfen += ya[i][0]*db[ox[idx]]
-                            var ZfenAll = ya[i][1] + ya[i][0]*db[ox[idx]]
+                            fenAll -= ((ya[i][1])*1 + (ya[i][0])*(db[ox[idx]*1]*1)) // 闲输
+                            zFenAll += ((ya[i][1])*1 + (ya[i][0])*(db[ox[idx]*1]*1)); // 庄赢
                             // 庄赢
                             // this.win.cssZZ = ['shu', 'yim', 'yin']
                             // this.win.cssZZF = [`-${fenAll}`, `+${ZfenAll}`, `+${ZfenAll}`]
                         }
                     }
                 }
-                this.win.zorp = [Zfen, fen];
-
+                var obj = {}    // 资料储存
+                obj['fen'] = this.win.fen // 自己的分数
+                obj['syfen'] = fenAll // 这轮输赢的分数
+                obj['zfen'] = zFenAll // 庄这轮的输赢分数
+                var pu = 'yin'; // 普通玩家
+                var puF = fenAll; // 普通玩家的分
+                var z = 'shu'; // 庄家
+                var zF = zFenAll; // 庄家的分
+                var sF = 0; // 抽水分数的分
+                if(zFenAll > 0){    // 中转计算
+                    sF = zFenAll*water/100 
+                    obj['sF'] = Number(sF)
+                    this.host.oxWater += Number(sF)
+                    z = 'yin'
+                    zFenAll -= Number(sF)
+                    zF = `+${zFenAll}`
+                } else if(zFenAll < 0){
+                    zF = `${zFenAll}`
+                }
+                if(fenAll >= 0){
+                    puF = `+${fenAll}`
+                } else if(fenAll < 0){
+                    pu = 'shu';
+                    puF = `${fenAll}`
+                }
+                this.win.cssZZ = [pu, z, 'yin']
+                this.win.cssZZF = [puF, zF, `+${sF}`]
+                console.log(this.win.cssZZF)
+                // console.log(zFenAll)
+                // console.log(fenAll)
+                this.win.zorp = [zFenAll, fenAll];
+                if(this.$store.state.idRoom.ForT == 0){ // 房主不参与游戏
+                    this.gameO(obj)
+                }
                    // 发送输赢分数=============================================
                    // 返回总分  //(zn_points)
             },
-            orderPower(players){    // br-高分排列
+            gameO (obj) {   // 存储游戏结果
                 var self = this;
-                players = Object.values(players)
-                if(players.length <=1){
-                    return players;
-                }
-                var online = [];
-                var notline = [];
-                // 是否上线
-                for(var i = 0; i<players.length; i++){
-                    if(players[i].zl_visible==1){
-                        online.push(players[i]);
-                    }else{
-                        notline.push(players[i]);
-                    }
-                }
+                var ox = this.cardURL.resultNum    // 牛结果数字化
+                var idRoom = this.$store.state.idRoom
+                http.post('/GameLog/createGameLog',{
+                    zn_member_id: localStorage.oxUid,   // 用户id
+                    zn_points_total: 0,     // 房间总分
+                    zn_room_id: idRoom.id,  // 房间id
+                    zc_is_boss: self.init.ForZ == 1 ? 1 : 2,
+                    zn_number: self.$store.state.data.juAll,     // 总游戏局数
+                    zn_points_give: self.init.ForZ == 1 ? obj.sF : 0,     // 抽水分数
+                    zn_points_left: self.init.ForZ == 1 ? Number(obj.fen)+Number(obj.zfen) : Number(obj.fen)+Number(obj.syfen),  // 结余分数
+                    zn_few: ox,  // 第几副牌
+                    zc_name: localStorage.oxName,   // 用户昵称
 
-                var fanid = self.init.id;
-                for(var i=0;i<online.length;i++){ 
-                    for(var j=i+1;j<online.length;j++){ 
-                        if(online[i].power>online[j].power){
-                            var list=online[i].power; 
-                            online[i].power=online[j].power; 
-                            online[j].power=list; 
+                })
+                .then(res => {
+                })
+            },
+            orderPower(online){    // br-高分排列
+                delete online['count'];
+                var [self,fanid] = [this,this.$store.state.idRoom.id];
+                var height = [];
+                var typeCount = 0;  // 计算有无庄
+                self.init.totalFen = 0; // 计算总分前清零
+                for(var i in online){
+                    self.init.totalFen += Number(online[i].zn_points)    // 房总分计算
+                    
 
-                        }
-                    }
-                    if(online[i].zn_member_id == localStorage.oxUid){   // sx-姓名分数
-                        self.playersName = online[i].zn_member_name;
-                        self.win.fen = online[i].zn_points
-                    }
                     if(!self.$store.state.data.Room[fanid+'id']){
                         self.$store.state.data.Room[fanid+'id'] = [];
                     }
                     if(self.$store.state.data.Room[fanid+'id'].indexOf(online[i].zn_member_id)<0){
                         self.$store.state.data.Room[fanid+'id'].push(online[i].zn_member_id)
+                    }   // 申请加分聊天辅助
+
+                    if(online[i].zn_makers == 1){   // 庄的数据
+                        self.$store.state.data.Ztype = online[i];
+                        typeCount++;
+                    }
+
+                    if(online[i].zn_member_id == localStorage.oxUid){   // 自己的姓名分数
+                        self.playersName = online[i].zn_member_name;
+                        self.win.fen = online[i].zn_points;
+                        if(online[i].zn_makers == 1){   // 自己是庄
+                            self.init.ForZ = 1;
+                        }
+                    }
+                    if(i==0){   // 启动
+                        height.push(online[i])
+                    }
+                    for(var j=0; j<height.length && i != 0; j++){   // 排序
+                        if(Number(online[i].zn_points) >= Number(height[j].zn_points)){
+                            height.splice(j,0,online[i]);
+                            break;
+                        }
+                    }
+                    if(height.indexOf(online[i]) < 0){  // 低分插入
+                        height.push(online[i])
                     }
                 }
-
-                for(var i=0;i<notline.length-1;i++){ 
-                    for(var j=i+1;j<notline.length;j++){ 
-                        if(notline[i].power>notline[j].power){
-                            var list=notline[i].power; 
-                            notline[i].power=notline[j].power; 
-                            notline[j].power=list; 
-                        }  
-                    } 
+                if(typeCount == 0){   // 无庄
+                    self.$store.state.data.Ztype = {};
                 }
-                online.reverse(); 
-                notline.reverse(); 
-                if(notline[0].constructor === Object){
-                    self.$store.state.data.Room[fanid] = online.concat(notline);
-                } else {
-                    this.players = online
-                    self.$store.state.data.Room[fanid] = online;    // 房间数据缓存
-                }
+                this.players = height
+                self.$store.state.data.Room["id"] = height;    // 房间数据缓存
             },
-            list () {                // 玩家列表
+            list () {               // 玩家列表
                 var self = this;
                 var roomData = self.$store.state.data.Room;
-
+                self.$store.state.self.addtype = 0
                 http.post('/RoomJoin/getJoinRoomList',{
                     p: 1,
                     pagesize: 100,
@@ -1097,13 +1179,16 @@
                     }
                 })
             },
-            roomStyle (type) {       // 游戏状态
-                if(self.init.ForT == 1){
-                    var data = JSON.stringify(this.cardURL)
-                    http.post('/Room/setRoomStatus',{     
+            roomStyle (type) {      // 游戏状态
+                var self = this;
+                if(self.$store.state.idRoom.ForT == 1){
+                    var dataArr= this.cardURL;
+                    dataArr = JSON.stringify(dataArr)
+                    // console.log(dataArr)
+                    http.post('/Room/setRoomStatus',{
                         zn_room_id: this.init.id,
                         zn_status: type,
-                        zn_text: data,
+                        zn_text: dataArr,
                     })
                     .then(res => {
                         console.log(res)
@@ -1113,10 +1198,99 @@
             liaotian () {   // 找房主的人
                 if(!!this.$store.state.data.zhaoFZ[0]) {    // 有人等待的时候
                     var zid = this.$store.state.data.zhaoFZ[0]
-                    router.push({path: `/chartRoom/[1,${this.$store.state.idRoom.room_id},${zid},1,"找房主的人"]`});
+                    router.push({path: `/chartRoom/[1,${this.$store.state.idRoom.room_id},${zid},1,"找房主的人",${this.$store.state.idRoom.id}]`});
                     this.$store.state.data.zhaoFZ.shift()
                 }
-            }
+            },
+            applyList () {  // 庄申请人列表
+                var self = this;
+                http.post('/RoomJoin/getMakerList',{
+                    roomid: self.$store.state.idRoom.id, // 房间idZtype
+                })
+                .then(res => {
+                    if(res.status == 1){
+                        var [zCount,zi,data,res,id] = [0,-1,self.$store.state.data,res.data,this.init.uid];
+                        data.Zlist=res
+                        res.forEach((item,idx)=>{
+                            item.zn_member_id == id ? zCount++ : -1;
+                            item.zn_makers == 1 ? zi = idx : -1;
+                        })
+                        zCount == 0 ? data.apptype = 0 : data.apptype = 1;
+                        zi >= 0 ? data.Zlist.splice(zi,1) : -1;
+                    }
+                })
+            },
+            exit () {   // 退出房间
+                if(this.$store.state.idRoom.ForT == 0){     // 普通玩家退出
+                    http.post('/RoomJoin/closeRoom',{
+                        roomid: this.init.id, // 房间id
+                        id: this.init.uid,
+                    })
+                    .then(res => {})
+                }
+                router.push({name: 'home'});
+            },
+            initGame () {
+                var self = this;
+                http.post('/Room/getRooms',{
+                        number: self.$route.params.id,
+                    })
+                    .then(res => {
+                        if(res.status == 1) {
+                            
+                            var data = res.data;
+                            var bl = JSON.parse(data.zc_rate);
+                            var vx = this.$store.state.idRoom;
+
+                            if(data.zn_member_id == localStorage.oxUid){
+                                self.init.ForT = 1;
+                                vx.ForT = 1;
+                            } else {
+                                self.init.ForT = 0;
+                                vx.ForT = 0;
+                            }
+
+                            self.fangzhu = `/chartRoom/[2,${data.zc_number},${data.zn_member_id},${self.init.ForT},${JSON.stringify(data.zc_title)}]`;
+                            self.chartRoom = `/chartRoom/[3,${data.zc_number},${data.id},${self.init.ForT},${data.zn_chatid}]`;
+
+                            self.fanzhuID = data.zn_member_id;
+                            
+                            vx.room_id = data.zc_number;
+                            vx.zn_chatid = data.zn_chatid;
+                            vx.ju = data.zn_maker_number;
+                            vx.id = data.id;
+                            self.init.id = data.id;
+                            vx.oxK = bl[12];
+                            bl.splice(12,1)
+                            vx.oxNumber = bl;
+                            vx.roomName = data.zc_title;
+                            vx.scope[0] = data.zn_bet_between_s;
+                            vx.scope[1] = data.zn_bet_between_e;
+                            vx.time  = data.zn_bet_time;
+                            vx.scale = data.zn_extract;
+                            vx.open = data.zn_room_type == 1 ? true : false; 
+                            vx.newMan = data.zn_confirm == 1 ? true : false;
+                            vx.cardFn = data.zn_play_type == 1 ? 5 : 7;
+                            self.init.cardFn = data.zn_play_type == 1 ? 5 : 7;
+                            vx.room = data.zn_pay_type == 1 ? 'bell' : 'day'
+                            vx.minGrade = data.zn_min_score;
+                            self.init.id = res.data.id;
+                        }
+                    })  // 更想房间 // 更新房间刷新数据
+            },
+            gameResult (id) { // 先获取一波所有的游戏结果
+                var self = this;
+                http.post( '/GameLog/getData', {
+                            roomid: id,
+                        })
+                    .then(res => {
+                        console.log(res.data)
+                        if(res.status == 1){
+                            self.$store.state.data.listOver = res.data;
+                            self.$store.state.data.juAll = res.data.length;
+                        }
+                    })
+            },
     },
 }
    
