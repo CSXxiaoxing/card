@@ -47,7 +47,6 @@ export default new Vuex.Store({
             zn_chatid: 0,       // 群聊号码
             ju: '',              // 上庄局数
             ForT: 0,            // 是否房主
-            message:'',             //房间公告
         },
         placard:{
              message:'健康游戏，请勿赌博，谢谢合作',             //房间公告

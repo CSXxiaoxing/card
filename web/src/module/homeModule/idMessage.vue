@@ -66,6 +66,7 @@
         position: absolute;
         left: 0.0rem;
         bottom: 0.851852rem;
+        
     }
   }
 </style>

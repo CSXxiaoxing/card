@@ -516,8 +516,10 @@
                         }
                         
                         break;
-                    case 10:  
-                        // self.message = .message; // 公告
+                    case 10: 
+                        console.log(data)
+                        self.message = data.content;
+                        // 公告
                         break;
                     case 11:                            // 重新开局
                         console.log(data)
@@ -1105,7 +1107,7 @@
                     zn_number: self.$store.state.data.juAll,     // 总游戏局数
                     zn_points_give: self.init.ForZ == 1 ? obj.sF : 0,     // 抽水分数
                     zn_points_left: self.init.ForZ == 1 ? Number(obj.fen)+Number(obj.zfen) : Number(obj.fen)+Number(obj.syfen),  // 结余分数
-                    zn_few: 0,  // 第几副牌  JSON.stringify(ox)
+                    zn_few: JSON.stringify(0),  // 第几副牌
                     zc_name: localStorage.oxName,   // 用户昵称
 
                 })

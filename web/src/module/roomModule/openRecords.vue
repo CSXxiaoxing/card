@@ -3,7 +3,7 @@
     <mt-popup
         v-model="onprize"
         popup-transition="popup-fade"
-        class="openRecords">
+        class="openRecords" :class = 'cardNum == 0 ? "five":"seven" '>
 
             <h3>开奖记录<i @click='onprize = false'></i></h3>
             
@@ -33,7 +33,7 @@
 <style lang='scss' scoped>
      // position: sticky;
      @import '../../utils/baseVar.scss';
-    .openRecords{
+    .openRecords.five{
         width: 9.555556rem;
         max-height: 15.277778rem;
         border-radius: 0.314815rem;
@@ -52,7 +52,90 @@
                 font-weight: 200;
                 font-size: 0.925926rem;
                 display: inline-block;
-                background: $roomAll -0.925926rem -2.314815rem no-repeat;
+                background: $homeAll -0.925926rem -2.314815rem no-repeat;
+                background-size: 5.555556rem 5.555556rem;
+                height: 0.527778rem;
+                width: 0.527778rem;
+            }
+        }
+        .roll{
+            width: 100%;
+            overflow-y: auto;
+            // overflow-x: hidden;
+            max-height: 14.0rem;
+            // overflow: auto;
+            position: relative;
+        }
+        .roll::-webkit-scrollbar {
+            display: none;
+        } 
+        table{
+            border: 0.009259rem solid #829369;
+            width: 100%;
+            font-size: 0.296296rem;
+            th{
+                border: 0.009259rem solid #AAB19F;
+                background: #D0E7B1;
+                font-size: 0.425926rem;
+                color: #46592C;
+                font-weight: 500;
+                height: 0.759259rem;
+            }
+            tr {
+                td{
+                    border: 0.009259rem solid #AAB19F;
+                    height: 0.759259rem;
+                    font-size: 0.296296rem;
+                    font-weight: 700;
+                }
+                td:first-child{
+                    font-size: 0.37037rem;
+                    font-weight: 400;
+                    color: #298B98;
+                    white-space: nowrap;
+                }
+                td.self {
+                    color: #D35403;
+                }
+            }
+            tr:nth-of-type(2n) {
+                background: #EFF8E3;
+            } 
+        }
+        table.bel1{
+            border-bottom: 0 none;
+        }
+        table.bel2{
+            border-top: 0 none;
+            tr:nth-of-type(1){
+                margin-top: -0.009259rem;
+                td{
+                    border-top: 0 none;
+                }
+            }
+        }
+    }
+
+    .openRecords.seven{
+        width: 9.555556rem;
+        max-height: 15.277778rem;
+        border-radius: 0.314815rem;
+        padding: 0 0.388889rem;
+        box-sizing: border-box;
+        overflow-y: hidden;
+        h3{
+            height: 0.87037rem;
+            font-size: 0.592593rem;
+            line-height: 0.592593rem;
+            text-align: center;
+            font-weight: 200;
+            padding-top: 0.388889rem;
+            i{
+                float: right;
+                font-weight: 200;
+                font-size: 0.925926rem;
+                display: inline-block;
+                background: $homeAll -0.925926rem -2.314815rem no-repeat;
                 background-size: 5.555556rem 5.555556rem;
                 height: 0.527778rem;
                 width: 0.527778rem;
@@ -121,12 +204,14 @@
 import http from '../../utils/httpClient.js'
 import Vue from 'vue';
 import loading from '../../components/loading/loading.vue';
+import router from '../../router/';
 Vue.component('loading', loading)
     export default {
         data: function () {
           return {
             loading: false,     // loading
             onprize : false,
+            cardNum : this.$store.state.idRoom.cardFn,
             bureau : {
                 1 : ['牛二', '牛3', '牛二', '牛二', '牛二'],
                 2 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
