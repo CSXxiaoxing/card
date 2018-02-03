@@ -32,6 +32,7 @@
 </template>
 
 <style lang='scss' scoped>
+@import '../../utils/baseVar.scss';
     .message {
         height: 100%;
         background: #ECEDF1;
@@ -56,7 +57,7 @@
                         display: inline-block;
                         width: 0.648148rem;
                         height: 0.509259rem;
-                        background: url('/dist/room_all.png') -4.351852rem -1.481481rem no-repeat;
+                        background: $roomAll -4.351852rem -1.481481rem no-repeat;
                         background-size: 5.555556rem;
                         position: relative;
                         top: 50%;

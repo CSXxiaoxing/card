@@ -88,6 +88,7 @@
 
 <style lang='scss' scoped>
   @import '../../utils/baseVar.scss';
+  
   .apply{
     width: 7.092593rem;
     border-radius: 0.277778rem;

@@ -59,7 +59,7 @@
 
 <style  lang='scss' scoped>
    @import '../../utils/baseVar.scss';
-
+    
     .mine{
         width:7.12963rem;
         border-radius: 0.259259rem;
@@ -183,7 +183,7 @@
                     height: 2.018519rem;
                     // margin-right: 15px;
                     margin-top: 0.166667rem;
-                    background: url('/dist/module_home_myRoom3.png') no-repeat;
+                    background: $home07 no-repeat;
                     background-size: cover;
                     background-position:center;
                     background-size: 2.240741rem 2.037037rem;

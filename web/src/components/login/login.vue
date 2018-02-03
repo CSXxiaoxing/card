@@ -98,6 +98,8 @@
 </template>
 
 <style  lang='scss' scoped>
+@import '../../utils/baseVar.scss';
+
     b{
     	padding: 0.092593rem;
     }
@@ -142,14 +144,14 @@
     	top: 0.12963rem;
     	right: 0.0rem;
     	text-align: center;
-    	background: url(/dist/login.png) -0.925926rem -3.0rem no-repeat;
+    	background: $login01 -0.925926rem -3.0rem no-repeat;
     	background-size: 5.555556rem 5.555556rem;
     }
     @mixin b {
     	right: 0.37037rem;
     	top: 0.444444rem;
     	position: absolute;
-    	background: url(/dist/home_all.png) -1.759259rem -2.407407rem no-repeat;
+    	background: $homeAll -1.759259rem -2.407407rem no-repeat;
     	background-size: 5.555556rem 5.555556rem;
     	height: 0.361111rem;
     	width: 0.361111rem;
@@ -157,7 +159,7 @@
 	.login {
 		height: 100%;
 		width: 100%;
-		background: url(/dist/login0.png) no-repeat;
+		background: $login02 no-repeat;
 		background-size: 10.0rem 17.777778rem;
 		background-position: center;
 		@mixin spans {
@@ -182,13 +184,13 @@
 			top: 3.796296rem;
 			width: 7.111111rem;
 			height: 2.259259rem;
-			background: url(/dist/z01.png) no-repeat;
+			background: $login03 no-repeat;
 			background-size: 7.111111rem 2.259259rem;
 			background-position: center;
 		}
 		.nouser{
 			.spanLog:nth-of-type(1){
-				background: url(/dist/login.png) -0.185185rem -1.574074rem no-repeat;
+				background: $login01 -0.185185rem -1.574074rem no-repeat;
 				background-size: 5.555556rem 5.555556rem;
 				width: 5.166667rem;
 				height: 1.268519rem;
@@ -196,7 +198,7 @@
 				bottom: 5.2rem;
 			}
 			.spanLog:nth-of-type(2){
-				background: url(/dist/login.png) -0.185185rem -0.092593rem no-repeat;
+				background: $login01 -0.185185rem -0.092593rem no-repeat;
 				background-size: 5.555556rem 5.555556rem;
 				@include spans;
 				bottom: 3.5rem;
@@ -231,7 +233,7 @@
 				}
 			}
 			span:nth-of-type(2){
-				background: url(/dist/login.png) -0.185185rem -1.574074rem no-repeat;
+				background: $login01 -0.185185rem -1.574074rem no-repeat;
 				background-size: 5.555556rem 5.555556rem;
 				width: 5.166667rem;
 				height: 1.268519rem;
@@ -254,7 +256,7 @@
 			line-height: 1.268519rem;
 			color: #fff;
 			transform: scale(0.79, 0.79);
-			background: url(/dist/login.png) -0.277778rem -4.074074rem no-repeat;
+			background: $login01 -0.277778rem -4.074074rem no-repeat;
 			background-size: 5.555556rem 5.555556rem;
 		}
 		span:last-child:active{ @include min-active; }
@@ -290,7 +292,7 @@
 			bottom:0.2em;
 			right:0.2rem;
 			transform: scale(0.8, 0.8);
-			background: url(/dist/login.png) -0.277778rem -4.074074rem no-repeat;
+			background: $login01 -0.277778rem -4.074074rem no-repeat;
 			background-size: 5.555556rem 5.555556rem;
 		}
 		span:last-child:active{ @include min-active; }
@@ -326,7 +328,7 @@
 			font-size: 0.722222rem;
 			line-height: 1.268519rem;
 			transform: scale(0.79, 0.79);
-			background: url(/dist/login.png) -0.277778rem -4.074074rem no-repeat;
+			background: $login01 -0.277778rem -4.074074rem no-repeat;
 			background-size: 5.555556rem 5.555556rem;
 		}
 		span:last-child:active{ @include min-active; }
