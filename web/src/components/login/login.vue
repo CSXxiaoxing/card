@@ -243,7 +243,8 @@
 		}	
 	}
 	.zhuce {
-		width: 8.666667rem;
+		// width: 8.666667rem;
+		width: 80%;
 		padding: 0.37037rem 0.37037rem 0.388889rem 0.62963rem;
 		box-sizing: border-box;
 		border-radius: 0.277778rem;
@@ -367,7 +368,7 @@
 				find: false,
 				phone:false,
 				text: ["注册", "登录", "找回密码"],
-				zhuceType: false, 
+				zhuceType: true, 
 				TEXTerror: '',
 				// 用户资料
 				nikename: '',
@@ -439,7 +440,6 @@
 						password: self.password
 					}, '', this )
 					.then(res => {
-						console.log(res)
 						if(res.status == 1){
 							localStorage['oxToken'] = res.data.token;
 							localStorage['oxUid'] = res.data.uid;
@@ -460,6 +460,9 @@
 								conn.registerUser(options2);
 							}
 							router.push({name: 'home'});
+						} else {
+							self.errorTips = res.msg;
+							self.careTip = true;
 						}
 						self.phone = false;
 					})
@@ -473,10 +476,11 @@
 							nikename: self.nikename,
 						}, '', this )
 					.then(res => {
-						console.log(res)
 						if(res.status == 1){
-							self.zhuceType = true;
 							self.loging();
+						} else {
+							self.errorTips = res.msg;
+							self.careTip = true;
 						}
 						self.zhuce = false;
 					})
@@ -491,8 +495,10 @@
 						}, '', this )
 					.then(res => {
 						if(status == 1){
-
-							// router.push({name: 'home'});
+							router.push({name: 'home'});
+						} else {
+							self.errorTips = res.msg;
+							self.careTip = true;
 						}
 						self.find = false;
 					})
@@ -510,6 +516,9 @@
 						if(res.status == 1){
 							localStorage.removeItem('oxToken')
 							self.a = 0;
+						} else {
+							self.errorTips = res.msg;
+							self.careTip = true;
 						}
 					})
 			},

@@ -47,7 +47,7 @@
 			:class='spinner == 1 ? "ul01":""'
 			v-infinite-scroll="loadMore"
   			:infinite-scroll-distance="20">
-				<li v-for='(dataRoom) in $store.state.data.DT' :key='dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
+				<li v-for='(dataRoom) in $store.state.data.DT' :key='"ox"+dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
 					<b v-if='dataRoom.open'></b>
 					<i></i>
 					<h4>大战牛群</h4>

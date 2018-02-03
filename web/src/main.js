@@ -23,6 +23,10 @@ Vue.use(MintUI);
             size += window.localStorage.getItem(item).length;
         }
     }
+    if((size / 1024).toFixed(2) >= 5120 ){
+        localStorage.setItem('oxTxtAll', "{}")
+        localStorage.setItem('oxQun', "{}")
+    }
     console.log('当前localStorage使用容量为' + (size / 1024).toFixed(2) + 'KB');
 } ()
 
@@ -59,12 +63,26 @@ socket.on('new_msg', function (data) {
         break;
     }    
 });
-  // socket连接检测
+
+// socket心跳包
+var countSocket = 0;    // 心跳包
+var countSocket02 = 0;
 socket.emit('test_io', 10086);
 socket.on('answer', function (data) {
-    // console.log(data)
-    // console.log('socket依旧坚挺')
+    countSocket++
 });
+setInterval(()=>{
+    countSocket02++
+    if(countSocket02 > countSocket){    // 重连
+        var socket = io(socketURL);
+        var uid = localStorage.oxUid;
+        socket.on('connect', function () {
+            socket.emit('login', uid);
+        });
+    } else {
+        countSocket02 = countSocket
+    }
+},2e4)
 
 
 new Vue({

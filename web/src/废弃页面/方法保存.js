@@ -148,3 +148,5 @@ for(let i in data)
 // 错误提示
 self.$parent.errorTips = res.msg;
 self.$parent.careTip = true;
+self.errorTips = res.msg;
+self.careTip = true;
