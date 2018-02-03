@@ -93,6 +93,10 @@
             position: absolute;
             left: 50%;
             top: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
             width: 200%;
             height: 200%;
@@ -154,6 +158,10 @@
                     bottom:0.277778rem;
                     width:5.925926rem;
                     height:2.5rem;
+                    -webkit-transform: translate(-50%, 0);
+                    -moz-transform: translate(-50%, 0);
+                    -ms-transform: translate(-50%, 0);
+                    -o-transform: translate(-50%, 0);
                     transform: translate(-50%, 0);
                 }
             }

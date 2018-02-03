@@ -175,6 +175,7 @@
     height:12.5rem;
     box-sizing: border-box;
     border-radius:0.277778rem;
+    
     span{
       display:inline-block;
       width:100%;

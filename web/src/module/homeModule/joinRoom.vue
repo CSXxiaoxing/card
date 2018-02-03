@@ -62,7 +62,11 @@
         i{
             position:absolute;
             right: 0;
-            transform: translate(-135%, 65%);
+            -webkit-transform: translate(-135%, 65%);
+               -moz-transform: translate(-135%, 65%);
+                -ms-transform: translate(-135%, 65%);
+                 -o-transform: translate(-135%, 65%);
+                    transform: translate(-135%, 65%);
             height: 0.555556rem;
             width: 0.555556rem;
             background: $homeAll -2.407407rem -2.407407rem no-repeat;

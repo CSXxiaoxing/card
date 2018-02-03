@@ -86,6 +86,7 @@
 //details
   
   .single{
+    
     width: 9.555556rem;
     height:14.925926rem;
     border-radius: 0.277778rem;

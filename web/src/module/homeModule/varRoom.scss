@@ -4,7 +4,11 @@
         position: fixed;
         left: 50%;
         top: 50%;
-        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+           -moz-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+             -o-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
         width: 100%;
         height: 100%;
         opacity: 0.5;
@@ -648,12 +652,20 @@
                         background: $homeAll -0.740741rem -3.055556rem no-repeat;
                         background-size: 5.555556rem 5.555556rem;
                         position: relative;
-                        transform: translate(0.611111rem, 0.037037rem);
+                        -webkit-transform: translate(0.611111rem, 0.037037rem);
+                           -moz-transform: translate(0.611111rem, 0.037037rem);
+                            -ms-transform: translate(0.611111rem, 0.037037rem);
+                             -o-transform: translate(0.611111rem, 0.037037rem);
+                                transform: translate(0.611111rem, 0.037037rem);
                     }
                     button:last-child {
                         background: $homeAll -0.0rem -3.055556rem no-repeat;
                         background-size: 5.555556rem 5.555556rem;
-                        transform: translate(-0.592593rem, 0.037037rem);
+                        -webkit-transform: translate(-0.592593rem, 0.037037rem);
+                           -moz-transform: translate(-0.592593rem, 0.037037rem);
+                            -ms-transform: translate(-0.592593rem, 0.037037rem);
+                             -o-transform: translate(-0.592593rem, 0.037037rem);
+                                transform: translate(-0.592593rem, 0.037037rem);
                     }
                     button:active{
                         position: relative;

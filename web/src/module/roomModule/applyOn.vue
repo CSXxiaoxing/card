@@ -88,6 +88,7 @@
 
 <style lang='scss' scoped>
   @import '../../utils/baseVar.scss';
+
   
   .apply{
     width: 7.092593rem;
@@ -434,7 +435,11 @@
               position: absolute;
               right: 0.092593rem;
               top: 50%;
-              transform: translate(0,-50%);
+              -webkit-transform: translate(0,-50%);
+                 -moz-transform: translate(0,-50%);
+                  -ms-transform: translate(0,-50%);
+                   -o-transform: translate(0,-50%);
+                      transform: translate(0,-50%);
               img{
                 height: 0.925926rem;
                 width: 0.87963rem;
