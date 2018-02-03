@@ -46,7 +46,7 @@
                         transform: translate(-120%, -50%);
                         // margin-top: -2px;
                         background: $homeAll -1.111111rem 0.0rem no-repeat;
-                        $w600: 5.555556rem;
+                        background-size:5.555556rem;
                     }
                 }
             }
@@ -140,8 +140,8 @@
                     display: inline-block;
                     width: 0.527778rem;
                     height: 0.462963rem;
-                    background: $roomAll -2.222222rem 0.0rem no-repeat ;
-                    background-size:5.555556rem 5.555556rem;
+                    background: $homeAll -2.222222rem 0.0rem no-repeat ;
+                    background-size:5.555556rem;
                 }
             }
         }
