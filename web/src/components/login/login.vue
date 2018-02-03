@@ -5,7 +5,7 @@
 		    popup-transition="popup-fade" :modal='false'
 		    class="care" >
 		    <span>通知 <i @click="careTip = false">×</i></span>
-		    <p>该房间尚未公开</p>
+		    <p>{{errorTips}}</p>
 		    <mt-button @click="careTip = false">  确定
 		    </mt-button>
 		</mt-popup >
@@ -375,6 +375,7 @@
 				a: 0,
 				type:0,
 				careTip : false,
+				errorTips: '',		// 错误信息
 			}
 		},
 		mounted: function(){
