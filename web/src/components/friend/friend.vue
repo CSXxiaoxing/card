@@ -228,7 +228,6 @@
                     id : localStorage.oxUid,
                 })
                 .then(res =>{
-                    console.log(res)
                     if(res.status == 1){
                         for(let i in res.data){
                             if(res.data[i].zn_way ==2){
@@ -248,8 +247,6 @@
                                 })
                             }
                         }
-                        console.log(self.friendApply)
-                        console.log(self.systemMess)
                     }
                 }),
 
@@ -261,7 +258,7 @@
                     id : localStorage.oxUid,
                 })
                 .then(res =>{
-                    console.log(res)
+                    // console.log(res)
                     if(res.status == 1){
                         for(let i in res.data){
                             self.friendList.push({
@@ -273,8 +270,6 @@
                                 id  :res.data[i].id, //信息id
                             })
                         }
-                        console.log(self.friendList)
-                        console.log(self.friendListId)
                     }
                 })
 
@@ -319,7 +314,7 @@
                     id : self.findID,
                 })
                 .then(res =>{
-                    console.log(res)
+                    // console.log(res)
                     if(res.status==1){
                         self.friendId = res.data.id;
                         self.friendName =  res.data.zc_nickname;
@@ -339,7 +334,7 @@
                     zc_content : self.friendName,
                 })
                 .then(res =>{
-                    console.log(res)
+                    // console.log(res)
                     if(res.status == 1){
                         self.sendFriend = true;
                     }
@@ -348,7 +343,7 @@
             //同意申请好友
             agreeFriend(){
                 var self = this;
-                console.log(self.friSel)    
+                // console.log(self.friSel)    
                 http.post('/MemberFriend/addFriend' ,{
                     zn_friend_id : Number( self.friendApply[self.friSel].mid),
                     zc_remark : self.friendApply[self.friSel].name,
@@ -356,7 +351,7 @@
                     zn_mid : localStorage.oxUid,
                 })
                 .then(res =>{
-                    console.log(res)
+                    // console.log(res)
                     if(res.status==1 || res.status ==2){
                         self.deleteApplyFri();
                     }
@@ -369,7 +364,7 @@
                     id : Number( self.friendApply[self.friSel].id),
                 })
                 .then(res =>{
-                    console.log(res)
+                    // console.log(res)
                     if(res.status == 1){
                         window.location.reload();
                     }
@@ -382,7 +377,7 @@
                     id : Number( self.systemMess[self.sysSel].id),
                 })
                 .then(res =>{
-                    console.log(res)
+                    // console.log(res)
                     if(res.status == 1){
                         window.location.reload();
                     }
@@ -398,7 +393,7 @@
                     name : self.markName,
                 })
                 .then(res =>{
-                    console.log(res)
+                    // console.log(res)
                     if(res.status==1){
                         self.friendList[self.friQuest].mname = self.markName;
                         self.markName = '';
@@ -407,13 +402,11 @@
             },
             //消息已读未读
             setRead(){
-                var self = this;
-                console.log(self.sysSel)   
+                var self = this; 
                 http.post('/MemberNotice/setRead',{
                     id : Number( self.systemMess[self.sysSel].id)
                 })
                 .then(res=>{
-                    console.log(res)
                     if(res.status == 1){
                         var vx = this.$store.state.systemMess;
                         vx.time = self.sysTime;
@@ -426,13 +419,13 @@
             //删除好友
             deleteFri(){
                 var self = this;
-                console.log(self.friQuest)
+                // console.log(self.friQuest)
                 http.post('/MemberFriend/delFriend',{
                     id : localStorage.oxUid,
                     friendid : Number( self.friendList[self.friQuest].mid),
                 })
                 .then(res=>{
-                    console.log(res)
+                    // console.log(res)
                     if(res.status==1){
                         window.location.reload();
                     }
@@ -442,7 +435,7 @@
             changeTime(){
                 var self = this;
                 self.sysTime = self.timestampToTime(self.systemMess[self.sysSel].time);
-                console.log(self.sysTime)
+                // console.log(self.sysTime)
             },
             timestampToTime(timestamp) {
                     var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
@@ -477,7 +470,7 @@
                         this.moveX = ev.touches[0].clientX
                         //起始位置减去 实时的滑动的距离，得到手指实时偏移距离
                         this.disX = this.startX - this.moveX;
-                        console.log(this.disX)
+                        // console.log(this.disX)
                         // 如果是向右滑动或者不滑动，不改变滑块的位置
                         if(this.disX < 0 || this.disX == 0) {
                             this.deleteSlider = "transform:translateX(0rem)";
@@ -498,7 +491,7 @@
                     if (ev.changedTouches.length == 1) {
                         let endX = ev.changedTouches[0].clientX;
                             this.disX = this.startX - endX;
-                            console.log(this.disX)
+                            // console.log(this.disX)
                             //如果距离小于删除按钮一半,强行回到起点
                             if ((this.disX*5) < (wd/2)) {
                                 this.deleteSlider = "transform:translateX(0rem)";

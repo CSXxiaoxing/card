@@ -517,7 +517,7 @@
                         
                         break;
                     case 10:  
-                        // self.message = vx.message; // 公告
+                        // self.message = .message; // 公告
                         break;
                     case 11:                            // 重新开局
                         console.log(data)
@@ -1105,7 +1105,7 @@
                     zn_number: self.$store.state.data.juAll,     // 总游戏局数
                     zn_points_give: self.init.ForZ == 1 ? obj.sF : 0,     // 抽水分数
                     zn_points_left: self.init.ForZ == 1 ? Number(obj.fen)+Number(obj.zfen) : Number(obj.fen)+Number(obj.syfen),  // 结余分数
-                    zn_few: ox,  // 第几副牌
+                    zn_few: 0,  // 第几副牌  JSON.stringify(ox)
                     zc_name: localStorage.oxName,   // 用户昵称
 
                 })
@@ -1139,6 +1139,8 @@
                         self.win.fen = online[i].zn_points;
                         if(online[i].zn_makers == 1){   // 自己是庄
                             self.init.ForZ = 1;
+                        } else {
+                            self.init.ForZ = 0;
                         }
                     }
                     if(i==0){   // 启动

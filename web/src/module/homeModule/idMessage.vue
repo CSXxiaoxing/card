@@ -86,7 +86,7 @@
       }
     },
     mounted: function(){
-      if(localStorage.oxToken){
+      if(localStorage.oxToken){ 
         this.a = 1;
       } else {
         this.a = 0;
@@ -101,12 +101,11 @@
               uid: localStorage.oxUid,
             })
           .then(res => {
-            console.log(res)
               if(res.status == 1){
                 localStorage.removeItem('oxToken')
                 self.a = 0;
                 self.idMessage = false
-                router.push({name: '/'});
+                router.push({name: 'login'});
             }
           })
         }

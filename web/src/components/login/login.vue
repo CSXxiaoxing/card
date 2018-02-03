@@ -8,7 +8,7 @@
 		    <p>{{errorTips}}</p>
 		    <mt-button @click="careTip = false">  确定
 		    </mt-button>
-		</mt-popup >
+		</mt-popup>
 		<mt-popup
 		    v-model="zhuce"
 		    popup-transition="popup-fade" 
@@ -98,7 +98,7 @@
 </template>
 
 <style  lang='scss' scoped>
-@import '../../utils/baseVar.scss';
+	@import '../../utils/baseVar.scss';
 
     b{
     	padding: 0.092593rem;
@@ -110,7 +110,11 @@
 		margin-bottom: 0.518519rem;
     }
     @mixin min-active {
-		transform: scale(0.78, 0.78) translate(1%, 6px);
+		-webkit-transform: scale(0.78, 0.78) translate(1%, 6px);;
+		   -moz-transform: scale(0.78, 0.78) translate(1%, 6px);;
+		    -ms-transform: scale(0.78, 0.78) translate(1%, 6px);;
+		     -o-transform: scale(0.78, 0.78) translate(1%, 6px);;
+		        transform: scale(0.78, 0.78) translate(1%, 6px);;
     }
     @mixin label {
     	display: block;
@@ -172,12 +176,20 @@
 			position: absolute;
 			left: 50%;
 			bottom: 4.796296rem;
-			transform: translate(-50%, 0);
+			-webkit-transform: translate(-50%, 0);
+			   -moz-transform: translate(-50%, 0);
+			    -ms-transform: translate(-50%, 0);
+			     -o-transform: translate(-50%, 0);
+			        transform: translate(-50%, 0);
 		}
 		@mixin position {
 			position: absolute;
 			left: 50%;
-			transform: translate(-50%, 0);
+			-webkit-transform: translate(-50%, 0);
+			   -moz-transform: translate(-50%, 0);
+			    -ms-transform: translate(-50%, 0);
+			     -o-transform: translate(-50%, 0);
+			        transform: translate(-50%, 0);
 		} 
 		.logo {
 			@include position;
@@ -186,7 +198,6 @@
 			height: 2.259259rem;
 			background: $login03 no-repeat;
 			background-size: 7.111111rem 2.259259rem;
-			background-position: center;
 		}
 		.nouser{
 			.spanLog:nth-of-type(1){
@@ -204,7 +215,11 @@
 				bottom: 3.5rem;
 			}
 			.spanLog:active {
-		        transform: translate(-50%, 6px);
+		        -webkit-transform: translate(-50%, 6px);
+		           -moz-transform: translate(-50%, 6px);
+		            -ms-transform: translate(-50%, 6px);
+		             -o-transform: translate(-50%, 6px);
+		                transform: translate(-50%, 6px);
 		    }
 			p {
 				@include position;
@@ -224,7 +239,11 @@
 			span:nth-of-type(1){
 				position:absolute;
 				font-size: 0.555556rem;
-				transform: translate(-50%, 0.0rem);
+				-webkit-transform: translate(-50%, 0);
+				   -moz-transform: translate(-50%, 0);
+				    -ms-transform: translate(-50%, 0);
+				     -o-transform: translate(-50%, 0);
+				        transform: translate(-50%, 0);
 				bottom: 5rem;
 				b{
 					text-decoration:underline;
@@ -256,7 +275,11 @@
 			font-size: 0.722222rem;
 			line-height: 1.268519rem;
 			color: #fff;
-			transform: scale(0.79, 0.79);
+			-webkit-transform: scale(0.79, 0.79);
+			   -moz-transform: scale(0.79, 0.79);
+			    -ms-transform: scale(0.79, 0.79);
+			     -o-transform: scale(0.79, 0.79);
+			        transform: scale(0.79, 0.79);
 			background: $login01 -0.277778rem -4.074074rem no-repeat;
 			background-size: 5.555556rem 5.555556rem;
 		}
@@ -292,7 +315,11 @@
 			position: relative;
 			bottom:0.2em;
 			right:0.2rem;
-			transform: scale(0.8, 0.8);
+			-webkit-transform: scale(0.8, 0.8);
+			   -moz-transform: scale(0.8, 0.8);
+			    -ms-transform: scale(0.8, 0.8);
+			     -o-transform: scale(0.8, 0.8);
+			        transform: scale(0.8, 0.8);
 			background: $login01 -0.277778rem -4.074074rem no-repeat;
 			background-size: 5.555556rem 5.555556rem;
 		}
@@ -328,7 +355,11 @@
 			width: 4.166667rem;
 			font-size: 0.722222rem;
 			line-height: 1.268519rem;
-			transform: scale(0.79, 0.79);
+			-webkit-transform: scale(0.79, 0.79);
+			   -moz-transform: scale(0.79, 0.79);
+			    -ms-transform: scale(0.79, 0.79);
+			     -o-transform: scale(0.79, 0.79);
+			        transform: scale(0.79, 0.79);
 			background: $login01 -0.277778rem -4.074074rem no-repeat;
 			background-size: 5.555556rem 5.555556rem;
 		}

@@ -15,7 +15,7 @@
 					<img src="/dist/home_head.png"  alt="" />
 				</dt>
 				<dd>
-					<span @click="loading()">{{name}}</span>
+					<span>{{name}}</span>
 					<span @click="toShare"><i></i>分享</span>
 				</dd>
 				<dd>

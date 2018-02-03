@@ -155,7 +155,11 @@
                         background-size: 5.555556rem;
                         position: relative;
                         top: 50%;
-                        transform: translate(0, -50%);
+                        -webkit-transform: translate(0, -50%);
+                           -moz-transform: translate(0, -50%);
+                            -ms-transform: translate(0, -50%);
+                             -o-transform: translate(0, -50%);
+                                transform: translate(0, -50%);
                         a {
                             padding: 0.259259rem 0.37037rem;
                         }

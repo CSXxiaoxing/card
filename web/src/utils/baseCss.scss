@@ -44,20 +44,36 @@ input.error {
 }
 @keyframes inputmove{
    0%{
-       transform: translate(0%, 1%);
+       -webkit-transform: translate(0%, 1%);
+          -moz-transform: translate(0%, 1%);
+           -ms-transform: translate(0%, 1%);
+            -o-transform: translate(0%, 1%);
+               transform: translate(0%, 1%);
    }
    100%{
-       transform: translate(0%, -1%);
+       -webkit-transform: translate(0%, -1%);
+          -moz-transform: translate(0%, -1%);
+           -ms-transform: translate(0%, -1%);
+            -o-transform: translate(0%, -1%);
+               transform: translate(0%, -1%);
    }
 }
-// @-webkit-keyframes inputmove{
-//    0%{
-//        transform: translate(-1%, 0%);
-//    }
-//    100%{
-//        transform: translate(1%, 0%);
-//    }
-// }
+@-webkit-keyframes inputmove{
+   0%{
+        -webkit-transform: translate(0%, 1%);
+           -moz-transform: translate(0%, 1%);
+            -ms-transform: translate(0%, 1%);
+             -o-transform: translate(0%, 1%);
+                transform: translate(0%, 1%);
+   }
+   100%{
+        -webkit-transform: translate(0%, -1%);
+           -moz-transform: translate(0%, -1%);
+            -ms-transform: translate(0%, -1%);
+             -o-transform: translate(0%, -1%);
+                transform: translate(0%, -1%);
+   }
+}
 // 文本-错误提示
 .TEXTerror {
     color: red!important;
@@ -80,6 +96,24 @@ input.error {
     weight: 600;
 }
 @keyframes shuyin{
+    0%{
+        top: 50px;
+        opacity: 0;
+    }
+    30%{
+        top: 0px;
+        opacity: 1;
+    }
+    60%{
+        top: 0px;
+        opacity: 1;
+    }
+    100%{
+        top: -50px;
+        opacity: 0;
+    }
+}
+@-webkit-keyframes shuyin{
     0%{
         top: 50px;
         opacity: 0;

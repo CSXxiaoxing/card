@@ -42,7 +42,11 @@
                         position: absolute;
                         left: 0.0rem;
                         top: 50%;
-                        transform: translate(-120%, -50%);
+                        -webkit-transform: translate(-120%, -50%);
+                           -moz-transform: translate(-120%, -50%);
+                            -ms-transform: translate(-120%, -50%);
+                             -o-transform: translate(-120%, -50%);
+                                transform: translate(-120%, -50%);
                         // margin-top: -2px;
                         background: $homeAll -1.111111rem 0.0rem no-repeat;
                         background-size:5.555556rem;
@@ -96,7 +100,11 @@
                         position: absolute;
                         top: 43%;
                         right: 0.092593rem;
-                        transform: translate(0,-50%);
+                        -webkit-transform: translate(0,-50%);
+                           -moz-transform: translate(0,-50%);
+                            -ms-transform: translate(0,-50%);
+                             -o-transform: translate(0,-50%);
+                                transform: translate(0,-50%);
                     }
                     b{
                         display: inline-block;
@@ -107,7 +115,11 @@
                         font-size: 0.314815rem;
                         text-align: center;
                         position:relative;
-                        transform: translate(0,-22%);
+                        -webkit-transform: translate(0,-22%);
+                           -moz-transform: translate(0,-22%);
+                            -ms-transform: translate(0,-22%);
+                             -o-transform: translate(0,-22%);
+                                transform: translate(0,-22%);
                     }
                 }
             }
@@ -133,7 +145,11 @@
                     position: absolute;
                     left: 0;
                     top: 50%;
-                    transform: translate(-20%,-50%);
+                    -webkit-transform: translate(-20%,-50%);
+                       -moz-transform: translate(-20%,-50%);
+                        -ms-transform: translate(-20%,-50%);
+                         -o-transform: translate(-20%,-50%);
+                            transform: translate(-20%,-50%);
                     text-align: left;
                     left: 0.240741rem;
                     display: inline-block;
@@ -183,7 +199,11 @@
         flex: 1;
         overflow-y: auto;
         &>span>div{
-            transform: translate(0, -50px)
+            -webkit-transform: translate(0, -50px);
+               -moz-transform: translate(0, -50px);
+                -ms-transform: translate(0, -50px);
+                 -o-transform: translate(0, -50px);
+                    transform: translate(0, -50px);
         }
         ul{
             padding: 1%;
@@ -227,7 +247,11 @@
                     background-size: 5.555556rem 5.555556rem;
                     position: relative;
                     left: 50%;
-                    transform: translate(-50%,0);
+                    -webkit-transform: translate(-50%,0);
+                       -moz-transform: translate(-50%,0);
+                        -ms-transform: translate(-50%,0);
+                         -o-transform: translate(-50%,0);
+                            transform: translate(-50%,0);
                 }
                 h4{
                     color: #fff;
