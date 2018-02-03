@@ -61,7 +61,7 @@
 </template>
 
 <style lang='scss' scoped>
-
+@import '../../utils/baseVar.scss';
   .bstyle{
     font-size:0.314815rem;
     margin:0.092593rem 0.046296rem;
@@ -81,7 +81,7 @@
       width:8.87037rem;
       height:2.12963rem;
       line-height: 1.805556rem;
-      background: url("/dist/module_home_no1.png") no-repeat;
+      background: $home08 no-repeat;
       background-size: 8.87037rem 2.12963rem;
       text-align: center;
       position: relative;
@@ -136,7 +136,7 @@
       margin:0.833333rem 0 0.462963rem 0;
       border: 0 none;
       color: white;
-      background: url(/dist/home_all.png) -1.944444rem -1.388889rem no-repeat;
+      background: $homeAll -1.944444rem -1.388889rem no-repeat;
       background-size: 5.555556rem 5.555556rem;
     }
     button:active {

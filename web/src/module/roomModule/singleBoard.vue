@@ -84,6 +84,7 @@
 <style lang='scss' scoped>
   @import '../../utils/baseVar.scss';
 //details
+  
   .single{
     width: 9.555556rem;
     height:14.925926rem;

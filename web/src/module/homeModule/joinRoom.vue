@@ -30,6 +30,7 @@
 
 <style  lang='scss' scoped>
     @import '../../utils/baseVar.scss';
+    
     .join{
         width: 7.185185rem;
         margin-top: -0.277778rem;

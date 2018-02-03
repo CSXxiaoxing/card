@@ -32,6 +32,7 @@
 <!-- cellspacing="0" -->
 <style lang='scss' scoped>
      // position: sticky;
+     @import '../../utils/baseVar.scss';
     .openRecords{
         width: 9.555556rem;
         max-height: 15.277778rem;
@@ -51,7 +52,7 @@
                 font-weight: 200;
                 font-size: 0.925926rem;
                 display: inline-block;
-                background: url('/dist/home_all.png') -0.925926rem -2.314815rem no-repeat;
+                background: $roomAll -0.925926rem -2.314815rem no-repeat;
                 background-size: 5.555556rem 5.555556rem;
                 height: 0.527778rem;
                 width: 0.527778rem;

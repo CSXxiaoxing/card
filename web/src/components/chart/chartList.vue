@@ -264,7 +264,7 @@
     .diss{
       @extend .mut;
         button:nth-of-type(2){
-            background: url(/dist/chart_list3.png) no-repeat;
+            background: $chart04 no-repeat;
             background-position:center;
         }
     }
