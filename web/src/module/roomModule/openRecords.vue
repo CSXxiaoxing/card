@@ -237,12 +237,7 @@ Vue.component('loading', loading)
                 var self = this;
                 self.bureau = self.$store.state.data.listOver;
                 console.log(self.bureau);
-                for(let i in self.bureau){
-                    self.cardResult.push({
-                        card : self.bureau[i].zc_result,
-                    })
-                }
-                console.log(self.cardResult);
+               
             }
         }
     }
