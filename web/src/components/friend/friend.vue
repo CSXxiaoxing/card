@@ -68,7 +68,6 @@
               </mt-button>
               <mt-button @click="markFriend = false">  取消
               </mt-button>
-              
         </mt-popup>
         <!--删除好友-->
         <mt-popup 
@@ -106,7 +105,7 @@
                 
                 <li  :class='arrows == 1 ? "show" : "hide"'>
                     <!--系统消息-->
-                    <dl class='sys' v-for='(sys,squest) in systemMess' :key='squest' @touchend='sysSel = squest,touchEnd' @click='changeTime()'  
+                    <dl class='sys' v-for='(sys,squest) in systemMess' :key='sys.key' @touchend='sysSel = squest,touchEnd' @click='changeTime()'  
                           @touchstart='[(k=squest),(touchStart)]'
                           @touchmove='touchMove'
                           :style="squest == k ? deleteSlider: ''">
@@ -124,8 +123,7 @@
                         <dd class="remove" ref='remove' @click="deleteApplyFri()">删除</dd>
                     </dl>
                     <!--好友消息-->
-                    <dl class="fri" v-for='(fri,quest) in friendApply' :key='quest'
-                        >
+                    <dl class="fri" v-for='(fri,quest) in friendApply' :key='fri.id'>
                         <dt>
                             <span><i></i></span>
                         </dt>
@@ -235,8 +233,8 @@
                                     name :res.data[i].zc_content,
                                     id  :res.data[i].id, //信息id
                                     mid :res.data[i].zn_mid, //对方id
-
                                 })
+                                console.log(self.friendApply)
                             }else{
                                 self.systemMess.push({
                                     id  :res.data[i].id, //信息id
@@ -306,6 +304,7 @@
                 // .then(res => {
                 //     console.log(res)
                 // })
+                // key
             },
             //查找好友
             searchFriend(){
@@ -357,24 +356,11 @@
                     }
                 })
             },
-            //删除好友申请信息
+            //删除好友申请信息/系统信息
             deleteApplyFri(){
                 var self = this;
                 http.post('/MemberNotice/delNotify',{
                     id : Number( self.friendApply[self.friSel].id),
-                })
-                .then(res =>{
-                    // console.log(res)
-                    if(res.status == 1){
-                        window.location.reload();
-                    }
-                })
-            },
-            //删除系统信息
-            deleteApplyFri(){
-                var self = this;
-                http.post('/MemberNotice/delNotify',{
-                    id : Number( self.systemMess[self.sysSel].id),
                 })
                 .then(res =>{
                     // console.log(res)

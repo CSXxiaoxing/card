@@ -117,6 +117,16 @@ localStorage.oxTxtAll = JSON.stringify(a)
 24     });
 25 </script>
 
+// 状态跟随
+var num = Number(res.data.zn_status);
+var jsontxt = res.data.zn_text
+if(num >5){
+    num -= 5;
+    self.clearStyle()         //清除
+    self.cardURL = JSON.parse(jsontxt);
+    self.gameStart(num)       // 进入游戏阶段
+}
+
 // 调取聊天记录
 this.$store.state.obj = {
     myId: "hz_niuniu_"+id,
