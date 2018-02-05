@@ -174,7 +174,7 @@
             vertical-align: middle;
             font-size: 0.37037rem;
             line-height: 0.555556rem;
-            z-index: 100;
+            z-index: 10;
             a{color: #fff;}
             b{
                 position: fixed;
@@ -198,7 +198,7 @@
         
         flex: 1;
         overflow-y: auto;
-        z-index: 3;
+        // z-index: 3;
         &>span>div{
             -webkit-transform: translate(0, -50px);
                -moz-transform: translate(0, -50px);

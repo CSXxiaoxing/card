@@ -218,6 +218,7 @@
         height:1.805556rem;
         line-height: 1.527778rem;
         background: $home03 no-repeat;
+        background-size: 8.87037rem 1.805556rem;
         background-position: center;
         text-align: center;
         position: relative;

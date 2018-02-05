@@ -5,7 +5,7 @@
     popup-transition="popup-fade"
     class="mess">
     <img src="/dist/module_home_id1.png" height="222" width="238" alt="">
-    <p>会员<br>ID:755693</p>
+    <p>{{name}}<br>ID:{{id}}</p>
     <i v-on:click="idMessage = false"></i>
     <mt-button type="primary"  @click="loginOut">
         退出登录
@@ -33,11 +33,12 @@
       top:0.740741rem;
     }
     p{
-      font-size:0.407407rem;
+      font-size:0.507407rem;
       line-height: 0.648148rem;
       position:absolute;
       left: 2.981481rem;
       top:1.092593rem;
+      text-align: left;
     }
     i{
         position:absolute;
@@ -84,6 +85,8 @@
         loading: false,     // loading
         idMessage: false,
         a: 0,
+        name : localStorage.oxName,
+        id : localStorage.oxUid,
       }
     },
     mounted: function(){
