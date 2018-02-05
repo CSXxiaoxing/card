@@ -431,7 +431,9 @@
                         self.list()
                         initType()
                         self.applyList()
-                        self.gameResult(data.id) // 查询游戏结果
+                        if(self.init.ForT == 1){
+                            self.gameResult(data.id) // 查询游戏结果
+                        }
                     }
                 })
             
@@ -450,14 +452,6 @@
                             self.init.textStyle == 0;
                             self.init.text[0] = '游戏暂未开始'
                         }
-                        // var num = Number(res.data.zn_status);
-                        // var jsontxt = res.data.zn_text
-                        // if(num >5){
-                        //     num -= 5;
-                        //     self.clearStyle()         //清除
-                        //     self.cardURL = JSON.parse(jsontxt);
-                        //     self.gameStart(num)       // 进入游戏阶段
-                        // }
                     }
                 })
                 }
@@ -572,7 +566,7 @@
                     case 3 :    // 抽水分数999
                         this.$refs.onapplyOnChild.details=true;
                         this.$refs.onapplyOnChild.allFen = this.init.totalFen;
-                        this.$refs.onapplyOnChild.allWater= 0; // 抽水分数
+                        this.$refs.onapplyOnChild.allWater= this.host.oxWater; // 抽水分数
                         break;
                 }
             },
@@ -1053,7 +1047,7 @@
                 var yapai = []; // 压第几副牌
                 for(var i=0; i<7; i++) {
                     if(ya[i][2] > 0){
-                        yapai.push(i)
+                        yapai.push(i+1)
                         fenAll += ya[i][2]
                         if(maxValEng[i] == 1){
                             fenAll += (ya[i][1])*1 + (ya[i][0])*(db[ox[i]*1]*1)     // 闲赢
@@ -1325,8 +1319,17 @@
                     .then(res => {
                         console.log(res.data)
                         if(res.status == 1){
+                            var zWater = 0; // 庄总分
                             self.$store.state.data.listOver = res.data;
                             self.$store.state.data.juAll = res.data.length;
+                            res.data.forEach((item,idx)=>{
+                                item.DRs.forEach(xitem=>{
+                                    if(xitem.zc_is_boss == 1){
+                                        zWater += Number(xitem.zn_points_give)
+                                    }
+                                })
+                            })
+                            self.host.oxWater = zWater; // 总抽水
                         }
                     })
             },

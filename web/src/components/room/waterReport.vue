@@ -67,6 +67,8 @@
 <script type="text/javascript">
 	import Vue from 'vue';
 	import './water.scss';
+    import http from '../../utils/httpClient.js';
+
 	import loading from '../loading/loading.vue';
 	Vue.component('loading', loading)
 
@@ -79,11 +81,42 @@
         	careTip : false,
       	};
     },
+    mounted: function(){
+        var id = this.$store.state.idRoom.id;
+        this.gameResult(id)
+    },
     methods:{
     	more(){
     		this.seen =!this.seen;
-    	}
-    	//查看详情
+    	},
+        gameResult (id) { // 先获取一波所有的游戏结果
+            var self = this;
+            http.post( '/GameLog/getData', {
+                        roomid: id,
+                    },'',this)
+                .then(res => {
+                    console.log(res.data)
+                    if(res.status == 1){
+                        var zWater = 0; // 庄总分
+                        var waterList = [];
+                        self.$store.state.data.listOver = res.data;
+                        self.$store.state.data.juAll = res.data.length;
+                        res.data.forEach((item,idx)=>{
+                            waterList.push([])    // 插入
+                            item.DRs.forEach(xitem=>{
+                                waterList[idx].push({
+                                    name : xitem.zc_name,   // 名字
+                                    water: xitem.zn_process,  // 分数流水
+                                    wFen : xitem.zn_points_give,  // 抽水分数
+                                    fen : xitem.zn_points_left, // 结余分数
+                                    fraction : xitem.zn_points_total, // 剩余分数
+                                })
+                            })
+                        })
+                        console.log(waterList)
+                    }
+                })
+        },
     	
   	}
 	};

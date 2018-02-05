@@ -32,7 +32,7 @@
                 <!-- 单聊 -->
                 <li v-for="(data, idx) in (roomstatus == 2 || roomstatus == 1 ? $store.state.txt : '')" 
                 :class="$store.state.txt_idx[idx] >=0 ? 'left' : 'right'"   :key = '$store.state.txt_time[idx]' v-if='data != ""'>
-                    <img src="/dist/chart_Room2.png" alt="">
+                    <img :src="$store.state.txt_idx[idx] >=0 ? '/dist/home_head.png':'/dist/room03.png'" alt="">
                     <div class="test">
                         <span class="bot"></span>
                        {{data}}
@@ -43,8 +43,8 @@
             <ul v-if='roomstatus == 3'>
                 <!-- 群聊 -->
                 <li v-for="(data, idx) in (roomstatus == 3 ? $store.state.txt : '')" 
-                :class="$store.state.txt_idx[idx] >=0 ? 'left' : 'right'"   :key = '$store.state.txt_time[idx]'>
-                    <img src="/dist/chart_Room2.png" alt="">
+                :class="$store.state.txt_idx[idx] >=0 ? 'left' : 'right'"   :key = '$store.state.txt_time[idx]' v-if='data != ""'>
+                    <img :src="$store.state.txt_idx[idx] >=0 ? '/dist/home_head.png':'/dist/room03.png'" alt="">
                     <div class="test">
                         <span class="bot"></span>
                        {{data}}
@@ -203,11 +203,13 @@
             }
             .left{
                 img{
-                    float:left;
+                    float: left;
+                    width: 1.388889rem;
+                    height: 1.435185rem;
                 }
                 .test{
                     background-color:white;
-                    float:left;
+                    float: left;
                     left:0.462963rem;
                     top:0.277778rem;
                 }
@@ -220,12 +222,14 @@
             .right{
                 color: white;
                 img{
-                    float:right;
+                    float: right;
+                    width: 1.388889rem;
+                    height: 1.435185rem;
                 }
                 .test{
                     background-color:#07AD05;
                     bottom:-0.185185rem;
-                    float:right;
+                    float: right;
                     right:0.277778rem;
                 }
                 .test span.bot{
@@ -369,7 +373,7 @@
                 txt: '',            // 发送产生的文本
                 id: localStorage.oxUid,   //个人id（单聊）
                 sheId: 0,                 // 对方id（单聊）
-                shename: '网络不好暂时无法显示',// 对方名字（单聊）
+                shename: '网络延迟暂时无法显示',// 对方名字（单聊）
                 toid: 0,                        // 对方的uid
                 careTip : false,    // 提示窗
                 errorTips: '',      // 错误提示
@@ -395,9 +399,7 @@
                 this.zn_chatid = params[4];     // 群聊id
                 this.chartList = `/chartList/${this.$route.params.id}`; // 群聊列表
                 qunliao()
-
-            } 
-
+            }
             else if(params[0] == 2 || params[0] == 1){    //  个人
                 if (params[1] > 12345) {    // 群聊室找群主的
                     this.roomNum = params[1];       // 房间号
@@ -424,10 +426,10 @@
             
             function qunliao() {
                 self.list()                                 // 请求群员
-                 
                 var a = JSON.parse(localStorage.oxQun)
                 if(!a[`${self.zn_chatid}`]){
                     a[`${self.zn_chatid}`] = {}
+                    self.textPush() // 先发送一波
                 }
                 localStorage.oxQun = JSON.stringify(a)
                 self.$store.state.txt = JSON.parse(localStorage.oxQun) || '';
