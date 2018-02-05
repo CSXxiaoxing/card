@@ -233,11 +233,13 @@ Vue.component('loading', loading)
                 18 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
                 19 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
             },
-            // unshift
             index : [19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2, 1]
           }
         },
         props: ['prizeNum'],
+        mounted: function(){
+            console.log(this.$store.state.data.listOver)
+        },
         methods: {
             // 倒序inverted
             inverted : function(){
@@ -248,16 +250,7 @@ Vue.component('loading', loading)
                 };
                 console.log(length(this.bureau));
             },
-            getResult(){
-                var self = this;
-                http.post('/GameLog/getData',{
-                    roomid : this.$store.state.idRoom.room_id,
 
-                })
-                .then(res =>{
-                    
-                })
-            }
         }
     }
 </script>

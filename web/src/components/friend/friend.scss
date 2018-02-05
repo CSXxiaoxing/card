@@ -86,7 +86,7 @@
                         font-size: 0.407407rem;
                         border-bottom: 0.018519rem solid #CACACA;
                         span:nth-of-type(1) {
-                            display: inline-block;
+                            display: inline-block; 
                             height: 1.342593rem;
                             width: 1.305556rem;
                             background: $roomAll -4.166667rem -3.703704rem no-repeat;
@@ -139,16 +139,24 @@
                     display: none;
                 } 
             }
-            li.show { 
+            li.show {
                 height: 9.444444rem;
                 max-height: 9.444444rem;
                 margin-top: -0.425926rem;
-                transition: height 2s;
+                -webkit-transition: all 2s;
+                   -moz-transition: all 2s;
+                    -ms-transition: all 2s;
+                     -o-transition: all 2s;
+                        transition: all 2s;
             }
             li.hide {
                 height: 0;
                 margin-top: 0;
-                transition: all 2s;
+                -webkit-transition: all 2s;
+                   -moz-transition: all 2s;
+                    -ms-transition: all 2s;
+                     -o-transition: all 2s;
+                        transition: all 2s;
             }
             li:nth-of-type(2n-1) {
                 height: 1.851852rem;
@@ -284,7 +292,7 @@
                 }
 
                 .fri{
-                            width: 100%;
+                    width: 100%;
                     span{
                             display: inline-block;
                             height: 0.888889rem;
