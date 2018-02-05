@@ -247,6 +247,16 @@ Vue.component('loading', loading)
                     return count;
                 };
                 console.log(length(this.bureau));
+            },
+            getResult(){
+                var self = this;
+                http.post('/GameLog/getData',{
+                    roomid : this.$store.state.idRoom.room_id,
+
+                })
+                .then(res =>{
+                    
+                })
             }
         }
     }
