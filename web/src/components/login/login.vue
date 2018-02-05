@@ -547,8 +547,8 @@
 					}, '', this )
 					.then(res => {
 						console.log(res)
-						router.push({name: 'home'});
 						if(res.status == 1){
+							router.push({name: 'home'});
 							localStorage['oxToken'] = res.data.token;
 							localStorage['oxUid'] = res.data.uid;
 							localStorage['oxName'] = res.data.member_info.nickname;

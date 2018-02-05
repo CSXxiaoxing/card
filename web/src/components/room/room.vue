@@ -182,8 +182,8 @@
 
 
             <div class='right'>
-                <ul>
-                    <li v-for='player in $store.state.data.Room["id"]' v-if='fanzhuID != player.zn_member_id'>
+                <ul @click='speak'>
+                    <li v-for='player in $store.state.data.Room["id"]' v-if='fanzhuID != player.zn_member_id' :id='player.zn_member_id'>
                         <div>
                             <img src="/dist/roomK03.png" alt="" />
                             <img src="/dist/roomPage04.png" alt="" />
@@ -476,6 +476,7 @@
                 }
                 switch(Number(data.type)){
                     case 1 :                            // 通知有人加入
+                        console.log(data)
                         self.list()  // 更新成员
                         break;
                     case 2 :                            // 通知房主有人加入
@@ -486,6 +487,7 @@
                         router.push({name: 'home'});
                         break;
                     case 5 :                            // 通知有人分数变化
+                        console.log(data)
                         self.init.totalFen = data.totalPoints;
                         self.list()  // 更新分数
                         break;
@@ -827,6 +829,9 @@
                         this.daoTime ()     // 倒计时
                         this.init.juCount++;  // 庄局数
                         this.$store.state.data.juAll++; // 总局数累加
+                        if(this.$store.state.idRoom == 1){
+                            this.$store.state.data.juAll--;
+                        }
                     break;
                     case 2 :
                         this.bank ()        // 随机选庄
@@ -960,6 +965,16 @@
 
 
                 pageTimer["timer06"] = setInterval(()=>{
+                    if(self.init.time == 2){
+                        var ju = self.$store.state.idRoom.ju
+                        if(ju != null && ju >= 0 && Number(self.init.juCount) >= Number(ju)){ // 庄家局数够时
+                            self.host.allType = 0;
+                            self.init.juCount = 0;  // 当场游戏局数清0
+                            if(self.$store.state.data.Zlist[0] != undefined && self.$store.state.idRoom.ForT == 1){
+                                self.shangZ()
+                            } // 庄列表查询，有人则自动切换
+                        }
+                    }
                     if(self.init.time >= 1){
                         self.init.time-- ;
                     } else {
@@ -970,27 +985,25 @@
                             self.init.textStyle = 0;
                             self.roomStyle(1)
                         }
+
                         clearInterval(pageTimer["timer06"]);
                     }
 
-                    if(self.$store.state.idRoom.ju != '' && Number(self.init.juCount) >= Number(self.$store.state.idRoom.ju)){ // 庄家局数够时
-                        self.host.allType = 0;
-                        self.init.juCount = 0;  // 当场游戏局数清0
-                        if(self.$store.state.data.Zlist[0] != undefined && self.$store.state.idRoom.ForT == 1){
-                            self.shangZ()
-                        } // 庄列表查询，有人则自动切换
-                    }
+                    
                 }, 1000)
             },
             shangZ () {
                 var self = this;
-                http.post( '/RoomJoin/applyfor', { // 直接下一个上庄
+                http.post( '/RoomJoin/setMakers', { // 直接下一个上庄
                             roomid: self.$store.state.idRoom.id,
                             id: self.$store.state.data.Zlist[0].zn_member_id || 0,
+                            type: 1,  // 1为设置庄家，2为下庄
                         })
                     .then(res => {
                         if(res.status == 0){
                             self.shangZ()
+                        } else if(res.status == 1){
+                            self.roomStyle(2); 
                         }
                     })
             },
@@ -1105,13 +1118,14 @@
                     zn_member_id: localStorage.oxUid,   // 用户id
                     zn_points_total: 0,     // 房间总分
                     zn_room_id: idRoom.id,  // 房间id
-                    zc_is_boss: self.init.ForZ == 1 ? 1 : 2,
+                    zc_is_boss: self.init.ForZ == 1 ? 1 : 2,    // 是否为庄
                     zn_number: self.$store.state.data.juAll,     // 总游戏局数
                     zn_points_give: self.init.ForZ == 1 ? obj.sF : 0,     // 抽水分数
                     zn_points_left: self.init.ForZ == 1 ? Number(obj.fen)+Number(obj.zfen) : Number(obj.fen)+Number(obj.syfen),  // 结余分数
                     zc_result: JSON.stringify(ox), // 压牌结果
                     zn_few: obj.yapai,  // 第几副牌ox.join("")
                     zc_name: localStorage.oxName,   // 用户昵称
+                    zn_process: self.init.ForZ == 1 ? obj.zfen : obj.syfen, // 流水分数
                 })
                 .then(res => {
                 })
@@ -1124,8 +1138,6 @@
                 self.init.totalFen = 0; // 计算总分前清零
                 for(var i in online){
                     self.init.totalFen += Number(online[i].zn_points)    // 房总分计算
-                    
-
                     if(!self.$store.state.data.Room[fanid+'id']){
                         self.$store.state.data.Room[fanid+'id'] = [];
                     }
@@ -1207,6 +1219,27 @@
                     router.push({path: `/chartRoom/[1,${this.$store.state.idRoom.room_id},${zid},1,"找房主的人",${this.$store.state.idRoom.id}]`});
                     this.$store.state.data.zhaoFZ.shift()
                 }
+            },
+            speak (e) {   // 点击加减分
+                let Etar = e.target;
+                var self=this;
+                var Tar = () => {
+                    var EtarName = Etar.nodeName.toLowerCase();
+                    if(EtarName == 'li'){
+                        var nodeValue = Etar.attributes["id"].nodeValue;
+                        if(self.$store.state.idRoom.ForT == 1) {    // 房主才可以
+                            router.push({path: `/chartRoom/[1,${self.$store.state.idRoom.room_id},${nodeValue},1,"找房主的人",${self.$store.state.idRoom.id}]`});
+                        }
+                        return false;
+                    } else if(EtarName == 'body'){
+                        return false;
+                    } else {
+                        Etar = Etar.parentElement;
+                        Tar();
+                    }
+                };
+                Tar();
+                
             },
             applyList () {  // 庄申请人列表
                 var self = this;
