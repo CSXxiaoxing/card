@@ -110,6 +110,7 @@
                                     wFen : xitem.zn_points_give,  // 抽水分数
                                     fen : xitem.zn_points_left, // 结余分数
                                     fraction : xitem.zn_points_total, // 剩余分数
+                                    ForZ : xitem.zc_is_boss,  // 庄时1，普通玩家是2
                                 })
                             })
                         })
