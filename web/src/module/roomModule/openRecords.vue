@@ -5,7 +5,7 @@
         popup-transition="popup-fade"
         class="openRecords" :class = 'cardNum == 0 ? "five":"seven" '>
 
-            <h3>开奖记录<i @click='onprize = false'></i></h3>
+            <h3 @click="getChange()">开奖记录<i @click='onprize = false'></i></h3>
             
             <table  cellspacing="0" class='bel1'>
                 <thead>
@@ -212,32 +212,16 @@ Vue.component('loading', loading)
             loading: false,     // loading
             onprize : false,
             cardNum : this.$store.state.idRoom.cardFn,
-            bureau : {
-                1 : ['牛二', '牛3', '牛二', '牛二', '牛二'],
-                2 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                3 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                4 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                5 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                6 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                7 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                8 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                9 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                10 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                11 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                12 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                13 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                14 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                15 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                16 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                17 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                18 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                19 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-            },
+            bureau : [],
+            cardResult : [],
             // unshift
-            index : [19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2, 1]
+            index : []
           }
         },
         props: ['prizeNum'],
+        mounted: function(){
+            
+        },
         methods: {
             // 倒序inverted
             inverted : function(){
@@ -248,15 +232,17 @@ Vue.component('loading', loading)
                 };
                 console.log(length(this.bureau));
             },
-            getResult(){
+            //获取记录并转换
+            getChange(){
                 var self = this;
-                http.post('/GameLog/getData',{
-                    roomid : this.$store.state.idRoom.room_id,
-
-                })
-                .then(res =>{
-                    
-                })
+                self.bureau = self.$store.state.data.listOver;
+                console.log(self.bureau);
+                for(let i in self.bureau){
+                    self.cardResult.push({
+                        card : self.bureau[i].zc_result,
+                    })
+                }
+                console.log(self.cardResult);
             }
         }
     }

@@ -1238,8 +1238,7 @@
                         Tar();
                     }
                 };
-                Tar();
-                
+                Tar();              
             },
             applyList () {  // 庄申请人列表
                 var self = this;
