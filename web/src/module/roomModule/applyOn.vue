@@ -55,7 +55,7 @@
         <span>{{this.$store.state.data.apptype == 0 ? "申请上庄" : "取消上庄"}}<i @click="applyOn = false">×</i></span>
 
         <p>当前设置连庄 :
-            <b>{{this.$store.state.idRoom.ju == '' ? zhuanNum : this.$store.state.idRoom.ju}}局</b>
+            <b>{{this.$store.state.idRoom.ju > 0 ? this.$store.state.idRoom.ju+"局" : "暂未设定局数"}}</b>
         </p>
 
         <p>上庄最低分数 :<b>{{this.$store.state.idRoom.minGrade}}</b></p>
@@ -79,7 +79,7 @@
                 房 主 抽 水 分 数 : <b>{{allWater}}</b>
             </li>
         </ul>
-        <mt-button @click="details = false">重新开局</mt-button>
+        <mt-button @click="newRoom">重新开局</mt-button>
         <span>( 重新开始，房间局数，开奖记录。流水报表和抽水分数都将清零。房间成员分数保持不变)</span>
     </mt-popup>
     <loading v-if='loading'></loading>
@@ -556,6 +556,7 @@
                 makernumber: self.zhuanNum,  // 轮庄局数
             })
             .then(res => {
+                console.log(res)
                 if(res.status == 0){
                     self.$parent.errorTips = res.msg;
                     self.$parent.careTip = true;
@@ -583,6 +584,23 @@
                 this.zhuanList[1] = this.$store.state.data.Zlist[this.sel]['zn_member_id'];
             }
             this.details01 = false
+        },
+        newRoom () {    // 重新开局
+            var self = this;
+            var id = self.$store.state.idRoom.id;
+            http.post('/Room/reGame',{
+                roomid: id, // 房间id
+            })
+            .then(res => {
+                console.log(res)
+                self.details = false
+                if(res.status == 0){
+                    self.$parent.errorTips = res.msg;
+                    self.$parent.careTip = true;
+                } else if(res.status == 1){
+                    self.$parent.gameResult(id);
+                }
+            })
         },
     }
   };

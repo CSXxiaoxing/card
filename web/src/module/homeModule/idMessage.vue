@@ -5,10 +5,10 @@
     popup-transition="popup-fade"
     class="mess">
     <img src="/dist/module_home_id1.png" height="222" width="238" alt="">
-    <p>迷糊的诗诗<br>ID:755693</p>
+    <p>会员<br>ID:755693</p>
     <i v-on:click="idMessage = false"></i>
     <mt-button type="primary"  @click="loginOut">
-        更换账号
+        退出登录
     </mt-button>
   </mt-popup>
   <loading v-if='loading'></loading>
@@ -94,21 +94,25 @@
       }
     },
     methods: {
-        loginOut(){   //登出
-          var self =this;
-          http.post('/Member/login_out',
+        loginOut(){   // 退出
+            var self =this;
+            http.post('/Member/login_out',
             {
-              token: localStorage.oxToken,
-              uid: localStorage.oxUid,
+                token: localStorage.oxToken,
+                uid: localStorage.oxUid,
             })
-          .then(res => {
-              if(res.status == 1){
-                localStorage.removeItem('oxToken')
-                self.a = 0;
-                self.idMessage = false
-                router.push({name: 'login'});
-            }
-          })
+            .then(res => {
+                console.log(res)
+                if(res.status == 1){
+                    localStorage.removeItem('oxToken')
+                    self.a = 0;
+                    self.idMessage = false
+                    router.push({name: 'login'});
+                } else if(res.status == 2){ // token失效
+                    localStorage.removeItem("oxToken")
+                    router.push({name: 'login'});
+                }
+            })
         }
       }
    }

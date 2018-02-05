@@ -599,7 +599,6 @@
                     }, 2300)
                 }
             },
-            
             gameStyle(){       // 游戏执行--开始
                 let Etxt = this.host.allType;
                 this.host.style = false;
@@ -611,7 +610,7 @@
                     self.errorTips = '庄家分数低于最低上分数要求,游戏暂停。';
                     self.careTip = true;
                 }
-                if(Etxt == 1){
+                if(Etxt == 0){
                     this.roomStyle(1);      // 游戏暂停
                 }
                 
@@ -624,8 +623,6 @@
                 this.clearGameStyle()            
                 if(this.host.allType == 1){     // 游戏状态允许
                     this.gameStart(1);         // 执行游戏
-                    this.init.juCount++;  // 庄局数
-                    this.$store.state.data.juAll++; // 总局数累加
                 }
             },
             clearStyle(){       // 清除游戏余留状态
@@ -828,6 +825,8 @@
                 switch (type) {
                     case 1 :
                         this.daoTime ()     // 倒计时
+                        this.init.juCount++;  // 庄局数
+                        this.$store.state.data.juAll++; // 总局数累加
                     break;
                     case 2 :
                         this.bank ()        // 随机选庄
@@ -1003,7 +1002,6 @@
                 let db = this.$store.state.idRoom.oxNumber;  // 投注倍率
                 let oxK = this.init.oxK;       // 比什么
                 let maxValEng = [];           // 最终结果
-                
                 // 输赢计算
                 ki(idx)
                 function ki(i){
@@ -1039,8 +1037,10 @@
                 var water = this.$store.state.idRoom.scale; // 抽水比例
                 var zFenAll = 0;    // 庄的输赢总分
                 var fenAll = 0;     // 普通玩家输赢总分
+                var yapai = []; // 压第几副牌
                 for(var i=0; i<7; i++) {
                     if(ya[i][2] > 0){
+                        yapai.push(i)
                         fenAll += ya[i][2]
                         if(maxValEng[i] == 1){
                             fenAll += (ya[i][1])*1 + (ya[i][0])*(db[ox[i]*1]*1)     // 闲赢
@@ -1059,6 +1059,7 @@
                     }
                 }
                 var obj = {}    // 资料储存
+                obj["yapai"] = yapai.join("");
                 obj['fen'] = this.win.fen // 自己的分数
                 obj['syfen'] = fenAll // 这轮输赢的分数
                 obj['zfen'] = zFenAll // 庄这轮的输赢分数
@@ -1097,8 +1098,9 @@
             },
             gameO (obj) {   // 存储游戏结果
                 var self = this;
-                var ox = this.cardURL.resultNum    // 牛结果数字化
+                var ox = this.cardURL.resultNum.slice(0,7)    // 牛结果数字化
                 var idRoom = this.$store.state.idRoom
+                console.log(ox)
                 http.post('/GameLog/createGameLog',{
                     zn_member_id: localStorage.oxUid,   // 用户id
                     zn_points_total: 0,     // 房间总分
@@ -1107,9 +1109,9 @@
                     zn_number: self.$store.state.data.juAll,     // 总游戏局数
                     zn_points_give: self.init.ForZ == 1 ? obj.sF : 0,     // 抽水分数
                     zn_points_left: self.init.ForZ == 1 ? Number(obj.fen)+Number(obj.zfen) : Number(obj.fen)+Number(obj.syfen),  // 结余分数
-                    zn_few: JSON.stringify(0),  // 第几副牌
+                    zc_result: JSON.stringify(ox), // 压牌结果
+                    zn_few: obj.yapai,  // 第几副牌ox.join("")
                     zc_name: localStorage.oxName,   // 用户昵称
-
                 })
                 .then(res => {
                 })

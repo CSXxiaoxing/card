@@ -53,7 +53,8 @@
 	        </label>
 	        <label @click='[(find = true),(type = 2)]' >忘记密码？点击找回！</label>
 	        <hr/>
-		    <span @touchend="input(2)">确定</span>
+		    <span @click="input(2)">确定</span>
+		    <!-- <span @touchend="input(2)">确定</span> -->
 		    <!-- @touchend="phone = false" -->
 		</mt-popup>
 
@@ -164,8 +165,7 @@
 		height: 100%;
 		width: 100%;
 		background: $login02 no-repeat;
-		background-size: 10.0rem 17.777778rem;
-		background-position: center;
+		background-size: 100%;
 		@mixin spans {
 			width: 5.166667rem;
 			height: 1.268519rem;
@@ -237,16 +237,16 @@
 
 		.haveuser{
 			span:nth-of-type(1){
-				position:absolute;
+				position: absolute;
+				bottom: 5rem;
 				font-size: 0.555556rem;
 				-webkit-transform: translate(-50%, 0);
 				   -moz-transform: translate(-50%, 0);
 				    -ms-transform: translate(-50%, 0);
 				     -o-transform: translate(-50%, 0);
 				        transform: translate(-50%, 0);
-				bottom: 5rem;
 				b{
-					text-decoration:underline;
+					text-decoration: underline;
 					color:#16942A;
 					font-weight: normal;
 				}
@@ -284,17 +284,45 @@
 			background-size: 5.555556rem 5.555556rem;
 		}
 		span:last-child:active{ @include min-active; }
-		label{  @include label;  }
+		label{
+		 	@include label; 
+			width: 100%;
+			span{width: 26%;}
+			input{
+				width: 70%;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				-ms-box-sizing: border-box;
+				-o-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+		}
 		label:nth-of-type(4){ 
 			padding-bottom: 0.296296rem; 
 			border-bottom: 0.027778rem solid #D4D4D4;
 			margin-bottom: 0.333333rem;
 			position: relative;
 			input{
-				width: 3.055556rem;
+				width: 2.8rem;
 				margin-right: 0.111111rem;
 			}
-			i {	  @include i;   }
+			i {
+				font-style: normal;
+				font-size: 0.333333rem;
+				color: #fff;
+				border-radius: 0.240741rem;
+				display: inline-block;
+				line-height: 0.851852rem;
+				height: 0.851852rem;
+				width: 30%;
+				position: absolute;
+				top: 0.16rem;
+				right: -0.04rem;
+				text-align: center;
+				background: $login04 no-repeat;
+				background-size: 100% 100%;
+
+			}
 		}
 		b{	@include b;  }
 	}
@@ -302,6 +330,10 @@
 		width: 8.666667rem;
 		height:7.037037rem;
 		padding: 0.37037rem 0.37037rem 0.388889rem 0.62963rem;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		-o-box-sizing: border-box;
 		box-sizing: border-box;
 		border-radius: 0.277778rem;
 		h4{		@include h4;	}
@@ -326,11 +358,17 @@
 		span:last-child:active{ @include min-active; }
 		label{
 			@include label;
+			span{
+				width: 26%;
+			}
+			input{
+				width: 60%;
+			}
 			margin: 0.222222rem 0.0rem;
 		}
 		label:nth-of-type(3){
 			padding-right: 0.703704rem;
-			text-align:right;
+			text-align: right;
 			color:#3DC93C;
 			font-size:0.388889rem;
 			text-decoration:underline;	
@@ -345,9 +383,16 @@
 	.find {
 		width: 8.666667rem;
 		padding: 0.37037rem 0.37037rem 0.388889rem 0.62963rem;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		-o-box-sizing: border-box;
 		box-sizing: border-box;
 		border-radius: 0.277778rem;
-		h4{		@include h4;	}
+		h4{		
+			@include h4;
+			margin-bottom: 0.185185rem;
+		}
 		span:last-child{
 			display: inline-block;
 			color: #fff;
@@ -366,15 +411,32 @@
 		span:last-child:active{ @include min-active; }
 		label{
 			@include label;
-			margin: 0.296296rem 0.0rem;
+			padding: 0.296296rem 0.0rem;
 		}
 		label:nth-of-type(2){ 
 			position: relative;
+			padding: 0;
+			margin: 0.296296rem 0rem;
 			input{
-				width: 3.055556rem;
+				width: 2.8rem;
 				margin-right: 0.111111rem;
 			}
-			i {	  @include i;   }
+			i {
+				font-style: normal;
+				font-size: 0.333333rem;
+				color: #fff;
+				border-radius: 0.240741rem;
+				display: inline-block;
+				line-height: 0.851852rem;
+				height: 0.851852rem;
+				width: 30%;
+				position: absolute;
+				top: -0.02rem;
+				right: 0rem;
+				text-align: center;
+				background: $login04 no-repeat;
+				background-size: 100% 100%;
+			}
 		}
 
 		b{	@include b;  }
@@ -413,11 +475,27 @@
 			}
 		},
 		mounted: function(){
+			var self = this;
 			if(localStorage.oxToken){
 				this.a = 1;
 			} else {
 				this.a = 0;
 			}
+
+			// function myrefresh(){ 
+			// 	window.location.reload(); 
+			// }
+			// this.$store.state.self.shuaxin = 1
+			// myrefresh()
+			function reurl(){
+				var url = location.href; //把当前页面的地址赋给变量 url
+				var times = url.split("?"); //分切变量 url 分隔符号为 "?"
+				if(times[1] != 1){ //如果?后的值不等于1表示没有刷新
+				url += "?1"; //把变量 url 的值加入 ?1
+					window.location.replace(url); //刷新页面
+				}
+			}
+			onload = reurl
 		},
 		methods: {
 			local () {
@@ -449,48 +527,46 @@
 				}
 				if(type == false) {
 					txtErr()
-					return false;
 				} else {
-					switch (n) {
-						case 2 :
-							self.loging();
-							break;
-						case 3 :
-							self.findPassword();
-							break;
-						case 4 :
-							self.zhuCe();
-							break;
+					if(n == 2) {
+						self.loging();
+					}
+					if(n == 3) {
+						self.findPassword();
+					}
+					if(n == 4) {
+						self.zhuCe();
 					}
 				}
 			},
 			loging() {		//登录
 				var self = this;
 				http.post( '/Member/login', {
-						mobile: self.cell,
-						password: self.password
+						mobile: Number(self.cell),
+						password: Number(self.password)
 					}, '', this )
 					.then(res => {
+						console.log(res)
+						router.push({name: 'home'});
 						if(res.status == 1){
 							localStorage['oxToken'] = res.data.token;
 							localStorage['oxUid'] = res.data.uid;
 							localStorage['oxName'] = res.data.member_info.nickname;
 							// 注册信号为true
-							if(self.zhuceType){
-								var options2 = { 
-								    username: 'hz_niuniu_'+localStorage.oxUid,
-								    password: '123456',
-								    nickname: localStorage.oxName+'cc_10086',
-								    appKey: WebIM.config.appkey,
-								    success: function () { 
-								        console.log('注册成功')
-								    },  
-								    error: function () { }, 
-								    apiUrl: WebIM.config.apiURL
-								}; 
-								conn.registerUser(options2);
-							}
-							router.push({name: 'home'});
+							var options2 = { 
+							    username: 'hz_niuniu_'+localStorage.oxUid,
+							    password: '123456',
+							    nickname: localStorage.oxName+'cc_10086',
+							    appKey: WebIM.config.appkey,
+							    success: function () { 
+							        console.log('注册成功')
+							    },  
+							    error: function () {
+							    	console.log('注册失败')
+							    },
+							    apiUrl: WebIM.config.apiURL
+							}; 
+							conn.registerUser(options2);
 						} else {
 							self.errorTips = res.msg;
 							self.careTip = true;

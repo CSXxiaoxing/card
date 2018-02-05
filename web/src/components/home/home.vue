@@ -169,7 +169,7 @@
 	                    p 		 : self.$store.state.data.DTpage,
 	                }, '',this)
 	                .then(res => {
-	                	console.log(res)
+	                	// console.log(res)
 	                	if(res.status == 1){
 	                	var arr = [];
 	                	var dtid = self.$store.state.data.DTid;
@@ -194,6 +194,9 @@
 	                    }
 
 	                    self.$store.state.data.DTtime = VX_time;
+	                	} else {
+	                		self.errorTips = res.msg;
+	                		self.careTip = true;
 	                	}
 	                });
 
