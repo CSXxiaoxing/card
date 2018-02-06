@@ -9,9 +9,7 @@
             <p>找不到该用户</p>
             <mt-button @click="careTip = false">  确定
             </mt-button>
-        </mt-popup >
-
-        
+        </mt-popup>
         <!-- 查找好友 -->
         <mt-popup 
           v-model="addFriend"
@@ -25,7 +23,6 @@
           <mt-button @click="searchFriend()">  搜索
           </mt-button>
         </mt-popup >
-
         <!-- 好友信息 -->
         <mt-popup 
           v-model="findFriend"
@@ -33,7 +30,7 @@
           class="findFriend" >
           <div>
              <i v-on:click="findFriend = false">×</i>
-            <img src="/dist/friend1.png" alt="">
+            <img src="../../img/friend1.png" alt="">
             <ul>
                 <li>{{friendName}}</li>
                 <li> id : {{friendId}}</li>
@@ -42,7 +39,6 @@
           <mt-button @click="findFriend = false ,applyFriend() ">  添加
           </mt-button>
         </mt-popup >
-
         <!-- 请求已经发送 -->
         <mt-popup 
           v-model="sendFriend"
@@ -55,7 +51,6 @@
           <mt-button @click="sendFriend = false"> 确定
           </mt-button>
         </mt-popup >
-        
         <!--备注好友-->
         <mt-popup 
             v-model="markFriend"
@@ -161,7 +156,8 @@
                 </li>
                 <li :class='arrows == 3 ? "show" : "hide"'>
                     <dl>
-                        <dd v-for='(friends,fquest) in friendList' :key='fquest'>
+                        <dd v-for='(friends,fquest) in friendList' 
+                        :key='friends.id' @click='liaotian'>
                             <span @touchend='friQuest = fquest' @click='deleFriend = true'><i></i></span>
                             <span>{{friends.mname}}</span>
                             <span @touchend='friQuest = fquest' @click='markFriend =true'><i></i>备注</span>
@@ -272,6 +268,9 @@
 
         },
         methods: {
+            liaotian() {    // 点击好友聊天 zid玩家id
+                router.push({path: `/chartRoom/[2,10086,950,1,"一起聊天呀"`});
+            },
             newWord() {
                 if(this.arrows == 1) {
                     this.arrows = 0;

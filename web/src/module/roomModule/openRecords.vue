@@ -3,15 +3,15 @@
     <mt-popup
         v-model="onprize"
         popup-transition="popup-fade"
-        class="openRecords" :class = 'cardNum == 0 ? "five":"seven" '>
+        class="openRecords" :class = '$store.state.idRoom.cardFn == 5 ? "five":"seven" '>
 
             <h3 >开奖记录<i @click='onprize = false'></i></h3>
             
             <table  cellspacing="0" class='bel1'>
                 <thead>
                     <tr>
-                        <th colspan="">局数</th>
-                        <th :colspan="prizeNum">点数</th>
+                        <th>局数</th>
+                        <th>点数</th>
                     </tr>
                 </thead>
             </table>
@@ -20,10 +20,11 @@
                 <tbody>
                     <tr v-for='(obj, inx) in $store.state.data.listOver'>
                         <td>第 {{$store.state.data.listOver.length-inx}} 局</td>
-                        <td :class='(num)==obj.zzz ?"red":""'
-                            v-for='(data,num) in obj.ox'
-                            v-if="$store.state.idRoom.cardFn == 5 ? num != 2 && num != 6 && num!=7 : true && num!=7 " 
-                            >{{oox[data == 99 ? '11':data]}}</td>
+                        <td v-for='(data,num) in obj.ox' 
+                        :class='[((num)==obj.zzz ?"yellow":""),
+                        (obj.few != 0 ? (obj.few.indexOf(num>2 ? num+2 : num+1) >=0 ? "red" :"") : "") ]' >
+                            {{oox[data == 99 ? oox['11']: data]}}
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -32,7 +33,7 @@
     <loading v-if='loading'></loading>
     </div>
 </template>
-<!-- cellspacing="0" -->
+<!-- cellspacing="0"// position: sticky; -->
 <style lang='scss' scoped>
      // position: sticky;
      @import '../../utils/baseVar.scss';
@@ -42,6 +43,7 @@
      td.yellow{
         color:#F2D923;
      }
+
     .openRecords.five{
         height:11.296296rem;
         width: 9.555556rem;
@@ -72,9 +74,10 @@
             width: 100%;
             overflow-y: auto;
             // overflow-x: hidden;
-            max-height: 14.0rem;
+            max-height: 13.0rem;
             // overflow: auto;
             position: relative;
+            // padding-bottom: 20px;
         }
         .roll::-webkit-scrollbar {
             display: none;
@@ -114,10 +117,15 @@
         }
         table.bel1{
             border-bottom: 0 none;
+            th:nth-of-type(1){
+            width: 2.648148rem;
+                
+            }
         }
         table.bel2{
             border-top: 0 none;
             tr:nth-of-type(1){
+                width: 2.648148rem;
                 margin-top: -0.009259rem;
                 td{
                     border-top: 0 none;
@@ -125,7 +133,6 @@
             }
         }
     }
-
     .openRecords.seven{
         height:11.296296rem;
         width: 9.555556rem;
@@ -198,10 +205,14 @@
         }
         table.bel1{
             border-bottom: 0 none;
+            th:nth-of-type(1){
+                width: 2.648148rem;
+            }
         }
         table.bel2{
             border-top: 0 none;
             tr:nth-of-type(1){
+                width: 2.648148rem;
                 margin-top: -0.009259rem;
                 td{
                     border-top: 0 none;
@@ -230,7 +241,6 @@ Vue.component('loading', loading)
             oox: ['没牛','牛一', '牛二', '牛三', '牛四', '牛五', '牛六', '牛七', '牛八', '牛九', '牛牛', '五花牛'],
           }
         },
-        props: ['prizeNum'],
         mounted: function(){
         },
         methods: {

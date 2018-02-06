@@ -40,15 +40,29 @@
         header {
             height: 1.87037rem;
             padding: 1.018519rem 0.277778rem 0.0rem;
-            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+               -moz-box-sizing: border-box;
+                -ms-box-sizing: border-box;
+                 -o-box-sizing: border-box;
+                    box-sizing: border-box;
             background: #2F2E34;
             color: #fff;
             ul {
                 height: 0.796296rem;
                 line-height: 0.796296rem;
+                display: -webkit-flex;
+                display: -moz-flex;
+                display: -ms-flex;
+                display: -o-flex;
                 display: flex;
+
                 padding-bottom: 0.037037rem;
-                justify-content: space-between;
+                
+                -webkit-justify-content: space-between;
+                   -moz-justify-content: space-between;
+                    -ms-justify-content: space-between;
+                     -o-justify-content: space-between;
+                        justify-content: space-between;
                 li:nth-of-type(2){
                     text-align: center;
                 }
@@ -61,7 +75,12 @@
                         background-size: 5.555556rem;
                         position: relative;
                         top: 50%;
-                        transform: translate(0, -50%);
+                        
+                        -webkit-transform: translate(0, -50%);
+                           -moz-transform: translate(0, -50%);
+                            -ms-transform: translate(0, -50%);
+                             -o-transform: translate(0, -50%);
+                                transform: translate(0, -50%);
                         a {
                             padding: 0.259259rem 0.37037rem;
                         }
@@ -77,7 +96,11 @@
             padding: 0.25rem 0.37037rem;
             position: relative;
             overflow: hidden;
-            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+               -moz-box-sizing: border-box;
+                -ms-box-sizing: border-box;
+                 -o-box-sizing: border-box;
+                    box-sizing: border-box;
 
             textarea {
                 width: 100%;
@@ -89,7 +112,7 @@
                 -webkit-user-select: none;
                 -moz-user-focus: none;
                 -moz-user-select: none;
-                -webkit-appearance:none;
+                -webkit-appearance: none;
                 outline: none;
                 border: none;
             }
@@ -97,7 +120,11 @@
                 position: absolute;
                 bottom: 0.277778rem;
                 right: 0;
-                transform: translate(-50%, 0);
+                -webkit-transform: translate(-50%, 0);
+                   -moz-transform: translate(-50%, 0);
+                    -ms-transform: translate(-50%, 0);
+                     -o-transform: translate(-50%, 0);
+                        transform: translate(-50%, 0);
             }
             span {
                 color: #06B400;
@@ -142,7 +169,10 @@
             placard(){
                 var vx = this.$store.state.placard;
                 var self = this;
-                http.post( '/RoomJoin/placard' ,{
+                if(self.content==''){
+
+                }else{
+                    http.post( '/RoomJoin/placard' ,{
                     content : self.content,
                     token: localStorage.oxToken,
                     roomid : self.roomid,
@@ -159,6 +189,7 @@
                         }
                     })
                 }
+            }
         }
     }
 </script>

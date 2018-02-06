@@ -57,16 +57,14 @@
                     <span>邀请好友</span>
                 </dd>
                 <dd>
-                    <mt-swipe :show-indicators="false">
-                      <mt-swipe-item>
-                        <i></i><span>房主公告：{{message}}</span>
-                    </mt-swipe-item>
-                      <mt-swipe-item>
-                        <i></i><span>房主公告：{{message}}</span>
-                    </mt-swipe-item>
-                      <mt-swipe-item>
-                        <i></i><span>房主公告：{{message}}</span>
-                    </mt-swipe-item>
+                    <i></i>
+                    <mt-swipe :show-indicators="false" :speed="800" :auto="5000">
+                      
+                        <mt-swipe-item><span>房主公告：{{message}}</span></mt-swipe-item>
+                      
+                        <mt-swipe-item><span>房主公告：{{message}}</span></mt-swipe-item>
+
+                        <mt-swipe-item><span>房主公告：{{message}}</span></mt-swipe-item>
                     </mt-swipe>
                 </dd>
             </dl>
@@ -1332,8 +1330,6 @@
                                 var countEnd = 0; // 有无压判断
                                 if(ForT == 1){  // 房主的开牛记录
                                     countEnd++;
-                                    console.log(JSON.parse(item.DRs[0].zc_result))
-                                    console.log(JSON.parse(item.DRs[0].zc_result)[7])
                                     self.$store.state.data.listOver.push({
                                         ox : JSON.parse(item.DRs[0].zc_result),
                                         few: 0,    // 房主不需要
@@ -1361,7 +1357,13 @@
                                         zzz: JSON.parse(item.DRs[0].zc_result)[7],
                                     })
                                 }
+                                if(self.$store.state.idRoom.cardFn == 5){
+                                    self.$store.state.data.listOver[idx]['ox'].splice(3,1);
+                                    self.$store.state.data.listOver[idx]['ox'].splice(5,1);
+                                    self.$store.state.data.listOver[idx]['ox'].pop();
+                                }
                             })
+
                             self.$store.state.data.listOver = (self.$store.state.data.listOver).reverse();
                             console.log(self.$store.state.data.listOver) // 5牌的时候去掉下标3和6的数据
                             self.host.oxWater = zWater; // 总抽水

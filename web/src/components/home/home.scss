@@ -124,9 +124,9 @@
                 }
             }
         }
-         .auto{
+         p{
             overflow:hidden;
-            p{
+            .auto{
                 border-radius:100px;
                 color: #fff;
                 width:100%;
@@ -327,7 +327,3 @@
         }
     }
 }
-
-// span{
-//     font-size: 50px;
-// }

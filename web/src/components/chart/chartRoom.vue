@@ -19,11 +19,11 @@
                 <li v-show='roomstatus == 3'>聊天室（{{lingth*1+1}}）</li>
                 <li v-show='roomstatus == 3'>
                     <router-link :to="chartList" >
-                    <img src="/dist/chart_Room7.png" alt="">
+                    <img src="../../img/chart_Room7.png" alt="">
                     </router-link>
                 </li>
                 <li  v-show='roomstatus == 1'  @click = 'give == 0 ? give = 1 : give = 0'>给他＋/－分</li>
-                <li v-show='(roomstatus == 1 || roomstatus == 2)&& isfriend == 0'><img src="/dist/chart_Room5.png" alt="">加友</li>
+                <li v-show='(roomstatus == 1 || roomstatus == 2)&& isfriend == 0'><img src="../../img/chart_Room5.png" alt="">加友</li>
                 <li v-show='roomstatus ==2'>{{shename}}</li>
             </ul>
         </header>
@@ -32,7 +32,7 @@
                 <!-- 单聊 -->
                 <li v-for="(data, idx) in (roomstatus == 2 || roomstatus == 1 ? $store.state.txt : '')" 
                 :class="$store.state.txt_idx[idx] >=0 ? 'left' : 'right'"   :key = '$store.state.txt_time[idx]' v-if='data != ""'>
-                    <img :src="$store.state.txt_idx[idx] >=0 ? '/dist/home_head.png':'/dist/room03.png'" alt="">
+                    <img :src="$store.state.txt_idx[idx] >=0 ? '../../img/home_head.png':'../../img/room03.png'" alt="">
                     <div class="test">
                         <span class="bot"></span>
                        {{data}}
@@ -44,7 +44,7 @@
                 <!-- 群聊 -->
                 <li v-for="(data, idx) in (roomstatus == 3 ? $store.state.txt : '')" 
                 :class="$store.state.txt_idx[idx] >=0 ? 'left' : 'right'"   :key = '$store.state.txt_time[idx]' v-if='data != ""'>
-                    <img :src="$store.state.txt_idx[idx] >=0 ? '/dist/home_head.png':'/dist/room03.png'" alt="">
+                    <img :src="$store.state.txt_idx[idx] >=0 ? '../../img/home_head.png':'../../img/room03.png'" alt="">
                     <div class="test">
                         <span class="bot"></span>
                        {{data}}
@@ -65,12 +65,12 @@
         <footer>
 
         	<div v-if='speak == 0'>
-                <img src="/dist/chart_Room1.png" @touchend='speak = 1'>
+                <img src="../../img/chart_Room1.png" @touchend='speak = 1'>
                 <span>按住 说话</span>
             </div>
 
             <div v-if='speak == 1'>
-                <img src="/dist/724876052125097875.png" @touchend='speak = 0'>
+                <img src="../../img/724876052125097875.png" @touchend='speak = 0'>
                 <form action="#">
                   <input type="text" v-model='txt'/>
                   <span @click='textPush'>发送</span>
@@ -401,10 +401,10 @@
                 qunliao()
             }
             else if(params[0] == 2 || params[0] == 1){    //  个人
-                if (params[1] > 12345) {    // 群聊室找群主的
+                if (params[1] > 12345 || params[1] == 10086) {    // 群聊室找群主的或者玩家之间
                     this.roomNum = params[1];       // 房间号
                     this.zn_name = params[4];     // 房间名字
-                    this.sheId = params[2];         // 房主id
+                    this.sheId = params[2];         // 房主id or 玩家聊天
 
                     http.post('/MemberFriend/getFriend',{
                         id : params[2],
@@ -418,7 +418,7 @@
                         self.$store.state.txtType = "hz_niuniu_"+self.sheId;     // 聊天状态头
                         self.textPush() // 先发送一波
                     })
-                };
+                }
             }
             if ( params[0] == 1 || params[0] == 2 ) {   // 确定聊天位置
                 self.$store.state.txt = JSON.parse(localStorage.oxTxtAll)  || '';

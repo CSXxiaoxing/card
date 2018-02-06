@@ -21,12 +21,12 @@
         <div class='list'>
             <ul>
                 <li v-for='(data, player) in datalist' :key='data.id' @click='imgStyle.indexOf(player) >= 0 ? imgStyle.splice(imgStyle.indexOf(player),1) : imgStyle.push(player)'v-if='player != "count"'>
-                    <img src="/dist/chart_Room2.png" alt="">
+                    <img src="../../img/chart_Room2.png" alt="">
                     <dl>
                         <dt>{{data.zn_member_name}}</dt>
                         <dd>分数:<b>{{data.zn_points}}</b></dd>
                     </dl>
-                    <span><img v-show="imgStyle.indexOf(player) >= 0" src="/dist/module_room_setOwner2.png" alt=""></span>
+                    <span><img v-show="imgStyle.indexOf(player) >= 0" src="../../img/module_room_setOwner2.png" alt=""></span>
                 </li>
             </ul>
         </div>
