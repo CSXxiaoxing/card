@@ -3,15 +3,15 @@
     <mt-popup
         v-model="onprize"
         popup-transition="popup-fade"
-        class="openRecords" :class = 'cardNum == 0 ? "five":"seven" '>
+        class="openRecords" :class = '$store.state.idRoom.cardFn == 5 ? "five":"seven" '>
 
             <h3>开奖记录<i @click='onprize = false'></i></h3>
             
             <table  cellspacing="0" class='bel1'>
                 <thead>
                     <tr>
-                        <th colspan="">局数</th>
-                        <th :colspan="prizeNum">点数</th>
+                        <th>局数</th>
+                        <th>点数</th>
                     </tr>
                 </thead>
             </table>
@@ -29,10 +29,9 @@
     <loading v-if='loading'></loading>
     </div>
 </template>
-<!-- cellspacing="0" -->
+<!-- cellspacing="0"// position: sticky; -->
 <style lang='scss' scoped>
-     // position: sticky;
-     @import '../../utils/baseVar.scss';
+    @import '../../utils/baseVar.scss';
     .openRecords.five{
         width: 9.555556rem;
         max-height: 15.277778rem;
@@ -62,9 +61,10 @@
             width: 100%;
             overflow-y: auto;
             // overflow-x: hidden;
-            max-height: 14.0rem;
+            max-height: 13.0rem;
             // overflow: auto;
             position: relative;
+            // padding-bottom: 20px;
         }
         .roll::-webkit-scrollbar {
             display: none;
@@ -104,10 +104,15 @@
         }
         table.bel1{
             border-bottom: 0 none;
+            th:nth-of-type(1){
+            width: 2.648148rem;
+                
+            }
         }
         table.bel2{
             border-top: 0 none;
             tr:nth-of-type(1){
+                width: 2.648148rem;
                 margin-top: -0.009259rem;
                 td{
                     border-top: 0 none;
@@ -115,7 +120,6 @@
             }
         }
     }
-
     .openRecords.seven{
         width: 9.555556rem;
         max-height: 15.277778rem;
@@ -187,10 +191,14 @@
         }
         table.bel1{
             border-bottom: 0 none;
+            th:nth-of-type(1){
+                width: 2.648148rem;
+            }
         }
         table.bel2{
             border-top: 0 none;
             tr:nth-of-type(1){
+                width: 2.648148rem;
                 margin-top: -0.009259rem;
                 td{
                     border-top: 0 none;
@@ -211,7 +219,6 @@ Vue.component('loading', loading)
           return {
             loading: false,     // loading
             onprize : false,
-            cardNum : this.$store.state.idRoom.cardFn,
             bureau : {
                 1 : ['牛二', '牛3', '牛二', '牛二', '牛二'],
                 2 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
@@ -236,7 +243,6 @@ Vue.component('loading', loading)
             index : [19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2, 1]
           }
         },
-        props: ['prizeNum'],
         mounted: function(){
             console.log(this.$store.state.data.listOver)
         },

@@ -134,7 +134,12 @@
 			padding-left: 0.240741rem;
 			font-size: 0.37037rem;
 			line-height: 0.796296rem;
+			-webkit-border-radius: 0.092593rem;
+			-moz-border-radius: 0.092593rem;
+			-ms-border-radius: 0.092593rem;
+			-o-border-radius: 0.092593rem;
 			border-radius: 0.092593rem;
+
     	}
     }
     @mixin i {
@@ -265,7 +270,7 @@
 		// width: 8.666667rem;
 		width: 80%;
 		padding: 0.37037rem 0.37037rem 0.388889rem 0.62963rem;
-		box-sizing: border-box;
+		@include box-sizing();
 		border-radius: 0.277778rem;
 		h4{		@include h4;	}
 		span:last-child{
@@ -298,7 +303,7 @@
 			}
 		}
 		label:nth-of-type(4){ 
-			padding-bottom: 0.296296rem; 
+			padding-bottom: 0.296296rem;
 			border-bottom: 0.027778rem solid #D4D4D4;
 			margin-bottom: 0.333333rem;
 			position: relative;
@@ -310,6 +315,11 @@
 				font-style: normal;
 				font-size: 0.333333rem;
 				color: #fff;
+				
+				-webkit-border-radius: 0.240741rem;
+				-moz-border-radius: 0.240741rem;
+				-ms-border-radius: 0.240741rem;
+				-o-border-radius: 0.240741rem;
 				border-radius: 0.240741rem;
 				display: inline-block;
 				line-height: 0.851852rem;
@@ -330,11 +340,12 @@
 		width: 8.666667rem;
 		height:7.037037rem;
 		padding: 0.37037rem 0.37037rem 0.388889rem 0.62963rem;
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
-		-ms-box-sizing: border-box;
-		-o-box-sizing: border-box;
-		box-sizing: border-box;
+		@include box-sizing();
+		
+		-webkit-border-radius: 0.277778rem;
+		-moz-border-radius: 0.277778rem;
+		-ms-border-radius: 0.277778rem;
+		-o-border-radius: 0.277778rem;
 		border-radius: 0.277778rem;
 		h4{		@include h4;	}
 		span:last-child{
@@ -369,9 +380,9 @@
 		label:nth-of-type(3){
 			padding-right: 0.703704rem;
 			text-align: right;
-			color:#3DC93C;
-			font-size:0.388889rem;
-			text-decoration:underline;	
+			color: #3DC93C;
+			font-size: 0.388889rem;
+			text-decoration: underline;	
 			}
 		hr{
 			width:8.666667rem;
@@ -383,11 +394,12 @@
 	.find {
 		width: 8.666667rem;
 		padding: 0.37037rem 0.37037rem 0.388889rem 0.62963rem;
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
-		-ms-box-sizing: border-box;
-		-o-box-sizing: border-box;
-		box-sizing: border-box;
+		@include box-sizing();
+		
+		-webkit-border-radius: 0.277778rem;
+		-moz-border-radius: 0.277778rem;
+		-ms-border-radius: 0.277778rem;
+		-o-border-radius: 0.277778rem;
 		border-radius: 0.277778rem;
 		h4{		
 			@include h4;
@@ -425,7 +437,12 @@
 				font-style: normal;
 				font-size: 0.333333rem;
 				color: #fff;
-				border-radius: 0.240741rem;
+				
+				-webkit-border-radius: 0.240741rem;
+				   -moz-border-radius: 0.240741rem;
+				    -ms-border-radius: 0.240741rem;
+				     -o-border-radius: 0.240741rem;
+				        border-radius: 0.240741rem;
 				display: inline-block;
 				line-height: 0.851852rem;
 				height: 0.851852rem;
@@ -481,7 +498,6 @@
 			} else {
 				this.a = 0;
 			}
-
 			// function myrefresh(){ 
 			// 	window.location.reload(); 
 			// }
@@ -495,7 +511,7 @@
 					window.location.replace(url); //刷新页面
 				}
 			}
-			onload = reurl
+			onload = reurl();
 		},
 		methods: {
 			local () {

@@ -4,42 +4,173 @@ $w600: 5.555556rem;
 $bgColor: #ccc;
 // Image================================
 // room url
-$roomAll: url('/dist/room_all.png');
-$room02: url('/dist/room2.png');
-$room04: url('/dist/room4.png');
-$room07: url('/dist/room07.png');
+$roomAll: url('../../img/room_all.png');
+$room02: url('../../img/room2.png');
+$room04: url('../../img/room4.png');
+$room07: url('../../img/room07.png');
 
 // home url
-$homeAll: url('/dist/home_all.png');
-$home01: url('/dist/home_ox.png');
-$home02: url('/dist/module_home_buy1.png');
-$home03: url('/dist/module_home_buy4.png');
-$home04: url('/dist/JoinTOP.png');
-$home05: url('/dist/inputJoinRoom.png');
-$home06: url('/dist/module_home_myRoom4.png');
-$home07: url('/dist/module_home_myRoom3.png');
-$home08: url('/dist/module_home_no1.png');
+$homeAll: url('../../img/home_all.png');
+$home01: url('../../img/home_ox.png');
+$home02: url('../../img/module_home_buy1.png');
+$home03: url('../../img/module_home_buy4.png');
+$home04: url('../../img/JoinTOP.png');
+$home05: url('../../img/inputJoinRoom.png');
+$home06: url('../../img/module_home_myRoom4.png');
+$home07: url('../../img/module_home_myRoom3.png');
+$home08: url('../../img/module_home_no1.png');
 
 //chart url
-$chart01 : url('/dist/chart_Room6.png');
-$chart02 : url("/dist/module_room_setOwner3.png") ;
-$chart03 : url("/dist/chart_list2.png");
-$chart04 : url("/dist/chart_list3.png");
-$chart05 : url("/dist/module_room_setOwner1.png");
+$chart01 : url('../../img/chart_Room6.png');
+$chart02 : url("../../img/module_room_setOwner3.png") ;
+$chart03 : url("../../img/chart_list2.png");
+$chart04 : url("../../img/chart_list3.png");
+$chart05 : url("../../img/module_room_setOwner1.png");
 
 //friend url
-$friend01 : url('/dist/friend2.png');
-$friend02 : url('/dist/friend3.png');
-$friend03 : url('/dist/friend4.png');
+$friend01 : url('../../img/friend2.png');
+$friend02 : url('../../img/friend3.png');
+$friend03 : url('../../img/friend4.png');
 
 //login url 
-$login01 : url('/dist/login.png');
-$login02 : url('/dist/login0.png');
-$login03 : url('/dist/z01.png');
+$login01 : url('../../img/login.png');
+$login02 : url('../../img/login0.png');
+$login03 : url('../../img/z01.png');
 $login04 : url('../../img/zhuce.png');
-// var 常量 =============================
-$h: height;
-$w: width;
-$bg: background;
-$tf: transform;
-$ts: transition;
+
+// flex兼容处理器mixin  // @include
+// @include flexbox();
+@mixin flexbox() {  // display: flex;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}
+
+// @include direction(val);
+@mixin direction($val) {  // flex-direction: column;
+    @if ($val==row) {
+        -webkit-box-orient: horizontal;
+        -moz-box-orient: horizontal;
+        box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -moz-box-direction: normal;
+        box-direction: normal;
+    }
+    @if ($val==row-reverse) {
+        -webkit-box-orient: horizontal;
+        -moz-box-orient: horizontal;
+        box-orient: horizontal;
+        -webkit-box-direction: reverse;
+        -moz-box-direction: reverse;
+        box-direction: reverse;
+    }
+    @if ($val==column) {
+        -webkit-box-orient: vertical;
+        -moz-box-orient: vertical;
+        box-orient: vertical;
+        -webkit-box-direction: normal;
+        -moz-box-direction: normal;
+        box-direction: normal;
+    }
+    @if ($val==column-reverse) {
+        -webkit-box-orient: vertical;
+        -moz-box-orient: vertical;
+        box-orient: vertical;
+        -webkit-box-direction: reverse;
+        -moz-box-direction: reverse;
+        box-direction: reverse;
+    }
+    -webkit-flex-direction: $val;
+    flex-direction: $val;
+}
+
+// @include justify-content($val);
+@mixin justify-content($val) {  // justify-content: space-around;
+    @if ($val == flex-start) {
+        -webkit-box-pack: start;
+        -moz-box-pack: start;
+        box-pack: start;
+    }
+    @if ($val == flex-end) {
+        -webkit-box-pack: end;
+        -moz-box-pack: end;
+        box-pack: end;
+    }
+    @if ($val == center) {
+        -webkit-box-pack: center;
+        -moz-box-pack: center;
+        box-pack: center;
+    }
+    @if ($val == space-between) {
+        -webkit-box-pack: justify;
+        -moz-box-pack: justify;
+        box-pack: justify;
+    }
+    -webkit-justify-content: $val; 
+    justify-content: $val; 
+}
+
+
+@mixin flex($values) {
+-webkit-box-flex: $values;
+-moz-box-flex:  $values;
+-webkit-flex:  $values;
+-ms-flex:  $values;
+flex:  $values;
+}
+
+@mixin order($val) {
+-webkit-box-ordinal-group: $val;  
+-moz-box-ordinal-group: $val;     
+-ms-flex-order: $val;     
+-webkit-order: $val;  
+order: $val;
+}
+
+// @include box-sizing();
+@mixin box-sizing() {       // box-sizing
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+// @include translate(x,y);
+@mixin translate($x,$y) {   // transform: translate(-50%, 28%);
+    -webkit-transform: translate($x,$y);
+       -moz-transform: translate($x,$y);
+        -ms-transform: translate($x,$y);
+         -o-transform: translate($x,$y);
+            transform: translate($x,$y);
+}
+
+// @include transition(ele,s);
+@mixin transition($ele,$s){     // transition: all 1s;
+    -webkit-transition: $ele $s;
+       -moz-transition: $ele $s;
+        -ms-transition: $ele $s;
+         -o-transition: $ele $s;
+            transition: $ele $s;
+}
+
+// @include animation($name,$s,$lin,$inf,$ali)
+@mixin animation($name,$s,$lin,$inf,$ali) {    // animation
+    -webkit-animation: $name $s $lin $inf $ali;
+       -moz-animation: $name $s $lin $inf $ali;
+        -ms-animation: $name $s $lin $inf $ali;
+         -o-animation: $name $s $lin $inf $ali;
+            animation: $name $s $lin $inf $ali;
+}
+
+// @include border-radius(xx);
+@mixin border-radius($px) {
+    -webkit-border-radius: $px;
+       -moz-border-radius: $px;
+        -ms-border-radius: $px;
+         -o-border-radius: $px;
+            border-radius: $px;
+}
+

@@ -2,24 +2,21 @@
 #friend {
     background: #ECEDF1;
     height: 100%;
-    // display: flex;fri
-    // flex-direction: column;
-    
     header {
         font-size:0.425926rem;
         height: 1.87037rem;
         background: #2F2E34;
         padding: 0.953704rem 0.296296rem 0;
-        box-sizing: border-box;
+        @include box-sizing();
         position: fixed;
         width: 100%;
         top: 0;
         left: 0;
         ul {
-            display: flex;
+            @include flexbox();
             color: #fff;
             text-align: center;
-            justify-content: space-between;
+            @include justify-content(space-between);
             li:first-child {
                 &>i {
                     display: inline-block;
@@ -29,11 +26,7 @@
                     background-size: 5.555556rem;
                     position: relative;
                     top: 50%;
-                    -webkit-transform: translate(0, -50%);
-                       -moz-transform: translate(0, -50%);
-                        -ms-transform: translate(0, -50%);
-                         -o-transform: translate(0, -50%);
-                            transform: translate(0, -50%);
+                    @include translate(0,-50%);
                     a {
                         padding: 0.259259rem 0.37037rem;
                     }
@@ -48,11 +41,7 @@
                     background-size: 5.555556rem;
                     position: relative;
                     top: 50%;
-                    -webkit-transform: translate(0, -50%);
-                       -moz-transform: translate(0, -50%);
-                        -ms-transform: translate(0, -50%);
-                         -o-transform: translate(0, -50%);
-                            transform: translate(0, -50%);
+                    @include translate(0,-50%);
                     a {
                         padding: 0.259259rem 0.37037rem;
                     }
@@ -67,22 +56,26 @@
             padding-top: 1.87037rem;
             li {
                 padding: 0 0.324074rem;
-                box-sizing: border-box;
-                overflow:hidden;
+                @include box-sizing();
+                overflow: hidden;
             }
             li:nth-of-type(2n) {
                 background: #fff;
                 height: 0;
                 overflow: hidden;
                 padding: 0 0.324074rem;
-                box-shadow: 0 -0.018519rem 0.185185rem #CFD0D2;
+                -webkit-box-shadow: 0 -0.018519rem 0.185185rem #CFD0D2;
+                   -moz-box-shadow: 0 -0.018519rem 0.185185rem #CFD0D2;
+                    -ms-box-shadow: 0 -0.018519rem 0.185185rem #CFD0D2;
+                     -o-box-shadow: 0 -0.018519rem 0.185185rem #CFD0D2;
+                        box-shadow: 0 -0.018519rem 0.185185rem #CFD0D2;
                 dl {
                     overflow-y: auto;
                     overflow-x: hidden;
                     max-height: 9.444444rem;
                     dd {
                         padding: 0.277778rem 0;
-                        display: flex;
+                        @include flexbox()
                         font-size: 0.407407rem;
                         border-bottom: 0.018519rem solid #CACACA;
                         span:nth-of-type(1) {
@@ -102,9 +95,9 @@
                             width: 2.037037rem;
                             height: 0.888889rem;
                             margin-top: 0.203704rem;
-                            box-sizing: border-box;
+                            @include box-sizing();
                             border: 0.027778rem solid #B7DBB5;
-                            border-radius: 0.444444rem;
+                            @include border-radius(0.444444rem);
                             position: relative;
                             line-height: 0.87037rem;
                             text-align: right;
@@ -117,11 +110,7 @@
                                 height: 0.407407rem;
                                 left: 0.092593rem;
                                 top: 50%;
-                                -webkit-transform: translate(50%, -50%);
-                                   -moz-transform: translate(50%, -50%);
-                                    -ms-transform: translate(50%, -50%);
-                                     -o-transform: translate(50%, -50%);
-                                        transform: translate(50%, -50%);
+                                @include translate(50%,-50%);
                                 background: $roomAll -4.351852rem -2.222222rem no-repeat;
                                 background-size: 5.555556rem;
 
@@ -143,20 +132,12 @@
                 height: 9.444444rem;
                 max-height: 9.444444rem;
                 margin-top: -0.425926rem;
-                -webkit-transition: all 2s;
-                   -moz-transition: all 2s;
-                    -ms-transition: all 2s;
-                     -o-transition: all 2s;
-                        transition: all 2s;
+                @include transition(all,1s)
             }
             li.hide {
                 height: 0;
                 margin-top: 0;
-                -webkit-transition: all 2s;
-                   -moz-transition: all 2s;
-                    -ms-transition: all 2s;
-                     -o-transition: all 2s;
-                        transition: all 2s;
+                @include transition(all,1s)
             }
             li:nth-of-type(2n-1) {
                 height: 1.851852rem;
@@ -166,7 +147,7 @@
                 
                 padding-top: 0.324074rem;
                 padding-bottom: 0.425926rem;
-                display: flex;
+                @include flexbox()
                 span:nth-of-type(1) {
                     display: inline-block;
                     height: 1.092593rem;
@@ -224,7 +205,7 @@
                     height:1.685185rem;
                     position:relative;
                     user-select: none;
-                    transition: 0.3s;
+                    // transition: 0.3s;
                     dt{
                         float: left;
                         span{

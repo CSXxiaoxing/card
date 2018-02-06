@@ -12,7 +12,7 @@
 		<header>
 			<dl>
 				<dt @click.capture='mess'>
-					<img src="/dist/home_head.png"  alt="" />
+					<img src="../../img/home_head.png"  alt="" />
 				</dt>
 				<dd>
 					<span>{{name}}</span>

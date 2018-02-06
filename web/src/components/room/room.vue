@@ -1333,8 +1333,6 @@
                                 var countEnd = 0; // 有无压判断
                                 if(ForT == 1){  // 房主的开牛记录
                                     countEnd++;
-                                    console.log(JSON.parse(item.DRs[0].zc_result))
-                                    console.log(JSON.parse(item.DRs[0].zc_result)[7])
                                     self.$store.state.data.listOver.push({
                                         ox : JSON.parse(item.DRs[0].zc_result),
                                         few: 0,    // 房主不需要
@@ -1346,7 +1344,7 @@
                                         countEnd++;
                                         self.$store.state.data.listOver.push({
                                             ox : JSON.parse(xitem.zc_result),
-                                            few: xitem.zn_few.split(','),
+                                            few: xitem.zn_few.split(''),
                                             zzz: JSON.parse(xitem.zc_result)[7],
                                         })
                                     }
@@ -1362,7 +1360,14 @@
                                         zzz: JSON.parse(item.DRs[0].zc_result)[7],
                                     })
                                 }
+                                if(self.$store.state.idRoom.cardFn == 5){
+                                    self.$store.state.data.listOver[idx]['ox'].splice(3,1);
+                                    self.$store.state.data.listOver[idx]['ox'].splice(5,1);
+                                    self.$store.state.data.listOver[idx]['ox'].pop();
+                                }
                             })
+                            
+                            self.$store.state.data.listOver = (self.$store.state.data.listOver).reverse();
                             console.log(self.$store.state.data.listOver) // 5牌的时候去掉下标3和6的数据
                             self.host.oxWater = zWater; // 总抽水
                         }
