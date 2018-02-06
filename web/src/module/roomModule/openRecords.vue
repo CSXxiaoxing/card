@@ -5,7 +5,7 @@
         popup-transition="popup-fade"
         class="openRecords" :class = 'cardNum == 0 ? "five":"seven" '>
 
-            <h3 @click="getChange()">开奖记录<i @click='onprize = false'></i></h3>
+            <h3 >开奖记录<i @click='onprize = false'></i></h3>
             
             <table  cellspacing="0" class='bel1'>
                 <thead>
@@ -18,9 +18,9 @@
             <div class='roll'>
             <table  cellspacing="0" class='bel2'>
                 <tbody>
-                    <tr v-for='(obj, inx) in bureau'>
+                    <tr v-for='(obj, inx) in $store.state.data.listOver'>
                         <td>第 {{index[inx]}} 局</td>
-                        <td v-for='data in obj'>{{data}}</td>
+                        <td v-for='data in obj'>{{data.zzz}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -215,12 +215,11 @@ Vue.component('loading', loading)
             bureau : [],
             cardResult : [],
             // unshift
-            index : []
+            index : []，
           }
         },
         props: ['prizeNum'],
         mounted: function(){
-            
         },
         methods: {
             // 倒序inverted
@@ -232,13 +231,7 @@ Vue.component('loading', loading)
                 };
                 console.log(length(this.bureau));
             },
-            //获取记录并转换
-            getChange(){
-                var self = this;
-                self.bureau = self.$store.state.data.listOver;
-                console.log(self.bureau);
-               
-            }
+
         }
     }
 </script>

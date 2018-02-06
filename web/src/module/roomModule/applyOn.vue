@@ -76,7 +76,7 @@
                 房间成员总分数  ：{{allFen}}
             </li>
             <li>
-                房 主 抽 水 分 数 : <b>{{allWater}}</b>
+                房主抽水分数 &nbsp &nbsp &nbsp: <b>{{allWater}}</b>
             </li>
         </ul>
         <mt-button @click="newRoom">重新开局</mt-button>

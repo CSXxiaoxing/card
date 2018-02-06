@@ -431,9 +431,8 @@
                         self.list()
                         initType()
                         self.applyList()
-                        if(self.init.ForT == 1){
-                            self.gameResult(data.id) // 查询游戏结果
-                        }
+                        self.gameResult(data.id) // 查询游戏结果
+                        
                     }
                 })
             
@@ -519,6 +518,8 @@
                         break;
                     case 11:                            // 重新开局
                         console.log(data)
+                        self.list()  // 新庄家
+                        self.applyList ()
                         break;
                     case 12:                            // 发牌中
                         self.TTT = JSON.parse(data.data);
@@ -562,6 +563,7 @@
                         break;
                     case 2 :    // 开奖记录
                         this.$refs.onprizeChild.onprize=true;
+                        this.gameResult(this.$store.state.idRoom.id)
                         break;
                     case 3 :    // 抽水分数999
                         this.$refs.onapplyOnChild.details=true;
@@ -1107,7 +1109,8 @@
                 var self = this;
                 var ox = this.cardURL.resultNum.slice(0,7)    // 牛结果数字化
                 var idRoom = this.$store.state.idRoom
-                console.log(ox)
+                ox.push(self.cardURL.zhuang)    // 添加
+                // console.log(ox)
                 http.post('/GameLog/createGameLog',{
                     zn_member_id: localStorage.oxUid,   // 用户id
                     zn_points_total: 0,     // 房间总分
@@ -1308,10 +1311,11 @@
                             vx.minGrade = data.zn_min_score;
                             self.init.id = res.data.id;
                         }
-                    })  // 更想房间 // 更新房间刷新数据
+                    })  // 更新房间刷新数据
             },
             gameResult (id) { // 先获取一波所有的游戏结果
                 var self = this;
+                var ForT = this.$store.state.idRoom.ForT;
                 http.post( '/GameLog/getData', {
                             roomid: id,
                         })
@@ -1319,20 +1323,51 @@
                         console.log(res.data)
                         if(res.status == 1){
                             var zWater = 0; // 庄总分
-                            self.$store.state.data.listOver = res.data;
+                            
                             self.$store.state.data.juAll = res.data.length;
+                            
+                            self.$store.state.data.listOver = [];
+
                             res.data.forEach((item,idx)=>{
+                                var countEnd = 0; // 有无压判断
+                                if(ForT == 1){  // 房主的开牛记录
+                                    countEnd++;
+                                    console.log(JSON.parse(item.DRs[0].zc_result))
+                                    console.log(JSON.parse(item.DRs[0].zc_result)[7])
+                                    self.$store.state.data.listOver.push({
+                                        ox : JSON.parse(item.DRs[0].zc_result),
+                                        few: 0,    // 房主不需要
+                                        zzz: JSON.parse(item.DRs[0].zc_result)[7],
+                                    })
+                                }
                                 item.DRs.forEach(xitem=>{
+                                    if(ForT == 0 && xitem.zn_member_id == localStorage.oxUid){  // 普通玩家
+                                        countEnd++;
+                                        self.$store.state.data.listOver.push({
+                                            ox : JSON.parse(xitem.zc_result),
+                                            few: xitem.zn_few.split(''),
+                                            zzz: JSON.parse(xitem.zc_result)[7],
+                                        })
+                                    }
                                     if(xitem.zc_is_boss == 1){
                                         zWater += Number(xitem.zn_points_give)
                                     }
                                 })
+
+                                if(countEnd <= 0 && ForT == 0){   // 没有押注
+                                    self.$store.state.data.listOver.push({
+                                        ox : JSON.parse(item.DRs[0].zc_result),
+                                        few: 0,    // 不需要
+                                        zzz: JSON.parse(item.DRs[0].zc_result)[7],
+                                    })
+                                }
                             })
+                            self.$store.state.data.listOver = (self.$store.state.data.listOver).reverse();
+                            console.log(self.$store.state.data.listOver) // 5牌的时候去掉下标3和6的数据
                             self.host.oxWater = zWater; // 总抽水
                         }
                     })
             },
     },
 }
-   
 </script>
