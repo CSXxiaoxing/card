@@ -329,7 +329,7 @@
                 var self = this;
                 http.post('/MemberNotice/applyFriend' , {
                     zn_mid : self.friendId,
-                    //zc_content : self.friendName,
+                    zc_content : self.friendName,
                 })
                 .then(res =>{
                     // console.log(res)

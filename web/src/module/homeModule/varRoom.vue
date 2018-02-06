@@ -66,7 +66,7 @@
         <div></div>
     </mt-popup>
 <!-- touchstart touchmove touchend  -->
-    <h3>创建房间 <i @click="boxState.CvarRoom = false">×</i> </h3>
+    <h3>创建房间 <i @click="boxState.CvarRoom = false"></i> </h3>
     <ul class='varRoomSet' @click="open">
         <li>
             <label  @click="card = true">

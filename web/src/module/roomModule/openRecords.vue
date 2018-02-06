@@ -19,8 +19,11 @@
             <table  cellspacing="0" class='bel2'>
                 <tbody>
                     <tr v-for='(obj, inx) in $store.state.data.listOver'>
-                        <td>第 {{index[inx]}} 局</td>
-                        <td v-for='data in obj'>{{data.zzz}}</td>
+                        <td>第 {{$store.state.data.listOver.length-inx}} 局</td>
+                        <td :class='(num)==obj.zzz ?"red":""'
+                            v-for='(data,num) in obj.ox'
+                            v-if="$store.state.idRoom.cardFn == 5 ? num != 2 && num != 6 && num!=7 : true && num!=7 " 
+                            >{{oox[data == 99 ? '11':data]}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -33,7 +36,14 @@
 <style lang='scss' scoped>
      // position: sticky;
      @import '../../utils/baseVar.scss';
+     td.red{
+        color:red;
+     }
+     td.yellow{
+        color:#F2D923;
+     }
     .openRecords.five{
+        height:11.296296rem;
         width: 9.555556rem;
         max-height: 15.277778rem;
         border-radius: 0.314815rem;
@@ -117,6 +127,7 @@
     }
 
     .openRecords.seven{
+        height:11.296296rem;
         width: 9.555556rem;
         max-height: 15.277778rem;
         border-radius: 0.314815rem;
@@ -215,7 +226,8 @@ Vue.component('loading', loading)
             bureau : [],
             cardResult : [],
             // unshift
-            index : []，
+            index : [],
+            oox: ['没牛','牛一', '牛二', '牛三', '牛四', '牛五', '牛六', '牛七', '牛八', '牛九', '牛牛', '五花牛'],
           }
         },
         props: ['prizeNum'],
