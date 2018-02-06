@@ -5,7 +5,7 @@ module.exports = {
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
+    publicPath: 'dist/',
     filename: 'build.js'
   },
   module: {
@@ -63,7 +63,7 @@ module.exports = {
     noInfo: true,
     overlay: true,
     port: 8090,
-    host:'192.168.31.83'
+    // host:'192.168.31.83'
   },
   // host: '192.168.0.104',
   // plugins: [  
