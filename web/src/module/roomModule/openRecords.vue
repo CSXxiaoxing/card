@@ -5,7 +5,7 @@
         popup-transition="popup-fade"
         class="openRecords" :class = '$store.state.idRoom.cardFn == 5 ? "five":"seven" '>
 
-            <h3>开奖记录<i @click='onprize = false'></i></h3>
+            <h3 >开奖记录<i @click='onprize = false'></i></h3>
             
             <table  cellspacing="0" class='bel1'>
                 <thead>
@@ -18,9 +18,13 @@
             <div class='roll'>
             <table  cellspacing="0" class='bel2'>
                 <tbody>
-                    <tr v-for='(obj, inx) in bureau'>
-                        <td>第 {{index[inx]}} 局</td>
-                        <td v-for='data in obj'>{{data}}</td>
+                    <tr v-for='(obj, inx) in $store.state.data.listOver'>
+                        <td>第 {{$store.state.data.listOver.length-inx}} 局</td>
+                        <td v-for='(data,num) in obj.ox' 
+                        :class='[((num)==obj.zzz ?"yellow":""),
+                        (obj.few != 0 ? (obj.few.indexOf(num>2 ? num+2 : num+1) >=0 ? "red" :"") : "") ]' >
+                            {{oox[data == 99 ? oox['11']: data]}}
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -31,10 +35,16 @@
 </template>
 <!-- cellspacing="0"// position: sticky; -->
 <style lang='scss' scoped>
-    @import '../../utils/baseVar.scss';
-    // flex
+     @import '../../utils/baseVar.scss';
+     td.red{
+        color:red;
+     }
+     td.yellow{
+        color:#F2D923;
+     }
 
     .openRecords.five{
+        height:11.296296rem;
         width: 9.555556rem;
         max-height: 15.277778rem;
          @include border-radius(0.314815rem);
@@ -123,6 +133,7 @@
         }
     }
     .openRecords.seven{
+        height:11.296296rem;
         width: 9.555556rem;
         max-height: 15.277778rem;
          @include border-radius(0.314815rem);
@@ -221,32 +232,15 @@ Vue.component('loading', loading)
           return {
             loading: false,     // loading
             onprize : false,
-            bureau : {
-                1 : ['牛二', '牛3', '牛二', '牛二', '牛二'],
-                2 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                3 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                4 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                5 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                6 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                7 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                8 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                9 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                10 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                11 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                12 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                13 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                14 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                15 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                16 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                17 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                18 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-                19 : ['牛二', '牛二', '牛4', '牛二', '牛二'],
-            },
-            index : [19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2, 1]
+            cardNum : this.$store.state.idRoom.cardFn,
+            bureau : [],
+            cardResult : [],
+            // unshift
+            index : [],
+            oox: ['没牛','牛一', '牛二', '牛三', '牛四', '牛五', '牛六', '牛七', '牛八', '牛九', '牛牛', '五花牛'],
           }
         },
         mounted: function(){
-            console.log(this.$store.state.data.listOver)
         },
         methods: {
             // 倒序inverted

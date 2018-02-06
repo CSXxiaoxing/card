@@ -169,7 +169,10 @@
             placard(){
                 var vx = this.$store.state.placard;
                 var self = this;
-                http.post( '/RoomJoin/placard' ,{
+                if(self.content==''){
+
+                }else{
+                    http.post( '/RoomJoin/placard' ,{
                     content : self.content,
                     token: localStorage.oxToken,
                     roomid : self.roomid,
@@ -186,6 +189,7 @@
                         }
                     })
                 }
+            }
         }
     }
 </script>

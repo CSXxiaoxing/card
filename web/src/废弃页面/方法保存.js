@@ -174,3 +174,11 @@ created: function() {
 overflow: hidden;
 text-overflow: ellipsis;
 white-space: nowrap;
+
+// 透明兼容
+filter:alpha(opacity=0);  
+-moz-opacity:0;  
+-khtml-opacity: 0;  
+opacity: 0;
+
+src/img/

@@ -19,38 +19,25 @@
         </header>
 
 
-		<table  border="1" cellpadding="0" cellspacing="0">
+		<table  v-for='(list,listkey) in waterList' border="1" cellpadding="0" cellspacing="0">
 			<thead>
 				<tr>
-					<td colspan="4">第三局</td>
+					<td colspan="4">第{{waterList.length - listkey}}局</td>
 				</tr>
 				<tr>
 					<td>昵称</td> <td>分数流水</td> <td>抽水分数</td> <td>结余分数</td>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>迷糊的诗诗 <img src="/dist/room_water1.png"></td> <td>+100</td> <td>10</td> <td>10</td>
-				</tr>
-				<tr>
-					<td>迷糊的诗诗</td> <td>-20</td> <td>0</td> <td>10</td>
-				</tr>
-				<tr>
-					<td>迷糊的诗诗</td> <td>+20</td> <td>10</td> <td>10</td>
-				</tr>
-				<tr>
-					<td>迷糊的诗诗</td> <td>+20</td> <td>10</td> <td>10</td>
-				</tr>
-				<tr  v-if="seen">
-					<td>迷糊的诗诗</td> <td>+20</td> <td>10</td> <td>10</td>
+				<tr v-for = 'data in list'>
+					<td>{{data.name}} <img src="/dist/room_water1.png" v-if='data.ForZ == 1'></td> <td :class='data.water >=0 ? "" : "red"' >{{ data.water>=0 ? '+'+ data.water : data.water}}</td> <td>{{data.wFen}}</td> <td>{{data.fen}}</td>
 				</tr>
 				<tr class="total"  v-if="seen">
-					<td>房间余剩分数</td> <td colspan="3">+20</td>
+					<td>房间余剩分数</td> <td colspan="3">{{data.fraction}}</td>
 				</tr>
-				<tr class="open" v-if="!seen">
+				<tr class="open" v-if="!seen && $store.state.idRoom.ForT == 1">
 					<td colspan="4" @click="more">点击加载更多</td>
 				</tr>
-				
 			</tbody>
 		</table>
 
@@ -77,8 +64,9 @@
       	return {
       		loading: false,		// loading
         	water: false,
-        	seen:false,
+        	seen: false,
         	careTip : false,
+            waterList :[],
       	};
     },
     mounted: function(){
@@ -96,15 +84,17 @@
                     },'',this)
                 .then(res => {
                     console.log(res.data)
+
                     if(res.status == 1){
                         var zWater = 0; // 庄总分
-                        var waterList = [];
+                        self.waterList = [];
                         self.$store.state.data.listOver = res.data;
                         self.$store.state.data.juAll = res.data.length;
                         res.data.forEach((item,idx)=>{
-                            waterList.push([])    // 插入
+
+                            self.waterList.push([])    // 插入
                             item.DRs.forEach(xitem=>{
-                                waterList[idx].push({
+                                self.waterList[idx].push({
                                     name : xitem.zc_name,   // 名字
                                     water: xitem.zn_process,  // 分数流水
                                     wFen : xitem.zn_points_give,  // 抽水分数
@@ -114,7 +104,7 @@
                                 })
                             })
                         })
-                        console.log(waterList)
+                        console.log(self.waterList)
                     }
                 })
         },

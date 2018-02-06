@@ -129,7 +129,6 @@
                     </dl>
                 </li>
 
-
                 <li @touchend='near'>
                     <span><i></i></span>
                     <span>最近联系</span>
@@ -329,7 +328,7 @@
                 var self = this;
                 http.post('/MemberNotice/applyFriend' , {
                     zn_mid : self.friendId,
-                    //zc_content : self.friendName,
+                    zc_content : self.friendName,
                 })
                 .then(res =>{
                     // console.log(res)

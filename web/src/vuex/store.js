@@ -88,6 +88,7 @@ export default new Vuex.Store({
 
             listOver: [],   // 开奖记录
             juAll: 0,      // 房间总局数
+            
         },   // 存放各种数据避免重复请求
         systemMess:{
             title :'', //信息标题

@@ -28,16 +28,19 @@
 				</dd>
 			</dl>
 			
-			<mt-swipe 
+			<p>
+
+				<mt-swipe 
 			:show-indicators="false" 
 			:prevent = 'true'
-			:speed = '600'
+			 :speed="800" :auto="5000"
 			class='homeSwipe auto'>
 
-			  <mt-swipe-item v-for='(notices) in notice'>
-			  	<p><i></i><span>{{notices.content}}</span></p>
-			  </mt-swipe-item>
+			  
+			  	<i></i><mt-swipe-item v-for='(notices) in notice'><span>{{notices.content}}</span></mt-swipe-item>
+			  
 			</mt-swipe>
+			</p>
 
 			<span class='homeServer'><router-link to="/chartRoom/0" ><b>客<br>服</b></router-link></span>
 		</header>

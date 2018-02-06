@@ -147,11 +147,14 @@
         text-align: center;
         padding-bottom: 0.203704rem;
         i{
-                position: absolute;
-                font-size: 1.296296rem;
-                color: #7A7A7A;
-                right: 0.648148rem;
-              }  
+            position: absolute;
+                        right:0.833333rem;
+                        top: 0.277778rem;
+                        background: $homeAll -0.925926rem -2.314815rem no-repeat;
+                        background-size: 5.555556rem 5.555556rem;
+                        width: 0.555556rem;
+                        height: 0.555556rem;
+        }  
     }
     // 公共p
     p{

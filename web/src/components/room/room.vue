@@ -57,16 +57,14 @@
                     <span>邀请好友</span>
                 </dd>
                 <dd>
-                    <mt-swipe :show-indicators="false">
-                      <mt-swipe-item>
-                        <i></i><span>房主公告：{{message}}</span>
-                    </mt-swipe-item>
-                      <mt-swipe-item>
-                        <i></i><span>房主公告：{{message}}</span>
-                    </mt-swipe-item>
-                      <mt-swipe-item>
-                        <i></i><span>房主公告：{{message}}</span>
-                    </mt-swipe-item>
+                    <i></i>
+                    <mt-swipe :show-indicators="false" :speed="800" :auto="5000">
+                      
+                        <mt-swipe-item><span>房主公告：{{message}}</span></mt-swipe-item>
+                      
+                        <mt-swipe-item><span>房主公告：{{message}}</span></mt-swipe-item>
+
+                        <mt-swipe-item><span>房主公告：{{message}}</span></mt-swipe-item>
                     </mt-swipe>
                 </dd>
             </dl>
@@ -1235,8 +1233,7 @@
                         Tar();
                     }
                 };
-                Tar();
-                
+                Tar();              
             },
             applyList () {  // 庄申请人列表
                 var self = this;
@@ -1366,7 +1363,7 @@
                                     self.$store.state.data.listOver[idx]['ox'].pop();
                                 }
                             })
-                            
+
                             self.$store.state.data.listOver = (self.$store.state.data.listOver).reverse();
                             console.log(self.$store.state.data.listOver) // 5牌的时候去掉下标3和6的数据
                             self.host.oxWater = zWater; // 总抽水
