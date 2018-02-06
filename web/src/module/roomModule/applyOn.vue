@@ -15,7 +15,7 @@
           <ul>
               <li v-for='(data, player) in $store.state.data.Zlist' :key='data.zn_member_id' @click='sel = player'>
                   {{data.zn_member_name}} 
-                  <b><img v-show="sel == player" src="/dist/module_room_setOwner2.png" alt=""></b>
+                  <b><img v-show="sel == player" src="src/img/module_room_setOwner2.png" alt=""></b>
               </li>
 
           </ul>
@@ -28,12 +28,12 @@
       <hr/>
       <div>
           <label>
-              <span @click="play = 1"><img src="/dist/varTrue.png" v-show="play" height="60" width="59" alt="" /></span>
-              锁定庄家:<b>{{zhuanList[0]}}</b> <img @click="suo" class="list" src="/dist/module_room_setOwner.png" alt="">
+              <span @click="play = 1"><img src="src/img/varTrue.png" v-show="play" height="60" width="59" alt="" /></span>
+              锁定庄家:<b>{{zhuanList[0]}}</b> <img @click="suo" class="list" src="src/img/module_room_setOwner.png" alt="">
           </label>
           <hr/>
           <label>
-            <span @click="play = 0"><img src="/dist/varTrue.png" v-show="!play" height="60" width="59" alt="" /></span>
+            <span @click="play = 0"><img src="src/img/varTrue.png" v-show="!play" height="60" width="59" alt="" /></span>
               自动轮庄
               <div :class='play == 0 ? "height":"close"'>
                 <p>输入轮庄局数</p>
@@ -89,10 +89,10 @@
 <style lang='scss' scoped>
   @import '../../utils/baseVar.scss';
 
-  
+  // display: flex; 
   .apply{
     width: 7.092593rem;
-    border-radius: 0.277778rem;
+     @include border-radius(0.277778rem);
     position: absolute;
     top:8.240741rem;
 
@@ -141,7 +141,7 @@
     input{
       width:2.351852rem;
       height:0.777778rem;
-      border-radius:0.092593rem;
+       @include border-radius(0.092593rem);
       margin-left:0.185185rem;
       font-size:0.240741rem;
     }
@@ -150,7 +150,7 @@
       width:3.305556rem;
       height: 0.972222rem;
       line-height:0.925926rem;
-      border-radius: 0.509259rem;
+       @include border-radius(0.509259rem);
       font-size:0.555556rem;
       margin:0.277778rem 0.0rem 0.462963rem 0;
       border: 0 none;
@@ -179,7 +179,7 @@
           width:0.555556rem;
           height:0.601852rem;
           background-color: #DADADA;
-          border-radius:0.092593rem;
+           @include border-radius(0.092593rem);
           padding:0.046296rem 0.046296rem 0.0rem 0.046296rem;
           position:absolute;
           left:0.648148rem;
@@ -190,7 +190,7 @@
   }
     .details{
       width: 7.092593rem;
-      border-radius: 0.277778rem;
+       @include border-radius(0.277778rem);
       position: absolute;
       top:6.574074rem;
       height: 5.740741rem;
@@ -233,7 +233,7 @@
       button{
         width:4.018519rem;
         height: 1.037037rem;
-        border-radius: 0.509259rem;
+         @include border-radius(0.509259rem);
         font-size:0.555556rem;
         margin:0.092593rem 0 0.277778rem 0;
         border: 0 none;
@@ -257,7 +257,7 @@
     }
     .owner{
       width: 7.092593rem;
-      border-radius: 0.277778rem;
+       @include border-radius(0.277778rem);
       position: absolute;
       top:8.240741rem;
       &>span:nth-of-type(1){
@@ -301,7 +301,7 @@
       button{
         width:5.555556rem;
         height: 1.037037rem;
-        border-radius: 0.509259rem;
+         @include border-radius(0.509259rem);
         font-size:0.555556rem;
         margin:0.092593rem 0.0rem 0.277778rem 0.0rem;
         border: 0 none;
@@ -328,7 +328,7 @@
             width:0.555556rem;
             height:0.601852rem;
             background-color: #DADADA;
-            border-radius:0.092593rem;
+             @include border-radius(0.092593rem);
             padding:0.046296rem 5 0 0.046296rem;
             position:absolute;
             left:0.444444rem;
@@ -361,7 +361,7 @@
             input{
               width:6.259259rem;
               height:1.055556rem;
-              border-radius:0.092593rem;
+               @include border-radius(0.092593rem);
               border:0.018519rem solid #D4D4D4;
               margin-left:0.185185rem;
               font-size:0.740741rem;
@@ -372,7 +372,7 @@
               line-height:0.833333rem;
               height:0.462963rem;
               text-align:center;
-              border-radius:0.925926rem;
+               @include border-radius(0.925926rem);
               border:0.027778rem solid #666B67;
               margin-top: 0.37037rem;
               font-size:0.537037rem;
@@ -380,11 +380,12 @@
           }
           div.height{
               height:3.796296rem;
-              transition: all 1s ;
+              @include transition(all,1s);
+
           }
           div.close{
               height:0.0rem;
-              transition: all 1s ;
+              @include transition(all,1s);
           }
         }
       }
@@ -393,8 +394,8 @@
     .details01{
       width:8.685185rem;
       height:10.185185rem;
-      box-sizing: border-box;
-      border-radius:0.277778rem;
+      @include box-sizing();
+       @include border-radius(0.277778rem);
       img{
         width:0.87963rem;
         height:0.925926rem;
@@ -454,7 +455,7 @@
           width:3.305556rem;
           height: 0.972222rem;
           line-height:0.925926rem;
-          border-radius: 0.509259rem;
+           @include border-radius(0.509259rem);
           font-size:0.555556rem;
           margin:0.462963rem 0 0 2.685185rem;
           border: 0 none;

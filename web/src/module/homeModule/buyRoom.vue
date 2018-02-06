@@ -28,7 +28,7 @@
       <li>
         <table>
           <tr>
-            <td rowspan="3"><img src="/dist/module_home_buy2.png" height="250" width="258" alt=""></td>
+            <td rowspan="3"><img src="src/img/module_home_buy2.png" height="250" width="258" alt=""></td>
             <td>房卡X5</td
           </tr>
           <tr>
@@ -42,7 +42,7 @@
       <li>
         <table>
           <tr>
-            <td rowspan="3"><img src="/dist/module_home_buy2.png" height="250" width="258" alt=""></td></td>
+            <td rowspan="3"><img src="src/img/module_home_buy2.png" height="250" width="258" alt=""></td></td>
             <td>房卡X5</td>
           </tr>
           <tr>
@@ -56,7 +56,7 @@
       <li>
         <table>
           <tr>
-            <td rowspan="3"><img src="/dist/module_home_buy2.png" height="250" width="258" alt=""></td></td>
+            <td rowspan="3"><img src="src/img/module_home_buy2.png" height="250" width="258" alt=""></td></td>
             <td>房卡X5</td>
           </tr>
           <tr>
@@ -70,7 +70,7 @@
       <li>
         <table>
           <tr>
-            <td rowspan="3"><img src="/dist/module_home_buy2.png" height="250" width="258" alt=""></td></td>
+            <td rowspan="3"><img src="src/img/module_home_buy2.png" height="250" width="258" alt=""></td></td>
             <td class="more">更多房卡</td>
           </tr>
           <tr>
@@ -100,6 +100,9 @@
             transform: translate(-50%, -50%);
             width: 200%;
             height: 200%;
+            filter:alpha(opacity=50);  
+            -moz-opacity:0.5;  
+            -khtml-opacity: 0.5;  
             opacity: 0.5;
             background: #000;
             display: none;   
@@ -141,7 +144,7 @@
                 background-color:#BA3C16;
                 width:0.833333rem;
                 height:0.925926rem;
-                border-radius:100%;
+                @include border-radius(100%);
                 padding-right:0.092593rem;
             }
         }
@@ -171,7 +174,7 @@
             background-color: white;
             width:6.111111rem;
             height: 2.5rem;
-            border-radius:0.277778rem;
+            @include border-radius(0.277778rem);
             margin: 0.185185rem 0.0rem 0.185185rem 0.833333rem;
             text-align:left;
             button{
@@ -209,7 +212,7 @@
     }
   .more{
       width:7.083333rem;
-      border-radius:0.185185rem;
+      @include border-radius(0.185185rem);
       span{
         display: block;
         color:white;
@@ -259,13 +262,13 @@
         font-size:0.833333rem;
         text-align:center;
         margin: 0.0rem 0.0rem 0.0rem 0.092593rem;
-        border-radius:0.138889rem;
+        @include border-radius(0.138889rem);
         border:0.027778rem solid #D4D4D4; 
         color:#0BBA05;
 
       }
       button{
-        border-radius: 0.481481rem;
+        @include border-radius(0.481481rem);
         width: 3.305556rem;
         height: 0.962963rem;
         line-height: 0.962963rem;

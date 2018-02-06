@@ -62,6 +62,8 @@
 
 <style lang='scss' scoped>
 @import '../../utils/baseVar.scss';
+  // felx
+
   .bstyle{
     font-size:0.314815rem;
     margin:0.092593rem 0.046296rem;
@@ -71,6 +73,7 @@
   .player{
     width: 7.092593rem;
     border-radius: 0.277778rem;
+
     position: absolute;
     top:8.240741rem;
 
@@ -173,7 +176,7 @@
   .details{
     width:9.555556rem;
     height:12.5rem;
-    box-sizing: border-box;
+    @include box-sizing();
     border-radius:0.277778rem;
     
     span{

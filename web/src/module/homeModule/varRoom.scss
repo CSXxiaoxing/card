@@ -15,6 +15,7 @@
         background: #000;
         padding: 0.462963rem 1.851852rem;
 }
+    // flex
 // 消除浮动
 .clear{
     clear: both;
@@ -39,9 +40,9 @@
     height:10.666667rem;
     overflow-y:auto;
 
-    border-radius: 0.240741rem;
+    @include border-radius(0.240741rem);
     padding: 0.296296rem 0.703704rem 0.185185rem 0.703704rem;
-    box-sizing: border-box;
+    @include box-sizing();
     // overflow-y: auto;
     // overflow-x: hidden;
     position: absolute;
@@ -54,15 +55,15 @@
     }
     // @extend .flex;
     .flex{
-        display: flex;
-        justify-content: space-between;
+        @include flexbox();
+        @include justify-content(space-between);
     }
     // 圆点 @extend .circle;
     .circle{
         margin-right: 0.185185rem;
         width: 0.611111rem;
         height: 0.611111rem;
-        border-radius: 50%;
+        @include border-radius(50%);
         background: #D3D3D3;
         float: left;
     }
@@ -71,7 +72,7 @@
         .mint-switch {
             display: -webkit-box;
             display: -ms-flexbox;
-            display: flex;
+            @include flexbox();
             -webkit-box-align: center;
                 -ms-flex-align: center;
                     align-items: center;
@@ -93,8 +94,8 @@
             width: 1.157407rem;
             height: 0.574074rem;
             border: 0.009259rem solid #d9d9d9;
-            border-radius: 0.277778rem;
-            box-sizing: border-box;
+            @include border-radius(0.277778rem);
+            @include box-sizing();
             background: #d9d9d9;
         }
         .mint-switch-core::after, .mint-switch-core::before {
@@ -106,19 +107,19 @@
             transition: -webkit-transform .3s;
             transition: transform .3s;
             transition: transform .3s, -webkit-transform .3s;
-            border-radius: 0.138889rem;
+            @include border-radius(0.138889rem);
         }
         .mint-switch-core::after {
             width: 0.537037rem;
             height: 0.537037rem;
-            border-radius: 50%;
+            @include border-radius(50%);
             background-color: #fff;
             box-shadow: 0 0.009259rem 0.027778rem rgba(0, 0, 0, .4);
         }
         .mint-switch-core::before {
             width: 1.157407rem;
             height: 0.574074rem;
-            border-radius: 0.277778rem;
+            @include border-radius(0.277778rem);
             background-color: #fdfdfd;
         }
         .mint-switch-input {
@@ -185,7 +186,7 @@
                     // padding: 25px 0 14px;
                     width: 0.611111rem;
                     height: 0.611111rem;
-                    border-radius: 0.092593rem;
+                    @include border-radius(0.092593rem);
                     background: #D3D3D3;
                     float: left;
                     
@@ -203,9 +204,9 @@
                 padding: 0.185185rem 0 0.203704rem;
             }
             input{
-                flex: 1;
+                @include flex(1);
                 border: 0.018519rem solid #D2D2D2;
-                border-radius: 0.092593rem;
+                @include border-radius(0.092593rem);
                 padding-left: 0.259259rem;
                 font-size: 0.351852rem;
                 line-height: 0.759259rem;
@@ -215,7 +216,7 @@
         // 新人进房确认
         li:nth-of-type(3){
             height: 0.592593rem;
-            display: flex;
+            @include flexbox();
             align-items: center;
             &>span:nth-of-type(1){
                 @extend .fontSize;
@@ -227,8 +228,8 @@
         li:nth-of-type(4){
             height: 1.148148rem;
             padding: 0.222222rem 0 0.296296rem;
-            box-sizing: border-box;
-            display: flex;
+            @include box-sizing();
+            @include flexbox();
             &>span:nth-of-type(1){
                 @extend .fontSize;
                 display: inline-block;
@@ -285,12 +286,12 @@
         // 倍率dl
         li:nth-of-type(7){
             border: 0.018519rem solid #D1D1D1;
-            border-radius: 0.148148rem;
+            @include border-radius(0.148148rem);
             padding: 0.296296rem 0.185185rem 0.148148rem 0.62963rem;
             dl{
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: space-between;
+                @include flexbox();
+                 @include flex-wrap(wrap);
+                @include justify-content(space-between);
                     text-align: left;
                 dt{
                     width: 100%;
@@ -306,7 +307,8 @@
                     line-height: 0.481481rem;
                 }
                 dd:last-child{
-                    flex: 1;
+                    @include flex(1);
+                    
                     float: left;
                     text-align: left;
                 }
@@ -320,7 +322,7 @@
             }
             .divTime{
                 @extend .flex;
-                flex-wrap: wrap;
+                 @include flex-wrap(wrap);
             }
             label{
                 width: 33%;
@@ -345,16 +347,16 @@
                 line-height: 0.759259rem;
                 height: 0.759259rem;
                 width: 100%;
-                box-sizing: border-box;
+                @include box-sizing();
                 border: 0.018519rem solid #D3D3D3;
-                border-radius: 0.092593rem;
+                @include border-radius(0.092593rem);
                 color: #0DC108;
             }
         }
         // 玩家下注范围：
         li:nth-of-type(10){
             padding: 0.185185rem 0 0.148148rem;
-            display: flex;
+            @include flexbox();
             width: 100%;
             span{
                 @extend .fontSize;
@@ -367,8 +369,8 @@
                 width: 1.574074rem;
                 height: 0.814815rem;
                 border: 0.018519rem solid #D5D5D5;
-                border-radius: 0.092593rem;
-                box-sizing: border-box;
+                @include border-radius(0.092593rem);
+                @include box-sizing();
                 text-align: center;
                 font-size: 0.351852rem;
                 color: #06BC05;
@@ -402,8 +404,8 @@
                 width: 2.314815rem;
                 height: 0.814815rem;
                 border: 0.018519rem solid #D5D5D5;
-                border-radius: 0.092593rem;
-                box-sizing: border-box;
+                @include border-radius(0.092593rem);
+                @include box-sizing();
                 text-align: center;
                 font-size: 0.351852rem;
                 color: #06BC05;
@@ -425,7 +427,7 @@
       color: #fff;
       width:3.305556rem;
       height: 1.018519rem;
-      border-radius: 0.509259rem;
+      @include border-radius(0.509259rem);
       line-height: 0.925926rem;
       font-size:0.555556rem;
       border: none;
@@ -445,7 +447,7 @@
 .no{
     width: 7.805556rem;
     height: 2.777778rem;
-    border-radius: 0.240741rem;
+    @include border-radius(0.240741rem);
     margin-top: -26%;
     .close{
             @extend .clo;
@@ -466,9 +468,9 @@
     height:100%;
     position: absolute;
     // border: 0.027778rem solid #000;
-    border-radius: 0.37037rem;
+    @include border-radius(0.37037rem);
     padding: 0.388889rem 0.462963rem 0.462963rem;
-    box-sizing: border-box;
+    @include box-sizing();
     // left:-50px;
     p{
         height: 0.548148rem;
@@ -505,9 +507,9 @@
     height:100%;
     // margin-top:10%;
     position: absolute;
-    border-radius: 0.277778rem;
+    @include border-radius(0.277778rem);
     padding: 0.238889rem 0.362963rem 0.277778rem;
-    box-sizing: border-box;
+    @include box-sizing();
     .top{
         font-size: 0.492593rem;
         line-height: 0.492593rem;
@@ -547,8 +549,8 @@
             // 单选框
             dd .dd_radio{
                 // mint-radio-core #26a2ff
-                display: flex;
-                flex-wrap: wrap;
+                @include flexbox();
+                 @include flex-wrap(wrap);
                 border: 0 none;
                 // radio
                 .mint-radiolist .mint-cell {
@@ -558,7 +560,7 @@
                     display: block;
                     // padding: 0 10px;
                     width: 1.5rem;
-                    display: flex;
+                    @include flexbox();
                     line-height:0.409259rem;
                 }
                 .mint-radiolist-label:last-child {
@@ -593,10 +595,10 @@
                     border-color: #ccc;
                 }
                 .mint-radio-core {
-                    box-sizing: border-box;
+                    @include box-sizing();
                     display: inline-block;
                     background-color: #fff;
-                    border-radius: 100%;
+                    @include border-radius(100%);
                     border: 0.009259rem solid #ccc;
                     position: relative;
                     width: 0.555556rem;
@@ -624,8 +626,9 @@
 
         ul{
             font-size: 0.462963rem;
-            display: flex;
-            flex-wrap: wrap;
+            @include flexbox();
+
+             @include flex-wrap(wrap);
             padding: 0.224074rem 0 0;
             li{
                 width: 50%;
@@ -669,7 +672,7 @@
                     }
                     button:active{
                         position: relative;
-                        border-radius: 0.277778rem;
+                        @include border-radius(0.277778rem);
                         left: 0.009259rem ;
                         top: 0.027778rem;
                     }
@@ -687,7 +690,7 @@
       width: 3.296296rem;
       height: 1.0rem;
       font-size:0.555556rem;
-      border-radius: 0.5rem;
+      @include border-radius(0.5rem);
       border: none;
       background: $homeAll -1.944444rem -1.388889rem no-repeat;
       background-size: 5.555556rem 5.555556rem;

@@ -37,19 +37,19 @@
         header {
             height: 1.87037rem;
             padding: 1.018519rem 0.277778rem 0.0rem;
-            box-sizing: border-box;
+            @include box-sizing();
             background: #2F2E34;
             color: #fff;
             font-size:0.425926rem;
             ul {
                 height: 0.796296rem;
                 line-height: 0.796296rem;
-                display: flex;
-                justify-content: space-between;
+                @include flexbox();
+                @include justify-content(space-between);
                 li:nth-of-type(2){
                     text-align: center;
-                    position:absolute;
-                    left:4.62963rem;
+                    position: absolute;
+                    left: 4.62963rem;
                 }
                 li:first-child {
                     &>i {
@@ -60,11 +60,7 @@
                         background-size: 5.555556rem;
                         position: relative;
                         top: 50%;
-                        -webkit-transform: translate(0, -50%);
-                           -moz-transform: translate(0, -50%);
-                            -ms-transform: translate(0, -50%);
-                             -o-transform: translate(0, -50%);
-                                transform: translate(0, -50%);
+                        @include translate(0,-50);
                         a {
                             padding: 0.259259rem 0.37037rem;
                         }
@@ -74,11 +70,10 @@
         }
         
         .list{
-            
-            height:16.092593rem;
-            overflow-y:auto;
-            overflow-x:hidden;
-            background:white;
+            height: 16.092593rem;
+            overflow-y: auto;
+            overflow-x: hidden;
+            background: white;
             font-size:0.388889rem;
             h3{
                 font-size:0.388889rem;
@@ -94,7 +89,7 @@
             span{
                 display:inline-block;
                 width:8.5rem;
-                text-align:left;
+                text-align: left;
                 font-size:0.407407rem;
             }
         }
@@ -119,7 +114,14 @@
                 content : this.$store.state.systemMess.content,
             }
         },
+        created: function() {
+            this.a = this.$route.params.id;
+            this.time = this.$store.state.systemMess.time;
+            this.title = this.$store.state.systemMess.title;
+            this.content = this.$store.state.systemMess.content;
+        },
         methods: {
-            }
+
         }
+    }
 </script>

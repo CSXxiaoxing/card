@@ -15,6 +15,10 @@ Vue.component('自定义组件名称', 引入时定义的变量名) -->
             line-height: 0.62963rem;
             padding: 0.037037rem 0.037037rem;
             border-radius: 0.092593rem;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -ms-box-sizing: border-box;
+            -o-box-sizing: border-box;
             box-sizing: border-box;
             float: left;
             margin: 0;

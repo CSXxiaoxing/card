@@ -5,15 +5,15 @@
         <p @click='test' v-if='share == "home"'>分享给朋友</p>
 		<p @click='test' v-if='share == "room"'>选择邀请方式</p>
 		<dl>
-			<dt><img src="/dist/module_home_toShare1.png" height="174" width="174"></dt>
+			<dt><img src="src/img/module_home_toShare1.png" height="174" width="174"></dt>
 			<dd>微信好友</dd>
 		</dl> 
 		<dl v-if='share == "home"'>
-			<dt><img src="/dist/module_home_toShare2.png" height="174" width="174"></dt>
+			<dt><img src="src/img/module_home_toShare2.png" height="174" width="174"></dt>
 			<dd>复制链接</dd>
 		</dl> 
         <dl v-if='share == "room"'>
-            <dt><img src="/dist/room06.png" height="174" width="174"></dt>
+            <dt><img src="src/img/room06.png" height="174" width="174"></dt>
             <dd>游戏好友</dd>
         </dl>   
   		<p v-on:click="toShare = false">取消</p>
@@ -22,6 +22,7 @@
 <style lang='scss' scoped>
   .share{
     width: 100%;
+    // felx
     img{
       width:1.611111rem;
       height:1.611111rem;

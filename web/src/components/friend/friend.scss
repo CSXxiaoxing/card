@@ -1,4 +1,4 @@
-@import '../../utils/baseVar.scss';
+@import '../../utils/baseVar.scss'; // show
 #friend {
     background: #ECEDF1;
     height: 100%;
@@ -131,7 +131,7 @@
             li.show {
                 height: 9.444444rem;
                 max-height: 9.444444rem;
-                margin-top: -0.425926rem;
+                margin-top: -0.3rem;
                 @include transition(all,1s)
             }
             li.hide {
@@ -140,13 +140,16 @@
                 @include transition(all,1s)
             }
             li:nth-of-type(2n-1) {
-                height: 1.851852rem;
+                height: 1.8rem;
                 background: #fff;
-                box-shadow: 0.0rem 0.018519rem 0.185185rem #CFD0D2;
-                margin-bottom: 0.425926rem;
-                
-                padding-top: 0.324074rem;
-                padding-bottom: 0.425926rem;
+                -webkit-box-shadow: 0.0rem 0.018519rem 0.185185rem #CFD0D2;
+                   -moz-box-shadow: 0.0rem 0.018519rem 0.185185rem #CFD0D2;
+                    -ms-box-shadow: 0.0rem 0.018519rem 0.185185rem #CFD0D2;
+                     -o-box-shadow: 0.0rem 0.018519rem 0.185185rem #CFD0D2;
+                        box-shadow: 0.0rem 0.018519rem 0.185185rem #CFD0D2;
+                margin-bottom: 0.3rem;
+                padding-top: 0.3rem;
+                padding-bottom: 0.3rem;
                 @include flexbox()
                 span:nth-of-type(1) {
                     display: inline-block;
@@ -168,11 +171,7 @@
                         width: 0.388889rem;
                         height: 0.222222rem;
                         top: 50%;
-                        -webkit-transform: translateY(-50%);
-                           -moz-transform: translateY(-50%);
-                            -ms-transform: translateY(-50%);
-                             -o-transform: translateY(-50%);
-                                transform: translateY(-50%);
+                        @include translate(0,-50%);
                         background: $roomAll -3.703704rem -2.314815rem no-repeat;
                         background-size: 5.555556rem;
                         z-index: 0;
@@ -198,14 +197,13 @@
 
             li:nth-of-type(2){
                 padding:0;
-                overflow:hidden;
+                overflow: hidden;
                 dl{
-                    border-bottom:2px solid #D5D5D5;
+                    border-bottom: 2px solid #D5D5D5;
                     width:12rem;
                     height:1.685185rem;
-                    position:relative;
+                    position: relative;
                     user-select: none;
-                    // transition: 0.3s;
                     dt{
                         float: left;
                         span{
@@ -224,7 +222,6 @@
                         border: none;
                         font-size:0.37037rem;
                         //    设置过渡动画
-                        
                         b{
                             font-weight:normal;
                         }
@@ -301,6 +298,10 @@
                        border:0.018519rem solid #B3DEAE;
                        border-radius:0.925926rem;
                        margin-top:0.222222rem;
+                       -webkit-transition-delay: 5s;
+                       -moz-transition-delay: 5s;
+                       -ms-transition-delay: 5s;
+                       -o-transition-delay: 5s;
                        transition-delay: 5s;
                     }
                 }
@@ -310,7 +311,7 @@
 
     .addFriend{
         width: 7.092593rem;
-        border-radius: 0.277778rem;
+        @include border-radius(0.277778rem);
         position: absolute;
         top:8.240741rem;
         span{
@@ -331,7 +332,7 @@
 
         p{
           input{
-              border-radius:0.092593rem;
+              @include border-radius(0.092593rem);
               height:0.925926rem;
               line-height:0.740741rem;
               font-size:0.462963rem;
@@ -339,7 +340,7 @@
               position:relative;
               padding-left:0.185185rem;
               bottom:0.5rem;
-              text-align:left;
+              text-align: left;
           }
           
         }
@@ -347,7 +348,7 @@
           width:2.777778rem;
           height: 1.0rem;
           line-height:0.925926rem;
-          border-radius: 0.509259rem;
+          @include border-radius(0.509259rem);
           font-size:0.555556rem;
           margin-bottom:0.462963rem;
           border: 0 none;
@@ -365,6 +366,10 @@
     .findFriend{
         width: 8.722222rem;
         height:4.62963rem;
+        -webkit-box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
+        -moz-box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
+        -ms-box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
+        -o-box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
         box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
         border-radius: 0.277778rem;
         position: absolute;
@@ -383,13 +388,13 @@
             top:0.185185rem;
             width:0.833333rem;
             height:0.925926rem;
-            border-radius:100%;
+            @include border-radius(100%);
             padding-right:0.092593rem;
         }
         img{
-            position:absolute;
-            left:0.962963rem;
-            top:0.648148rem;
+            position: absolute;
+            left: 0.962963rem;
+            top: 0.648148rem;
         }
         ul{
             li{
@@ -410,7 +415,7 @@
         }
         p{
           input{
-              border-radius:0.092593rem;
+              @include border-radius(0.092593rem);
               height:0.925926rem;
               line-height:0.740741rem;
               font-size:0.462963rem;

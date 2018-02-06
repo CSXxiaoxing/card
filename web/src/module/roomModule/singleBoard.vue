@@ -26,7 +26,7 @@
       </thead>
       <tbody>
         <tr>
-          <td>迷糊的诗诗 <img src="/dist/room_water1.png"></td> <td>+100</td> <td>10</td> <td>10</td>
+          <td>迷糊的诗诗 <img src="src/img/room_water1.png"></td> <td>+100</td> <td>10</td> <td>10</td>
         </tr>
         <tr>
           <td>迷糊的诗诗</td> <td>-20</td> <td>0</td> <td>10</td>
@@ -83,13 +83,13 @@
 
 <style lang='scss' scoped>
   @import '../../utils/baseVar.scss';
-//details
+//felx
   
   .single{
     
     width: 9.555556rem;
     height:14.925926rem;
-    border-radius: 0.277778rem;
+    @include border-radius(0.277778rem);
     &>span:nth-of-type(1){
       display: block;
       font-size: 0.574074rem;

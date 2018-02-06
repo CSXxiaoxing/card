@@ -86,12 +86,14 @@ input.error {
 .shu {
     position: relative;
     color: red;
+    -webkit-animation: shuyin 5s linear 2; 
     animation: shuyin 5s linear 2; 
     weight: 600;
 }
 .yin {
     position: relative;
     color: #33ffff;
+    -webkit-animation: shuyin 5s linear 2; 
     animation: shuyin 5s linear 2; 
     weight: 600;
 }
@@ -144,7 +146,7 @@ input.error {
       width:8.87037rem;
       height:2.12963rem;
       line-height: 1.805556rem;
-      background: url('/dist/module_home_no1.png') no-repeat;
+      background: url('../img/module_home_no1.png') no-repeat;
       background-position: center;
       background-size: 8.87037rem 2.12963rem; 
       text-align: center;
@@ -176,7 +178,7 @@ input.error {
       margin-bottom:0.462963rem;
       border: 0 none;
       color: white;
-      background: url('/dist/home_all.png') -1.944444rem -1.388889rem no-repeat;
+      background: url('../img/home_all.png') -1.944444rem -1.388889rem no-repeat;
       background-size: 5.555556rem 5.555556rem;
     }
     button:active {

@@ -30,11 +30,11 @@
 
 <style  lang='scss' scoped>
     @import '../../utils/baseVar.scss';
-    
+    // border-radius
     .join{
         width: 7.185185rem;
         margin-top: -0.277778rem;
-        border-radius: 0.277778rem;
+        @include border-radius(0.277778rem);
         .joinCenter{
             padding: 0 0.398148rem 0.388889rem 0.398148rem;  
         }
@@ -89,9 +89,9 @@
     ul{
         width: 100%;
         font-size: 0.462963rem;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
+        @include flexbox();
+        @include flex-wrap(wrap);
+        @include justify-content(space-between);
         li{
             height: 1.231481rem;
             width: 2.027778rem;

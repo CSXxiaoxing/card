@@ -21,12 +21,12 @@
         <div class='list'>
             <ul>
                 <li v-for='(data, player) in datalist' :key='data.id' @click='imgStyle.indexOf(player) >= 0 ? imgStyle.splice(imgStyle.indexOf(player),1) : imgStyle.push(player)'v-if='player != "count"'>
-                    <img src="../../img/chart_Room2.png" alt="">
+                    <img src="src/img/chart_Room2.png" alt="">
                     <dl>
                         <dt>{{data.zn_member_name}}</dt>
                         <dd>分数:<b>{{data.zn_points}}</b></dd>
                     </dl>
-                    <span><img v-show="imgStyle.indexOf(player) >= 0" src="../../img/module_room_setOwner2.png" alt=""></span>
+                    <span><img v-show="imgStyle.indexOf(player) >= 0" src="src/img/module_room_setOwner2.png" alt=""></span>
                 </li>
             </ul>
         </div>
@@ -44,15 +44,15 @@
         header {
             height: 1.87037rem;
             padding: 1.018519rem 0.277778rem 0;
-            box-sizing: border-box;
+            @include box-sizing();
             background: #2F2E34;
             color: #fff;
             font-size:0.425926rem;
             ul {
                 height: 0.796296rem;
                 line-height: 0.796296rem;
-                display: flex;
-                justify-content: space-between;
+                @include flexbox();
+                @include justify-content(space-between);
                 li:nth-of-type(2){
                     text-align: center;
                 }
@@ -66,11 +66,7 @@
 
                         position: relative;
                         top: 50%;
-                        -webkit-transform: translate(0, -50%);
-                           -moz-transform: translate(0, -50%);
-                            -ms-transform: translate(0, -50%);
-                             -o-transform: translate(0, -50%);
-                                transform: translate(0, -50%);
+                        @include translate(0,-50%);
                         a {
                             padding: 0.259259rem 0.37037rem;
                         }

@@ -12,9 +12,10 @@
 
 <style lang='scss' scoped>
  @import '../../utils/baseVar.scss';
+  // box-sizing
   .tip{
     width: 7.092593rem;
-    border-radius: 0.277778rem;
+    @include border-radius(0.277778rem);
     position: absolute;
     top:8.240741rem;
     span{
@@ -49,7 +50,7 @@
       width:3.305556rem;
       height: 1.018519rem;
       line-height:0.925926rem;
-      border-radius: 0.509259rem;
+      @include border-radius(0.509259rem);
       font-size:0.555556rem;
       margin-bottom:0.462963rem;
       border: 0 none;

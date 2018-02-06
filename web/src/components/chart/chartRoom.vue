@@ -19,11 +19,11 @@
                 <li v-show='roomstatus == 3'>聊天室（{{lingth*1+1}}）</li>
                 <li v-show='roomstatus == 3'>
                     <router-link :to="chartList" >
-                    <img src="../../img/chart_Room7.png" alt="">
+                    <img src="src/img/chart_Room7.png" alt="">
                     </router-link>
                 </li>
                 <li  v-show='roomstatus == 1'  @click = 'give == 0 ? give = 1 : give = 0'>给他＋/－分</li>
-                <li v-show='(roomstatus == 1 || roomstatus == 2)&& isfriend == 0'><img src="../../img/chart_Room5.png" alt="">加友</li>
+                <li v-show='(roomstatus == 1 || roomstatus == 2)&& isfriend == 0'><img src="src/img/chart_Room5.png" alt="">加友</li>
                 <li v-show='roomstatus ==2'>{{shename}}</li>
             </ul>
         </header>
@@ -32,7 +32,7 @@
                 <!-- 单聊 -->
                 <li v-for="(data, idx) in (roomstatus == 2 || roomstatus == 1 ? $store.state.txt : '')" 
                 :class="$store.state.txt_idx[idx] >=0 ? 'left' : 'right'"   :key = '$store.state.txt_time[idx]' v-if='data != ""'>
-                    <img :src="$store.state.txt_idx[idx] >=0 ? '../../img/home_head.png':'../../img/room03.png'" alt="">
+                    <img :src="$store.state.txt_idx[idx] >=0 ? 'src/img/home_head.png':'src/img/room03.png'" alt="">
                     <div class="test">
                         <span class="bot"></span>
                        {{data}}
@@ -44,7 +44,7 @@
                 <!-- 群聊 -->
                 <li v-for="(data, idx) in (roomstatus == 3 ? $store.state.txt : '')" 
                 :class="$store.state.txt_idx[idx] >=0 ? 'left' : 'right'"   :key = '$store.state.txt_time[idx]' v-if='data != ""'>
-                    <img :src="$store.state.txt_idx[idx] >=0 ? '../../img/home_head.png':'../../img/room03.png'" alt="">
+                    <img :src="$store.state.txt_idx[idx] >=0 ? 'src/img/home_head.png' : 'src/img/room03.png'">
                     <div class="test">
                         <span class="bot"></span>
                        {{data}}
@@ -65,12 +65,12 @@
         <footer>
 
         	<div v-if='speak == 0'>
-                <img src="../../img/chart_Room1.png" @touchend='speak = 1'>
+                <img src="src/img/chart_Room1.png" @touchend='speak = 1'>
                 <span>按住 说话</span>
             </div>
 
             <div v-if='speak == 1'>
-                <img src="../../img/724876052125097875.png" @touchend='speak = 0'>
+                <img src="src/img/724876052125097875.png" @touchend='speak = 0'>
                 <form action="#">
                   <input type="text" v-model='txt'/>
                   <span @click='textPush'>发送</span>

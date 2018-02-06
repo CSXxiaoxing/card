@@ -74,7 +74,7 @@
             </label>
             <label :judge='"open"' @click='boxNo'>
                 <span>
-                    <img src="/dist/varTrue.png" v-show='imgState.open' height="81" width="76" alt="" />
+                    <img src="src/img/varTrue.png" v-show='imgState.open' height="81" width="76" alt="" />
                 </span>
                 公开
             </label>
@@ -92,13 +92,13 @@
             <span>玩法：</span>
             <label :judge='"cardFn5"'>
                 <span>
-                    <img src="/dist/varTrue.png" v-show='imgState.cardFn == 5' height="81" width="76" alt="" />
+                    <img src="src/img/varTrue.png" v-show='imgState.cardFn == 5' height="81" width="76" alt="" />
                 </span>
                 5副牌 
             </label>
             <label :judge='"cardFn7"'>
                 <span>
-                    <img src="/dist/varTrue.png" v-show='imgState.cardFn == 7' height="81" width="76" alt="" />
+                    <img src="src/img/varTrue.png" v-show='imgState.cardFn == 7' height="81" width="76" alt="" />
                 </span>
                 7副牌 
             </label>
@@ -110,13 +110,13 @@
             </p>
             <label :judge='"bell"'>
                 <span>
-                    <img src="/dist/varTrue.png" v-show='imgState.room == "bell"' height="81" width="76" alt="" />
+                    <img src="src/img/varTrue.png" v-show='imgState.room == "bell"' height="81" width="76" alt="" />
                 </span>
                 钟点房 
             </label>
             <label :judge='"day"'>
                 <span>
-                    <img src="/dist/varTrue.png" v-show='imgState.room == "day"' height="81" width="76" alt="" />
+                    <img src="src/img/varTrue.png" v-show='imgState.room == "day"' height="81" width="76" alt="" />
                 </span>
                 日费房 
             </label>
@@ -143,7 +143,7 @@
 
                 <label v-for='times in oxOpen.time' :judge='times' >
                     <span>
-                        <img src="/dist/varTrue.png" v-show='imgState.time == times'/>
+                        <img src="src/img/varTrue.png" v-show='imgState.time == times'/>
                     </span>
                     {{times/60 >= 1 ? (times/60 + oxOpen.miss[1]): (times+oxOpen.miss[0])}}
                 </label>

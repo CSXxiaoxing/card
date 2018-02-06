@@ -30,7 +30,7 @@
           class="findFriend" >
           <div>
              <i v-on:click="findFriend = false">×</i>
-            <img src="../../img/friend1.png" alt="">
+            <img src="src/img/friend1.png" alt="">
             <ul>
                 <li>{{friendName}}</li>
                 <li> id : {{friendId}}</li>

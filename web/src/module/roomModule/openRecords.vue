@@ -32,12 +32,14 @@
 <!-- cellspacing="0"// position: sticky; -->
 <style lang='scss' scoped>
     @import '../../utils/baseVar.scss';
+    // flex
+
     .openRecords.five{
         width: 9.555556rem;
         max-height: 15.277778rem;
-        border-radius: 0.314815rem;
+         @include border-radius(0.314815rem);
         padding: 0 0.388889rem;
-        box-sizing: border-box;
+        @include box-sizing();
         overflow-y: hidden;
         h3{
             height: 0.87037rem;
@@ -123,9 +125,9 @@
     .openRecords.seven{
         width: 9.555556rem;
         max-height: 15.277778rem;
-        border-radius: 0.314815rem;
+         @include border-radius(0.314815rem);
         padding: 0 0.388889rem;
-        box-sizing: border-box;
+        @include box-sizing();
         overflow-y: hidden;
         h3{
             height: 0.87037rem;

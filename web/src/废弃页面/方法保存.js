@@ -160,3 +160,17 @@ self.$parent.errorTips = res.msg;
 self.$parent.careTip = true;
 self.errorTips = res.msg;
 self.careTip = true;
+
+
+created: function() {
+    this.oxOpen = this.$store.state.initRoom;
+    this.boxState.radio = this.oxOpen.oxK;
+},
+
+// 隐藏滚动条ios
+-webkit-overflow-scrolling: touch;
+
+// 文字超出隐藏
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;

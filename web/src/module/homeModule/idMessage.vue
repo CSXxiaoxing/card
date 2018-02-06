@@ -4,7 +4,7 @@
     v-model="idMessage"
     popup-transition="popup-fade"
     class="mess">
-    <img src="/dist/module_home_id1.png" height="222" width="238" alt="">
+    <img src="src/img/module_home_id1.png" height="222" width="238" alt="">
     <p>{{name}}<br>ID:{{id}}</p>
     <i v-on:click="idMessage = false"></i>
     <mt-button type="primary"  @click="loginOut">
@@ -17,13 +17,14 @@
 
 <style lang='scss' scoped>
   @import '../../utils/baseVar.scss';
+  // border-radius
   .mess{
     img{
       width:2.203704rem;
       height:2.055556rem;
     }
     width: 80%;
-    border-radius: 0.277778rem;
+    @include border-radius(0.277778rem);
     position: absolute;
     height:5.555556rem;
     margin-top: -1.851852rem;

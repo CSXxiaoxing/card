@@ -50,9 +50,9 @@
             	<li v-for='(data, key) in datalist' :key='data.id' v-if='key != "count"' 
                 :class='data.zn_member_id == cli ? "click" : ""' @touchend='cli = data.zn_member_id'>
                     
-            		<img src="../../img/chart_Room2.png" alt="">
+            		<img src="src/img/chart_Room2.png" alt="">
                     <b>{{data.zn_member_name}}</b>
-                    <span><img src="../../img/chart_List1.png" alt="">加友</span>
+                    <span><img src="src/img/chart_List1.png" alt="">加友</span>
             	</li>
 
             </ul>
@@ -79,7 +79,7 @@
 
     .mut{
         width: 7.092593rem;
-        border-radius: 0.277778rem;
+        @include border-radius(0.277778rem);
         position: absolute;
         top:8.240741rem;
         span{
@@ -106,15 +106,15 @@
           position:relative;
           left:0.740741rem;
           bottom:0.462963rem;
-          text-align:left;
+          text-align: left;
         }
         button{
           width:2.777778rem;
           height: 1.0rem;
           line-height:0.925926rem;
-          border-radius: 0.509259rem;
-          font-size:0.555556rem;
-          margin-bottom:0.462963rem;
+          @include border-radius(0.509259rem);
+          font-size: 0.555556rem;
+          margin-bottom: 0.462963rem;
           border: 0 none;
           color: white;
           background: $homeAll -1.944444rem -1.388889rem no-repeat;
@@ -134,14 +134,14 @@
         header {
             height: 1.87037rem;
             padding: 1.018519rem 0.277778rem 0.0rem;
-            box-sizing: border-box;
+            @include box-sizing();
             background: #2F2E34;
             color: #fff;
             ul {
                 height: 0.796296rem;
                 line-height: 0.796296rem;
-                display: flex;
-                justify-content: space-between;
+                @include flexbox();
+                @include justify-content(space-between);
                 font-size:0.462963rem;
                 li:nth-of-type(2){
                     text-align: center;
@@ -155,11 +155,7 @@
                         background-size: 5.555556rem;
                         position: relative;
                         top: 50%;
-                        -webkit-transform: translate(0, -50%);
-                           -moz-transform: translate(0, -50%);
-                            -ms-transform: translate(0, -50%);
-                             -o-transform: translate(0, -50%);
-                                transform: translate(0, -50%);
+                        @include translate(0,-50%);
                         a {
                             padding: 0.259259rem 0.37037rem;
                         }
@@ -170,7 +166,7 @@
         
         .list{
             width: 100%;
-            height:14.240741rem;
+            height: 14.240741rem;
             overflow-y:auto;
             overflow-x:hidden;
             background:white;
@@ -189,9 +185,7 @@
                     min-width:2.962963rem;
                     min-height: 1.194444rem;
                     line-height:1.203704rem;
-                    background-position: center;
-                    background-size:cover;
-                    position:relative;
+                    position: relative;
                     bottom:0.462963rem;
                     font-weight: normal;
                 }
@@ -199,9 +193,9 @@
                      width:1.833333rem;
                      height:0.833333rem;
                      border:0.027778rem solid #CDE9CC;
-                     border-radius:0.925926rem;
-                     float:right;
-                     position:relative;
+                     @include border-radius(0.925926rem);
+                     float: right;
+                     position: relative;
                      top:0.462963rem;
                      right:0.462963rem;
                      color:#13BD11;
@@ -239,9 +233,9 @@
                   line-height: 0.925926rem;
                   font-size:0.555556rem;
                   border: none;
-                  background:$chart03  no-repeat;
+                  background: $chart03  no-repeat;
                   background-position:center;
-                  background-size:4.231481rem 1.231481rem;
+                  background-size: 100% 100%;
                   margin-top: 0.277778rem;
                   a{color: #fff;}
                 }
@@ -252,7 +246,7 @@
             }
             button:nth-of-type(1){
                 background: $chart04 no-repeat;
-                background-size:4.231481rem 1.231481rem;
+                background-size: 100% 100%;
                 background-position:center;
             }
         }
@@ -269,7 +263,8 @@
       @extend .mut;
         button:nth-of-type(2){
             background: $chart04 no-repeat;
-            background-position:center;
+            background-position: center;
+            background-size: 100% 100%;
         }
     }
 </style>

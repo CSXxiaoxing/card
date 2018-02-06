@@ -48,6 +48,15 @@ $login04 : url('../../img/zhuce.png');
     display: flex;
 }
 
+// @include box-sizing();
+@mixin box-sizing() {       // box-sizing
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
 // @include direction(val);
 @mixin direction($val) {  // flex-direction: column;
     @if ($val==row) {
@@ -87,7 +96,7 @@ $login04 : url('../../img/zhuce.png');
 }
 
 // @include justify-content($val);
-@mixin justify-content($val) {  // justify-content: space-around;
+@mixin justify-content($val) {
     @if ($val == flex-start) {
         -webkit-box-pack: start;
         -moz-box-pack: start;
@@ -112,14 +121,63 @@ $login04 : url('../../img/zhuce.png');
     justify-content: $val; 
 }
 
-
-@mixin flex($values) {
--webkit-box-flex: $values;
--moz-box-flex:  $values;
--webkit-flex:  $values;
--ms-flex:  $values;
-flex:  $values;
+// @include flex-wrap();
+@mixin flex-wrap($wrap) {
+    @if ($wrap==nowrap) {
+        -webkit-box-lines: single;
+        -moz-box-lines: single;
+        box-lines: single;
+    }
+    @if ($wrap==wrap) {
+        -webkit-box-lines: multiple;
+        -moz-box-lines: multiple;
+        box-lines: multiple;
+    }
+    -webkit-flex-wrap: $wrap;
+    -ms-flex-wrap: $wrap;
+    flex-wrap: $wrap;
 }
+
+// @include align-itwms();
+@mixin align-itwms($align-items) {
+    @if ($align-items == flex-start) {
+        -webkit-box-align: start;
+        -moz-box-align: start;
+        box-align: start;
+    }
+    @if ($align-items == flex-end) {
+        -webkit-box-align: end;
+        -moz-box-align: end;
+        box-align: end;
+    }
+    @if ($align-items == center) {
+        -webkit-box-align: center;
+        -moz-box-align: center;
+        box-align: center;
+    }
+    @if ($align-items == baseline) {
+        -webkit-box-align: baseline;
+        -moz-box-align: baseline;
+        box-align: baseline;
+    }
+    @if ($align-items == stretch) {
+        -webkit-box-align: stretch;
+        -moz-box-align: stretch;
+        box-align: stretch;
+    }
+    -webkit-align-items: $align-items;
+    align-items: $align-items;
+}
+
+// @include flex();
+@mixin flex($values) {
+    -webkit-box-flex: $values;
+    -moz-box-flex:  $values;
+    -webkit-flex:  $values;
+    -ms-flex:  $values;
+    flex:  $values;
+}
+
 
 @mixin order($val) {
 -webkit-box-ordinal-group: $val;  
@@ -127,15 +185,6 @@ flex:  $values;
 -ms-flex-order: $val;     
 -webkit-order: $val;  
 order: $val;
-}
-
-// @include box-sizing();
-@mixin box-sizing() {       // box-sizing
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    -o-box-sizing: border-box;
-    box-sizing: border-box;
 }
 
 // @include translate(x,y);
@@ -147,7 +196,7 @@ order: $val;
             transform: translate($x,$y);
 }
 
-// @include transition(ele,s);
+// @include transition(all,s);
 @mixin transition($ele,$s){     // transition: all 1s;
     -webkit-transition: $ele $s;
        -moz-transition: $ele $s;
@@ -174,3 +223,11 @@ order: $val;
             border-radius: $px;
 }
 
+// @include transformRanT()
+@mixin transformRanT($x,$y,$deg){
+    -webkit-transform: translate($x, $y) rotateY($deg);
+    -moz-transform: translate($x, $y) rotateY($deg);
+    -ms-transform: translate($x, $y) rotateY($deg);
+    -o-transform: translate($x, $y) rotateY($deg);
+    transform: translate($x, $y) rotateY($deg);
+}

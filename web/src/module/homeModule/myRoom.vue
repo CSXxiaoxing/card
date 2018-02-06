@@ -12,7 +12,7 @@
         </h3>
         <div class="select" >
             <div>
-                <img  :class ='sel == 0 ? "left":"right"' src="/dist/module_home_myRoom1.png" alt="">
+                <img  :class ='sel == 0 ? "left":"right"' src="src/img/module_home_myRoom1.png" alt="">
                 <button @click='sel = 0 '>我开的房间</button>
                 <button @click='sel = 1 '>加入的房间</button>
             </div>
@@ -59,10 +59,10 @@
 
 <style  lang='scss' scoped>
    @import '../../utils/baseVar.scss';
-    
+    // direction
     .mine{
         width:7.12963rem;
-        border-radius: 0.259259rem;
+        @include border-radius(0.259259rem);
         p{height: 1.666667rem; width: 100%;}
         h3{
           padding: 0;
@@ -101,7 +101,7 @@
           width:5.185185rem;
           height:0.833333rem;
           line-height:0.87037rem;
-          border-radius:0.462963rem;
+          @include border-radius(0.462963rem);
           background-color:white;
           border:0.046296rem solid #E1DFE0;
           div{
@@ -144,19 +144,19 @@
               position:absolute;
               left:3.703704rem;
               top:1.666667rem;
-              transition:all 1s;
+              @include transition(all,1s);
             }
             img.left{
-              position:absolute;
-              left:0.740741rem;
-              top:1.666667rem;
-               transition:all 1s;
+                position:absolute;
+                left:0.740741rem;
+                top:1.666667rem;
+                @include transition(all,1s);
             }
         }
         }
 
         .room{
-            flex: 1;
+            @include flex(1);
             // border: 1px solid #000;
             overflow-y: auto;
             overflow-x: hidden;
@@ -164,7 +164,7 @@
             background:$home06 no-repeat;
             background-size: cover;
             background-position:center;
-            border-radius: 0.259259rem;
+            @include border-radius(0.259259rem);
             p{
               font-size:0.444444rem;
               color: #9B9A98;
@@ -173,10 +173,10 @@
             }
             ul{
                 padding: 1%;
-                display: flex;
-                justify-content: flex-start;
-                flex-direction:row;
-                flex-wrap: wrap;
+                @include flexbox();
+                @include justify-content(flex-start);
+                @include direction(row);
+                @include flex-wrap(wrap);
                 li{
                     // width: 342px;
                     width: 32.2%;
@@ -223,7 +223,7 @@
                         padding: 0.0rem 0.166667rem 0.0rem;
                         position: relative;
                         bottom: 0;
-                        border-radius:0.185185rem;
+                        @include border-radius(0.185185rem);
                         h5{
                             color: #fff;
                             font-size: 0.259259rem;
@@ -234,8 +234,8 @@
                             width:1.981481rem;
                             height:0.222222rem;
                             color: #C4C4C4;
-                            display: flex;
-                            justify-content: space-between;
+                            @include flexbox();
+                            @include justify-content(space-between);
                             span{
                                 position:relative;
                                 bottom:0.5rem;
@@ -244,11 +244,11 @@
                                 height:0.222222rem;
                             }
                             span:nth-of-type(1){
-                                flex: 1;
+                                @include flex(1);
                                 text-align: right;
                             }
                             span:nth-of-type(2){
-                                flex: 1;
+                                @include flex(1);
                                 text-align: left;
                             }
                         }
