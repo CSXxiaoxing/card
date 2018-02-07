@@ -135,7 +135,7 @@
                         background-position:-4.351852rem -1.481481rem ;
                         background-size: 5.555556rem;
                         position: relative;
-                        top: 50%;
+                        top: 0.402963rem;
                         -webkit-transform: translate(0%, -50%);
                            -moz-transform: translate(0%, -50%);
                             -ms-transform: translate(0%, -50%);

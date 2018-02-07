@@ -12,6 +12,9 @@ a{
 .fl{
     float:left;
 }
+input{
+  outline: none;
+}
 button{
   -webkit-tap-highlight-color: #000000;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);

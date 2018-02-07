@@ -172,6 +172,9 @@
                         } else if( res.status == 0 ){
                             self.$parent.errorTips = '该房间不存在或不对外开放';
                             self.$parent.careTip = true;
+                        } else if( res.status == 3 ){
+                            self.$parent.errorTips = '等待房主确认';
+                            self.$parent.careTip = true;
                         }
                     })
             }else if(this.val.length > 6){

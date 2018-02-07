@@ -65,7 +65,7 @@
                         background-size: 5.555556rem;
 
                         position: relative;
-                        top: 50%;
+                        top: 0.402963rem;
                         @include translate(0,-50%);
                         a {
                             padding: 0.259259rem 0.37037rem;
