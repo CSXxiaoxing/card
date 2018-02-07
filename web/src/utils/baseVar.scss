@@ -173,18 +173,23 @@ $login04 : url('../../img/zhuce.png');
 @mixin flex($values) {
     -webkit-box-flex: $values;
     -moz-box-flex:  $values;
-    -webkit-flex:  $values;
-    -ms-flex:  $values;
-    flex:  $values;
+    -ms-box-flex:  $values;
+    -o-box-flex:  $values;
+    -webkit-flex: $values;
+    -moz-flex: $values;
+    -ms-flex: $values;
+    -o-flex: $values;
+    box-flex:  $values;
+    flex: $values;
 }
 
-
+// @include order();
 @mixin order($val) {
--webkit-box-ordinal-group: $val;  
--moz-box-ordinal-group: $val;     
--ms-flex-order: $val;     
--webkit-order: $val;  
-order: $val;
+    -webkit-box-ordinal-group: $val;  
+    -moz-box-ordinal-group: $val;     
+    -ms-flex-order: $val;     
+    -webkit-order: $val;  
+    order: $val;
 }
 
 // @include translate(x,y);
@@ -230,4 +235,13 @@ order: $val;
     -ms-transform: translate($x, $y) rotateY($deg);
     -o-transform: translate($x, $y) rotateY($deg);
     transform: translate($x, $y) rotateY($deg);
+}
+
+// @include imgxx7();
+@mixin imgxx7($item) {
+    right: #{5.56-$item}rem;
+}
+
+@mixin imgxx5($item) {
+    right: #{5.3-$item}rem;
 }

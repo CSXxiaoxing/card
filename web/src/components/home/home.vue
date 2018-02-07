@@ -124,7 +124,7 @@
 	export default {
 		data: function(){
 			return {
-				loading: false,		// loading
+				loading: false,		// loading values
 				careTip : false,
 				errorTips: '',		// 错误信息
 				datagrid : '',
@@ -320,11 +320,10 @@
                     p 		 : self.$store.state.data.DTpage,
                 }, '')
                 .then(res => {
-                	console.log(res)
                 	if(res.status == 1){
                 	var arr = [];
                 	var dtid = self.$store.state.data.DTid;
-                	var arrlength = Object.values(res.data).length;
+                	var arrlength = res.data.length;
                     var DTcount = 0;
                     var weiyi = 0;
                     for(let i in res.data){

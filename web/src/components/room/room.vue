@@ -121,7 +121,7 @@
                 <ul>
 
 
-                    <!-- li -->
+                    <!-- li img -->
                     <li v-for='(datalist,index) in 7' 
                         :class='[(init.cardFn == 7 ? "b7" : "a5"), 
                         (time.index == index ? "bgccc" : ""), 
@@ -129,7 +129,7 @@
                         :size = 'index'
                         v-show='init.cardFn == 5 ? index != 2 && index != 6 : true'
 
-                         @click="[(time.index != index && cardURL.clck == -1 ? playerBottom(index) : false), (init.textStyle == 4 ? cardURL.clck=index : '')]" 
+                         @click="[(time.index != index && cardURL.clck == -1 ? playerBottom(index) : false), (init.textStyle == 4 ? cardURL.clck=index : '')]"
                          @touchend='ordinary.Pn = index '>
 
                         <img v-for='dat in 5' src="src/img/room3.png">
@@ -351,7 +351,7 @@
                     nickname : ['没牛', '牛一', '牛二', '牛三', '牛四',
                                '牛五', '牛六', '牛七', '牛八', '牛九', 
                                '牛牛', '五花牛', 'J大', 'Q大', 'K大'],
-                    src : ["./src/img/z999.png", "./src/img/cardPlus/"],
+                    src : ["src/img/Z999.png", "src/img/cardPlus/"],
                     c3Type : ["", "", "", ""],  // c3状态控制[ 0卡牌出现, 1发牌效果, 2翻牌动效, 3翻牌2]
                     clck : -1, // 点击翻转
 
@@ -377,6 +377,10 @@
         },
         mounted: function(){
             let self = this;
+            self.cardURL.c3Type[0] = 'start' ;
+            self.cardURL.c3Type[1] = 'card0' ;
+            self.cardURL.c3Type[2] = 'reversal';
+            self.cardURL.c3Type[3] = 'reveEnd';
             // if(self.$store.state.self.addtype == 1){    // 更新分数
             //     self.list() 
             //     console.log(self.$store.state.self.addtype)

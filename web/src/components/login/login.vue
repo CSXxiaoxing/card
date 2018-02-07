@@ -100,7 +100,6 @@
 
 <style  lang='scss' scoped>
 	@import '../../utils/baseVar.scss';
-
     b{
     	padding: 0.092593rem;
     }
@@ -124,7 +123,7 @@
     	text-align: left;
     	span {
     		display: inline-block;
-    		font-size: 0.444444rem;
+    		font-size: 0.41rem;
     		line-height: 0.851852rem;
     		width: 1.944444rem;
     	}
@@ -268,7 +267,7 @@
 	}
 	.zhuce {
 		// width: 8.666667rem;
-		width: 80%;
+		width: 90%;
 		padding: 0.37037rem 0.37037rem 0.388889rem 0.62963rem;
 		@include box-sizing();
 		border-radius: 0.277778rem;
@@ -292,7 +291,10 @@
 		label{
 		 	@include label; 
 			width: 100%;
-			span{width: 26%;}
+			span{
+				width: 26%;
+				font-size: 0.41rem;
+			}
 			input{
 				width: 70%;
 				-webkit-box-sizing: border-box;
@@ -371,6 +373,7 @@
 			@include label;
 			span{
 				width: 26%;
+				font-size: 0.41rem;
 			}
 			input{
 				width: 60%;
@@ -498,11 +501,12 @@
 			} else {
 				this.a = 0;
 			}
-			// function myrefresh(){ 
-			// 	window.location.reload(); 
-			// }
-			// this.$store.state.self.shuaxin = 1
-			// myrefresh()
+			var url = location.href; //把当前页面的地址赋给变量 url
+			var times = url.split("?"); //分切变量 url 分隔符号为 "?"
+			if(times[1] != 1){ //如果?后的值不等于1表示没有刷新
+			url += "?1"; //把变量 url 的值加入 ?1
+				window.location.replace(url); //刷新页面
+			}
 			function reurl(){
 				var url = location.href; //把当前页面的地址赋给变量 url
 				var times = url.split("?"); //分切变量 url 分隔符号为 "?"
@@ -511,7 +515,9 @@
 					window.location.replace(url); //刷新页面
 				}
 			}
-			onload = reurl();
+			setTimeout(()=>{
+				reurl()
+			},2000)
 		},
 		methods: {
 			local () {

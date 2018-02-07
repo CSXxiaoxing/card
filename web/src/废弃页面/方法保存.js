@@ -9,6 +9,31 @@ function length(o) {
 };
 console.log(length(a));
 
+/* @mixin time01    {   
+    transition-duration: .6s;
+    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
+    transition-delay: 0s;
+}
+@mixin time02    {   
+    transition-duration: .6s;
+    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
+    transition-delay: .2s;
+}
+@mixin time03    {   
+    transition-duration: .6s;
+    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
+    transition-delay: .4s;
+}
+@mixin time01    {   
+    transition-duration: .6s;
+    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
+    transition-delay: .6s;
+}
+@mixin time01    {   
+    transition-duration: .6s;
+    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
+    transition-delay: .8s;
+} */
 // GET/POST请求
 http.post( '/Chat/createChat', {
             zc_from: obj.myId, // 自己的id
