@@ -137,6 +137,7 @@
     import http from '../../utils/httpClient.js';
     import Vue from 'vue';
     import loading from '../loading/loading.vue';
+    import router from '../../router/';
     Vue.component('loading', loading)
 
 	export default {
@@ -186,6 +187,7 @@
                             console.log(vx.message);
                             self.content="";
                             self.num = 0;
+                            router.push({path: `room/${this.$store.state.idRoom.room_id}`});
                         }
                     })
                 }

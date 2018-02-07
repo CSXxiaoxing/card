@@ -18,29 +18,29 @@
             </ul>
         </header>
 
-
-		<table  v-for='(list,listkey) in waterList' border="1" cellpadding="0" cellspacing="0">
-			<thead>
-				<tr>
-					<td colspan="4">第{{waterList.length - listkey}}局</td>
-				</tr>
-				<tr>
-					<td>昵称</td> <td>分数流水</td> <td>抽水分数</td> <td>结余分数</td>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for = 'data in list'>
-					<td>{{data.name}} <img src="/dist/room_water1.png" v-if='data.ForZ == 1'></td> <td :class='data.water >=0 ? "" : "red"' >{{ data.water>=0 ? '+'+ data.water : data.water}}</td> <td>{{data.wFen}}</td> <td>{{data.fen}}</td>
-				</tr>
-				<tr class="total"  v-if="seen">
-					<td>房间余剩分数</td> <td colspan="3">{{data.fraction}}</td>
-				</tr>
-				<tr class="open" v-if="!seen && $store.state.idRoom.ForT == 1">
-					<td colspan="4" @click="more">点击加载更多</td>
-				</tr>
-			</tbody>
-		</table>
-
+        <center>
+    		<table  v-for='(list,listkey) in waterList' border="1" cellpadding="0" cellspacing="0">
+    			<thead>
+    				<tr>
+    					<td colspan="4">第{{waterList.length - listkey}}局</td>
+    				</tr>
+    				<tr>
+    					<td>昵称</td> <td>分数流水</td> <td>抽水分数</td> <td>结余分数</td>
+    				</tr>
+    			</thead>
+    			<tbody>
+    				<tr v-for = 'data in list'>
+    					<td>{{data.name}} <img src="/dist/room_water1.png" v-if='data.ForZ == 1'></td> <td :class='data.water >=0 ? "" : "red"' >{{ data.water>=0 ? '+'+ data.water : data.water}}</td> <td>{{data.wFen}}</td> <td>{{data.fen}}</td>
+    				</tr>
+    				<tr class="total"  v-if="seen">
+    					<td>房间余剩分数</td> <td colspan="3">{{data.fraction}}</td>
+    				</tr>
+    				<tr class="open" v-if="!seen && $store.state.idRoom.ForT == 1">
+    					<td colspan="4" @click="more">点击加载更多</td>
+    				</tr>
+    			</tbody>
+    		</table>
+        </center>
 		
 
 		

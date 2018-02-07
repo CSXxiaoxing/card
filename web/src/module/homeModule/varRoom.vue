@@ -153,17 +153,17 @@
             <p>
                 庄家封顶预赔分或最低上庄分数：
             </p>
-            <input type="text"  v-model.number='imgState.minGrade' :class='init.error.minG ? "error" : ""' @focus='init.error.minG = false'/>
+            <input type="text" onkeyup="this.value=this.value.replace(/\D/g, '')"  v-model.number='imgState.minGrade' :class='init.error.minG ? "error" : ""' @focus='init.error.minG = false'/>
         </li>
         <li>
             <span>玩家下注范围：</span>
-            <input type="text" v-model.number='imgState.scope[0]' :class='init.error.minS ? "error" : ""' @focus='init.error.minS = false'/>
+            <input type="text" onkeyup="this.value=this.value.replace(/\D/g, '')" v-model.number='imgState.scope[0]' :class='init.error.minS ? "error" : ""' @focus='init.error.minS = false'/>
             <i></i>
-            <input type="text" v-model.number='imgState.scope[1]' :class='init.error.maxS ? "error" : ""' @focus='init.error.maxS = false'/>
+            <input type="text" onkeyup="this.value=this.value.replace(/\D/g, '')" v-model.number='imgState.scope[1]' :class='init.error.maxS ? "error" : ""' @focus='init.error.maxS = false'/>
         </li>
         <li>
             <span>抽庄赢分比例：</span>
-            <input type="text"  v-model.number='imgState.scale' :class='init.error.sca ? "error" : ""' @focus='init.error.sca = false'/>
+            <input type="text"  onkeyup="this.value=this.value.replace(/\D/g, '')" v-model.number='imgState.scale' :class='init.error.sca ? "error" : ""' @focus='init.error.sca = false'/>
             <span><span>%</span>(1-15)</span>
         </li>
     </ul>
@@ -201,6 +201,7 @@
                         minS: false,
                         maxS: false,
                         sca : false,
+                        inputS: false,
                     },
                 }, 
                 oxOpen: {},
@@ -322,6 +323,7 @@
                                     minS: false,
                                     maxS: false,
                                     sca : false,
+                                    inputS: false,
                                 };
 
                 var self = this;
@@ -333,9 +335,11 @@
                 Number(git.minGrade) <= 0 ? Err.minG = true : 
                 Number(git.scope[0]) <= 0 ? Err.minS = true :
                 Number(git.scope[1]) < Number(git.scope[0]) ? Err.maxS = true :
-                Number(git.scale) < 1 || Number(git.scale) > 15 ? Err.sca = true : false;
+                Number(git.scale) < 1 || Number(git.scale) > 15 ? Err.sca = true : 
+                false;
 
                 if(!Err.roomName && !Err.minG && !Err.minS && !Err.maxS && !Err.sca) {
+
                     if(self.initType == 0) {
                         var options = { // 创建聊天群组
                             data: {

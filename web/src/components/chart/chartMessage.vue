@@ -59,7 +59,7 @@
                         background: $roomAll -4.351852rem -1.481481rem no-repeat;
                         background-size: 5.555556rem;
                         position: relative;
-                        top: 50%;
+                        top: 0.122963rem;
                         @include translate(0,-50);
                         a {
                             padding: 0.259259rem 0.37037rem;

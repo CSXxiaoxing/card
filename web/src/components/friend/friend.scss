@@ -25,7 +25,7 @@
                     background: $roomAll -4.351852rem -1.481481rem no-repeat;
                     background-size: 5.555556rem;
                     position: relative;
-                    top: 50%;
+                    top: 0.302963rem;
                     @include translate(0,-50%);
                     a {
                         padding: 0.259259rem 0.37037rem;
@@ -64,16 +64,30 @@
                 height: 0;
                 overflow: hidden;
                 padding: 0 0.324074rem;
+                overflow: hidden;
                 -webkit-box-shadow: 0 -0.018519rem 0.185185rem #CFD0D2;
                    -moz-box-shadow: 0 -0.018519rem 0.185185rem #CFD0D2;
                     -ms-box-shadow: 0 -0.018519rem 0.185185rem #CFD0D2;
                      -o-box-shadow: 0 -0.018519rem 0.185185rem #CFD0D2;
                         box-shadow: 0 -0.018519rem 0.185185rem #CFD0D2;
                 dl {
+                    width:11.8rem;
                     overflow-y: auto;
                     overflow-x: hidden;
                     max-height: 9.444444rem;
                     dd {
+                        .remove{
+                            line-height:1.685185rem;
+                            width:2rem;
+                            line-height:1.925926rem;
+                            background-color: #DA480D;
+                            color:white;
+                            position:absolute;
+                            right:0rem;
+                            top:0px;
+                            padding:0rem 0rem;
+                        }
+                        position:relative;
                         padding: 0.277778rem 0;
                         @include flexbox()
                         font-size: 0.407407rem;
@@ -99,6 +113,7 @@
                             border: 0.027778rem solid #B7DBB5;
                             @include border-radius(0.444444rem);
                             position: relative;
+                            right:2.5rem;
                             line-height: 0.87037rem;
                             text-align: right;
                             padding-right: 0.324074rem; 
