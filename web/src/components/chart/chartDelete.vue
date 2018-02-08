@@ -39,6 +39,10 @@
     @import '../../utils/baseVar.scss';
     .chartDelete {
         height: 100%;
+        width: 100%;
+        position:fixed;
+        left:0;
+        top:0;
         background: #ECEDF1;
         
         header {

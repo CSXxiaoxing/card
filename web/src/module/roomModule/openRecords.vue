@@ -48,7 +48,7 @@
         // width: 9.555556rem;
         width: 96%;
         max-height: 15.277778rem;
-         @include border-radius(0.314815rem);
+        @include border-radius(0.314815rem);
         padding: 0 0.388889rem;
         @include box-sizing();
         overflow-y: hidden;

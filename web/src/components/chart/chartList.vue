@@ -129,8 +129,13 @@
 
     .chartList {
         height: 100%;
+        width: 100%;
+        position: fixed;
+        left:0;
+        top:0;
         background: #ECEDF1;
-        
+        @include flexbox();
+        @include direction(column);
         header {
             height: 1.87037rem;
             padding: 1.018519rem 0.277778rem 0.0rem;
@@ -166,7 +171,8 @@
         
         .list{
             width: 100%;
-            height: 14.240741rem;
+            // height: 14.240741rem;
+            flex:1;
             overflow-y:auto;
             overflow-x:hidden;
             background:white;
@@ -227,18 +233,26 @@
 
         footer{
             width:100%;
+            height: 1.296296rem;
+            position: relative;
             button{
-                  width:4.111111rem;
-                  height:1.037037rem;
-                  line-height: 0.925926rem;
-                  font-size:0.555556rem;
-                  border: none;
-                  background: $chart03  no-repeat;
-                  background-position:center;
-                  background-size: 100% 100%;
-                  margin-top: 0.277778rem;
-                  a{color: #fff;}
-                }
+                width:4.111111rem;
+                height:1.037037rem;
+                line-height: 0.925926rem;
+                font-size:0.555556rem;
+                border: none;
+                background: $chart03  no-repeat;
+                background-position:center;
+                background-size: 100% 100%;
+                position: relative;
+                top: 50%;
+                -webkit-transform: translate(0,-50%);
+                   -moz-transform: translate(0,-50%);
+                    -ms-transform: translate(0,-50%);
+                     -o-transform: translate(0,-50%);
+                        transform: translate(0,-50%);
+                a{color: #fff;}
+            }
             button:active {
                     position: relative;
                     left: 0.018519rem;

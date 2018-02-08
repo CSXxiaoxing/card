@@ -1,8 +1,10 @@
 // 把尺寸放大N倍（N是window.devicePixelRatio）
-var wd = document.documentElement.clientWidth*window.devicePixelRatio/10;
+var wdaaachen = document.documentElement.clientWidth*window.devicePixelRatio/10;
 //物理像素*设备像素比=真实像素
-document.getElementsByTagName("html")[0].style.fontSize = wd + "px";
+document.getElementsByTagName("html")[0].style.fontSize = wdaaachen + "px";
 // 把屏幕的倍率缩小到N分之一（N是window.devicePixelRatio）
 var scale = 1/window.devicePixelRatio;
 var mstr = 'initial-scale='+ scale +', maximum-scale='+ scale +', minimum-scale='+ scale +', user-scalable=no';
 document.getElementById("vp").content = mstr;
+
+

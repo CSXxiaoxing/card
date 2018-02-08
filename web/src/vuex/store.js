@@ -56,7 +56,7 @@ export default new Vuex.Store({
             random: 3,      // 游戏选择庄牌时间
             speed: 80,      // 随机背景的速度
             endTime: 5,     // 庄开牌后等待时间
-            countTime: 10,  // 剩下全开倒计时
+            countTime: 1000,  // 剩下全开倒计时
         }, //基础时间设置
         // 设置值
         setRoom: {},

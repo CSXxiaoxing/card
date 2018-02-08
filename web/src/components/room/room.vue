@@ -108,7 +108,6 @@
                 </ul>
                 <span :class='win.css[1]'>{{win.cssFen[1]}}</span>
             </div>
-
             <div class='center'>
 
                 <h1>{{init.text[init.textStyle]}}
@@ -127,6 +126,7 @@
                         (time.index == index ? "bgccc" : ""), 
                         (ordinary.bg ? "bg" : "")] '
                         :size = 'index'
+                        id = "aaa1"
                         v-show='init.cardFn == 5 ? index != 2 && index != 6 : true'
 
                          @click="[(time.index != index && cardURL.clck == -1 ? playerBottom(index) : false), (init.textStyle == 4 ? cardURL.clck=index : '')]"
@@ -176,9 +176,6 @@
                     </li>
                 </ul>
             </div>
-
-
-
             <div class='right'>
                 <ul @click='speak'>
                     <li v-for='player in $store.state.data.Room["id"]' v-if='fanzhuID != player.zn_member_id' :id='player.zn_member_id'>
@@ -196,7 +193,6 @@
                 </ul>
             </div>
         </div>
-
         <footer>
             <ul>
                 <!-- <li><router-link to="/chartList/1" >好友</router-link></li> -->
@@ -377,15 +373,15 @@
         },
         mounted: function(){
             let self = this;
-            self.cardURL.c3Type[0] = 'start' ;
-            self.cardURL.c3Type[1] = 'card0' ;
-            self.cardURL.c3Type[2] = 'reversal';
-            self.cardURL.c3Type[3] = 'reveEnd';
             // if(self.$store.state.self.addtype == 1){    // 更新分数
             //     self.list() 
             //     console.log(self.$store.state.self.addtype)
             // }
             // init/Room/getRoom
+            // self.cardURL.c3Type[0] = 'start' ;
+            // self.cardURL.c3Type[1] = 'card0' ;
+            // self.cardURL.c3Type[2] = 'reversal';
+            // self.cardURL.c3Type[3] = 'reveEnd';
             http.post('/Room/getRooms',{
                     number: self.$route.params.id,
                 })
@@ -905,7 +901,7 @@
                 self.init.time = self.$store.state.idRoom.time;
                 self.cardURL.c3Type[0] = 'start' ;
                 self.cardURL.c3Type[1] = 'card0' ;
-                
+
                 // 延时器-发完牌后 -- 押注倒计时
                 Timeout['setT2'] = setTimeout( ()=>{
                     pageTimer['timer04'] = setInterval( ()=> {

@@ -1,5 +1,5 @@
 <template>
-	<div class='login'>
+	<div id='login'>
 		<mt-popup 
 		    v-model="careTip"
 		    popup-transition="popup-fade" :modal='false'
@@ -35,7 +35,6 @@
 		    </label>
 		    <span @touchend="input(4)" >确定</span>
 		</mt-popup>
-
 		<mt-popup
 		    v-model="phone"
 		    popup-transition="popup-fade" 
@@ -165,11 +164,15 @@
     	height: 0.361111rem;
     	width: 0.361111rem;
     }
-	.login {
+	#login {
 		height: 100%;
 		width: 100%;
 		background: $login02 no-repeat;
-		background-size: 100%;
+		background-size: 100% 100%;
+		position:fixed;
+		left:0;
+		top:0;
+		overflow:hidden;
 		@mixin spans {
 			width: 5.166667rem;
 			height: 1.268519rem;
@@ -264,6 +267,9 @@
 				bottom: 3rem;
 			}
 		}	
+	}
+	#login::-webkit-scrollbar {
+    	display: none;
 	}
 	.zhuce {
 		// width: 8.666667rem;

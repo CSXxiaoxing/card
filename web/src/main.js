@@ -47,7 +47,6 @@ if(!localStorage.oxQun){ // 群聊
 var socket = io(socketURL); //这里当然填写真实的地址了
 // uid可以是自己网站的用户id，以便针对uid推送以及统计在线人数
 var uid = localStorage.oxUid;
-// console.log(uid);
 // socket连接后以uid登录
 socket.on('connect', function () {
     console.log('socket连接成功')
@@ -63,6 +62,14 @@ socket.on('new_msg', function (data) {
         break;
     }    
 });
+
+if(!window.wdaaachen){   // 不存在rem则重新载入rem
+    var wdaaachen = document.documentElement.clientWidth*window.devicePixelRatio/10;
+    document.getElementsByTagName("html")[0].style.fontSize = wdaaachen + "px";
+    var scale = 1/window.devicePixelRatio;
+    var mstr = 'initial-scale='+ scale +', maximum-scale='+ scale +', minimum-scale='+ scale +', user-scalable=no';
+    document.getElementById("vp").content = mstr;
+}
 
 // socket心跳包
 var countSocket = 0;    // 心跳包
