@@ -164,7 +164,7 @@
                           @touchmove='touchMove'
                           :style="fquest == k ? deleteSlider: ''">
                             <span @touchend='friQuest = fquest'><i></i></span>
-                            <span>{{friends.mname}}</span>
+                            <span @touchend='friQuest = fquest' @click='liaotian()'>{{friends.mname}}</span>
                             <span @touchend='friQuest = fquest' @click='markFriend =true'><i></i>备注</span>
                             <span class="remove" ref='remove' @click="deleteFri()">删除</span>
                             <!--@click='liaotian'-->
@@ -215,6 +215,7 @@
                 disX: 0,    //移动距离
                 deleteSlider: '',//滑动时的效果,使用v-bind:style="deleteSlider"
                 k:-1,
+                ForZ: 0,// 庄时状态为1
             }
         },
         mounted: function(){
@@ -282,7 +283,11 @@
         },
         methods: {
             liaotian() {    // 点击好友聊天 zid玩家id
-                router.push({path: `/chartRoom/[2,10086,950,1,"一起聊天呀"`});
+                var self = this;
+                console.log( JSON.stringify(self.friendList[self.friQuest].mname));
+                console.log(Number( self.friendList[self.friQuest].fid));
+                router.push({path: `/chartRoom/[2,${JSON.stringify(self.friendList[self.friQuest].mname)},
+                            ${Number( self.friendList[self.friQuest].fid)},${self.ForT},"一起聊天呀"`});
             },
             newWord() {
                 if(this.arrows == 1) {
