@@ -690,6 +690,7 @@ $fsize44: 0.407407rem;
                             transform: translate(105%,-50%);
                         }
                         &:nth-of-type(3){
+                            
                             transform: translate(210%,-50%);
                         }
                         &:nth-of-type(4){
@@ -707,29 +708,16 @@ $fsize44: 0.407407rem;
                         text-align: center;
                         position: relative;
                         right: 0.018519rem;
-                        min-width: 0.925926rem;
-                        min-height: 0.740741rem;
                         b{
                             text-align: center;
                             display: block;
-                            width: 100%;
                         }
                         b:nth-of-type(1){
                             position: absolute;
                             right: 0;
                         }
                         b:nth-of-type(2){
-                            position: absolute;
-                            left: 50%;
-                            top: 100%;
-                            transform: translate(-50%,0%);
                             color: red;
-                        }
-                        b:nth-of-type(3){
-                            position: absolute;
-                            left: 50%;
-                            top: 100%;
-                            transform: translate(-50%,100%);
                         }
                     }
                     .testCard{
@@ -849,12 +837,13 @@ $fsize44: 0.407407rem;
                     }
                 }
                 li.b7{
-                    padding:0.1rem;
+                    height:1.342593rem;
+                    width:6.666667rem;
+                    padding-top:0.074074rem;
                     margin-left:0.092593rem;
                     margin-top:0.138889rem;
-                    max-width:6.388889rem;
-                    max-height:1.388889rem;
                     position: relative;
+                    
                     span{
                         text-align: center;
                         b:nth-of-type(1){
@@ -1018,14 +1007,14 @@ $fsize44: 0.407407rem;
     width: 0.916667rem;
     weight: 0.916667rem;
     top: 50%;
-    // transform: translate(0,-50%); reveEnd
+    // transform: translate(0,-50%);
     @include translate(0%,-50%);
 }
 @mixin img7 {
     height: 1.314815rem;
     width: 0.916667rem;
     top: 0.074074rem;
-    @include translate(0%,-50%);
+    @include translate(0%,0%);
 }
 // 出牌时间统一
 @mixin timeStart {
@@ -1070,7 +1059,7 @@ $fsize44: 0.407407rem;
     -o-transition: all 0.6s linear .8s;
     transition: all 0.6s linear .8s;
 }
-// 出牌翻转 beimian02 three
+// 出牌翻转
 @mixin card {
 
     img.initNum {
@@ -1094,30 +1083,22 @@ $fsize44: 0.407407rem;
         -o-transition: all .6s ease-in-out;
         transition: all .6s ease-in-out;
     }
-    
+    // 翻牌
     img.reveEnd {
         z-index: 99;
-        @include transformRanT(0%,-50%,360deg);
+        -webkit-transform: translate(0%, 0px) rotateY(360deg);
+        -moz-transform: translate(0%, 0px) rotateY(360deg);
+        -ms-transform: translate(0%, 0px) rotateY(360deg);
+        -o-transform: translate(0%, 0px) rotateY(360deg);
+        transform: translate(0%, 0px) rotateY(360deg);
+        -webkit-transition: all 1.2s linear;
+        -moz-transition: all 1.2s linear;
+        -ms-transition: all 1.2s linear;
+        -o-transition: all 1.2s linear;
         transition: all 1.2s linear;
-        &:nth-of-type(2){
-            @include transformRanT(113%,-50%,360deg);
-            transition: all 1.2s linear;
-        }
-        &:nth-of-type(3){
-            @include transformRanT(216%,-50%,360deg);
-            transition: all 1.2s linear;
-        }
-        &:nth-of-type(4){
-            @include transformRanT(320%,-50%,360deg);
-            transition: all 1.2s linear;
-        }
-        &:nth-of-type(5){
-            @include transformRanT(425%,-50%,360deg);
-            transition: all 1.2s linear;
-        }
     }
 }
-//show card05 temporary02
+//show card05
 .testCard.a5{
     img {
         @include imgSTA;
@@ -1162,7 +1143,7 @@ $fsize44: 0.407407rem;
     }
     img.card05 {
         @include img5;
-        // right: -2.256rem;  .beimian02
+        // right: -2.256rem;
         // @include imgxx5(3.86);
         @include translate(425%,-50%);
         @include time05;
@@ -1173,7 +1154,7 @@ $fsize44: 0.407407rem;
     img {
         @include imgSTA;
         right: 0.407407rem;
-        height: 80%;
+        height: 96%;
     }
     // 卡牌出现
     img.start {
@@ -1185,37 +1166,32 @@ $fsize44: 0.407407rem;
     img.card01 {
         @include img7;
         // right: 5.56rem;
-        // @include imgxx7(0);
-        margin-left: 0.1rem;
+        @include imgxx7(0);
         @include time01;
     }
     // 1.342593
     img.card02 {
         @include img7;
-        // @include imgxx7(0.96);
-        @include translate(113%,-50%);
+        @include imgxx7(0.96);
         @include time02;
     }
     img.card03 {
         @include img7;
-        // right: -0.012rem;
-        // @include imgxx7(1.94);
-        @include translate(216%,-50%);
+        right: -0.012rem;
+        @include imgxx7(1.94);
         @include time03;
     }
     img.card04 {
         @include img7;
-        // right: -0.98rem;
-        // @include imgxx7(2.9);
-        @include translate(320%,-50%);
+        right: -0.98rem;
+        @include imgxx7(2.9);
         @include time04;
     }
 
     img.card05 {
         @include img7;
-        // right: -1.97rem;
-        // @include imgxx7(3.86); reveEnd
-        @include translate(425%,-50%);
+        right: -1.97rem;
+        @include imgxx7(3.86);
         @include time05;
     }
     @include card;
@@ -1224,7 +1200,7 @@ $fsize44: 0.407407rem;
 ul{
     .testCard.three{
         img:nth-of-type(6){
-            @include transformRanT(0%,-50%,90deg);
+            @include transformRanT(0%,0%,90deg);
             -webkit-transition: all .6s ease-in-out;
             -moz-transition: all .6s ease-in-out;
             -ms-transition: all .6s ease-in-out;
@@ -1232,7 +1208,7 @@ ul{
             transition: all .6s ease-in-out;
         }
         img:nth-of-type(7){
-            @include transformRanT(113%,-50%,90deg);
+            @include transformRanT(0%,0%,90deg);
             -webkit-transition: all .6s ease-in-out;
             -moz-transition: all .6s ease-in-out;
             -ms-transition: all .6s ease-in-out;
@@ -1240,7 +1216,7 @@ ul{
             transition: all .6s ease-in-out;
         }
         img:nth-of-type(8){
-            @include transformRanT(216%,-50%,90deg);
+            @include transformRanT(0%,0%,90deg);
             -webkit-transition: all .6s ease-in-out;
             -moz-transition: all .6s ease-in-out;
             -ms-transition: all .6s ease-in-out;
@@ -1249,7 +1225,7 @@ ul{
         }
         img:nth-of-type(1){
             z-index: 99;
-            @include transformRanT(0%,-50%,360deg);
+            @include transformRanT(0%,0%,360deg);
             -webkit-transition: all 1.2s linear;
             -moz-transition: all 1.2s linear;
             -ms-transition: all 1.2s linear;
@@ -1258,7 +1234,7 @@ ul{
         }
         img:nth-of-type(2){
             z-index: 99;
-            @include transformRanT(113%,-50%,360deg);
+            @include transformRanT(0%,0%,360deg);
             -webkit-transition: all 1.2s linear;
             -moz-transition: all 1.2s linear;
             -ms-transition: all 1.2s linear;
@@ -1267,7 +1243,7 @@ ul{
         }
         img:nth-of-type(3){
             z-index: 99;
-            @include transformRanT(216%,-50%,360deg);
+            @include transformRanT(0%,0%,360deg);
             -webkit-transition: all 1.2s linear;
             -moz-transition: all 1.2s linear;
             -ms-transition: all 1.2s linear;
@@ -1275,70 +1251,44 @@ ul{
             transition: all 1.2s linear;
         }
         // 点击暂时(temporary)翻开
-        .beimian09 {
-            @include transformRanT(320%,-50%,90deg);
+        .beimian {
+            @include transformRanT(0%,0%,90deg);
             -webkit-transition: all .6s ease-in-out;
             -moz-transition: all .6s ease-in-out;
             -ms-transition: all .6s ease-in-out;
             -o-transition: all .6s ease-in-out;
             transition: all .6s ease-in-out;
         }
-        .beimian10 {
-            @include transformRanT(425%,-50%,90deg);
-            -webkit-transition: all .6s ease-in-out;
-            -moz-transition: all .6s ease-in-out;
-            -ms-transition: all .6s ease-in-out;
-            -o-transition: all .6s ease-in-out;
-            transition: all .6s ease-in-out;
-        }
-        // 点击暂时(temporary)翻开 背部牌
         .beimian02 {
-            @include transformRanT(320%,-50%,0deg);
+            @include transformRanT(0%,0%,0deg);
             -webkit-transition: all .6s ease-in-out;
             -moz-transition: all .6s ease-in-out;
             -ms-transition: all .6s ease-in-out;
             -o-transition: all .6s ease-in-out;
             transition: all .6s ease-in-out;
         }
-        .beimian03 {
-            @include transformRanT(425%,-50%,0deg);
-            transition: all .6s ease-in-out;
-        }
-
-        // reversal
         .temporary {
             z-index: 99;
-            @include transformRanT(320%,-50%,360deg);
+            @include transformRanT(0%,0%,360deg);
             -webkit-transition: transform 1.2s linear;
             -moz-transition: transform 1.2s linear;
             -ms-transition: transform 1.2s linear;
             -o-transition: transform 1.2s linear;
             transition: transform 1.2s linear;
-            &:nth-of-type(5){
-                z-index: 99;
-                @include transformRanT(425%,-50%,360deg);
-                transition: transform 1.2s linear;
-            }
         }
-
         .temporary02 {
             z-index: 99;
-            @include transformRanT(320%,-50%,180deg);
+            @include transformRanT(0%,0%,180deg);
             -webkit-transition: transform 1.2s linear;
             -moz-transition: transform 1.2s linear;
             -ms-transition: transform 1.2s linear;
             -o-transition: transform 1.2s linear;
-            transition: transform 1.2s linear;
-        }
-        .temporary03 { // reveEnd
-            z-index: 99;
-            @include transformRanT(425%,-50%,180deg);
             transition: transform 1.2s linear;
         }
     }
     .testCard.threeEng{
         img:nth-of-type(9){
-            @include transformRanT(320%,-50%,90deg);
+            @include transformRanT(0%,0%,90deg);
             -webkit-transition: all .6s ease-in-out;
             -moz-transition: all .6s ease-in-out;
             -ms-transition: all .6s ease-in-out;
@@ -1346,7 +1296,7 @@ ul{
             transition: all .6s ease-in-out;
         }
         img:nth-of-type(10){
-            @include transformRanT(425%,-50%,90deg);
+            @include transformRanT(0%,0%,90deg);
             -webkit-transition: all .6s ease-in-out;
             -moz-transition: all .6s ease-in-out;
             -ms-transition: all .6s ease-in-out;
@@ -1355,7 +1305,7 @@ ul{
         }
         img:nth-of-type(4){
             z-index: 99;
-            @include transformRanT(320%,-50%,360deg);
+            @include transformRanT(0%,0%,360deg);
             -webkit-transition: all 1.2s linear;
             -moz-transition: all 1.2s linear;
             -ms-transition: all 1.2s linear;
@@ -1364,7 +1314,7 @@ ul{
         }
         img:nth-of-type(5){
             z-index: 99;
-            @include transformRanT(425%,-50%,360deg);
+            @include transformRanT(0%,0%,360deg);
             -webkit-transition: all 1.2s linear;
             -moz-transition: all 1.2s linear;
             -ms-transition: all 1.2s linear;

@@ -1,6 +1,6 @@
 /*公共样式*/
 body,h1,h2,h3,h4,p,ul,li,ol,dl,dd,dt{
-    margin: 0;
+    margin: 0; 
     padding: 0;
 }
 ul,li{
@@ -45,11 +45,7 @@ html,body{
   min-width: 100vw;
   margin: 0;
   padding: 0;
-  overflow:hidden;
-}
-
-@media (max-width: 600px) {
-  
+  overflow: hidden;
 }
 
 [class*="col-"] {

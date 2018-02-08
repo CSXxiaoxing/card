@@ -1,10 +1,10 @@
 <template>
     <div>
+    <div class="varR_modal" style='z-index: 2000' @click='noModal'></div>
   <mt-popup 
   v-model="boxState.CvarRoom" 
   popup-transition="popup-fade"  
   class="Cvar" >
-    <div class="varR_modal" style='z-index: 2000' @click='noModal'></div>
     
     <mt-popup 
       v-model="boxState.coreVisible"
@@ -65,7 +65,7 @@
         </p>
         <div></div>
     </mt-popup>
-<!-- touchstart touchmove touchend  -->
+<!-- touchstart touchmove touchend varR_modal -->
     <h3>创建房间 <i @click="boxState.CvarRoom = false"></i> </h3>
     <ul class='varRoomSet' @click="open">
         <li>
@@ -289,7 +289,7 @@
                 var [vModal, Cvar] = [document.getElementsByClassName('varR_modal')[0].style, 
                                       document.getElementsByClassName('Cvar')[0].style];
                 1 ^ function touModal () {
-                    vModal.zIndex <= Cvar.zIndex ? vModal.zIndex++ && touModal() : 
+                    vModal.zIndex < Cvar.zIndex ? vModal.zIndex++ && touModal() : 
                     vModal.display = 'block';
                 } ()
             },

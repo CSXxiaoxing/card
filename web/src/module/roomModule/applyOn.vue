@@ -22,7 +22,6 @@
           <mt-button @click="know0">确定</mt-button>
       </mt-popup>
 
-
       <span>轮庄设置 <i @click="setOwner = false">×</i></span>
       <p>上庄最低分数：<b>{{$store.state.idRoom.minGrade}}</b></p>
       <hr/>
@@ -70,7 +69,7 @@
         v-model="details"
         popup-transition="popup-fade" 
         class="details">
-        <span>抽水分数 <i @click="details = false">×</i></span>
+        <span>奖金分数 <i @click="details = false">×</i></span>
         <ul>
             <li>
                 房间成员总分数  ：{{allFen}}
@@ -80,7 +79,7 @@
             </li>
         </ul>
         <mt-button @click="newRoom">重新开局</mt-button>
-        <span>( 重新开始，房间局数，开奖记录。流水报表和抽水分数都将清零。房间成员分数保持不变)</span>
+        <p>( 重新开始，房间局数，开奖记录。</br>流水报表和抽水分数都将清零。房间成员分数保持不变)</p>
     </mt-popup>
     <loading v-if='loading'></loading>
     </div>
@@ -92,7 +91,7 @@
   // display: flex; 
   .apply{
     width: 7.092593rem;
-     @include border-radius(0.277778rem);
+    @include border-radius(0.277778rem);
     position: absolute;
     top:8.240741rem;
 
@@ -189,70 +188,86 @@
     }
   }
     .details{
-      width: 7.092593rem;
-       @include border-radius(0.277778rem);
-      position: absolute;
-      top:6.574074rem;
-      height: 5.740741rem;
-      
-      &>span:nth-of-type(1){
+        width: 7.092593rem;
+        @include border-radius(0.277778rem);
+        position: absolute;
+        top:6.574074rem;
+        height: 5.740741rem;
+        &>span:nth-of-type(1){
+            display: block;
+            color:white;
+            font-size: 0.611111rem;
+            width:8.87037rem;
+            height:2.12963rem;
+            line-height: 1.805556rem;
+            background: $home08 no-repeat;
+            background-position: center;
+            background-size:8.87037rem 1.805556rem;
+            text-align: center;
+            position: relative;
+            right: 0.87037rem;
+            bottom: 0.231481rem;
+            i{
+                position: absolute;
+                font-size: 1.388889rem;
+                color: #7A7A7A;
+                right: 1.111111rem;
+            }
+        }
+        ul{
+            margin-left:0.481481rem;
+            position:relative;
+            bottom:0.388889rem;
+            font-size:0.46rem;
+            li{
+                text-align:left;
+                b{
+                    color:#3B693E;
+                }
+            }
+        }
+
+        button{
+            width:4.018519rem;
+            height: 1.037037rem;
+            @include border-radius(0.509259rem);
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            -webkit-transform: translate(-50%, -54%);
+               -moz-transform: translate(-50%, -54%);
+                -ms-transform: translate(-50%, -54%);
+                 -o-transform: translate(-50%, -54%);
+                    transform: translate(-50%, -54%);
+            font-size:0.555556rem;
+            border: 0 none;
+            color: white;
+            background: $chart05 no-repeat;
+            background-position:center;
+            background-size: 4.018519rem 1.037037rem;
+        }
+        button:active {
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            -webkit-transform: translate(-50%, -50%);
+               -moz-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                 -o-transform: translate(-50%, -50%);
+                    transform: translate(-50%, -50%);
+        }
+
+      p{
+        // position: absolute;
+        font-size: 0.222222rem;
+        width: 100%;
+        // left: 0.046296rem;
+        // transform: translate(0%, -50%);
         display: block;
-        color:white;
-        font-size: 0.611111rem;
-        width:8.87037rem;
-        height:2.12963rem;
-        line-height: 1.805556rem;
-        background: $home08 no-repeat;
-        background-position: center;
-        background-size:8.87037rem 1.805556rem;
-        text-align: center;
-        position: relative;
-        right: 0.87037rem;
-        bottom: 0.231481rem;
-        i{
-          position: absolute;
-          font-size: 1.388889rem;
-          color: #7A7A7A;
-          right: 1.111111rem;
-        }
-      }
-
-      ul{
-        margin-left:0.481481rem;
-        position:relative;
-        bottom:0.388889rem;
-        font-size:0.481481rem;
-        li{
-          text-align:left;
-          b{
-            color:#3B693E;
-          }
-        }
-      }
-
-      button{
-        width:4.018519rem;
-        height: 1.037037rem;
-         @include border-radius(0.509259rem);
-        font-size:0.555556rem;
-        margin:0.092593rem 0 0.277778rem 0;
-        border: 0 none;
-        color: white;
-        background: $chart05 no-repeat;
-        background-position:center;
-        background-size: 4.018519rem 1.037037rem;
-      }
-      button:active {
-          position: relative;
-          left: 0.018519rem;
-          bottom: -0.046296rem;
-      }
-
-      span{
-        display:inline-block;
-        font-size:0.222222rem;
-        width:4.574074rem;
-        color:#B7B7B7;
+        word-wrap: break-word;
+        word-break:break-all;
+        // width: 4.574074rem;
+        color: #B7B7B7;
       }
     }
     .owner{
@@ -322,17 +337,23 @@
           font-size:0.518519rem;
           width:100%;
           line-height:0.648148rem;
-          margin-left: 1.296296rem;
-          span{
-            display:inline-block;
-            width:0.555556rem;
-            height:0.601852rem;
-            background-color: #DADADA;
-             @include border-radius(0.092593rem);
-            padding:0.046296rem 5 0 0.046296rem;
-            position:absolute;
-            left:0.444444rem;
-          }
+          padding-left: 1.296296rem;
+          position: relative;
+          box-sizing: border-box;
+            span{
+                display:inline-block;
+                width:0.555556rem;
+                height:0.601852rem;
+                background-color: #DADADA;
+                @include border-radius(0.092593rem);
+                padding:0.046296rem 5 0 0.046296rem;
+                position:absolute;
+                left:0.444444rem; 
+                img{
+                    width: 0.546296rem;
+                    height: 0.555556rem;
+                }
+            }
           b{
             font-size: 0.35rem;
             color: #29A345;
@@ -340,9 +361,10 @@
             margin-left:0.08rem;
           }
           .list{
-            position:absolute;
-            right:0.37037rem;
-            top:3.240741rem;
+            position: absolute;
+            right: 0.3rem;
+            width: 0.805556rem;
+            height: 0.722222rem;
           }
           div{
             width: 6.62963rem;
@@ -594,7 +616,6 @@
             })
             .then(res => {
                 console.log(res)
-                self.details = false
                 if(res.status == 0){
                     self.$parent.errorTips = res.msg;
                     self.$parent.careTip = true;
@@ -602,6 +623,8 @@
                     self.$parent.gameResult(id);
                 }
             })
+            self.details = false;
+            self.details = false;
         },
     }
   };

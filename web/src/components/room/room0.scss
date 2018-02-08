@@ -21,9 +21,13 @@ $fsize44: 0.407407rem;
 }
 // room01
 #room {
+    height: 100%;
+    width: 100%;
+    position:fixed;
+    left:0;
+    top:0;
     @include flexbox();
     @include direction(column);
-    height: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
 

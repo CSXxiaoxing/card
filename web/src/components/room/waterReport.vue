@@ -30,7 +30,7 @@
     			</thead>
     			<tbody>
     				<tr v-for = 'data in list'>
-    					<td>{{data.name}} <img src="/dist/room_water1.png" v-if='data.ForZ == 1'></td> <td :class='data.water >=0 ? "" : "red"' >{{ data.water>=0 ? '+'+ data.water : data.water}}</td> <td>{{data.wFen}}</td> <td>{{data.fen}}</td>
+    					<td>{{data.name}} <img src="src/img/room_water1.png" v-if='data.ForZ == 1'></td> <td :class='data.water >=0 ? "" : "red"' >{{ data.water>=0 ? '+'+ data.water : data.water}}</td> <td>{{data.wFen}}</td> <td>{{data.fen}}</td>
     				</tr>
     				<tr class="total"  v-if="seen">
     					<td>房间余剩分数</td> <td colspan="3">{{data.fraction}}</td>
@@ -40,6 +40,7 @@
     				</tr>
     			</tbody>
     		</table>
+            
         </center>
 		
 

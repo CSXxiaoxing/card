@@ -46,7 +46,7 @@
     .openRecords.five{
         height:11.296296rem;
         // width: 9.555556rem;
-        width: 96%;
+        width: 94%;
         max-height: 15.277778rem;
         @include border-radius(0.314815rem);
         padding: 0 0.388889rem;
