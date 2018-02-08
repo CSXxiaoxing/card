@@ -125,7 +125,7 @@
                         </dt>
                         <dd>
                             <p><i>{{fri.name}}</i>要求添加你为好友</p>
-                            <p @touchend='friSel = quest' @click='agreeFriend()'>同意</p>
+                            <p @touchend='friSel = quest' @click='agreeFriend'>同意</p>
                         </dd>
                     </dl>
                 </li>
@@ -164,10 +164,9 @@
                           @touchmove='touchMove'
                           :style="fquest == k ? deleteSlider: ''">
                             <span @touchend='friQuest = fquest'><i></i></span>
-                            <span @touchend='friQuest = fquest' @click='liaotian()'>{{friends.mname}}</span>
+                            <span @touchend='friQuest = fquest' @click='liaotian(friends.fid)'>{{friends.mname}}</span>
                             <span @touchend='friQuest = fquest' @click='markFriend =true'><i></i>备注</span>
                             <span class="remove" ref='remove' @click="deleteFri()">删除</span>
-                            <!--@click='liaotian'-->
                         </dd>
                     </dl>
                 </li>
@@ -252,9 +251,13 @@
                             }
                         }
                     }
-                }),
+                })
+            self.haoyou();
 
-
+        },
+        methods: {
+            haoyou(){
+                var self = this;
                 //获取好友列表
                 http.post('/MemberFriend/getFrientList',{
                     pagesize : self.pagesize,
@@ -279,16 +282,10 @@
                         console.log(self.friendList)
                     }
                 })
-
-        },
-        methods: {
-            liaotian() {    // 点击好友聊天 zid玩家id
+            },
+            liaotian(id) {    // 点击好友聊天 zid玩家id
                 var self = this;
-                console.log( JSON.stringify(self.friendList[self.friQuest].mname));
-                console.log(Number( self.friendList[self.friQuest].fid));
-                router.push({path: `/chartRoom/[2,${JSON.stringify(self.friendList[self.friQuest].mname)},
-                            ${Number( self.friendList[self.friQuest].fid)},${self.ForT},"一起聊天呀"`});
-                console.log(Number( self.friendList[self.friQuest].fid));
+                router.push({path: `/chartRoom/[2,10086,${id},1,"好友聊天"]`});
             },
             newWord() {
                 if(this.arrows == 1) {
@@ -369,11 +366,9 @@
                     zn_mid : localStorage.oxUid,
                 })
                 .then(res =>{
-                    //console.log(Number( self.friendApply[self.friSel].fid));
-                    //console.log(localStorage.oxUid);
-                    // console.log(res)
                     if(res.status==1 || res.status ==2){
                         self.deleteApplyFri();
+                        self.haoyou();
                     }
                 })
             },

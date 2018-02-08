@@ -1,5 +1,5 @@
   <template>
-    <div class='chartRoom'>
+    <div class='chartRoom'> 
         <mt-popup  
             v-model="careTip"
             popup-transition="popup-fade"
@@ -588,9 +588,7 @@
                         id : params[2],
                     })
                     .then(res => {
-                        if(res.status == 1 && params[0] == 2){
-                            self.shename = res.data.zc_nickname+'(房主)'
-                        } else {
+                        if(res.status == 1){
                             self.shename = res.data.zc_nickname
                         }
                         self.$store.state.txtType = "hz_niuniu_"+self.sheId;     // 聊天状态头
