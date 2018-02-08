@@ -288,6 +288,7 @@
                 console.log(Number( self.friendList[self.friQuest].fid));
                 router.push({path: `/chartRoom/[2,${JSON.stringify(self.friendList[self.friQuest].mname)},
                             ${Number( self.friendList[self.friQuest].fid)},${self.ForT},"一起聊天呀"`});
+                console.log(Number( self.friendList[self.friQuest].fid));
             },
             newWord() {
                 if(this.arrows == 1) {

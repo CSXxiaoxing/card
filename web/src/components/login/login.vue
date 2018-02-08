@@ -559,7 +559,7 @@
 				var self = this;
 				http.post( '/Member/login', {
 						mobile: Number(self.cell),
-						password: Number(self.password)
+						password: self.password,
 					}, '', this )
 					.then(res => {
 						console.log(res)

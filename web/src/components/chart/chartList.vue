@@ -41,7 +41,7 @@
                     <i><a  @click='$store.commit("ls")'></a></i>
                 </li>
                 <li>房间成员</li>
-                <li>➕添加</li>
+                <li><img src="src/img/friend5.png" alt="">添加</li>
             </ul>
         </header>
         <div class='list'>
@@ -143,6 +143,11 @@
                 @include flexbox();
                 @include justify-content(space-between);
                 font-size:0.462963rem;
+                img{
+                  position:relative;
+                  right:0.092593rem;
+                  top:0.066296rem;
+                }
                 li:nth-of-type(2){
                     text-align: center;
                 }

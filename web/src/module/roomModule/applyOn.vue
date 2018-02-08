@@ -70,7 +70,7 @@
         v-model="details"
         popup-transition="popup-fade" 
         class="details">
-        <span>抽水分数 <i @click="details = false">×</i></span>
+        <span>抽水分数 <i v-on:click="details = false"></i></span>
         <ul>
             <li>
                 房间成员总分数  ：{{allFen}}
@@ -209,12 +209,16 @@
         position: relative;
         right: 0.87037rem;
         bottom: 0.231481rem;
-        i{
-          position: absolute;
-          font-size: 1.388889rem;
-          color: #7A7A7A;
-          right: 1.111111rem;
-        }
+            i{
+                position:absolute;
+                display: inline-block;
+                top:0.644444rem;
+                right:1.177778rem;
+                width: 0.527778rem;
+                height: 0.527778rem;
+                background: $homeAll -0.925926rem -2.314815rem no-repeat;
+                background-size: 5.555556rem;
+            }
       }
 
       ul{
