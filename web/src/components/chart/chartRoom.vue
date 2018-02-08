@@ -468,6 +468,7 @@
             top: 0.648148rem;
         }
         ul{
+            font-size:0.507407rem;
             li{
                 text-align:left;
                 margin-left: 2.777778rem;
@@ -522,6 +523,7 @@
         @extend .addFriend;
         p{
             margin-bottom: 0.462963rem;
+            font-size:0.507407rem;
         }
     }
 </style>
