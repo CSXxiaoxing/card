@@ -67,7 +67,7 @@
     </mt-popup>
 <!-- touchstart touchmove touchend varR_modal -->
     <h3>创建房间 <i @click="boxState.CvarRoom = false"></i> </h3>
-    <ul class='varRoomSet' @click="open">
+    <ul class='varRoomSet' @click="open" v-show='showVar==0'>
         <li>
             <label  @click="card = true">
                 房号：<span>{{imgState.room_id}}</span>
@@ -192,7 +192,8 @@
         data() {
             return {
                 loading: false,     // loading
-                initType: 0,       //  0 是初创   1 是修改
+                initType: 0,       //  0 是初创   1 是修改+
+                showVar:0,
                 init: {
                     plaName: '请输入房间名称',
                     error: {

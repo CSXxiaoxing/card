@@ -69,7 +69,8 @@
         v-model="details"
         popup-transition="popup-fade" 
         class="details">
-        <span>奖金分数 <i @click="details = false">×</i></span>
+        <span>奖金分数 <i @click="details = false"></i></span>
+
         <ul>
             <li>
                 房间成员总分数  ：{{allFen}}
@@ -188,44 +189,50 @@
     }
   }
     .details{
-        width: 7.092593rem;
-        @include border-radius(0.277778rem);
-        position: absolute;
-        top:6.574074rem;
-        height: 5.740741rem;
-        &>span:nth-of-type(1){
-            display: block;
-            color:white;
-            font-size: 0.611111rem;
-            width:8.87037rem;
-            height:2.12963rem;
-            line-height: 1.805556rem;
-            background: $home08 no-repeat;
-            background-position: center;
-            background-size:8.87037rem 1.805556rem;
-            text-align: center;
-            position: relative;
-            right: 0.87037rem;
-            bottom: 0.231481rem;
+      width: 7.092593rem;
+       @include border-radius(0.277778rem);
+      position: absolute;
+      top:6.574074rem;
+      height: 5.740741rem;
+      
+      &>span:nth-of-type(1){
+        display: block;
+        color:white;
+        font-size: 0.611111rem;
+        width:8.87037rem;
+        height:2.12963rem;
+        line-height: 1.805556rem;
+        background: $home08 no-repeat;
+        background-position: center;
+        background-size:8.87037rem 1.805556rem;
+        text-align: center;
+        position: relative;
+        right: 0.87037rem;
+        bottom: 0.231481rem;
             i{
-                position: absolute;
-                font-size: 1.388889rem;
-                color: #7A7A7A;
-                right: 1.111111rem;
+                position:absolute;
+                display: inline-block;
+                top:0.644444rem;
+                right:1.177778rem;
+                width: 0.527778rem;
+                height: 0.527778rem;
+                background: $homeAll -0.925926rem -2.314815rem no-repeat;
+                background-size: 5.555556rem;
             }
+      }
+
+      ul{
+        margin-left:0.481481rem;
+        position:relative;
+        bottom:0.388889rem;
+        font-size:0.481481rem;
+        li{
+          text-align:left;
+          b{
+            color:#3B693E;
+          }
         }
-        ul{
-            margin-left:0.481481rem;
-            position:relative;
-            bottom:0.388889rem;
-            font-size:0.46rem;
-            li{
-                text-align:left;
-                b{
-                    color:#3B693E;
-                }
-            }
-        }
+      }
 
         button{
             width:4.018519rem;

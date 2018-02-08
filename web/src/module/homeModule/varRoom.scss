@@ -15,6 +15,7 @@
     clear: both;
 }
 
+
 .Cvar::-webkit-scrollbar {
         display: none;
     } 
@@ -26,6 +27,11 @@
     } 
 // 创建房间
 .Cvar{
+    button{
+      -webkit-tap-highlight-color: #000000;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      -webkit-tap-highlight-color: transparent; 
+    }
     img{
         height:0.75rem;
         width:0.703704rem;
@@ -693,4 +699,6 @@
       background-size: 5.555556rem 5.555556rem;
     }
 }
+
+
 

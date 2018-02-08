@@ -9,6 +9,33 @@
             <mt-button @click="careTip = false">  确定
             </mt-button>
         </mt-popup >
+        <mt-popup 
+          v-model="findFriend"
+          popup-transition="popup-fade" 
+          class="findFriend" >
+          <div>
+             <i v-on:click="findFriend = false">×</i>
+            <img src="src/img/friend1.png" alt="">
+            <ul>
+                <li>{{shename}}</li>
+                <li> id : {{sheId}}</li>
+            </ul>
+          </div>
+          <mt-button @click="findFriend = false ,addFriend() ">  添加
+          </mt-button>
+        </mt-popup >
+        <mt-popup 
+          v-model="sendFriend"
+          popup-transition="popup-fade" 
+          class="sendFriend" >
+          <span>查找好友</span>
+
+          <p>添加好友请求已发送</p>
+
+          <mt-button @click="sendFriend = false"> 确定
+          </mt-button>
+        </mt-popup >
+
     	<header>
             <ul>
                 <li>
@@ -23,7 +50,7 @@
                     </router-link>
                 </li>
                 <li  v-show='roomstatus == 1'  @click = 'give == 0 ? give = 1 : give = 0'>给他＋/－分</li>
-                <li v-show='(roomstatus == 1 || roomstatus == 2)&& isfriend == 0'><img src="src/img/chart_Room5.png" alt="">加友</li>
+                <li v-show='(roomstatus == 1 || roomstatus == 2)&& isfriend == 0' @click="findFriend=true"><img src="src/img/chart_Room5.png" alt="">加友</li>
                 <li v-show='roomstatus ==2'>{{shename}}</li>
             </ul>
         </header>
@@ -352,6 +379,151 @@
         	}
         }
     }
+
+    .addFriend{
+        width: 7.092593rem;
+        @include border-radius(0.277778rem);
+        position: absolute;
+        top:8.240741rem;
+        span{
+          display: block;
+          color:white;
+          font-size: 0.611111rem;
+          width:8.87037rem;
+          height:2.12963rem;
+          line-height: 1.805556rem;
+          background: $home08 no-repeat;
+          background-size:8.87037rem 1.805556rem;
+          background-position: center;
+          text-align: center;
+          position: relative;
+          right: 0.87037rem;
+          bottom: 0.4rem;
+        }
+
+        p{
+          input{
+              @include border-radius(0.092593rem);
+              height:0.925926rem;
+              line-height:0.740741rem;
+              font-size:0.462963rem;
+              width:4.62963rem;
+              position:relative;
+              padding-left:0.185185rem;
+              bottom:0.5rem;
+              text-align: left;
+          }
+          
+        }
+        button{
+          width:2.777778rem;
+          height: 1.0rem;
+          line-height:0.925926rem;
+          @include border-radius(0.509259rem);
+          font-size:0.555556rem;
+          margin-bottom:0.462963rem;
+          border: 0 none;
+          color: white;
+          background: $homeAll -1.944444rem -1.388889rem no-repeat;
+          background-size: 5.555556rem 5.555556rem;
+        }
+        button:active {
+            position: relative;
+            left: 0.018519rem;
+            bottom: -0.046296rem;
+        }
+    }
+
+    .findFriend{
+        width: 8.722222rem;
+        height:4.62963rem;
+        -webkit-box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
+        -moz-box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
+        -ms-box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
+        -o-box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
+        box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
+        border-radius: 0.277778rem;
+        position: absolute;
+        top:8.240741rem;
+        img{
+            width:1.972222rem;
+            height:1.972222rem;
+        }
+        i{
+            position:absolute;
+            line-height:0.925926rem;
+            font-size:1.481481rem;
+            font-weight:lighter;
+            color:#797979;
+            right:0.185185rem;
+            top:0.185185rem;
+            width:0.833333rem;
+            height:0.925926rem;
+            @include border-radius(100%);
+            padding-right:0.092593rem;
+        }
+        img{
+            position: absolute;
+            left: 0.962963rem;
+            top: 0.648148rem;
+        }
+        ul{
+            li{
+                text-align:left;
+                margin-left: 2.777778rem;
+                position:relative;
+                left:0.555556rem;
+                top:0.925926rem;
+            }
+           
+            li:nth-of-type(1){
+                color:red;
+                font-size:0.574074rem;
+            }
+             li:nth-of-type(2){
+                color:#676767;
+            }
+        }
+        p{
+          input{
+              @include border-radius(0.092593rem);
+              height:0.925926rem;
+              line-height:0.740741rem;
+              font-size:0.462963rem;
+              width:4.62963rem;
+              position:relative;
+              padding-left:0.185185rem;
+              bottom:0.462963rem;
+              text-align:left;
+          }
+          
+        }
+        button{
+          width:2.777778rem;
+          height: 1.0rem;
+          line-height:0.925926rem;
+          border-radius: 0.509259rem;
+          font-size:0.555556rem;
+          margin-bottom:0.462963rem;
+          border: 0 none;
+          color: white;
+          background: $homeAll -1.944444rem -1.388889rem no-repeat;
+          background-size: 5.555556rem 5.555556rem;
+          margin-top:1.851852rem;
+        }
+        button:active {
+            position: relative;
+            left: 0.018519rem;
+            bottom: -0.046296rem;
+        }
+    }
+
+    .sendFriend{
+        @extend .addFriend;
+        p{
+            margin-bottom: 0.462963rem;
+        }
+    }
 </style>
 
 <script type="text/javascript">
@@ -383,6 +555,8 @@
                 errorTips: '',      // 错误提示
                 add: '', // 加分
                 jian: '', // 减分
+                findFriend: false,
+                sendFriend: false,
             }
         },
         beforeMount: function(){
@@ -640,6 +814,21 @@
                     
                 })
             },
+            //添加房主为好友
+            addFriend(){
+                var self = this;
+                http.post('/MemberNotice/applyFriend' , {
+                    zn_mid : self.sheId,
+                    zc_content : localStorage.oxName,
+                    zn_applyid : localStorage.oxUid,
+                })
+                .then(res =>{
+                     console.log(self.sheId)
+                    if(res.status == 1){
+                        self.sendFriend = true;
+                    }
+                })
+            }
         }
                 
             

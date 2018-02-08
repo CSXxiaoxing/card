@@ -61,6 +61,8 @@
                 display: flex;
 
                 padding-bottom: 0.037037rem;
+
+                font-size:0.425926rem;
                 
                 -webkit-justify-content: space-between;
                    -moz-justify-content: space-between;
@@ -121,6 +123,7 @@
                 border: none;
             }
             p {
+                font-size:0.425926rem;
                 position: absolute;
                 bottom: 0.277778rem;
                 right: 0;
@@ -129,6 +132,7 @@
                     -ms-transform: translate(-50%, 0);
                      -o-transform: translate(-50%, 0);
                         transform: translate(-50%, 0);
+
             }
             span {
                 color: #06B400;
