@@ -6,7 +6,6 @@ $fsize30: 0.277778rem;
 $fsize38: 0.351852rem;
 $fsize40: 0.37037rem;
 $fsize44: 0.407407rem;
-
 .pub{
     color: #fff;
     font-size: $fsize24;
@@ -84,6 +83,8 @@ $fsize44: 0.407407rem;
                     color: #333;
                     height: $h56;
                     position: relative;
+                    word-wrap: break-word; 
+                    word-break: normal; 
                     // 弹出框
                     span{
                         display: inline-block;

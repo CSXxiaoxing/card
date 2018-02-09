@@ -80,7 +80,7 @@
             </li>
         </ul>
         <mt-button @click="newRoom">重新开局</mt-button>
-        <p>( 重新开始，房间局数，开奖记录。</br>流水报表和抽水分数都将清零。房间成员分数保持不变)</p>
+        <p>( 重新开始，房间局数，开奖记录，流水报表和抽水分数都将清零。房间成员分数保持不变)</p>
     </mt-popup>
     <loading v-if='loading'></loading>
     </div>
@@ -123,7 +123,7 @@
       padding-bottom: 0.462963rem;
       text-align:left;
       font-size:0.333333rem;
-      margin-left:2.12963rem;
+      margin-left:1.52963rem;
       b{
         color:#209434;
       }
@@ -240,7 +240,7 @@
             @include border-radius(0.509259rem);
             position: absolute;
             left: 50%;
-            bottom: 0;
+            bottom: -0.292593rem;
             -webkit-transform: translate(-50%, -54%);
                -moz-transform: translate(-50%, -54%);
                 -ms-transform: translate(-50%, -54%);
@@ -266,15 +266,17 @@
 
       p{
         // position: absolute;
-        font-size: 0.222222rem;
-        width: 100%;
+        font-size: 0.282222rem;
+        width: 90%;
+        color: red;
         // left: 0.046296rem;
         // transform: translate(0%, -50%);
         display: block;
         word-wrap: break-word;
         word-break:break-all;
+        white-space: pre-wrap;
+        padding:0.0rem 0.392593rem;
         // width: 4.574074rem;
-        color: #B7B7B7;
       }
     }
     .owner{

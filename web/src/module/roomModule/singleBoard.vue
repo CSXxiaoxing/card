@@ -174,6 +174,8 @@
       margin-bottom: 1.388889rem;
       font-size:0.462963rem;
       text-align:left;
+      word-wrap: break-word; 
+      word-break: normal; 
     }
 
     button{
