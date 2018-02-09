@@ -29,6 +29,7 @@ export default new Vuex.Store({
             nameLenth: 16,
             // 最低上分数
             minG: 5000,
+            cardNum:0,
         },
         idRoom: {
             id: 0,              // 房间id

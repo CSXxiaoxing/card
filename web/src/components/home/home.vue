@@ -22,7 +22,7 @@
 					<span>ID:{{id}}</span>
 					<span>
 						<i @click='loading = false'>房卡</i>
-						<b @click='loading = true'>27894</b>
+						<b @click='loading = true'>{{cardNum}}</b>
 						<i @click='buy'></i>
 					</span>
 				</dd>
@@ -136,6 +136,7 @@
 				sendId : 0,
 				spinner: 0,		// 懒加载loding
 				notice : [],
+				cardNum : this.$store.state.initRoom.cardNum,
 			}
 		},
 		mounted: function(){		
