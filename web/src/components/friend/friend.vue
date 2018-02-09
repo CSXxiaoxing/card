@@ -352,6 +352,9 @@
                      console.log(self.friendId)
                     if(res.status == 1){
                         self.sendFriend = true;
+                    }else if(res.status == 3){
+                        self.errorTips = res.msg;
+                        self.careTip = true;
                     }
                 })
             },

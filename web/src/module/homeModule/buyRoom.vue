@@ -26,58 +26,19 @@
 
     <ul>
       <li>
-        <table>
+        <table v-for='(cards,quest) in list'>
           <tr>
             <td rowspan="3"><img src="src/img/module_home_buy2.png" height="250" width="258" alt=""></td>
-            <td>房卡X5</td
+            <td>{{cards.title}}</td
           </tr>
           <tr>
-            <td>RMB：10元</td>
+            <td v-if="quest != 3">RMB：{{cards.price}}元</td>
+            <td v-if="quest == 3" class="sev">7折优惠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
           </tr>
           <tr>
-            <td><button>购买</button></td>
-          </tr>
-        </table>
-      </li>
-      <li>
-        <table>
-          <tr>
-            <td rowspan="3"><img src="src/img/module_home_buy2.png" height="250" width="258" alt=""></td></td>
-            <td>房卡X5</td>
-          </tr>
-          <tr>
-            <td>RMB：10元</td>
-          </tr>
-          <tr>
-            <td><button>购买</button></td>
-          </tr>
-        </table>
-      </li>
-      <li>
-        <table>
-          <tr>
-            <td rowspan="3"><img src="src/img/module_home_buy2.png" height="250" width="258" alt=""></td></td>
-            <td>房卡X5</td>
-          </tr>
-          <tr>
-            <td>RMB：10元</td>
-          </tr>
-          <tr>
-            <td><button>购买</button></td>
-          </tr>
-        </table>
-      </li>
-      <li>
-        <table>
-          <tr>
-            <td rowspan="3"><img src="src/img/module_home_buy2.png" height="250" width="258" alt=""></td></td>
-            <td class="more">更多房卡</td>
-          </tr>
-          <tr>
-            <td class="sev">7折优惠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-          </tr>
-          <tr>
-            <td><mt-button class="sev" type="primary" @click="more">去填写数量</mt-button></td>
+            <td><button v-if="quest != 3">购买</button>
+                <mt-button  v-if="quest == 3" class="sevb" type="primary" @click="more">去填写数量</mt-button>    
+            </td>
           </tr>
         </table>
       </li>
@@ -198,13 +159,11 @@
                     padding-left: 0.185185rem;
                 }
             }
-            .more{
-                color:#3B87C5;
-                position:relative;
-                left:0.555556rem;
-            }
             .sev{
-                margin-left:0.611111rem;
+                text-align: left;
+                color:#3B87C5;
+            }
+            .sevb{
                 text-align: center;
             }
             
@@ -283,6 +242,8 @@
 
 <script type="es6">
   import Vue from 'vue';
+  import http from '../../utils/httpClient.js';
+  import router from '../../router/';
   import loading from '../../components/loading/loading.vue';
   Vue.component('loading', loading)
   export default {
@@ -293,7 +254,30 @@
         moreCard: false,
         cardNum: '',
         cardNumError: 'N张以上，几折优惠',
+        list:[],
       };
+    },
+    mounted:function(){
+        //房卡列表
+          var self = this;
+          http.post('/RoomCard/getData',{
+
+          })
+          .then(res=>{
+            //console.log(res)
+            if(res.status == 1){
+                for(let i in res.data){
+                    self.list.push({
+                        title : res.data[i].zc_title,
+                        price : res.data[i].zn_price,
+                        image : res.data[i].zc_image,
+                        num : res.data[i].zn_num,
+                        id : res.data[i].zn_cat_id,
+                    })
+                }
+                console.log(self.list);
+            }
+          })
     },
     methods: {
         cardNumber(){
@@ -332,7 +316,7 @@
         more() {
             this.buyModal(event);
             this.moreCard = true;
-        }
+        },
     }
-  };
+  }
 </script>
