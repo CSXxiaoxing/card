@@ -3,7 +3,7 @@
 
         <mt-popup 
             v-model="careTip"
-            popup-transition="popup-fade" :modal='false'
+            popup-transition="popup-fade"
             class="care" >
             <span>通知 <i @click="careTip = false">×</i></span>
             <p>找不到该用户</p>
@@ -54,7 +54,7 @@
         <!--备注好友-->
         <mt-popup 
             v-model="markFriend"
-            popup-transition="popup-fade" :modal='false'
+            popup-transition="popup-fade"
             class="addFriend" >
               <span>备注</span>
               <p><input type="text" placeholder="请输入要备注的名字" v-model.number='markName'></input>
@@ -67,7 +67,7 @@
         <!--删除好友-->
         <mt-popup 
             v-model="deleFriend"
-            popup-transition="popup-fade" :modal='false'
+            popup-transition="popup-fade"
             class="sendFriend" >
               <span>删除好友</span>
               <p>是否确认删除此好友</input>
@@ -137,7 +137,7 @@
                 </li>
                 <li :class='arrows == 2 ? "show" : "hide"'>
                     <dl>
-                        <dd>
+                        <!-- <dd>
                             <span><i></i></span>
                             <span>测试一号</span>
                             <span><i></i>添加</span>
@@ -146,7 +146,7 @@
                             <span><i></i></span>
                             <span>测试二号</span>
                             <span><i></i>备注</span>
-                        </dd>
+                        </dd> -->
                     </dl>
                 </li>
 

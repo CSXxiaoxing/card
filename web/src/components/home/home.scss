@@ -6,6 +6,8 @@
     position:fixed;
     left:0;
     top:0;
+    background: $room07 no-repeat;
+    background-size: 100% 100%;
     @include flexbox();
     @include direction(column);
     overflow-x: hidden;

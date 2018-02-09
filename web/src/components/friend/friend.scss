@@ -55,9 +55,13 @@
     }
     .friMain {
         font-size:0.388889rem;
+        height: 100%;
         ul {
             overflow: hidden;
+            height: 100%;
             padding-top: 1.87037rem;
+            @include flexbox();
+            @include direction(column);
             li {
                 padding: 0 0.324074rem;
                 @include box-sizing();
@@ -65,7 +69,7 @@
             }
             li:nth-of-type(2n) {
                 background: #fff;
-                height: 0;
+                // height: 0;
                 overflow: hidden;
                 padding: 0 0.324074rem;
                 overflow: hidden;
@@ -148,9 +152,10 @@
                 } 
             }
             li.show {
-                height: 9.444444rem;
+                // height: auto;
+                flex: 1;
                 max-height: 9.444444rem;
-                margin-top: -0.3rem;
+                // margin-top: -0.3rem;
                 @include transition(all,1s)
             }
             li.hide {

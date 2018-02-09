@@ -1,15 +1,10 @@
 <template>
     <div>
-    <div class="varR_modal" style='z-index: 2000' @click='noModal'></div>
-  <mt-popup 
-  v-model="boxState.CvarRoom" 
-  popup-transition="popup-fade"  
-  class="Cvar" >
-    
+    <div class="varR_modal" :style='"z-index:"+zidx' @click='noModal'></div>
     <mt-popup 
       v-model="boxState.coreVisible"
       popup-transition="popup-fade"
-      :modal='false'
+      :modal='false' :style='"z-index:"+setZidx'
       class="set">
 
         <p class="top">
@@ -43,6 +38,24 @@
         <hr/>
         <mt-button @click="coreVisible" >确定</mt-button>
     </mt-popup >
+    <mt-popup
+        v-model="boxState.card"
+        popup-transition="popup-fade" 
+        :modal='false' :style='"z-index:"+cardZidx'
+        class="card" >
+        <p>
+            房卡消耗方式 
+            <b class="close" @click="noModal">
+            </b>
+        </p>
+        <div></div>
+    </mt-popup>
+  <mt-popup 
+  v-model="boxState.CvarRoom" 
+  popup-transition="popup-fade"  
+  class="Cvar" >
+    
+    
 
     <mt-popup
         v-model="boxState.no"
@@ -53,18 +66,7 @@
         <p>该功能暂未开放</p>
     </mt-popup>
 
-    <mt-popup
-        v-model="boxState.card"
-        popup-transition="popup-fade" 
-        :modal='false'
-        class="card" >
-        <p>
-            房卡消耗方式 
-            <b class="close" @click="noModal">
-            </b>
-        </p>
-        <div></div>
-    </mt-popup>
+    
 <!-- touchstart touchmove touchend varR_modal -->
     <h3>创建房间 <i @click="boxState.CvarRoom = false"></i> </h3>
     <ul class='varRoomSet' @click="open" v-show='showVar==0'>
@@ -194,6 +196,9 @@
                 loading: false,     // loading
                 initType: 0,       //  0 是初创   1 是修改+
                 showVar:0,
+                zidx: -1, // 遮罩
+                cardZidx: -1,  // 付费遮罩
+                setZidx: -1, // 设置遮罩
                 init: {
                     plaName: '请输入房间名称',
                     error: {
@@ -287,15 +292,30 @@
                 inp.roomName = Val.join('');
             },
             varMo() {
+                var self = this;
                 var [vModal, Cvar] = [document.getElementsByClassName('varR_modal')[0].style, 
                                       document.getElementsByClassName('Cvar')[0].style];
+                this.zidx = 2000;
                 1 ^ function touModal () {
-                    vModal.zIndex < Cvar.zIndex ? vModal.zIndex++ && touModal() : 
-                    vModal.display = 'block';
+                    if(self.zidx < Cvar.zIndex){
+                        self.zidx++;
+                        touModal()
+                    } else {
+                        vModal.display = 'block';
+                        // Cvar.zIndex++;
+                    }
                 } ()
+                // Cvar.zIndex = 1999;
+                self.cardZidx = 3000;
+                self.setZidx = 3001;
+
             },
             noModal() {
                 let State = this.boxState;
+                self.setZidx = -1;
+                this.zidx = -1;
+                self.cardZidx = -1;
+
                 State.no = false ;
                 State.card = false ;
                 State.coreVisible = false ;

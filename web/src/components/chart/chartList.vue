@@ -46,10 +46,8 @@
         </header>
         <div class='list'>
             <ul>
-                <!-- 测试中 datalist ==> 5 -->
             	<li v-for='(data, key) in datalist' :key='data.id' v-if='key != "count"' 
                 :class='data.zn_member_id == cli ? "click" : ""' @touchend='cli = data.zn_member_id'>
-                    
             		<img src="src/img/chart_Room2.png" alt="">
                     <b>{{data.zn_member_name}}</b>
                     <span><img src="src/img/chart_List1.png" alt="">加友</span>
