@@ -72,6 +72,7 @@
                 // height: 0;
                 overflow: hidden;
                 padding: 0 0.324074rem;
+                margin-bottom:0.1rem;
                 overflow: hidden;
                 -webkit-box-shadow: 0 -0.018519rem 0.185185rem #CFD0D2;
                    -moz-box-shadow: 0 -0.018519rem 0.185185rem #CFD0D2;
@@ -83,6 +84,7 @@
                     overflow-y: auto;
                     overflow-x: hidden;
                     max-height: 9.444444rem;
+                    min-height:0rem;
                     dd {
                         .remove{
                             line-height:1.685185rem;
@@ -153,10 +155,11 @@
             }
             li.show {
                 // height: auto;
-                flex: 1;
                 max-height: 9.444444rem;
+                min-height: 0rem;
                 // margin-top: -0.3rem;
                 @include transition(all,1s)
+
             }
             li.hide {
                 height: 0;

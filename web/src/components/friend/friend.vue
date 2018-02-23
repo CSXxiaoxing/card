@@ -135,9 +135,9 @@
                     <span>最近联系</span>
                     <span><i :class='arrows == 2 ? "Iup" : ""'></i></span>
                 </li>
-                <li :class='arrows == 2 ? "show" : "hide"'>
-                    <dl>
-                        <!-- <dd>
+                <li  :class='arrows == 2 ? "show" : "hide"'>
+                    <dl> 
+                        <dd>
                             <span><i></i></span>
                             <span>测试一号</span>
                             <span><i></i>添加</span>
@@ -146,7 +146,27 @@
                             <span><i></i></span>
                             <span>测试二号</span>
                             <span><i></i>备注</span>
-                        </dd> -->
+                        </dd> 
+                        <dd>
+                            <span><i></i></span>
+                            <span>测试二号</span>
+                            <span><i></i>备注</span>
+                        </dd>
+                        <dd>
+                            <span><i></i></span>
+                            <span>测试二号</span>
+                            <span><i></i>备注</span>
+                        </dd> 
+                        <dd>
+                            <span><i></i></span>
+                            <span>测试二号</span>
+                            <span><i></i>备注</span>
+                        </dd> 
+                        <dd>
+                            <span><i></i></span>
+                            <span>测试二号</span>
+                            <span><i></i>备注</span>
+                        </dd>  
                     </dl>
                 </li>
 
@@ -155,7 +175,7 @@
                     <span>我的好友</span>
                     <span><i :class='arrows == 3 ? "Iup" : ""'></i></span>
                 </li>
-                <li :class='arrows == 3 ? "show" : "hide"'>
+                <li  :class='arrows == 3 ? "show" : "hide"'>
                     <dl>
                         <dd v-for='(friends,fquest) in friendList' 
                         :key='friends.id' 
