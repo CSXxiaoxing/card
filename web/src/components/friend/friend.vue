@@ -137,36 +137,16 @@
                 </li>
                 <li  :class='arrows == 2 ? "show" : "hide"'>
                     <dl> 
-                        <dd>
+                        <dd
+                         @touchend='touchEnd'
+                          @touchstart='touchStart'
+                          @touchmove='touchMove'
+                          :style="1 == 1 ? deleteSlider: ''">
                             <span><i></i></span>
                             <span>测试一号</span>
                             <span><i></i>添加</span>
+                            <span class="remove" ref='remove'>删除</span>
                         </dd>
-                        <dd>
-                            <span><i></i></span>
-                            <span>测试二号</span>
-                            <span><i></i>备注</span>
-                        </dd> 
-                        <dd>
-                            <span><i></i></span>
-                            <span>测试二号</span>
-                            <span><i></i>备注</span>
-                        </dd>
-                        <dd>
-                            <span><i></i></span>
-                            <span>测试二号</span>
-                            <span><i></i>备注</span>
-                        </dd> 
-                        <dd>
-                            <span><i></i></span>
-                            <span>测试二号</span>
-                            <span><i></i>备注</span>
-                        </dd> 
-                        <dd>
-                            <span><i></i></span>
-                            <span>测试二号</span>
-                            <span><i></i>备注</span>
-                        </dd>  
                     </dl>
                 </li>
 

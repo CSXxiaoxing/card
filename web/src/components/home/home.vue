@@ -1,5 +1,7 @@
 <template>
 	<div id='home'> 
+	<iframe :src="iframe" frameborder="0" :id='iframeCss'></iframe>
+	<iframe :src="iframe02" frameborder="0" :class='iframe02 == "" ? "i01":"easemobim-chat-panel easemobim-mobile"'></iframe>
 		<mt-popup 
           v-model="careTip"
           popup-transition="popup-fade"
@@ -35,14 +37,20 @@
 					:prevent = 'true'
 					 :speed="800" :auto="5000"
 					class='homeSwipe auto'>
-
 			  
 			  	<i></i><mt-swipe-item v-for='(notices) in notice'><span>{{notices.content}}</span></mt-swipe-item>
 			  
 			</mt-swipe>
 			</p>
 
-			<span class='homeServer'><router-link to="/chartRoom/0" ><b>客<br>服</b></router-link></span>
+			<span class='homeServer' @click='kefu()'>
+			<!-- <router-link to="/chartRoom/0" > -->
+				<!-- <b>客<br>服</b> -->
+				<!-- <a href='javascript:;' @click='easemobim.bind({configId: "304fe7b6-3046-416b-b169-0398f647b90e"})'>快联系我</a> -->
+				<a>客服</a>
+				
+			<!-- </router-link> -->
+			</span>
 		</header>
 
 		<div class='homeMain' id='dataUL'>
@@ -70,7 +78,6 @@
 			type="triple-bounce"
 			:size="110" 
 			v-show='spinner == 1'>
-				
 			</mt-spinner>
 		</div>
 
@@ -124,6 +131,9 @@
 	export default {
 		data: function(){
 			return {
+				iframe02: '',
+				iframe: '',
+				iframeCss: 'iframeCss',
 				loading: false,		// loading values
 				careTip : false,
 				errorTips: '',		// 错误信息
@@ -139,7 +149,14 @@
 				cardNum : this.$store.state.initRoom.cardNum,
 			}
 		},
-		mounted: function(){		
+		mounted: function(){	
+			// 客服
+			window.easemobim = window.easemobim || {};
+            easemobim.config = {
+                // hide: true,
+                // autoConnect: true    
+            };
+			// easemobim
 			var self = this;
 			var socket = io(socketURL);
 			var uid = localStorage.oxUid;
@@ -153,7 +170,11 @@
 			        var data = JSON.parse(data)
 			    }
 			    switch(Number(data.type)){                    
-		            case 4: 
+		            case 18: 
+		            console.log(data)
+		            self.iframeCss = 'iframeCss'; 
+		            // self.$parent.iframeCss = 'iframeCss02';
+		            self.iframe = '';
 		            break;
 			    }    
 			});
@@ -225,6 +246,24 @@
 			}
 		},
 		methods: {
+			kefu: function(){
+				console.log(8721)
+				console.log(easemobim)
+
+				easemobim.bind({
+					configId: "91597b29-7705-433a-9b95-7d6e657896bb",
+					domain: '//kefu.easemob.com',
+					agentName: '客服1号',
+					hideKeyboard: true,
+					autoConnect: true,
+					hide: true,
+					// staticPath: "//kefu.easemob.com/webim/im.html?configId=91597b29-7705-433a-9b95-7d6e657896bb",
+				})
+				
+				// this.iframe02 = 'https://kefu.easemob.com/webim/im.html?configId=91597b29-7705-433a-9b95-7d6e657896bb'
+
+				
+			},
 			joinRoom(){
 				this.$refs.onjoinRoomChild.joinRoom=true;
 			},

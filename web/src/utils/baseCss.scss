@@ -48,7 +48,7 @@ html,body{
   padding: 0;
   overflow: hidden;
 }
-
+//兼容性样式调整
 [class*="col-"] {
     width: 100%;
 }
@@ -117,6 +117,26 @@ input.error {
                 transform: translate(0%, -1%);
    }
 }
+
+#iframeCss{
+    height: 0;
+    weight: 0;
+    display: none;
+}
+#iframeCss02{
+    .result{
+        // transform:  
+    }
+    display:block;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #fff;
+    z-index: 9999;
+}
+
 // 文本-错误提示
 .TEXTerror {
     color: red!important;
@@ -231,4 +251,20 @@ input.error {
         left: 0.018519rem;
         bottom: -0.046296rem;
     }
-  }
+}
+
+//客服系统
+.easemobim-mobile-body{
+    transform: translate(50%,50%) scale(2,2);
+    .easemobim-chat-panel.easemobim-mobile{
+        width: 50%!important;
+        height: 50%!important;
+        left: 0!important;
+        top: 0!important;
+        right: auto!important;
+        bottom: auto!important;
+        border-radius: 0;
+        box-shadow: none;
+    }
+}
+

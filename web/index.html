@@ -4,6 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" id='vp'>
+
+    <!-- <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta name="misapplication-tap-highlight" content="no"/>
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="MobileOptimized" content="320"/> -->
     <title>project</title>
     <script type="text/javascript" src="./im/rem.js"></script>
     <script type='text/javascript' src='./im/webim.config.js'></script>
@@ -11,10 +16,138 @@
     <script type='text/javascript' src='./im/websdk-1.4.13.js'></script>
     <script type="text/javascript" src='./im/base.js'></script>
     <script type="text/javascript" src='./im/socket.io.js'></script>
+    <script type="text/javascript" src='./im/update.js'></script>
+    <!-- <script type="text/javascript" src='./im/mui.min.js'></script> -->
   </head>
   <body>
         <div id="app">
         </div>
         <script src="./dist/build.js"></script>
+        <script src='//kefu.easemob.com/webim/easemob.js?configId=91597b29-7705-433a-9b95-7d6e657896bb'></script>
+        <!-- <script>
+            // 物理返回
+            document.addEventListener('plusready', function() {
+                var webview = plus.webview.currentWebview();
+                plus.key.addEventListener('backbutton', function() {
+                    webview.canBack(function(e) {
+                        if(e.canBack) {
+                            webview.back();             
+                        } else {
+                            //webview.close(); //hide,quit
+                            //plus.runtime.quit();
+                            mui.plusReady(function() {
+                                //首页返回键处理
+                                //处理逻辑：1秒内，连续两次按返回键，则退出应用；
+                                var first = null;
+                                plus.key.addEventListener('backbutton', function() {
+                                    //首次按键，提示‘再按一次退出应用’
+                                    if (!first) {
+                                        first = new Date().getTime();
+                                        mui.toast('再按一次退出应用');
+                                        setTimeout(function() {
+                                            first = null;
+                                        }, 1000);
+                                    } else {
+                                        if (new Date().getTime() - first < 1500) {
+                                            plus.runtime.quit();
+                                        }
+                                    }
+                                }, false);
+                            });
+                        }
+                    })
+                });
+            });
+            console.log(mui)
+        </script> -->
+        <script type="text/javascript">
+            window.easemobim = window.easemobim || {};
+            easemobim.config = {
+                hide: true,
+                autoConnect: true    
+            };
+            console.log(easemobim)
+            console.log(easemobim.config)
+            console.log(easemobim.bind)
+            //取消浏览器的所有事件，使得active的样式在手机上正常生效
+            // document.addEventListener('touchstart',function(){
+            //     return false;
+            // },true);
+            // 禁止选择
+            document.oncontextmenu=function(){
+                return false;
+            };
+            // H5 plus事件处理
+            var as='pop-in';// 默认窗口动画
+            function plusReady(){
+                // 隐藏滚动条
+                plus.webview.currentWebview().setStyle({scrollIndicator:'none'});
+                // Android处理返回键
+                plus.key.addEventListener('backbutton',function(){
+                    console.log(location.hash)
+                    if(location.hash == '#/home' || location.hash == '#/?1' || location.hash == '#/'){
+                        ('iOS'==plus.os.name)?plus.nativeUI.confirm('确认退出？', function(e){
+                            if(e.index>0){
+                                plus.runtime.quit();
+                            }
+                        }, 'HelloH5', ['取消','确定']):(confirm('确认退出？')&&plus.runtime.quit());
+                    } else {
+                        history.back()     
+                    }
+                    // webview.canBack(function(e) {
+                    //     if(e.canBack) {
+                    //         console.log(location.hash)
+                    //         // webview.back();
+                    //     } else {
+                    //         ('iOS'==plus.os.name)?plus.nativeUI.confirm('确认退出？', function(e){
+                    //             if(e.index>0){
+                    //                 plus.runtime.quit();
+                    //             }
+                    //         }, 'HelloH5', ['取消','确定']):(confirm('确认退出？')&&plus.runtime.quit());
+                    //     }
+                    // })
+                    // ('iOS'==plus.os.name)?plus.nativeUI.confirm('确认退出？', function(e){
+                    //     if(e.index>0){
+                    //         plus.runtime.quit();
+                    //     }
+                    // }, 'HelloH5', ['取消','确定']):(confirm('确认退出？')&&plus.runtime.quit());
+                },false);
+                compatibleAdjust();
+            }
+
+            if(window.plus){
+                plusReady();
+            }else{
+                document.addEventListener('plusready',plusReady,false);
+            }
+            // DOMContentLoaded事件处理
+            var _domReady=false;
+            document.addEventListener('DOMContentLoaded',function(){
+                _domReady=true;
+                compatibleAdjust();
+            },false);
+            // 兼容性样式调整
+            var _adjust=false;
+            function compatibleAdjust(){
+                if(_adjust||!window.plus||!_domReady){
+                    return;
+                }
+                _adjust=true;
+                // iOS平台特效
+                if('iOS'==plus.os.name){
+                    document.getElementById('content').className='scontent';    // 使用div的滚动条
+                    if(navigator.userAgent.indexOf('StreamApp')>=0){    // 在流应用模式下显示返回按钮
+                        document.getElementById('back').style.visibility='visible';
+                    }
+                }
+                // 预创建二级窗口
+            //  preateWebviews();
+                // 关闭启动界面
+                    plus.navigator.setStatusBarBackground('#D74B28');
+                setTimeout(function(){
+                    plus.navigator.closeSplashscreen();
+                },200);
+            }
+        </script>
   </body>
 </html>
