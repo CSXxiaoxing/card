@@ -31,10 +31,10 @@
 			<p>
 
 				<mt-swipe 
-			:show-indicators="false" 
-			:prevent = 'true'
-			 :speed="800" :auto="5000"
-			class='homeSwipe auto'>
+					:show-indicators="false" 
+					:prevent = 'true'
+					 :speed="800" :auto="5000"
+					class='homeSwipe auto'>
 
 			  
 			  	<i></i><mt-swipe-item v-for='(notices) in notice'><span>{{notices.content}}</span></mt-swipe-item>

@@ -1,9 +1,9 @@
 //http://visionmedia.github.io/superagent/
 import request from 'superagent';
 
-// const LOCAL_SERVER = 'http://game.hengpukj.com';
+const LOCAL_SERVER = 'http://game.hengpukj.com';
 // const LOCAL_SERVER = 'http://www.wanjiba888.com';
- const LOCAL_SERVER = 'http://192.168.31.142:3000';
+//const LOCAL_SERVER = 'http://192.168.31.142:3000';
 const DEV_SERVER = '';
 const PRO_SERVER = '';
 

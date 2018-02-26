@@ -104,52 +104,53 @@
           @include border-radius(0.462963rem);
           background-color:white;
           border:0.046296rem solid #E1DFE0;
+            position: relative;
           div{
             width:5rem;
-            height:0.8rem;
+            // height:0.8rem;
+            height: 100%;
             button{
                 font-size:0.388889rem;
                 text-align:center;
                 width:2.4rem;
                 height:0.6rem;
+                line-height: 0.6rem;
                 font-size: 0.416667rem;
                 border: none;
                 background-color: transparent;
                 position: relative;
                 border: none;
                 outline: none;
-                position:relative;
+                position:absolute;
+                top: 50%;
                 bottom:0.074074rem;
                 -webkit-tap-highlight-color: #000000;
                 -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-                //z-index: 999;
             }
             button:nth-of-type(1){
-                // color:white;
-               padding-right:0.1rem;
+                left: 0;
+                @include translate(10%,-50%);
             }
             button:nth-of-type(2){
-                // color:white;
-                left:0.3rem; 
-                position:relative;
+                right: 0;
+                @include translate(-10%,-50%);
             }
             img{
               width:2.962963rem;
-              height:0.944444rem;
-              position:absolute;
-              left:0.740741rem;
-              top:1.666667rem;
+              height: 100%;
+              position: absolute;
+              left:0rem;
             }
             img.right{
-              position:absolute;
-              left:3.703704rem;
-              top:1.666667rem;
+              position: absolute;
+              left: 100%;
+              @include translate(-100%,0%);
               @include transition(all,1s);
             }
             img.left{
                 position:absolute;
-                left:0.740741rem;
-                top:1.666667rem;
+                // left:0.740741rem;
+                left:0rem;
                 @include transition(all,1s);
             }
         }
