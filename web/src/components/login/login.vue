@@ -580,6 +580,8 @@
 							localStorage['oxToken'] = res.data.token;
 							localStorage['oxUid'] = res.data.uid;
 							localStorage['oxName'] = res.data.member_info.nickname;
+							self.$store.state.initRoom.cardNum = res.data.member_info.card_num;
+							console.log(self.$store.state.initRoom.cardNum)
 							// 注册信号为true
 							var options2 = { 
 							    username: 'hz_niuniu_'+localStorage.oxUid,

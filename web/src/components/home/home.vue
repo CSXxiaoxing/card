@@ -1,7 +1,6 @@
 <template>
 	<div id='home'> 
 	<iframe :src="iframe" frameborder="0" :id='iframeCss'></iframe>
-	<iframe :src="iframe02" frameborder="0" :class='iframe02 == "" ? "i01":"easemobim-chat-panel easemobim-mobile"'></iframe>
 		<mt-popup 
           v-model="careTip"
           popup-transition="popup-fade"
@@ -24,20 +23,18 @@
 					<span>ID:{{id}}</span>
 					<span>
 						<i @click='loading = false'>房卡</i>
-						<b @click='loading = true'>27894</b>
+						<b @click='loading = true'>{{cardNum}}</b>
 						<i @click='buy'></i>
 					</span>
 				</dd>
 			</dl>
 			
 			<p>
-
-				<mt-swipe 
+			<mt-swipe 
 			:show-indicators="false" 
 			:prevent = 'true'
 			:speed="800" :auto="5000"
 			class='homeSwipe auto'>
-
 			  
 			  	<i></i><mt-swipe-item v-for='(notices) in notice'><span>{{notices.content}}</span></mt-swipe-item>
 			  
@@ -132,7 +129,6 @@
 	export default {
 		data: function(){
 			return {
-				iframe02: '',
 				iframe: '',
 				iframeCss: 'iframeCss',
 				loading: false,		// loading values
@@ -147,6 +143,7 @@
 				sendId : 0,
 				spinner: 0,		// 懒加载loding
 				notice : [],
+				cardNum : this.$store.state.initRoom.cardNum,
 			}
 		},
 		mounted: function(){	

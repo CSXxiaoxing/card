@@ -253,7 +253,7 @@
         buyRoom: false,
         moreCard: false,
         cardNum: '',
-        cardNumError: 'N张以上，几折优惠',
+        cardNumError: 'n张以上，几折优惠',
         list:[],
         
       };
@@ -276,6 +276,8 @@
                         id : res.data[i].zn_cat_id,
                     })
                 }
+                self.cardNumError = self.list[3].num + '张以上，7折优惠'
+                console.log(self.list);
                 console.log(self.list);
             }
           })

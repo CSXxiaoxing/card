@@ -27,6 +27,7 @@
       line-height: 1.805556rem;
       background: $home08 no-repeat;
       background-position: center;
+      background-size:8.87037rem 1.805556rem;
       text-align: center;
       position: relative;
       right: 0.87037rem;
