@@ -239,9 +239,6 @@ export default new Vuex.Store({
                         }
                     }
                 }
-
-
-                
             },//收到文本消息
             onEmojiMessage: function ( message ) {
                 console.log('Emoji')
@@ -336,6 +333,7 @@ export default new Vuex.Store({
                 }
             };
             conn.open(options);
+
         },
         // 调取用户聊天记录 page分页数 p当前页
         // {myId, toId, page, p}

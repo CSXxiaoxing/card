@@ -36,8 +36,8 @@
             <td v-if="quest == 3" class="sev">7折优惠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
           </tr>
           <tr>
-            <td><button v-if="quest != 3">购买</button>
-                <mt-button  v-if="quest == 3" class="sevb" type="primary" @click="more">去填写数量</mt-button>    
+            <td><button v-if="quest != 3" @click='buyCard(cards.num,cards.id)'>购买</button>
+                <mt-button  v-if="quest == 3" class="sevb" type="primary" @click="more">去填写数量</mt-button>
             </td>
           </tr>
         </table>
@@ -255,6 +255,7 @@
         cardNum: '',
         cardNumError: 'N张以上，几折优惠',
         list:[],
+        
       };
     },
     mounted:function(){
@@ -280,6 +281,24 @@
           })
     },
     methods: {
+        buyCard(num,id){      // 购买房卡
+            var self = this;
+            // console.log(location.href)
+            var href = location.href;
+            // console.log(self.$parent.iframe)
+            http.post('/RoomCard/buyCard',{
+                    id: Number(localStorage.oxUid),
+                    commodityid: Number(id),
+                    returnurl: href,
+                    num: Number(num),
+                },'',this)
+                .then(res => {
+
+                    self.$parent.iframeCss = 'iframeCss02';
+                    self.$parent.iframe = res.url;
+                    // window.open(res.url)
+                })
+        },
         cardNumber(){
             let reg = new RegExp("^[0-9]*$");
             if(!reg.test(this.cardNum)){

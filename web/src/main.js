@@ -56,7 +56,9 @@ socket.on('new_msg', function (data) {
         var data = JSON.parse(data)
     }
     switch(data.type){
-        case 10:
+        case 18:
+            console.log(data)
+            // alert(data.status)
         break;
     }    
 });
@@ -88,7 +90,6 @@ setInterval(()=>{
         countSocket02 = countSocket
     }
 },2e4)
-
 
 new Vue({
   el: '#app',
