@@ -1,3 +1,4 @@
+  <!-- 群聊 -->
   <template>
     <div class='chartRoom'> 
         <!-- 消息通知 -->
@@ -10,66 +11,21 @@
             <mt-button @click="careTip = false">  确定
             </mt-button>
         </mt-popup >
-        <!-- 好友添加 -->
-        <mt-popup 
-          v-model="findFriend"
-          popup-transition="popup-fade" 
-          class="findFriend" >
-          <div>
-             <i v-on:click="findFriend = false">×</i>
-            <img src="src/img/friend1.png" alt="">
-            <ul>
-                <li>{{shename}}</li>
-                <li> id : {{sheId}}</li>
-            </ul>
-          </div>
-          <mt-button @click="findFriend = false ,addFriend() ">  添加
-          </mt-button>
-        </mt-popup >
-        <!-- 好友查找 -->
-        <mt-popup 
-          v-model="sendFriend"
-          popup-transition="popup-fade" 
-          class="sendFriend" >
-          <span>查找好友</span>
-
-          <p>添加好友请求已发送</p>
-
-          <mt-button @click="sendFriend = false"> 确定
-          </mt-button>
-        </mt-popup >
 
     	<header>
             <ul>
                 <li>
                     <i><a @click='$store.commit("ls")'></a></i>
                 </li>
-                <li v-show='roomstatus == 1'>{{shename}}</li>
-                <li v-show='roomstatus == 0'>联系客服</li>
-                <li v-show='roomstatus == 3'>聊天室（{{lingth*1+1}}）</li>
-                <li v-show='roomstatus == 3'>
+                <li>聊天室（{{lingth*1+1}}）</li>
+                <li>
                     <router-link :to="chartList" >
                     <img src="src/img/chart_Room7.png" alt="">
                     </router-link>
                 </li>
-                <li  v-show='roomstatus == 1'  @click = 'give == 0 ? give = 1 : give = 0'>给他＋/－分</li>
-                <li v-show='(roomstatus == 1 || roomstatus == 2)&& isfriend == 0' @click="findFriend=true"><img src="src/img/chart_Room5.png" alt="">加友</li>
-                <li v-show='roomstatus ==2'>{{shename}}</li>
             </ul>
         </header>
         <div class='chart'  id='txtbox'>
-            <ul v-if='roomstatus == 2 || roomstatus == 1'>
-                <!-- 单聊 -->
-                <li v-for="(data, idx) in (roomstatus == 2 || roomstatus == 1 ? $store.state.txt : '')" 
-                :class="$store.state.txt_idx[idx] >=0 ? 'left' : 'right'"   :key = '$store.state.txt_time[idx]' v-if='data != ""'>
-                    <img :src="$store.state.txt_idx[idx] >=0 ? 'src/img/home_head.png':'src/img/room03.png'" alt="">
-                    <div class="test">
-                        <span class="bot"></span>
-                       {{data}}
-                    </div>
-                </li>
-            </ul>
-            
             <ul v-if='roomstatus == 3'>
                 <!-- 群聊 -->
                 <li v-for="(data, idx) in (roomstatus == 3 ? $store.state.txt : '')" 
@@ -81,24 +37,13 @@
                     </div>
                 </li>
             </ul>
-
-            <!-- 加减分 -->
-            <div :class = '[(give == 1?"open":"close"),("control")]'>
-            	<ul>
-            		<li>加分 :<input type="text" placeholder="输入分数" v-model.number = 'add' @focus='jian = ""'>
-                        <b @click = 'addfen'>确定</b>
-                    </li>
-            		<li>减分 :<input type="text" placeholder="输入分数" v-model.number = 'jian' @focus='add = ""'></li>
-            	</ul>
-            </div>
         </div>
-        <footer>
 
+        <footer>
         	<div v-if='speak == 0'>
                 <img src="src/img/chart_Room1.png" @touchend='speak = 1'>
-                <span>按住 说话</span>
+                <span @touchstart='audio(1)' @touchend='audio(0)'>按住 说话</span>
             </div>
-
             <div v-if='speak == 1'>
                 <img src="src/img/724876052125097875.png" @touchend='speak = 0'>
                 <form action="#">
@@ -136,29 +81,22 @@
                 line-height: 0.796296rem;
                 display: flex;
                 justify-content: space-between;
-                font-size:0.37037rem;
+                font-size:0.4rem;
+                position: relative;
                 img{
                 	vertical-align: sub;
                     width:0.824074rem;
                     width:0.888889rem;
                 }
-                li:nth-of-type(2){
-                   position:absolute;
-                   left: 32%;
-                   -webkit-transform: translate(-50%,-8%);
-                      -moz-transform: translate(-50%,-8%);
-                       -ms-transform: translate(-50%,-8%);
-                        -o-transform: translate(-50%,-8%);
-                           transform: translate(-50%,-8%);
-                }
-                li:nth-of-type(3){
-                   position:absolute;
-                   left:4.444444rem;
-                }
-                li:nth-of-type(4){
-                   position:absolute;
-                   left:4.074074rem;
-                   font-size:0.462963rem;
+                li:nth-of-type(2) {
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    -webkit-transform: translate(-50%,-50%);
+                       -moz-transform: translate(-50%,-50%);
+                        -ms-transform: translate(-50%,-50%);
+                         -o-transform: translate(-50%,-50%);
+                            transform: translate(-50%,-50%);
                 }
                 li:first-child {
                     &>i {
@@ -180,26 +118,6 @@
                         }
                     }
                 }
-                li:nth-of-type(6){
-                	background:$chart01 no-repeat;
-                    background-position:center;
-                    background-size:2.388889rem 0.75rem;
-                    padding-left: 0.111111rem;
-                    width:2.388889rem;
-                    line-height:0.740741rem;
-                    position:absolute;
-                    right:2rem;
-                }
-                li:last-child {
-                    position:absolute;
-                    left: 50%;
-                    -webkit-transform: translate(-50%,-8%);
-                       -moz-transform: translate(-50%,-8%);
-                        -ms-transform: translate(-50%,-8%);
-                         -o-transform: translate(-50%,-8%);
-                            transform: translate(-50%,-8%);
-                }
-                
             }
         }
         
@@ -274,48 +192,6 @@
                 }
             }
 
-            .control{
-            	overflow: hidden;
-            	box-shadow: 0.009259rem 0.009259rem 0.185185rem #A9A9AB;
-            	width:100%;
-            	height:0.0rem;
-            	position: fixed;
-                top: 1.87037rem;
-            	left:0.0rem;
-            	background-color:white;
-            	font-size:0.407407rem;
-            	text-align:left;
-
-            	li{
-
-            		margin-top: 0.277778rem;
-            		margin-left:0.574074rem;
-            		font-weight:bold;
-            		input{
-            		height:0.722222rem;
-            		line-height:0.722222rem;
-            		width:3.185185rem;
-            		margin-left:0.277778rem;
-            		font-size:0.277778rem;
-            		border:0.009259rem solid black;
-            		padding-left:0.277778rem;
-            		}
-            		b{
-            			float:right;
-            			margin-right:0.333333rem;
-            			color:#1C9ED9;
-            			font-weight:normal;
-            		}
-            	}
-            }
-            .control.open{
-            	height:2.611111rem;
-            	transition: all 1s;
-            }
-            .control.close{
-            	height:0.0rem;
-            	transition: all 1s;
-            }
         }
         .chart::-webkit-scrollbar {
             display: none;
@@ -436,99 +312,6 @@
             bottom: -0.046296rem;
         }
     }
-
-    .findFriend{
-        width: 8.722222rem;
-        height:4.62963rem;
-        -webkit-box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
-        -moz-box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
-        -ms-box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
-        -o-box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
-        box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
-        border-radius: 0.277778rem;
-        position: absolute;
-        top:8.240741rem;
-        img{
-            width:1.972222rem;
-            height:1.972222rem;
-        }
-        i{
-            position:absolute;
-            line-height:0.925926rem;
-            font-size:1.481481rem;
-            font-weight:lighter;
-            color:#797979;
-            right:0.185185rem;
-            top:0.185185rem;
-            width:0.833333rem;
-            height:0.925926rem;
-            @include border-radius(100%);
-            padding-right:0.092593rem;
-        }
-        img{
-            position: absolute;
-            left: 0.962963rem;
-            top: 0.648148rem;
-        }
-        ul{
-            font-size:0.507407rem;
-            li{
-                text-align:left;
-                margin-left: 2.777778rem;
-                position:relative;
-                left:0.555556rem;
-                top:0.925926rem;
-            }
-           
-            li:nth-of-type(1){
-                color:red;
-                font-size:0.574074rem;
-            }
-             li:nth-of-type(2){
-                color:#676767;
-            }
-        }
-        p{
-          input{
-              @include border-radius(0.092593rem);
-              height:0.925926rem;
-              line-height:0.740741rem;
-              font-size:0.462963rem;
-              width:4.62963rem;
-              position:relative;
-              padding-left:0.185185rem;
-              bottom:0.462963rem;
-              text-align:left;
-          }
-          
-        }
-        button{
-          width:2.777778rem;
-          height: 1.0rem;
-          line-height:0.925926rem;
-          border-radius: 0.509259rem;
-          font-size:0.555556rem;
-          margin-bottom:0.462963rem;
-          border: 0 none;
-          color: white;
-          background: $homeAll -1.944444rem -1.388889rem no-repeat;
-          background-size: 5.555556rem 5.555556rem;
-          margin-top:1.851852rem;
-        }
-        button:active {
-            position: relative;
-            left: 0.018519rem;
-            bottom: -0.046296rem;
-        }
-    }
-
-    .sendFriend{
-        @extend .addFriend;
-        p{
-            margin-bottom: 0.462963rem;
-            font-size:0.507407rem;
-        }
-    }
 </style>
 
 <script type="text/javascript">
@@ -541,41 +324,39 @@
         data: function(){
             return {
                 loading: false,     // loading
+                careTip : false,    // 提示窗
+                errorTips: '',      // 错误提示
+
                 chartList: '',      // 成员列表（群）
                 lingth: 0,          // 成员人数（群）
                 zn_chatid: 0,       // 群聊id（群）
                 zn_name: '',        // 群名称 （群）
                 speak: 1,           // 语音是0 输入是1 
-                give: 0,            // 加减分
-                roomstatus: 99,     // 0-客服  1-聊天（房主）  2-聊天（玩家） 3-群聊
+
+                roomstatus: 99,     // -------群聊
                 isfriend: 0,        // 是好友1  不是0
                 roomNum: 1,         // 房间号
                 roomid: 0,          // 房间id
                 txt: '',            // 发送产生的文本
                 id: localStorage.oxUid,   //个人id（单聊）
                 sheId: 0,                 // 对方id（单聊）
-                shename: '网络延迟暂时无法显示',// 对方名字（单聊）
+
                 toid: 0,                        // 对方的uid
-                careTip : false,    // 提示窗
-                errorTips: '',      // 错误提示
-                add: '', // 加分
-                jian: '', // 减分
-                findFriend: false,
-                sendFriend: false,
             }
         },
         beforeMount: function(){
-            // 计算属性
-            this.$store.getters.txt;
+            this.$store.getters.txt;    // 计算属性
         },
         mounted: function(){
             var [self, id] = [this, this.id];
             this.$store.dispatch('webIM')   // 配置
             this.$store.dispatch('dl')      // 登录
 
+            console.log(HTML_R)
+            console.log(as)
+
             var params = JSON.parse(this.$route.params.id)  // 路由参数
             
-            this.roomstatus = params[0];    // 状态
             if(params[0] == 3){         // 聊天室
                 this.roomNum = params[1];       // 房间号
                 this.roomid = params[2];        // 房间id
@@ -660,11 +441,8 @@
                 chat.scrollTop = chat.scrollHeight;
                 clearTimeout(timeD)
             },200)
-
-            
         },
         beforeUpdated: function(){
-            // console.log(this.$store.state.txt)
         },
         updated: function(){
             // 计算属性
@@ -676,46 +454,7 @@
             // 发送文本
             textPush () { 
                 var self = this;
-                var type = this.roomstatus;  // 0-客服  1-聊天（房主）  2-聊天（玩家） 3-群聊
-
-                
-                var sendPrivateText = function () {
-                    
-                    var id = conn.getUniqueId();                  // 生成本地消息id
-                    var msg = new WebIM.message('txt', id);      // 创建文本消息
-                    msg.set({
-                        msg: self.txt,          // 消息内容
-                        to: "hz_niuniu_"+self.sheId,   // 接收消息对象（用户id） 13450266666
-                        roomType: false,
-                        success: function (id, serverMsgId) {
-                            // 本地消息储存
-                            var a = JSON.parse(localStorage.oxTxtAll)
-                            var tauid = "hz_niuniu_"+self.sheId;
-                            var date = new Date().getTime();
-
-                            if(!a[tauid]){
-                                a[tauid] = {}
-                            }
-
-                            if(a[tauid]["hz_niuniu_"+self.id]){
-                                a[tauid]["hz_niuniu_"+self.id][date] = self.txt;
-                            } else {
-                                a[tauid]["hz_niuniu_"+self.id] = {};
-                                a[tauid]["hz_niuniu_"+self.id][date] = self.txt;
-                            }
-                            self.$store.state.txt = a;
-                            localStorage.oxTxtAll = JSON.stringify(a);
-                            self.txt = '';
-                        },
-                        fail: function(e){
-                            console.log("失败回调");
-                            self.txt = '';
-                        }
-                    });
-                    msg.body.chatType = 'singleChat';
-                    conn.send(msg.body);// 单聊发送文本消息txtType
-                };
-                
+                // 群聊发送文本消息
                 var sendGroupText = function () {
                     var id = conn.getUniqueId();            // 生成本地消息id
                     var msg = new WebIM.message('txt', id); // 创建文本消息
@@ -752,17 +491,94 @@
                     };
                     msg.set(option);
                     msg.setGroup('groupchat');
-                    conn.send(msg.body);// 群聊发送文本消息
+                    conn.send(msg.body);
                 };
 
-                if ( type == 1 || type == 2 ) {
-                    this.$store.state.txt = JSON.parse(localStorage.oxTxtAll)
-                    sendPrivateText()
-                } else if ( type == 3 ) {
-                    this.$store.state.txt = JSON.parse(localStorage.oxQun)
-                    sendGroupText()
+                // 群聊发送音频消息
+                var sendPrivateAudio = function () {
+                    var id = conn.getUniqueId();                   // 生成本地消息id
+                    var msg = new WebIM.message('audio', id);      // 创建音频消息
+                    var input = document.getElementById('audio');  // 选择音频的input
+                    var file = WebIM.utils.getFileUrl(input);      // 将音频转化为二进制文件
+                    var allowType = {
+                        'mp3': true,
+                        'amr': true,
+                        'wmv': true
+                    };
+                    if (file.filetype.toLowerCase() in allowType) {
+                        var option = {
+                            apiUrl: WebIM.config.apiURL,
+                            file: file,
+                            to: self.zn_chatid,                   // 接收消息群组
+                            roomType: false,
+                            chatType: 'singleChat',
+                            onFileUploadError: function () {      // 消息上传失败
+                                console.log('onFileUploadError');
+                            },
+                            onFileUploadComplete: function () {   // 消息上传成功
+                                console.log('onFileUploadComplete');
+                            },
+                            success: function () {                // 消息发送成功
+                                console.log('Success');
+                            },
+                            flashUpload: WebIM.flashUpload
+                        };
+                        msg.set(option);
+                        conn.send(msg.body);
+                    }
+                };
+
+                this.$store.state.txt = JSON.parse(localStorage.oxQun)
+                sendGroupText()
+            },
+            startRecord: function(AUDIO_TYPE){
+                // 开始录音
+                var r = HTML_R;
+                if ( r == null ) {
+                    alert( '录音对象未获取' );
+                    return;
+                }
+                r.record( {filename:"./_doc/audio/"}, function (p) {
+                    // alert( "Audio record success!" );
+                    console.log(p)
+                    // r.stop();
+                }, function ( e ) {
+                    console.log(JSON.stringify(e))
+                    console.log(e.message)
+                    alert( "Audio record failed: " + e.message );
+                    // r.stop(); 
+                } );
+            },
+            audio: function(AUDIO_TYPE){
+                
+                function startRecord() {
+                    if ( r == null ) {
+                        alert( '录音对象未获取' );
+                        return;
+                    }
+                    r.record( {filename:"./_doc/audio/"}, function (p) {
+                        // alert( "Audio record success!" );
+                        console.log(p)
+                        // r.stop();
+                    }, function ( e ) {
+                        console.log(JSON.stringify(e))
+                        console.log(e.message)
+                        alert( "Audio record failed: " + e.message );
+                        // r.stop(); 
+                    } );
+                }
+                function stopRecord() {
+                    r.stop(); 
                 }
                 
+                // type判断
+                if(AUDIO_TYPE == 1){
+                    startRecord()
+                    console.log("点击")
+                } else if(AUDIO_TYPE == 0){
+                    stopRecord()
+                    console.log("离开")
+                }
             },
             list () {   // 玩家数量
                 var self = this;
@@ -777,65 +593,6 @@
                     }
                 })
             },
-            addfen () {     // 加减分
-
-                var self = this;
-                var zhi = 0;
-                var jj = 3;
-
-                if(this.add > 0){
-                    zhi = this.add
-                    jj = 1;
-                } else if(this.jian > 0) {
-                    zhi = this.jian
-                    jj = 2;
-                } else {
-                    this.give == 0 ? this.give = 1 : this.give = 0
-                    return false;
-                }
-                if(self.sheId < 99){
-                    return false;
-                }
-                this.give == 0 ? this.give = 1 : this.give = 0
-                http.post('/RoomJoin/chagePoint',{
-                    id: self.sheId,  // 设置人id
-                    points: zhi,     // 增加或减少分数
-                    roomid: JSON.parse(self.$route.params.id)[5],    // 房间id
-                    type: jj,    // 1加分 2减分
-                })
-                .then(res => {
-                    if(res.status == 1){
-                        self.jian = '';
-                        self.add = '';
-                        self.$store.state.self.addtype = 1;
-                        self.errorTips = res.msg;
-                        self.careTip = true;
-                    } else {
-                        self.errorTips = res.msg;
-                        self.careTip = true;
-                    }
-                    
-                })
-            },
-            //添加房主为好友
-            addFriend(){
-                var self = this;
-                http.post('/MemberNotice/applyFriend' , {
-                    zn_mid : self.sheId,
-                    zc_content : localStorage.oxName,
-                    zn_applyid : localStorage.oxUid,
-                })
-                .then(res =>{
-                     console.log(self.sheId)
-                     console.log(res)
-                    if(res.status == 1){
-                        self.sendFriend = true;
-                    }else if(res.status == 3){
-                        self.errorTips = res.msg;
-                        self.careTip = true;
-                    }
-                })
-            }
         }
                 
             

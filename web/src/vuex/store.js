@@ -374,10 +374,7 @@ export default new Vuex.Store({
                     console.log(res)
             })
         },
-      
-
-      
-   },
+    },
    // module看文档，数据繁杂时使用。
 })
 

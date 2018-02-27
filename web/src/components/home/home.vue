@@ -155,26 +155,7 @@
             };
 			// easemobim
 			var self = this;
-			var socket = io(socketURL);
-			var uid = localStorage.oxUid;
-			socket.on('connect', function () {
-			    socket.emit('login', uid);
-			});
-
-			socket.on('new_msg', function (data) { 
-			      // socket实时消息
-			    if(JSON.parse(data)){
-			        var data = JSON.parse(data)
-			    }
-			    switch(Number(data.type)){                    
-		            case 18: 
-		            console.log(data)
-		            self.iframeCss = 'iframeCss'; 
-		            // self.$parent.iframeCss = 'iframeCss02';
-		            self.iframe = '';
-		            break;
-			    }    
-			});
+			
 			var VX_data = this.$store.state.data;
 			var VX_time = new Date().getTime();
 			if(localStorage.oxToken && localStorage.oxUid){

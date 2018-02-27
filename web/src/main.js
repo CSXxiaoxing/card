@@ -41,28 +41,8 @@ if(!localStorage.oxQun){ // 群聊
   localStorage.setItem('oxQun', "{}")
 }
 
-// 连接服务端
-var socket = io(socketURL); //这里当然填写真实的地址了
-// uid可以是自己网站的用户id，以便针对uid推送以及统计在线人数
-var uid = localStorage.oxUid;
-// socket连接后以uid登录
-socket.on('connect', function () {
-    console.log('socket连接成功')
-    socket.emit('login', uid);
-});
 
-socket.on('new_msg', function (data) {  
-    if(JSON.parse(data)){
-        var data = JSON.parse(data)
-    }
-    switch(data.type){
-        case 18:
-            console.log(data)
-            // alert(data.status)
-        break;
-    }    
-});
-
+// rem保证
 if(!window.wdaaachen){   // 不存在rem则重新载入rem
     var wdaaachen = document.documentElement.clientWidth*window.devicePixelRatio/10;
     document.getElementsByTagName("html")[0].style.fontSize = wdaaachen + "px";
@@ -71,25 +51,6 @@ if(!window.wdaaachen){   // 不存在rem则重新载入rem
     document.getElementById("vp").content = mstr;
 }
 
-// socket心跳包
-var countSocket = 0;    // 心跳包
-var countSocket02 = 0;
-socket.emit('test_io', 10086);
-socket.on('answer', function (data) {
-    countSocket++
-});
-setInterval(()=>{
-    countSocket02++
-    if(countSocket02 > countSocket){    // 重连
-        var socket = io(socketURL);
-        var uid = localStorage.oxUid;
-        socket.on('connect', function () {
-            socket.emit('login', uid);
-        });
-    } else {
-        countSocket02 = countSocket
-    }
-},2e4)
 
 new Vue({
   el: '#app',

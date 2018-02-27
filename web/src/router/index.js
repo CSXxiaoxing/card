@@ -9,6 +9,7 @@ import Room from '../components/room/room.vue'
 import friend from '../components/friend/friend.vue'
 import Water from '../components/room/waterReport.vue'
 import chartRoom from '../components/chart/chartRoom.vue'
+import CHAT_QUN from '../components/chart/CHAT_QUN.vue'	// 聊天室
 import chartList from '../components/chart/chartList.vue'	// 聊天室成员列表
 import chartDelete from '../components/chart/chartDelete.vue'
 import chartMessage from '../components/chart/chartMessage.vue'
@@ -66,6 +67,11 @@ var router = new VueRouter({
 			path: '/chartMessage',
 			name: 'chartMessage',
 			component: chartMessage
+		},
+		{
+			path: '/CHAT_QUN/:id',
+			name: 'CHAT_QUN',
+			component: CHAT_QUN
 		},
 
 	]

@@ -1,4 +1,4 @@
-// 一个计算对象length的方法，适用于少量的数据
+// 一个计算对象length的方法，适用于少量的数据 JSON
 var a = '对象';
 function length(o) {
     var count = 0;
@@ -207,3 +207,89 @@ filter:alpha(opacity=0);
 opacity: 0;
 
 src/img/
+
+// socket心跳包
+var countSocket = 0;    // 心跳包
+var countSocket02 = 0;
+socket.emit('test_io', 10086);
+socket.on('answer', function (data) {
+    countSocket++
+});
+setInterval(()=>{
+    countSocket02++
+    if(countSocket02 > countSocket){    // 重连
+        var socket = io(socketURL);
+        var uid = localStorage.oxUid;
+        socket.on('connect', function () {
+            socket.emit('login', uid);
+        });
+    } else {
+        countSocket02 = countSocket
+    }
+},2e4)
+
+
+// 第三方socket
+<script type="text/javascript" src="https://cdn.goeasy.io/goeasy.js"></script>
+
+<script type="text/javascript">
+
+    var goEasy = new GoEasy({
+        appkey: 'BC-963a48f23d5b45f983c2407907a406c3',
+        onConnected: function () {
+            console.log("成功连接GoEasy。");
+        },
+        onDisconnected: function () {
+            console.log("与GoEasy连接断开。");
+        },
+        onConnectFailed: function (error) {
+            console.log("与GoEasy连接失败，错误编码："+error.code+"错误信息："+error.content);
+        }
+    });
+
+    // 房间 room_  私人 user_
+    goEasy.subscribe({
+        channel: '123',
+        onMessage: function(message){
+            console.log('接收到消息:'+message.content);//拿到了信息之后，你可以做你任何想做的事
+        }
+    });
+</script>
+
+
+// 音频参考文件
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <title>Audio Example</title>
+    <script type="text/javascript">
+// 扩展API加载完毕后调用onPlusReady回调函数 
+document.addEventListener( "plusready", onPlusReady, false );
+var r = null; 
+// 扩展API加载完毕，现在可以正常调用扩展API 
+function onPlusReady() { 
+    r = plus.audio.getRecorder(); 
+}
+function startRecord() {
+    if ( r == null ) {
+        alert( "Device not ready!" );
+        return; 
+    } 
+    r.record( {filename:"_doc/audio/"}, function () {
+        alert( "Audio record success!" );
+    }, function ( e ) {
+        alert( "Audio record failed: " + e.message );
+    } );
+}
+function stopRecord() {
+    r.stop(); 
+}
+    </script>
+    </head>
+    <body>
+        <input type="button" value="Start Record" onclick="startRecord();"/> 
+        <br/>
+        <input type="button" value="Stop Record" onclick="stopRecord();"/>
+    </body>
+</html>

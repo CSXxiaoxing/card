@@ -197,7 +197,8 @@
                 <li><router-link to="/friend" >好友</router-link></li>
 
                 <li @click='cardURL.test = false'>
-                    <router-link :to="chartRoom" >聊天室</router-link>
+                    <!-- <router-link :to="chartRoom" >聊天室</router-link> -->
+                    <router-link :to="CHAT_QUN" >聊天室</router-link>
                 </li>
                 <li v-show='init.ForT == 1'>
                     <router-link to="/message" >发布公告</router-link>
@@ -265,7 +266,7 @@
                 loading: false,     // loading
                 errorTips: '',      // 错误提示
                 careTip : false,    // 提示窗
-                chartRoom: '',  // 群聊路由
+                CHAT_QUN: '',  // 群聊路由
                 fangzhu: '',    // 房主路由
                 fanzhuID: '',   // 房主id
                 fanzhuName: '',   // 房主名字
@@ -378,100 +379,107 @@
             let self = this;
             self.initAllData();
 
-            var socket = io(socketURL);
-            var uid = localStorage.oxUid;
-            socket.on('connect', function () {
-                socket.emit('login', uid);
-            });
-
-            socket.on('new_msg', function (data) { 
-                  // socket实时消息
-                if(JSON.parse(data)){
-                    var data = JSON.parse(data)
+            var goEasy_ID = this.$route.params.id || '';
+            // 房间 room_  私人 user_
+                    console.log(location.hash)
+            goEasy.subscribe({
+                channel: 'room_' + goEasy_ID,
+                onMessage: function(message){
+                    // console.log('接收到消息:'+message.content)
+                    if(location.hash == '#/room/'+goEasy_ID){
+                        console.log('接收到消息:'+message.content);//拿到了信息之后，你可以做你任何想做的事
+                    }
                 }
 
-                switch(Number(data.type)){
-                    case 1 :                            // 通知有人加入
-                        if(data.zn_member_id == localStorage.oxUid){
-                            return false;
-                        }
-                        console.log(data)
-                        self.list()  // 更新成员
-                        break;
-                    case 2 :                            // 通知房主有人加入
-                        console.log(data)
-                        break;
-                    case 4 :                            // 通知房间已解散
-                        alert('房间已被房主解散')
-                        router.push({name: 'home'});
-                        break;
-                    case 5 :                            // 通知有人分数变化
-                        console.log(data)
-                        if(self.init.ForT == 1){
-                            self.init.totalFen = data.totalPoints;
-                        }
-                        self.list()  // 更新分数
-                        break;
-                    case 6 :                            // 通知有人退出房间
-                        console.log(data)
-                        self.list()  // 更新列表
-                        self.applyList()
-                        break;
-                    case 7 :                            // 通知有人成为庄家
-                        console.log(data)
-                        self.list()  // 更新列表
-                        self.applyList()
-                        break;
-                    case 8 :                            // 通知有人申请上庄
-                        console.log(data)
-                        self.applyList ()
-                        break;
-                    case 9 :                            // 压分
-                        console.log(data)
-                        self.ordinary.allPay[(data.few)*1] += (data.score)*1; // 项和
-                        self.init.pond -=  (data.score)*(data.maxmag)   // 分池
-                        if(self.init.ForT == 1 || self.init.ForZ == 1 || data.id == localStorage.oxUid){
-                            var i = 1;
-                            if(data.maxmag > 1){    // 翻倍
-                                i = 0;
-                            }
-                            self.ordinary.pay[`${data.few}`][2] += (data.score)*1
-                            self.ordinary.pay[`${data.few}`][i] += (data.score)*1
-                        }
-                        break;
-                    case 10:   // 房主公告
-                        console.log(data)
-                        self.message = data.content;
-                        // 公告
-                        break;
-                    case 11:                            // 重新开局
-                        console.log(data)
-                        // self.list()         // 新庄家
-                        // self.applyList ()
-                        break;
-                    case 12:                            // 发牌中
-                        self.TTT = JSON.parse(data.data);
-                        break;
-                    case 13:                            // 房主开始游戏
-                        self.host.allType = 1;
-                        self.init.textStyle = 0;
-                        self.K ();
-                        self.gameResult(self.$store.state.idRoom.id);
-                        break;
-                    case 14:                            // 房主暂停游戏
-                        self.host.allType = 0;
-                        // self.init.textStyle = 0;
-                        // self.init.text[0] = '游戏暂未开始';
-                        break;
-                    case 15:                            // 中止下注
-                        console.log(data)
-                        break;
-                    case 16:                            // 更新房间信息
-                        console.log(data)
-                        self.initGame()
-                        break;
-                }    
             });
+
+            // socket.on('new_msg', function (data) { 
+            //       // socket实时消息
+            //     if(JSON.parse(data)){
+            //         var data = JSON.parse(data)
+            //     }
+            //     switch(Number(data.type)){
+            //         case 1 :                            // 通知有人加入
+            //             if(data.zn_member_id == localStorage.oxUid){
+            //                 return false;
+            //             }
+            //             console.log(data)
+            //             self.list()  // 更新成员
+            //             break;
+            //         case 2 :                            // 通知房主有人加入
+            //             console.log(data)
+            //             break;
+            //         case 4 :                            // 通知房间已解散
+            //             alert('房间已被房主解散')
+            //             router.push({name: 'home'});
+            //             break;
+            //         case 5 :                            // 通知有人分数变化
+            //             console.log(data)
+            //             if(self.init.ForT == 1){
+            //                 self.init.totalFen = data.totalPoints;
+            //             }
+            //             self.list()  // 更新分数
+            //             break;
+            //         case 6 :                            // 通知有人退出房间
+            //             console.log(data)
+            //             self.list()  // 更新列表
+            //             self.applyList()
+            //             break;
+            //         case 7 :                            // 通知有人成为庄家
+            //             console.log(data)
+            //             self.list()  // 更新列表
+            //             self.applyList()
+            //             break;
+            //         case 8 :                            // 通知有人申请上庄
+            //             console.log(data)
+            //             self.applyList ()
+            //             break;
+            //         case 9 :                            // 压分
+            //             console.log(data)
+            //             self.ordinary.allPay[(data.few)*1] += (data.score)*1; // 项和
+            //             self.init.pond -=  (data.score)*(data.maxmag)   // 分池
+            //             if(self.init.ForT == 1 || self.init.ForZ == 1 || data.id == localStorage.oxUid){
+            //                 var i = 1;
+            //                 if(data.maxmag > 1){    // 翻倍
+            //                     i = 0;
+            //                 }
+            //                 self.ordinary.pay[`${data.few}`][2] += (data.score)*1
+            //                 self.ordinary.pay[`${data.few}`][i] += (data.score)*1
+            //             }
+            //             break;
+            //         case 10:   // 房主公告
+            //             console.log(data)
+            //             self.message = data.content;
+            //             // 公告
+            //             break;
+            //         case 11:                            // 重新开局
+            //             console.log(data)
+            //             // self.list()         // 新庄家
+            //             // self.applyList ()
+            //             break;
+            //         case 12:                            // 发牌中
+            //             self.TTT = JSON.parse(data.data);
+            //             break;
+            //         case 13:                            // 房主开始游戏
+            //             self.host.allType = 1;
+            //             self.init.textStyle = 0;
+            //             self.K ();
+            //             self.gameResult(self.$store.state.idRoom.id);
+            //             break;
+            //         case 14:                            // 房主暂停游戏
+            //             self.host.allType = 0;
+            //             // self.init.textStyle = 0;
+            //             // self.init.text[0] = '游戏暂未开始';
+            //             break;
+            //         case 15:                            // 中止下注
+            //             console.log(data)
+            //             break;
+            //         case 16:                            // 更新房间信息
+            //             console.log(data)
+            //             self.initGame()
+            //             break;
+            //     }    
+            // });
         },
         methods: {
             initType(){   // 状态跟随 -- 初次进入状态
@@ -515,9 +523,11 @@
                             }
                             self.init.pond = data.zn_min_score;     // 最小上分池
 
+                            // 房主入口
+                            self.fangzhu = `/CHAT_QUN/[2,${data.zc_number},${data.zn_member_id},${self.init.ForT},${JSON.stringify(data.zc_title)}]`;
 
-                            self.fangzhu = `/chartRoom/[2,${data.zc_number},${data.zn_member_id},${self.init.ForT},${JSON.stringify(data.zc_title)}]`;
-                            self.chartRoom = `/chartRoom/[3,${data.zc_number},${data.id},${self.init.ForT},${data.zn_chatid}]`;
+                            // 群聊路由
+                            self.CHAT_QUN = `/CHAT_QUN/[${data.zc_number},${data.id},${self.init.ForT},${data.zn_chatid}]`;
 
                             self.fanzhuID = data.zn_member_id;
                             vx.room_id = data.zc_number;
@@ -1229,7 +1239,7 @@
             liaotian () {   // 找房主的人
                 if(!!this.$store.state.data.zhaoFZ[0]) {    // 有人等待的时候
                     var zid = this.$store.state.data.zhaoFZ[0]
-                    router.push({path: `/chartRoom/[1,${this.$store.state.idRoom.room_id},${zid},1,"找房主的人",${this.$store.state.idRoom.id}]`});
+                    router.push({path: `/CHAT_QUN/[1,${this.$store.state.idRoom.room_id},${zid},1,"找房主的人",${this.$store.state.idRoom.id}]`});
                     this.$store.state.data.zhaoFZ.shift()
                 }
             },
@@ -1241,7 +1251,7 @@
                     if(EtarName == 'li'){
                         var nodeValue = Etar.attributes["id"].nodeValue;
                         if(self.$store.state.idRoom.ForT == 1) {    // 房主才可以
-                            router.push({path: `/chartRoom/[1,${self.$store.state.idRoom.room_id},${nodeValue},1,"找房主的人",${self.$store.state.idRoom.id}]`});
+                            router.push({path: `/CHAT_QUN/[1,${self.$store.state.idRoom.room_id},${nodeValue},1,"找房主的人",${self.$store.state.idRoom.id}]`});
                         }
                         return false;
                     } else if(EtarName == 'body'){
@@ -1303,10 +1313,9 @@
                                 self.init.ForT = 0;
                                 vx.ForT = 0;
                             }
-                            // self.init.pond = 
 
-                            self.fangzhu = `/chartRoom/[2,${data.zc_number},${data.zn_member_id},${self.init.ForT},${JSON.stringify(data.zc_title)}]`;
-                            self.chartRoom = `/chartRoom/[3,${data.zc_number},${data.id},${self.init.ForT},${data.zn_chatid}]`;
+                            self.fangzhu = `/CHAT_QUN/[2,${data.zc_number},${data.zn_member_id},${self.init.ForT},${JSON.stringify(data.zc_title)}]`;
+                            self.CHAT_QUN = `/CHAT_QUN/[3,${data.zc_number},${data.id},${self.init.ForT},${data.zn_chatid}]`;
 
                             self.fanzhuID = data.zn_member_id;
                             
