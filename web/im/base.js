@@ -42,3 +42,4 @@ document.getElementsByTagName("html")[0].style.fontSize = wdaaachen + "px";
 var scale = 1/window.devicePixelRatio;
 var mstr = 'initial-scale='+ scale +', maximum-scale='+ scale +', minimum-scale='+ scale +', user-scalable=no';
 document.getElementById("vp").content = mstr;
+

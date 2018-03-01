@@ -586,7 +586,7 @@
 							var options2 = { 
 							    username: 'hz_niuniu_'+localStorage.oxUid,
 							    password: '123456',
-							    nickname: localStorage.oxName+'cc_10086',
+							    nickname: localStorage.oxName,
 							    appKey: WebIM.config.appkey,
 							    success: function () { 
 							        console.log('注册成功')

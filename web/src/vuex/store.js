@@ -103,52 +103,52 @@ export default new Vuex.Store({
         doneTodos: state => {
             return state.todos.filter(todo => todo.done)
         },
-        txt: state => {
-            if(localStorage.oxTxtAll){
-                var [t, arrTime, arr, arr2de, count, tCount]=[[], [], [], [], 0, 0];
-                var type = state.txtType;
-                // console.log(state.txt)
-                var txt = state.txt[type];      // 筛选要搞的东西
+        // txt: state => {
+        //     if(localStorage.oxTxtAll){
+        //         var [t, arrTime, arr, arr2de, count, tCount]=[[], [], [], [], 0, 0];
+        //         var type = state.txtType;
+        //         // console.log(state.txt)
+        //         var txt = state.txt[type];      // 筛选要搞的东西
                 
-                var woid = 'hz_niuniu_'+localStorage.oxUid;
-                for(var and in txt){
-                    if(and == woid){
-                        t[0] = txt[and];
-                    } else {
-                        tCount++;
-                        t[tCount] = txt[and];
-                    }
-                }
-                // 计算时间轴
-                t.forEach(function(item){
-                    count++;
-                    for(var an in item){
-                        if(arrTime.length == 0){
-                            arrTime.push(an)
-                            arr.push(item[an])
-                            arr2de.push(-1)
-                        } else {
-                            var i = 0;
-                            ! function duibi(){
-                                if(an <= arrTime[i]){
-                                    i++;
-                                    duibi()
-                                } else if(an > arrTime[i]){
-                                    var a = count >= 2 ? i : -1; // i是对方，-1是自己right
-                                    arrTime.splice(i, 0, an)
-                                    arr.splice(i, 0, item[an])
-                                    arr2de.splice(i, 0, a)
-                                }
-                            } ()
-                        }
-                    }
-                })
-                state.txt = arr.reverse();
-                // console.log(state.txt)
-                state.txt_idx = arr2de.reverse();
-                state.txt_time = arrTime.reverse();
-            }
-        }
+        //         var woid = 'hz_niuniu_'+localStorage.oxUid;
+        //         for(var and in txt){
+        //             if(and == woid){
+        //                 t[0] = txt[and];
+        //             } else {
+        //                 tCount++;
+        //                 t[tCount] = txt[and];
+        //             }
+        //         }
+        //         // 计算时间轴
+        //         t.forEach(function(item){
+        //             count++;
+        //             for(var an in item){
+        //                 if(arrTime.length == 0){
+        //                     arrTime.push(an)
+        //                     arr.push(item[an])
+        //                     arr2de.push(-1)
+        //                 } else {
+        //                     var i = 0;
+        //                     ! function duibi(){
+        //                         if(an <= arrTime[i]){
+        //                             i++;
+        //                             duibi()
+        //                         } else if(an > arrTime[i]){
+        //                             var a = count >= 2 ? i : -1; // i是对方，-1是自己right
+        //                             arrTime.splice(i, 0, an)
+        //                             arr.splice(i, 0, item[an])
+        //                             arr2de.splice(i, 0, a)
+        //                         }
+        //                     } ()
+        //                 }
+        //             }
+        //         })
+        //         state.txt = arr.reverse();
+        //         console.log(state.txt)
+        //         state.txt_idx = arr2de.reverse();
+        //         state.txt_time = arrTime.reverse();
+        //     }
+        // }
     },
     // 方法，mutations必须同步执行 onCreateGroup
     // 使用demo : this.$store.commit('increment')
@@ -169,11 +169,6 @@ export default new Vuex.Store({
                 console.log('异步成功')
             }, 1000)
         },
-        aaa () {
-            var obj = this.state.obj;
-            console.log(obj)
-            console.log(a)
-        },
         webIM () {
             var self = this;
             conn.listen({
@@ -185,30 +180,50 @@ export default new Vuex.Store({
             },  //连接成功回调
             onClosed: function ( message ) {},//连接关闭回调
             onTextMessage: function ( message ) { 
-                //在这里接收和处理信息，根据message.type区分消息来源，私信或者群聊或聊天室
                 console.log(message)
-                console.log(message.type)
-                if(message.sourceMsg == ""){
+                //在这里接收和处理信息，根据message.type区分消息来源，私信或者群聊或聊天室
+                var Msg = message.sourceMsg.split('#(en&^*')
+                if(Msg[1] == ""){
                     return false;
                 }
                 if (message.type == 'groupchat') {  // 群聊
-                    var qunid = message.to;         // 群id
-                    var an = JSON.parse(localStorage.oxQun)
-                    
-                    if(!an[qunid]){
-                        an[qunid] = {}
-                    }
-                    
-                    // var a = an[qunid];
+                    var Qid = message.to;         // 群id
+                    var a = JSON.parse(localStorage.oxQun)
                     var date = new Date().getTime();
-                    if(an[qunid][message.from]){
-                        an[qunid][message.from][date] = message.data;
-                    } else {
-                        an[qunid][message.from] = {};
-                        an[qunid][message.from][date] = message.data;
+                    var from = message.from.replace('hz_niuniu_','')
+
+                    // var obj = this.state.obj;
+                    // http.post( '/Chat/createChat', {
+                    //             zc_from: localStorage.oxUid, // 自己的id
+                    //             zc_to: Qid, // 群id
+                    //             zc_chat_type: 'groupchat',//群聊
+                    //             zc_bodies: JSON.stringify(obj.type),
+                    //             zn_timestamp: obj.time,// 消息时间
+                    //             zc_msg_id: obj.msg_id, // 消息id
+                    //             zn_way: 1, // 方式 1 接收， 0 发送
+                    //             zn_toname: obj.TAname,
+                    //         }, '', this )
+                    //     .then(res => {
+                    //         console.log(res)
+                    // })
+                    
+                    if(!a[Qid]){
+                        a[Qid] = [];
                     }
-                    self.state.txt = an;
-                    localStorage.oxQun = JSON.stringify(an)
+
+                    // 本地消息储存
+                    var QUN_LIAO = {
+                        txt: 'txt',
+                        type: 'groupchat',
+                        name: Msg[0],
+                        toID: from,
+                        time: date,
+                        msg: Msg[1],
+                    }
+                    a[Qid].push(QUN_LIAO)
+                    console.log(a)
+                    self.state.txt = a;
+                    localStorage.oxQun = JSON.stringify(a);
                 } 
 
 
@@ -261,12 +276,55 @@ export default new Vuex.Store({
                 }
                 Vue.prototype.$WebIM.utils.download.call(Vue.prototype.$imConn, options)
             }, //收到图片消息
-            onCmdMessage: function ( message ) {},     //收到命令消息
-            onAudioMessage: function ( message ) {},   //收到音频消息
-            onLocationMessage: function ( message ) {},//收到位置消息
-            onFileMessage: function ( message ) {},    //收到文件消息
+            onCmdMessage: function ( message ) {
+                console.log(message)
+            },     //收到命令消息
+            onAudioMessage: function ( message ) {
+                console.log(message)
+                var options = { url: message.url };
+                options.onFileDownloadComplete = function ( response ) { 
+                  //音频下载成功，需要将response转换成blob，使用objectURL作为audio标签的src即可播放。
+                  var objectURL = WebIM.utils.parseDownloadResponse.call(conn, response);
+                  var Qid = message.to;               // 群id
+                  // 本地消息储存 qid
+                  var a = JSON.parse(localStorage.oxQun);
+                  var date = new Date().getTime();
+                  var name = message.filename.replace('.wmv','')
+                  console.log(a)
+                  var QUN_LIAO = {
+                      txt: 'audio',
+                      type: 'groupchat',
+                      name: name,
+                      toID: message.to,
+                      time: date,
+                      msg: objectURL,
+                      url: objectURL,
+                  }
+                  a[Qid].push(QUN_LIAO)
+                  console.log(a)
+                  self.state.txt = a;
+                  localStorage.oxQun = JSON.stringify(a);
+                };  
+                options.onFileDownloadError = function () {
+                  //音频下载失败 
+                  console.log('音频下载失败')
+                };  
+                //通知服务器将音频转为mp3
+                options.headers = { 
+                  'Accept': 'audio/mp3'
+                };
+                WebIM.utils.download.call(conn, options);
+
+            },   //收到音频消息
+            onLocationMessage: function ( message ) {
+                console.log(message)
+            },//收到位置消息
+            onFileMessage: function ( message ) {
+                console.log(message)
+            },    //收到文件消息
 
             onVideoMessage: function (message) {
+                console.log(message)
                 var node = document.getElementById('privateVideo');
                 var option = {
                     url: message.url,
@@ -284,7 +342,7 @@ export default new Vuex.Store({
                 WebIM.utils.download.call(conn, option);
             },   //收到视频消息
             onPresence: function ( message ) {
-                // console.log(message)
+                console.log(message)
             },       //处理“广播”或“发布-订阅”消息，如联系人订阅请求、处理群组、聊天室被踢解散等消息
             onRoster: function ( message ) {
                 console.log('Roster')
@@ -299,17 +357,26 @@ export default new Vuex.Store({
             onBlacklistUpdate: function (list) {       //黑名单变动
                 // 查询黑名单，将好友拉黑，将好友从黑名单移除都会回调这个函数，list则是黑名单现有的所有好友信息
                 console.log(list);
+                console.log(message)
             },
-            onReceivedMessage: function(message){},    //收到消息送达服务器回执
-            onDeliveredMessage: function(message){},   //收到消息送达客户端回执
-            onReadMessage: function(message){},        //收到消息已读回执
+            onReceivedMessage: function(message){
+                // console.log(message)
+            },    //收到消息送达服务器回执
+            onDeliveredMessage: function(message){
+                console.log(message)
+            },   //收到消息送达客户端回执
+            onReadMessage: function(message){
+                console.log(message)
+            },        //收到消息已读回执
             onCreateGroup: function(message){
                 console.log('%c [opened] 群组创建成功', 'color: yellow')
             },        //创建群组成功回执（需调用createGroupNew）
-            onMutedMessage: function(message){}        //如果用户在A群组被禁言，在A群发消息会走这个回调并且消息不会传递给群其它成员
+            onMutedMessage: function(message){
+                console.log(message)
+            }        //如果用户在A群组被禁言，在A群发消息会走这个回调并且消息不会传递给群其它成员
             });
         },
-        dl () {
+        dl () { //  sendIQ
             var dlCount = 0;
             var id = localStorage.oxUid || 0
             var options = {         // 自动登录
@@ -318,7 +385,7 @@ export default new Vuex.Store({
                 pwd: '123456',
                 appKey: WebIM.config.appkey,
                 success: function () {
-                    // console.log('登录成功')
+                    console.log('登录成功')
                 },
                 error: function (aa) {
                     dlCount++;
@@ -359,12 +426,12 @@ export default new Vuex.Store({
         // }],
         webKeep () {
             var obj = this.state.obj;
-            console.log(obj)
+            // console.log(obj)
             http.post( '/Chat/createChat', {
                         zc_from: obj.myId, // 自己的id
                         zc_to: obj.toId, // 聊天对象id
                         zc_chat_type: obj.d_q,//单聊
-                        zc_bodies: obj.type, 
+                        zc_bodies: JSON.stringify(obj.type),
                         zn_timestamp: obj.time,// 消息时间
                         zc_msg_id: obj.msg_id, // 消息id
                         zn_way: obj.style, // 方式 1 接收， 0 发送

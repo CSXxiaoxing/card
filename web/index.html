@@ -12,12 +12,18 @@
     <!-- 项目 -->
     <script type="text/javascript" src="https://cdn.goeasy.io/goeasy.js"></script>
     <script type="text/javascript" src='./im/base.js'></script>
-    <!-- <script type="text/javascript" src='./im/socket.io.js'></script> -->
+    <script type="text/javascript" src="./im/common.js"></script>
     <script type="text/javascript" src='./im/update.js'></script>
   </head>
   <body>
         <div id="app">
         </div>
+        <div id="record" class="rp">
+            <div class="rprogress"><div class="rschedule"></div></div>
+            <br/>
+            <div id="rtime" class="rtime">00:00:00</div><br/>
+        </div>
+
         <script type="text/javascript">
             //取消浏览器的所有事件，使得active的样式在手机上正常生效
             document.addEventListener('touchstart',function(){
@@ -29,10 +35,11 @@
             };
             // H5 plus事件处理
             var as='pop-in';// 默认窗口动画
-            var HTML_R = null;   // 音频参数
-
+            var audio_TYPE = 1;
+            var er = null, rt = null, t = null, HTML_R = null, ri = null;
+            var bUpdated = false;
+            var audio_URL = null;
             function plusReady(){
-                console.log(plus)
                 // 隐藏滚动条
                 plus.webview.currentWebview().setStyle({scrollIndicator:'none'});
                 // Android处理返回键
@@ -49,9 +56,127 @@
                     }
                 },false);
                 compatibleAdjust();
-                // 音频参数
-                HTML_R = plus.audio.getRecorder();
+                // 获取音频目录对象
+                plus.io.resolveLocalFileSystemURL('_doc/', function(entry){
+                    entry.getDirectory('audio', {create : true}, function(dir){
+                        gentry = dir;
+                        updateHistory();
+                    }, function(e){
+                        alert('Get directory "audio" failed: '+e.message);
+                    });
+                }, function(e){
+                    alert('Resolve "_doc/" failed: '+e.message);
+                } );
             }
+            // 获取录音历史列表 createItem
+            function updateHistory(){
+                if(bUpdated||!gentry||!document.body){//兼容可能提前注入导致DOM未解析完更新的问题
+                    return;
+                }
+                var reader = gentry.createReader();
+                reader.readEntries(function(entries){
+                    for(var i in entries){
+                        if(entries[i].isFile){
+                            // createItem(entries[i]);
+                            console.log(entries[i]);
+                        }
+                    }
+                }, function(e){
+                    alert('读取录音列表失败：'+e.message);
+                });
+                bUpdated = true;
+            }
+
+            
+            // 播放文件相关对象
+            var p=null,pt=null,pp=null,ps=null,pi=null;
+            // 扩展API加载完毕后调用onPlusReady回调函数 
+            document.addEventListener( "plusready", onPlusReady, false );
+                // 获取DOM元素对象
+                er = document.getElementById('record');
+                rt = document.getElementById('rtime');
+            
+            // 扩展API加载完毕，现在可以正常调用扩展API 
+            function onPlusReady() { 
+                HTML_R = plus.audio.getRecorder(); 
+                console.log(890)
+            }
+            // 原生事件封装__全局投射
+            window.WebView_Object = function () { };
+            WebView_Object.prototype = {
+                // 开始录音
+                startRecord : function () {
+                    if ( HTML_R == null ) {
+                        alert( "录音对象未获取" );
+                        return; 
+                    }
+                    HTML_R.record( {
+                        filename:"_doc/audio/"
+                    }, function (p) {
+                        alert( "录音完成："+p );
+                        audio_TYPE = 1;
+
+                        plus.io.resolveLocalFileSystemURL(p, function(entry){
+                            // createItem(entry);
+                            console.log(entry.name);
+                            audio_URL = entry.name;
+                        }, function(e){
+                            alert('读取录音文件错误：'+e.message);
+                        });
+                    }, function ( e ) {
+                        alert( "录音失败: " + e.message );
+                    } );
+                    audio_TYPE = 0;
+                    er.style.display = 'block';
+                    t = 0;
+                    ri = setInterval(function(){
+                        t++;
+                        rt.innerText = timeToStr(t);
+                    }, 1000);
+                    return this;
+                },
+                // 结束录音
+                stopRecord : function () {
+                    er.style.display = 'none';
+                    rt.innerText = '00:00:00';
+                    clearInterval(ri);
+                    ri = null;
+                    HTML_R.stop();
+                    return this;
+                },
+                // 播放音频文件
+                playAudio : function (li){
+                    if(!li){
+                        alert('无效的音频文件');
+                        return;
+                    }
+                    alert('播放音频文件：'+li);
+                    this.startPlay('_doc/audio/'+li);
+                    return this;
+                },
+                
+                // 开始播放
+                startPlay : function (url){
+                    er.style.display = 'block';
+                    t = 0;
+                    ri = setInterval(function(){
+                        t++;
+                        rt.innerText = timeToStr(t);
+                    }, 1000);
+                    p = plus.audio.createPlayer(url);
+                    p.play(function(){
+                        console.log('播放完成！');
+                        er.style.display = 'none';
+                        rt.innerText = '00:00:00';
+                        clearInterval(ri);
+                        ri = null;
+                    }, function(e){
+                        alert('播放音频文件"'+url+'"失败：'+e.message);
+                    });
+                }
+
+            } 
+
 
             if(window.plus){
                 plusReady();

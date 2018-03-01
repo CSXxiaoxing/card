@@ -32,7 +32,7 @@ Vue.use(MintUI);
 
 
 // 创建初始化聊天储存
-// localStorage.setItem('oxTxtAll', "{}")
+localStorage.setItem('oxTxtAll', "{}")
 if(!localStorage.oxTxtAll){ // 单聊
   localStorage.setItem('oxTxtAll', "{}")
 }

@@ -381,7 +381,7 @@
 
             var goEasy_ID = this.$route.params.id || '';
             // 房间 room_  私人 user_
-                    console.log(location.hash)
+            console.log(location.hash)
             goEasy.subscribe({
                 channel: 'room_' + goEasy_ID,
                 onMessage: function(message){

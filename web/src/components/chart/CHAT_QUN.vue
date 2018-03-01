@@ -25,16 +25,28 @@
                 </li>
             </ul>
         </header>
+
         <div class='chart'  id='txtbox'>
-            <ul v-if='roomstatus == 3'>
+            <ul>
                 <!-- 群聊 -->
-                <li v-for="(data, idx) in (roomstatus == 3 ? $store.state.txt : '')" 
-                :class="$store.state.txt_idx[idx] >=0 ? 'left' : 'right'"   :key = '$store.state.txt_time[idx]' v-if='data != ""'>
-                    <img :src="$store.state.txt_idx[idx] >=0 ? 'src/img/home_head.png' : 'src/img/room03.png'">
+                <li v-for="(data, idx) in $store.state.txt[JSON.parse(this.$route.params.id)[3]]" 
+                :class="Uid != data.toID ? 'left' : 'right'"   
+                :key = 'data.time' v-if='data.msg != ""'>
+                    <img :src="Uid != data.toID ? 'src/img/home_head.png' : 'src/img/room03.png'">
                     <div class="test">
                         <span class="bot"></span>
-                       {{data}}
+                        <audio :src='data.msg' v-if='data.txt == "audio"' 
+                        :id='data.time' controls="controls" ></audio>
+                        <p  @click='bofan(data.url)'>播放语音</p>
+                       <!-- {{data.txt == "txt" ? data.msg : ''}} -->
+                       {{data.msg}}
                     </div>
+                </li>
+                <li @click = 'sendPrivateAudio'>stopRecordstopRecordstopRecord</li>
+                <li>
+                    <audio src='src/img/a001.mp3' 
+                        id='a147' controls="controls"></audio>
+                    <!-- <input type="file" id='147'/> -->
                 </li>
             </ul>
         </div>
@@ -42,7 +54,7 @@
         <footer>
         	<div v-if='speak == 0'>
                 <img src="src/img/chart_Room1.png" @touchend='speak = 1'>
-                <span @touchstart='audio(1)' @touchend='audio(0)'>按住 说话</span>
+                <span @touchstart='startRecord' @touchend='stopRecord'>按住 说话</span>
             </div>
             <div v-if='speak == 1'>
                 <img src="src/img/724876052125097875.png" @touchend='speak = 0'>
@@ -57,7 +69,7 @@
 </template>
 
 <style lang='scss' scoped>
-
+    // test
     @import '../../utils/baseVar.scss';
 
     .chartRoom {
@@ -135,14 +147,13 @@
             li{
                 text-align: left;
                 // padding-bottom: 20px;
-                position:relative;
-            	.test{max-width:5.555556rem; padding:0.277778rem 0.185185rem; border:0.027778rem solid #E4E3E8; position:relative;border-radius:0.185185rem;padding-left:0.185185rem;}
+                position: relative;
+            	.test{max-width:5.555556rem; padding:0.177778rem 0.185185rem; border:0.027778rem solid #E4E3E8; position:relative;border-radius:0.185185rem;padding-left:0.185185rem;}
                 .test span{width:0; height:0; font-size:0; overflow:hidden; position:absolute;}
                 .test span.bot{
                     border-width:0.185185rem; 
                     border-style:solid dashed dashed; 
                 }
-
             }
             li:before,li:after {
                 content: "";
@@ -312,6 +323,15 @@
             bottom: -0.046296rem;
         }
     }
+    audio{
+        width: 200px;
+        height: 40px;
+        -webkit-transform: translate(0,15%);
+           -moz-transform: translate(0,15%);
+            -ms-transform: translate(0,15%);
+             -o-transform: translate(0,15%);
+                transform: translate(0,15%);
+    }
 </style>
 
 <script type="text/javascript">
@@ -323,74 +343,48 @@
 	export default {
         data: function(){
             return {
-                loading: false,     // loading
-                careTip : false,    // 提示窗
-                errorTips: '',      // 错误提示
+                loading: false,     // loading √
+                careTip : false,    // 提示窗 √
+                errorTips: '',      // 错误提示 √
 
-                chartList: '',      // 成员列表（群）
-                lingth: 0,          // 成员人数（群）
+                speak: 1,           // 语音是0 输入是1 √
                 zn_chatid: 0,       // 群聊id（群）
-                zn_name: '',        // 群名称 （群）
-                speak: 1,           // 语音是0 输入是1 
-
-                roomstatus: 99,     // -------群聊
-                isfriend: 0,        // 是好友1  不是0
                 roomNum: 1,         // 房间号
                 roomid: 0,          // 房间id
                 txt: '',            // 发送产生的文本
-                id: localStorage.oxUid,   //个人id（单聊）
-                sheId: 0,                 // 对方id（单聊）
+                Uid: localStorage.oxUid,   // 个人id
 
-                toid: 0,                        // 对方的uid
+
+                chartList: '',      // 成员列表（群）
+                lingth: 0,          // 成员人数（群）
+                isfriend: 0,        // 是好友1  不是0
+
             }
         },
         beforeMount: function(){
             this.$store.getters.txt;    // 计算属性
         },
         mounted: function(){
-            var [self, id] = [this, this.id];
-            this.$store.dispatch('webIM')   // 配置
-            this.$store.dispatch('dl')      // 登录
+            var [self, id] = [this, this.Uid];
+            this.$store.dispatch('webIM')   // 聊天配置
+            this.$store.dispatch('dl')      // 聊天登录
 
-            console.log(HTML_R)
-            console.log(as)
+            audio_TYPE = 1 // 录音参数修正
 
             var params = JSON.parse(this.$route.params.id)  // 路由参数
             
-            if(params[0] == 3){         // 聊天室
-                this.roomNum = params[1];       // 房间号
-                this.roomid = params[2];        // 房间id
-                this.zn_chatid = params[4];     // 群聊id
+                this.roomNum = params[0];       // 房间号
+                this.roomid = params[1];        // 房间id
+                this.zn_chatid = params[3];     // 群聊id
+
                 this.chartList = `/chartList/${this.$route.params.id}`; // 群聊列表
                 qunliao()
-            }
-            else if(params[0] == 2 || params[0] == 1){    //  个人
-                if (params[1] > 12345 || params[1] == 10086) {    // 群聊室找群主的或者玩家之间
-                    this.roomNum = params[1];       // 房间号
-                    this.zn_name = params[4];     // 房间名字
-                    this.sheId = params[2];         // 房主id or 玩家聊天
-
-                    http.post('/MemberFriend/getFriend',{
-                        id : params[2],
-                    })
-                    .then(res => {
-                        if(res.status == 1){
-                            self.shename = res.data.zc_nickname
-                        }
-                        self.$store.state.txtType = "hz_niuniu_"+self.sheId;     // 聊天状态头
-                        self.textPush() // 先发送一波
-                    })
-                }
-            }
-            if ( params[0] == 1 || params[0] == 2 ) {   // 确定聊天位置
-                self.$store.state.txt = JSON.parse(localStorage.oxTxtAll)  || '';
-            }
             
             function qunliao() {
                 self.list()                                 // 请求群员
                 var a = JSON.parse(localStorage.oxQun)
                 if(!a[`${self.zn_chatid}`]){
-                    a[`${self.zn_chatid}`] = {}
+                    a[`${self.zn_chatid}`] = []
                     self.textPush() // 先发送一波
                 }
                 localStorage.oxQun = JSON.stringify(a)
@@ -417,30 +411,24 @@
 
                 self.$store.state.txtType = self.zn_chatid; // 聊天状态头
             }
-
-            // 储存聊天记录
-            this.$store.state.obj = {
-                myId: "hz_niuniu_"+id,
-                toId: "hz_niuniu_"+self.sheId,
-                pageSize: 10,
-                p: 1,
-                d_q: 'chat',
-                type: [{      //消息bodies 
-                    "msg": "test",//消息内容
-                    "type": "txt",//文本消息类型
-                }],
-                time: new Date().getTime(),
-                msg_id: conn.getUniqueId(),
-                style: 2,
-                TAname: '^(*￣(oo)￣)^',
-            };
-            // this.$store.dispatch('webKeep')
-            // this.$store.dispatch('webRecord')
             var timeD = setTimeout(function(){
                 var chat = document.getElementById("txtbox");
                 chat.scrollTop = chat.scrollHeight;
                 clearTimeout(timeD)
             },200)
+
+
+            http.post( '/Chat/getChatList', {
+                        formid: localStorage.oxUid,
+                        toid: self.zn_chatid,
+                        pagesize: 50,
+                        p: 1,
+                    }, '', this )
+                .then(res => {
+                    console.log(res)
+            })
+
+
         },
         beforeUpdated: function(){
         },
@@ -457,35 +445,54 @@
                 // 群聊发送文本消息
                 var sendGroupText = function () {
                     var id = conn.getUniqueId();            // 生成本地消息id
+                    var Qid = self.zn_chatid;               // 群id
                     var msg = new WebIM.message('txt', id); // 创建文本消息
                     var option = {
-                        msg: self.txt,             // 消息内容
+                        msg: localStorage.oxName+'#(en&^*'+self.txt,   // 消息内容
                         to: self.zn_chatid,        // 接收消息对象(群组id)
                         roomType: false,
                         chatType: 'chatRoom',
                         success: function () {
+                            // 储存聊天记录
+                            self.$store.state.obj = {
+                                pageSize: 10,
+                                p: 1,
+                                myId: localStorage.oxUid,
+                                toId: self.zn_chatid,
+                                d_q: 'groupchat',
+                                type: [{      //消息bodies 
+                                    "msg": self.txt,//消息内容
+                                    "type": "text",//文本消息类型
+                                }],
+                                time: new Date().getTime(),
+                                msg_id: id,
+                                style: 2,
+                                TAname: localStorage.oxName,
+                            };
+                            self.$store.dispatch('webKeep');     // 保存聊天记录
+
+                            // 聊天
                             self.$store.state.txtType = self.zn_chatid;
                             // 本地消息储存
-                            var a = JSON.parse(localStorage.oxQun)
-                            var qid = self.zn_chatid;
+                            var a = JSON.parse(localStorage.oxQun);
                             var date = new Date().getTime();
 
-                            if(!a[qid]){
-                                a[qid] = {}
+                            var QUN_LIAO = {
+                                txt: 'txt',
+                                type: 'groupchat',
+                                name: localStorage.oxName,
+                                toID: localStorage.oxUid,
+                                time: date,
+                                msg: self.txt,
                             }
-                            // console.log('群聊信息发送成功');
-                            if(a[qid]["hz_niuniu_"+self.id]){
-                                a[qid]["hz_niuniu_"+self.id][date] = self.txt;
-                            } else {
-                                a[qid]["hz_niuniu_"+self.id] = {};
-                                a[qid]["hz_niuniu_"+self.id][date] = self.txt;
-                            }
+                            a[Qid].push(QUN_LIAO)
+                            console.log(a)
                             self.$store.state.txt = a;
                             localStorage.oxQun = JSON.stringify(a);
-                            self.txt = '';
+                            self.txt = '';  // 内容请零
                         },
                         fail: function () {
-                            console.log('群聊信息发送失败');
+                            alert('群聊信息发送失败');
                             self.txt = '';
                         }
                     };
@@ -493,92 +500,121 @@
                     msg.setGroup('groupchat');
                     conn.send(msg.body);
                 };
-
-                // 群聊发送音频消息
-                var sendPrivateAudio = function () {
-                    var id = conn.getUniqueId();                   // 生成本地消息id
-                    var msg = new WebIM.message('audio', id);      // 创建音频消息
-                    var input = document.getElementById('audio');  // 选择音频的input
-                    var file = WebIM.utils.getFileUrl(input);      // 将音频转化为二进制文件
-                    var allowType = {
-                        'mp3': true,
-                        'amr': true,
-                        'wmv': true
-                    };
-                    if (file.filetype.toLowerCase() in allowType) {
-                        var option = {
-                            apiUrl: WebIM.config.apiURL,
-                            file: file,
-                            to: self.zn_chatid,                   // 接收消息群组
-                            roomType: false,
-                            chatType: 'singleChat',
-                            onFileUploadError: function () {      // 消息上传失败
-                                console.log('onFileUploadError');
-                            },
-                            onFileUploadComplete: function () {   // 消息上传成功
-                                console.log('onFileUploadComplete');
-                            },
-                            success: function () {                // 消息发送成功
-                                console.log('Success');
-                            },
-                            flashUpload: WebIM.flashUpload
-                        };
-                        msg.set(option);
-                        conn.send(msg.body);
-                    }
-                };
-
+                
                 this.$store.state.txt = JSON.parse(localStorage.oxQun)
                 sendGroupText()
             },
-            startRecord: function(AUDIO_TYPE){
-                // 开始录音
-                var r = HTML_R;
-                if ( r == null ) {
-                    alert( '录音对象未获取' );
-                    return;
+            sendPrivateAudio : function (time) {  // 群聊发送音频消息
+                var self = this;
+                // // var id = conn.getUniqueId();                   // 生成本地消息id
+                // var msg = new WebIM.message('audio', id);      // 创建音频消息
+                // var Iput = document.getElementById('a147');  // 选择音频的input
+                // // // console.log(Iput)
+                // var file = WebIM.utils.getFileUrl(Iput);      // 将音频转化为二进制文件
+                // // console.log(file)
+
+                var id = conn.getUniqueId();                   // 生成本地消息id
+                var msg = new WebIM.message('audio', id);      // 创建音频消息
+                var input = document.getElementById(time);  // 选择音频的input
+                
+                var audioFile = new File([input], localStorage.oxName+'.wmv');
+                //var file = WebIM.utils.getFileUrl(audioFile);      // 将音频转化为二进制文件
+                console.log(audioFile)
+
+                var file = {};
+                file.data = audioFile;
+                file.url = window.URL.createObjectURL(audioFile);
+                file.filename = audioFile.name || '';
+                var index = file.filename.lastIndexOf('.');
+                if (index != -1) {
+                file.filetype = file.filename.substring(index + 1).toLowerCase();
                 }
-                r.record( {filename:"./_doc/audio/"}, function (p) {
-                    // alert( "Audio record success!" );
-                    console.log(p)
-                    // r.stop();
-                }, function ( e ) {
-                    console.log(JSON.stringify(e))
-                    console.log(e.message)
-                    alert( "Audio record failed: " + e.message );
-                    // r.stop(); 
-                } );
+                console.log(file)
+                var allowType = {
+                    'mp3': true,
+                    'amr': true,
+                    'wmv': true,
+                };
+                if (file.filetype.toLowerCase() in allowType) {
+                    console.log(self.zn_chatid)
+                    var option = {
+                        apiUrl: WebIM.config.apiURL,
+                        file: file,
+                        to: self.zn_chatid,                   // 接收消息群组
+                        roomType: true,
+                        chatType: 'groupchat',
+                        onFileUploadError: function () {      // 消息上传失败
+                            console.log('onFileUploadError');
+                        },
+                        onFileUploadComplete: function () {   // 消息上传成功
+                            console.log('onFileUploadComplete');
+                            if(audio_URL != null){
+                                audio_URL == null;
+                            }
+                        },
+                        success: function () {                // 消息发送成功
+                            console.log('Success');
+                        },
+                        flashUpload: WebIM.flashUpload,
+                    };
+                    msg.set(option);
+                    msg.setGroup('groupchat');
+                    conn.send(msg.body);
+                }
             },
-            audio: function(AUDIO_TYPE){
-                
-                function startRecord() {
-                    if ( r == null ) {
-                        alert( '录音对象未获取' );
-                        return;
+            startRecord: function (){ // audio_URL
+                if(audio_TYPE == 1){
+                    // 开始录音
+                    var obj = new WebView_Object();
+                    obj.startRecord();
+                }
+            },
+            stopRecord: function () {
+                // 结束录音
+                var obj = new WebView_Object();
+                obj.stopRecord();
+
+                // 本地消息储存 length
+                var self = this;        // 路由渲染
+                var Qid = self.zn_chatid;               // 群id
+                var a = JSON.parse(localStorage.oxQun);
+
+                var setI_ks = setInterval(function(){
+                    if(audio_URL != null){
+                        // audio_URL = audio_URL.replace('.amr','.mp3')
+                        // console.log(audio_URL)
+                        var date = new Date().getTime();
+                        var QUN_LIAO = {
+                            txt: 'audio',
+                            type: 'groupchat',
+                            name: localStorage.oxName,
+                            toID: localStorage.oxUid,
+                            time: date,
+                            msg: '_doc/audio/'+audio_URL,
+                            url: audio_URL,
+                        }
+                        a[Qid].push(QUN_LIAO)
+                        console.log(a)
+                        self.$store.state.txt = a;
+                        localStorage.oxQun = JSON.stringify(a);
+                        
+                        var setI = setInterval(function(){
+                            var input = document.getElementById(date);
+                            if(input != undefined){
+                                self.sendPrivateAudio(audio_URL);
+                                clearInterval(setI)
+                            }
+                        },300)
+                        clearInterval(setI_ks)
                     }
-                    r.record( {filename:"./_doc/audio/"}, function (p) {
-                        // alert( "Audio record success!" );
-                        console.log(p)
-                        // r.stop();
-                    }, function ( e ) {
-                        console.log(JSON.stringify(e))
-                        console.log(e.message)
-                        alert( "Audio record failed: " + e.message );
-                        // r.stop(); 
-                    } );
-                }
-                function stopRecord() {
-                    r.stop(); 
-                }
-                
-                // type判断
-                if(AUDIO_TYPE == 1){
-                    startRecord()
-                    console.log("点击")
-                } else if(AUDIO_TYPE == 0){
-                    stopRecord()
-                    console.log("离开")
-                }
+                },500)
+
+            },
+            // 播放
+            bofan (e) {
+                console.log(e)
+                var obj = new WebView_Object();
+                obj.playAudio(e);
             },
             list () {   // 玩家数量
                 var self = this;
