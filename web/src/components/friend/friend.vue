@@ -34,7 +34,7 @@
             <ul>
                 <li>{{friendName}}</li>
                 <li> id : {{friendId}}</li>
-                <li><input type="text" v-model="findFriend_TEXT"/></li>
+                <li><input type="text" placeholder="输入验证申请" v-model="findFriend_TEXT"/></li>
             </ul>
           </div>
           <mt-button @click="findFriend = false ,applyFriend() ">  申请
@@ -207,7 +207,7 @@
         data: function(){
             return {
                 loading: false,     // loading
-                arrows: 0,  // 上下箭头
+                arrows: 0,          // 上下箭头
                 careTip : false,    // 错误提示
                 addFriend : false,    //  查找好友
                 findFriend: false,      // 好友申请
