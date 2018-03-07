@@ -33,20 +33,22 @@
                 :class="Uid != data.toID ? 'left' : 'right'"   
                 :key = 'data.time' v-if='data.msg != ""'>
                     <img :src="Uid != data.toID ? 'src/img/home_head.png' : 'src/img/room03.png'">
-                    <div class="test">
+
+                    <div class="test" v-if='data.txt == "txt"'>
                         <span class="bot"></span>
-                        <audio :src='data.msg' v-if='data.txt == "audio"' 
-                        :id='data.time' controls="controls" ></audio>
-                        <p  @click='bofan(data.url)'>播放语音</p>
-                       <!-- {{data.txt == "txt" ? data.msg : ''}} -->
                        {{data.msg}}
                     </div>
-                </li>
-                <li @click = 'sendPrivateAudio'>stopRecordstopRecordstopRecord</li>
-                <li>
-                    <audio src='src/img/a001.mp3' 
-                        id='a147' controls="controls"></audio>
-                    <!-- <input type="file" id='147'/> -->
+
+                    <div class="test"  v-if='data.txt == "audio"'>
+                        <span class="bot"></span>
+                        <p class='audio' @click='bofan(data.msg)'>{{data.endTime}}</p>
+                        <audio 
+                        :src='data.msg' v-show='true' class='audio'
+                        :id='data.time' controls="controls" >
+                        </audio>
+                        
+                        {{data.url}}
+                    </div>
                 </li>
             </ul>
         </div>
@@ -71,6 +73,7 @@
 <style lang='scss' scoped>
     // test
     @import '../../utils/baseVar.scss';
+
 
     .chartRoom {
         height: 100%;
@@ -148,11 +151,31 @@
                 text-align: left;
                 // padding-bottom: 20px;
                 position: relative;
-            	.test{max-width:5.555556rem; padding:0.177778rem 0.185185rem; border:0.027778rem solid #E4E3E8; position:relative;border-radius:0.185185rem;padding-left:0.185185rem;}
-                .test span{width:0; height:0; font-size:0; overflow:hidden; position:absolute;}
+            	.test{
+                    max-width:5.555556rem; 
+                    padding:0.177778rem 0.185185rem; 
+                    border:0.027778rem solid #E4E3E8; 
+                    position:relative;
+                    border-radius:0.185185rem;
+                    padding-left:0.185185rem; 
+                    border: 0 none;
+                    box-shadow: 0px 3px 10px 0px #ccc;
+                }
+                .test span{
+                    width:0; height:0; 
+                    font-size:0; 
+                    overflow:hidden; 
+                    position:absolute;
+                    top: 50%;
+                    -webkit-transform: translate(0,-60%);
+                       -moz-transform: translate(0,-60%);
+                        -ms-transform: translate(0,-60%);
+                         -o-transform: translate(0,-60%);
+                            transform: translate(0,-60%);
+                }
                 .test span.bot{
-                    border-width:0.185185rem; 
-                    border-style:solid dashed dashed; 
+                    border-width: 0.185185rem; 
+                    border-style: solid dashed dashed; 
                 }
             }
             li:before,li:after {
@@ -175,9 +198,10 @@
                     float: left;
                     left:0.462963rem;
                     top:0.277778rem;
+                    box-shadow: 0px 3px 10px 0px #ccc;
                 }
                 .test span.bot{
-                    border-color:transparent white transparent transparent; 
+                    border-color: transparent white transparent transparent; 
                     left:-0.37037rem;
                     bottom:0.37037rem;
                 }
@@ -194,6 +218,7 @@
                     bottom:-0.185185rem;
                     float: right;
                     right:0.277778rem;
+                    box-shadow: 0px 3px 10px 0px #ccc;
                 }
                 .test span.bot{
                     border-color:transparent  transparent transparent #07AD05; 
@@ -323,8 +348,8 @@
             bottom: -0.046296rem;
         }
     }
-    audio{
-        width: 200px;
+    .audio{
+        // width: auto;
         height: 40px;
         -webkit-transform: translate(0,15%);
            -moz-transform: translate(0,15%);
@@ -427,8 +452,6 @@
                 .then(res => {
                     console.log(res)
             })
-
-
         },
         beforeUpdated: function(){
         },
@@ -504,56 +527,84 @@
                 this.$store.state.txt = JSON.parse(localStorage.oxQun)
                 sendGroupText()
             },
-            sendPrivateAudio : function (time) {  // 群聊发送音频消息
-                var self = this;
-                // // var id = conn.getUniqueId();                   // 生成本地消息id
-                // var msg = new WebIM.message('audio', id);      // 创建音频消息
-                // var Iput = document.getElementById('a147');  // 选择音频的input
-                // // // console.log(Iput)
-                // var file = WebIM.utils.getFileUrl(Iput);      // 将音频转化为二进制文件
-                // // console.log(file)
+            sendPrivateAudio : function (emdTime) {  // 群聊发送音频消息
+                function dataURLtoBlob(dataurl) {
+                    var arr = dataurl.split(','),
+                    mime = arr[0].match(/:(.*?);/)[1],
+                    bstr = atob(arr[1]),
+                    n = bstr.length,
+                    u8arr = new Uint8Array(n);
+                    while(n--) {
+                        u8arr[n] = bstr.charCodeAt(n);
+                    }
+                    return new Blob([u8arr], {
+                        type: mime
+                    });
+                }
 
+                function blobToFile(theBlob, fileName) {
+                    //A Blob() is almost a File() - it's just missing the two properties below which we will add
+                    theBlob.lastModifiedDate = new Date();
+                    theBlob.name = fileName;
+                    return theBlob;
+                }
+                
+
+                var self = this;
                 var id = conn.getUniqueId();                   // 生成本地消息id
                 var msg = new WebIM.message('audio', id);      // 创建音频消息
-                var input = document.getElementById(time);  // 选择音频的input
-                
-                var audioFile = new File([input], localStorage.oxName+'.wmv');
-                //var file = WebIM.utils.getFileUrl(audioFile);      // 将音频转化为二进制文件
-                console.log(audioFile)
+                var blob = dataURLtoBlob(BASE64);
 
-                var file = {};
-                file.data = audioFile;
-                file.url = window.URL.createObjectURL(audioFile);
-                file.filename = audioFile.name || '';
-                var index = file.filename.lastIndexOf('.');
-                if (index != -1) {
-                file.filetype = file.filename.substring(index + 1).toLowerCase();
+                var url = window.URL.createObjectURL(blob);
+                var input = blobToFile(blob, emdTime+'#(en&^*'+localStorage.oxName+'.amr');
+                var uri = {
+                    url: '',
+                    filename: '',
+                    filetype: '',
+                    data: ''
+                };
+                uri.data = input;
+                uri.url = window.URL.createObjectURL(input);
+                uri.filename = input.name || '';
+                var index = uri.filename.lastIndexOf('.');
+                if(index != -1) {
+                    uri.filetype = uri.filename.substring(index + 1).toLowerCase();
                 }
-                console.log(file)
+                var file = uri;
+
+                console.log(file)                
+                // if(1 == 1){
+                //     return false;
+                // }
                 var allowType = {
                     'mp3': true,
                     'amr': true,
                     'wmv': true,
                 };
                 if (file.filetype.toLowerCase() in allowType) {
-                    console.log(self.zn_chatid)
+                    var url = null;
                     var option = {
                         apiUrl: WebIM.config.apiURL,
                         file: file,
                         to: self.zn_chatid,                   // 接收消息群组
-                        roomType: true,
-                        chatType: 'groupchat',
+                        roomType: false,
+                        chatType: 'groupChat',
                         onFileUploadError: function () {      // 消息上传失败
                             console.log('onFileUploadError');
                         },
-                        onFileUploadComplete: function () {   // 消息上传成功
-                            console.log('onFileUploadComplete');
+                        onFileUploadComplete: function (data) {   // 消息上传成功
+                            console.log('消息上传成功');
                             if(audio_URL != null){
                                 audio_URL == null;
                             }
+                            BASE64 = null;
+                            // debugger;
+                            url = data.uri + '/' + data.entities[0].uuid;
+                            console.log(data.uri)
+                            console.log(data.entities[0].uuid)
+                            console.log(url)
                         },
-                        success: function () {                // 消息发送成功
-                            console.log('Success');
+                        success: function (uid, sid) {                // 消息发送成功
                         },
                         flashUpload: WebIM.flashUpload,
                     };
@@ -574,15 +625,14 @@
                 var obj = new WebView_Object();
                 obj.stopRecord();
 
-                // 本地消息储存 length
+                var endTime = end_time;
+                // 本地消息储存
                 var self = this;        // 路由渲染
                 var Qid = self.zn_chatid;               // 群id
                 var a = JSON.parse(localStorage.oxQun);
 
                 var setI_ks = setInterval(function(){
                     if(audio_URL != null){
-                        // audio_URL = audio_URL.replace('.amr','.mp3')
-                        // console.log(audio_URL)
                         var date = new Date().getTime();
                         var QUN_LIAO = {
                             txt: 'audio',
@@ -591,20 +641,15 @@
                             toID: localStorage.oxUid,
                             time: date,
                             msg: '_doc/audio/'+audio_URL,
-                            url: audio_URL,
+                            endTime: endTime,
                         }
                         a[Qid].push(QUN_LIAO)
-                        console.log(a)
                         self.$store.state.txt = a;
                         localStorage.oxQun = JSON.stringify(a);
                         
-                        var setI = setInterval(function(){
-                            var input = document.getElementById(date);
-                            if(input != undefined){
-                                self.sendPrivateAudio(audio_URL);
-                                clearInterval(setI)
-                            }
-                        },300)
+                        // 发送语音
+                        self.sendPrivateAudio(endTime);
+                            
                         clearInterval(setI_ks)
                     }
                 },500)
@@ -612,10 +657,12 @@
             },
             // 播放
             bofan (e) {
+                e = e.replace('_doc/audio/','')
                 console.log(e)
                 var obj = new WebView_Object();
                 obj.playAudio(e);
             },
+
             list () {   // 玩家数量
                 var self = this;
                 http.post('/RoomJoin/getJoinRoomList',{

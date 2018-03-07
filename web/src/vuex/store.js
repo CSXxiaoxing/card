@@ -103,52 +103,6 @@ export default new Vuex.Store({
         doneTodos: state => {
             return state.todos.filter(todo => todo.done)
         },
-        // txt: state => {
-        //     if(localStorage.oxTxtAll){
-        //         var [t, arrTime, arr, arr2de, count, tCount]=[[], [], [], [], 0, 0];
-        //         var type = state.txtType;
-        //         // console.log(state.txt)
-        //         var txt = state.txt[type];      // 筛选要搞的东西
-                
-        //         var woid = 'hz_niuniu_'+localStorage.oxUid;
-        //         for(var and in txt){
-        //             if(and == woid){
-        //                 t[0] = txt[and];
-        //             } else {
-        //                 tCount++;
-        //                 t[tCount] = txt[and];
-        //             }
-        //         }
-        //         // 计算时间轴
-        //         t.forEach(function(item){
-        //             count++;
-        //             for(var an in item){
-        //                 if(arrTime.length == 0){
-        //                     arrTime.push(an)
-        //                     arr.push(item[an])
-        //                     arr2de.push(-1)
-        //                 } else {
-        //                     var i = 0;
-        //                     ! function duibi(){
-        //                         if(an <= arrTime[i]){
-        //                             i++;
-        //                             duibi()
-        //                         } else if(an > arrTime[i]){
-        //                             var a = count >= 2 ? i : -1; // i是对方，-1是自己right
-        //                             arrTime.splice(i, 0, an)
-        //                             arr.splice(i, 0, item[an])
-        //                             arr2de.splice(i, 0, a)
-        //                         }
-        //                     } ()
-        //                 }
-        //             }
-        //         })
-        //         state.txt = arr.reverse();
-        //         console.log(state.txt)
-        //         state.txt_idx = arr2de.reverse();
-        //         state.txt_time = arrTime.reverse();
-        //     }
-        // }
     },
     // 方法，mutations必须同步执行 onCreateGroup
     // 使用demo : this.$store.commit('increment')
@@ -191,21 +145,6 @@ export default new Vuex.Store({
                     var a = JSON.parse(localStorage.oxQun)
                     var date = new Date().getTime();
                     var from = message.from.replace('hz_niuniu_','')
-
-                    // var obj = this.state.obj;
-                    // http.post( '/Chat/createChat', {
-                    //             zc_from: localStorage.oxUid, // 自己的id
-                    //             zc_to: Qid, // 群id
-                    //             zc_chat_type: 'groupchat',//群聊
-                    //             zc_bodies: JSON.stringify(obj.type),
-                    //             zn_timestamp: obj.time,// 消息时间
-                    //             zc_msg_id: obj.msg_id, // 消息id
-                    //             zn_way: 1, // 方式 1 接收， 0 发送
-                    //             zn_toname: obj.TAname,
-                    //         }, '', this )
-                    //     .then(res => {
-                    //         console.log(res)
-                    // })
                     
                     if(!a[Qid]){
                         a[Qid] = [];
@@ -281,40 +220,46 @@ export default new Vuex.Store({
             },     //收到命令消息
             onAudioMessage: function ( message ) {
                 console.log(message)
-                var options = { url: message.url };
-                options.onFileDownloadComplete = function ( response ) { 
-                  //音频下载成功，需要将response转换成blob，使用objectURL作为audio标签的src即可播放。
-                  var objectURL = WebIM.utils.parseDownloadResponse.call(conn, response);
-                  var Qid = message.to;               // 群id
-                  // 本地消息储存 qid
-                  var a = JSON.parse(localStorage.oxQun);
-                  var date = new Date().getTime();
-                  var name = message.filename.replace('.wmv','')
-                  console.log(a)
-                  var QUN_LIAO = {
-                      txt: 'audio',
-                      type: 'groupchat',
-                      name: name,
-                      toID: message.to,
-                      time: date,
-                      msg: objectURL,
-                      url: objectURL,
-                  }
-                  a[Qid].push(QUN_LIAO)
-                  console.log(a)
-                  self.state.txt = a;
-                  localStorage.oxQun = JSON.stringify(a);
-                };  
-                options.onFileDownloadError = function () {
-                  //音频下载失败 
-                  console.log('音频下载失败')
-                };  
-                //通知服务器将音频转为mp3
-                options.headers = { 
-                  'Accept': 'audio/mp3'
+                console.log(message.url)
+                
+                var options = {
+                    url: message.url,
+                    headers: {
+                      'Accept': 'audio/mp3',  //通知服务器将音频转为mp3
+                      // 'Content-type': 'audio/amr',  //通知服务器将音频转为mp3
+                    },
+                    onFileDownloadComplete : function ( response ) { 
+                      //音频下载成功，需要将response转换成blob，使用objectURL作为audio标签的src即可播放。
+                      console.log(response)
+                      var objectURL = WebIM.utils.parseDownloadResponse.call(conn, response);
+                      console.log(objectURL)
+                    
+                      var Qid = message.to;               // 群id
+                      // 本地消息储存 qid
+                      var a = JSON.parse(localStorage.oxQun);
+                      var date = new Date().getTime();
+                      var name = message.filename.replace('.amr','')
+                      name = name.split('#(en&^*');
+                      var QUN_LIAO = {
+                          txt: 'audio',
+                          type: 'groupchat',
+                          name: name[1],
+                          toID: message.to,
+                          time: date,
+                          msg: objectURL,
+                          endTime: name[0],
+                      }
+                      a[Qid].push(QUN_LIAO)
+                      // console.log(a)
+                      self.state.txt = a;
+                      localStorage.oxQun = JSON.stringify(a);
+                    },
+                    onFileDownloadError : function () {
+                      //音频下载失败 
+                      console.log('音频下载失败')
+                    },
                 };
                 WebIM.utils.download.call(conn, options);
-
             },   //收到音频消息
             onLocationMessage: function ( message ) {
                 console.log(message)
@@ -379,6 +324,7 @@ export default new Vuex.Store({
         dl () { //  sendIQ
             var dlCount = 0;
             var id = localStorage.oxUid || 0
+
             var options = {         // 自动登录
                 apiUrl: WebIM.config.apiURL,
                 user: 'hz_niuniu_'+id,
@@ -396,7 +342,7 @@ export default new Vuex.Store({
                             clearTimeout(time)
                         },2000)
                     } else {
-                        alert('网络状态差,无法连接')
+                        alert('当前网络不稳定，登陆失败')
                     }
                 }
             };
