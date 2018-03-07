@@ -22,7 +22,9 @@
         <div id="record" class="rp">
             <div class="rprogress"><div class="rschedule"></div></div>
             <br/>
-            <div id="rtime" class="rtime">00:00:00</div><br/>
+            <!-- <div id="rtime" class="rtime">00:00:00</div><br/> -->
+            <div id="rtime" class="rtime">上拉取消</div><br/>
+            <div id="rs" class="rs">0'</div>
         </div>
 
         <script type="text/javascript">
@@ -97,7 +99,8 @@
             document.addEventListener( "plusready", onPlusReady, false );
                 // 获取DOM元素对象
                 er = document.getElementById('record');
-                rt = document.getElementById('rtime');
+                // rt = document.getElementById('rtime');
+                rt = document.getElementById('rs');
             
             // 扩展API加载完毕，现在可以正常调用扩展API 
             function onPlusReady() { 
@@ -144,7 +147,8 @@
                     t = 0;
                     ri = setInterval(function(){
                         t++;
-                        rt.innerText = timeToStr(t);
+                        // rt.innerText = timeToStr(t);
+                        rt.innerText = t+"'";
                     }, 1000);
                     return this;
                 },
@@ -152,7 +156,8 @@
                 stopRecord : function () {
                     end_time = rt.innerText;
                     er.style.display = 'none';
-                    rt.innerText = '00:00:00';
+                    // rt.innerText = '00:00:00';
+                    rt.innerText = "0'";
                     clearInterval(ri);
                     ri = null;
                     HTML_R.stop();
@@ -180,19 +185,22 @@
                     t = 0;
                     ri = setInterval(function(){
                         t++;
-                        rt.innerText = timeToStr(t);
+                        // rt.innerText = timeToStr(t);
+                        rt.innerText = t+"'";
                     }, 1000);
                     p = plus.audio.createPlayer(url);
                     p.play(function(){
                         console.log('播放完成！');
                         er.style.display = 'none';
-                        rt.innerText = '00:00:00';
+                        // rt.innerText = '00:00:00';
+                        rt.innerText = "0'";
                         clearInterval(ri);
                         ri = null;
                     }, function(e){
                         alert('播放音频文件"'+url+'"失败：'+e.message);
                         er.style.display = 'none';
-                        rt.innerText = '00:00:00';
+                        // rt.innerText = '00:00:00';
+                        rt.innerText = "0'";
                         clearInterval(ri);
                         ri = null;
                     });

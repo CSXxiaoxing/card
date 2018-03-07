@@ -287,12 +287,23 @@ input.error {
 }
 .rtime {
     font-size: 42px;
-    color: #FF0000;
+    // color: #FF0000;
+    color: #101010;
     position: absolute;
     left: 50%;
-    bottom: 3%;
+    bottom: 5%;
+    transform: translate(-70%,0%);
+    white-space : nowrap ;
+}
+.rs {
+    font-size: 42px;
+    color: #FF0000;
+    // color: #000;
+    position: absolute;
+    right: 0%;
+    bottom: 5%;
     transform: translate(-50%,0%);
-
+    white-space : nowrap ;
 }
 
 .rprogress {

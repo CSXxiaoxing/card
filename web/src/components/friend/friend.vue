@@ -20,7 +20,7 @@
           </p>
           <mt-button @click="addFriend = false">  取消
           </mt-button>
-          <mt-button @click="searchFriend()">  搜索
+          <mt-button @click="searchFriend">  搜索
           </mt-button>
         </mt-popup >
         <!-- 好友信息 -->
@@ -34,9 +34,10 @@
             <ul>
                 <li>{{friendName}}</li>
                 <li> id : {{friendId}}</li>
+                <li><input type="text" v-model="findFriend_TEXT"/></li>
             </ul>
           </div>
-          <mt-button @click="findFriend = false ,applyFriend() ">  添加
+          <mt-button @click="findFriend = false ,applyFriend() ">  申请
           </mt-button>
         </mt-popup >
         <!-- 请求已经发送 -->
@@ -207,13 +208,14 @@
             return {
                 loading: false,     // loading
                 arrows: 0,  // 上下箭头
+                careTip : false,    // 错误提示
                 addFriend : false,    //  查找好友
-                findFriend: false,
+                findFriend: false,      // 好友申请
+                findFriend_TEXT: '',    // 好友申请文字
                 sendFriend: false,
                 markFriend: false,
                 deleFriend : false,
                 findID: '',  // 要寻找的id
-                careTip : false,
                 friendId : 0,   //对方id
                 friendName: '',  //对方名字
                 systemMess: [],  //系统信息
@@ -248,7 +250,6 @@
                     id : localStorage.oxUid,
                 })
                 .then(res =>{
-                    //console.log(res)
                     if(res.status == 1){
                         for(let i in res.data){
                             if(res.data[i].zn_way ==2){
@@ -344,21 +345,31 @@
             searchFriend(){
                 var self = this;
                 http.post('/MemberFriend/getFriend', {
-                    id : self.findID,
-                })
+                    id : self.findID, 
+                }, '' ,this)
                 .then(res =>{
-                    // console.log(res)
                     if(res.status==1){
                         self.friendId = res.data.id;
                         self.friendName =  res.data.zc_nickname;
                         console.log(self.friendId)
-
                         console.log(res.data.zc_nickname)
                         self.findFriend = true;
+                        self.loading = false;
+                        self.addFriend = false;
                     }else{
                         self.careTip = true;
+                        self.loading = false;
+                        self.addFriend = false;
                     }
                 })
+                // 添加好友
+                var addFriends = function () {
+                    conn.subscribe({
+                        to: 'username',
+                        // Demo里面接收方没有展现出来这个message，在status字段里面
+                        message: '加个好友呗!'   
+                    });
+                };
             },
             //发送申请
             applyFriend(){
@@ -534,8 +545,8 @@
                         let endX = ev.changedTouches[0].clientX;
                             this.disX = this.startX - endX;
                             // console.log(this.disX)
-                            //如果距离小于删除按钮一半,强行回到起点
-                            if ((this.disX*5) < (wd/2)) {
+                            //如果距离小于删除按钮1/3,强行回到起点
+                            if ((this.disX*5) < (wd/3)) {
                                 this.deleteSlider = "transform:translateX(0rem)";
                             }else{
                                 //大于一半 滑动到最大值

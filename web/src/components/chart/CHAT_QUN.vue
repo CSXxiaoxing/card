@@ -46,8 +46,6 @@
                         :src='data.msg' v-show='true' class='audio'
                         :id='data.time' controls="controls" >
                         </audio>
-                        
-                        {{data.url}}
                     </div>
                 </li>
             </ul>
@@ -56,7 +54,7 @@
         <footer>
         	<div v-if='speak == 0'>
                 <img src="src/img/chart_Room1.png" @touchend='speak = 1'>
-                <span @touchstart='startRecord' @touchend='stopRecord'>按住 说话</span>
+                <span @touchstart='startRecord' @touchmove='cancelRecord' @touchend='stopRecord'>按住 说话</span>
             </div>
             <div v-if='speak == 1'>
                 <img src="src/img/724876052125097875.png" @touchend='speak = 0'>
@@ -69,6 +67,7 @@
         <loading v-if='loading'></loading>
     </div>
 </template>
+
 
 <style lang='scss' scoped>
     // test
@@ -149,16 +148,19 @@
             overflow-x: hidden;
             li{
                 text-align: left;
-                // padding-bottom: 20px;
+                padding-bottom: 20px;
                 position: relative;
+                height: auto;
             	.test{
                     max-width:5.555556rem; 
                     padding:0.177778rem 0.185185rem; 
                     border:0.027778rem solid #E4E3E8; 
-                    position:relative;
+                    position: relative;
+                    top: 0;
                     border-radius:0.185185rem;
                     padding-left:0.185185rem; 
                     border: 0 none;
+                    word-wrap:break-word;
                     box-shadow: 0px 3px 10px 0px #ccc;
                 }
                 .test span{
@@ -378,7 +380,8 @@
                 roomid: 0,          // 房间id
                 txt: '',            // 发送产生的文本
                 Uid: localStorage.oxUid,   // 个人id
-
+                startY: 0,      // 取消录音开始位置
+                moveY: 0,       // 移动距离
 
                 chartList: '',      // 成员列表（群）
                 lingth: 0,          // 成员人数（群）
@@ -613,17 +616,31 @@
                     conn.send(msg.body);
                 }
             },
-            startRecord: function (){ // audio_URL
+            // 开始录音
+            startRecord: function (ev){
                 if(audio_TYPE == 1){
-                    // 开始录音
                     var obj = new WebView_Object();
                     obj.startRecord();
                 }
+                ev= ev || event
+                //tounches类数组，等于1时表示此时有只有一只手指在触摸屏幕
+                if(ev.touches.length == 1){
+                    // 记录开始位置
+                    this.startY = ev.touches[0].clientY;
+                }
             },
+            // 结束录音
             stopRecord: function () {
-                // 结束录音
                 var obj = new WebView_Object();
                 obj.stopRecord();
+                console.log(this.moveY)
+                if(this.moveY >= 100){  // 取消录音
+                    this.moveY = 0;
+                    var rt_Text = document.getElementById('rtime');
+                    rt_Text.innerText = '上拉取消';
+                    rt_Text.style = 'color: #000';
+                    return false;
+                }
 
                 var endTime = end_time;
                 // 本地消息储存
@@ -646,14 +663,29 @@
                         a[Qid].push(QUN_LIAO)
                         self.$store.state.txt = a;
                         localStorage.oxQun = JSON.stringify(a);
-                        
                         // 发送语音
                         self.sendPrivateAudio(endTime);
-                            
                         clearInterval(setI_ks)
                     }
                 },500)
-
+            },
+            // 取消录音
+            cancelRecord : function(e) {
+                console.log(e)
+                e= e || event
+                //tounches类数组，等于1时表示此时有只有一只手指在触摸屏幕
+                if(e.touches.length == 1){
+                    // 记录移动距离
+                    this.moveY = this.startY - e.touches[0].clientY;
+                    var rt_Text = document.getElementById('rtime');
+                    if(this.moveY >= 100){
+                        rt_Text.innerText = '取消录音';
+                        rt_Text.style = 'color: #FF0000';
+                    } else {
+                        rt_Text.innerText = '上拉取消';
+                        rt_Text.style = 'color: #000';
+                    }
+                }
             },
             // 播放
             bofan (e) {
