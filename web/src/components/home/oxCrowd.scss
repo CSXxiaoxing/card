@@ -1,6 +1,6 @@
 @import '../../utils/baseVar.scss';  // $homeAll
 
-#home{
+#oxCrowd{
     height: 100%;
     width: 100%;
     position: fixed;
@@ -199,40 +199,103 @@
         
         flex: 1;
         overflow-y: auto;
+        // z-index: 3;
+        &>span>div{
+            -webkit-transform: translate(0, -50px);
+               -moz-transform: translate(0, -50px);
+                -ms-transform: translate(0, -50px);
+                 -o-transform: translate(0, -50px);
+                    transform: translate(0, -50px);
+        }
         ul{
-            height: 100%;
-            padding-top: 0.38rem;
-            // padding-bottom: 0.277778rem;
-            box-sizing: border-box;
+            padding: 1%;
+            @include flexbox();
+            @include justify-content(flex-start);
+            @include direction(row);
+            @include flex-wrap(wrap);
+            padding-left: 0.185185rem;
+            &.ul01{
+                padding-bottom: 80px;
+                @include transition(all,1s);
+            }
+            
             li{
-                height: 33.33%;
-                position: relative;
-                img{
-                    position: absolute;
+                width: 32.4%;
+                height: 2.777778rem;
+                margin-top: 0.166667rem;
+                background: $home01 no-repeat;
+                background-size: cover;
+                background-position:center;
+                background-size: 3.166667rem 2.777778rem;
+                margin-right:0.075rem;
+                b{
+                    display: block;
+                    background: $homeAll -2.777778rem 0.0rem no-repeat;
+                    background-size: 5.555556rem 5.555556rem;
+                    height: 0.833333rem;
+                    width: 0.87037rem;
+                    float: right;
+                    position: relative;
+                    bottom:0.037037rem;
+                    left:0.092593rem;
+                }
+                i{
+                    display:block;
+                    height: 1.37037rem;
+                    width: 1.666667rem;
+                    background: $homeAll -3.703704rem 0.0rem no-repeat;
+                    background-size: 5.555556rem 5.555556rem;
+                    position: relative;
                     left: 50%;
-                    top: 50%;
-                    transform: translate(-50%,-50%);
+                    -webkit-transform: translate(-50%,0);
+                       -moz-transform: translate(-50%,0);
+                        -ms-transform: translate(-50%,0);
+                         -o-transform: translate(-50%,0);
+                            transform: translate(-50%,0);
                 }
-            }
-            li:nth-of-type(1){
-                height: 34%;
-                img{
-                    width: 9.481481rem;
-                    height: 4.222222rem;
+                h4{
+                    color: #fff;
+                    font-size: 0.259259rem;
                 }
-            }
-            li:nth-of-type(2){
-                height: 33%;
-                img{
-                    width: 9.481481rem;
-                    height: 3.425926rem;
-                }
-            }
-            li:nth-of-type(3){
-                height: 33%;
-                img{
-                    width: 9.481481rem;
-                    height: 3.259259rem;
+                div{
+                    padding: 0.185185rem 0.259259rem 0.074074rem ;
+                    position: relative;
+                    bottom: 0;
+                    h5{
+                        color: #fff;
+                        font-weight: 200;
+                        font-size: 0.3rem;
+                        line-height: 0.32rem;
+                        margin: 0;
+                        padding-bottom: 0.046296rem;
+                        // 文字
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                    p{
+                        font-size: 0.296296rem;
+                        color: #C4C4C4;
+                        @include flexbox();
+                        @include justify-content(space-between);
+                        span{
+                            font-size: 0.27rem;
+                            line-height: 0.46rem;
+                            text-align: right;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                        }
+                        span:nth-of-type(1){
+                            flex: 1;
+                            text-align: center;
+                        }
+                        span:nth-of-type(2){
+                            flex: 1;
+                            text-align: left;
+                        }
+                    }
+                    .roomNum{color: #2FAB51;}
                 }
             }
         }
@@ -240,7 +303,7 @@
     .homeMain::-webkit-scrollbar {
         -webkit-overflow-scrolling: touch;
         display: none;
-    }
+    } 
     // 底部
     footer{
         height: 1.277778rem;

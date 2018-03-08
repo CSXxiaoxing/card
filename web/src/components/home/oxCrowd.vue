@@ -1,5 +1,5 @@
 <template>
-	<div id='home'> 
+	<div id='oxCrowd'> 
 	<iframe :src="iframe" frameborder="0" :id='iframeCss'></iframe>
 		<mt-popup 
 	        v-model="careTip"
@@ -52,11 +52,31 @@
 		</header>
 
 		<div class='homeMain' id='dataUL'>
-			<ul>
-				<li><img src="../../image/homeA01.png" alt="" /></li>
-				<li><img src="../../image/homeA02.png" alt="" /></li>
-				<li><img src="../../image/homeA03.png" alt="" /></li>
+			<ul @click='openS' 
+			:class='spinner == 1 ? "ul01":""'
+			v-infinite-scroll="loadMore"
+  			:infinite-scroll-distance="20">
+				<li v-for='(dataRoom) in $store.state.data.DT' :key='"ox"+dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
+					<b v-if='dataRoom.open'></b>
+					<i></i>
+					<h4>大战牛群</h4>
+					<div>
+						<h5>{{dataRoom.roomName}}</h5>
+						<p>
+							<span v-show='dataRoom.open == "false"'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
+							<span v-show='dataRoom.open'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
+							<span v-show='dataRoom.open' id="roomNumber">房号：{{dataRoom.roomNumber}}</span>
+						</p>
+						<div></div>
+					</div>
+				</li>
 			</ul>
+			
+			<mt-spinner 
+			type="triple-bounce"
+			:size="110" 
+			v-show='spinner == 1'>
+			</mt-spinner>
 		</div>
 
 		<footer>
@@ -81,7 +101,7 @@
 </template>
 
 <script type="text/javascript">
-	import './home.scss';
+	import './oxCrowd.scss';
 	import Vue from 'vue';
 	import http from '../../utils/httpClient.js';
 	import router from '../../router/';

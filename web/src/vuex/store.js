@@ -17,6 +17,11 @@ export default new Vuex.Store({
             userImg: '',
             addtype: 0, // 加分状态
         },
+        // 环信消息处理
+        system: {
+            friend: [], // 好友操作信息
+            friendList: [], // 好友列表
+        },
         // 默认数据
         initRoom: {
             ox: ['牛一', '牛二', '牛三', '牛四', '牛五', '牛六', '牛七', '牛八', '牛九', '牛牛', '五花牛'],
@@ -89,7 +94,6 @@ export default new Vuex.Store({
 
             listOver: [],   // 开奖记录
             juAll: 0,      // 房间总局数
-            
         },   // 存放各种数据避免重复请求
         systemMess:{
             title :'', //信息标题
@@ -117,12 +121,6 @@ export default new Vuex.Store({
     // 这里的方法可异步执行
     // 使用demo : this.$store.dispatch('aaa')
     actions: {
-        increment ( { commit } ) {
-            setTimeout(() => {
-                // commit('increment')
-                console.log('异步成功')
-            }, 1000)
-        },
         webIM () {
             var self = this;
             conn.listen({
@@ -267,7 +265,6 @@ export default new Vuex.Store({
             onFileMessage: function ( message ) {
                 console.log(message)
             },    //收到文件消息
-
             onVideoMessage: function (message) {
                 console.log(message)
                 var node = document.getElementById('privateVideo');
@@ -287,7 +284,32 @@ export default new Vuex.Store({
                 WebIM.utils.download.call(conn, option);
             },   //收到视频消息
             onPresence: function ( message ) {
+                if(message.type == ''){
+                    return false;
+                }
+                
                 console.log(message)
+                if(message.type == 'subscribe'){
+                    // 别人申请加你为好友
+                    var Msg = message.status.split('#(h9aoyou*)')
+                    var duixian = {
+                        name : Msg[0],
+                        text : Msg[1],
+                        id : message.from,
+                    };
+                    self.state.system.friend.push(duixian)
+                } else if(message.type == "subscribed"){
+                    // 别人同意你加他为好友
+                    var friend = self.state.system.friend;
+                    for(var i=0; i<friend.length; i++){
+                        if(friend[i].id == message.from){
+                            self.state.system.friend.splice(i,1);
+                        }
+                    }
+                    self.dispatch('get_R');
+                }
+                
+                
             },       //处理“广播”或“发布-订阅”消息，如联系人订阅请求、处理群组、聊天室被踢解散等消息
             onRoster: function ( message ) {
                 console.log('Roster')
@@ -347,7 +369,40 @@ export default new Vuex.Store({
                 }
             };
             conn.open(options);
+        },
+        haoyou_DL (){   
 
+            var self = this;
+            var id = localStorage.oxUid;
+
+            var options = {         // 自动登录
+                apiUrl: WebIM.config.apiURL,
+                user: 'hz_niuniu_'+id,
+                pwd: '123456',
+                appKey: WebIM.config.appkey,
+                success: function () {
+                    console.log('登录成功')
+                    self.dispatch('get_R');
+                },
+                error: function () {
+                    console.log('失败')
+                }
+            };
+            conn.open(options);
+        },
+        get_R: function(){
+            var self = this;
+            // console.log(conn)
+            conn.getRoster({
+                success: function ( roster ) {
+                    // console.log(roster)
+                    self.state.system.friendList = roster;
+                },
+                error: function(){
+                    console.log('error')
+                    // self.dispatch('get_R');
+                }
+            });
         },
         // 调取用户聊天记录 page分页数 p当前页
         // {myId, toId, page, p}

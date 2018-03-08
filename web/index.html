@@ -24,7 +24,7 @@
             <br/>
             <!-- <div id="rtime" class="rtime">00:00:00</div><br/> -->
             <div id="rtime" class="rtime">上拉取消</div><br/>
-            <div id="rs" class="rs">0'</div>
+            <div id="rs" class="rs">0"</div>
         </div>
 
         <script type="text/javascript">
@@ -148,7 +148,7 @@
                     ri = setInterval(function(){
                         t++;
                         // rt.innerText = timeToStr(t);
-                        rt.innerText = t+"'";
+                        rt.innerText = t+'"';
                     }, 1000);
                     return this;
                 },
@@ -157,7 +157,7 @@
                     end_time = rt.innerText;
                     er.style.display = 'none';
                     // rt.innerText = '00:00:00';
-                    rt.innerText = "0'";
+                    rt.innerText = '0"';
                     clearInterval(ri);
                     ri = null;
                     HTML_R.stop();
@@ -186,21 +186,21 @@
                     ri = setInterval(function(){
                         t++;
                         // rt.innerText = timeToStr(t);
-                        rt.innerText = t+"'";
+                        rt.innerText = t+'"';
                     }, 1000);
                     p = plus.audio.createPlayer(url);
                     p.play(function(){
                         console.log('播放完成！');
                         er.style.display = 'none';
                         // rt.innerText = '00:00:00';
-                        rt.innerText = "0'";
+                        rt.innerText = '0"';
                         clearInterval(ri);
                         ri = null;
                     }, function(e){
                         alert('播放音频文件"'+url+'"失败：'+e.message);
                         er.style.display = 'none';
                         // rt.innerText = '00:00:00';
-                        rt.innerText = "0'";
+                        rt.innerText = '0"';
                         clearInterval(ri);
                         ri = null;
                     });

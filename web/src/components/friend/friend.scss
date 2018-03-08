@@ -1,11 +1,11 @@
-@import '../../utils/baseVar.scss'; // url findFriend
+@import '../../utils/baseVar.scss';
 #friend {
     background: #ECEDF1;
     height: 100%;
     width: 100%;
-    position:fixed;
-    left:0;
-    top:0;
+    position: fixed;
+    left: 0;
+    top: 0;
     header {
         font-size:0.425926rem;
         height: 1.87037rem;
@@ -54,6 +54,7 @@
         }
     }
     .friMain {
+        
         font-size:0.388889rem;
         height: 100%;
         ul {
@@ -317,19 +318,42 @@
                         }
                     }
                     p:nth-of-type(2){
-                       width:1.833333rem;
-                       position:absolute;
-                       right:0.462963rem;
-                       line-height:0.777778rem;
-                       color:#18BE17;
-                       border:0.018519rem solid #B3DEAE;
-                       border-radius:0.925926rem;
-                       margin-top:0.222222rem;
+                       width: 1.833333rem;
+                       position: absolute;
+                       right: 2.46rem;
+                       line-height: 0.777778rem;
+                       color: #18BE17;
+                       border: 0.018519rem solid #B3DEAE;
+                       border-radius: 0.925926rem;
+                       margin-top: 0.222222rem;
                        -webkit-transition-delay: 5s;
                        -moz-transition-delay: 5s;
                        -ms-transition-delay: 5s;
                        -o-transition-delay: 5s;
                        transition-delay: 5s;
+                    }
+                    dd{
+                        margin-right: 0;
+                        z-index: 1;
+                    }
+                    position: relative;
+                    width:12rem;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                    max-height: 9.444444rem;
+                    min-height:0rem;
+                    .remove{
+                            line-height: 1.685185rem;
+                            width: 1.3rem;
+                            background-color: #DA480D;
+                            color: white;
+                            position: absolute;
+                            right: 0rem;
+                            top: 0px;
+                            text-align: center;
+                            padding: 0rem 0rem;
+                            padding-left: 0.462963rem;
+                        
                     }
                 }
             }
@@ -399,25 +423,32 @@
         -o-box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
         box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
         border-radius: 0.277778rem;
-        position: absolute;
-        top:8.240741rem;
+        // position: relative;
+        // top:8.240741rem;
         overflow: hidden;
         img{
             width:1.972222rem;
             height:1.972222rem;
         }
-        i{
-            position:absolute;
-            line-height:0.925926rem;
-            font-size:1.481481rem;
-            font-weight:lighter;
-            color:#797979;
-            right:0.185185rem;
-            top:0.185185rem;
-            width:0.833333rem;
-            height:0.925926rem;
-            @include border-radius(100%);
-            padding-right:0.092593rem;
+        &>div{
+            position: relative;
+            i{
+                display: block;
+                height: 0.444444rem;
+                width: 0.5rem;
+                position: absolute;
+                width: 0.527778rem;
+                height: 0.527778rem;
+                right: 0%;
+                top: 50%;
+                -webkit-transform: translate(-80%, -100%);
+                   -moz-transform: translate(-80%, -100%);
+                    -ms-transform: translate(-80%, -100%);
+                     -o-transform: translate(-80%, -100%);
+                        transform: translate(-80%, -100%);
+                background: $homeAll -0.925926rem -2.314815rem no-repeat;
+                background-size: 5.555556rem 5.555556rem;
+            }
         }
         img{
             position: absolute;

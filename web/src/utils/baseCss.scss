@@ -216,13 +216,20 @@ input.error {
       position: relative;
       right: 0.87037rem;
       bottom: 0.462963rem;
-      
-      i{
-        position: absolute;
-        font-size: 1.296296rem;
-        color: #028B00;
-        right: 1.111111rem;
-      }
+        position: relative;
+        i{
+            display: block;
+            height: 0.444444rem;
+            width: 0.5rem;
+            position: absolute;
+            width: 0.527778rem;
+            height: 0.527778rem;
+            right: 9%;
+            top: 52%;
+            transform: translate(-80%, -100%);
+            background: url('../img/home_all.png') -0.925926rem -2.314815rem no-repeat;
+            background-size: 5.555556rem 5.555556rem;
+        }
     }
 
     p{

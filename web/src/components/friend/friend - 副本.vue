@@ -103,7 +103,7 @@
         </header>
         <div class='friMain'>
             <ul>
-                <li @click='ConTypr(1)'>
+                <li @touchend='newWord'>
                     <span><i></i></span>
                     <span>最新消息</span>
                     <span><i :class='arrows == 1 ? "Iup" : ""'></i></span>
@@ -144,12 +144,12 @@
                             <p><i>{{fri.name}}</i>请求添加你为好友</p>
                             <p @touchend='friSel = quest' @click='agreeFriend(fri.id)'>同意</p>
                         </dd>
-                        <dd class="remove" ref='remove' @click='noFriend(fri.id)'>拒绝</dd>
+                        <dd class="remove" ref='remove' @click='delTip=true'>删除</dd>
                     </dl>
                 </li>
 
 
-                <li @click='ConTypr(2)'>
+                <li @touchend='near'>
                     <span><i></i></span>
                     <span>最近联系</span>
                     <span><i :class='arrows == 2 ? "Iup" : ""'></i></span>
@@ -169,24 +169,23 @@
                     </dl>
                 </li>
 
-                <li @click='ConTypr(3)'>
+                <li @touchend='myFriend'>
                     <span><i></i></span>
                     <span>我的好友</span>
                     <span><i :class='arrows == 3 ? "Iup" : ""'></i></span>
                 </li>
                 <li  :class='arrows == 3 ? "show" : "hide"'>
                     <dl>
-                        <dd v-for='(friends,fquest) in $store.state.system.friendList' 
+                        <dd v-for='(friends,fquest) in friendList' 
                         :key='friends.id' 
                           @touchend='sysSel = fquest,touchEnd' @click='changeTime()'  
                           @touchstart='[(k=fquest),(touchStart)]'
                           @touchmove='touchMove'
                           :style="fquest == k ? deleteSlider: ''">
-
                             <span @touchend='friQuest = fquest'><i></i></span>
-                            <span @touchend='friQuest = fquest' @click='liaotian(friends.fid)'>{{friends.name}}</span>
+                            <span @touchend='friQuest = fquest' @click='liaotian(friends.fid)'>{{friends.mname}}</span>
                             <span @touchend='friQuest = fquest' @click='markFriend =true'><i></i>备注</span>
-                            <span class="remove" ref='remove' @click="deleteFri(friends.name)">删除</span>
+                            <span class="remove" ref='remove' @click="deleteFri()">删除</span>
                         </dd>
                     </dl>
                 </li>
@@ -208,17 +207,12 @@
                 loading: false,     // loading
                 arrows: 0,          // 上下箭头
                 careTip : false,     // 错误提示
-                delTip : false,      // 删除提示
-                delTip_TEXT : '',    // 删除提示
-
-                // 数据
-                friendList : [],    //好友列表
-                
+                delTip : true,      // 删除提示
+                delTip_TEXT : '',      // 删除提示
 
                 addFriend : false,    //  查找好友
                 findFriend: false,      // 好友申请
                 findFriend_TEXT: '',    // 好友申请文字
-
                 sendFriend: false,
                 markFriend: false,
                 deleFriend : false,
@@ -234,6 +228,7 @@
                 markName:'',
                 pagesize : 15,
                 p :1,
+                friendList : [], //好友列表
                 friendListId : [], //好友列表id
                 startX:0,   //触摸位置
                 endX:0,     //结束位置
@@ -248,60 +243,103 @@
         mounted: function(){
             // 登录环信
             this.$store.dispatch('webIM')
-            this.$store.dispatch('haoyou_DL')
+            this.$store.dispatch('dl')
             //获取系统信息
             var self = this ;
-            http.post('/MemberNotice/getNotify',{
-                id : localStorage.oxUid,
-            })
-            .then(res =>{
-                if(res.status == 1){
-                    for(let i in res.data){
-                        if(res.data[i].zn_way ==2){
-                            self.friendApply.push({
-                                name :res.data[i].zc_content,
-                                id  :res.data[i].id, //信息id
-                                mid :res.data[i].zn_mid, //自己id
-                                fid  : res.data[i].zn_applyid,//对方id
-                            })
-                            console.log(self.friendApply)
-                        }else{
-                            self.systemMess.push({
-                                id  :res.data[i].id, //信息id
-                                content : res.data[i].zc_content,//信息内容
-                                read : res.data[i].zn_read,//已读未读
-                                time : res.data[i].zn_cdate, //信息时间
-                                title : res.data[i].zc_title, //信息标题
-                            })
-                            // console.log(self.systemMess)
+                http.post('/MemberNotice/getNotify',{
+                    id : localStorage.oxUid,
+                })
+                .then(res =>{
+                    if(res.status == 1){
+                        for(let i in res.data){
+                            if(res.data[i].zn_way ==2){
+                                self.friendApply.push({
+                                    name :res.data[i].zc_content,
+                                    id  :res.data[i].id, //信息id
+                                    mid :res.data[i].zn_mid, //自己id
+                                    fid  : res.data[i].zn_applyid,//对方id
+                                })
+                                console.log(self.friendApply)
+                            }else{
+                                self.systemMess.push({
+                                    id  :res.data[i].id, //信息id
+                                    content : res.data[i].zc_content,//信息内容
+                                    read : res.data[i].zn_read,//已读未读
+                                    time : res.data[i].zn_cdate, //信息时间
+                                    title : res.data[i].zc_title, //信息标题
+                                })
+                                console.log(self.systemMess)
+                            }
                         }
                     }
-                }
-            })
+                })
             self.haoyou();
+
         },
         methods: {
-            haoyou(){   // 手动刷新调用
+            haoyou(){
                 var self = this;
-                this.$store.dispatch('get_R');
                 //获取好友列表
-                conn.getRoster({
-                    success: function ( roster ) {
-                        self.$store.state.system.friendList = roster;
-                    },
-                });
+                http.post('/MemberFriend/getFrientList',{
+                    pagesize : self.pagesize,
+                    p        : self.p,
+                    id : localStorage.oxUid,
+                })
+                .then(res =>{
+                    console.log(res)
+                    
+                    if(res.status == 1){
+                        for(let i in res.data){
+                            self.friendList.push({
+                                id  :res.data[i].id, //信息id
+                                mid :res.data[i].zn_mid, //自己方id
+                                mname : res.data[i].zc_remark,  //对方名字
+                                fid : res.data[i].zn_friend_id, //对方id
+                            })
+                            self.friendListId.push({
+                                id  :res.data[i].id, //信息id
+                            })
+                        }
+                        console.log(self.friendList)
+                    }
+                })
             },
-
-            liaotian(id) {    // 点击好友聊天 MemberFriend/addFriend
-                var self = this; 
+            liaotian(id) {    // 点击好友聊天 zid玩家id
+                var self = this;
                 router.push({path: `/chartRoom/[2,10086,${id},1,"好友聊天"]`});
             },
-            ConTypr(num){   // 箭头状态
-                if(this.arrows == num) {
+            newWord() {
+                if(this.arrows == 1) {
                     this.arrows = 0;
                 } else {
-                    this.arrows = num;
+                    this.arrows = 1;
                 }
+            },
+            near() {
+                if(this.arrows == 2) {
+                    this.arrows = 0;
+                } else {
+                    this.arrows = 2;
+                }
+            },
+            myFriend() {
+                if(this.arrows == 3) {
+                    this.arrows = 0;
+                } else {
+                    this.arrows = 3;
+                }
+            },
+            Friend(){   // 添加好友
+                var self = this;
+                self.findFriend = true ;
+                self.addFriend  = false;
+                // http.post('/MemberNotice/applyFriend',{     
+                //     zn_mid: self.findID,
+                // })
+                // .then(res => {
+                //     console.log(res)
+                // })
+                // key
             },
             //查找好友
             searchFriend(){
@@ -324,37 +362,62 @@
                         self.addFriend = false;
                     }
                 })
+                
             },
             //发送申请 
             applyFriend(){
                 var self = this;
+                // http.post('/MemberNotice/applyFriend' , {
+                //     zn_mid : self.friendId,
+                //     zc_content : localStorage.oxName,
+                //     zn_applyid : localStorage.oxUid,
+                // })
+                // .then(res =>{
+                //      console.log(self.friendId)
+                //     if(res.status == 1){
+                //         self.sendFriend = true;
+                //     }else if(res.status == 3){
+                //         self.errorTips = res.msg;
+                //         self.careTip = true;
+                //     }
+                // })
+
                 // 添加好友
                 conn.subscribe({
                     to: 'hz_niuniu_'+self.friendId,
                     // Demo里面接收方没有展现出来这个message，在status字段里面
-                    message: localStorage.oxName+'#(h9aoyou*)'+self.findFriend_TEXT,
+                    message: localStorage.oxName+'#(en&^*'+self.findFriend_TEXT,
                 });
+
             },
             //同意申请好友
             agreeFriend(id){
                 var self = this;
+
+                // console.log(self.friSel)    
+                // http.post('/MemberFriend/addFriend' ,{
+                //     zn_friend_id : Number( self.friendApply[self.friSel].fid),
+                //     zc_remark : self.friendApply[self.friSel].name,
+                //     zn_way  : 1,
+                //     zn_mid : localStorage.oxUid,
+                // })
+                // .then(res =>{
+                //     if(res.status==1 || res.status ==2){
+                //         self.deleteApplyFri();
+                //         self.haoyou();
+                //     }
+                // })
+
                 /*同意添加好友操作的实现方法*/
                 conn.subscribed({
-                  to: id,
+                  to: 'hz_niuniu_'+id,
                   message : '[resp:true]'
                 });
-                // conn.subscribe({//需要反向添加对方好友
-                //   to: id,
-                //   message : '[resp:true]'
-                // });
-            },
-            // 拒绝申请好友
-            noFriend(id){
-                /*拒绝添加好友的方法处理*/
-                conn.unsubscribed({
-                  to: id,
-                  message : '对方拒绝添加您为好友',
+                conn.subscribe({//需要反向添加对方好友
+                  to: 'hz_niuniu_'+id,
+                  message : '[resp:true]'
                 });
+
             },
             //删除好友申请信息
             deleteApplyFri(){
@@ -363,8 +426,9 @@
                     id : self.friendApply[self.friSel].id
                 })
                 .then(res =>{
+                    // console.log(res)
                     if(res.status == 1){
-                        // window.location.reload();
+                         window.location.reload();
                     }
                 })
             },
@@ -377,7 +441,7 @@
                 .then(res =>{
                     // console.log(res)
                     if(res.status == 1){
-                         // window.location.reload();
+                         window.location.reload();
                     }
                 })
             },
@@ -419,33 +483,19 @@
                 })
             },
             //删除好友
-            deleteFri(id){
+            deleteFri(){
                 var self = this;
-                
-                // http.post('/MemberFriend/delFriend',{
-                //     id : localStorage.oxUid,
-                //     friendid : Number( self.friendList[self.friQuest].fid),
-                // })
-                // .then(res=>{
-                //     // console.log(res)
-                //     if(res.status==1){
-                //         window.location.reload();
-                //     }
-                // })
-                conn.removeRoster({
-                    to: id,
-                    success: function () {  // 删除成功
-                        conn.unsubscribed({
-                            to: id
-                        });
-                        console.log('删除成功')
-                        self.haoyou();
-                    },
-                    error: function () {    // 删除失败
-                        alert('删除失败')
+                // console.log(self.friQuest)
+                http.post('/MemberFriend/delFriend',{
+                    id : localStorage.oxUid,
+                    friendid : Number( self.friendList[self.friQuest].fid),
+                })
+                .then(res=>{
+                    // console.log(res)
+                    if(res.status==1){
+                        window.location.reload();
                     }
-                });
-
+                })
             },
             //时间戳转换时间
             changeTime(){

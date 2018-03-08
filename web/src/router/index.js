@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import LoginComponent from '../components/login/login.vue'
 import HomeComponent from '../components/home/home.vue'
+import oxCrowd from '../components/home/oxCrowd.vue'
 
 import message from '../components/message/message.vue'
 import Room from '../components/room/room.vue'
@@ -19,14 +20,19 @@ Vue.use(VueRouter)
 var router = new VueRouter({
 	routes: [
 		{
+			path: '/',
+			name: 'login',
+			component: LoginComponent
+		},
+		{
 			path: '/home',
 			name: 'home',
 			component: HomeComponent,
 		},
 		{
-			path: '/',
-			name: 'login',
-			component: LoginComponent
+			path: '/oxCrowd',
+			name: 'oxCrowd',
+			component: oxCrowd,
 		},
 		{
 			path: '/room/:id',

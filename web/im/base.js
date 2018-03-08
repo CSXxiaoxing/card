@@ -11,12 +11,7 @@ var conn = new WebIM.connection({
 });
 
 // 地址管理
-// var socketURL = 'http://192.168.31.142:2120';
-// var socketURL = 'http://www.wanjiba888.com:2120';
-// var socketURL = 'http://game.hengpukj.com:2120';
 var GAME_ALL_URL = 'http://www.wanjiba888.com';
-// const GAME_ALL_URL = 'http://www.wanjiba888.com';
-// const GAME_ALL_URL = 'http://192.168.31.142:3000';
 
 
 // 连接io服务端

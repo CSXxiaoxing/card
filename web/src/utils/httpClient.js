@@ -2,6 +2,7 @@
 import request from 'superagent';
 
 const LOCAL_SERVER = GAME_ALL_URL;
+
 const DEV_SERVER = '';
 const PRO_SERVER = '';
 
