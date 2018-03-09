@@ -53,7 +53,11 @@
 
 		<div class='homeMain' id='dataUL'>
 			<ul>
-				<li><img src="../../image/homeA01.png" alt="" /></li>
+				<li>
+					<router-link to="/oxCrowd">
+					<img src="../../image/homeA01.png" alt="" />
+					</router-link>
+				</li>
 				<li><img src="../../image/homeA02.png" alt="" /></li>
 				<li><img src="../../image/homeA03.png" alt="" /></li>
 			</ul>

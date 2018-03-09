@@ -15,8 +15,8 @@
     overflow-x: hidden;
     overflow-y: auto;
     header{
-        height: 3.5rem;
-        height: 300px;
+        // height: 3.5rem;
+        height: 2.777778rem;
         background: rgba(0,0,0,0.14);
         padding: 0.351852rem 0.240741rem 0;
 
@@ -216,6 +216,7 @@
             }
             li:nth-of-type(1){
                 height: 34%;
+                min-height:  4.3rem;
                 img{
                     width: 9.481481rem;
                     height: 4.222222rem;
@@ -223,6 +224,7 @@
             }
             li:nth-of-type(2){
                 height: 33%;
+                min-height: 3.6rem;
                 img{
                     width: 9.481481rem;
                     height: 3.425926rem;
@@ -230,6 +232,7 @@
             }
             li:nth-of-type(3){
                 height: 33%;
+                min-height:  3.6rem;
                 img{
                     width: 9.481481rem;
                     height: 3.259259rem;
