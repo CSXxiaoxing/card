@@ -9,7 +9,6 @@ export default new Vuex.Store({
     // 字符串数据存储
     // 使用demo : this.$store.state.initRoom.oxK
     state: {
-        name:666,
         // 用户信息
         self: {
             userName: '',
@@ -21,6 +20,9 @@ export default new Vuex.Store({
         system: {
             friend: [], // 好友操作信息
             friendList: [], // 好友列表
+        },
+        oxCrowd: {  // 牛群游戏大厅
+            
         },
         // 默认数据
         initRoom: {
@@ -76,14 +78,17 @@ export default new Vuex.Store({
         obj: '',
         data: {
             DT: [],     // 大厅数据
+            DTid: [],    // 房间id,防重复ID
+            DTidALL: [],    // 去重
+            DTP: -1,    // 页数以及启动无限加载
+            DATE: 0,    // 重复获取数据时间
+            Page: 0,    // 需要更新的页数
+
+
             DTtime: 0,  // 大厅数据存放时间
             DTtimeos: 2000,// 延迟时间，防止到底后无限请求
             DTpage: 1,      // 大厅页数
-            DTid: [],    // 房间id,防重复ID
-            MYkai: [],   // 我开过的房间
-            MYkaiid: [],  // id,防止重复渲染
-            MYjoin: [],     // 我进过的房间
-            MYjoinid: [], // id,防止重复渲染
+
             zhaoFZ: [],     // 找房主聊天的人，排队盒子
 
             Room: {},      // 房间数据
@@ -345,8 +350,7 @@ export default new Vuex.Store({
         },
         dl () { //  sendIQ
             var dlCount = 0;
-            var id = localStorage.oxUid || 0
-
+            var id = localStorage.oxUid
             var options = {         // 自动登录
                 apiUrl: WebIM.config.apiURL,
                 user: 'hz_niuniu_'+id,

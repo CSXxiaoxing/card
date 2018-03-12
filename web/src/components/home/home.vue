@@ -47,7 +47,6 @@
 			</p>
 
 			<span class='homeServer' @click='kefu()'>
-				<a>客服</a>
 			</span>
 		</header>
 
@@ -130,14 +129,18 @@
 				cardNum : this.$store.state.initRoom.cardNum,
 			}
 		},
-		mounted: function(){	
+		mounted: function(){
+			document.addEventListener("plusready", function() {
+		        // 注册返回按键事件
+		        plus.key.addEventListener('backbutton', function() {
+		            // 事件处理
+		            window.history.back();
+		        }, false);
+		    });	
+
 			// 客服
-			window.easemobim = window.easemobim || {};
-            easemobim.config = {
-                // hide: true,
-                // autoConnect: true    
-            };
-			// easemobim
+			window.easemobim = window.easemobim;
+
 			var self = this;
 			
 			var VX_data = this.$store.state.data;
@@ -217,6 +220,7 @@
 					autoConnect: true,
 					hide: true,
 				})
+				// easemobim.bind is not a function
 			},
 			child_KA: function(n){
 				switch(n){

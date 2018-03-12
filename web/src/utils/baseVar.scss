@@ -9,7 +9,34 @@ $room02: url('../../img/room2.png');
 $room04: url('../../img/room4.png');
 $room07: url('../../img/room07.png');
 
+//login url 
+$login01 : url('../../img/login.png');
+$login02 : url('../../img/login0.png');
+$login03 : url('../../img/z01.png');
+$login04 : url('../../img/zhuce.png');
+
+// X_login 
+$login001 : url('../../image/login001.png'); // 登录页背景
+$login002 : url('../../image/login002.png'); // logo
+$login003 : url('../../image/login003.png'); // 微信登录
+$login004 : url('../../image/login004.png'); // 手机登录
+$login005 : url('../../image/login005.png'); // 登录 背景
+$login006 : url('../../image/login006.png'); // 确认键
+$login007 : url('../../image/login007.png'); // 注册/找回密码
+$login008 : url('../../image/login008.png'); // 关闭叉叉
+$login009 : url('../../image/login009.png'); // 验证码背景
+$login010 : url('../../image/login010.png'); // 免密登录按钮
+
 // X_oxCrowd
+$oxCrowd_HDcha: url('../../image/HDcha.png'); // 加入房间关闭叉叉
+$oxCrowd_LIBJ: url('../../image/oxCrowd001.png'); // li背景
+$oxCrowd_BJKF: url('../../image/oxCrowd002.png'); // li背景开放
+$oxCrowd_Join: url('../../image/oxCrowd003.png'); // 加入房间背景
+$oxCrowd_LV: url('../../image/oxCrowd004.png'); // 加入房间绿色按钮
+$oxCrowd_H: url('../../image/oxCrowd005.png'); // 加入房间黑色按钮
+$oxCrowd_MY: url('../../image/oxCrowd006.png'); // 我的房间
+$oxCrowd_KBJ: url('../../image/oxCrowd007.png'); // 选项卡背景
+$oxCrowd_010: url('../../image/oxCrowd010.png'); // li羽毛
 
 // X_home
 $home_BJ: url('../../image/home001.png'); // 背景
@@ -17,7 +44,6 @@ $home_KF: url('../../image/KF001.png'); // 客服
 $home_BLB: url('../../image/home002.png'); // 白喇叭
 $home_HLB: url('../../image/home005.png'); // 黄喇叭
 $home_FK: url('../../image/home003.png'); // 房卡
-
 
 
 // home url
@@ -43,11 +69,7 @@ $friend01 : url('../../img/friend2.png');
 $friend02 : url('../../img/friend3.png');
 $friend03 : url('../../img/friend4.png');
 
-//login url 
-$login01 : url('../../img/login.png');
-$login02 : url('../../img/login0.png');
-$login03 : url('../../img/z01.png');
-$login04 : url('../../img/zhuce.png');
+
 
 // flex兼容处理器mixin  // @include
 // @include flexbox();

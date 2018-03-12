@@ -1289,7 +1289,7 @@
                     })
                     .then(res => {})
                 }
-                router.push({name: 'home'});
+                router.push({name: 'oxCrowd'});
             },
             initGame () {
                 var self = this;

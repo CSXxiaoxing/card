@@ -4,53 +4,35 @@
         v-model="myRoom"
         popup-transition="popup-fade" 
         class="mine">
-        <p></p>
-        <h3>
-            我的房间 
-            <i @click="myRoom = false">
-            </i>
-        </h3>
-        <div class="select" >
-            <div>
-                <img  :class ='sel == 0 ? "left":"right"' src="src/img/module_home_myRoom1.png" alt="">
-                <button @click='sel = 0 '>我开的房间</button>
-                <button @click='sel = 1 '>加入的房间</button>
-            </div>
-        </div>
-
-        <div class="room"> 
+        <p><i @click="myRoom = false"></i></p>
             
-            <ul @click='openS'>
-                <p v-show = '(!$store.state.data.MYkai[0] && sel == 0) || (!$store.state.data.MYjoin[0] && sel ==1)'>你还没有创建/加入房间，快去创建/加入</p>
+        <div class="room">
+            <div class="select" >
+                <div>
+                    <img  :class ='sel == 0 ? "left":"right"' src="src/image/oxCrowd008.png" alt="">
+                    <button @click='sel = 0 '>我开的房间</button>
+                    <button @click='sel = 1 '>加入的房间</button>
+                </div>
+            </div>
+            <div class='room_ul'>
+                <ul @click='openS'>
+                    <img src="src/image/oxCrowd009.png"  v-show = '(!MYkai[0] && sel == 0) || (!MYjoin[0] && sel ==1)' alt="">
+                    <p v-show = '(!MYkai[0] && sel == 0) || (!MYjoin[0] && sel ==1)'>你还没有创建/加入房间，快去创建/加入~~</p>
+                    
+                    
+                    <li v-show = 'sel==0' v-for='(dataRoom) in MYkai' :key='"my"+dataRoom.id' :openState='`${dataRoom.zn_room_type == 1 ? "true" : "false"}`' :roomid = 'dataRoom.zc_number'>
+                        <b v-if='dataRoom.zn_room_type == 1 ? true : false'></b>
+                        <p>{{dataRoom.zc_title}}</p>
+                    </li>
 
-                <li v-show = 'sel==0' v-for='(dataRoom) in this.$store.state.data.MYkai' :key='"my"+dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
-                    <b v-if='dataRoom.open'></b>
-                    <i></i>
-                    <h4>大战牛群</h4>
-                    <div>
-                        <h5>{{dataRoom.roomName}}</h5>
-                        <p>
-                        <span v-show='dataRoom.open == "false"'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
-                            <span v-show='dataRoom.open'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
-                            <span v-show='dataRoom.open' id="roomNumber">房号：{{dataRoom.roomNumber}}</span>
-                        </p>
-                    </div>
-                </li>
 
-                <li v-show = 'sel==1' v-for='(dataRoom) in this.$store.state.data.MYjoin' :key='dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
-                    <b v-if='dataRoom.open'></b>
-                    <i></i>
-                    <h4>大战牛群</h4>
-                    <div>
-                        <h5>{{dataRoom.roomName}}</h5>
-                        <p>
-                        <span v-show='dataRoom.open == "false"'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
-                            <span v-show='dataRoom.open'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
-                            <span v-show='dataRoom.open' id="roomNumber">房号：{{dataRoom.roomNumber}}</span>
-                        </p>
-                    </div>
-                </li>
-            </ul>
+                    <li v-show = 'sel==1' v-for='(dataRoom) in MYjoin' :key='dataRoom.id' :openState='`${dataRoom.zn_room_type == 1 ? "true" : "false"}`' :roomid = 'dataRoom.zc_number'>
+                        <b v-if='dataRoom.zn_room_type == 1 ? true : false'></b>
+                        <p>{{dataRoom.zc_title}}</p>
+                    </li>
+
+                </ul>
+            </div>
         </div>
     </mt-popup>
         <loading v-if='loading'></loading>
@@ -61,54 +43,48 @@
    @import '../../utils/baseVar.scss';
     // direction
     .mine{
-        width:7.12963rem;
+        width: 8.518519rem;
+        height: 9.481481rem;
+
+        background: $oxCrowd_Join no-repeat;
+        background-size: 8.518519rem 9.481481rem;
         @include border-radius(0.259259rem);
-        p{height: 1.666667rem; width: 100%;}
-        h3{
-          padding: 0;
-          margin: 0;
-          width: 8.407407rem;
-          color:#5B3F0D;
-          height: 1.666667rem;
-          text-align: center;
-          font-size: 0.703704rem;
-          line-height: 1.296296rem;
-          background: $home04 no-repeat;
-          background-size:8.45rem 1.666667rem;
-          position: absolute;
-          left: 50%;
-          top: 1%;
-          -webkit-transform: translate(-50%,-10%);
-             -moz-transform: translate(-50%,-10%);
-              -ms-transform: translate(-50%,-10%);
-               -o-transform: translate(-50%,-10%);
-                  transform: translate(-50%,-10%);
-                    i{
-                        position: absolute;
-                        right:0.833333rem;
-                        top: 0.277778rem;
-                        background: $homeAll -3.888889rem -2.407407rem no-repeat;
-                        background-size: 5.555556rem 5.555556rem;
-                        width: 0.555556rem;
-                        height: 0.555556rem;
-                    }     
+        p{
+            height: 1.666667rem; width: 100%;
+            i{
+                position: absolute;
+                right: 0;
+                -webkit-transform: translate(-156%, 60%);
+                   -moz-transform: translate(-156%, 60%);
+                    -ms-transform: translate(-156%, 60%);
+                     -o-transform: translate(-156%, 60%);
+                        transform: translate(-156%, 60%);
+                height: 0.555556rem;
+                width: 0.555556rem;
+                background: $oxCrowd_HDcha no-repeat;
+                background-size: 0.555556rem 0.555556rem;
+            }
         }
 
         .select{
-          margin-left:0.740741rem;
-          margin-bottom:0.259259rem;
-          padding:0.0rem 0.277778rem;
-          width:5.185185rem;
-          height:0.833333rem;
-          line-height:0.87037rem;
-          @include border-radius(0.462963rem);
-          background-color:white;
-          border:0.046296rem solid #E1DFE0;
+            margin-left:0.740741rem;
+            margin-bottom:0.23rem;
+            padding:0.0rem 0.277778rem;
+            width:5.185185rem;
+            height:0.833333rem;
+            line-height:0.87037rem;
+            @include border-radius(0.462963rem);
+            background-color: white;
+            border: 0.046296rem solid #E1DFE0;
             position: relative;
-          div{
-            width:5rem;
-            // height:0.8rem;
-            height: 100%;
+
+            background: $oxCrowd_KBJ no-repeat;
+            background-size: 5.833333rem 0.833333rem;
+
+            div{
+                width:5rem;
+                // height:0.8rem;
+                height: 100%;
             button{
                 font-size:0.388889rem;
                 text-align:center;
@@ -153,117 +129,103 @@
                 left:0rem;
                 @include transition(all,1s);
             }
-        }
+            }
         }
 
         .room{
             @include flex(1);
-            // border: 1px solid #000;
-            overflow-y: auto;
-            overflow-x: hidden;
-            height:8.935185rem;
-            background:$home06 no-repeat;
-            background-size: cover;
-            background-position:center;
+            width: 7.111111rem;
+            height: 7.851852rem;
+            position: absolute;
+            left: 50%;
+            bottom: 0.18rem;
+            padding-top: 0.203704rem;
+            box-sizing: border-box;
+            -webkit-transform: translate(-50%,0);
+               -moz-transform: translate(-50%,0);
+                -ms-transform: translate(-50%,0);
+                 -o-transform: translate(-50%,0);
+                    transform: translate(-50%,0);
             @include border-radius(0.259259rem);
             p{
-              font-size:0.444444rem;
-              color: #9B9A98;
+              font-size: 0.31rem;
+              color: #665F4F;
               width:5.907407rem;
-              margin:0.555556rem auto;
+              margin: 0.1rem auto;
             }
+            .room_ul{
+                overflow-y: auto;
+                overflow-x: hidden;
+                height: 6.5rem;
+            }
+            .room_ul::-webkit-scrollbar {
+                display: none;
+            } 
             ul{
-                padding: 1%;
+                padding: 1.8%;
                 @include flexbox();
-                @include justify-content(flex-start);
+                @include justify-content(space-between);
                 @include direction(row);
                 @include flex-wrap(wrap);
-                li{
-                    // width: 342px;
-                    width: 32.2%;
-                    height: 2.018519rem;
-                    // margin-right: 15px;
-                    margin-top: 0.166667rem;
-                    background: $home07 no-repeat;
+                li {
+                    width: 49.5%;
+                    height: 1.759259rem;
+                    margin-bottom: 0.185rem;
+                    position: relative;
+
+                    background: $oxCrowd_LIBJ no-repeat;
                     background-size: cover;
-                    background-position:center;
-                    background-size: 2.240741rem 2.037037rem;
-                    margin-right:0.075rem;
+                    background-position: center;
+                    background-size: 100% 1.759259rem;
+
                     b{
                         display: block;
-                        background: $homeAll -2.777778rem 0.0rem no-repeat;
-                        background-size: 5.555556rem 5.555556rem;
-                        height: 0.833333rem;
-                        width: 0.87037rem;
-                        float: right;
+                        background: $oxCrowd_BJKF no-repeat;
+                        background-size: 0.712963rem 0.76rem;
+                        height: 0.76rem;
+                        width: 0.712963rem;
+                        float: left;
                         position: relative;
-                        bottom:0.027778rem;
-                        left:0.13rem;
+                        bottom: 0.010rem;
+                        left: 0rem;
                     }
-                    i{
-                        display:block;
-                        height: 0.925926rem;
-                        width: 1.166667rem;
-                        background: $homeAll -0.740741rem -1.203704rem no-repeat;
-                        background-size: 5.555556rem 5.555556rem;
-                        position: relative;
+                    p{
+                        width: 2.666667rem;
+                        height: 0.611111rem;
+                        padding: 0 0.296296rem;
+                        box-sizing: border-box;
+
+                        color: #EBF8E7;
+                        font-weight: 600;
+                        font-size: 0.277778rem;
+                        line-height: 0.58rem;
+                        // 文字
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        // 定位/图片
+                        position: absolute;
                         left: 50%;
-                        bottom:0.055556rem;
-                        @include translate(-50%,0%);
-                    }
-                    h4{
-                        color: #fff;
-                        font-size: 0.259259rem;
-                    }
-                    div{
-                        height:0.925926rem;
-                        padding: 0.0rem 0.166667rem 0.0rem;
-                        position: relative;
-                        bottom: 0;
-                        @include border-radius(0.185185rem);
-                        h5{
-                            color: #fff;
-                            font-size: 0.259259rem;
-                            padding-top:0.046296rem;
-                            margin: 0;
-                        }
-                        p{
-                            width:1.981481rem;
-                            height:0.222222rem;
-                            color: #C4C4C4;
-                            @include flexbox();
-                            @include justify-content(space-between);
-                            span{
-                                position:relative;
-                                bottom:0.5rem;
-                                font-size: 0.222222rem;
-                                text-align: right;
-                                height:0.222222rem;
-                            }
-                            span:nth-of-type(1){
-                                @include flex(1);
-                                text-align: right;
-                            }
-                            span:nth-of-type(2){
-                                @include flex(1);
-                                text-align: left;
-                            }
-                        }
-                        .roomNum{color: #2FAB51;}
+                        top: 50%;
+                        transform: translate(-50%,-50%);
+                        background: $oxCrowd_010 no-repeat;
+                        background-size: 2.666667rem 0.611111rem;
                     }
                 }
-            // li:nth-of-type(3n){
-            //     margin: 0;
-            //     margin-top: 18px;
-            // }
-            // li:nth-of-type(1),li:nth-of-type(2),li:nth-of-type(3){
-            //     margin-top: 0;
-            // }
+                img{
+                    width: 4.074074rem;
+                    height: 3.87037rem;
+                    position: relative;
+                    margin-top: 0.555556rem;
+                    left: 50%;
+                    -webkit-transform: translate(-50%,0);
+                       -moz-transform: translate(-50%,0);
+                        -ms-transform: translate(-50%,0);
+                         -o-transform: translate(-50%,0);
+                            transform: translate(-50%,0);
+                }
+            }
         }
-        }
-        .room::-webkit-scrollbar {
-            display: none;
-        } 
     }
 </style>
   
@@ -278,99 +240,111 @@
         data() {
             return {
                 loading: false,     // loading
-                myRoom: false,
-                val: '',
-                tabPosition: 'top', 
-                datagrid: [],
-                datajoin: [],
+                myRoom: false, 
+
+                MYkai: [],      // 我开的房间
+                MYkaiid: [],    // 去重
+                MYkaiidALL: [],    // 去重
+                MYjoin: [],     // 我进过的房间
+                MYjoinid: [],   // 去重
+                MYjoinidALL: [],   // 去重
+
                 sel:0,
+                CU: true,
+
                 MYpagesize: 100,
                 type :2 ,
-                p: 1 ,
-                status:0,
+
             };
         },
-        mounted: function(){       
-            if(localStorage.oxToken && localStorage.oxUid){
-                this.id = localStorage.oxUid
-                this.name = localStorage.getItem('oxName')
-                // 房间请求
-                this.$store.dispatch('webIM')
-                var self = this;
+        beforeMount: function () {
+            this.kaiF(1);
+            this.join(1);
+        },
+        beforeUpdate: function () {
+            if(this.CU && this.myRoom){ // 更新要的数据
+                this.kaiF(1);
+                this.join(1);
+            }
+        },
+        updated: function () {
+            this.CU = this.myRoom ? false : true;
+        },
+        mounted: function(){},
+        methods: {
+            kaiF: function(p) { // 我开的房
+                var [self,cd] = [this,this.MYpagesize];
 
                 http.post('/Room/getRoomList' ,
                 {
-                    token: localStorage.oxToken,
-                    pagesize : self.MYpagesize,
+                    pagesize : cd,
                     type : self.type,
-                    p : self.p,
+                    p : p,
                 }, '')
                 .then(res => {
-                    if(res.status == 1){
-                    var arrK = [];
-
-                    for(var i = 0 ; i < res.data.length ; i++){
-                        var kaiid = self.$store.state.data.MYkaiid;
-                        if(kaiid.indexOf(res.data[i].id) < 0){
-                            arrK.push({
-                                key : res.data[i].id ,
-                                open : res.data[i].zn_room_type == 1 ? true : false,
-                                roomName : res.data[i].zc_title,
-                                roomNumber : res.data[i].zc_number,
-                                number : res.data[i].pernumber,
-                            })
-                            self.$store.state.data.MYkaiid.push(res.data[i].id)
-                        }
-                    }
-
-                    var arrK01 = self.$store.state.data.MYkai;  // 合并数据
-                    if(!arrK01){
-                        self.$store.state.data.MYkai = arrK01.concat(arrK);
+                    if(res.data.length >= cd){
+                        self.kaiF(p+1)
+                        self.SET(1,res.data,false)
                     } else {
-                        self.$store.state.data.MYkai = arrK;
-                    }
+                        self.SET(1,res.data,true)
                     }
                 })
+            },
+            join: function(p) { // 我进的房间
+                var self = this;
+                http.post('/Room/joinRoomList' ,
+                   {
+                      id : localStorage.oxUid,
+                   }, '')
+                   .then(res => {
+                        self.SET(2,res.data,true)
+                   })
+            },
+            SET: function(init,data,end){    // 去重算法
+                var self = this;    // 房间   // 用于判断关掉的房间
+                var arr = null, arrData=null, delID=null;
 
+                if(init == 1){  // 开房
+                    arr=self.MYkaiid;
+                    delID=self.MYkaiidALL;
+                    arrData=self.MYkai;
+                } else if(init == 2){   // 加入房间
+                    arr=self.MYjoinid;
+                    delID=self.MYjoinidALL;
+                    arrData=self.MYjoin;
+                }
 
-                 http.post('/Room/joinRoomList' ,
-                    {
-                       id : localStorage.oxUid,
-                    }, '')
-                    .then(res => {
-
-                        if(res.status == 1){
-                            var arrJ = [];
-
-                        for(var i = 0 ; i < res.data.length ; i++){
-                            var joinid = self.$store.state.data.MYjoinid;
-                            if(joinid.indexOf(res.data[i].id) < 0){
-                                arrJ.push({
-                                    key : res.data[i].id ,
-                                    open : res.data[i].zn_room_type == 1 ? true : false,
-                                    roomName : res.data[i].zc_title,
-                                    roomNumber : res.data[i].zc_number,
-                                    number : res.data[i].pernumber,
-                                })
-                                self.$store.state.data.MYjoinid.push(res.data[i].id)
-                            }
+                for(var i=0; i<data.length; i++){
+                    var id = data[i].id;
+                    if(arr.indexOf(id) <0){
+                        arrData.push(data[i])
+                        arr.push(id)
+                    }
+                    if(delID.indexOf(id) <0){
+                        delID.push(id)
+                    }
+                }
+                if(end){    // 去掉重复房间
+                    var length = arrData.length-1;
+                    for(var i=length; i>=0; i--){
+                        var dID = arrData[i].id;
+                        if(delID.indexOf(dID) <0){
+                            arrData.splice(i,1);
                         }
-
-                        var arrJ01 = self.$store.state.data.MYjoin;  // 合并数据
-                        if(!arrJ01){
-                            self.$store.state.data.MYjoin = arrJ01.concat(arrJ);
-                        } else {
-                            self.$store.state.data.MYjoin = arrJ;
-                        }
-                        }
-                    })
-
-            } else {
-                // 跳回登录页
-                router.push({name: '/'});
-            }
-        },
-        methods: {
+                    }
+                    delID = arr;
+                }
+                // 存入结果
+                if(init == 1){  // 开房
+                    self.MYkaiid=arr;
+                    self.MYkaiidALL=delID;
+                    self.MYkai = arrData
+                } else if(init == 2){   // 加入房间
+                    self.MYjoinid=arr;
+                    self.MYjoinidALL=delID;
+                    self.MYjoin = arrData
+                }
+            },
             openS(e){
                 var self = this;
               let Etar = e.target;
@@ -419,20 +393,7 @@
                       };
                       Tar();
             },
-            generateToolBar: function(obj){
-              //动态生成按钮         
-            },
-            loadRoom(){
-              var self = this;
-              http.post( '/Room/getRoomList',{
-                  pagesize : self.MYpagesize,
-                  type : self.type,
-                  p : self.p,
-              }, '' ,this)
-              .then(res => {
-                console.log(res)
-              })
-            },
+
         }
   }
 </script>

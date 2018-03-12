@@ -5,7 +5,7 @@
 	        v-model="careTip"
 	        popup-transition="popup-fade"
 	        class="care" >
-	        <span>通知 <i @click="careTip = false"></i></span>
+	        <span>提示 <i @click="careTip = false"></i></span>
 	        <p>{{errorTips}}</p>
 	        <mt-button @click="careTip = false">  确定
 	        </mt-button>
@@ -47,30 +47,24 @@
 			</p>
 
 			<span class='homeServer' @click='kefu()'>
-				<a>客服</a>
 			</span>
 		</header>
 
 		<div class='homeMain' id='dataUL'>
+
 			<ul @click='openS' 
 			:class='spinner == 1 ? "ul01":""'
 			v-infinite-scroll="loadMore"
-  			:infinite-scroll-distance="20">
-				<li v-for='(dataRoom) in $store.state.data.DT' :key='"ox"+dataRoom.key' :openState='`${dataRoom.open}`' :roomid = 'dataRoom.roomNumber'>
-					<b v-if='dataRoom.open'></b>
-					<i></i>
-					<h4>大战牛群</h4>
-					<div>
-						<h5>{{dataRoom.roomName}}</h5>
-						<p>
-							<span v-show='dataRoom.open == "false"'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
-							<span v-show='dataRoom.open'><strong class="roomNum">{{dataRoom.number}}</strong>人</span>
-							<span v-show='dataRoom.open' id="roomNumber">房号：{{dataRoom.roomNumber}}</span>
-						</p>
-						<div></div>
-					</div>
+  			:infinite-scroll-distance="200">
+
+				<li v-for='(dataRoom) in $store.state.data.DT' :key='"ox"+dataRoom.id' :openState='`${dataRoom.zn_room_type == 1 ? "true" : "false"}`' :roomid = 'dataRoom.zc_number'>
+					<b v-if='dataRoom.zn_room_type == 1 ? true : false'></b>
+					<p>
+						{{dataRoom.zc_title}}
+					</p>
 				</li>
 			</ul>
+
 			
 			<mt-spinner 
 			type="triple-bounce"
@@ -135,90 +129,69 @@
 				careTip : false,	//错误提示 
 				errorTips: '',		// 错误信息
 
-				id : 0,
-				name: '',
-				pagesize :15,	// 请求条数
-				type :1 ,		// 1 所有房间 2 自己开的房间
+				id : localStorage.oxUid,
+				name: localStorage.getItem('oxName'),
+				pagesize : 40,	// 请求条数
+				type : 1,		// 1 所有房间 2 自己开的房间
 				p : 1,			// 当前页
+
 				sendId : 0,
 				spinner: 0,		// 懒加载loding
-				notice : [],
+				notice : [],	// 系统公告
 				cardNum : this.$store.state.initRoom.cardNum,
 			}
 		},
-		mounted: function(){	
-			// 客服
-			window.easemobim = window.easemobim || {};
-            easemobim.config = {
-                // hide: true,
-                // autoConnect: true    
-            };
-			// easemobim
-			var self = this;
+		mounted: function(){
 			
-			var VX_data = this.$store.state.data;
-			var VX_time = new Date().getTime();
+			var self = this;
+			var VX_data = this.$store.state.data.DT;
+			var VX_dataid = this.$store.state.data.DTid;
+			var VX_dataidALL = this.$store.state.data.DTidALL;
+
 			if(localStorage.oxToken && localStorage.oxUid){
-				this.$store.dispatch('webIM')
-				this.id = localStorage.oxUid
-				this.name = localStorage.getItem('oxName')
-				// 房间请求
-				if(VX_data.DT.length < 1 || (VX_time-VX_data.DTtime) > 6e1){
-
-					http.post('/Room/getRoomList' ,
-	                {
-	                    pagesize : self.pagesize,
-	                    type 	 : self.type,
-	                    p 		 : self.$store.state.data.DTpage,
-	                }, '',this)
-	                .then(res => {
-	                	// console.log(res)
-	                	if(res.status == 1){
-	                	var arr = [];
-	                	var dtid = self.$store.state.data.DTid;
-	                    for(var i = 0 ; i < res.data.length ; i++){
-	                    	var val = res.data[i];
-	                    	if(dtid.indexOf(val.id) < 0){	// id识别是否重复
-		                    	arr.push({
-		                    		key 	   : val.id,			// key值
-		                    		open 	   : val.zn_room_type ==1 ? true : false,// 是否开放
-		                    		roomName   : val.zc_title,		// 房间名字
-		                    		roomNumber : val.zc_number,		// 房间号码
-		                    		number 	   : val.pernumber,		// 房间人数
-		                    	})
-	                    		self.$store.state.data.DTid.push(val.id)
-	                    	}
-	                    }
-	                    if(self.$store.state.data.DT.length > 0){
-	                    	var arr01 = self.$store.state.data.DT;
-	                    	self.$store.state.data.DT = arr01.concat(arr);
-	                    }else {
-	                    	self.$store.state.data.DT = arr;
-	                    }
-
-	                    self.$store.state.data.DTtime = VX_time;
-	                	} else {
-	                		self.errorTips = res.msg;
-	                		self.careTip = true;
-	                	}
-	                });
-
-	                http.post('/MemberNotice/getAnnouncement',{
-	                    id : self.id
-	                }, '' ,this)
-	                .then(res => {
-	                	if(res.status == 1){
-	                		console.log(res);
-	                		self.notice = [];
-	                		for(let i in res.data){
-	                			self.notice.push({
-	                				content : res.data[i].zc_content,
-	                			})
-	                		}
-	                		console.log(self.notice);
-	                	}
-	                })
+				console.log()
+				if(VX_data.length > 0){
+					return false;
 				}
+				// 房间请求
+				http.post('/Room/getRoomList',
+                {
+                    pagesize : self.pagesize,
+                    type 	 : self.type,
+                    p 		 : self.p,
+                }, '',this)
+	            .then(res => {
+	            	console.log(res)
+	            	if(res.status != 1){
+	            		self.$store.state.data.DTP = 0;
+	            		return false;
+	            	}
+	            	self.$store.state.data.DATE = new Date().getTime();
+	            	VX_data = res.data;
+
+	            	for(var i=0; i<VX_data.length; i++){
+	            		VX_dataidALL.push(VX_data[i].id)
+	            		VX_dataid.push(VX_data[i].id)
+	            	}
+	            	self.$store.state.data.DT = VX_data;
+	            	self.$store.state.data.DTid = VX_dataid;
+	            	self.$store.state.data.DTidALL = VX_dataidALL;
+	            	self.$store.state.data.DTP = 1;
+	            });
+	            // 系统公告
+                http.post('/MemberNotice/getAnnouncement',{
+                    id : self.id,
+                }, '' ,this)
+                .then(res => {
+                	if(res.status == 1){
+                		self.notice = [];
+                		for(let i in res.data){
+                			self.notice.push({
+                				content : res.data[i].zc_content,
+                			})
+                		}
+                	}
+                })
 			} else {
 				router.push({name: '/'});	// 跳回登录页
 			}
@@ -252,7 +225,6 @@
 						this.$refs.ontoShareChild.toShare=true;
 						break;
 				}
-				
 			},
 			varRoom(){	// 创建房间
 				this.$refs.onvarRoomChild.initType = 0;
@@ -318,61 +290,83 @@
 			},
 			loadMore(){		// 无限加载
 				var self = this;
-				var VX_data = this.$store.state.data;
-				var time = new Date().getTime();
-				var VX_time = self.$store.state.data.DTtime;
-				if((time - VX_time) < 800 || VX_data.DT.length < 15){
+				var VX_data = this.$store.state.data.DT;
+				var VX_dataid = this.$store.state.data.DTid;
+				var VX_dataidALL = this.$store.state.data.DTidALL;
+				var VX_p = this.$store.state.data.DTP;
+
+				var VX_Time = this.$store.state.data.DATE;
+				var VX_date = new Date().getTime();
+
+				if(VX_date - VX_Time >= 90000){
+					self.$store.state.data.Page = self.$store.state.data.DTP;
+					self.newData();
+				}
+
+
+				if(VX_p >=0 && this.spinner == 0 && VX_data.length>self.pagesize){
+					self.spinner = 1;
+					http.post('/Room/getRoomList',
+	                {
+	                    pagesize : self.pagesize,
+	                    type 	 : self.type,
+	                    p 		 : VX_p,
+	                }, '',this)
+		            .then(res => {
+		            	self.spinner == 0;	// 关掉loding
+		            	console.log(res)
+		            	if(res.status != 1){
+		            		return false;
+		            	}
+		            	for(var i=0; i<VX_data.length; i++){
+		            		var id = VX_data[i].id;
+		            		if(VX_dataid.indexOf(id) < 0){
+		            			VX_dataidALL.push(VX_data[i].id)
+		            			VX_dataid.push(VX_data[i].id)
+		            			VX_data.push(VX_data[i])
+		            		}
+		            	}
+
+		            	self.$store.state.data.DT = VX_data;
+		            	self.$store.state.data.DTid = VX_dataid;
+		            	self.$store.state.data.DTidALL = VX_dataidALL;
+		            	self.$store.state.data.DTP++;
+		            	
+		            });
+				}
+			},
+			newData: function(){	// 用于更新数据
+				var self = this;
+				var page = this.$store.state.data.Page;
+				var psize = page*self.pagesize;
+				if(psize<=0){
 					return false;
 				}
-				this.spinner = 1;
-				if((time - VX_time) > self.$store.state.data.DTtimeos){
-				http.post('/Room/getRoomList' ,	// 房间请求
+
+				http.post('/Room/getRoomList',
                 {
-                    pagesize : self.pagesize,
+                    pagesize : psize,
                     type 	 : self.type,
-                    p 		 : self.$store.state.data.DTpage,
-                }, '')
-                .then(res => {
-                	if(res.status == 1){
-                	var arr = [];
-                	var dtid = self.$store.state.data.DTid;
-                	var arrlength = res.data.length;
-                    var DTcount = 0;
-                    var weiyi = 0;
-                    for(let i in res.data){
-                    	var val = res.data[i];
-                    	if(dtid.indexOf(val.id) < 0){	// id识别是否重复
-                    		weiyi++;
-	                    	arr.push({
-	                    		key 	   : val.id,			// key值
-	                    		open 	   : val.zn_room_type ==1 ? true : false,// 是否开放
-	                    		roomName   : val.zc_title,		// 房间名字
-	                    		roomNumber : val.zc_number,		// 房间号码
-	                    		number 	   : val.pernumber,		// 房间人数
-	                    	})
-	                    	self.$store.state.data.DTid.push(val.id)
-                    	} else {
-                    		DTcount++;
-                    	}
-                    }
-                    if(DTcount >= arrlength-1){
-                    	self.$store.state.data.DTtimeos = 5000;
-                    	self.$store.state.data.DTpage++;
-                    } else {
-                    	self.$store.state.data.DTtimeos = 0;
-                    }
-                    var arr01 = self.$store.state.data.DT;
-                    self.$store.state.data.DT = arr01.concat(arr);
-                    self.$store.state.data.DTtime = time;
-                	}
-                    self.spinner = 0;
-                })} else {
-					var atime = setTimeout(() => {
-					    self.spinner = 0;
-					    clearTimeout(atime)
-					  }, 2500);
-				}
-			}
+                    p 		 : 1,
+                })
+	            .then(res => {
+	            	if(res.status == 1){
+	            		self.$store.state.data.DTid = [];
+	            		self.$store.state.data.DTidALL = [];
+	            		self.$store.state.data.DT = res.data;
+
+	            		for(var i=0; i<res.data.length; i++){
+	            			var id = res.data[i].id;
+	            			self.$store.state.data.DTid.push(id)
+	            			self.$store.state.data.DTidALL.push(id)
+	            		}
+	            		self.$store.state.data.DATE = new Date().getTime();
+	            		var pp = Math.random(res.data.length/self.pagesize);
+	            		self.$store.state.data.DTP = pp;
+	            	}
+	            })
+			},
+
 		}
 	}
 </script>

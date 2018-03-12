@@ -1,4 +1,4 @@
-/*公共样式*/
+/*公共样式*/ //care
 body,h1,h2,h3,h4,p,ul,li,ol,dl,dd,dt{
     margin: 0; 
     padding: 0;
@@ -34,6 +34,7 @@ html,body{
     margin: 0;
     padding: 0;
     overflow:hidden;
+    
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -202,33 +203,34 @@ input.error {
     border-radius: 0.277778rem;
     position: absolute;
     top:8.240741rem;
+
+    width: 910px;
+    height: 580px;
+    background: url('../image/careTipK.png') no-repeat;
+    background-size: 910px 580px; 
     span{
-      display: block;
-      color:white;
-      font-size: 0.611111rem;
-      width:8.87037rem;
-      height:2.12963rem;
-      line-height: 1.805556rem;
-      background: url('../img/module_home_no1.png') no-repeat;
-      background-position: center;
-      background-size: 8.87037rem 2.12963rem; 
-      text-align: center;
-      position: relative;
-      right: 0.87037rem;
-      bottom: 0.462963rem;
+        display: block;
+        color:white;
+        font-size: 0rem;
+        width:8.87037rem;
+        height:2.12963rem;
+        line-height: 1.805556rem;
+
+        text-align: center;
+        position: relative;
+        right: 0.87037rem;
+        bottom: 0.462963rem;
         position: relative;
         i{
             display: block;
-            height: 0.444444rem;
-            width: 0.5rem;
+            height: 0.611111rem;
+            width: 0.611111rem;
             position: absolute;
-            width: 0.527778rem;
-            height: 0.527778rem;
-            right: 9%;
-            top: 52%;
-            transform: translate(-80%, -100%);
-            background: url('../img/home_all.png') -0.925926rem -2.314815rem no-repeat;
-            background-size: 5.555556rem 5.555556rem;
+            right: 0%;
+            top: 50%;
+            transform: translate(-80%, -50%);
+            background: url('../image/careTip01.png') no-repeat;
+            background-size: 0.611111rem 0.611111rem;
         }
     }
 
@@ -250,8 +252,8 @@ input.error {
       margin-bottom:0.462963rem;
       border: 0 none;
       color: white;
-      background: url('../img/home_all.png') -1.944444rem -1.388889rem no-repeat;
-      background-size: 5.555556rem 5.555556rem;
+      background: url('../image/careTip.png') no-repeat;
+      background-size: 3.305556rem 1.018519rem;
     }
     button:active {
         position: relative;
@@ -274,7 +276,6 @@ input.error {
         box-shadow: none;
     }
 }
-
 
 // 录音样式
 .rp {
