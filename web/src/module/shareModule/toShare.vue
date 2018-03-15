@@ -19,11 +19,10 @@
     			<dd>复制链接</dd>
     		</dl> 
             <dl v-if='share == "room"'>
-                <dt><img src="src/img/room06.png" height="174" width="174"></dt>
+                <dt><img src="src/image/toShare005.png" height="174" width="174"></dt>
                 <dd>游戏好友</dd>
             </dl>
-        </div> 
-
+        </div>
   		<p @click="toShare = false">取消</p>
 </mt-popup>
 </template>

@@ -1,4 +1,4 @@
-@import '../../utils/baseVar.scss'; // card 1.018519rem card set
+@import '../../utils/baseVar.scss'; // card 
 
 .varR_modal{
     position: fixed;
@@ -9,13 +9,31 @@
     opacity: 0;
     background: #000;
 }
-    // flex
+
 // 消除浮动
 .clear{
     clear: both;
 }
 
+@mixin XX_CJFK{
+    position: absolute;
+    background: $login008 no-repeat;
+    right: 0.65rem;
+    top: 3.22rem;
+    background-size: 0.907407rem 0.972222rem;
+    height: 0.972222rem;
+    width: 0.907407rem;
+    overflow: hidden;
+}
 
+.XX_CJ{ // 最外层叉叉
+    @include XX_CJFK;
+    z-index: 8888;
+}
+.XX_FK{
+    @include XX_CJFK;
+    z-index: 9999;
+}
 .Cvar::-webkit-scrollbar {
         display: none;
     } 
@@ -27,21 +45,27 @@
     } 
 // 创建房间
 .Cvar{
+    display: flex;
+    flex-direction: column;
+    width: 8.333333rem;
+    height: 11rem;
+    overflow-y:auto;
+    background: $oxCrowd_011 no-repeat;
+    background-size: 8.333333rem 11rem;
+
     button{
       -webkit-tap-highlight-color: #000000;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       -webkit-tap-highlight-color: transparent; 
     }
     img{
-        height:0.75rem;
-        width:0.703704rem;
+        height: 0.574074rem;
+        width:0.592593rem;
     }
-    width: 8.333333rem;
-    height:10.666667rem;
-    overflow-y:auto;
+
 
     @include border-radius(0.240741rem);
-    padding: 0.296296rem 0.703704rem 0.185185rem 0.703704rem;
+    padding: 0 0.703704rem 0.185185rem 0.703704rem;
     @include box-sizing();
     // overflow-y: auto;
     // overflow-x: hidden;
@@ -64,7 +88,7 @@
         width: 0.611111rem;
         height: 0.611111rem;
         @include border-radius(50%);
-        background: #D3D3D3;
+        background: #DFC7A5;
         float: left;
     }
     // 开关
@@ -96,7 +120,7 @@
             border: 0.009259rem solid #d9d9d9;
             @include border-radius(0.277778rem);
             @include box-sizing();
-            background: #d9d9d9;
+            background: #DFC7A5;
         }
         .mint-switch-core::after, .mint-switch-core::before {
             content: " ";
@@ -120,14 +144,14 @@
             width: 1.157407rem;
             height: 0.574074rem;
             @include border-radius(0.277778rem);
-            background-color: #fdfdfd;
+            background-color: #DFC7A5;
         }
         .mint-switch-input {
             display: none;
         }
         .mint-switch-input:checked + .mint-switch-core {
-            border-color: #26a2ff;
-            background-color: #26a2ff;
+            border-color: #1DB842;
+            background-color: #1DB842;
         }
         .mint-switch-input:checked + .mint-switch-core::before {
             -webkit-transform: scale(0);
@@ -144,17 +168,12 @@
         font-size: 0.592593rem;
         line-height: 0.592593rem;
         font-weight: 300;
+        height: 1.101852rem;
         text-align: center;
         padding-bottom: 0.203704rem;
-        i{
-            position: absolute;
-                        right:0.833333rem;
-                        top: 0.277778rem;
-                        background: $homeAll -0.925926rem -2.314815rem no-repeat;
-                        background-size: 5.555556rem 5.555556rem;
-                        width: 0.555556rem;
-                        height: 0.555556rem;
-        }  
+        padding-top: 0.296296rem;
+        border-bottom: 1px solid #DFC7A5;
+        box-sizing: border-box;
     }
     // 公共p
     p{
@@ -166,7 +185,13 @@
     input{
         outline: none;
     }
-    ul.varRoomSet{
+    .varRoomSet{
+        border-bottom: 0.018519rem solid #DFC7A5;
+        overflow-y: auto;
+        flex: 1;
+        ul{
+            width: 100%;
+        }
         // 房号
         li:nth-of-type(1){
             @extend .flex;
@@ -175,7 +200,7 @@
                 padding: 0.333333rem 0 0.203704rem;
                 span{
                     font-size: 0.388889rem;
-                    color: #05B800;
+                    color: #2BAF25;
                 }
             }
             label:nth-of-type(2){
@@ -190,7 +215,7 @@
                     width: 0.611111rem;
                     height: 0.611111rem;
                     @include border-radius(0.092593rem);
-                    background: #D3D3D3;
+                    background: #DFC7A5;
                     float: left;
                     
                 }
@@ -208,8 +233,9 @@
             }
             input{
                 @include flex(1);
-                border: 0.018519rem solid #D2D2D2;
+                border: 0.018519rem solid #DFC7A7;
                 @include border-radius(0.092593rem);
+                background-color: rgba(0,0,0,0);
                 padding-left: 0.259259rem;
                 font-size: 0.351852rem;
                 line-height: 0.759259rem;
@@ -288,7 +314,7 @@
         }
         // 倍率dl
         li:nth-of-type(7){
-            border: 0.018519rem solid #D1D1D1;
+            border: 0.018519rem solid #DFC7A5;
             @include border-radius(0.148148rem);
             padding: 0.296296rem 0.185185rem 0.148148rem 0.62963rem;
             dl{
@@ -351,9 +377,10 @@
                 height: 0.759259rem;
                 width: 100%;
                 @include box-sizing();
-                border: 0.018519rem solid #D3D3D3;
+                border: 0.018519rem solid #DFC7A5;
                 @include border-radius(0.092593rem);
                 color: #0DC108;
+                background-color: rgba(255,255,255,0);
             }
         }
         // 玩家下注范围：
@@ -371,13 +398,14 @@
             input{
                 width: 1.574074rem;
                 height: 0.814815rem;
-                border: 0.018519rem solid #D5D5D5;
+                border: 0.018519rem solid #DFC7A5;
                 @include border-radius(0.092593rem);
                 @include box-sizing();
                 text-align: center;
                 font-size: 0.351852rem;
                 color: #06BC05;
                 margin-right: 0.138889rem;
+                background-color: rgba(255,255,255,0);
             }
             input:last-child{
                 margin-left: 0.138889rem;
@@ -406,14 +434,16 @@
                 float: left;
                 width: 2.314815rem;
                 height: 0.814815rem;
-                border: 0.018519rem solid #D5D5D5;
+                border: 0.018519rem solid #DFC7A5;
                 @include border-radius(0.092593rem);
                 @include box-sizing();
                 text-align: center;
                 font-size: 0.351852rem;
                 color: #06BC05;
                 margin-right: 0.138889rem;
+                background-color: rgba(255,255,255,0);
             }
+
             span:last-child{
                 color: #14BE1D;
                 font-size: 0.314815rem;
@@ -426,36 +456,53 @@
             }
         }
     }
-    button{
-      color: #fff;
-      width:3.305556rem;
+    .varRoomSet::-webkit-scrollbar {
+        display: none;
+    } 
+    .button12{
+      width: 3.305556rem;
       height: 1.018519rem;
+      margin: 0.12rem 0 0rem;
       @include border-radius(1.018519rem);
       line-height: 0.925926rem;
       font-size:0.555556rem;
       border: none;
-      background: $homeAll -1.944444rem -1.388889rem no-repeat;
-      background-size: 5.555556rem 5.555556rem;
+      position: relative;
+      left: 50%;
+        transform: translateX(-50%);
+
+      background: $login006 no-repeat;
+      background-size: 3.305556rem 1.018519rem;
+    }
+    .button12.active{
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%) scale(0.96,0.96);
     }
 }
 // 功能未开放
 .clo{
     //关闭叉叉
+
     position: absolute;
-    background: $homeAll -1.759259rem -2.407407rem no-repeat;
-    background-size: 5.555556rem 5.555556rem;
-    height: 0.361111rem;
-    width: 0.361111rem;
+    background: $login008 no-repeat;
+    right: -0.2rem;
+    top: -0.2rem;
+    background-size: 0.907407rem 0.972222rem;
+    height: 0.972222rem;
+    width: 0.907407rem;
 }
 .no{
-    width: 7.805556rem;
-    height: 2.777778rem;
+    width: 6.324074rem;
+    height: 2.87037rem;
+    
+    background: $idmess01 no-repeat;
+    background-size: 6.324074rem 2.87037rem;
+    
     @include border-radius(0.240741rem);
     margin-top: -26%;
     .close{
             @extend .clo;
-            right: 0.351852rem;
-            top: 0.277778rem;
         }
     p{
         color: #FF3C00;
@@ -469,7 +516,10 @@
     border: 1px solid #ccc;
     overflow: hidden;
     width: 8.333333rem;
-    height: 10.666667rem;
+    height: 11rem;
+    overflow-y:auto;
+    background: $oxCrowd_011 no-repeat;
+    background-size: 8.333333rem 11rem;
     position: fixed;
     left: 50%;
     top: 50%;
@@ -485,7 +535,7 @@
         line-height:0.648148rem;
         width: 7.385185rem;
         padding: 0 0 0.296296rem;
-        border-bottom: 0.018519rem solid #C9C9C9;
+        border-bottom: 0.018519rem solid #DFC7A5;
         text-align:center;
         .close{
             position: absolute;
@@ -502,7 +552,7 @@
         margin-top: 0.37037rem;
         width:7.385185rem;
         height:8.537037rem;
-        background-color: #E6E6E6;
+        background-color: #fcfcfc;
     }
 }
 
@@ -513,7 +563,10 @@
     border: 1px solid #ccc;
     overflow: hidden;
     width: 8.333333rem;
-    height: 10.666667rem;
+    height: 11rem;
+    overflow-y:auto;
+    background: $oxCrowd_011 no-repeat;
+    background-size: 8.333333rem 11rem;
     position: fixed;
     left: 50%;
     top: 50%;
@@ -528,7 +581,7 @@
         color: #3D3D3D;
         text-align: center;
         padding-bottom: 0.251852rem;
-        border-bottom: 0.018519rem solid #CBCBCB;
+        border-bottom: 0.018519rem solid #DFC7A5;
         .close{
             position: absolute;
             background: $homeAll -1.759259rem -2.407407rem no-repeat;
@@ -540,7 +593,7 @@
         }
     }
 
-
+    //dd_radio
     .DLUL {
         p{
             color: #F44400;
@@ -550,7 +603,7 @@
             text-align: center;
         }
         dl{
-            border-bottom: 0.018519rem solid #CACACA;
+            border-bottom: 0.018519rem solid #DFC7A5;
             dt{
                 width: 1.759259rem;
                 font-size: 0.462963rem;
@@ -593,12 +646,12 @@
                     display: none;
                 }
                 .mint-radio-input:checked + .mint-radio-core {
-                    background-color: #26a2ff;
-                    border-color: #26a2ff;
+                    background-color: #fff;
+                    border-color: #fff;
                 }
 
                 .mint-radio-input:checked + .mint-radio-core::after {
-                    background-color: #fff;
+                    background-color: #1FC616;
                     -webkit-transform: scale(1);
                             transform: scale(1);
                 }
@@ -639,9 +692,8 @@
         ul{
             font-size: 0.462963rem;
             @include flexbox();
-
-             @include flex-wrap(wrap);
-            padding: 0.224074rem 0 0;
+            @include flex-wrap(wrap);
+            padding: 0.324074rem 0 0.224074rem;
             li{
                 width: 50%;
                 float:left;
@@ -664,8 +716,10 @@
                         font-size:0.555556rem;
                         border: none;
                         float: left;
-                        background: $homeAll -0.740741rem -3.055556rem no-repeat;
-                        background-size: 5.555556rem 5.555556rem;
+
+                        background: $oxCrowd_013 no-repeat;
+                        background-size: 0.555556rem 0.555556rem;
+
                         position: relative;
                         -webkit-transform: translate(0.611111rem, 0.037037rem);
                            -moz-transform: translate(0.611111rem, 0.037037rem);
@@ -674,8 +728,8 @@
                                 transform: translate(0.611111rem, 0.037037rem);
                     }
                     button:last-child {
-                        background: $homeAll -0.0rem -3.055556rem no-repeat;
-                        background-size: 5.555556rem 5.555556rem;
+                        background: $oxCrowd_014 no-repeat;
+                        background-size: 0.555556rem 0.555556rem;
                         -webkit-transform: translate(-0.592593rem, 0.037037rem);
                            -moz-transform: translate(-0.592593rem, 0.037037rem);
                             -ms-transform: translate(-0.592593rem, 0.037037rem);
@@ -692,21 +746,29 @@
             }
         }    
     }
+    hr{
+        background: #DFC7A5;
+    }
     &>button{
-        &:active{
-            position: relative;
-            top: 0.046296rem;
-            left: 0.009259rem;
-        }
+
         transform: translate(0%, 20%);
-      color: #fff;
-      width: 3.296296rem;
-      height: 1.0rem;
-      font-size:0.555556rem;
+      width: 3.305556rem ;
+      height: 1.018519rem;
       @include border-radius(0.5rem);
       border: none;
-      background: $homeAll -1.944444rem -1.388889rem no-repeat;
-      background-size: 5.555556rem 5.555556rem;
+
+        position: absolute;
+        left: 50%;
+        bottom: 0.4rem;
+        transform: translateX(-50%);
+        background: $login006 no-repeat;
+        background-size: 3.305556rem 1.018519rem;
+    }
+    &>button.active{
+        position: absolute;
+        left: 50%;
+        bottom: 0.38rem;
+        transform: translateX(-50%) scale(0.96,0.96);
     }
 }
 

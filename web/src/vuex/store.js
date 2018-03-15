@@ -10,10 +10,11 @@ export default new Vuex.Store({
     // 使用demo : this.$store.state.initRoom.oxK
     state: {
         // 用户信息
-        self: {
-            userName: '',
-            userID: '',
-            userImg: '',
+        user: {
+            userName: localStorage.oxName,
+            userID: localStorage.oxUid,
+            userImg: localStorage.oxImg,
+
             addtype: 0, // 加分状态
         },
         // 环信消息处理
@@ -22,7 +23,12 @@ export default new Vuex.Store({
             friendList: [], // 好友列表
         },
         oxCrowd: {  // 牛群游戏大厅
+            notice: [],     // 系统公告
             
+        },
+        Music: {    // 音乐/音效
+            autoplay: true, // 音乐
+            musi: true,     // 音效
         },
         // 默认数据
         initRoom: {
@@ -83,11 +89,6 @@ export default new Vuex.Store({
             DTP: -1,    // 页数以及启动无限加载
             DATE: 0,    // 重复获取数据时间
             Page: 0,    // 需要更新的页数
-
-
-            DTtime: 0,  // 大厅数据存放时间
-            DTtimeos: 2000,// 延迟时间，防止到底后无限请求
-            DTpage: 1,      // 大厅页数
 
             zhaoFZ: [],     // 找房主聊天的人，排队盒子
 

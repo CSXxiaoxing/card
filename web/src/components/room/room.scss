@@ -18,7 +18,7 @@ $fsize44: 0.407407rem;
     width: 100%;
     background-color: rgba(32,16,17,0.63);
 }
-// room01
+// room01 control
 #room {
     @include flexbox();
     @include direction(column);
@@ -32,9 +32,9 @@ $fsize44: 0.407407rem;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    background: $room07 no-repeat;
+    background: $room001 no-repeat;
     background-size: 100% 100%;
-    header {
+    &>header {
         height: 2.685185rem;
         padding: 1.018519rem 0.0rem 0.0rem;
         margin-top:-0.555556rem;
@@ -927,7 +927,7 @@ $fsize44: 0.407407rem;
     
     }
     // 底部
-    footer{
+    &>footer{
         // height: 1.268519rem;
         height: 1.268519rem;
         z-index: 1;
@@ -935,6 +935,7 @@ $fsize44: 0.407407rem;
         border-top-left-radius: 0.240741rem;
         border-top-right-radius: 0.240741rem;
         background: #2B2B2B;
+        position: relative;
         .roomScore{
             position: relative;
             right: 0;
@@ -990,6 +991,23 @@ $fsize44: 0.407407rem;
                 }
             }
         }
+        .dot{
+            width: 0.555556rem;
+            height: 0.555556rem;
+            font-size: 0.277778rem;
+            line-height: 0.555556rem;
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            border-radius: 50%;
+            background-color: rgba(255,0,0,0.9);
+            box-shadow: 0 0rem 0.05rem 0.001rem #ccc;
+            position: absolute;
+            top: -0.212963rem;
+        }
+
     }   
 }
 

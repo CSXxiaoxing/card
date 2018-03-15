@@ -1,7 +1,6 @@
-  <!-- 群聊 -->
   <template>
-    <mt-popup id='chartRoom' position="top" :modal='false'
-      v-model="chatLT" > 
+    <mt-popup   position="top" :modal='false'
+      v-model="DLRoom" id='DRoom'> 
         <!-- 消息通知 -->
         <mt-popup  
             v-model="careTip"
@@ -12,32 +11,46 @@
             <mt-button @click="careTip = false">  确定
             </mt-button>
         </mt-popup >
+        <!-- 加减分 -->
+        <mt-popup 
+            v-model="give" :modal='false'
+            popup-transition="popup-fade"
+            class="careTip" >
+            <h3>当前分数：</h3>
+            <i @click="give = false"></i>
+            <!-- 加减分 -->
+            <label>加分: <input type="text" placeholder="输入分数" v-model.number = 'add' @focus='jian = ""'>
+            </label>
+            <label>减分: <input type="text" placeholder="输入分数" v-model.number = 'jian' @focus='add = ""'></label>
+
+            <mt-button @click="give = false,addfen()">
+            </mt-button>
+        </mt-popup>
+
+
 
     	<header>
             <ul>
                 <li>
-                    <i><a @click='chatLT=false'></a></i>
+                    <i><a @click='DLRoom=false'></a></i>
                 </li>
-                <li>聊天室（{{lingth*1+1}}）</li>
-                <li>
-                    <router-link :to="chartList" >
-                    <img src="src/image/qun001.png" />
-                    </router-link>
-                </li>
+                <li>{{shename}}</li>
+
+                <li  v-show='true'  @click = 'give=true'></li>
+                <li v-show='0' @click="findFriend=true"><img src="src/img/chart_Room5.png" alt="">加友</li>
+
             </ul>
         </header>
-
-        <div class='chart'  id='txtbox'>
-            <ul v-if='false'>
-                <!-- 群聊 -->
-                <li v-for="(data, idx) in $store.state.txt[JSON.parse(this.$route.params.id)[3]]"
-                :class="Uid != data.toID ? 'left' : 'right'"   
-                :key = 'data.time' v-if='data.msg != ""'>
-                    <img :src="Uid != data.toID ? 'src/img/home_head.png' : 'src/img/room03.png'">
-
+        <div class='chart'  id='DLtxt'>
+            <ul v-if='roomstatus == 2 || roomstatus == 1'>
+                <!-- 单聊 -->
+                <li v-for="(data, idx) in (roomstatus == 2 || roomstatus == 1 ? $store.state.txt : '')" 
+                :class="$store.state.txt_idx[idx] >=0 ? 'left' : 'right'"   :key = '$store.state.txt_time[idx]' v-if='data != ""'>
+                    <img :src="$store.state.txt_idx[idx] >=0 ? 'src/img/home_head.png':'src/img/room03.png'" alt="">
+                    
                     <div class="test" v-if='data.txt == "txt"'>
                         <span class="bot"></span>
-                       {{data.msg}}
+                       {{data}}
                     </div>
 
                     <div class="test"  v-if='data.txt == "audio"'>
@@ -50,15 +63,16 @@
                     </div>
                 </li>
             </ul>
+
         </div>
 
         <footer>
-        	<div v-if='speak == 0'>
-                <img src="src/image/qun004.png" @click='speak = 1'>
+            <div v-if='speak == 0'>
+                <img src="src/image/qun004.png" @touchend='speak = 1'>
                 <span @touchstart='startRecord' @touchmove='cancelRecord' @touchend='stopRecord'>按住 说话</span>
             </div>
             <div v-if='speak == 1'>
-                <img src="src/image/qun003.png" @click='speak = 0'>
+                <img src="src/image/qun003.png" @touchend='speak = 0'>
                 <form action="#">
                   <input type="text" v-model='txt'/>
                   <span @click='textPush'></span>
@@ -69,13 +83,11 @@
     </mt-popup>
 </template>
 
-
 <style lang='scss' scoped>
-    // test
+
     @import '../../utils/baseVar.scss';
 
-
-    #chartRoom {
+    #DRoom {
         height: 100%;
         width: 100%;
 
@@ -98,14 +110,14 @@
             top: 0;
             left: 0;
             ul {
-                height: 0.796296rem;
-                line-height: 0.796296rem;
-                display: flex;
-                justify-content: space-between;
-                font-size:0.4rem;
-                position: relative;
+                @include flexbox();
+                height: 100%;
+                color: #111;
+                text-align: center;
+                padding: 0 0.37037rem;
+                @include justify-content(space-between);
                 img{
-                	vertical-align: sub;
+                    vertical-align: sub;
                     width:0.824074rem;
                     width:0.888889rem;
                 }
@@ -129,21 +141,19 @@
                     position: absolute;
                     left: 50%;
                     top: 50%;
-                    -webkit-transform: translate(-50%,-50%);
-                       -moz-transform: translate(-50%,-50%);
-                        -ms-transform: translate(-50%,-50%);
-                         -o-transform: translate(-50%,-50%);
-                            transform: translate(-50%,-50%);
+                    transform: translate(-50%,-50%);
                 }
-                li:last-child {
-                    img {
-                        width: 0.583333rem;
-                        height: 0.462963rem;
-                    }
+                li:nth-of-type(3){
+                    width: 1.907407rem;
+                    height: 0.592593rem;
+                    background: $qun005 no-repeat;
+                    background-size: 1.907407rem 0.592593rem;
+                    position: relative;
+                    top: 0.148148rem;
                 }
+                
             }
         }
-        
         .chart{
             flex: 1;
             width: 100%;
@@ -160,7 +170,7 @@
                 padding-bottom: 20px;
                 position: relative;
                 height: auto;
-            	.test{
+                .test{
                     max-width:5.555556rem; 
                     padding:0.177778rem 0.185185rem; 
                     border:0.027778rem solid #E4E3E8; 
@@ -195,7 +205,7 @@
                 clear: both;
             }
             .chart{
-            	width:100%;
+                width:100%;
                 position: relative;
             }
             .left{
@@ -242,10 +252,62 @@
         .chart::-webkit-scrollbar {
             display: none;
         }
+        .careTip{
+            width: 6.4rem;
+            height: 4.4rem;
+            padding: 0.12963rem;
+            box-sizing: border-box;
+            background: $friend010 no-repeat;
+            background-size: 6.4rem 4.4rem;
+
+            h3{
+                font-size: 0.38rem;
+                font-weight: 500;
+                border-bottom: 2px solid #E9DAC5;
+                margin: 0;
+                padding: 0.185185rem 0;
+            }
+            label{
+                padding-top: 0.333333rem;
+                padding: 0.334rem 0.37037rem 0;
+                font-size: 0.38rem;
+                line-height:  0.740741rem;
+                display: block;
+                width: 100%;
+                height: 0.740741rem;
+                height: 1rem;
+                box-sizing: border-box;
+                text-align: left;
+                input{
+                    height: 100%;
+                    width: 4.4rem;
+                    background: rgba(0,0,0,0);
+                    border: 0.018519rem solid #C7B8A3;
+                    font-size: 0.35rem;
+                    padding-left: 0.1rem;
+                }
+            }
+            button{
+              width: 1.6rem;
+              height: 0.62rem;
+              
+              position: absolute;
+              left: 100%;
+              bottom: 0.4rem;
+              border-radius: 0;
+              transform: translate(-130%,0);
+              border: 0 none;
+              color: white;
+
+              background: $qun002 no-repeat;
+              background-size: 1.6rem 0.62rem;
+            }
+            
+        }
         footer{
-        	width: 100%;
-        	height: 1.203704rem;
-        	background: rgba(0,0,0,0);
+            width: 100%;
+            height: 1.203704rem;
+            background: rgba(0,0,0,0);
             border-top: 0.05rem solid #E8D9C4;
             box-shadow: 0 -0.05rem 0.2rem 0rem #E8D9C4;
             img{
@@ -253,18 +315,18 @@
                 height:0.833333rem;
                 
             }
-        	&>div{
+            &>div{
                 display: flex;
                 align-items: baseline;
                 flex-wrap: nowrap;
-        		img{
+                img{
                     height: 0.833333rem;
                     width: 0.833333rem;
-        			padding: 0;
+                    padding: 0;
                     position: relative;
                     top: 0.2rem;
                     left: 0.305556rem;
-        		}
+                }
                 // 复用
                 @mixin fuyon {
                     display:inline-block;
@@ -278,8 +340,8 @@
                     border-radius: 0.111111rem;
                     background-color:white;
                 }
-        		span{
-        			@include fuyon;
+                span{
+                    @include fuyon;
                     flex: 1;
                     position: absolute;
                     top: 50%;
@@ -287,7 +349,7 @@
                     width: 7rem;
                     transform: translate(0,-50%);
                     margin-right: 0.56rem;
-        		}
+                }
                 form {
                     flex: 1;
                     position: relative;
@@ -320,7 +382,7 @@
                         transform: translate(0,0);
                     }
                 }
-        	}
+            }
         }
     }
 
@@ -378,6 +440,99 @@
         }
     }
 
+    .findFriend{
+        width: 8.722222rem;
+        height:4.62963rem;
+        -webkit-box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
+        -moz-box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
+        -ms-box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
+        -o-box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
+        box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
+        border-radius: 0.277778rem;
+        position: absolute;
+        top:8.240741rem;
+        img{
+            width:1.972222rem;
+            height:1.972222rem;
+        }
+        i{
+            position:absolute;
+            line-height:0.925926rem;
+            font-size:1.481481rem;
+            font-weight:lighter;
+            color:#797979;
+            right:0.185185rem;
+            top:0.185185rem;
+            width:0.833333rem;
+            height:0.925926rem;
+            @include border-radius(100%);
+            padding-right:0.092593rem;
+        }
+        img{
+            position: absolute;
+            left: 0.962963rem;
+            top: 0.648148rem;
+        }
+        ul{
+            font-size:0.507407rem;
+            li{
+                text-align:left;
+                margin-left: 2.777778rem;
+                position:relative;
+                left:0.555556rem;
+                top:0.925926rem;
+            }
+           
+            li:nth-of-type(1){
+                color:red;
+                font-size:0.574074rem;
+            }
+             li:nth-of-type(2){
+                color:#676767;
+            }
+        }
+        p{
+          input{
+              @include border-radius(0.092593rem);
+              height:0.925926rem;
+              line-height:0.740741rem;
+              font-size:0.462963rem;
+              width:4.62963rem;
+              position:relative;
+              padding-left:0.185185rem;
+              bottom:0.462963rem;
+              text-align:left;
+          }
+          
+        }
+        button{
+          width:2.777778rem;
+          height: 1.0rem;
+          line-height:0.925926rem;
+          border-radius: 0.509259rem;
+          font-size:0.555556rem;
+          margin-bottom:0.462963rem;
+          border: 0 none;
+          color: white;
+          background: $homeAll -1.944444rem -1.388889rem no-repeat;
+          background-size: 5.555556rem 5.555556rem;
+          margin-top:1.851852rem;
+        }
+        button:active {
+            position: relative;
+            left: 0.018519rem;
+            bottom: -0.046296rem;
+        }
+    }
+
+    .sendFriend{
+        @extend .addFriend;
+        p{
+            margin-bottom: 0.462963rem;
+            font-size:0.507407rem;
+        }
+    }
+
     .audio{
         // width: auto;
         height: 40px;
@@ -392,53 +547,76 @@
 <script type="text/javascript">
 	import Vue from 'vue';
     import http from '../../utils/httpClient.js';
-
     import loading from '../loading/loading.vue';
     Vue.component('loading', loading)
     // [2,961109,961,0,112233] 路由数据案例 // open
 	export default {
         data: function(){
             return {
-                loading: false,     // loading √
-                careTip : false,    // 提示窗 √
-                errorTips: '',      // 错误提示 √
-                chatLT: false,    // 总开关-群聊
+                loading: false,     // loading
+                careTip : false,    // 提示窗
+                errorTips: '',      // 错误提示
+                DLRoom: true,      // 总开关-单聊
+                give: true,        // 加减分弹框
 
-                speak: 1,           // 语音是0 输入是1 √
-                zn_chatid: 0,       // 群聊id（群）
+
+                speak: 1,           // 语音是0 输入是1 
+                roomstatus: 99,     // 0-客服  1-聊天（房主）  2-聊天（玩家） 3-群聊
+                isfriend: 0,        // 是好友1  不是0
                 roomNum: 1,         // 房间号
                 roomid: 0,          // 房间id
                 txt: '',            // 发送产生的文本
-                Uid: localStorage.oxUid,   // 个人id
-                startY: 0,      // 取消录音开始位置
-                moveY: 0,       // 移动距离
-
-                chartList: '',      // 成员列表（群）
-                lingth: 0,          // 成员人数（群）
-                isfriend: 0,        // 是好友1  不是0
+                id: localStorage.oxUid,   //个人id（单聊）
+                sheId: 0,                 // 对方id（单聊）
+                shename: '???',// 对方名字（单聊）
+                toid: 0,                        // 对方的uid
+                
+                add: '', // 加分
+                jian: '', // 减分
+                findFriend: false,
+                sendFriend: false,
             }
         },
         mounted: function(){
-            var [self, id] = [this, this.Uid];
-            // this.$store.dispatch('webIM')   
-            // this.$store.dispatch('dl')      
+            var [self, id] = [this, this.id];
 
-            audio_TYPE = 1 // 录音参数修正
-
-            // var params = JSON.parse(this.$route.params.id)  // 路由参数
+            var params = JSON.parse(this.$route.params.id)  // 路由参数
             
-                this.roomNum = params[0];       // 房间号
-                this.roomid = params[1];        // 房间id
-                this.zn_chatid = params[3];     // 群聊id
-
+            this.roomstatus = params[0];    // 状态
+            if(params[0] == 3){         // 聊天室
+                this.roomNum = params[1];       // 房间号
+                this.roomid = params[2];        // 房间id
+                this.zn_chatid = params[4];     // 群聊id
                 this.chartList = `/chartList/${this.$route.params.id}`; // 群聊列表
                 qunliao()
+            }
+            else if(params[0] == 2 || params[0] == 1){    //  个人
+                if (params[1] > 12345 || params[1] == 10086) {    // 群聊室找群主的或者玩家之间
+                    this.roomNum = params[1];       // 房间号
+                    this.zn_name = params[4];     // 房间名字
+                    this.sheId = params[2];         // 房主id or 玩家聊天
+
+                    http.post('/MemberFriend/getFriend',{
+                        id : params[2],
+                    })
+                    .then(res => {
+                        if(res.status == 1){
+                            self.shename = res.data.zc_nickname
+                        }
+                        self.$store.state.txtType = "hz_niuniu_"+self.sheId;     // 聊天状态头
+                        self.textPush() // 先发送一波
+                    })
+                }
+            }
+            if ( params[0] == 1 || params[0] == 2 ) {   // 确定聊天位置
+                self.$store.state.txt = JSON.parse(localStorage.oxTxtAll)  || '';
+            }
             
             function qunliao() {
                 self.list()                                 // 请求群员
                 var a = JSON.parse(localStorage.oxQun)
                 if(!a[`${self.zn_chatid}`]){
-                    a[`${self.zn_chatid}`] = []
+                    a[`${self.zn_chatid}`] = {}
                     self.textPush() // 先发送一波
                 }
                 localStorage.oxQun = JSON.stringify(a)
@@ -465,94 +643,186 @@
 
                 self.$store.state.txtType = self.zn_chatid; // 聊天状态头
             }
+
+            // 储存聊天记录
+            this.$store.state.obj = {
+                myId: "hz_niuniu_"+id,
+                toId: "hz_niuniu_"+self.sheId,
+                pageSize: 10,
+                p: 1,
+                d_q: 'chat',
+                type: [{      //消息bodies 
+                    "msg": "test",//消息内容
+                    "type": "txt",//文本消息类型
+                }],
+                time: new Date().getTime(),
+                msg_id: conn.getUniqueId(),
+                style: 2,
+                TAname: '^(*￣(oo)￣)^',
+            };
+            // this.$store.dispatch('webKeep')
+            // this.$store.dispatch('webRecord')
             var timeD = setTimeout(function(){
-                var chat = document.getElementById("txtbox");
+                var chat = document.getElementById("DLtxt");
                 chat.scrollTop = chat.scrollHeight;
                 clearTimeout(timeD)
             },200)
-
-
-            http.post( '/Chat/getChatList', {
-                        formid: localStorage.oxUid,
-                        toid: self.zn_chatid,
-                        pagesize: 50,
-                        p: 1,
-                    }, '', this )
-                .then(res => {
-                    console.log(res)
-            })
         },
         updated: function(){
-            var chat = document.getElementById("txtbox");
+            var chat = document.getElementById("DLtxt");
             chat.scrollTop = chat.scrollHeight;
         },
         methods: {
             // 发送文本
             textPush () { 
                 var self = this;
-                // 群聊发送文本消息
+                var type = this.roomstatus;  // 0-客服  1-聊天（房主）  2-聊天（玩家） 3-群聊
+
+                
+                var sendPrivateText = function () {
+                    
+                    var id = conn.getUniqueId();                  // 生成本地消息id
+                    var msg = new WebIM.message('txt', id);      // 创建文本消息
+                    msg.set({
+                        msg: self.txt,          // 消息内容
+                        to: "hz_niuniu_"+self.sheId,   // 接收消息对象（用户id） 13450266666
+                        roomType: false,
+                        success: function (id, serverMsgId) {
+                            // 本地消息储存
+                            var a = JSON.parse(localStorage.oxTxtAll)
+                            var tauid = "hz_niuniu_"+self.sheId;
+                            var date = new Date().getTime();
+
+                            if(!a[tauid]){
+                                a[tauid] = {}
+                            }
+
+                            if(a[tauid]["hz_niuniu_"+self.id]){
+                                a[tauid]["hz_niuniu_"+self.id][date] = self.txt;
+                            } else {
+                                a[tauid]["hz_niuniu_"+self.id] = {};
+                                a[tauid]["hz_niuniu_"+self.id][date] = self.txt;
+                            }
+                            self.$store.state.txt = a;
+                            localStorage.oxTxtAll = JSON.stringify(a);
+                            self.txt = '';
+                        },
+                        fail: function(e){
+                            console.log("失败回调");
+                            self.txt = '';
+                        }
+                    });
+                    msg.body.chatType = 'singleChat';
+                    conn.send(msg.body);// 单聊发送文本消息txtType
+                };
+                
                 var sendGroupText = function () {
                     var id = conn.getUniqueId();            // 生成本地消息id
-                    var Qid = self.zn_chatid;               // 群id
                     var msg = new WebIM.message('txt', id); // 创建文本消息
                     var option = {
-                        msg: localStorage.oxName+'#(en&^*'+self.txt,   // 消息内容
+                        msg: self.txt,             // 消息内容
                         to: self.zn_chatid,        // 接收消息对象(群组id)
                         roomType: false,
                         chatType: 'chatRoom',
                         success: function () {
-                            // 储存聊天记录
-                            self.$store.state.obj = {
-                                pageSize: 10,
-                                p: 1,
-                                myId: localStorage.oxUid,
-                                toId: self.zn_chatid,
-                                d_q: 'groupchat',
-                                type: [{      //消息bodies 
-                                    "msg": self.txt,//消息内容
-                                    "type": "text",//文本消息类型
-                                }],
-                                time: new Date().getTime(),
-                                msg_id: id,
-                                style: 2,
-                                TAname: localStorage.oxName,
-                            };
-                            self.$store.dispatch('webKeep');     // 保存聊天记录
-
-                            // 聊天
                             self.$store.state.txtType = self.zn_chatid;
                             // 本地消息储存
-                            var a = JSON.parse(localStorage.oxQun);
+                            var a = JSON.parse(localStorage.oxQun)
+                            var qid = self.zn_chatid;
                             var date = new Date().getTime();
 
-                            var QUN_LIAO = {
-                                txt: 'txt',
-                                type: 'groupchat',
-                                name: localStorage.oxName,
-                                toID: localStorage.oxUid,
-                                time: date,
-                                msg: self.txt,
+                            if(!a[qid]){
+                                a[qid] = {}
                             }
-                            a[Qid].push(QUN_LIAO)
-                            console.log(a)
+                            // console.log('群聊信息发送成功');
+                            if(a[qid]["hz_niuniu_"+self.id]){
+                                a[qid]["hz_niuniu_"+self.id][date] = self.txt;
+                            } else {
+                                a[qid]["hz_niuniu_"+self.id] = {};
+                                a[qid]["hz_niuniu_"+self.id][date] = self.txt;
+                            }
                             self.$store.state.txt = a;
                             localStorage.oxQun = JSON.stringify(a);
-                            self.txt = '';  // 内容请零
+                            self.txt = '';
                         },
                         fail: function () {
-                            alert('群聊信息发送失败');
+                            console.log('群聊信息发送失败');
                             self.txt = '';
                         }
                     };
                     msg.set(option);
                     msg.setGroup('groupchat');
-                    conn.send(msg.body);
+                    conn.send(msg.body);// 群聊发送文本消息
                 };
-                
-                this.$store.state.txt = JSON.parse(localStorage.oxQun)
-                sendGroupText()
+
+                if ( type == 1 || type == 2 ) {
+                    this.$store.state.txt = JSON.parse(localStorage.oxTxtAll)
+                    sendPrivateText()
+                } else if ( type == 3 ) {
+                    this.$store.state.txt = JSON.parse(localStorage.oxQun)
+                    sendGroupText()
+                }  
             },
-            sendPrivateAudio : function (emdTime) {  // 群聊发送音频消息
+            addfen () {     // 加减分
+
+                var self = this;
+                var zhi = 0;
+                var jj = 3;
+
+                if(this.add > 0){
+                    zhi = this.add
+                    jj = 1;
+                } else if(this.jian > 0) {
+                    zhi = this.jian
+                    jj = 2;
+                } else {
+                    this.give == 0 ? this.give = 1 : this.give = 0
+                    return false;
+                }
+                if(self.sheId < 99){
+                    return false;
+                }
+                this.give == 0 ? this.give = 1 : this.give = 0
+                http.post('/RoomJoin/chagePoint',{
+                    id: self.sheId,  // 设置人id
+                    points: zhi,     // 增加或减少分数
+                    roomid: JSON.parse(self.$route.params.id)[5],    // 房间id
+                    type: jj,    // 1加分 2减分
+                })
+                .then(res => {
+                    if(res.status == 1){
+                        self.jian = '';
+                        self.add = '';
+                        self.$store.state.self.addtype = 1;
+                        self.errorTips = res.msg;
+                        self.careTip = true;
+                    } else {
+                        self.errorTips = res.msg;
+                        self.careTip = true;
+                    }
+                    
+                })
+            },
+            //添加房主为好友
+            addFriend(){
+                var self = this;
+                http.post('/MemberNotice/applyFriend' , {
+                    zn_mid : self.sheId,
+                    zc_content : localStorage.oxName,
+                    zn_applyid : localStorage.oxUid,
+                })
+                .then(res =>{
+                     console.log(self.sheId)
+                     console.log(res)
+                    if(res.status == 1){
+                        self.sendFriend = true;
+                    }else if(res.status == 3){
+                        self.errorTips = res.msg;
+                        self.careTip = true;
+                    }
+                })
+            },
+            sendPrivateAudio : function (emdTime) {  // 群聊发送音频消息-要改单聊
                 function dataURLtoBlob(dataurl) {
                     var arr = dataurl.split(','),
                     mime = arr[0].match(/:(.*?);/)[1],
@@ -715,20 +985,6 @@
                 console.log(e)
                 var obj = new WebView_Object();
                 obj.playAudio(e);
-            },
-
-            list () {   // 玩家数量
-                var self = this;
-                http.post('/RoomJoin/getJoinRoomList',{
-                    p: 1,
-                    pagesize: 100,
-                    roomid: this.roomid,
-                })
-                .then(res => {
-                    if(res.status == 1){
-                        self.lingth =  res.data.count;
-                    }
-                })
             },
         }
                 

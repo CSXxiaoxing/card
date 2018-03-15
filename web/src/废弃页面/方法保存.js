@@ -1,4 +1,4 @@
-// 一个计算对象length的方法，适用于少量的数据 JSON Date
+// 一个计算对象length的方法，适用于少量的数据 JSON 最高权重
 var a = '对象';
 function length(o) {
     var count = 0;
@@ -9,31 +9,9 @@ function length(o) {
 };
 console.log(length(a));
 
-/* @mixin time01    {   
-    transition-duration: .6s;
-    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
-    transition-delay: 0s;
-}
-@mixin time02    {   
-    transition-duration: .6s;
-    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
-    transition-delay: .2s;
-}
-@mixin time03    {   
-    transition-duration: .6s;
-    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
-    transition-delay: .4s;
-}
-@mixin time01    {   
-    transition-duration: .6s;
-    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
-    transition-delay: .6s;
-}
-@mixin time01    {   
-    transition-duration: .6s;
-    transition-timing-function: cubic-bezier(.68,-.55,.265,1.55); 
-    transition-delay: .8s;
-} */
+// 最高权重
+!important
+
 // GET/POST请求
 http.post( '/Chat/createChat', {
             zc_from: obj.myId, // 自己的id

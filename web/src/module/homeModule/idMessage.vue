@@ -3,100 +3,50 @@
   <mt-popup
     v-model="idMessage"
     popup-transition="popup-fade"
-    class="mess">
+    class="mess" id='mes_swi'>
     <dl>
       <dt>
-        <img src="src/image/idMessage6.png" alt="">
+        <img :src='$store.state.user.userImg' alt="">
       </dt>
-      <dd><span>更 换 头 像</span></dd>
+      <dd @click='changeTX'><span>更 换 头 像</span></dd>
     </dl>
     
     <ul>
-      <li>{{name}}<img src="src/image/idMessage3.png" alt=""></li>
+      <li :class='ZD ? "":"baiBJ"'>
+        <input type="text" v-model='name' :readonly='ZD'/>
+        <img src="src/image/idMessage3.png" @click='ZD=!ZD' v-if='ZD'/>
+        <b class='queren' v-if='!ZD' @click='changeName'></b>
+      </li>
       <li>ID:{{id}}</li>
-      <li>音乐  <span><mt-switch v-model="backmusic" id="onOff"></mt-switch></span></li>
-      <li>音效  <span><mt-switch v-model="playmusic"></mt-switch></span></li>
+      <li>音乐 
+            <span class='mess_swi'>
+            <mt-switch v-model="$store.state.Music.autoplay">
+            <span :class='[("onoff"),($store.state.Music.autoplay ? "on":"off")]'>
+                {{$store.state.Music.autoplay ? "ON":"OFF"}}
+            </span>
+            </mt-switch>
+            </span>
+      </li>
+      <li>音效 
+          <span class='mess_swi'>
+          <mt-switch v-model="$store.state.Music.musi">
+          <span :class='[("onoff"),($store.state.Music.musi ? "on":"off")]'>{{$store.state.Music.musi ? "ON":"OFF"}}</span>
+          </mt-switch>
+          </span>
+      </li>
     </ul>
-
     <i v-on:click="idMessage = false"></i>
-    <p></p>
+    <p @click='loginOut'></p>
   </mt-popup>
+
   <loading v-if='loading'></loading>
   </div>
 </template>
 
 <style lang='scss' scoped>
-  @import '../../utils/baseVar.scss';
-  .swi{
-          .mint-switch {
-              display: -webkit-box;
-              display: -ms-flexbox;
-              @include flexbox();
-              -webkit-box-align: center;
-                  -ms-flex-align: center;
-                      align-items: center;
-              position: relative;
-          }
-          .mint-switch * {
-              pointer-events: none;
-          }
-          .mint-switch-label {
-              margin-left: 0.092593rem;
-              display: inline-block;
-          }
-          .mint-switch-label:empty {
-              margin-left: 0;
-          }
-          .mint-switch-core {
-              display: inline-block;
-              position: relative;
-              width: 1.157407rem;
-              height: 0.574074rem;
-              border: 0.009259rem solid #d9d9d9;
-              @include border-radius(0.277778rem);
-              @include box-sizing();
-              background: #d9d9d9;
-          }
-          .mint-switch-core::after, .mint-switch-core::before {
-              content: " ";
-              top: 0;
-              left: 0;
-              position: absolute;
-              -webkit-transition: -webkit-transform .3s;
-              transition: -webkit-transform .3s;
-              transition: transform .3s;
-              transition: transform .3s, -webkit-transform .3s;
-              @include border-radius(0.138889rem);
-          }
-          .mint-switch-core::after {
-              width: 0.537037rem;
-              height: 0.537037rem;
-              @include border-radius(50%);
-              background-color: #fff;
-              box-shadow: 0 0.009259rem 0.027778rem rgba(0, 0, 0, .4);
-          }
-          .mint-switch-core::before {
-              width: 1.157407rem;
-              height: 0.574074rem;
-              @include border-radius(0.277778rem);
-              background-color: #fdfdfd;
-          }
-          .mint-switch-input {
-              display: none;
-          }
-          .mint-switch-input:checked + .mint-switch-core {
-              border-color: #26a2ff;
-              background-color: #26a2ff;
-          }
-          .mint-switch-input:checked + .mint-switch-core::before {
-              -webkit-transform: scale(0);
-                      transform: scale(0);
-          }
-          .mint-switch-input:checked + .mint-switch-core::after {
-              -webkit-transform: translateX(0.601852rem);
-                      transform: translateX(0.601852rem);
-          }
-  }
+    @import '../../utils/baseVar.scss';
+        
+
   .mess{
     width:7.546296rem;
     height:4.87963rem;
@@ -115,6 +65,7 @@
                 height: 2.37037rem;
                 background: $idmess02 no-repeat;
                 background-size:2.333333rem 2.37037rem;
+                overflow: hidden;
                 img{
                     width:2.205926rem;
                     height:2.175926rem;
@@ -141,7 +92,7 @@
             padding:0.509259rem 0.557407rem; 
             position:relative;
             font-size: 0.352963rem;
-            float:left;
+            float: left;
             text-align: left;
             li{
                 margin-bottom: 0.122593rem;
@@ -149,24 +100,50 @@
                     position:absolute;
                     display:inline;
                     left:1.525926rem;
-                    #onOff{
-                        @extend .swi;
-                    }
                 }
             }
             li:nth-of-type(1){
-                width:2.27037rem;
+                // width:2.27037rem;
                 line-height: 0.494444rem;
-                background-color:#DFC7A5;
+                background-color: #DFC7A5;
                 padding-left: 0.192593rem;
-                border-radius:0.925926rem;
-                position:relative;
-                img{
-                    position:absolute;
-                    right:0.092593rem;
-                    top:0.172593rem;
+                border-radius: 0.925926rem;
+                position: relative;
+                height: 0.514rem;
+                input{
+                    border: 0 none;
+                    background-color: rgba(0,0,0,0);
+                    font-size: 0.277778rem;
+                    line-height: 0.490741rem;
+                    height: 0.490741rem;
+                    width: 100%;
                 }
-            } 
+                img{
+                    position: absolute;
+                    width: 0.157407rem;
+                    height: 0.148148rem;
+                    padding: 0.185185rem;
+                    right: -0.04rem;
+                    top: 50%;
+                    -webkit-transform: translate(0,-50%);
+                       -moz-transform: translate(0,-50%);
+                        -ms-transform: translate(0,-50%);
+                         -o-transform: translate(0,-50%);
+                            transform: translate(0,-50%);
+                }
+                b.queren{
+                    position: absolute;
+                    right: 0;
+                    top: 0.53rem;
+                    width: 1.2rem;
+                    height: 0.46rem;
+                    background: $login006 no-repeat;
+                    background-size: 1.2rem 0.46rem;
+                }
+            }
+            li:nth-of-type(1).baiBJ{
+                background-color: rgba(255,255,255,1);    
+            }
         }
         i{
             position:absolute;
@@ -181,7 +158,7 @@
             clear: both;
             position:relative;
             left:50%;
-            top:0.192593rem;
+            top: 0.192593rem;
             transform:translateX(-50%);
             -webkit-transform:translateX(-50%);
             -moz-transform:translateX(-50%);
@@ -191,9 +168,8 @@
             background-size:3.361111rem  1.074074rem;
         }
 }
- 
   // border-radius
-  
+
 </style>
 
 <script type="es6">
@@ -209,21 +185,54 @@
       return {
         loading: false,     // loading
         idMessage: false,
-        a: 0,
+        ZD: true,   // 只读
+
         name : localStorage.oxName,
         id : localStorage.oxUid,
-        backmusic:true,
-        playmusic:true,
       }
     },
     mounted: function(){
-      if(localStorage.oxToken){ 
-        this.a = 1;
-      } else {
-        this.a = 0;
-      }
+
     },
     methods: {
+        changeTX: function(){ // 更换头像
+            var self = this;
+            var obj = new WebView_Object();
+            obj.galleryImg();
+            var imgTrue = setInterval(function(){
+                if(JPEG64 != null){
+                    http.post('/Member/change_name',
+                    {
+                        pic : JPEG64,
+                        // name: self.name,
+                    })
+                    .then(res => {
+                        if(res.status == 1){
+                            // localStorage.oxName =  res.msg.zc_nickname;
+                            localStorage.oxImg = GAME_ALL_URL + res.msg.zc_headimg;
+                            self.$store.state.user.userImg = localStorage.oxImg
+                        }
+                    })
+                    clearInterval(imgTrue)
+                }
+            }, 100)
+        },
+        changeName: function(){ // 更换名字
+            var self = this;
+            this.ZD=true;
+            
+            http.post('/Member/change_name',
+            {
+                name: self.name,
+            })
+            .then(res => {
+                console.log(res)
+                if(res.status == 1){
+                    localStorage.oxName =  res.msg.zc_nickname;
+                    self.$store.state.user.userName = localStorage.oxName
+                }
+            })
+        },
         loginOut(){   // 退出
             var self =this;
             http.post('/Member/login_out',
@@ -235,7 +244,6 @@
                 console.log(res)
                 if(res.status == 1){
                     localStorage.removeItem('oxToken')
-                    self.a = 0;
                     self.idMessage = false
                     router.push({name: 'login'});
                 } else if(res.status == 2){ // token失效

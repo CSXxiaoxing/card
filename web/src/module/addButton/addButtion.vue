@@ -10,7 +10,7 @@ Vue.component('自定义组件名称', 引入时定义的变量名) -->
         input {
             width: 2.240741rem;
             height: 0.62963rem;
-            background: #E3E3E3;
+            background: #DFC7A5;
             font-size: 0.296296rem;
             line-height: 0.62963rem;
             padding: 0.037037rem 0.037037rem;

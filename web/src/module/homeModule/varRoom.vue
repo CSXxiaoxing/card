@@ -1,16 +1,16 @@
 <template>
     <div>
+    <i class='XX_CJ' @click="boxState.CvarRoom = false" v-show='boxState.CvarRoom'></i>
+    <i class='XX_FK'  @click="noModal" v-show='boxState.card || boxState.coreVisible'></i>
     <div class="varR_modal" :style='"z-index:"+zidx' @click='noModal'></div>
     <mt-popup 
       v-model="boxState.coreVisible"
-      popup-transition="popup-fade"
+      popup-transition="popup-fade" 
       :modal='false' :style='"z-index:"+setZidx'
       class="set">
 
         <p class="top">
             倍率设置 
-            <b class="close" @click="noModal">
-            </b>
         </p>
       <div class="DLUL">
         <p>提示：大型牌的倍率不能低于小牌型</p>
@@ -36,7 +36,7 @@
         </ul>
       </div>
         <hr/>
-        <mt-button @click="coreVisible" >确定</mt-button>
+        <mt-button @click="coreVisible" ></mt-button>
     </mt-popup >
     <mt-popup
         v-model="boxState.card"
@@ -45,15 +45,14 @@
         class="card" >
         <p>
             房卡消耗方式 
-            <b class="close" @click="noModal">
-            </b>
         </p>
         <div></div>
     </mt-popup>
-  <mt-popup 
-  v-model="boxState.CvarRoom" 
-  popup-transition="popup-fade"  
-  class="Cvar" >
+
+    <mt-popup 
+    v-model="boxState.CvarRoom" 
+    popup-transition="popup-fade"  
+    class="Cvar" >
     
     
 
@@ -68,15 +67,16 @@
 
     
 <!-- touchstart touchmove touchend varR_modal -->
-    <h3>创建房间 <i @click="boxState.CvarRoom = false"></i> </h3>
-    <ul class='varRoomSet' @click="open" v-show='showVar==0'>
+    <h3>创建房间</h3>
+    <div  class='varRoomSet'>
+    <ul @click="open" v-show='showVar==0'>
         <li>
             <label  @click="card = true">
                 房号：<span>{{imgState.room_id}}</span>
             </label>
             <label :judge='"open"' @click='boxNo'>
                 <span>
-                    <img src="src/img/varTrue.png" v-show='imgState.open' height="81" width="76" alt="" />
+                    <img src="src/image/oxCrowd012.png" v-show='imgState.open' height="81" width="76" alt="" />
                 </span>
                 公开
             </label>
@@ -94,13 +94,13 @@
             <span>玩法：</span>
             <label :judge='"cardFn5"'>
                 <span>
-                    <img src="src/img/varTrue.png" v-show='imgState.cardFn == 5' height="81" width="76" alt="" />
+                    <img src="src/image/oxCrowd012.png" v-show='imgState.cardFn == 5' height="81" width="76" alt="" />
                 </span>
                 5副牌 
             </label>
             <label :judge='"cardFn7"'>
                 <span>
-                    <img src="src/img/varTrue.png" v-show='imgState.cardFn == 7' height="81" width="76" alt="" />
+                    <img src="src/image/oxCrowd012.png" v-show='imgState.cardFn == 7' height="81" width="76" alt="" />
                 </span>
                 7副牌 
             </label>
@@ -112,13 +112,13 @@
             </p>
             <label :judge='"bell"'>
                 <span>
-                    <img src="src/img/varTrue.png" v-show='imgState.room == "bell"' height="81" width="76" alt="" />
+                    <img src="src/image/oxCrowd012.png" v-show='imgState.room == "bell"' height="81" width="76" alt="" />
                 </span>
                 钟点房 
             </label>
             <label :judge='"day"'>
                 <span>
-                    <img src="src/img/varTrue.png" v-show='imgState.room == "day"' height="81" width="76" alt="" />
+                    <img src="src/image/oxCrowd012.png" v-show='imgState.room == "day"' height="81" width="76" alt="" />
                 </span>
                 日费房 
             </label>
@@ -145,7 +145,7 @@
 
                 <label v-for='times in oxOpen.time' :judge='times' >
                     <span>
-                        <img src="src/img/varTrue.png" v-show='imgState.time == times'/>
+                        <img src="src/image/oxCrowd012.png" v-show='imgState.time == times'/>
                     </span>
                     {{times/60 >= 1 ? (times/60 + oxOpen.miss[1]): (times+oxOpen.miss[0])}}
                 </label>
@@ -165,11 +165,12 @@
         </li>
         <li>
             <span>抽庄赢分比例：</span>
-            <input type="text"  onkeyup="this.value=this.value.replace(/\D/g, '')" v-model.number='imgState.scale' :class='init.error.sca ? "error" : ""' @focus='init.error.sca = false'/>
+            <input type="text"  onkeyup="this.value=this.value.replace(/\D/g, '')" placeholder='输入数字' v-model.number='imgState.scale' :class='init.error.sca ? "error" : ""' @focus='init.error.sca = false'/>
             <span><span>%</span>(1-15)</span>
         </li>
     </ul>
-    <button @click="end">确定</button>
+     </div>
+    <span @click="end" class='button12'></span>
   </mt-popup>
   
     <loading v-if='loading'></loading>
@@ -231,7 +232,7 @@
                     minGrade: 0,
                     scope: [0, 100],
 
-                    scale: 1,
+                    scale: '',
                     oxK: '',
                 }
             };
@@ -274,7 +275,6 @@
                     judgeVal == 'day' ? img.room = 'day' : 
                     judgeVal >= 30 ? img.time = judgeVal : false;
                 } catch (er) {};
-
             },
             inputChange() {
                 // roon过滤
@@ -352,12 +352,18 @@
                 var oxK = this.$store.state.initRoom.oxK;
                 var [Err, git] = [this.init.error, this.imgState];
                 // 规则判断
-                git.roomName == '' ? Err.roomName = true : 
+                if(git.roomName == ''){
+                    Err.roomName = true;
+                    self.$parent.errorTips = '请输入房间名';
+                    self.$parent.careTip = true;
+                    return false;
+                }
                 Number(git.minGrade) <= 0 ? Err.minG = true : 
                 Number(git.scope[0]) <= 0 ? Err.minS = true :
                 Number(git.scope[1]) < Number(git.scope[0]) ? Err.maxS = true :
                 Number(git.scale) < 1 || Number(git.scale) > 15 ? Err.sca = true : 
                 false;
+
 
                 if(!Err.roomName && !Err.minG && !Err.minS && !Err.maxS && !Err.sca) {
 

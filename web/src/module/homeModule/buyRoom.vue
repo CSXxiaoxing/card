@@ -11,24 +11,21 @@
       :modal='false'
       class="more">
         <span>
-            购买房卡 
             <b @click="noBuyMoal"></b>
         </span>
         <p>{{cardNumError}}</p>
         <p>请输入购买的房卡数量</p>
         <input  class="num" v-model.trim='cardNum' ></input>
-        <mt-button @:click="cardNumber" >确定</mt-button>
-
+        <mt-button @:click="cardNumber" ></mt-button>
     </mt-popup>
 
-
-    <h1>购买房卡 <i v-on:click="buyRoom = false">×</i></h1>
+    <h1>购买房卡 <i v-on:click="buyRoom = false"></i></h1>
 
     <ul>
       <li>
         <table v-for='(cards,quest) in list'>
           <tr>
-            <td rowspan="3"><img src="src/img/module_home_buy2.png" height="250" width="258" alt=""></td>
+            <td rowspan="3"><img src="src/image/oxCrowd017.png" height="250" width="258" alt=""></td>
             <td>{{cards.title}}</td
           </tr>
           <tr>
@@ -36,8 +33,9 @@
             <td v-if="quest == 3" class="sev">7折优惠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
           </tr>
           <tr>
-            <td><button v-if="quest != 3" @click='buyCard(cards.num,cards.id)'>购买</button>
-                <mt-button  v-if="quest == 3" class="sevb" type="primary" @click="more">去填写数量</mt-button>
+            <td>
+                <button v-if="quest != 3" @click='buyCard(cards.num,cards.id)'></button>
+                <mt-button  v-if="quest == 3" class="sevb" type="primary" @click="more"></mt-button>
             </td>
           </tr>
         </table>
@@ -96,17 +94,17 @@
 
             i{
                 position:absolute;
-                line-height:0.925926rem;
-                font-size:1.111111rem;
-                font-weight:lighter;
-                color:white;
+                
                 right:0.185185rem;
                 top:0.555556rem;
-                background-color:#BA3C16;
-                width:0.833333rem;
-                height:0.925926rem;
-                @include border-radius(100%);
+            
+                width: 0.925926rem;
+                height: 0.925926rem;
+
                 padding-right:0.092593rem;
+
+                background: $oxCrowd_018 no-repeat;
+                background-size: 0.925926rem 0.925926rem;
             }
         }
         ul{
@@ -139,13 +137,24 @@
             margin: 0.185185rem 0.0rem 0.185185rem 0.833333rem;
             text-align:left;
             button{
-                width:2.416667rem;
-                height:0.685185rem;
-                font-size:0.351852rem;
-                background: $homeAll -0.0rem -4.351852rem no-repeat;
-                background-size: 5.555556rem 5.555556rem;
+                width: 2.416667rem;
+                height: 0.685185rem;
+
+                background: $oxCrowd_016 no-repeat;
+                background-size: 2.416667rem 0.685185rem;
                 @extend .button;
             }
+            tr{
+                td{
+                    img{
+                        display: block;
+                        width: 2.1rem;
+                        height: 2.1rem;
+                        margin-left: 0.15rem;
+                    }
+                }
+            }
+            
             tr:nth-of-type(1){
                 td:nth-of-type(2){
                     padding-top:0.277778rem;
@@ -164,13 +173,18 @@
                 color:#3B87C5;
             }
             .sevb{
-                text-align: center;
+                background: $oxCrowd_019 no-repeat;
+                background-size: 2.416667rem 0.685185rem;
             }
             
         }
     }
-  .more{
-      width:7.083333rem;
+  .more{    // 购买房卡
+      width: 8.407407rem;
+      height: 5.787037rem;
+      background: $oxCrowd_015 no-repeat;
+      background-size: 8.407407rem 5.787037rem;
+
       @include border-radius(0.185185rem);
       span{
         display: block;
@@ -179,8 +193,7 @@
         width:8.796296rem;
         height:1.805556rem;
         line-height: 1.527778rem;
-        background: $home03 no-repeat;
-        background-size: 8.87037rem 1.805556rem;
+
         background-position: center;
         text-align: center;
         position: relative;
@@ -188,14 +201,15 @@
         bottom: 0.277778rem;
         
           b{
+            display: block;
+            height: 0.611111rem;
+            width: 0.611111rem;
             position: absolute;
-            float: right;
-            background: $homeAll -3.148148rem -2.407407rem no-repeat;
-            background-size: 5.555556rem 5.555556rem;
-            height: 0.555556rem;
-            width: 0.555556rem;
-            right: 1.018519rem;
-            top: 0.37037rem;
+            right: 0%;
+            top: 50%;
+            transform: translate(-80%, -50%);
+            background: url('../../image/careTip01.png') no-repeat;
+            background-size: 0.611111rem 0.611111rem;
           }
       }
 
@@ -209,22 +223,22 @@
       }
       p:nth-of-type(2){
         margin-bottom: 0.185185rem;
-        margin-left: 0.555556rem; 
+        margin-left: 1.28rem;
         font-size:0.324074rem;
         font-weight: bold;
-        text-align:left;
+        text-align: left;
       }
 
       .num{
-        width:85%;
-        height:1.111111rem;
-        font-size:0.833333rem;
-        text-align:center;
+        width: 6.018519rem;
+        height: 1.064815rem;
+        font-size: 0.666667rem;
+        text-align: center;
         margin: 0.0rem 0.0rem 0.0rem 0.092593rem;
         @include border-radius(0.138889rem);
-        border:0.027778rem solid #D4D4D4; 
-        color:#0BBA05;
-
+        border: 0.027778rem solid #D2C3AE; 
+        color: #0BBA05;
+        background-color: rgba(0,0,0,0);
       }
       button{
         @include border-radius(0.481481rem);
@@ -233,8 +247,9 @@
         line-height: 0.962963rem;
         font-size:0.555556rem;
         margin: 0.398148rem 0;
-        background: $homeAll -1.944444rem -1.388889rem no-repeat;
-        background-size: 5.555556rem 5.555556rem;
+
+        background: $login006 no-repeat;
+        background-size: 3.305556rem 0.962963rem;
         @extend .button;
       }
     }
@@ -255,7 +270,7 @@
         cardNum: '',
         cardNumError: 'n张以上，几折优惠',
         list:[],
-        
+
       };
     },
     mounted:function(){

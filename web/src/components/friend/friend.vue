@@ -1,41 +1,32 @@
 <template>
-    <div id='friend'>
+    <mt-popup
+      position="bottom"
+      v-model="friend_VIP" id='friend'>
         <!-- 错误提示 -->
         <mt-popup 
-            v-model="careTip"
+            v-model="careTip" :modal='false'
             popup-transition="popup-fade"
-            class="care" >
-            <span>通知 <i @click="careTip = false"></i></span>
-            <p>找不到该用户</p>
-            <mt-button @click="careTip = false">  确定
+            class="careTip" >
+            <h3>通知</h3>
+            <i @click="careTip = false"></i>
+            <p>{{careTip_TEXT}}</p>
+            <mt-button @click="careTip = false">
             </mt-button>
         </mt-popup>
         <!-- 删除确认 -->
         <mt-popup 
-            v-model="delTip"
+            v-model="delTip" :modal='false'
             popup-transition="popup-fade"
-            class="care" >
-            <span>操作确认<i @click="delTip = false"></i></span>
+            class="careTip" >
+            <h3>操作确认</h3>
+            <i @click="delTip = false"></i>
             <p>{{delTip_TEXT}}</p>
-            <mt-button @click="delTip = false">  确定
+            <mt-button @click="delTip = false">
             </mt-button>
         </mt-popup>
-        <!-- 查找好友 -->
-        <mt-popup 
-          v-model="addFriend"
-          popup-transition="popup-fade" 
-          class="addFriend" >
-          <span>查找好友</span>
-          <p><input type="text" placeholder="请输入要查找的ID" v-model.number='findID'></input>
-          </p>
-          <mt-button @click="addFriend = false">  取消
-          </mt-button>
-          <mt-button @click="searchFriend">  搜索
-          </mt-button>
-        </mt-popup >
         <!-- 好友信息 -->
         <mt-popup 
-          v-model="findFriend"
+          v-model="findFriend"  :modal='false'
           popup-transition="popup-fade"
           class="findFriend" >
           <div>
@@ -43,91 +34,57 @@
             <img src="src/img/friend1.png" alt="">
             <ul>
                 <li>{{friendName}}</li>
-                <li> id : {{friendId}}</li>
-                <li><input type="text" placeholder="输入验证申请" v-model="findFriend_TEXT"/></li>
+                <li>{{findID}}</li>
             </ul>
+            <mt-button @click="findFriend = false ,applyFriend() "></mt-button>
           </div>
-          <mt-button @click="findFriend = false ,applyFriend() ">  申请
-          </mt-button>
-        </mt-popup >
-        <!-- 请求已经发送 -->
-        <mt-popup
-          v-model="sendFriend"
-          popup-transition="popup-fade"
-          class="sendFriend" >
-          <span>查找好友</span>
-
-          <p>添加好友请求已发送</p>
-
-          <mt-button @click="sendFriend = false"> 确定
-          </mt-button>
         </mt-popup >
         <!--备注好友-->
         <mt-popup 
             v-model="markFriend"
             popup-transition="popup-fade"
-            class="addFriend" >
-              <span>备注</span>
-              <p><input type="text" placeholder="请输入要备注的名字" v-model.number='markName'></input>
-              </p>
-              <mt-button @click="remarkFriend(),markFriend=false">  确定
-              </mt-button>
-              <mt-button @click="markFriend = false">  取消
-              </mt-button>
-        </mt-popup>
-        <!--删除好友-->
-        <mt-popup 
-            v-model="deleFriend"
-            popup-transition="popup-fade"
-            class="sendFriend" >
-              <span>删除好友</span>
-              <p>是否确认删除此好友</input>
-              </p>
-              <mt-button @click="deleteFri(),deleFriend=false">  确定
-              </mt-button>
-              <mt-button @click="deleFriend = false">  取消
-              </mt-button>
-              
+            class="markFriend" >
+            <input type="text" placeholder="请输入要备注的名字" v-model.number='markName' />
+            <i @click="markFriend = false"></i>
+            <mt-button @click="remarkFriend()">
+            </mt-button>
         </mt-popup>
 
         <header>
             <ul>
                 <li>
-                    <i><a @click='$store.commit("ls")'></a></i>
+                    <i><a @click='addFriend ? addFriend=false : friend_VIP=false'></a></i>
                 </li>
-                <li>好友列表</li>
+                <li>{{addFriend ? "添加好友" : "好友列表"}}</li>
                 <li @click="addFriend = true">
                     <i></i>
                 </li>
             </ul>
         </header>
-        <div class='friMain'>
+        <div class='friMain' v-if='!addFriend'>
             <ul>
                 <li @click='ConTypr(1)'>
                     <span><i></i></span>
                     <span>最新消息</span>
                     <span><i :class='arrows == 1 ? "Iup" : ""'></i></span>
                 </li>
-                
+
                 <li  :class='arrows == 1 ? "show" : "hide"'>
-                    <!--系统消息-->
-                    <dl class='sys' v-for='(sys,squest) in systemMess' :key='sys.key' 
-                          @touchend='[(q=-1),(k=squest),(sysSel = squest),(touchEnd)]' @click='changeTime()'  
+                    <dl class='sys' v-for='(sys,squest) in systemMess' :key='sys.id' 
+                          @touchend='[(q=-1),(k=squest),(sysSel = squest),(touchEnd)]' @click='changeTime(sys.zn_cdate)'  
                           @touchstart='touchStart'
                           @touchmove='touchMove'
                           :style="squest == k ? deleteSlider: ''">
                         <dt>
                             <span><i></i></span>
                         </dt>
-                        <dd @click="show = 0,setRead()" 
-                          >
+                        <dd @click="show = 0,setRead(sys.id, sys.zc_title, sys.zc_content, sys.zn_cdate)" >
                             <b>[系统消息]</b>
-                            <b>{{sys.title}}</b>
+                            <b>{{sys.zc_title}}</b>
                             <b :class='arrows == 1 ? "show" : "hide"'></b>
-                            <b v-show="sys.read == 1" >●</b>
-                            <b></b>
+                            <b v-show="sys.zn_read == 1" ></b>
                         </dd>
-                        <dd class="remove" ref='remove' @click="deleteApplySys()">删除</dd>
+                        <dd class="remove" ref='remove' @click="deleteApplySys"><p>删除</p></dd>
                     </dl>
 
 
@@ -144,7 +101,7 @@
                             <p><i>{{fri.name}}</i>请求添加你为好友</p>
                             <p @touchend='friSel = quest' @click='agreeFriend(fri.id)'>同意</p>
                         </dd>
-                        <dd class="remove" ref='remove' @click='noFriend(fri.id)'>拒绝</dd>
+                        <dd class="remove" ref='remove' @click='noFriend(fri.id)'><p>拒绝</p></dd>
                     </dl>
                 </li>
 
@@ -161,10 +118,12 @@
                           @touchstart='touchStart'
                           @touchmove='touchMove'
                           :style="1 == 1 ? deleteSlider: ''">
-                            <span><i></i></span>
+
+                            <img :src="$store.state.user.userImg" @touchend='friQuest = fquest'/>
+
                             <span>测试一号</span>
                             <span><i></i>添加</span>
-                            <span class="remove" ref='remove'>删除</span>
+                            <span class="remove" ref='remove'><p>删除</p></span>
                         </dd>
                     </dl>
                 </li>
@@ -176,24 +135,41 @@
                 </li>
                 <li  :class='arrows == 3 ? "show" : "hide"'>
                     <dl>
+                        <p @click='ceshi(1)'>单聊测试口</p>
+                        <p @click='ceshi(2)'>群聊测试口</p>
+
                         <dd v-for='(friends,fquest) in $store.state.system.friendList' 
                         :key='friends.id' 
-                          @touchend='sysSel = fquest,touchEnd' @click='changeTime()'  
-                          @touchstart='[(k=fquest),(touchStart)]'
-                          @touchmove='touchMove'
-                          :style="fquest == k ? deleteSlider: ''">
+                        @click='changeTime()'
+                        @touchend='sysSel = fquest,touchEnd' 
+                        @touchstart='[(k=fquest),(touchStart)]'
+                        @touchmove='touchMove'
+                        :style="fquest == k ? deleteSlider: ''">
 
-                            <span @touchend='friQuest = fquest'><i></i></span>
+                            <img :src="$store.state.user.userImg" @touchend='friQuest = fquest'/>
                             <span @touchend='friQuest = fquest' @click='liaotian(friends.fid)'>{{friends.name}}</span>
                             <span @touchend='friQuest = fquest' @click='markFriend =true'><i></i>备注</span>
-                            <span class="remove" ref='remove' @click="deleteFri(friends.name)">删除</span>
+                            <span class="remove" ref='remove' @click="deleteFri(friends.name)"><p>删除</p></span>
                         </dd>
                     </dl>
                 </li>
             </ul>
         </div>
+        <div class='addHaoyou' v-if='addFriend'>
+            <input type="text" placeholder='输入ID号' v-model='findID'/>
+            <i></i>
+            <div class='seekHaoyou'  v-show='findID.length != 0' @click='searchFriend'>
+                <img src="src/image/friend006.png" alt="" />
+                <p>搜索 ：<span>{{findID}}</span></p>
+            </div>
+        </div>
+
+        <chartMessage ref="onchartMessageChild"></chartMessage>
+        <DanLiao ref="onDanLiaoChild"></DanLiao>
+        <CHATQUN ref="onQUNChild"></CHATQUN>
+
         <loading v-if='loading'></loading>
-    </div>
+    </mt-popup>
 </template>
 
 <script type="text/javascript">
@@ -202,29 +178,37 @@
     import http from '../../utils/httpClient.js';
     import router from '../../router/';
 
+    import chartMessage from '../chart/chartMessage.vue'; // 系统消息
+    Vue.component('chartMessage', chartMessage)
+    import DanLiao from '../chart/DanLiao.vue'; // 单聊
+    Vue.component('DanLiao', DanLiao)
+
+
+    import CHATQUN from '../chart/CHAT_QUN.vue'; // 群聊
+    Vue.component('CHATQUN', CHATQUN)
+
     export default {
         data: function(){
             return {
-                loading: false,     // loading
-                arrows: 0,          // 上下箭头
-                careTip : false,     // 错误提示
-                delTip : false,      // 删除提示
-                delTip_TEXT : '',    // 删除提示
+                friend_VIP: false,       // 主页面
+                loading: false,          // loading
+                arrows: 0,               // 上下箭头
+                careTip : false,         // 错误提示
+                careTip_TEXT : false,    // 错误提示
+                delTip : false,          // 删除提示
+                delTip_TEXT : '',        // 删除提示
 
                 // 数据
                 friendList : [],    //好友列表
                 
-
-                addFriend : false,    //  查找好友
                 findFriend: false,      // 好友申请
-                findFriend_TEXT: '',    // 好友申请文字
+                markFriend: false,      // 备注好友
+                addFriend : false,      // 查找好友
+                findID: '',             // 要寻找的id
+                friendName: '',         // 对方名字
+                
 
-                sendFriend: false,
-                markFriend: false,
-                deleFriend : false,
-                findID: '',  // 要寻找的id
-                friendId : 0,   //对方id
-                friendName: '',  //对方名字
+
                 systemMess: [],  //系统信息
                 friendApply :[],  //好友信息
                 sysTime : '', //系统信息时间
@@ -247,40 +231,52 @@
         },
         mounted: function(){
             // 登录环信
-            this.$store.dispatch('webIM')
-            this.$store.dispatch('haoyou_DL')
-            //获取系统信息
-            var self = this ;
-            http.post('/MemberNotice/getNotify',{
-                id : localStorage.oxUid,
-            })
-            .then(res =>{
-                if(res.status == 1){
-                    for(let i in res.data){
-                        if(res.data[i].zn_way ==2){
-                            self.friendApply.push({
-                                name :res.data[i].zc_content,
-                                id  :res.data[i].id, //信息id
-                                mid :res.data[i].zn_mid, //自己id
-                                fid  : res.data[i].zn_applyid,//对方id
-                            })
-                            console.log(self.friendApply)
-                        }else{
-                            self.systemMess.push({
-                                id  :res.data[i].id, //信息id
-                                content : res.data[i].zc_content,//信息内容
-                                read : res.data[i].zn_read,//已读未读
-                                time : res.data[i].zn_cdate, //信息时间
-                                title : res.data[i].zc_title, //信息标题
-                            })
-                            // console.log(self.systemMess)
-                        }
-                    }
-                }
-            })
+            this.$store.dispatch('webIM')       // 聊天配置
+            this.$store.dispatch('haoyou_DL')   // 聊天登录
+
+            var self = this;
+            // 获取系统信息
+            self.addDATA();
+            // 获取好友
             self.haoyou();
         },
         methods: {
+            // 获取系统消息
+            addDATA(){
+                var self = this ;
+                http.post('/MemberNotice/getNotify',{
+                    id : localStorage.oxUid,
+                })
+                .then(res =>{
+                    console.log(res)
+                    if(res.status == 1){
+                        self.systemMess = res.data;
+                        for(let i in res.data){
+                            if(res.data[i].zn_way ==2){
+                                self.systemMess.push({
+                                    id  :res.data[i].id, //信息id
+                                    content : res.data[i].zc_content,//信息内容
+                                    read : res.data[i].zn_read,//已读未读
+                                    time : res.data[i].zn_cdate, //信息时间
+                                    title : res.data[i].zc_title, //信息标题
+                                })
+                                // console.log(self.systemMess)
+                            }
+                        }
+                    }
+                })
+            },
+            ceshi(n){
+                var self = this;
+                if(n == 1){
+                    self.$refs.onDanLiaoChild.DLRoom=true;
+                } else if(n == 2){  // 群
+                    console.log(self.$refs.onQUNChild.chatLT)
+                    self.$refs.onQUNChild.chatLT=true;
+                } else if(n == 3){
+                    console.log('加减分')
+                }
+            },
             haoyou(){   // 手动刷新调用
                 var self = this;
                 this.$store.dispatch('get_R');
@@ -291,7 +287,6 @@
                     },
                 });
             },
-
             liaotian(id) {    // 点击好友聊天 MemberFriend/addFriend
                 var self = this; 
                 router.push({path: `/chartRoom/[2,10086,${id},1,"好友聊天"]`});
@@ -307,21 +302,18 @@
             searchFriend(){
                 var self = this;
                 http.post('/MemberFriend/getFriend', {
-                    id : self.findID, 
+                    id : self.findID,
                 }, '' ,this)
                 .then(res =>{
                     if(res.status==1){
-                        self.friendId = res.data.id;
                         self.friendName =  res.data.zc_nickname;
-                        console.log(self.friendId)
+
                         console.log(res.data.zc_nickname)
                         self.findFriend = true;
-                        self.loading = false;
-                        self.addFriend = false;
-                    }else{
+                    } else{
+                        console.log(res)
                         self.careTip = true;
-                        self.loading = false;
-                        self.addFriend = false;
+                        self.careTip_TEXT = res.msg;
                     }
                 })
             },
@@ -330,9 +322,9 @@
                 var self = this;
                 // 添加好友
                 conn.subscribe({
-                    to: 'hz_niuniu_'+self.friendId,
+                    to: 'hz_niuniu_'+self.findID,
                     // Demo里面接收方没有展现出来这个message，在status字段里面
-                    message: localStorage.oxName+'#(h9aoyou*)'+self.findFriend_TEXT,
+                    message: localStorage.oxName+'#(h9aoyou*)',
                 });
             },
             //同意申请好友
@@ -375,9 +367,8 @@
                     id : self.systemMess[self.sysSel].id
                 })
                 .then(res =>{
-                    // console.log(res)
                     if(res.status == 1){
-                         // window.location.reload();
+                        self.addDATA();
                     }
                 })
             },
@@ -386,15 +377,15 @@
                 var self = this;
                 console.log(self.friQuest)
                 if(self.markName=''){
-
+                    self.markFriend=false
                 }else{
                     http.post('/MemberFriend/modifyMark' ,{
                         id : localStorage.oxUid,
-                        friendid : Number( self.friendList[self.friQuest].fid),
+                        friendid : Number(self.friendList[self.friQuest].fid),
                         name : self.markName,
                     })
                     .then(res =>{
-                        // console.log(res)
+                        self.markFriend=false
                         if(res.status==1){
                             self.friendList[self.friQuest].mname = self.markName;
                             self.markName = '';
@@ -402,36 +393,29 @@
                     })
                 }  
             },
-            //消息已读未读
-            setRead(){
+            //消息已读未读 点击跳转到详情页面
+            setRead(xxid, title, content, time){
                 var self = this; 
                 http.post('/MemberNotice/setRead',{
-                    id : Number( self.systemMess[self.sysSel].id)
+                    id : xxid
                 })
                 .then(res=>{
                     if(res.status == 1){
-                        var vx = this.$store.state.systemMess;
-                        vx.time = self.sysTime;
-                        vx.title = self.systemMess[self.sysSel].title;
-                        vx.content = self.systemMess[self.sysSel].content;
-                        router.push({name: 'chartMessage'});
+                        var vx = {};
+                        vx.time = self.timestampToTime(time);
+                        vx.title = title;
+
+                        var messyCode = /&lt;|p&gt;|\/p&gt;/g;
+                        vx.content = content.replace(messyCode,'');
+
+                        self.$refs.onchartMessageChild.msgObj=vx;
+                        self.$refs.onchartMessageChild.chartMessage=true;
                     }
                 })
             },
             //删除好友
             deleteFri(id){
                 var self = this;
-                
-                // http.post('/MemberFriend/delFriend',{
-                //     id : localStorage.oxUid,
-                //     friendid : Number( self.friendList[self.friQuest].fid),
-                // })
-                // .then(res=>{
-                //     // console.log(res)
-                //     if(res.status==1){
-                //         window.location.reload();
-                //     }
-                // })
                 conn.removeRoster({
                     to: id,
                     success: function () {  // 删除成功
@@ -448,10 +432,9 @@
 
             },
             //时间戳转换时间
-            changeTime(){
+            changeTime(time){
                 var self = this;
-                self.sysTime = self.timestampToTime(self.systemMess[self.sysSel].time);
-                // console.log(self.sysTime)
+                self.sysTime = self.timestampToTime(time);
             },
             timestampToTime(timestamp) {
                     var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
@@ -502,21 +485,21 @@
                     }
             },
             touchEnd(ev){
-                    ev = ev || event;
-                    let wd=2;
-                    if (ev.changedTouches.length == 1) {
-                        let endX = ev.changedTouches[0].clientX;
-                            this.disX = this.startX - endX;
-                            // console.log(this.disX)
-                            //如果距离小于删除按钮1/3,强行回到起点
-                            if ((this.disX*5) < (wd/3)) {
-                                this.deleteSlider = "transform:translateX(0rem)";
-                            }else{
-                                //大于一半 滑动到最大值
-                                this.deleteSlider = "transform:translateX(-"+wd+ "rem)";
-                            }
-                        }
-            }      
+                ev = ev || event;
+                let wd=2;
+                if (ev.changedTouches.length == 1) {
+                    let endX = ev.changedTouches[0].clientX;
+                    this.disX = this.startX - endX;
+                    // console.log(this.disX)
+                    //如果距离小于删除按钮1/3,强行回到起点
+                    if ((this.disX*5) < (wd/3)) {
+                        this.deleteSlider = "transform:translateX(0rem)";
+                    }else{
+                        //大于一半 滑动到最大值
+                        this.deleteSlider = "transform:translateX(-"+wd+ "rem)";
+                    }
+                }
+            }
         }
     }
 </script>

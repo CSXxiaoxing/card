@@ -1,6 +1,7 @@
 <template>
 	<div id='home'> 
 	<iframe :src="iframe" frameborder="0" :id='iframeCss'></iframe>
+	<audio src="src/Music/du001.mp3" autoplay v-if='$store.state.Music.autoplay' loop></audio>
 		<mt-popup 
 	        v-model="careTip"
 	        popup-transition="popup-fade"
@@ -14,18 +15,20 @@
 		<header>
 			<dl>
 				<dt @click.capture='child_KA(2)'>
-					<img src="../../image/home004.png" />
+					<img :src="$store.state.user.userImg" />
 				</dt>
 				<dd>
-					<span>{{name}}</span>
+					<span>{{$store.state.user.userName}}</span>
 					<span @click="child_KA(5)">
 						<i></i>
-						<b></b>
+						<b
+						:class='$store.state.Music.autoplay ? "huan":"bai"' 
+						@click.stop="$store.state.Music.autoplay=!$store.state.Music.autoplay"  ></b>
 						分享
 					</span>
 				</dd>
 				<dd>
-					<span>ID:{{id}}</span>
+					<span>ID:{{$store.state.user.userID}}</span>
 					<span>
 						{{cardNum}}
 						<i @click='child_KA(3)'></i>
@@ -40,8 +43,8 @@
 				:speed="800" :auto="5000"
 				class='homeSwipe auto'>
 			  	<i></i>
-			  	<mt-swipe-item v-for='(notices) in notice'>
-			  		<span>{{notices.content}}</span>
+			  	<mt-swipe-item v-for='notices in notice'>
+			  		<span>{{notices}}</span>
 			  	</mt-swipe-item>
 			</mt-swipe>
 			</p>
@@ -62,9 +65,11 @@
 			</ul>
 		</div>
 
-		<footer>
+		<footer> 
 			<ul>
-				<li><router-link to="/friend" >好友</router-link></li>
+				<li @click='$refs.onfriendVIPChild.friend_VIP=true'>
+					好友<span class='dot'>999</span>
+				</li>
 				<li @click='varRoom'>创建房间</li>
 				<li @click='child_KA(1)'>进入房间</li>
 				<li @click='child_KA(4)'>我的房间</li>
@@ -78,6 +83,7 @@
 		<varRoom ref="onvarRoomChild" ></varRoom>
 		<myRoom ref="onmyRoomChild" ></myRoom>
 		<toShare ref="ontoShareChild" :share='"home"'></toShare>
+		<friendVIP ref="onfriendVIPChild"></friendVIP>
 		
 		<loading v-if='loading'></loading>
 	</div>
@@ -100,6 +106,8 @@
 
 	import loading from '../loading/loading.vue';
 	Vue.component('loading', loading)
+	import friendVIP from '../friend/friend.vue'; // 原好友
+	Vue.component('friendVIP', friendVIP)
 	
 	Vue.component('noOpen', noOpen)
 	Vue.component('joinRoom', joinRoom)
@@ -118,14 +126,13 @@
 				careTip : false,	//错误提示 
 				errorTips: '',		// 错误信息
 
-				id : 0,
-				name: '',
-				pagesize :15,	// 请求条数
-				type :1 ,		// 1 所有房间 2 自己开的房间
+				pagesize : 40,	// 请求条数
+				type : 1,		// 1 所有房间 2 自己开的房间
 				p : 1,			// 当前页
+
 				sendId : 0,
 				spinner: 0,		// 懒加载loding
-				notice : [],
+				notice : [],	// 系统公告
 				cardNum : this.$store.state.initRoom.cardNum,
 			}
 		},
@@ -138,74 +145,69 @@
 		        }, false);
 		    });	
 
-			// 客服
-			window.easemobim = window.easemobim;
+			goEasy.subscribe({
+			    channel: 'room_' + localStorage.oxUid,
+			    onMessage: function(message){
+			        // console.log('接收到消息:'+message.content)
+			        //拿到了信息之后，你可以做你任何想做的事
+			        console.log(message)
+			    }
+
+			});
 
 			var self = this;
-			
-			var VX_data = this.$store.state.data;
-			var VX_time = new Date().getTime();
+			var self = this;
+			var VX_data = this.$store.state.data.DT;
+			var VX_dataid = this.$store.state.data.DTid;
+			var VX_dataidALL = this.$store.state.data.DTidALL;
+
 			if(localStorage.oxToken && localStorage.oxUid){
-				this.$store.dispatch('webIM')
-				this.id = localStorage.oxUid
-				this.name = localStorage.getItem('oxName')
-				// 房间请求
-				if(VX_data.DT.length < 1 || (VX_time-VX_data.DTtime) > 6e1){
-
-					http.post('/Room/getRoomList' ,
-	                {
-	                    pagesize : self.pagesize,
-	                    type 	 : self.type,
-	                    p 		 : self.$store.state.data.DTpage,
-	                }, '',this)
-	                .then(res => {
-	                	// console.log(res)
-	                	if(res.status == 1){
-	                	var arr = [];
-	                	var dtid = self.$store.state.data.DTid;
-	                    for(var i = 0 ; i < res.data.length ; i++){
-	                    	var val = res.data[i];
-	                    	if(dtid.indexOf(val.id) < 0){	// id识别是否重复
-		                    	arr.push({
-		                    		key 	   : val.id,			// key值
-		                    		open 	   : val.zn_room_type ==1 ? true : false,// 是否开放
-		                    		roomName   : val.zc_title,		// 房间名字
-		                    		roomNumber : val.zc_number,		// 房间号码
-		                    		number 	   : val.pernumber,		// 房间人数
-		                    	})
-	                    		self.$store.state.data.DTid.push(val.id)
-	                    	}
-	                    }
-	                    if(self.$store.state.data.DT.length > 0){
-	                    	var arr01 = self.$store.state.data.DT;
-	                    	self.$store.state.data.DT = arr01.concat(arr);
-	                    }else {
-	                    	self.$store.state.data.DT = arr;
-	                    }
-
-	                    self.$store.state.data.DTtime = VX_time;
-	                	} else {
-	                		self.errorTips = res.msg;
-	                		self.careTip = true;
-	                	}
-	                });
-
-	                http.post('/MemberNotice/getAnnouncement',{
-	                    id : self.id
-	                }, '' ,this)
-	                .then(res => {
-	                	if(res.status == 1){
-	                		console.log(res);
-	                		self.notice = [];
-	                		for(let i in res.data){
-	                			self.notice.push({
-	                				content : res.data[i].zc_content,
-	                			})
-	                		}
-	                		console.log(self.notice);
-	                	}
-	                })
+				
+				if(VX_data.length > 0){	// 百人牛牛
+					return false;
 				}
+				// 房间请求
+				http.post('/Room/getRoomList',
+                {
+                    pagesize : self.pagesize,
+                    type 	 : self.type,
+                    p 		 : self.p,
+                }, '',this)
+	            .then(res => {
+	            	console.log(res)
+	            	if(res.status != 1){
+	            		self.$store.state.data.DTP = 0;
+	            		return false;
+	            	}
+	            	self.$store.state.data.DATE = new Date().getTime();
+	            	VX_data = res.data;
+
+	            	for(var i=0; i<VX_data.length; i++){
+	            		VX_dataidALL.push(VX_data[i].id)
+	            		VX_dataid.push(VX_data[i].id)
+	            	}
+	            	self.$store.state.data.DT = VX_data;
+	            	self.$store.state.data.DTid = VX_dataid;
+	            	self.$store.state.data.DTidALL = VX_dataidALL;
+	            	self.$store.state.data.DTP = 1;
+	            });
+	            // 系统公告
+                http.post('/MemberNotice/getAnnouncement',{
+                    id : self.id,
+                }, '' ,this)
+                .then(res => {
+                	if(res.status == 1){
+
+                		self.notice = [];
+                		console.log(res.data)
+                		if(res.data[0] == undefined){
+                			self.notice.push('文明游戏，请勿赌博！')
+                		}
+                		for(let i in res.data){
+                			self.notice.push(res.data[i].zc_content)
+                		}
+                	}
+                })
 			} else {
 				router.push({name: '/'});	// 跳回登录页
 			}
@@ -220,7 +222,6 @@
 					autoConnect: true,
 					hide: true,
 				})
-				// easemobim.bind is not a function
 			},
 			child_KA: function(n){
 				switch(n){

@@ -9,7 +9,6 @@
     <script type='text/javascript' src='./im/webim.config.js'></script>
     <script type='text/javascript' src='./im/strophe-1.2.8.min.js'></script>
     <script type='text/javascript' src='./im/websdk-1.4.13.js'></script>
-    <!-- <script src='http://downloads.easemob.com/downloads/cdn/websdk-1.4.11.js'></script> -->
     <!-- 项目 -->
     <script type="text/javascript" src="https://cdn.goeasy.io/goeasy.js"></script>
     <script type="text/javascript" src='./im/base.js'></script>
@@ -44,6 +43,8 @@
             var audio_URL = null;
             var end_time = 0;
             var BASE64 = null;
+            var JPEG64 = null;
+            var JPEG_SRC = null;
             function plusReady(){
                 // 隐藏滚动条
                 plus.webview.currentWebview().setStyle({scrollIndicator:'none'});
@@ -178,7 +179,6 @@
                     }
                     return this;
                 },
-                
                 // 开始播放
                 startPlay : function (url){
                     er.style.display = 'block';
@@ -204,7 +204,23 @@
                         clearInterval(ri);
                         ri = null;
                     });
-                }
+                },
+                // 从相册中选择图片
+                galleryImg : function (){
+                    // outSet('从相册中选择图片：');
+                    plus.gallery.pick(function(path){
+                        // outLine(path); // 转base64上传
+                        var reader = new plus.io.FileReader();
+                        reader.onloadend = function (e) {
+                            console.log(e.target.result);
+                            JPEG_SRC = e.target.result;
+                            JPEG64 = e.target.result;
+                        };
+                        reader.readAsDataURL(path);
+                    }, function(e){
+                        // outSet('取消选择图片');
+                    }, {filter:'image'});
+                },
 
             } 
 
@@ -243,7 +259,6 @@
                 },200);
             }
         </script>
-
         <script src="./dist/build.js"></script>
   </body>
 </html>

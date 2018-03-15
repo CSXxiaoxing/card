@@ -7,13 +7,13 @@ import oxCrowd from '../components/home/oxCrowd.vue'
 
 import message from '../components/message/message.vue'
 import Room from '../components/room/room.vue'
-import friend from '../components/friend/friend.vue'
+
 import Water from '../components/room/waterReport.vue'
 import chartRoom from '../components/chart/chartRoom.vue'
 import CHAT_QUN from '../components/chart/CHAT_QUN.vue'	// 聊天室
 import chartList from '../components/chart/chartList.vue'	// 聊天室成员列表
 import chartDelete from '../components/chart/chartDelete.vue'
-import chartMessage from '../components/chart/chartMessage.vue'
+
 
 Vue.use(VueRouter)
 
@@ -44,11 +44,7 @@ var router = new VueRouter({
 			name: 'message',
 			component: message
 		},
-		{
-			path: '/friend',
-			name: 'friend',
-			component: friend
-		},
+
 		{
 			path: '/water',
 			name: 'water',
@@ -69,11 +65,7 @@ var router = new VueRouter({
 			name: 'chartDelete',
 			component: chartDelete
 		},
-		{
-			path: '/chartMessage',
-			name: 'chartMessage',
-			component: chartMessage
-		},
+
 		{
 			path: '/CHAT_QUN/:id',
 			name: 'CHAT_QUN',

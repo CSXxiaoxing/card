@@ -150,19 +150,17 @@
                             }, '' ,this)
                             .then(res => {
                                 if( res.status == 3 ){
-                                    router.push({path: `room/${zhi}`});
+                                    self.$parent.errorTips = '等待房主确认';
+                                    self.$parent.careTip = true;
                                 } else if( res.status == 1){
                                     router.push({path: `room/${res.data.zc_number}`});
                                 } else if( res.status == 0 ){
-                                    self.$parent.errorTips = '你已在房间内，请退出当前房间';
+                                    self.$parent.errorTips = res.msg;
                                     self.$parent.careTip = true;
                                 }
                             })
                         } else if( res.status == 0 ){
                             self.$parent.errorTips = '该房间不存在或不对外开放';
-                            self.$parent.careTip = true;
-                        } else if( res.status == 3 ){
-                            self.$parent.errorTips = '等待房主确认';
                             self.$parent.careTip = true;
                         }
                     })

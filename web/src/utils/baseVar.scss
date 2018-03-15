@@ -1,4 +1,4 @@
-//  Sprites size
+//  Sprites size idmess01
 $w600: 5.555556rem;
 // 随机庄背景颜色
 $bgColor: #ccc;
@@ -37,6 +37,14 @@ $oxCrowd_H: url('../../image/oxCrowd005.png'); // 加入房间黑色按钮
 $oxCrowd_MY: url('../../image/oxCrowd006.png'); // 我的房间
 $oxCrowd_KBJ: url('../../image/oxCrowd007.png'); // 选项卡背景
 $oxCrowd_010: url('../../image/oxCrowd010.png'); // li羽毛
+$oxCrowd_011: url('../../image/oxCrowd011.png'); // 创建房间背景
+$oxCrowd_013: url('../../image/oxCrowd013.png'); // 加号
+$oxCrowd_014: url('../../image/oxCrowd014.png'); // 减号
+$oxCrowd_015: url('../../image/oxCrowd015.png'); // 购买房卡
+$oxCrowd_016: url('../../image/oxCrowd016.png'); // 购买按钮
+$oxCrowd_018: url('../../image/oxCrowd018.png'); // 红色圆×
+$oxCrowd_019: url('../../image/oxCrowd019.png'); // 填写数量按钮
+
 
 // X_home
 $home_BJ: url('../../image/home001.png'); // 背景
@@ -44,6 +52,27 @@ $home_KF: url('../../image/KF001.png'); // 客服
 $home_BLB: url('../../image/home002.png'); // 白喇叭
 $home_HLB: url('../../image/home005.png'); // 黄喇叭
 $home_FK: url('../../image/home003.png'); // 房卡
+
+// x_room
+$room001: url('../../image/room001.jpg'); // 主体背景
+
+
+// X_friend
+$friend001: url('../../image/friend001.png'); // 主体背景
+$friend002: url('../../image/friend002.png'); // 黑色箭头
+$friend003: url('../../image/friend003.png'); // 黑色加号
+$friend004: url('../../image/friend004.png'); // 系统消息
+$friend005: url('../../image/friend005.png'); // 最近联系
+$friend006: url('../../image/friend006.png'); // 好友
+$friend007: url('../../image/friend007.png'); // 铃铛
+$friend008: url('../../image/friend008.png'); // 好友添加
+$friend009: url('../../image/friend009.png'); // 右箭头
+$friend010: url('../../image/friend010.png'); // 弹窗背景
+$friend011: url('../../image/friend011.png'); // 放大镜
+
+// x_qun
+$qun002: url('../../image/qun002.png'); // 聊天确认
+$qun005: url('../../image/qun005.png'); // 聊天确认
 
 
 // home url
@@ -65,13 +94,13 @@ $chart04 : url("../../img/chart_list3.png");
 $chart05 : url("../../img/module_room_setOwner1.png");
 
 //friend url
-$friend01 : url('../../img/friend2.png');
+// $friend01 : url('../../img/friend2.png');
 $friend02 : url('../../img/friend3.png');
 $friend03 : url('../../img/friend4.png');
 
 
 
-//idmessage url
+//X_idmessage url
 $idmess01 : url('../../image/idMessage1.png');
 $idmess02 : url('../../image/idMessage2.png');
 $idmess03 : url('../../image/idMessage5.png');

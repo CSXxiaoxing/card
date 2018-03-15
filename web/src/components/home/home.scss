@@ -61,8 +61,18 @@
                         background: $homeAll -1.111111rem 0.0rem no-repeat;
                         background-size:5.555556rem 5.555556rem;
                     }
-                    b{
+                    b.bai{
                         background: $home_BLB no-repeat;
+                        background-size: 0.574074rem 0.462963rem;
+                        width: 0.574074rem;
+                        height: 0.462963rem;
+                        position: absolute;
+                        left: 0%;
+                        top: 170%;
+                        transform: translate(-5%, -50%);
+                    }
+                    b.huan{
+                        background: $home_HLB no-repeat;
                         background-size: 0.574074rem 0.462963rem;
                         width: 0.574074rem;
                         height: 0.462963rem;
@@ -103,14 +113,14 @@
                         display: inline-block;height: 0.5rem;
                         width: 1.0rem;
                         float: left;
-                        margin-top: 0.055556rem;
+                        // margin-top: 0.055556rem;
                         height: 0.287037rem;
                         width: 0.287037rem;
                         background: $homeAll -1.759259rem 0.0rem no-repeat;
                         background-size:  5.555556rem 5.555556rem;
                         float: right;
                         position: absolute;
-                        top: 43%;
+                        top: 50%;
                         right: 0.092593rem;
                         transform: translate(0%,-50%);
                     }
@@ -250,5 +260,103 @@
                 }
             }
         }
+    }
+}
+
+#mes_swi{
+    .mint-switch {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        @include flexbox();
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+        position: relative;
+        width: 1.166667rem;
+        height: 0.462963rem;
+    }
+    .mint-switch-label{
+        position: absolute;
+        left:0;
+        top:0;
+        height: 100%;
+        width: 100%;
+        margin: 0;
+    }
+    .onoff{
+        width: 100%;
+        position: absolute;
+        left: 0;
+        text-align: center;
+        font-size: 22px;
+        color: #FFFEE7;
+        font-weight: 600;
+        line-height: 0.462963rem;
+    }
+    .on{
+        left: -0.277778rem;
+    }
+    .off{
+        left: 0.1rem;
+    }
+    .mint-switch * {
+        pointer-events: none;
+    }
+    .mint-switch-label {
+        margin-left: 0.092593rem;
+        display: inline-block;
+    }
+    .mint-switch-label:empty {
+        margin-left: 0;
+    }
+    .mint-switch-core {
+        display: inline-block;
+        position: relative;
+        width: 1.166667rem;
+        height: 0.462963rem;
+
+        border: 0.009259rem solid #d9d9d9;
+        @include border-radius(0.277778rem);
+        @include box-sizing();
+        background: #DFC7A5;
+    }
+    .mint-switch-core::after, .mint-switch-core::before {
+        content: " ";
+        top: 0;
+        left: 0;
+        position: absolute;
+        -webkit-transition: -webkit-transform .3s;
+        transition: -webkit-transform .3s;
+        transition: transform .3s;
+        transition: transform .3s, -webkit-transform .3s;
+        @include border-radius(0.138889rem);
+    }
+    .mint-switch-core::after {
+        width: 0.462963rem;
+        height: 0.462963rem;
+        @include border-radius(50%);
+        background-color: #fff;
+        box-shadow: 0 0.009259rem 0.027778rem rgba(0, 0, 0, .4);
+    }
+    .mint-switch-core::before {
+        width: 1.166667rem;
+        height: 0.462963rem;
+        @include border-radius(0.277778rem);
+        background-color: #DFC7A5;
+    }
+    .mint-switch-input {
+        display: none;
+    }
+    .mint-switch-input:checked + .mint-switch-core {
+        border-color: #1DB842;
+        background-color: #1DB842;
+    }
+    .mint-switch-input:checked + .mint-switch-core::before {
+        -webkit-transform: scale(0);
+                transform: scale(0);
+    }
+    .mint-switch-input:checked + .mint-switch-core::after {
+        -webkit-transform: translate(0.69rem,0);
+                transform: translate(0.69rem,-0.01rem);
     }
 }

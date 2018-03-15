@@ -10,7 +10,7 @@
             <mt-button @click="careTip = false">  确定
             </mt-button>
         </mt-popup >
-        <header>
+        <header> 
             <ul>
                 <li>
                     <i><a  @touchend='exit'></a></i>
@@ -194,10 +194,10 @@
         </div>
         <footer>
             <ul>
-                <li><router-link to="/friend" >好友</router-link></li>
-
+                <li @click='$refs.onfriendVIPChild.friend_VIP=true'>
+                    好友<span class='dot'>999</span>
+                </li>
                 <li @click='cardURL.test = false'>
-                    <!-- <router-link :to="chartRoom" >聊天室</router-link> -->
                     <router-link :to="CHAT_QUN" >聊天室</router-link>
                 </li>
                 <li v-show='init.ForT == 1'>
@@ -223,6 +223,7 @@
         </keep-alive>
         <playerBottom ref="onplayerBottomChild" :p='ordinary.Pn' ></playerBottom>
         <singleBoard ref="onsingleBoardChild"></singleBoard>
+        <friendVIP ref="onfriendVIPChild"></friendVIP>
         
         <loading v-if='loading'></loading>
     </div>
@@ -245,6 +246,8 @@
 
     import loading from '../loading/loading.vue';
     Vue.component('loading', loading)
+    import friendVIP from '../friend/friend.vue'; // 原好友
+    Vue.component('friendVIP', friendVIP)
 
     Vue.component('toShare', toShare)
     Vue.component('prize', prize)

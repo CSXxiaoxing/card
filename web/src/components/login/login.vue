@@ -591,13 +591,18 @@
 					}, '', this )
 					.then(res => {
 						console.log(res)
+						console.log(GAME_ALL_URL)
 						if(res.status == 1){
 							router.push({name: 'home'});
 							localStorage['oxToken'] = res.data.token;
 							localStorage['oxUid'] = res.data.uid;
+							self.$store.state.user.userID = res.data.uid;
 							localStorage['oxName'] = res.data.member_info.nickname;
+							self.$store.state.user.userName = res.data.member_info.nickname;
+							localStorage['oxImg'] = GAME_ALL_URL+res.data.member_info.headimg;
+							self.$store.state.user.userImg = GAME_ALL_URL+res.data.member_info.headimg;
+
 							self.$store.state.initRoom.cardNum = res.data.member_info.card_num;
-							console.log(self.$store.state.initRoom.cardNum)
 							// 注册信号为true
 							var options2 = { 
 							    username: 'hz_niuniu_'+localStorage.oxUid,
