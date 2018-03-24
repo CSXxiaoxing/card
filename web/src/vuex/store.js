@@ -7,28 +7,35 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     // 字符串数据存储
-    // 使用demo : this.$store.state.initRoom.oxK
+    // 使用demo : this.$store.state.Music.autoplay
     state: {
         // 用户信息
         user: {
             userName: localStorage.oxName,
-            userID: localStorage.oxUid,
-            userImg: localStorage.oxImg,
+            userID  : localStorage.oxUid,
+            userImg : localStorage.oxImg,
 
             addtype: 0, // 加分状态
         },
-        // 环信消息处理
+        // 环信消息处理 
         system: {
             friend: [], // 好友操作信息
             friendList: [], // 好友列表
+            Q_amount: {}, // 群消息数量统计
+            t: 0,
         },
         oxCrowd: {  // 牛群游戏大厅
             notice: [],     // 系统公告
             
         },
-        Music: {    // 音乐/音效
+        Music: {    // 音乐 /音效
             autoplay: true, // 音乐
             musi: true,     // 音效
+        },
+        room: {     // 房间初始数据
+            cardNum: 5, // 几牌
+            minFen : 0, // 最低上庄分数
+
         },
         // 默认数据
         initRoom: {
@@ -42,7 +49,7 @@ export default new Vuex.Store({
             nameLenth: 16,
             // 最低上分数
             minG: 5000,
-            cardNum:0,
+            cardNum:0,          // 
         },
         idRoom: {
             id: 0,              // 房间id
@@ -59,7 +66,7 @@ export default new Vuex.Store({
             scale: 1,           // 抽水比例
             minGrade: 100,      // 最小上庄分数
             zn_chatid: 0,       // 群聊号码
-            ju: '',              // 上庄局数
+            ju: '',             // 上庄局数
             ForT: 0,            // 是否房主
         },
         placard:{
@@ -76,8 +83,7 @@ export default new Vuex.Store({
         setRoom: {},
         badDict: bad,
         // 聊天辅助
-        txt: '',
-        txtType: 0,     // 聊天分类头
+        txt: [],
         txt_idx: [],
         txt_time: [],
         // 消息传递
@@ -95,7 +101,8 @@ export default new Vuex.Store({
             Room: {},      // 房间数据
             Ztype : {},     // 房间内，庄的数据
 
-            Zlist: [],     // 申请庄的列表
+            // Zlist: [],     // 申请庄的列表
+            Zlist: '',     // 申请庄的列表
             apptype: 0,     // 1 上庄成功 0 没上庄
 
             listOver: [],   // 开奖记录
@@ -144,14 +151,49 @@ export default new Vuex.Store({
                 if(Msg[1] == ""){
                     return false;
                 }
+                
                 if (message.type == 'groupchat') {  // 群聊
                     var Qid = message.to;         // 群id
-                    var a = JSON.parse(localStorage.oxQun)
+                    var a = JSON.parse(localStorage.oxQun);
                     var date = new Date().getTime();
-                    var from = message.from.replace('hz_niuniu_','')
-                    
+                    var from = message.from.replace('hz_niuniu_','');
                     if(!a[Qid]){
                         a[Qid] = [];
+                    }
+                    if(!self.state.system.Q_amount[Qid]){
+                        self.state.system.Q_amount[Qid] = 0;
+                    }
+                    self.state.system.t+=1;
+                    self.state.system.Q_amount[Qid]+=1;
+                    console.log(self.state.system.Q_amount)
+                    // console.log(self.state.system.Q_amount[Qid])
+                    // self.state.system.friend = 
+                    // 本地消息储存
+                    var QUN_LIAO = {
+                        txt: 'txt',
+                        type: 'groupchat',
+                        name: Msg[0],
+                        toID: from,
+                        time: date,
+                        msg: Msg[1],
+                    }
+                    console.log(QUN_LIAO)
+                    a[Qid].push(QUN_LIAO)
+                    console.log(a)
+                    self.state.txt = a;
+                    localStorage.oxQun = JSON.stringify(a);
+                } 
+
+
+                else if (message.type == 'chat' ){      // 单聊
+                    
+                    var a = JSON.parse(localStorage.oxTxtAll)
+                    // var o = message.from    // 来自谁
+                    var date = new Date().getTime();
+                    var from = message.from.replace('hz_niuniu_','')
+
+                    if(!a[from]){
+                        a[from] = [];
                     }
 
                     // 本地消息储存
@@ -163,40 +205,10 @@ export default new Vuex.Store({
                         time: date,
                         msg: Msg[1],
                     }
-                    a[Qid].push(QUN_LIAO)
-                    console.log(a)
+                    a[from].push(QUN_LIAO)
                     self.state.txt = a;
-                    localStorage.oxQun = JSON.stringify(a);
-                } 
+                    localStorage.oxTxtAll = JSON.stringify(a);
 
-
-                else if (message.type == 'chat' ){      // 单聊
-                    
-                    var fanid = self.state.idRoom.id;
-                    var a = JSON.parse(localStorage.oxTxtAll)
-                    var o = message.from    // 来自谁
-                    var date = new Date().getTime();
-                    if(!a[o]){
-                        a[o] = {}
-                    }
-                    if(a[o][message.from]){
-                        a[o][message.from][date] = message.data;
-                    } else {
-                        a[o][message.from] = {};
-                        a[o][message.from][date] = message.data;
-                    }
-                    self.state.txt = a;
-                    // console.log(a)
-                    localStorage.oxTxtAll = JSON.stringify(a)
-
-                    if(self.state.idRoom.ForT == 1){    // 只有是房主
-                        var nu = o.slice(10)
-                        if(self.state.data.Room[fanid+'id'].indexOf(nu) >= 0){  // 在房间内
-                            if(self.state.data.zhaoFZ.indexOf(nu) < 0){
-                                self.state.data.zhaoFZ.push(nu) // 呼叫房主等待页面
-                            }
-                        }
-                    }
                 }
             },//收到文本消息
             onEmojiMessage: function ( message ) {
@@ -290,6 +302,7 @@ export default new Vuex.Store({
                 WebIM.utils.download.call(conn, option);
             },   //收到视频消息
             onPresence: function ( message ) {
+                console.log(message)
                 if(message.type == ''){
                     return false;
                 }
@@ -303,6 +316,7 @@ export default new Vuex.Store({
                         text : Msg[1],
                         id : message.from,
                     };
+                    console.log(duixian)
                     self.state.system.friend.push(duixian)
                 } else if(message.type == "subscribed"){
                     // 别人同意你加他为好友
@@ -371,26 +385,6 @@ export default new Vuex.Store({
                     } else {
                         alert('当前网络不稳定，登陆失败')
                     }
-                }
-            };
-            conn.open(options);
-        },
-        haoyou_DL (){   
-
-            var self = this;
-            var id = localStorage.oxUid;
-
-            var options = {         // 自动登录
-                apiUrl: WebIM.config.apiURL,
-                user: 'hz_niuniu_'+id,
-                pwd: '123456',
-                appKey: WebIM.config.appkey,
-                success: function () {
-                    console.log('登录成功')
-                    self.dispatch('get_R');
-                },
-                error: function () {
-                    console.log('失败')
                 }
             };
             conn.open(options);

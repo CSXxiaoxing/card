@@ -1,18 +1,12 @@
 <template>
-    <div class='message'>
-        <mt-popup 
-            v-model="careTip"
-            popup-transition="popup-fade" :modal='false'
-            class="care" >
-            <span>通知 <i @click="careTip = false">×</i></span>
-            <p>该房间尚未公开</p>
-            <mt-button @click="careTip = false">  确定
-            </mt-button>
-        </mt-popup >
+    <mt-popup 
+            v-model="message"
+            popup-transition="popup-fade"
+            class="message">
     	<header>
             <ul>
                 <li>
-                    <i><a @click='$store.commit("ls")'></a></i>
+                    <i><a @click='message = false'></a></i>
                 </li>
                 <li>发布公告</li>
                 <li @click="placard()">发布</li>
@@ -28,7 +22,7 @@
             <p><span>{{num}}</span>/50</p>
         </div>
         <loading v-if='loading'></loading>
-    </div>
+    </mt-popup>
 </template>
 
 <style lang='scss' scoped>
@@ -36,10 +30,7 @@
     .message {
         height: 100%;
         width: 100%;
-        position:fixed;
-        left:0;
-        top:0;
-        background: #ECEDF1;
+        background: #F7E6D2;
         
         header {
             height: 1.87037rem;
@@ -152,6 +143,7 @@
         data: function(){
             return {
                 loading: false,     // loading
+                message: false,     
                 content: '',
                 num: 0,
                 maxLength:50,
@@ -186,17 +178,15 @@
                     token: localStorage.oxToken,
                     roomid : self.roomid,
                 }, '' , this)
-                    .then(res => {                      
-                        if(res.status == 0){
-                            
-                        }else{
-                            console.log(res)
-                            vx.message = self.content;
-                            console.log(vx.message);
-                            self.content="";
-                            self.num = 0;
-                            router.push({path: `room/${this.$store.state.idRoom.room_id}`});
+                    .then(res => {            
+                    console.log(res)          
+                        if(res.status == 1 || res.status == 3){
+                           vx.message = self.content;
+                           self.content="";
+                           self.num = 0;
+                           self.message = false;
                         }
+                        
                     })
                 }
             }

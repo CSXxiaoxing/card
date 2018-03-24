@@ -8,9 +8,18 @@ import store from './vuex/store.js';
 // mintUI
 import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
-
-
 Vue.use(MintUI); 
+
+// rem保证
+if(!window.wdaaachen){   // 不存在rem则重新载入rem
+    var wdaaachen = document.documentElement.clientWidth*window.devicePixelRatio/10;
+    document.getElementsByTagName("html")[0].style.fontSize = wdaaachen + "px";
+    var scale = 1/window.devicePixelRatio;
+    var mstr = 'initial-scale='+ scale +', maximum-scale='+ scale +', minimum-scale='+ scale +', user-scalable=no';
+    document.getElementById("vp").content = mstr;
+}
+// 兼容ios
+document.body.addEventListener('touchmove', ()=>{});
 
 // 容量检测
 ! function(){
@@ -32,7 +41,7 @@ Vue.use(MintUI);
 
 
 // 创建初始化聊天储存
-localStorage.setItem('oxTxtAll', "{}")
+// localStorage.setItem('oxTxtAll', "{}")
 if(!localStorage.oxTxtAll){ // 单聊
   localStorage.setItem('oxTxtAll', "{}")
 }
@@ -41,15 +50,15 @@ if(!localStorage.oxQun){ // 群聊
   localStorage.setItem('oxQun', "{}")
 }
 
+goEasy.subscribe({
+    channel: "user_"+localStorage.oxUid,
+    onMessage: function(message){
+        // console.log('接收到消息:'+message.content)
+        console.log(JSON.parse(message.content))
+    }
 
-// rem保证
-if(!window.wdaaachen){   // 不存在rem则重新载入rem
-    var wdaaachen = document.documentElement.clientWidth*window.devicePixelRatio/10;
-    document.getElementsByTagName("html")[0].style.fontSize = wdaaachen + "px";
-    var scale = 1/window.devicePixelRatio;
-    var mstr = 'initial-scale='+ scale +', maximum-scale='+ scale +', minimum-scale='+ scale +', user-scalable=no';
-    document.getElementById("vp").content = mstr;
-}
+});
+
 
 
 new Vue({

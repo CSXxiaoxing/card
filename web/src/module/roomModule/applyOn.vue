@@ -1,17 +1,17 @@
 <template>
     <div>
-    <!-- 庄 -->
+    <!-- 庄 --> 
     <mt-popup 
       v-model="setOwner"
       popup-transition="popup-fade" 
       class="owner" >
-      
+        
       <mt-popup
           v-model="details01"
           popup-transition="popup-fade" 
           :modal='false'
           class="details01">
-          <span>选择锁定 <i @click="details01 = false">×</i></span>
+          <span>选择锁定 <i @click="details01 = false"></i></span>
           <ul>
               <li v-for='(data, player) in $store.state.data.Zlist' :key='data.zn_member_id' @click='sel = player'>
                   {{data.zn_member_name}} 
@@ -19,31 +19,42 @@
               </li>
 
           </ul>
-          <mt-button @click="know0">确定</mt-button>
+          <mt-button @click="know0"></mt-button>
       </mt-popup>
 
-      <span>轮庄设置 <i @click="setOwner = false">×</i></span>
+      <span><i @click="setOwner = false"></i></span>
       <p>上庄最低分数：<b>{{$store.state.idRoom.minGrade}}</b></p>
       <hr/>
       <div>
-          <label>
-              <span @click="play = 1"><img src="src/img/varTrue.png" v-show="play" height="60" width="59" alt="" /></span>
-              锁定庄家:<b>{{zhuanList[0]}}</b> <img @click="suo" class="list" src="src/img/module_room_setOwner.png" alt="">
-          </label>
-          <hr/>
-          <label>
-            <span @click="play = 0"><img src="src/img/varTrue.png" v-show="!play" height="60" width="59" alt="" /></span>
-              自动轮庄
-              <div :class='play == 0 ? "height":"close"'>
+        <label>
+          <span @click="play = 1"><img src="src/image/oxCrowd012.png" v-show="play" height="60" width="59" alt="" /></span>
+            <p>自动轮庄</p>
+        </label>
+
+        <div class='height'>
+            <div class='height_nei'>
                 <p>输入轮庄局数</p>
                 <input v-model='zhuanNum' type="text">
-                <p>更新轮庄局数</p>
-              </div>
-          </label>
+                <p></p>
+            </div>
+            <span>
+                <img src="src/image/room015.png" alt="" />
+                <img src="src/image/room014.png" alt="" />
+            </span>
         </div>
-        <hr/>
-        <mt-button @click="zhuan">确定</mt-button>
+
+            <hr/>
+            <label>
+                <span @click="play = 0"><img src="src/image/oxCrowd012.png" v-show="!play" height="60" width="59" alt="" /></span>
+                <p>锁定庄家:</p>
+                <b>{{zhuanList[0]}}</b>
+                <img @click="suo" class="list" src="src/image/room013.png"/>
+            </label>
+          
+        </div>
+        <!-- <mt-button @click="zhuan">确定</mt-button> -->
     </mt-popup >
+
 
     <!-- 普通玩家 -->
     <mt-popup 
@@ -51,7 +62,7 @@
         popup-transition="popup-fade" 
         class="apply" >
 
-        <span>{{this.$store.state.data.apptype == 0 ? "申请上庄" : "取消上庄"}}<i @click="applyOn = false">×</i></span>
+        <span>{{this.$store.state.data.apptype == 0 ? "申请上庄" : "取消上庄"}}<i @click="applyOn = false"></i></span>
 
         <p>当前设置连庄 :
             <b>{{this.$store.state.idRoom.ju > 0 ? this.$store.state.idRoom.ju+"局" : "暂未设定局数"}}</b>
@@ -61,10 +72,10 @@
 
         <p>您是否确定{{$store.state.data.apptype == 0 ? "申请上庄" : "取消上庄"}}？</p>
 
-        <mt-button @click="sz">确定</mt-button>
+        <mt-button @click="sz"></mt-button>
     </mt-popup >
     
-    <!-- 抽水 -->
+    <!-- 奖金分数 -->
     <mt-popup
         v-model="details"
         popup-transition="popup-fade" 
@@ -79,8 +90,8 @@
                 房主抽水分数 &nbsp &nbsp &nbsp: <b>{{allWater}}</b>
             </li>
         </ul>
-        <mt-button @click="newRoom">重新开局</mt-button>
         <p>( 重新开始，房间局数，开奖记录，流水报表和抽水分数都将清零。房间成员分数保持不变)</p>
+        <mt-button @click="newRoom"></mt-button>
     </mt-popup>
     <loading v-if='loading'></loading>
     </div>
@@ -90,136 +101,159 @@
   @import '../../utils/baseVar.scss';
 
   // display: flex; 
-  .apply{
-    width: 7.092593rem;
-    @include border-radius(0.277778rem);
-    position: absolute;
-    top:8.240741rem;
+    .apply{   // 申请上庄
+        width: 8.407407rem;
+        height: 5.305556rem;
+        @include border-radius(0.277778rem);
+        
+        background: $room016 no-repeat;
+        background-size: 8.407407rem 5.305556rem;
+        padding: 0 0.601852rem;
+        box-sizing: border-box;
 
-    &>span:nth-of-type(1){
-      display: block;
-      color:white;
-      font-size: 0.648148rem;
-      width:8.87037rem;
-      height:2.12963rem;
-      line-height: 1.805556rem;
-      background: $home08 no-repeat;
-      background-position: center;
-      background-size:8.87037rem 1.805556rem;
-      text-align: center;
-      position: relative;
-      right: 0.87037rem;
-      bottom: 0.231481rem;
-      i{
-        position: absolute;
-        font-size: 1.296296rem;
-        color: #028B00;
-        right: 1.111111rem;
-      }
-    }
-
-    p{
-      line-height:0.185185rem;
-      padding-bottom: 0.462963rem;
-      text-align:left;
-      font-size:0.333333rem;
-      margin-left:1.52963rem;
-      b{
-        color:#209434;
-      }
-    }
-
-
-    p:nth-of-type(3){
-      font-size:0.407407rem;
-      color:#FB7040;
-      text-align:center;
-      margin-left:0.0rem;
-      margin-top:0.185185rem;
-    }
-
-    input{
-      width:2.351852rem;
-      height:0.777778rem;
-       @include border-radius(0.092593rem);
-      margin-left:0.185185rem;
-      font-size:0.240741rem;
-    }
     
-    button{
-      width:3.305556rem;
-      height: 0.972222rem;
-      line-height:0.925926rem;
-       @include border-radius(0.509259rem);
-      font-size:0.555556rem;
-      margin:0.277778rem 0.0rem 0.462963rem 0;
-      border: 0 none;
-      color: white;
-      background: $homeAll -1.944444rem -1.388889rem no-repeat;
-      background-size: 5.555556rem 5.555556rem;
-    }
-    button:active {
-        position: relative;
-        left: 0.018519rem;
-        bottom: -0.046296rem;
-    }
-    div{
-      text-align:left;
-      padding-left: 0.648148rem;
+        &>span:nth-of-type(1){
+          display: block;
+          color:white;
+          font-size: 0.648148rem;
+          width:8.87037rem;
+          height: 1.9rem;
+          line-height: 1.805556rem;
+          
+          text-align: center;
+          position: relative;
+          right: 0.87037rem;
+          bottom: 0.231481rem;
+            i{
+                position: absolute;
+                right: 0;
+                -webkit-transform: translate(-180%, 90%);
+                   -moz-transform: translate(-180%, 90%);
+                    -ms-transform: translate(-180%, 90%);
+                     -o-transform: translate(-180%, 90%);
+                        transform: translate(-180%, 90%);
+                height: 0.555556rem;
+                width: 0.555556rem;
+                background: $careTip01 no-repeat;
+                background-size: 0.555556rem 0.555556rem;
+            }
+        }
 
-      label{
-        display:inline-block;
-        font-size:0.444444rem;
-        width:100%;
-        margin-bottom: 0.462963rem;
-        line-height:0.740741rem;
-        margin-left: 0.925926rem;
-        span{
-          display:inline-block;
-          width:0.555556rem;
-          height:0.601852rem;
-          background-color: #DADADA;
+        p{
+          line-height:0.185185rem;
+          padding-bottom: 0.462963rem;
+          text-align:left;
+          font-size:0.333333rem;
+          margin-left:1.52963rem;
+          b{
+            color:#209434;
+          }
+        }
+    
+    
+        p:nth-of-type(3){
+          font-size:0.407407rem;
+          color:#FB7040;
+          text-align:center;
+          margin-left:0.0rem;
+          margin-top:0.185185rem;
+        }
+    
+        input{
+          width:2.351852rem;
+          height:0.777778rem;
            @include border-radius(0.092593rem);
-          padding:0.046296rem 0.046296rem 0.0rem 0.046296rem;
-          position:absolute;
-          left:0.648148rem;
+          margin-left:0.185185rem;
+          font-size:0.240741rem;
         }
         
-      }
-    }
-  }
-    .details{
-      width: 7.092593rem;
-       @include border-radius(0.277778rem);
-      position: absolute;
-      top:6.574074rem;
-      height: 5.740741rem;
-      
-      &>span:nth-of-type(1){
-        display: block;
-        color:white;
-        font-size: 0.611111rem;
-        width:8.87037rem;
-        height:2.12963rem;
-        line-height: 1.805556rem;
-        background: $home08 no-repeat;
-        background-position: center;
-        background-size:8.87037rem 1.805556rem;
-        text-align: center;
-        position: relative;
-        right: 0.87037rem;
-        bottom: 0.231481rem;
-            i{
-                position:absolute;
-                display: inline-block;
-                top:0.644444rem;
-                right:1.177778rem;
-                width: 0.527778rem;
-                height: 0.527778rem;
-                background: $homeAll -0.925926rem -2.314815rem no-repeat;
-                background-size: 5.555556rem;
+        button{
+          width: 3.305556rem;
+          height: 0.972222rem;
+          line-height:0.925926rem;
+           @include border-radius(0.509259rem);
+          font-size:0.555556rem;
+          position: relative;
+          left: 0;
+          bottom: 0rem;
+          border: 0 none;
+          color: white;
+
+          background: $login006 no-repeat;
+          background-size: 3.305556rem 0.972222rem;
+        }
+        button:active {
+            position: relative;
+            left: 0.018519rem;
+            bottom: -0.1rem;
+        }
+        div{
+          text-align:left;
+          padding-left: 0.648148rem;
+    
+          label{
+            display:inline-block;
+            font-size:0.444444rem;
+            width:100%;
+            margin-bottom: 0.462963rem;
+            line-height:0.740741rem;
+            margin-left: 0.925926rem;
+            span{
+              display:inline-block;
+              width:0.555556rem;
+              height:0.601852rem;
+              background-color: #DADADA;
+               @include border-radius(0.092593rem);
+              padding:0.046296rem 0.046296rem 0.0rem 0.046296rem;
+              position:absolute;
+              left:0.648148rem;
             }
-      }
+            
+          }
+        }
+    }
+
+    .details{   // 奖金分数
+        width: 8.407407rem;
+        @include border-radius(0.277778rem);
+
+        height: 5.777778rem;
+        background: $room016 no-repeat;
+        background-size: 8.407407rem 5.777778rem;
+        padding: 0 0.62963rem;
+        box-sizing: border-box;
+      
+        &>span:nth-of-type(1){
+            display: block;
+            color:white;
+            font-size: 0.611111rem;
+            width:8.87037rem;
+            height:2.12963rem;
+            line-height: 1.805556rem;
+
+            text-shadow:#000 1px 0 0,#000 0 1px 0,#000 -1px 0 0,#000 0 -1px 0;
+            -webkit-text-shadow:#000 1px 0 0,#000 0 1px 0,#000 -1px 0 0,#000 0 -1px 0;
+            -moz-text-shadow:#000 1px 0 0,#000 0 1px 0,#000 -1px 0 0,#000 0 -1px 0;
+            *filter: Glow(color=#000, strength=1);
+            
+            text-align: center;
+            position: relative;
+            right: 0.87037rem;
+            bottom: 0.231481rem;
+            i{
+                position: absolute;
+                right: 0;
+                -webkit-transform: translate(-180%, 90%);
+                   -moz-transform: translate(-180%, 90%);
+                    -ms-transform: translate(-180%, 90%);
+                     -o-transform: translate(-180%, 90%);
+                        transform: translate(-180%, 90%);
+                height: 0.555556rem;
+                width: 0.555556rem;
+                background: $careTip01 no-repeat;
+                background-size: 0.555556rem 0.555556rem;
+            }
+        }
 
       ul{
         margin-left:0.481481rem;
@@ -240,7 +274,7 @@
             @include border-radius(0.509259rem);
             position: absolute;
             left: 50%;
-            bottom: -0.292593rem;
+            bottom: 0.9rem;
             -webkit-transform: translate(-50%, -54%);
                -moz-transform: translate(-50%, -54%);
                 -ms-transform: translate(-50%, -54%);
@@ -249,8 +283,7 @@
             font-size:0.555556rem;
             border: 0 none;
             color: white;
-            background: $chart05 no-repeat;
-            background-position:center;
+            background: $room017 no-repeat;
             background-size: 4.018519rem 1.037037rem;
         }
         button:active {
@@ -265,10 +298,11 @@
         }
 
       p{
-        // position: absolute;
+        position: relative;
+        top: 1.3rem;
         font-size: 0.282222rem;
         width: 90%;
-        color: red;
+        color: #65A05C;
         // left: 0.046296rem;
         // transform: translate(0%, -50%);
         display: block;
@@ -279,175 +313,222 @@
         // width: 4.574074rem;
       }
     }
-    .owner{
-      width: 7.092593rem;
-       @include border-radius(0.277778rem);
-      position: absolute;
-      top:8.240741rem;
-      &>span:nth-of-type(1){
-        display: block;
-        color:white;
-        font-size: 0.611111rem;
-        width:8.87037rem;
-        height:2.12963rem;
-        line-height: 1.805556rem;
-        background: $home08 no-repeat;
-        background-size:8.87037rem 1.805556rem;
-        background-position: center;
-        text-align: center;
-        position: relative;
-        right: 0.87037rem;
-        bottom: 0.231481rem;
-        i{
-          position: absolute;
-          font-size: 1.296296rem;
-          color: #028B00;
-          right: 1.111111rem;
-        }
-      }
+    .owner{ // 轮庄样式
+        width: 8.407407rem;
+        height: 10.0rem;
+        @include border-radius(0.277778rem);
+        background: $room012 no-repeat;
+        background-size: 8.407407rem 10.0rem;
+        padding: 0 0.9rem;
+        box-sizing: border-box;
 
-      p{
-        line-height:0.185185rem;
-        padding-bottom: 0.462963rem;
-        text-align:left;
-        font-size:0.481481rem;
-        margin-left:0.462963rem;
-        b{
-          color: red;
-          font-size:0.5rem;
-          font-weight: normal;
+        &>span:nth-of-type(1){
+            display: block;
+            width: 100%;
+            height: 1.6rem;
+            i{
+            position: absolute;
+            right: 0;
+            -webkit-transform: translate(-156%, 60%);
+               -moz-transform: translate(-156%, 60%);
+                -ms-transform: translate(-156%, 60%);
+                 -o-transform: translate(-156%, 60%);
+                    transform: translate(-156%, 60%);
+            height: 0.555556rem;
+            width: 0.555556rem;
+            background: $careTip01 no-repeat;
+            background-size: 0.555556rem 0.555556rem;
+            }    
         }
-      }
+
+        &>p:nth-of-type(1){
+            line-height: 0.888889rem;
+            text-align: left;
+            font-size: 0.462963rem;
+            margin-left: 0.462963rem;
+            b{
+                color: #FF3C0D;
+                font-weight: normal;
+            }
+        }
+        hr{
+            width:100%;
+            height: 0.01rem;
+            background: #DFC7A5;
+        }
       
-      hr{
-        width:92%;
-      }
-      button{
-        width:5.555556rem;
-        height: 1.037037rem;
-         @include border-radius(0.509259rem);
-        font-size:0.555556rem;
-        margin:0.092593rem 0.0rem 0.277778rem 0.0rem;
-        border: 0 none;
-        color: white;
-        background: $chart05 no-repeat;
-        background-position:center;
-        background-size: 5.555556rem 1.037037rem;
-      }
-      button:active {
-          position: relative;
-          left: 0.018519rem;
-          bottom: -0.046296rem;
-      }
-      div{
-        text-align:left;
-        label{
-          display:inline-block;
-          font-size:0.518519rem;
-          width:100%;
-          line-height:0.648148rem;
-          padding-left: 1.296296rem;
-          position: relative;
-          box-sizing: border-box;
-            span{
+
+        div{
+            text-align: left;
+            label{
+                background: #F7E8D3;
+                padding-top: 0.231481rem;
                 display:inline-block;
-                width:0.555556rem;
-                height:0.601852rem;
-                background-color: #DADADA;
-                @include border-radius(0.092593rem);
-                padding:0.046296rem 5 0 0.046296rem;
-                position:absolute;
-                left:0.444444rem; 
-                img{
-                    width: 0.546296rem;
-                    height: 0.555556rem;
+                font-size:0.518519rem;
+                width: 100%;
+                line-height:0.648148rem;
+                // padding-left: 1.296296rem;
+                position: relative;
+                box-sizing: border-box;
+                span{
+                    display:inline-block;
+                    width: 0.675926rem;
+                    height: 0.648148rem;
+                    background-color: #DFC7A5;
+                    float: left;
+                    @include border-radius(0.1rem);
+                    position: absolute;
+                    top: 50%;
+                    left: 0;
+                    margin-left: 0.222222rem;
+                    transform: translate(0,-50%);
+                    img{
+                        width: 0.546296rem;
+                        height: 0.555556rem;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-52%,-50%);
+                    }
+                }
+                &>p{
+                    float: left;
+                    text-align: left;
+                    font-size: 0.5rem;
+                    line-height: 0.601852rem;
+                    padding-left: 1.15rem;
+                }
+                &>b{
+                  font-size: 0.35rem;
+                  color: #29A345;
+                  font-weight: normal;
+                  margin-left:0.08rem;
+                }
+                .list{
+                    position: absolute;
+                    right: 0.26rem;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 0.574074rem;
+                    height: 0.601852rem;
                 }
             }
-          b{
-            font-size: 0.35rem;
-            color: #29A345;
-            font-weight: normal;
-            margin-left:0.08rem;
-          }
-          .list{
-            position: absolute;
-            right: 0.3rem;
-            width: 0.805556rem;
-            height: 0.722222rem;
-          }
-          div{
-            width: 6.62963rem;
-            height: 0;
-            background-color:#E5E5E5;
-            position:relative;
-            right:1.055556rem;
-            top:0.37037rem;
-            margin-bottom: 0.462963rem;
-            overflow: hidden;
-            p:nth-of-type(1){
-              text-align:center;
-              margin-right:0.462963rem;
-              padding-top: 0.462963rem;
-            }
-            input{
-              width:6.259259rem;
-              height:1.055556rem;
-               @include border-radius(0.092593rem);
-              border:0.018519rem solid #D4D4D4;
-              margin-left:0.185185rem;
-              font-size:0.740741rem;
-              text-align:center;
-            }
-            p:nth-of-type(2){
-              width:5.722222rem;
-              line-height:0.833333rem;
-              height:0.462963rem;
-              text-align:center;
-               @include border-radius(0.925926rem);
-              border:0.027778rem solid #666B67;
-              margin-top: 0.37037rem;
-              font-size:0.537037rem;
-            }
-          }
-          div.height{
-              height:3.796296rem;
-              @include transition(all,1s);
-
-          }
-          div.close{
-              height:0.0rem;
-              @include transition(all,1s);
-          }
         }
-      }
+
+        .height{
+            height: 5rem;
+            padding: 0.185185rem 0.25rem 0;
+            width: 6.296296rem;
+            box-sizing: border-box;
+            .height_nei{
+                padding: 0 0.888889rem;
+                height: 3.222222rem;
+                width: 6.25rem;
+                box-sizing: border-box;
+                background: #DFC7A5;
+                line-height: 0.833333rem;
+                font-size: 0.333333rem;
+                input{
+                    width: 100%;
+                    border: 0 none;
+                    text-align: center;
+                    height: 0.740741rem;
+                    line-height: 0.740741rem;
+                    font-size: 0.37037rem;
+                    color: #0BA40B;
+                    background: #F7E8D3;
+                    border-radius: 0.12rem;
+                }
+                p:nth-of-type(2){
+                    height: 0.805556rem;
+                    width: 2.888889rem;
+                    margin-top: 0.52rem;
+                    background: $careTip no-repeat;
+                    background-size: 2.888889rem 0.805556rem;
+                    position:relative;
+                    left: 50%;
+                    transform: translate(-50%,0);
+                }
+                p:nth-of-type(2):active{
+                    transform: translate(-50%,4%);
+                }
+            }
+            span{
+                display: block;
+                height: 1.5rem;
+                width: 6.25rem;
+                position: relative;
+                img{
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-119%,-50%);
+                    height: 0.740741rem;
+                    width: 1.898148rem;
+                }
+                img:active{
+                    transform: translate(-119%,-46%);
+                }
+                img:nth-of-type(2){
+                    transform: translate(19%,-50%);
+                }
+                img:nth-of-type(2):active{
+                    transform: translate(19%,-46%);
+                }
+            }
+        }
+
+        button{
+            width:5.555556rem;
+            height: 1.037037rem;
+             @include border-radius(0.509259rem);
+            font-size:0.555556rem;
+            margin:0.092593rem 0.0rem 0.277778rem 0.0rem;
+            border: 0 none;
+            color: white;
+            background: $chart05 no-repeat;
+            background-position:center;
+            background-size: 5.555556rem 1.037037rem;
+        }
+        button:active {
+              position: relative;
+              left: 0.018519rem;
+              bottom: -0.046296rem;
+        }
     }
     
     .details01{
-      width:8.685185rem;
-      height:10.185185rem;
+        width: 8.685185rem;
+        height: 10.185185rem;
+        background: $friend001 no-repeat;
+        background-size: 8.685185rem 10.185185rem;
+
       @include box-sizing();
        @include border-radius(0.277778rem);
       img{
         width:0.87963rem;
         height:0.925926rem;
       }
-      span{
-        display:inline-block;
-        width:100%;
-        line-height:1.388889rem;
-        font-size:0.592593rem;
-        text-align:center;
-        i{
-          position: absolute;
-          font-size: 1.296296rem;
-          color: #7B7B7B;
-          right: 0.37037rem;
-          }
+        span{
+            display:inline-block;
+            width:100%;
+            line-height:1.388889rem;
+            font-size:0.592593rem;
+            text-align:center;
+            i{
+                right: -0.26rem;
+                top: -0.2rem;
+                position: absolute;
+                background: $login008 no-repeat;
+                background-size: 0.907407rem 0.972222rem;
+                height: 0.972222rem;
+                width: 0.907407rem;
+            }
         }
         ul{
           font-size:0.444444rem;
           width:8.055556rem;
-          height:6.481481rem;
+          height: 7rem;
           
           overflow-y:auto;
           overflow-x:hidden;  
@@ -483,17 +564,17 @@
             }
         }
         button{
-          width:3.305556rem;
-          height: 0.972222rem;
-          line-height:0.925926rem;
-           @include border-radius(0.509259rem);
-          font-size:0.555556rem;
-          margin:0.462963rem 0 0 2.685185rem;
-          border: 0 none;
-          color: white;
-          background: $homeAll -1.944444rem -1.388889rem no-repeat;
-          background-size: 5.555556rem 5.555556rem;
-          }
+            width: 3.2rem;
+            height: 0.972222rem;
+            line-height:0.925926rem;
+            @include border-radius(0.509259rem);
+            font-size: 0.555556rem;
+            margin: 0.462963rem 0 0 2.685185rem;
+            border: 0 none;
+            color: white;
+            background: $careTip no-repeat;
+            background-size: 3.2rem 0.972222rem;
+        }
     }
 
     ul::-webkit-scrollbar {
@@ -512,11 +593,11 @@
     data() {
       return {
         loading: false,     // loading
-        applyOn: false,
-        details:false,
+        applyOn: false,     // √
+        details:false,       // √
 
-        setOwner: false,
-        details01:false,
+        setOwner: false,    // √
+        details01:false,    // √
         sel: 0,
         play: 1,    // 1锁定 0自动
         zhuanNum: 5,     // 轮庄数

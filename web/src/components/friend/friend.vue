@@ -44,13 +44,13 @@
             v-model="markFriend"
             popup-transition="popup-fade"
             class="markFriend" >
-            <input type="text" placeholder="请输入要备注的名字" v-model.number='markName' />
+            <input type="text" placeholder="请输入要备注的名字" v-model='markName' />
             <i @click="markFriend = false"></i>
             <mt-button @click="remarkFriend()">
             </mt-button>
         </mt-popup>
 
-        <header>
+        <header class='frifri'>
             <ul>
                 <li>
                     <i><a @click='addFriend ? addFriend=false : friend_VIP=false'></a></i>
@@ -104,8 +104,8 @@
                         <dd class="remove" ref='remove' @click='noFriend(fri.id)'><p>拒绝</p></dd>
                     </dl>
                 </li>
-
-
+                
+                
                 <li @click='ConTypr(2)'>
                     <span><i></i></span>
                     <span>最近联系</span>
@@ -135,8 +135,10 @@
                 </li>
                 <li  :class='arrows == 3 ? "show" : "hide"'>
                     <dl>
+                        <p @click='ceshi(3)'>删除好友用</p>
                         <p @click='ceshi(1)'>单聊测试口</p>
                         <p @click='ceshi(2)'>群聊测试口</p>
+                        
 
                         <dd v-for='(friends,fquest) in $store.state.system.friendList' 
                         :key='friends.id' 
@@ -169,7 +171,7 @@
         <CHATQUN ref="onQUNChild"></CHATQUN>
 
         <loading v-if='loading'></loading>
-    </mt-popup>
+    </mt-popup> 
 </template>
 
 <script type="text/javascript">
@@ -232,7 +234,8 @@
         mounted: function(){
             // 登录环信
             this.$store.dispatch('webIM')       // 聊天配置
-            this.$store.dispatch('haoyou_DL')   // 聊天登录
+            this.$store.dispatch('dl')         // 聊天登录
+            
 
             var self = this;
             // 获取系统信息
@@ -266,6 +269,34 @@
                     }
                 })
             },
+            inlet: function(obj){   // 单-群入口  
+                var self = this;
+                var dan = this.$refs.onDanLiaoChild;
+                var qun = this.$refs.onQUNChild;
+
+                if(obj.type == 1){  // 单聊
+                    dan.DLRoom = true;
+                } 
+                else if(obj.type == 2){
+                    console.log('加减分')
+                    dan.DLRoom = true;
+                    dan.sheId = obj.sheId; 
+                    dan.heName(obj.sheId); 
+                    dan.rank = obj.rank;
+                    dan.rid = obj.rid;
+                }
+                else if(obj.type == 3){  // 群
+                    qun.chatLT = true;
+                    qun.zn_chatid = obj.qid;
+                    qun.rid = obj.rid;
+                    qun.rank = obj.rank;
+                    qun.list(obj.rid);
+                    qun.qunliao()   // 确保加入群聊
+                }
+            },
+
+
+
             ceshi(n){
                 var self = this;
                 if(n == 1){
@@ -275,6 +306,22 @@
                     self.$refs.onQUNChild.chatLT=true;
                 } else if(n == 3){
                     console.log('加减分')
+                    
+                this.$store.dispatch('webIM')       // 聊天配置
+                this.$store.dispatch('dl')         // 聊天登录
+
+                    conn.removeRoster({
+                        to: 'hz_niuniu_961',
+                        success: function () {  // 删除成功
+                            conn.unsubscribed({
+                                to: 'hz_niuniu_961'
+                            });
+                            // self.haoyou();
+                        },
+                        error: function () {    // 删除失败
+                            alert('删除失败')
+                        }
+                    });
                 }
             },
             haoyou(){   // 手动刷新调用
@@ -333,8 +380,17 @@
                 /*同意添加好友操作的实现方法*/
                 conn.subscribed({
                   to: id,
-                  message : '[resp:true]'
+                  message : localStorage.oxName,
                 });
+
+                id = id.replace('hz_niuniu_','');
+                http.post('/MemberFriend/addFriend',{
+                    uid    : localStorage.oxUid,
+                    fid    : id,
+                })
+                .then(res => {
+                    console.log(res)
+                })
                 // conn.subscribe({//需要反向添加对方好友
                 //   to: id,
                 //   message : '[resp:true]'
@@ -347,18 +403,6 @@
                   to: id,
                   message : '对方拒绝添加您为好友',
                 });
-            },
-            //删除好友申请信息
-            deleteApplyFri(){
-                var self = this;
-                http.post('/MemberNotice/delNotify',{
-                    id : self.friendApply[self.friSel].id
-                })
-                .then(res =>{
-                    if(res.status == 1){
-                        // window.location.reload();
-                    }
-                })
             },
             //删除系统信息
             deleteApplySys(){
@@ -377,7 +421,7 @@
                 var self = this;
                 console.log(self.friQuest)
                 if(self.markName=''){
-                    self.markFriend=false
+                    self.markFriend=false;
                 }else{
                     http.post('/MemberFriend/modifyMark' ,{
                         id : localStorage.oxUid,
@@ -422,13 +466,20 @@
                         conn.unsubscribed({
                             to: id
                         });
-                        console.log('删除成功')
+                        // http.post('/MemberFriend/delFriend',{
+                        //     uid : localStorage.oxUid,
+                        //     fid : id.replace('hz_niuniu_',''),
+                        // })
+                        // .then(res=>{
+                        //     console.log(res)
+                        // })
                         self.haoyou();
                     },
                     error: function () {    // 删除失败
                         alert('删除失败')
                     }
                 });
+
 
             },
             //时间戳转换时间

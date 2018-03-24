@@ -19,18 +19,19 @@
                     <i><a @click='chatLT=false'></a></i>
                 </li>
                 <li>聊天室（{{lingth*1+1}}）</li>
-                <li>
-                    <router-link :to="chartList" >
+                <li 
+                    @click='$refs.onChartList.listOff = true,
+                    $refs.onChartList.fanzhu = rank'>
+
                     <img src="src/image/qun001.png" />
-                    </router-link>
                 </li>
             </ul>
         </header>
 
         <div class='chart'  id='txtbox'>
-            <ul v-if='false'>
+            <ul>
                 <!-- 群聊 -->
-                <li v-for="(data, idx) in $store.state.txt[JSON.parse(this.$route.params.id)[3]]"
+                <li v-for="(data, idx) in $store.state.txt[zn_chatid]"
                 :class="Uid != data.toID ? 'left' : 'right'"   
                 :key = 'data.time' v-if='data.msg != ""'>
                     <img :src="Uid != data.toID ? 'src/img/home_head.png' : 'src/img/room03.png'">
@@ -66,9 +67,9 @@
             </div>
         </footer>
         <loading v-if='loading'></loading>
+        <chartList ref="onChartList"></chartList>
     </mt-popup>
 </template>
-
 
 <style lang='scss' scoped>
     // test
@@ -248,6 +249,7 @@
         	background: rgba(0,0,0,0);
             border-top: 0.05rem solid #E8D9C4;
             box-shadow: 0 -0.05rem 0.2rem 0rem #E8D9C4;
+            position: relative;
             img{
                 width:0.833333rem;
                 height:0.833333rem;
@@ -257,6 +259,7 @@
                 display: flex;
                 align-items: baseline;
                 flex-wrap: nowrap;
+
         		img{
                     height: 0.833333rem;
                     width: 0.833333rem;
@@ -393,9 +396,12 @@
 	import Vue from 'vue';
     import http from '../../utils/httpClient.js';
 
+    import chartList from './chartList.vue'; // 成员列表
+    Vue.component('chartList', chartList)
+
     import loading from '../loading/loading.vue';
     Vue.component('loading', loading)
-    // [2,961109,961,0,112233] 路由数据案例 // open
+    // [2,961109,961,0,112233] 路由数据案例
 	export default {
         data: function(){
             return {
@@ -403,39 +409,57 @@
                 careTip : false,    // 提示窗 √
                 errorTips: '',      // 错误提示 √
                 chatLT: false,    // 总开关-群聊
+                rank: 0, // 所在房间等级
 
                 speak: 1,           // 语音是0 输入是1 √
                 zn_chatid: 0,       // 群聊id（群）
-                roomNum: 1,         // 房间号
-                roomid: 0,          // 房间id
+                rid: 0,             // 房间id
                 txt: '',            // 发送产生的文本
                 Uid: localStorage.oxUid,   // 个人id
+
+
                 startY: 0,      // 取消录音开始位置
                 moveY: 0,       // 移动距离
 
-                chartList: '',      // 成员列表（群）
+                chartList: {},      // 成员列表（群）
                 lingth: 0,          // 成员人数（群）
                 isfriend: 0,        // 是好友1  不是0
             }
         },
         mounted: function(){
             var [self, id] = [this, this.Uid];
-            // this.$store.dispatch('webIM')   
-            // this.$store.dispatch('dl')      
-
             audio_TYPE = 1 // 录音参数修正
-
-            // var params = JSON.parse(this.$route.params.id)  // 路由参数
             
-                this.roomNum = params[0];       // 房间号
-                this.roomid = params[1];        // 房间id
-                this.zn_chatid = params[3];     // 群聊id
-
-                this.chartList = `/chartList/${this.$route.params.id}`; // 群聊列表
-                qunliao()
             
-            function qunliao() {
-                self.list()                                 // 请求群员
+            
+            var timeD = setTimeout(function(){
+                var chat = document.getElementById("txtbox");
+                chat.scrollTop = chat.scrollHeight;
+                clearTimeout(timeD)
+            },200)
+
+
+            this.qunliao() // 加入群聊
+
+            http.post( '/Chat/getChatList', { // 聊天记录
+                        formid: localStorage.oxUid,
+                        toid: self.zn_chatid,
+                        pagesize: 50,
+                        p: 1,
+                    }, '', this )
+                .then(res => {
+                    console.log(res)
+            })
+        },
+        updated: function(){
+            var chat = document.getElementById("txtbox");
+            chat.scrollTop = chat.scrollHeight;
+        },
+        methods: {
+            qunliao : function() {
+                this.$store.dispatch('webIM')       // 聊天配置
+                this.$store.dispatch('dl')         // 聊天登录
+                var self = this;
                 var a = JSON.parse(localStorage.oxQun)
                 if(!a[`${self.zn_chatid}`]){
                     a[`${self.zn_chatid}`] = []
@@ -453,7 +477,6 @@
                     }
                 }
                 conn.getGroup(options2); 
-
                 var addGroupMembers = function () {     // 加入群聊
                     var option3 = {
                         list: ['hz_niuniu_'+localStorage.oxUid],
@@ -462,35 +485,12 @@
                     conn.addGroupMembers(option3);
                 };
                 addGroupMembers()   // 群聊
-
-                self.$store.state.txtType = self.zn_chatid; // 聊天状态头
-            }
-            var timeD = setTimeout(function(){
-                var chat = document.getElementById("txtbox");
-                chat.scrollTop = chat.scrollHeight;
-                clearTimeout(timeD)
-            },200)
-
-
-            http.post( '/Chat/getChatList', {
-                        formid: localStorage.oxUid,
-                        toid: self.zn_chatid,
-                        pagesize: 50,
-                        p: 1,
-                    }, '', this )
-                .then(res => {
-                    console.log(res)
-            })
-        },
-        updated: function(){
-            var chat = document.getElementById("txtbox");
-            chat.scrollTop = chat.scrollHeight;
-        },
-        methods: {
+            },
             // 发送文本
             textPush () { 
                 var self = this;
                 // 群聊发送文本消息
+                
                 var sendGroupText = function () {
                     var id = conn.getUniqueId();            // 生成本地消息id
                     var Qid = self.zn_chatid;               // 群id
@@ -501,6 +501,7 @@
                         roomType: false,
                         chatType: 'chatRoom',
                         success: function () {
+                            // console.log('群聊文本发送成功')
                             // 储存聊天记录
                             self.$store.state.obj = {
                                 pageSize: 10,
@@ -519,12 +520,12 @@
                             };
                             self.$store.dispatch('webKeep');     // 保存聊天记录
 
-                            // 聊天
-                            self.$store.state.txtType = self.zn_chatid;
                             // 本地消息储存
                             var a = JSON.parse(localStorage.oxQun);
                             var date = new Date().getTime();
-
+                            if(!a[`${self.zn_chatid}`]){
+                                a[`${self.zn_chatid}`] = [];
+                            }
                             var QUN_LIAO = {
                                 txt: 'txt',
                                 type: 'groupchat',
@@ -534,7 +535,6 @@
                                 msg: self.txt,
                             }
                             a[Qid].push(QUN_LIAO)
-                            console.log(a)
                             self.$store.state.txt = a;
                             localStorage.oxQun = JSON.stringify(a);
                             self.txt = '';  // 内容请零
@@ -549,7 +549,7 @@
                     conn.send(msg.body);
                 };
                 
-                this.$store.state.txt = JSON.parse(localStorage.oxQun)
+                // this.$store.state.txt = JSON.parse(localStorage.oxQun)
                 sendGroupText()
             },
             sendPrivateAudio : function (emdTime) {  // 群聊发送音频消息
@@ -717,15 +717,17 @@
                 obj.playAudio(e);
             },
 
-            list () {   // 玩家数量
+            list (rid) {   // 玩家数量
                 var self = this;
                 http.post('/RoomJoin/getJoinRoomList',{
                     p: 1,
                     pagesize: 100,
-                    roomid: this.roomid,
+                    roomid: rid,
                 })
                 .then(res => {
+                    console.log(res.data)
                     if(res.status == 1){
+                        this.chartList = res.data;
                         self.lingth =  res.data.count;
                     }
                 })

@@ -1,5 +1,8 @@
 <template>
-	<div id="water">
+	<mt-popup
+    v-model="water"
+    popup-transition="popup-fade" 
+    id="water" >
 		<mt-popup 
 		    v-model="careTip"
 		    popup-transition="popup-fade" :modal='false'
@@ -11,15 +14,15 @@
 		</mt-popup >
 		<header>
             <ul>
-                <li>
-                    <i><router-link :to='"/room/"+$store.state.idRoom.room_id'></router-link></i>
+                <li @click='water=false'>
+                    <i></i>
                 </li>
                 <li>流水报表</li>
             </ul>
         </header>
 
         <center>
-    		<table  v-for='(list,listkey) in waterList' border="1" cellpadding="0" cellspacing="0">
+            <table  v-for='(list,listkey) in waterList' border="1" cellpadding="0" cellspacing="0">
     			<thead>
     				<tr>
     					<td colspan="4">第{{waterList.length - listkey}}局</td>
@@ -29,8 +32,11 @@
     				</tr>
     			</thead>
     			<tbody>
-    				<tr v-for = 'data in list'>
-    					<td>{{data.name}} <img src="src/img/room_water1.png" v-if='data.ForZ == 1'></td> <td :class='data.water >=0 ? "" : "red"' >{{ data.water>=0 ? '+'+ data.water : data.water}}</td> <td>{{data.wFen}}</td> <td>{{data.fen}}</td>
+                    <tr v-for = 'data in list'>
+    					<td>{{data.name}} <img src="src/image/room002.png" v-if='data.ForZ == 1'></td>
+                        <td :class='data.water >=0 ? "" : "red"' >{{ data.water>=0 ? '+'+ data.water : data.water}}</td> 
+                        <td>{{data.wFen}}</td>
+                        <td>{{data.fen}}</td>
     				</tr>
     				<tr class="total"  v-if="seen">
     					<td>房间余剩分数</td> <td colspan="3">{{data.fraction}}</td>
@@ -40,13 +46,12 @@
     				</tr>
     			</tbody>
     		</table>
-            
+
         </center>
-		
 
 		
 		<loading v-if='loading'></loading>
-	</div>
+	</mt-popup>
 </template>
 
 

@@ -1,3 +1,4 @@
+  <!-- 单聊 -->
   <template>
     <mt-popup   position="top" :modal='false'
       v-model="DLRoom" id='DRoom'> 
@@ -11,6 +12,21 @@
             <mt-button @click="careTip = false">  确定
             </mt-button>
         </mt-popup >
+        <!-- 好友信息 -->
+        <mt-popup 
+          v-model="findFriend"  :modal='false'
+          popup-transition="popup-fade"
+          class="findFriend" >
+          <div>
+            <i v-on:click="findFriend = false"></i>
+            <img src="src/img/friend1.png" alt="">
+            <ul>
+                <li>{{sheName}}</li>
+                <li>{{sheId}}</li>
+            </ul>
+            <mt-button @click="findFriend = false ,addFriend() "></mt-button>
+          </div>
+        </mt-popup >
         <!-- 加减分 -->
         <mt-popup 
             v-model="give" :modal='false'
@@ -23,8 +39,7 @@
             </label>
             <label>减分: <input type="text" placeholder="输入分数" v-model.number = 'jian' @focus='add = ""'></label>
 
-            <mt-button @click="give = false,addfen()">
-            </mt-button>
+            <mt-button @click="give = false,addfen()"></mt-button>
         </mt-popup>
 
 
@@ -34,23 +49,23 @@
                 <li>
                     <i><a @click='DLRoom=false'></a></i>
                 </li>
-                <li>{{shename}}</li>
+                <li>{{sheName}}</li>
 
-                <li  v-show='true'  @click = 'give=true'></li>
-                <li v-show='0' @click="findFriend=true"><img src="src/img/chart_Room5.png" alt="">加友</li>
-
+                <li  v-show='rank == 1'  @click = 'give=true'></li>
+                <li v-show='rank != 1' @click="findFriend=true"><img src="src/image/qun101.png" alt="">加友</li>
             </ul>
         </header>
         <div class='chart'  id='DLtxt'>
-            <ul v-if='roomstatus == 2 || roomstatus == 1'>
+            <ul>
                 <!-- 单聊 -->
-                <li v-for="(data, idx) in (roomstatus == 2 || roomstatus == 1 ? $store.state.txt : '')" 
-                :class="$store.state.txt_idx[idx] >=0 ? 'left' : 'right'"   :key = '$store.state.txt_time[idx]' v-if='data != ""'>
-                    <img :src="$store.state.txt_idx[idx] >=0 ? 'src/img/home_head.png':'src/img/room03.png'" alt="">
+                <li v-for="(data, idx) in $store.state.txt[sheId]" 
+                :class="Uid != data.toID ? 'left' : 'right'"   
+                :key = 'data.time' v-if='data.msg != ""'>
+                    <img :src="Uid != data.toID ? sheImg : $store.state.user.userImg" alt="">
                     
                     <div class="test" v-if='data.txt == "txt"'>
                         <span class="bot"></span>
-                       {{data}}
+                       {{data.msg}}
                     </div>
 
                     <div class="test"  v-if='data.txt == "audio"'>
@@ -151,6 +166,16 @@
                     position: relative;
                     top: 0.148148rem;
                 }
+                li:last-child{
+                    position: relative;
+                    img{
+                        height: 0.44rem;
+                        width: 0.47rem;
+                        margin-right: 0.092593rem;
+                    }
+                    font-size: 0.37rem;
+                    line-height: 0.861111rem;
+                }
                 
             }
         }
@@ -175,7 +200,9 @@
                     padding:0.177778rem 0.185185rem; 
                     border:0.027778rem solid #E4E3E8; 
                     position: relative;
-                    top: 0;
+                    // top: 50%;
+                    // transform: translate(0,-50%);
+
                     border-radius:0.185185rem;
                     padding-left:0.185185rem; 
                     border: 0 none;
@@ -198,8 +225,7 @@
                     border-width: 0.185185rem; 
                     border-style: solid dashed dashed; 
                 }
-            }
-            li:before,li:after {
+            }            li:before,li:after {
                 content: "";
                 display: block;
                 clear: both;
@@ -236,7 +262,7 @@
                 }
                 .test{
                     background-color:#07AD05;
-                    bottom:-0.185185rem;
+                    bottom:-0.24rem;
                     float: right;
                     right:0.277778rem;
                     box-shadow: 0px 3px 10px 0px #ccc;
@@ -440,98 +466,6 @@
         }
     }
 
-    .findFriend{
-        width: 8.722222rem;
-        height:4.62963rem;
-        -webkit-box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
-        -moz-box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
-        -ms-box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
-        -o-box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
-        box-shadow:0.046296rem 0.046296rem 0.185185rem #ADACB1;
-        border-radius: 0.277778rem;
-        position: absolute;
-        top:8.240741rem;
-        img{
-            width:1.972222rem;
-            height:1.972222rem;
-        }
-        i{
-            position:absolute;
-            line-height:0.925926rem;
-            font-size:1.481481rem;
-            font-weight:lighter;
-            color:#797979;
-            right:0.185185rem;
-            top:0.185185rem;
-            width:0.833333rem;
-            height:0.925926rem;
-            @include border-radius(100%);
-            padding-right:0.092593rem;
-        }
-        img{
-            position: absolute;
-            left: 0.962963rem;
-            top: 0.648148rem;
-        }
-        ul{
-            font-size:0.507407rem;
-            li{
-                text-align:left;
-                margin-left: 2.777778rem;
-                position:relative;
-                left:0.555556rem;
-                top:0.925926rem;
-            }
-           
-            li:nth-of-type(1){
-                color:red;
-                font-size:0.574074rem;
-            }
-             li:nth-of-type(2){
-                color:#676767;
-            }
-        }
-        p{
-          input{
-              @include border-radius(0.092593rem);
-              height:0.925926rem;
-              line-height:0.740741rem;
-              font-size:0.462963rem;
-              width:4.62963rem;
-              position:relative;
-              padding-left:0.185185rem;
-              bottom:0.462963rem;
-              text-align:left;
-          }
-          
-        }
-        button{
-          width:2.777778rem;
-          height: 1.0rem;
-          line-height:0.925926rem;
-          border-radius: 0.509259rem;
-          font-size:0.555556rem;
-          margin-bottom:0.462963rem;
-          border: 0 none;
-          color: white;
-          background: $homeAll -1.944444rem -1.388889rem no-repeat;
-          background-size: 5.555556rem 5.555556rem;
-          margin-top:1.851852rem;
-        }
-        button:active {
-            position: relative;
-            left: 0.018519rem;
-            bottom: -0.046296rem;
-        }
-    }
-
-    .sendFriend{
-        @extend .addFriend;
-        p{
-            margin-bottom: 0.462963rem;
-            font-size:0.507407rem;
-        }
-    }
 
     .audio{
         // width: auto;
@@ -556,271 +490,169 @@
                 loading: false,     // loading
                 careTip : false,    // 提示窗
                 errorTips: '',      // 错误提示
-                DLRoom: true,      // 总开关-单聊
-                give: true,        // 加减分弹框
 
+                DLRoom: false,      // 总开关-单聊
+                give: false,        // 加减分弹框
+                rank: 0,        // 玩家个人状态 - 房间内配置
+                Uid: localStorage.oxUid,   // 个人id
+                txt: '',            // 发送产生的文本
+
+                sheName: '???',     // 对方名字
+                sheId: 0,           // 对方id
+                sheImg: '',         // 对方img
+
+                startY: 0,      // 取消录音开始位置
+                moveY: 0,       // 移动距离
 
                 speak: 1,           // 语音是0 输入是1 
-                roomstatus: 99,     // 0-客服  1-聊天（房主）  2-聊天（玩家） 3-群聊
                 isfriend: 0,        // 是好友1  不是0
+
                 roomNum: 1,         // 房间号
-                roomid: 0,          // 房间id
-                txt: '',            // 发送产生的文本
-                id: localStorage.oxUid,   //个人id（单聊）
-                sheId: 0,                 // 对方id（单聊）
-                shename: '???',// 对方名字（单聊）
-                toid: 0,                        // 对方的uid
+                toid: 0,            // 对方的uid
                 
-                add: '', // 加分
-                jian: '', // 减分
+                roomid: 0,          // 房间id
+                rid: 0,          // 房间id
+                add: '', // 加n分
+                jian: '', // 减n分
                 findFriend: false,
-                sendFriend: false,
             }
         },
         mounted: function(){
-            var [self, id] = [this, this.id];
 
-            var params = JSON.parse(this.$route.params.id)  // 路由参数
-            
-            this.roomstatus = params[0];    // 状态
-            if(params[0] == 3){         // 聊天室
-                this.roomNum = params[1];       // 房间号
-                this.roomid = params[2];        // 房间id
-                this.zn_chatid = params[4];     // 群聊id
-                this.chartList = `/chartList/${this.$route.params.id}`; // 群聊列表
-                qunliao()
-            }
-            else if(params[0] == 2 || params[0] == 1){    //  个人
-                if (params[1] > 12345 || params[1] == 10086) {    // 群聊室找群主的或者玩家之间
-                    this.roomNum = params[1];       // 房间号
-                    this.zn_name = params[4];     // 房间名字
-                    this.sheId = params[2];         // 房主id or 玩家聊天
+            var [self, id] = [this, this.Uid];
+            audio_TYPE = 1 // 录音参数修正
 
-                    http.post('/MemberFriend/getFriend',{
-                        id : params[2],
-                    })
-                    .then(res => {
-                        if(res.status == 1){
-                            self.shename = res.data.zc_nickname
-                        }
-                        self.$store.state.txtType = "hz_niuniu_"+self.sheId;     // 聊天状态头
-                        self.textPush() // 先发送一波
-                    })
-                }
-            }
-            if ( params[0] == 1 || params[0] == 2 ) {   // 确定聊天位置
-                self.$store.state.txt = JSON.parse(localStorage.oxTxtAll)  || '';
-            }
-            
-            function qunliao() {
-                self.list()                                 // 请求群员
-                var a = JSON.parse(localStorage.oxQun)
-                if(!a[`${self.zn_chatid}`]){
-                    a[`${self.zn_chatid}`] = {}
-                    self.textPush() // 先发送一波
-                }
-                localStorage.oxQun = JSON.stringify(a)
-                self.$store.state.txt = JSON.parse(localStorage.oxQun) || '';
-
-                var options2 = {                        // 获取用户加入的群组列表
-                    success: function (resp) {
-                        console.log("Response: ", resp)
-                    },
-                    error: function (e) {
-                        console.log(e)
-                    }
-                }
-                conn.getGroup(options2); 
-
-                var addGroupMembers = function () {     // 加入群聊
-                    var option3 = {
-                        list: ['hz_niuniu_'+localStorage.oxUid],
-                        roomId: self.zn_chatid,
-                    };
-                    conn.addGroupMembers(option3);
-                };
-                addGroupMembers()   // 群聊
-
-                self.$store.state.txtType = self.zn_chatid; // 聊天状态头
-            }
-
-            // 储存聊天记录
-            this.$store.state.obj = {
-                myId: "hz_niuniu_"+id,
-                toId: "hz_niuniu_"+self.sheId,
-                pageSize: 10,
-                p: 1,
-                d_q: 'chat',
-                type: [{      //消息bodies 
-                    "msg": "test",//消息内容
-                    "type": "txt",//文本消息类型
-                }],
-                time: new Date().getTime(),
-                msg_id: conn.getUniqueId(),
-                style: 2,
-                TAname: '^(*￣(oo)￣)^',
-            };
-            // this.$store.dispatch('webKeep')
-            // this.$store.dispatch('webRecord')
+        
+                                    
             var timeD = setTimeout(function(){
                 var chat = document.getElementById("DLtxt");
                 chat.scrollTop = chat.scrollHeight;
                 clearTimeout(timeD)
             },200)
+
+            http.post( '/Chat/getChatList', { // 聊天记录
+                        formid: localStorage.oxUid,
+                        toid: self.sheId,
+                        pagesize: 50,
+                        p: 1,
+                    }, '', this )
+                .then(res => {
+                    console.log(res)
+            })
+
         },
         updated: function(){
             var chat = document.getElementById("DLtxt");
             chat.scrollTop = chat.scrollHeight;
         },
         methods: {
+            // 对方玩家名称
+            heName () {
+                http.post('/MemberFriend/getFriend',{
+                    id : this.sheId,
+                })
+                .then(res => {
+                    console.log(res)
+                    if(res.status == 1){
+                        this.sheName = res.data.zc_nickname;
+                        this.sheImg = res.data.zc_headimg;
+                    }
+                    this.$store.state.txtType = "hz_niuniu_"+this.sheId;  // 聊天状态头
+                    this.textPush() // 先发送一波
+                })
+            },
+            addfen () {     // 加减分
+                var zhi = this.add+this.jian;
+
+                http.post('/RoomJoin/chagePoint',{
+                    id: this.sheId,  // 设置人id
+                    points: zhi,     // 增加或减少分数
+                    roomid: this.rid,    // 房间id
+                    type: this.add==''?2:1,    // 1加分 2减分
+                })
+                .then(res => {
+                    this.jian = '';
+                    this.add = '';
+                    if(res.status != 1){
+                        this.errorTips = res.msg;
+                        this.careTip = true;
+                    }
+                })
+            },
             // 发送文本
             textPush () { 
                 var self = this;
-                var type = this.roomstatus;  // 0-客服  1-聊天（房主）  2-聊天（玩家） 3-群聊
-
+                var type = this.give;  // 加减分
                 
                 var sendPrivateText = function () {
                     
                     var id = conn.getUniqueId();                  // 生成本地消息id
                     var msg = new WebIM.message('txt', id);      // 创建文本消息
                     msg.set({
-                        msg: self.txt,          // 消息内容
-                        to: "hz_niuniu_"+self.sheId,   // 接收消息对象（用户id） 13450266666
+                        msg: localStorage.oxName+'#(en&^*'+self.txt,   // 消息内容
+                        to: "hz_niuniu_"+self.sheId,   // 接收消息对象（用户id
                         roomType: false,
-                        success: function (id, serverMsgId) {
+                        success: function () {
+                            // 储存聊天记录
+                            self.$store.state.obj = {
+                                pageSize: 10,
+                                p: 1,
+                                myId: localStorage.oxUid,
+                                toId: self.sheId,
+                                d_q: 'chat',
+                                type: [{      //消息bodies 
+                                    "msg": self.txt,//消息内容
+                                    "type": "text",//文本消息类型
+                                }],
+                                time: new Date().getTime(),
+                                msg_id: id,
+                                style: 2,
+                                TAname: localStorage.oxName,
+                            };
+                            self.$store.dispatch('webKeep');     // 保存聊天记录
+
                             // 本地消息储存
-                            var a = JSON.parse(localStorage.oxTxtAll)
-                            var tauid = "hz_niuniu_"+self.sheId;
+                            var a = JSON.parse(localStorage.oxTxtAll);
                             var date = new Date().getTime();
-
-                            if(!a[tauid]){
-                                a[tauid] = {}
+                            if(!a[`${self.sheId}`]){
+                                a[`${self.sheId}`] = [];
                             }
-
-                            if(a[tauid]["hz_niuniu_"+self.id]){
-                                a[tauid]["hz_niuniu_"+self.id][date] = self.txt;
-                            } else {
-                                a[tauid]["hz_niuniu_"+self.id] = {};
-                                a[tauid]["hz_niuniu_"+self.id][date] = self.txt;
+                            var QUN_LIAO = {
+                                txt: 'txt',
+                                type: 'singleChat',
+                                name: localStorage.oxName,
+                                toID: localStorage.oxUid,
+                                time: date,
+                                msg: self.txt,
                             }
+                            a[self.sheId].push(QUN_LIAO)
                             self.$store.state.txt = a;
                             localStorage.oxTxtAll = JSON.stringify(a);
-                            self.txt = '';
+                            console.log('发送成功')
+
+                            self.txt = '';  // 内容请零
                         },
                         fail: function(e){
-                            console.log("失败回调");
+                            console.log("消息发送失败");
                             self.txt = '';
                         }
                     });
                     msg.body.chatType = 'singleChat';
                     conn.send(msg.body);// 单聊发送文本消息txtType
                 };
-                
-                var sendGroupText = function () {
-                    var id = conn.getUniqueId();            // 生成本地消息id
-                    var msg = new WebIM.message('txt', id); // 创建文本消息
-                    var option = {
-                        msg: self.txt,             // 消息内容
-                        to: self.zn_chatid,        // 接收消息对象(群组id)
-                        roomType: false,
-                        chatType: 'chatRoom',
-                        success: function () {
-                            self.$store.state.txtType = self.zn_chatid;
-                            // 本地消息储存
-                            var a = JSON.parse(localStorage.oxQun)
-                            var qid = self.zn_chatid;
-                            var date = new Date().getTime();
+                sendPrivateText();
 
-                            if(!a[qid]){
-                                a[qid] = {}
-                            }
-                            // console.log('群聊信息发送成功');
-                            if(a[qid]["hz_niuniu_"+self.id]){
-                                a[qid]["hz_niuniu_"+self.id][date] = self.txt;
-                            } else {
-                                a[qid]["hz_niuniu_"+self.id] = {};
-                                a[qid]["hz_niuniu_"+self.id][date] = self.txt;
-                            }
-                            self.$store.state.txt = a;
-                            localStorage.oxQun = JSON.stringify(a);
-                            self.txt = '';
-                        },
-                        fail: function () {
-                            console.log('群聊信息发送失败');
-                            self.txt = '';
-                        }
-                    };
-                    msg.set(option);
-                    msg.setGroup('groupchat');
-                    conn.send(msg.body);// 群聊发送文本消息
-                };
-
-                if ( type == 1 || type == 2 ) {
-                    this.$store.state.txt = JSON.parse(localStorage.oxTxtAll)
-                    sendPrivateText()
-                } else if ( type == 3 ) {
-                    this.$store.state.txt = JSON.parse(localStorage.oxQun)
-                    sendGroupText()
-                }  
             },
-            addfen () {     // 加减分
-
-                var self = this;
-                var zhi = 0;
-                var jj = 3;
-
-                if(this.add > 0){
-                    zhi = this.add
-                    jj = 1;
-                } else if(this.jian > 0) {
-                    zhi = this.jian
-                    jj = 2;
-                } else {
-                    this.give == 0 ? this.give = 1 : this.give = 0
-                    return false;
-                }
-                if(self.sheId < 99){
-                    return false;
-                }
-                this.give == 0 ? this.give = 1 : this.give = 0
-                http.post('/RoomJoin/chagePoint',{
-                    id: self.sheId,  // 设置人id
-                    points: zhi,     // 增加或减少分数
-                    roomid: JSON.parse(self.$route.params.id)[5],    // 房间id
-                    type: jj,    // 1加分 2减分
-                })
-                .then(res => {
-                    if(res.status == 1){
-                        self.jian = '';
-                        self.add = '';
-                        self.$store.state.self.addtype = 1;
-                        self.errorTips = res.msg;
-                        self.careTip = true;
-                    } else {
-                        self.errorTips = res.msg;
-                        self.careTip = true;
-                    }
-                    
-                })
-            },
-            //添加房主为好友
+            
+            //添加好友
             addFriend(){
                 var self = this;
-                http.post('/MemberNotice/applyFriend' , {
-                    zn_mid : self.sheId,
-                    zc_content : localStorage.oxName,
-                    zn_applyid : localStorage.oxUid,
-                })
-                .then(res =>{
-                     console.log(self.sheId)
-                     console.log(res)
-                    if(res.status == 1){
-                        self.sendFriend = true;
-                    }else if(res.status == 3){
-                        self.errorTips = res.msg;
-                        self.careTip = true;
-                    }
-                })
+                // 添加好友
+                conn.subscribe({
+                    to: 'hz_niuniu_'+self.sheId,
+                    // Demo里面接收方没有展现出来这个message，在status字段里面
+                    message: localStorage.oxName+'#(h9aoyou*)',
+                });
             },
             sendPrivateAudio : function (emdTime) {  // 群聊发送音频消息-要改单聊
                 function dataURLtoBlob(dataurl) {
@@ -881,9 +713,9 @@
                     var option = {
                         apiUrl: WebIM.config.apiURL,
                         file: file,
-                        to: self.zn_chatid,                   // 接收消息群组
+                        to: "hz_niuniu_"+self.sheId, // 接收消息群组
                         roomType: false,
-                        chatType: 'groupChat',
+                        chatType: 'singleChat',
                         onFileUploadError: function () {      // 消息上传失败
                             console.log('onFileUploadError');
                         },
@@ -904,7 +736,7 @@
                         flashUpload: WebIM.flashUpload,
                     };
                     msg.set(option);
-                    msg.setGroup('groupchat');
+                    // msg.setGroup('groupchat'); 群聊里需添加
                     conn.send(msg.body);
                 }
             },

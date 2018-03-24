@@ -27,6 +27,7 @@ $login008 : url('../../image/login008.png'); // 关闭叉叉
 $login009 : url('../../image/login009.png'); // 验证码背景
 $login010 : url('../../image/login010.png'); // 免密登录按钮
 
+
 // X_oxCrowd
 $oxCrowd_HDcha: url('../../image/HDcha.png'); // 加入房间关闭叉叉
 $oxCrowd_LIBJ: url('../../image/oxCrowd001.png'); // li背景
@@ -55,6 +56,28 @@ $home_FK: url('../../image/home003.png'); // 房卡
 
 // x_room
 $room001: url('../../image/room001.jpg'); // 主体背景
+$room003: url('../../image/room003.png'); // 申请上庄
+$room004: url('../../image/room004.png'); // 取消上庄
+$room005: url('../../image/room005.png'); // 筹码栏背景
+$room_left03: url('../../image/room_left03.png'); // 文字阴影
+$room008: url('../../image/room008.png'); // 空位
+$room009: url('../../image/room009.png'); // 玩法图标
+$room010: url('../../image/room010.png'); // 音乐图标
+$room011: url('../../image/room011.png'); // li背景
+$room012: url('../../image/room012.png'); // 轮庄设置
+$careTip01: url('../../image/careTip01.png'); // 绿色叉叉
+$careTip: url('../../image/careTip.png'); // 圆形确认键
+$room016: url('../../image/room016.png'); // 奖金分数
+$room017: url('../../image/room017.png'); // 重新开局按钮
+$room018: url('../../image/room018.png'); // 申请上庄
+$room019: url('../../image/room019.png'); // 联系房主
+$room020: url('../../image/room020.png'); // 下庄
+$room021: url('../../image/room021.png'); // 解散房间
+$room022: url('../../image/room022.png'); // 删除成员
+$room023: url('../../image/room023.png'); // 退出房间
+$room024: url('../../image/room024.png'); // 取消按钮
+$room025: url('../../image/room025.png'); // 确认按钮
+$room026: url('../../image/room026.png'); // 删除成员的钩
 
 
 // X_friend
@@ -72,10 +95,11 @@ $friend011: url('../../image/friend011.png'); // 放大镜
 
 // x_qun
 $qun002: url('../../image/qun002.png'); // 聊天确认
-$qun005: url('../../image/qun005.png'); // 聊天确认
+$qun005: url('../../image/qun005.png'); // 加减分按钮
 
 
-// home url
+
+// home url careTip01
 $homeAll: url('../../img/home_all.png');
 $home01: url('../../img/home_ox.png');
 $home02: url('../../img/module_home_buy1.png');
@@ -108,6 +132,49 @@ $idmess04 : url('../../image/idMessage4.png');
 
 // flex兼容处理器mixin  // @include
 // @include flexbox();
+@mixin kabai() {    // 扑克摆位 
+    
+    img:nth-of-type(2){
+        left: 68px;
+        // z-index: 3;
+    }
+    img:nth-of-type(3){
+        left: 112px;
+        // z-index: 4;
+    }
+    img:nth-of-type(4){
+        left: 155px;
+        // z-index: 5;
+    }
+    img:nth-of-type(5){
+        left: 198px;
+        // z-index: 6;
+    }    
+    
+    // @-webkit-keyframes order{
+    //     0%{
+    //         transform: rotateY(90deg) translate(0%,-50%);
+    //     }
+    //     10%{
+    //         transform: rotateY(100deg) translate(0%,-50%);
+    //     }
+    //     20%{
+    //         transform: rotateY(110deg) translate(0%,-50%);
+    //     }
+    //     30%{transform: rotateY(120deg) translate(0%,-50%);}
+    //     40%{transform: rotateY(130deg) translate(0%,-50%);}
+    //     50%{transform: rotateY(140deg) translate(0%,-50%);}
+    //     60%{transform: rotateY(150deg) translate(0%,-50%);}
+    //     70%{transform: rotateY(160deg) translate(0%,-50%);}
+    //     80%{transform: rotateY(170deg) translate(0%,-50%);}
+    //     90%{transform: rotateY(180deg) translate(0%,-50%);}
+    //     100%{
+    //         transform: rotateY(180deg) translate(0%,-50%);
+    //     }
+    // }
+}
+
+
 @mixin flexbox() {  // display: flex;
     display: -webkit-box;
     display: -moz-box;

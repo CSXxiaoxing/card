@@ -339,13 +339,13 @@
             
             end () {
                 this.init.error = {
-                                    roomName : false,
-                                    minG: false,
-                                    minS: false,
-                                    maxS: false,
-                                    sca : false,
-                                    inputS: false,
-                                };
+                    roomName : false,
+                    minG: false,
+                    minS: false,
+                    maxS: false,
+                    sca : false,
+                    inputS: false,
+                };
 
                 var self = this;
                 var oxNumber = this.$store.state.initRoom.oxNumber;

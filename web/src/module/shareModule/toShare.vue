@@ -4,8 +4,8 @@
   v-model="toShare" class="share">
         <div class="jiantou">
             <img src="src/image/toShare003.png" alt="" />
-            <p @click='test' v-if='share == "home"'>分享给朋友</p>
-            <p @click='test' v-if='share == "room"'>选择邀请方式</p>
+            <p v-if='share == "home"'>分享给朋友</p>
+            <p v-if='share == "room"'>选择邀请方式</p>
             <img src="src/image/toShare004.png" alt="" />
         </div>
 
@@ -108,10 +108,6 @@
       };
     },
     props: ['share'],
-    methods: {
-        test(){
-            console.log(this.share)
-        }
-    }
+    methods: {},
   };
 </script>

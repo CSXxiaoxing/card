@@ -252,6 +252,7 @@
 					token: localStorage.oxToken,
 				},'',this)
 				.then(res => {
+					
 					this.$refs.onvarRoomChild.imgState.room_id =  res.data;
 				})
 				this.$refs.onvarRoomChild.noModal();

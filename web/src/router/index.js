@@ -1,18 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import LoginComponent from '../components/login/login.vue'
-import HomeComponent from '../components/home/home.vue'
-import oxCrowd from '../components/home/oxCrowd.vue'
+import LoginComponent from '../components/login/login.vue'	// 登录页
+import HomeComponent from '../components/home/home.vue'		// 主页
+import oxCrowd from '../components/home/oxCrowd.vue'		// 牛群主页
 
-import message from '../components/message/message.vue'
-import Room from '../components/room/room.vue'
-
-import Water from '../components/room/waterReport.vue'
-import chartRoom from '../components/chart/chartRoom.vue'
-import CHAT_QUN from '../components/chart/CHAT_QUN.vue'	// 聊天室
-import chartList from '../components/chart/chartList.vue'	// 聊天室成员列表
-import chartDelete from '../components/chart/chartDelete.vue'
+import Room from '../components/room/room.vue'	// 游戏房间
 
 
 Vue.use(VueRouter)
@@ -38,38 +31,6 @@ var router = new VueRouter({
 			path: '/room/:id',
 			name: 'room',
 			component: Room
-		},
-		{
-			path: '/message',
-			name: 'message',
-			component: message
-		},
-
-		{
-			path: '/water',
-			name: 'water',
-			component: Water
-		},
-		{
-			path: '/chartRoom/:id',
-			name: 'chartRoom',
-			component: chartRoom
-		},
-		{
-			path: '/chartList/:id',
-			name: 'chartList',
-			component: chartList
-		},
-		{
-			path: '/chartDelete/:msg',
-			name: 'chartDelete',
-			component: chartDelete
-		},
-
-		{
-			path: '/CHAT_QUN/:id',
-			name: 'CHAT_QUN',
-			component: CHAT_QUN
 		},
 
 	]

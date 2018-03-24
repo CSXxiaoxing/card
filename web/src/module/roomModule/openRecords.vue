@@ -1,33 +1,29 @@
 <template>
     <div>
+    <i @click='onprize = false' class='wxx'  v-show='onprize'></i>
     <mt-popup
         v-model="onprize"
         popup-transition="popup-fade"
         class="openRecords" :class = '$store.state.idRoom.cardFn == 5 ? "five":"seven" '>
 
-            <h3 >开奖记录<i @click='onprize = false'></i></h3>
-            
-            <table  cellspacing="0" class='bel1'>
-                <thead>
+            <h3 >开奖记录</h3>
+            <div class='xsllo'>
+            <ul :style='"width:"+1.814815*6+"rem;"'>
+                <li  v-for='(obj, inx) in 6'  v-show='$store.state.data.listOver.length-inx>=1'>
+                    <table  cellspacing="0">
                     <tr>
-                        <th>局数</th>
-                        <th>点数</th>
+                    <th>第 {{$store.state.data.listOver.length-inx}} 局</th>
                     </tr>
-                </thead>
-            </table>
-            <div class='roll'>
-            <table  cellspacing="0" class='bel2'>
-                <tbody>
-                    <tr v-for='(obj, inx) in $store.state.data.listOver'>
-                        <td>第 {{$store.state.data.listOver.length-inx}} 局</td>
-                        <td v-for='(data,num) in obj.ox' 
-                        :class='[((num)==obj.zzz ?"yellow":""),
-                        (obj.few != 0 ? (obj.few.indexOf(num>2 ? num+2 : num+1) >=0 ? "red" :"") : "") ]' >
-                            {{oox[data == 99 ? oox['11']: data]}}
+                    <tr v-for='(obj, inx) in 6'>
+
+                        <td>
+                            999
+                            {{oox[obj.data == 99 ? oox['11']: obj.data]}}
                         </td>
                     </tr>
-                </tbody>
-            </table>
+                    </table>
+                </li>
+            </ul>
             </div>
     </mt-popup>
     <loading v-if='loading'></loading>
@@ -35,112 +31,28 @@
 </template>
 <!-- cellspacing="0"// position: sticky; -->
 <style lang='scss' scoped>
-     @import '../../utils/baseVar.scss';
-     td.red{
-        color:red;
-     }
-     td.yellow{
-        color:#F2D923;
-     }
-
-    .openRecords.five{
-        height:11.296296rem;
-        // width: 9.555556rem;
-        width: 94%;
-        max-height: 15.277778rem;
-        @include border-radius(0.314815rem);
-        padding: 0 0.388889rem;
-        @include box-sizing();
-        overflow-y: hidden;
-        h3{
-            height: 0.87037rem;
-            font-size: 0.592593rem;
-            line-height: 0.592593rem;
-            text-align: center;
-            font-weight: 200;
-            padding-top: 0.388889rem;
-            i{
-                float: right;
-                font-weight: 200;
-                font-size: 0.925926rem;
-                display: inline-block;
-                background: $homeAll -0.925926rem -2.314815rem no-repeat;
-                background-size: 5.555556rem 5.555556rem;
-                height: 0.527778rem;
-                width: 0.527778rem;
-            }
-        }
-        .roll{
-            width: 100%;
-            overflow-y: auto;
-            // overflow-x: hidden;
-            max-height: 13.0rem;
-            // overflow: auto;
-            position: relative;
-            // padding-bottom: 20px;
-        }
-        .roll::-webkit-scrollbar {
-            display: none;
-        } 
-        table{
-            border: 0.009259rem solid #829369;
-            width: 100%;
-            font-size: 0.296296rem;
-            th{
-                border: 0.009259rem solid #AAB19F;
-                background: #D0E7B1;
-                font-size: 0.425926rem;
-                color: #46592C;
-                font-weight: 500;
-                height: 0.759259rem;
-            }
-            tr {
-                td{
-                    border: 0.009259rem solid #AAB19F;
-                    height: 0.759259rem;
-                    font-size: 0.296296rem;
-                    font-weight: 700;
-                }
-                td:first-child{
-                    font-size: 0.37037rem;
-                    font-weight: 400;
-                    color: #298B98;
-                    white-space: nowrap;
-                }
-                td.self {
-                    color: #D35403;
-                }
-            }
-            tr:nth-of-type(2n) {
-                background: #EFF8E3;
-            } 
-        }
-        table.bel1{
-            border-bottom: 0 none;
-            th:nth-of-type(1){
-            width: 2.648148rem;
-                
-            }
-        }
-        table.bel2{
-            border-top: 0 none;
-            tr:nth-of-type(1){
-                width: 2.648148rem;
-                margin-top: -0.009259rem;
-                td{
-                    border-top: 0 none;
-                }
-            }
-        }
+    @import '../../utils/baseVar.scss';
+    td.red{
+        color: red;
     }
-    .openRecords.seven{
-        height:11.296296rem;
+    td.yellow{
+        color: #F2D923;
+    }
+    .wxx{  // 关闭叉叉
+        position: absolute;
+        background: $login008 no-repeat;
+        right: 0.1rem;
+        top: 4.2rem;
+        background-size: 0.907407rem 0.972222rem;
+        height: 0.972222rem;
+        width: 0.907407rem;
+        z-index: 8888;
+    }
+    .openRecords{
+        height: 8.8rem;
         width: 9.555556rem;
-        max-height: 15.277778rem;
-         @include border-radius(0.314815rem);
-        padding: 0 0.388889rem;
-        @include box-sizing();
-        overflow-y: hidden;
+        background: $friend001 no-repeat;
+        background-size: 9.555556rem 8.8rem;
         h3{
             height: 0.87037rem;
             font-size: 0.592593rem;
@@ -148,74 +60,49 @@
             text-align: center;
             font-weight: 200;
             padding-top: 0.388889rem;
-            i{
-                float: right;
-                font-weight: 200;
-                font-size: 0.925926rem;
-                display: inline-block;
-                background: $homeAll -0.925926rem -2.314815rem no-repeat;
-                background-size: 5.555556rem 5.555556rem;
-                height: 0.527778rem;
-                width: 0.527778rem;
-            }
         }
-        .roll{
-            width: 100%;
-            overflow-y: auto;
-            // overflow-x: hidden;
-            max-height: 14.0rem;
-            // overflow: auto;
+        .xsllo{
+            width: 970px;
             position: relative;
+            left: 50%;
+            transform: translate(-50%,0);
+            height: 6.851852rem;
+            overflow-x: auto;
+            overflow-y: hidden;
+            border: 1px solid #8C996D;
         }
-        .roll::-webkit-scrollbar {
+        .xsllo::-webkit-scrollbar {
             display: none;
-        } 
-        table{
-            border: 0.009259rem solid #829369;
-            width: 100%;
-            font-size: 0.296296rem;
-            th{
-                border: 0.009259rem solid #AAB19F;
-                background: #D0E7B1;
-                font-size: 0.425926rem;
-                color: #46592C;
-                font-weight: 500;
-                height: 0.759259rem;
-            }
-            tr {
-                td{
-                    border: 0.009259rem solid #AAB19F;
-                    height: 0.759259rem;
-                    font-size: 0.296296rem;
-                    font-weight: 700;
-                }
-                td:first-child{
-                    font-size: 0.37037rem;
-                    font-weight: 400;
-                    color: #298B98;
-                    white-space: nowrap;
-                }
-                td.self {
-                    color: #D35403;
-                }
-            }
-            tr:nth-of-type(2n) {
-                background: #EFF8E3;
-            } 
         }
-        table.bel1{
-            border-bottom: 0 none;
-            th:nth-of-type(1){
-                width: 2.648148rem;
+        ul{
+            height: 100%;
+            display: flex;
+            li{
+                width: 1.805556rem;
+                height: 100%;
+                border-right: 1px solid #B4B6B1;
             }
-        }
-        table.bel2{
-            border-top: 0 none;
-            tr:nth-of-type(1){
-                width: 2.648148rem;
-                margin-top: -0.009259rem;
+            table{
+                height: 100%;
+                width: 100%;
+
+                tr{
+                    height: 12.5%;
+                    background: #fff;
+                }
+                th{
+                    font-size: 0.425926rem;
+                    border: 1px solid #A8B0A5;
+                    color: #2A8F99;
+                    background: #D1E8B2;
+                }
                 td{
-                    border-top: 0 none;
+                    border: 1px solid #A8B0A5;
+                    font-size: 0.314815rem;
+                    color: #537F10;
+                }
+                tr:nth-of-type(2n-1){
+                    background: #EFF6E4;
                 }
             }
         }
@@ -232,7 +119,7 @@ Vue.component('loading', loading)
         data: function () {
           return {
             loading: false,     // loading
-            onprize : false,
+            onprize : false,    // 对
             cardNum : this.$store.state.idRoom.cardFn,
             bureau : [],
             cardResult : [],

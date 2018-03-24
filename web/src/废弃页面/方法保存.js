@@ -12,6 +12,15 @@ console.log(length(a));
 // 最高权重
 !important
 
+// $set方法同步data和heml数据
+self.$set(self.logic.oxImg, Res ,self.logic.oxImg.push(Res));
+
+// 文字不换行
+display: block;
+word-wrap: break-word;
+word-break:break-all;
+white-space: pre-wrap;
+
 // GET/POST请求
 http.post( '/Chat/createChat', {
             zc_from: obj.myId, // 自己的id
@@ -170,6 +179,10 @@ created: function() {
     this.boxState.radio = this.oxOpen.oxK;
 },
 
+// vue data中主动更新数组数据（更新元素，更新位置，具体操作）
+this.$set(this.dataList.pd, i, this.dataList.pd[i]=data[i].zn_member_id);
+
+
 // 隐藏滚动条ios
 -webkit-overflow-scrolling: touch;
 
@@ -235,3 +248,71 @@ setInterval(()=>{
 </script>
 
 
+// 原游戏核心代码
+<div class='center'>
+
+    <h1>{{init.text[init.textStyle]}}
+
+        <span v-show='init.textStyle >= 1'>{{init.time}}秒</span>
+
+    </h1>
+    <!-- 还可下注：1090.56 -->
+    <p :style='{visibility: init.textStyle == 3 ? "visible" : "hidden"}'>还可下注：{{init.pond}}</p>
+    <ul>
+
+
+        <!-- li img -->
+        <li v-for='(datalist,index) in 7' 
+            :class='[(init.cardFn == 7 ? "b7" : "a5"), 
+            (time.index == index ? "bgccc" : ""), 
+            (ordinary.bg ? "bg" : "")] '
+            :size = 'index'
+            id = "aaa1"
+            v-show='init.cardFn == 5 ? index != 2 && index != 6 : true'
+
+             @click="[(time.index != index && cardURL.clck == -1 ? playerBottom(index) : false), (init.textStyle == 4 ? cardURL.clck=index : '')]"
+             @touchend='ordinary.Pn = index '>
+
+            <img v-for='dat in 5' src="src/img/room3.png">
+
+            <span>
+                <!-- 出牛 -->
+                <b :class='[(init.cardFn == 7 ? "b7" : "a5"),
+                ((time.index == index && init.textStyle >= 4) || init.textStyle == 5 ? "showoff" : "")]'>
+
+                    {{init.textStyle > 3 ? cardURL.result[ index ] : '庄'}}
+                </b>
+                <b v-show='ordinary.allPay[index]>0 && init.textStyle >= 3'>{{ordinary.allPay[index]}}</b>
+                <b v-show='ordinary.pay[index][2]>0 && init.textStyle >= 3'>{{ ordinary.pay[index][2] }}</b>
+            </span>
+
+            <!-- 扑克牌 -->
+            <div class='testCard' :class='[(init.cardFn == 7 ? "b7" : "a5" ), (time.index != index && gameOver.show ? "three":""), (gameOver.timeEng ? "threeEng" : "")]'>
+                <!-- 翻开卡片 -->
+                <img v-if='init.textStyle >= 4'
+                v-for='(data, idx) in 5'
+                :src="cardURL.src[1]+cardURL.card[idx+index*5]+'.png'"
+
+                :class='[(cardURL.c3Type[0]),(cardURL.c3Type[1]+(idx+1)),
+                (time.index == index ? cardURL.c3Type[3] : ""),
+                ("initNum"), 
+
+                (idx > 2 && init.textStyle == 4 
+                && cardURL.clck == index && ordinary.pay[index][2]>0
+                ? "temporary" : (idx == 3 ? "temporary02" : "temporary03"))]'/>
+
+
+                <!-- 背部卡片 -->
+                <img :src="cardURL.src[0]"  v-for='(data, idx) in 5' 
+                :class='[(cardURL.c3Type[0]),(cardURL.c3Type[1]+(idx+1)),
+                (time.index == index ? cardURL.c3Type[2] : ""), 
+
+                (idx > 2 && init.textStyle == 4 
+                && cardURL.clck == index && ordinary.pay[index][2]>0
+                ? (idx == 3 ? "beimian09" : "beimian10") : (idx == 3 ? "beimian02" : "beimian03"))]' />
+
+
+            </div>
+        </li>
+    </ul>
+</div>

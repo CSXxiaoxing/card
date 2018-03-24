@@ -302,6 +302,7 @@
 			     -o-transform: translate(-50%,0) scale(0.95,0.95);
 			        transform: translate(-50%,0) scale(0.95,0.95);
 		}
+		// login008
 		label{
 		 	@include label; 
 			width: 100%;

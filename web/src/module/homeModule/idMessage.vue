@@ -67,8 +67,8 @@
                 background-size:2.333333rem 2.37037rem;
                 overflow: hidden;
                 img{
-                    width:2.205926rem;
-                    height:2.175926rem;
+                    width: 2.205926rem;
+                    height: 2.175926rem;
                     z-index: 2px;
                     border-radius:0.185185rem;
                     padding-top:0.061296rem;

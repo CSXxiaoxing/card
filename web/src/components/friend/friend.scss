@@ -21,7 +21,7 @@
     // position: fixed;
     // left: 0;
     // top: 0;
-    header {
+    header,.frifri {
         font-size: 0.43rem;
         line-height: 0.87037rem;
         height: 0.861111rem;
@@ -529,9 +529,9 @@
               background-size: 2.481481rem 0.796296rem;
             }
             button:active {
-                position: relative;
-                left: 0.018519rem;
-                bottom: -0.046296rem;
+                position: absolute;
+                left: 50%;
+                transform: translate(-50%,-0.1rem);
             }
         }
         

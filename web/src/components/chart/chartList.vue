@@ -1,5 +1,6 @@
 <template>
-    <div class='chartList'>
+    <mt-popup id='chartList' position="left" :modal='false'
+      v-model="listOff" >
       <mt-popup 
           v-model="careTip"
           popup-transition="popup-fade" :modal='false'
@@ -9,47 +10,80 @@
           <mt-button @click="careTip = false">  确定
           </mt-button>
       </mt-popup >
-        <!-- 房间成员 -->
+        <!-- 退出房间 -->
         <mt-popup 
-          v-model="putRoom"
+          v-model="putRoom" :modal='false'
           popup-transition="popup-fade" 
           class="tip" >
-          <span>退出房间</span>
+          <i @click='putRoom = false'></i>
           <p>退出房间分数将会清零，你是否要退出房间？</p>
-          <mt-button @click="go" >  确定
+          <mt-button @click="go" >  
           </mt-button>
-          <mt-button @click="putRoom = false">  取消
+          <mt-button @click="putRoom = false">  
           </mt-button>
         </mt-popup >
 
         <!-- 解散房间 -->
         <mt-popup 
-          v-model="dissolveRoom"
+          v-model="dissolveRoom" :modal='false'
           popup-transition="popup-fade" 
           class="diss" >
-          <span>解散房间</span>
+            <i @click='dissolveRoom = false'></i>
           <p>房间玩家分数未清零你是否确定要解散房间？</p>
-          <mt-button @click="delRoom">  确定
-          </mt-button>
-          <mt-button @click="dissolveRoom = false">  取消
-          </mt-button>
-        </mt-popup >
 
+          <mt-button @click="delRoom"></mt-button>
+          <mt-button @click="dissolveRoom = false"></mt-button>
+        </mt-popup >
+        <!-- 删除成员 -->
+        <mt-popup v-model="DeleteCY"
+            class='chartDelete' :modal='false'
+             position="left">
+
+            <header>
+                <ul>
+                    <li>
+                        <i><a @click='DeleteCY = false'></a></i>
+                    </li>
+                    <li>删除房间成员</li>
+                    <li @click='delPerson'>确认</li>
+                </ul>
+            </header>
+            <div class='Del_list'>
+                <ul>
+                    <li v-for='(data, player) in list' :key='data.id' @click='imgStyle.indexOf(player) >= 0 ? imgStyle.splice(imgStyle.indexOf(player),1) : imgStyle.push(player)' v-if='player != "count"'>
+                        <img src="src/image/home004.png" alt="">
+                        <dl>
+                            <dt>{{data.zn_member_name}}</dt>
+                            <dd>分数 : <b>{{data.zn_points}}</b></dd>
+                        </dl>
+                        <span>
+                        <img v-show="imgStyle.indexOf(player) >= 0" src="src/image/room027.png" />
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </mt-popup>
+        
+        <!-- 房间成员 -->
     	<header>
             <ul>
                 <li>
-                    <i><a  @click='$store.commit("ls")'></a></i>
+                    <i><a  @click='listOff = false'></a></i>
                 </li>
-                <li>房间成员</li>
-                <li><img src="src/img/friend5.png" alt="">添加</li>
+                <li>房间成员{{$parent.$parent.rid}}</li>
+                <li><img src="src/image/friend003.png" alt=""></li>
             </ul>
         </header>
         <div class='list'>
             <ul>
-            	<li v-for='(data, key) in datalist' :key='data.id' v-if='key != "count"' 
+
+                <li v-for='(data, key) in $parent.$parent.chartList' :key='data.id' v-if='key != "count"' 
                 :class='data.zn_member_id == cli ? "click" : ""' @touchend='cli = data.zn_member_id'>
-            		<img src="src/img/chart_Room2.png" alt="">
+
+            		<img src="src/image/home004.png" alt="">
+
                     <b>{{data.zn_member_name}}</b>
+                    <p v-show = 'fanzhu == 1'>分数 : <b>{{data.zn_points}}</b></p>
                     <span><img src="src/img/chart_List1.png" alt="">加友</span>
             	</li>
 
@@ -57,18 +91,19 @@
         </div>
 
         <footer>
-            <mt-button v-show = 'a == 1' type="primary"  @click="dissolveRoom = true">
+
+            <mt-button v-show = 'fanzhu == 11' type="primary"  @click="dissolveRoom = true">
                     解散房间
             </mt-button>
-            <mt-button v-show = 'a == 1' type="primary" @click='chartDelete'>
+            <mt-button v-show = 'fanzhu == 11' type="primary" @click='DeleteCY=true'>
                     删除成员
             </mt-button>
-        	<mt-button v-show = 'a == 0' type="primary"  @click="putRoom = true">
+        	<mt-button v-show = 'fanzhu == 1 || fanzhu == 2' type="primary"  @click="putRoom = true">
                     退出房间
             </mt-button>
         </footer>
         <loading v-if='loading'></loading>
-    </div>
+    </mt-popup>
 </template>
 
 <style lang='scss' scoped>
@@ -76,80 +111,92 @@
     @import '../../utils/baseVar.scss';
 
     .mut{
-        width: 7.092593rem;
-        @include border-radius(0.277778rem);
-        position: absolute;
-        top:8.240741rem;
-        span{
-          display: block;
-          color:white;
-          font-size: 0.611111rem;
-          width:8.87037rem;
-          height:2.12963rem;
-          line-height: 1.805556rem;
-          background: $home08 no-repeat;
-          background-position: center;
-          background-size:8.87037rem 1.805556rem;
-          text-align: center;
-          position: relative;
-          right: 0.87037rem;
-          bottom: 0.462963rem;
+        width: 6.3rem;
+        height: 4.212963rem;
+        padding: 0.12963rem;
+        box-sizing: border-box;
+        background: $friend010 no-repeat;
+        background-size: 6.3rem 4.212963rem;
+        overflow: hidden;
+        left: 41%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        i{
+            display: block;
+            height: 0.712963rem;
+            width: 0.712963rem;
+            position: absolute;
+            right: 0.037037rem;
+            top: 0;
+            transform: translate( 0rem, 0rem);
+            background: $login008 no-repeat;
+            background-size: 0.712963rem 0.712963rem;
         }
-
         p{
           height:1.666667rem;
-          line-height:0.740741rem;
-          font-size:0.462963rem;
-          width:5.611111rem;
-          position:relative;
-          left:0.740741rem;
-          bottom:0.462963rem;
+          line-height: 0.5rem;
+          font-size: 0.38rem;
+          width: 4.351852rem;
+          position: absolute;
+          top: 44%;
+          left: 50%;
+          transform: translate(-50%,-50%);
+          color: #F17956;
+          display: block;
+          word-wrap: break-word;
+          word-break:break-all;
+          white-space: pre-wrap;
           text-align: left;
         }
         button{
-          width:2.777778rem;
-          height: 1.0rem;
-          line-height:0.925926rem;
-          @include border-radius(0.509259rem);
+          width: 2.268519rem;
+          height: 0.787037rem;
+          @include border-radius((0.787037/2)+rem);
+
           font-size: 0.555556rem;
           margin-bottom: 0.462963rem;
           border: 0 none;
           color: white;
-          background: $homeAll -1.944444rem -1.388889rem no-repeat;
-          background-size: 5.555556rem 5.555556rem;
+
+          background: $room025 no-repeat;
+          background-size: 2.268519rem 0.787037rem;
+          position: absolute;
+            bottom: 0.3rem;
+            left: 0.648148rem;
         }
-        button:active {
-            position: relative;
-            left: 0.018519rem;
-            bottom: -0.046296rem;
+        button:nth-of-type(2){
+            background: $room024 no-repeat;
+            background-size: 2.268519rem 0.787037rem;
+            left: 3.36rem;
         }
+
     }
 
-    .chartList {
+    #chartList {
         height: 100%;
         width: 100%;
-        position: fixed;
-        left:0;
-        top:0;
-        background: #ECEDF1;
+        padding-right: 19%;
+        background: rgba(0,0,0,0.4);
+        box-sizing: border-box;
+
         @include flexbox();
         @include direction(column);
         header {
-            height: 1.87037rem;
-            padding: 1.018519rem 0.277778rem 0.0rem;
             @include box-sizing();
-            background: #2F2E34;
+            background: #F7E8D3;
             color: #fff;
             ul {
                 height: 0.796296rem;
                 line-height: 0.796296rem;
                 @include flexbox();
                 @include justify-content(space-between);
-                font-size:0.462963rem;
+                font-size:0.4rem;
                 img{
-                  position:relative;
+                  position: relative;
                   right:0.092593rem;
-                  top:0.066296rem;
+                  top: 0.032rem;
+                  width: 0.351852rem;
+                  height: 0.351852rem;
                 }
                 li:nth-of-type(2){
                     text-align: center;
@@ -157,16 +204,17 @@
                 li:first-child {
                     &>i {
                         display: inline-block;
-                        width: 0.648148rem;
-                        height: 0.509259rem;
-                        background: $roomAll -4.351852rem -1.481481rem no-repeat;
-                        background-size: 5.555556rem;
+                        width: 0.537037rem;
+                        height: 0.416667rem;
+                        background: $friend002 no-repeat;
+                        background-size: 0.537037rem 0.416667rem;
                         position: relative;
-                        top: 0.402963rem;
-                        @include translate(0,-50%);
-                        a {
-                            padding: 0.259259rem 0.37037rem;
-                        }
+                        top: 50%;
+                        -webkit-transform: translate(0, -50%);
+                        -moz-transform: translate(0, -50%);
+                        -ms-transform: translate(0, -50%);
+                        -o-transform: translate(0, -50%);
+                        transform: translate(0, -50%);
                     }
                 }
             }
@@ -178,7 +226,7 @@
             flex:1;
             overflow-y:auto;
             overflow-x:hidden;
-            background:white;
+            background: #F7E8D3;
             font-size:0.388889rem;
             li{
                 height:1.759259rem;
@@ -189,35 +237,51 @@
                     width:1.407407rem;
                     height:1.481481rem;
                 }
-                b{
+                &>b{
                     display:inline-block;
-                    min-width:2.962963rem;
-                    min-height: 1.194444rem;
-                    line-height:1.203704rem;
                     position: relative;
-                    bottom:0.462963rem;
+                    font-size: 0.4rem;
+                    line-height: 0.38rem;
+                    bottom: 0.6rem;
                     font-weight: normal;
                 }
+                p{
+                    display:inline-block;
+                    color:#757575;
+                    position: relative;
+                    left: -0.75rem;
+                    bottom: 0.2rem;
+                    font-size: 0.30rem;
+
+                    b{
+                        color: #12AE0F;
+                        font-weight: 500;
+                    }
+                }
                 span{
-                     width:1.833333rem;
-                     height:0.833333rem;
-                     border:0.027778rem solid #CDE9CC;
+                     width: 1.6rem;
+                     height: 0.6rem;
+                     border: 2px solid #0DBA09;
                      @include border-radius(0.925926rem);
                      float: right;
                      position: relative;
-                     top:0.462963rem;
-                     right:0.462963rem;
-                     color:#13BD11;
-                     font-size:0.407407rem;
-                     line-height: 0.555556rem;
-                     padding-right: 0.185185rem;
+                     top: 0.462963rem;
+                     right: 0.462963rem;
+                     color: #13BD11;
+                     font-size: 0.4rem;
+                     line-height: 0.6rem;
+                     padding-left: 0.68rem;
+                     box-sizing: border-box;
                      img{
-                        position:relative;
-                        display:inline-block;
-                        vertical-align: sub;
-                        top:0.074074rem;
-                        margin-left:0.203704rem;
-                        width:0.583333rem;
+                        position: absolute;
+                        display: inline-block;
+                        // vertical-align: sub;
+                        top: 50%;
+                        left: 0.1rem;
+                        transform: translate(0,-50%);
+                        // margin-left:0.203704rem;
+                        margin: 0;
+                        width: 0.583333rem;
                         height:0.574074rem;
                      }
                 }
@@ -235,18 +299,19 @@
         } 
 
         footer{
-            width:100%;
-            height: 1.296296rem;
+            width: 100%;
+            height: 1.21rem;
             position: relative;
+            background: #F7E8D3;
+            padding: 0 6%;
+            box-sizing: border-box;
+
             button{
-                width:4.111111rem;
-                height:1.037037rem;
-                line-height: 0.925926rem;
-                font-size:0.555556rem;
+                width: 50%;
+                height: 0.787037rem;
+                font-size: 0px;
                 border: none;
-                background: $chart03  no-repeat;
-                background-position:center;
-                background-size: 100% 100%;
+
                 position: relative;
                 top: 50%;
                 -webkit-transform: translate(0,-50%);
@@ -254,17 +319,26 @@
                     -ms-transform: translate(0,-50%);
                      -o-transform: translate(0,-50%);
                         transform: translate(0,-50%);
-                a{color: #fff;}
+            }
+            button:nth-of-type(1){
+                background: $room021 no-repeat;
+                background-position: center;
+                background-size:  2.555556rem 100%;
+            }
+            button:nth-of-type(2){
+                background: $room022 no-repeat;
+                background-position: center;
+                background-size:  2.555556rem 100%;
+            }
+            button:nth-of-type(3){                
+                background: $room023 no-repeat;
+                background-position: center;
+                background-size: 2.555556rem 100%;
             }
             button:active {
                     position: relative;
                     left: 0.018519rem;
                     bottom: -0.046296rem;
-            }
-            button:nth-of-type(1){
-                background: $chart04 no-repeat;
-                background-size: 100% 100%;
-                background-position:center;
             }
         }
     }
@@ -278,11 +352,97 @@
 
     .diss{
       @extend .mut;
-        button:nth-of-type(2){
-            background: $chart04 no-repeat;
-            background-position: center;
-            background-size: 100% 100%;
+    }
+
+    // 删除成员
+    .chartDelete {
+        height: 100%;
+        width: 100%;
+        padding-right: 19%;
+        background: rgba(0,0,0,0);
+        box-sizing: border-box;
+        
+        header {
+            height: 1.87037rem;
+            padding: 1.018519rem 0.277778rem 0;
+            @include box-sizing();
+            background: #2F2E34;
+            color: #fff;
+            font-size:0.425926rem;
+            ul {
+                height: 0.796296rem;
+                line-height: 0.796296rem;
+                @include flexbox();
+                @include justify-content(space-between);
+                li:nth-of-type(2){
+                    text-align: center;
+                }
+                li:nth-of-type(3) {
+                    color: #248B18;
+                    font-size: 0.36rem;
+                }
+            }
         }
+        
+        .Del_list{
+            width: 100%;
+            height:16.092593rem;
+            overflow-y:auto;
+            overflow-x:hidden;
+            background:white;
+            font-size:0.388889rem;
+            background: #F7E8D3;
+            li{
+
+                height:1.759259rem;
+                text-align: left;
+                border-bottom: 1px solid #C8B9A4;
+                img{
+                    width:1.407407rem;
+                    height:1.481481rem;
+                    margin:0.092593rem 0.185185rem 0.0rem 0.092593rem;
+                }
+                dl{
+                    display:inline-block;
+                    line-height:0.555556rem;
+                    background-position: center;
+                    background-size:cover;
+                    position:relative;
+                    bottom:0.185185rem;
+                    font-weight: normal;
+                }
+                dd{
+                    color:#757575;
+                    b{
+                        color: #12AE0F;
+                        font-weight: 500;
+                    }
+                }
+                span{
+                    width: 0.87963rem;
+                    height: 0.925926rem;
+                    float: right;
+                    top: 0.43rem;
+                    right: 0.5rem;
+
+                    position: relative;
+                    background: $room026 no-repeat;
+                    background-size:  0.87963rem 0.925926rem;
+                    img{
+                        margin:0;
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+            .clear{
+                clear: both;
+                height:0.0rem;
+            }
+        }
+        .Del_list::-webkit-scrollbar {
+            display: none;
+        } 
     }
 </style>
 
@@ -297,29 +457,27 @@
         data: function(){
             return {
                 loading: false,   // loading
+                listOff: false,   // 本页面主开关
+                rid: this.$parent.$parent.rid,  // 房间id(不变)
+                list: this.$parent.$parent.chartList,   // 成员列表
+                fanzhu: '',       // 3普通  1.2房主/庄
+
                 chartDel: '', // 路由
-                a: 99,       // 0普通  1房主
-                roomid: 0,  // 房间id
-                datalist: '',   // 成员列表
+
                 cli: -1,         // 选中
+                imgStyle: [],    
+
+                DeleteCY: false, // 删除成员
                 putRoom: false,
                 dissolveRoom: false,
                 careTip : false,
             }
         },
-
-        mounted: function(){
-            var self = this;
-            var params = JSON.parse(this.$route.params.id);
-            this.a = params[3];
-            this.roomid = params[2];
-            this.list()               // 玩家列表
-        },
-
+        mounted: function(){},
         methods: {
             delRoom () {        // 解散房间
                 http.post('/Room/dissolveRoom',{
-                    roomid: this.roomid,
+                    roomid: this.rid,
                 })
                 .then(res => {
                     console.log(res)
@@ -328,31 +486,15 @@
                     }
                 })
             },
-            list () {       // 玩家列表
-                var self = this;
-                http.post('/RoomJoin/getJoinRoomList',{
-                    p: 1,
-                    pagesize: 100,
-                    roomid: this.roomid,
-                })
-                .then(res => {
-                    console.log(res)
-                    if(res.status == 1){
-                        self.datalist = res.data;
-                        self.chartDel = `/chartDelete/${JSON.stringify([res.data])}`
-                    }
-                })
-            },
             go () {     // 退出房间
                 var self= this;
                 http.post('/RoomJoin/closeRoom',{
                     id: localStorage.oxUid, // 
-                    roomid: this.roomid,
+                    roomid: this.rid,
                 })
                 .then(res => {
                     console.log(res)
                     if(res.status == 1){
-                        self.list()
                         self.putRoom = false
                         router.push({path: `/home`});
                     }
@@ -361,6 +503,24 @@
             chartDelete () {
                 var self = this;
                 router.push({path: self.chartDel});
+            },
+            delPerson () {      // 删除成员
+                var self = this;
+                var data = self.list;
+                var imgStyle = self.imgStyle;
+                imgStyle.forEach(function(item){
+                    http.post('/RoomJoin/closeRoom',{
+                        id: data[item].zn_member_id,
+                        roomid: data[item].zn_room_id,
+                    })
+                    .then(res => {
+                        console.log(res)
+                        if(res.status == 1){
+                            delete data[item]
+                            self.datalist = data;
+                        }
+                    })
+                })
             },
             
         }

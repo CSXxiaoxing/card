@@ -1,4 +1,4 @@
-@import '../../utils/baseVar.scss'; // img reversal showoff
+@import '../../utils/baseVar.scss'; // img reversal showoff left Zhuan
 
 $h56: 0.518519rem;
 $fsize24: 0.222222rem;
@@ -13,7 +13,7 @@ $fsize44: 0.407407rem;
     position: absolute;
     bottom: 0.046296rem;
     height: 0.333333rem;
-    line-height: 0.333333rem;
+    line-height: 0.283rem;
     left: 0;
     width: 100%;
     background-color: rgba(32,16,17,0.63);
@@ -78,7 +78,7 @@ $fsize44: 0.407407rem;
                 }
                 p {
                     display: inline-block;
-                    background: #FF4B1A;
+                    background: #FF6405;
                     @include border-radius(0.092593rem);
                     color: #333;
                     height: $h56;
@@ -158,8 +158,9 @@ $fsize44: 0.407407rem;
                     }
                 }
                 p.open {
-                    background: #0BB90A;
+                    background: #0EF10B;
                 }
+                
             }
             li:last-child {
                 font-size: $fsize44;
@@ -203,7 +204,11 @@ $fsize44: 0.407407rem;
                 position: absolute;
                 top: 0.166667rem;
                 left: 0.138889rem;
-                img{width: 100%; height: 100%;}
+                img{
+                    width: 100%; 
+                    height: 100%;
+                    border-radius: 0.333333rem;
+                }
             }
             dt.DTtips{
                 // animation: DTtips 1s linear infinite alternate;
@@ -253,37 +258,23 @@ $fsize44: 0.407407rem;
                            box-shadow: 0 0 50px 1px red;
                }
             }
+
             dd:nth-of-type(1){
-                line-height: 0.814815rem;
-                padding-right: 0.046296rem;
-                min-width: 2.407407rem;
-                text-align: left;
-                white-space: wrap;
-            }
-            dd:nth-of-type(2){
-                line-height: 0.814815rem;
-                padding-left: 0.046296rem;
-                width: 3.518519rem;
-                text-align: left;
-                span:nth-of-type(1){
-                    color: #0DB80A;
-                }
-            }
-            dd:nth-of-type(3){
                 line-height: 0.814815rem;
                 min-width: 2.407407rem;
                 text-align: left;
                 position: relative;
                 top: 50%;
+                padding-left: 0.185185rem;
                 @include translate(0,-50%);
                 span{
                     color: #0DB80A;
                     font-size: 0.36rem;
                 }
             }
-            dd:nth-of-type(4){
+            dd:nth-of-type(2){
                 line-height: 0.814815rem;
-                width: 2.8rem;
+                width: 2rem;
                 position: relative;
                 i{
                     display: inline-block;
@@ -291,14 +282,13 @@ $fsize44: 0.407407rem;
                     height: 0.490741rem;
                     margin-right: 0.111111rem;
                     position: absolute;
-                    left: 0;
                     top: 50%;
                     @include translate(0,-50%);
                     background: $roomAll -2.962963rem -1.527778rem no-repeat;
                     background-size: $w600 $w600;
                 }
             }
-            dd:nth-of-type(5){
+            dd:nth-of-type(3){
                 height: 0.666667rem;
                 line-height: 0.648148rem;
                 width: 2.222222rem;
@@ -332,14 +322,14 @@ $fsize44: 0.407407rem;
                 height: 0.555556rem;
                 font-size: $fsize30;
                 line-height: 0.555556rem;
-                background: #222;
-                opacity: 0.6;
+                // opacity: 0.6;
+                background: rgba(0,0,0,0.6);
                 @include border-radius(0.259259rem);
                 position: absolute;
-                right: 0.0rem;
+                left: 1.740741rem;
                 margin-right: 0.12963rem;
                 bottom: -0.666667rem;
-                width: 80%;
+                width: 7.037037rem;
                 overflow:hidden;
                 span{
                     float: left;
@@ -362,7 +352,8 @@ $fsize44: 0.407407rem;
                     background: $homeAll -2.222222rem 0.0rem no-repeat;
                     background-size: $w600 $w600;
                 }
-            }  
+            }
+
         }
     }
     .roomMain{
@@ -370,7 +361,7 @@ $fsize44: 0.407407rem;
         
         @include flex(1);
         @include order(0);
-        // margin-bottom: -0.185185rem;
+        // margin-bottom: leftImg
         // overflow: hidden;
         width: 100%;
         position: relative;
@@ -381,49 +372,72 @@ $fsize44: 0.407407rem;
             // height: 100%;
             padding-top: 0.055556rem;
             background-origin: content-box;
-            background: $room02 no-repeat;
-            background-size: 100% 100%;
+            
             ul {
-                @include flexbox();
-                @include direction(column);
-                @include border-radius(0.046296rem);
+                // @include flexbox(); leftImg
+                // @include direction(column);
                 width: 1.537037rem;
-                
+                // 左边图片 #3D3D3D
+                .leftImg {
+                    width: 1.296296rem;
+                    height: 1.296296rem;
+                    position: absolute;
+                    left: 0%;
+                    top: 0%;
+                    z-index: -1;
+                    // @include translate(-50%,-50%);
+                    overflow: hidden;
+                    @include border-radius(0.351852rem);
+                    img {
+                        width: 100%;
+                        height: 100%;
+                    }
+                    span{
+                        @extend .pub;
+                        bottom: 0;
+                        background: $room_left03 no-repeat;
+                        background-size: 100% 100%;
+                    }
+                }
                 li{
                     width: 100%;
-                    height: 1.787037rem;
+                    height: 2.222222rem;
+                    position: relative;
+                    .konwei{
+                        width:1.388889rem;
+                        height:1.435185rem;
+                        background: $room008 no-repeat;
+                        background-size: 1.296296rem 1.296296rem;
+                    }
                     &>div {
                         width:1.388889rem;
                         height:1.435185rem;
                         position: relative;
                         left:50%;
                         top: 50%;
+                        
                         @include translate(-50%,-55%);
-
                         
                         &>.leftZhuan {
                             position: absolute;
-                            left: 0.559259rem;
-                            top: -0.404815rem;
-                            width: 1.185185rem;
-                            height: 0.777778rem;
+                            right: -0.178rem;
+                            top: -0.2rem;
+                            width: 0.611111rem;
+                            height: 0.611111rem;
                             z-index: 3;
                         }
                         &>img:nth-of-type(1) {
                             width: 1.296296rem;
                             height: 1.296296rem;
-                            position: absolute;
-                            left:50%;
-                            top: 50%;
-                            @include translate(-50%,-55%);
+                            display: block;
                             z-index: 2;
                         }
                         &>img:nth-of-type(2) {
                             width: 0.676296rem;
                             height: 0.676296rem;
                             position: absolute;
-                            left: -0.027778rem;
-                            top: -0.027778rem;
+                            left: -0.06rem;
+                            top: -0.034rem;
                             z-index: 3;
                         }
                         &>span {
@@ -436,83 +450,64 @@ $fsize44: 0.407407rem;
                         }
                     }
                     p {
-                        font-size: $fsize24;
-                        color: #fff;
-                        padding-top: 0.05rem;
-                    }
-                    // 左边图片
-                    .leftImg {
+                        height: 0.37037rem;
                         width: 1.296296rem;
-                        height: 1.296296rem;
-                        position: absolute;
-                        left:50%;
-                        top: 50%;
-                        @include translate(-50%,-55%);
-                        overflow: hidden;
-                        @include border-radius(0.351852rem);
-                        img {
-                            width: 100%;
-                            height: 100%;
-                        }
-                        img:nth-of-type(1) {
-                            z-index: 1;
-                        }
-                        span{
-                            @extend .pub;
+                        padding: 0 0.12963rem;
+                        line-height: 0.37037rem;
+                        text-align: center;
+                        font-size: 0.185185rem;
+                        background-color: rgba(0,0,0,0.3);
 
-                        }
+                        position: relative;
+                        left: 50%;
+                        top: 0.26rem;
+                        // bottom: 10px;
+                        transform: translate(-50%,0);
+                        border-radius: 0.185185rem;
+                        box-sizing: border-box;
+                        overflow: hidden;
+                        color: #fff;
                     }
+                    
                 }
             }
         }
         position: relative;
         z-index: 1;
-        // @include xx px
+        // @include xx px leftZhuan mint-swipe
         .left {
             position: relative;
             left: 0;
-            @include order(0);
+            padding-left: 0.14rem;
+            overflow-y: auto;
+            overflow-x: hidden;
             @include LR;
-            width: 16%;
+            width: 1.666667rem;
+            box-sizing: border-box;
             ul{
                 height: 100%;
                 width: 100%;
+
                 li:first-child {
-                    height: 2.148148rem;
-                    background-color: #3D3D3D;
-                    -webkit-border-radius:0.046296rem 0.046296rem 0px 0px;
-                    -moz-border-radius:0.046296rem 0.046296rem 0px 0px;
-                    -ms-border-radius:0.046296rem 0.046296rem 0px 0px;
-                    -o-border-radius:0.046296rem 0.046296rem 0px 0px;
+                    height: 2.407407rem;
                     border-radius:0.046296rem 0.046296rem 0px 0px;
-                    p{
-                       padding-top: 0.265rem;
-                    }
+
                     border: 2px solid transparent;
                     @include box-sizing();
+                    img:nth-of-type(1){
+                        width: 100%;
+                        height: 100%;
+                    }
+                    img:nth-of-type(2){
+                        top: -0.02rem;
+                    }
+                    p{
+                        top: 0.4rem;
+                    }
+                    
                 }
                 
-                li:last-child {
-                    width: 1.388889rem;
-                    height: $h56;
-                    @include border-radius(0.259259rem);
-                    line-height: $h56;
-                    text-align: center;
-                    font-size: $fsize30;
-                    background: $roomAll 0px -1.481481rem no-repeat;
-                    background-size: $w600 $w600;
-                    color: #6E410F;
-                    font-weight: bold;
-                    position: absolute;
-                    left: 50%;
-                    bottom: 0;
-                    @include translate(-50%, -30%);
-                }
-                li:last-child.win {
-                    background: url('/dist/chart_list3.png') no-repeat;
-                    background-size: 1.388889rem 0.518519rem;
-                    color: #fff;
-                }
+                
                 li:first-child.tips{
                     @include box-sizing();
                     -webkit-box-shadow: 0 0 0.092593rem 0.018519rem #fff inset;
@@ -542,10 +537,8 @@ $fsize44: 0.407407rem;
                         border: 0.012259rem solid red;
                    }
                 }
-                li:last-child.zhuan {
-                    background: #ccc;
-                }
             }
+            ul::-webkit-scrollbar{display: none;}
             &>span {
                 position: absolute;
                 left: 110%;
@@ -634,285 +627,26 @@ $fsize44: 0.407407rem;
                 }
             }
         }
-        .center {
-            z-index: 2;
-            position: relative;
-            width: 67.9%;
-            flex: 1;
-            margin-bottom: -0.277778rem;
-            @include order(1);
-            @include flexbox();
-            @include justify-content(center);
-            @include direction(column);
-            h1{
-                padding-top: 0.092593rem;
-                font-size:0.42rem;
-                height: 0.44rem;
-                line-height: 0.44rem;
-                margin-top: -0.2rem;
-                span{
-                    color:red;
-                }
-            }
-            p{
-                font-size:$fsize38;
-                height: 0.37037rem;
-                line-height: 0.4rem;
-                color:#508F31;
-            }
-            p.showTime {
-                visibility: hidden;
-            }
-            ul{
-                width: 100%;
-                // height: 100%;
-                flex: 1;
-                @include order(1);
-                @include flexbox();
-                // @include justify-content(center);
-                @include direction(column);
-                li{
-                    clear: both;
-                    @include border-radius(0.092593rem);
-                    border:0.037037rem solid #DFDEDC;
-                    position: relative;
-                    flex: 1;
-                    &>img{
-                        height: 80%;
-                        max-height: 1.314815rem;
-                        weight: 0.916667rem;
-                        margin-left: 0.15rem;
-                        // float: left;
-                        position: absolute;
-                        top: 50%;
-                        left: 0;
-                        transform: translate(0%,-50%);
-                        &:nth-of-type(2){
-                            transform: translate(105%,-50%);
-                        }
-                        &:nth-of-type(3){
-                            transform: translate(210%,-50%);
-                        }
-                        &:nth-of-type(4){
-                            transform: translate(315%,-50%);
-                        }
-                        &:nth-of-type(5){
-                            transform: translate(420%,-50%);
-                        }
-                    }
-                    span{
-                        @include flex(1);
-                        font-size: $fsize30;
-                        float: right;
-                        text-align: left;
-                        text-align: center;
-                        position: relative;
-                        right: 0.018519rem;
-                        min-width: 0.925926rem;
-                        min-height: 0.740741rem;
-                        b{
-                            text-align: center;
-                            display: block;
-                            width: 100%;
-                        }
-                        b:nth-of-type(1){
-                            position: absolute;
-                            right: 0;
-                        }
-                        b:nth-of-type(2){
-                            position: absolute;
-                            left: 50%;
-                            top: 100%;
-                            transform: translate(-50%,0%);
-                            color: red;
-                        }
-                        b:nth-of-type(3){
-                            position: absolute;
-                            left: 50%;
-                            top: 100%;
-                            transform: translate(-50%,100%);
-                        }
-                    }
-                    .testCard{
-                        height: 100%;
-                        width: 100%;
-                        position: absolute;
-                        left: 0;
-                        top: 0;
-                    }
-                }
-                // start
-                li.a5{
-                    padding:0.1rem;
-                    margin-left:0.092593rem;
-                    margin-top:0.092593rem;
-                    max-width:6.388889rem;
-                    max-height:1.388889rem;
-                    span{
-                        
-                        // padding-right:0.185185rem;
-                        text-align: left;
-                        margin-top: -0.092593rem;
-                        b:nth-of-type(1){
-                            display:inline-block;
-                            width:1.0rem;
-                            height:0.62037rem;
-                            line-height:0.833333rem;
-                            background:$roomAll -1.481481rem -2.222222rem no-repeat;
-                            background-size: $w600 $w600;
-                            color:#FBDD2A;
-                            font-size:0.259259rem;
-                            text-align: center;
-                            visibility: hidden;
-                        } 
-                        b.showoff {
-                            visibility: visible;
-                            -webkit-animation: inputmove .1s linear 6; 
-                            -moz-animation: inputmove .1s linear 6; 
-                            -ms-animation: inputmove .1s linear 6; 
-                            -o-animation: inputmove .1s linear 6; 
-                            animation: inputmove .1s linear 6; 
-                        }
-                        @keyframes inputmove{
-                           0%{
-                               @include translate(-5%,0%);
-
-                           }
-                           100%{
-                               @include translate(5%,0%);
-                           }
-                        }
-                        @-webkit-keyframes inputmove{
-                           0%{
-                               @include translate(-5%,0%);
-                           }
-                           100%{
-                               @include translate(5%,0%);
-                           }
-                        }
-                    }
-                }
-                li.bgccc {
-                    background: $bgColor;
-                }
-                li.bgccc.bg {
-                    border:0.046296rem solid #F9BA6A;
-                    background: none;
-                    @include transition(all,2s);
-                    b{
-                        display: none;
-                    }
-                    b:first-child {
-                        visibility: visible;
-                        color: #8F4C06;
-                        display: block;
-                        position: relative;
-                        @include translate(-4%,30%);
-                        width: 1.148148rem;
-                        height: 0.777778rem;
-                        line-height: 1.018519rem;
-                        background: $room04 no-repeat;
-                        background-size: 1.148148rem 0.777778rem;
-                        @include transition(all,1s);
-                    }
-                }
-                li.b7.bgccc.bg {
-                    b:first-child {
-                        @include translate(5%,30%);
-                        background: $room04 no-repeat;
-                        background-size: 1.148148rem 0.777778rem;
-                        @include transition(all,1s);
-                    }
-                    b.showoff {
-                        visibility: visible;
-                        -webkit-animation: Bmove .1s linear 6; 
-                        -moz-animation: Bmove .1s linear 6; 
-                        -ms-animation: Bmove .1s linear 6; 
-                        -o-animation: Bmove .1s linear 6; 
-                        animation: Bmove .1s linear 6; 
-                    }
-                    @keyframes Bmove{
-                       0%{
-                           @include translate(-5%,30%);
-
-                       }
-                       100%{
-                           @include translate(5%,30%);
-                       }
-                    }
-                    @-webkit-keyframes Bmove{
-                       0%{
-                           @include translate(-5%,30%);
-                       }
-                       100%{
-                           @include translate(5%,30%);
-                       }
-                    }
-                }
-                li.b7{
-                    padding:0.1rem;
-                    margin-left:0.092593rem;
-                    margin-top:0.138889rem;
-                    max-width:6.388889rem;
-                    max-height:1.388889rem;
-                    position: relative;
-                    span{
-                        text-align: center;
-                        b:nth-of-type(1){
-                            display:inline-block;
-
-                            width:1.0rem;
-                            height:0.62037rem;
-                            line-height:0.833333rem;
-                            background:$roomAll -1.481481rem -2.222222rem no-repeat;
-                            background-size: $w600;
-                            color:#FBDD2A;
-                            font-size:0.259259rem;
-                            visibility: hidden;
-                        }  
-                        b:nth-of-type(2){
-                            // color:black;
-                            color: red;
-                        }
-                        // ----
-                        b.showoff {
-                            visibility: visible;
-                            -webkit-animation: inputmove .1s linear 6; 
-                            -moz-animation: inputmove .1s linear 6; 
-                            -ms-animation: inputmove .1s linear 6; 
-                            -o-animation: inputmove .1s linear 6; 
-                            animation: inputmove .1s linear 6; 
-                        }
-                        @keyframes inputmove{
-                           0%{
-                               @include translate(-5%,0%);
-
-                           }
-                           100%{
-                               @include translate(5%,0%);
-                           }
-                        }
-                        @-webkit-keyframes inputmove{
-                           0%{
-                               @include translate(-5%,0%);
-                           }
-                           100%{
-                               @include translate(5%,0%);
-                           }
-                        }
-                        // ------
-                        position:relative;
-                        margin-right:0.277778rem;
-                    }
-                }
-            }
-        }
+        .left::-webkit-scrollbar{display: none;}
         //showTime
         .right {
             @include LR;
             // height: 100%;
-            width: 16%;
+            width: 1.666667rem;
             z-index: 3;
+            &>span{
+                position: absolute;
+                height: 1.6rem;
+                padding-top: 0.018519rem;
+                width: 1rem;
+                top: 0;
+                right: -0.09rem;
+                img{
+                    display: block;
+                    height: 0.78rem;
+                    width: 0.78rem;
+                }
+            }
             @include order(2);
             ul {
                 overflow-y: auto;
@@ -924,7 +658,484 @@ $fsize44: 0.407407rem;
             }
             ul::-webkit-scrollbar{display: none;}
         }
-    
+        // 中间
+        // .center {
+        //     z-index: 2;
+        //     position: relative;
+        //     width: 67.9%;
+        //     flex: 1;
+        //     margin-bottom: -0.277778rem;
+        //     @include order(1);
+        //     @include flexbox();
+        //     @include justify-content(center);
+        //     @include direction(column);
+        //     h1{
+        //         padding-top: 0.092593rem;
+        //         font-size:0.42rem;
+        //         height: 0.44rem;
+        //         line-height: 0.44rem;
+        //         margin-top: -0.2rem;
+        //         span{
+        //             color:red;
+        //         }
+        //     }
+        //     p{
+        //         font-size: $fsize38;
+        //         height: 0.37037rem;
+        //         line-height: 0.4rem;
+        //         color:#508F31;
+        //     }
+        //     p.showTime {
+        //         visibility: hidden;
+        //     }
+        //     ul{
+        //         width: 100%;
+        //         // height: 100%;
+        //         flex: 1;
+        //         @include order(1);
+        //         @include flexbox();
+        //         // @include justify-content(center);
+        //         @include direction(column);
+        //         li{
+        //             clear: both;
+        //             @include border-radius(0.092593rem);
+        //             border:0.037037rem solid #DFDEDC;
+        //             position: relative;
+        //             flex: 1;
+        //             &>img{
+        //                 height: 80%;
+        //                 max-height: 1.314815rem;
+        //                 weight: 0.916667rem;
+        //                 margin-left: 0.15rem;
+        //                 // float: left;
+        //                 position: absolute;
+        //                 top: 50%;
+        //                 left: 0;
+        //                 transform: translate(0%,-50%);
+        //                 &:nth-of-type(2){
+        //                     transform: translate(105%,-50%);
+        //                 }
+        //                 &:nth-of-type(3){
+        //                     transform: translate(210%,-50%);
+        //                 }
+        //                 &:nth-of-type(4){
+        //                     transform: translate(315%,-50%);
+        //                 }
+        //                 &:nth-of-type(5){
+        //                     transform: translate(420%,-50%);
+        //                 }
+        //             }
+        //             span{
+        //                 @include flex(1);
+        //                 font-size: $fsize30;
+        //                 float: right;
+        //                 text-align: left;
+        //                 text-align: center;
+        //                 position: relative;
+        //                 right: 0.018519rem;
+        //                 min-width: 0.925926rem;
+        //                 min-height: 0.740741rem;
+        //                 b{
+        //                     text-align: center;
+        //                     display: block;
+        //                     width: 100%;
+        //                 }
+        //                 b:nth-of-type(1){
+        //                     position: absolute;
+        //                     right: 0;
+        //                 }
+        //                 b:nth-of-type(2){
+        //                     position: absolute;
+        //                     left: 50%;
+        //                     top: 100%;
+        //                     transform: translate(-50%,0%);
+        //                     color: red;
+        //                 }
+        //                 b:nth-of-type(3){
+        //                     position: absolute;
+        //                     left: 50%;
+        //                     top: 100%;
+        //                     transform: translate(-50%,100%);
+        //                 }
+        //             }
+        //             .testCard{
+        //                 height: 100%;
+        //                 width: 100%;
+        //                 position: absolute;
+        //                 left: 0;
+        //                 top: 0;
+        //             }
+        //         }
+        //         // start
+        //         li.a5{
+        //             padding:0.1rem;
+        //             margin-left:0.092593rem;
+        //             margin-top:0.092593rem;
+        //             max-width:6.388889rem;
+        //             max-height:1.388889rem;
+        //             span{
+                        
+        //                 // padding-right:0.185185rem;
+        //                 text-align: left;
+        //                 margin-top: -0.092593rem;
+        //                 b:nth-of-type(1){
+        //                     display:inline-block;
+        //                     width:1.0rem;
+        //                     height:0.62037rem;
+        //                     line-height:0.833333rem;
+        //                     background:$roomAll -1.481481rem -2.222222rem no-repeat;
+        //                     background-size: $w600 $w600;
+        //                     color:#FBDD2A;
+        //                     font-size:0.259259rem;
+        //                     text-align: center;
+        //                     visibility: hidden;
+        //                 } 
+        //                 b.showoff {
+        //                     visibility: visible;
+        //                     -webkit-animation: inputmove .1s linear 6; 
+        //                     -moz-animation: inputmove .1s linear 6; 
+        //                     -ms-animation: inputmove .1s linear 6; 
+        //                     -o-animation: inputmove .1s linear 6; 
+        //                     animation: inputmove .1s linear 6; 
+        //                 }
+        //                 @keyframes inputmove{
+        //                    0%{
+        //                        @include translate(-5%,0%);
+
+        //                    }
+        //                    100%{
+        //                        @include translate(5%,0%);
+        //                    }
+        //                 }
+        //                 @-webkit-keyframes inputmove{
+        //                    0%{
+        //                        @include translate(-5%,0%);
+        //                    }
+        //                    100%{
+        //                        @include translate(5%,0%);
+        //                    }
+        //                 }
+        //             }
+        //         }
+        //         li.bgccc {
+        //             background: $bgColor;
+        //         }
+        //         li.bgccc.bg {
+        //             border:0.046296rem solid #F9BA6A;
+        //             background: none;
+        //             @include transition(all,2s);
+        //             b{
+        //                 display: none;
+        //             }
+        //             b:first-child {
+        //                 visibility: visible;
+        //                 color: #8F4C06;
+        //                 display: block;
+        //                 position: relative;
+        //                 @include translate(-4%,30%);
+        //                 width: 1.148148rem;
+        //                 height: 0.777778rem;
+        //                 line-height: 1.018519rem;
+        //                 background: $room04 no-repeat;
+        //                 background-size: 1.148148rem 0.777778rem;
+        //                 @include transition(all,1s);
+        //             }
+        //         }
+        //         li.b7.bgccc.bg {
+        //             b:first-child {
+        //                 @include translate(5%,30%);
+        //                 background: $room04 no-repeat;
+        //                 background-size: 1.148148rem 0.777778rem;
+        //                 @include transition(all,1s);
+        //             }
+        //             b.showoff {
+        //                 visibility: visible;
+        //                 -webkit-animation: Bmove .1s linear 6; 
+        //                 -moz-animation: Bmove .1s linear 6; 
+        //                 -ms-animation: Bmove .1s linear 6; 
+        //                 -o-animation: Bmove .1s linear 6; 
+        //                 animation: Bmove .1s linear 6; 
+        //             }
+        //             @keyframes Bmove{
+        //                0%{
+        //                    @include translate(-5%,30%);
+
+        //                }
+        //                100%{
+        //                    @include translate(5%,30%);
+        //                }
+        //             }
+        //             @-webkit-keyframes Bmove{
+        //                0%{
+        //                    @include translate(-5%,30%);
+        //                }
+        //                100%{
+        //                    @include translate(5%,30%);
+        //                }
+        //             }
+        //         }
+        //         li.b7{
+        //             padding:0.1rem;
+        //             margin-left:0.092593rem;
+        //             margin-top:0.138889rem;
+        //             max-width:6.388889rem;
+        //             max-height:1.388889rem;
+        //             position: relative;
+        //             span{
+        //                 text-align: center;
+        //                 b:nth-of-type(1){
+        //                     display:inline-block;
+
+        //                     width:1.0rem;
+        //                     height:0.62037rem;
+        //                     line-height:0.833333rem;
+        //                     background:$roomAll -1.481481rem -2.222222rem no-repeat;
+        //                     background-size: $w600;
+        //                     color:#FBDD2A;
+        //                     font-size:0.259259rem;
+        //                     visibility: hidden;
+        //                 }  
+        //                 b:nth-of-type(2){
+        //                     // color:black;
+        //                     color: red;
+        //                 }
+        //                 // ----
+        //                 b.showoff {
+        //                     visibility: visible;
+        //                     -webkit-animation: inputmove .1s linear 6; 
+        //                     -moz-animation: inputmove .1s linear 6; 
+        //                     -ms-animation: inputmove .1s linear 6; 
+        //                     -o-animation: inputmove .1s linear 6; 
+        //                     animation: inputmove .1s linear 6; 
+        //                 }
+        //                 @keyframes inputmove{
+        //                    0%{
+        //                        @include translate(-5%,0%);
+
+        //                    }
+        //                    100%{
+        //                        @include translate(5%,0%);
+        //                    }
+        //                 }
+        //                 @-webkit-keyframes inputmove{
+        //                    0%{
+        //                        @include translate(-5%,0%);
+        //                    }
+        //                    100%{
+        //                        @include translate(5%,0%);
+        //                    }
+        //                 }
+        //                 // ------
+        //                 position:relative;
+        //                 margin-right:0.277778rem;
+        //             }
+        //         }
+        //     }
+        // }
+        .center {
+            z-index: 2;
+            position: relative;
+            flex: 1;
+            margin-bottom: -0.56rem;
+            // 移动用卡牌
+            .static_K{
+                position: absolute;
+                top: 0;
+                right: 0;
+                height: 138px;
+                width: 95px;
+            }
+            .center_top{
+                height: 1.0rem;
+                text-shadow:#000 1px 0 0,#000 0 1px 0,#000 -1px 0 0,#000 0 -1px 0;
+                -webkit-text-shadow:#000 1px 0 0,#000 0 1px 0,#000 -1px 0 0,#000 0 -1px 0;
+                -moz-text-shadow:#000 1px 0 0,#000 0 1px 0,#000 -1px 0 0,#000 0 -1px 0;
+                *filter: Glow(color=#000, strength=1);
+                position: relative;
+                // top: -0.1rem;
+                h1{
+                    font-size: 0.45rem;
+                    color: #FFFDFF;
+                    font-family: STHupo,YouYuan,MingLiu,"MicrosoftJhengHei",STHeiti,华文细黑,微软雅黑,"Microsoft YaHei";
+                    font-weight:400;
+                    line-height: 0.555556rem;
+                }
+                p{
+                    font-size: 0.3rem;
+                    line-height: 0.462963rem;
+                    color: #BCE7B2;
+                    font-weight:600;
+                }
+            }
+            ul{
+                width: 100%;
+                height: 10.648148rem;
+                padding-top: 0.222222rem;
+                box-sizing: border-box;
+                position: relative;
+                li{
+                    height: 1.990741rem;
+                    width: 4.416667rem;
+                    position: relative;
+                    left: 50%;
+                    transform: translate(-50%,0);
+                    padding-top: 0.083333rem;
+                    background: $room011 no-repeat;
+                    background-size: 100% 100%;
+                    border-radius: 0.138889rem;
+                }
+                .pai{   // 左
+                    background: rgba(0,0,0,0.3);
+                    padding-left: 24px;
+                    width: 260px;
+                    height: 196px;
+                    float: left;
+                    position: relative;
+                    img{
+                        height: 138px;
+                        width: 95px;
+                        position: absolute;
+                        top: 50%;
+                        left: 24px;
+                        transform: translate(0%,-50%);
+                        animation: order 1s ease 1;
+                        z-index: -1;
+                        // visibility: hidden; 
+                    }
+                    @include kabai;
+                }
+                .chou_fen{  // 右
+                    float: left;
+                    width: 176px;
+                    height: 196px;
+                    background: rgba(200,0,55,0.3);
+                    position: relative;
+                    &>img{
+                        width: 76px;
+                        height: 76px;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%,-50%);
+                    }
+                    .not_zhuang{
+                        p{
+                            font-size: 24px;
+                            color: #fff;
+                            line-height: 30px;
+                        }
+                        p:nth-of-type(1){
+                            color: #FFD565;
+                            padding-top: 0.1rem;
+                        }
+                        img{
+                            height: 56px;
+                            width: 62px;
+                            position: relative;
+                            left: 0.4rem;
+                            top: 0.06rem;
+                        }
+                    }
+                }
+                li.hover{
+                    box-shadow: 0 0 0.740741rem 0.009259rem #fff inset;
+                }
+            }
+            .ka7{
+                padding: 0;
+                li{
+                    width: 4.212963rem;
+                    height: 1.462963rem;
+                    // border: 1px solid #fff;
+                    .pai{   // 左
+                        width: 246px;
+                        height: 150px;
+                        img{
+                            height: 130px;
+                            width: 88px;
+                        }
+                    }
+                    .chou_fen{  // 右
+                        width: 162px;
+                        height: 150px;
+                        &>img{
+                            width: 70px;
+                            height: 70px;
+                        }
+                    }
+                }
+            }
+        }
+        
+    }
+    .control{
+        height: 1.388889rem;
+        width: 100%;
+        position: relative;
+        border-top: 1px solid #fff;
+        padding: 0 0.231481rem;
+        box-sizing: border-box;
+        .control_left {
+            width: 1.611111rem;
+            height: 0.638889rem;
+            
+            
+            background: $room003 no-repeat;
+            background-size: 1.611111rem 0.638889rem;
+            
+            font-weight: bold;
+            position: absolute;
+            left: 0.231481rem;
+            top: 50%;
+            transform: translate(0,-50%);
+            &.win{
+                background: $room004 no-repeat;
+                background-size: 1.611111rem 0.638889rem;
+            }
+            &.zhuan{
+                background: #ccc;
+                color: #6E410F;
+                text-align: center;
+                font-size:0.3rem;
+                line-height: 0.638889rem;
+                @include border-radius(0.31rem);
+            }
+        }
+        .control_center{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            width: 6.203704rem;
+            height: 1.518519rem;
+            background: $room005 no-repeat;
+            background-size: 6.203704rem 1.518519rem;
+            img{
+                width: 0.888889rem;
+                height: 0.888889rem;
+                padding: 0 0.086rem;
+                position: relative;
+                top: 50%;
+                transform: translateY(-50%);
+                
+                
+            }
+        }
+        .control_right{
+            position: absolute;
+            right: 0.16rem;
+            top: -0.22rem;
+            img{
+                display: block;
+                width: 1.481481rem;
+                height: 0.685185rem;
+            }
+            img:last-child{
+                // width: 1.54rem;
+                // height: 0.72rem;
+                margin-top: 0.1rem;
+            }
+        }
     }
     // 底部
     &>footer{
@@ -1005,7 +1216,7 @@ $fsize44: 0.407407rem;
             background-color: rgba(255,0,0,0.9);
             box-shadow: 0 0rem 0.05rem 0.001rem #ccc;
             position: absolute;
-            top: -0.212963rem;
+            top: -0.2rem;
         }
 
     }   
