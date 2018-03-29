@@ -8,14 +8,13 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     // 字符串数据存储
     // 使用demo : this.$store.state.Music.autoplay
+    // 使用demo : this.$store.state.oxCrowd.z
     state: {
         // 用户信息
         user: {
             userName: localStorage.oxName,
             userID  : localStorage.oxUid,
             userImg : localStorage.oxImg,
-
-            addtype: 0, // 加分状态
         },
         // 环信消息处理 
         system: {
@@ -26,13 +25,15 @@ export default new Vuex.Store({
         },
         oxCrowd: {  // 牛群游戏大厅
             notice: [],     // 系统公告
-            
         },
         Music: {    // 音乐 /音效
             autoplay: true, // 音乐
             musi: true,     // 音效
         },
         room: {     // 房间初始数据
+
+
+
             cardNum: 5, // 几牌
             minFen : 0, // 最低上庄分数
 

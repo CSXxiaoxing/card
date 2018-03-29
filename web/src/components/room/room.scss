@@ -1,4 +1,39 @@
-@import '../../utils/baseVar.scss'; // img reversal showoff left Zhuan
+@import '../../utils/baseVar.scss'; // img reversal showoff left hover
+
+.bounce {
+    animation-iteration-count: infinite;
+    -webkit-animation-iteration-count:1;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-name: bounce;
+    transform-origin: center bottom;
+}
+@keyframes bounce {
+    0% {
+        animation-timing-function: ease-in;
+        transform: translate3d(0,0,0) translate(-50%,-50%) scale(1,1);
+    }
+    20%{
+        animation-timing-function: ease-in;
+        transform: translate3d(6px,-20px,0) translate(-50%,-50%) scale(0.3,0.3);
+    }
+    45%{
+        animation-timing-function: ease-in;
+        transform: translate3d(8px, -42px, 0) translate(-50%,-50%) scale(0.5,0.5);
+    }
+    70%{
+        animation-timing-function: ease-in;
+        transform: translate3d(12px, -24px, 0) translate(-50%,-50%) scale(0.3,0.3);
+    }
+    85%{
+        animation-timing-function: ease-in;
+        transform: translate3d(20px,-3px,0) translate(-50%,-50%) scale(0.4,0.4);
+    }
+    100%{
+        animation-timing-function: ease-in;
+        transform: translate3d(21px,0,0) translate(-50%,-50%) scale(0.3,0.3);
+    }
+}
 
 $h56: 0.518519rem;
 $fsize24: 0.222222rem;
@@ -381,6 +416,7 @@ $fsize44: 0.407407rem;
                 .leftImg {
                     width: 1.296296rem;
                     height: 1.296296rem;
+
                     position: absolute;
                     left: 0%;
                     top: 0%;
@@ -468,7 +504,6 @@ $fsize44: 0.407407rem;
                         overflow: hidden;
                         color: #fff;
                     }
-                    
                 }
             }
         }
@@ -494,12 +529,20 @@ $fsize44: 0.407407rem;
 
                     border: 2px solid transparent;
                     @include box-sizing();
+                    .leftImg{
+                        width: 100%;
+                        height: 100%;
+                    }
                     img:nth-of-type(1){
                         width: 100%;
                         height: 100%;
                     }
                     img:nth-of-type(2){
                         top: -0.02rem;
+                    }
+                    img:nth-of-type(3){
+                        top: -0.2rem;
+                        right: -0.08rem;
                     }
                     p{
                         top: 0.4rem;
@@ -658,280 +701,6 @@ $fsize44: 0.407407rem;
             }
             ul::-webkit-scrollbar{display: none;}
         }
-        // 中间
-        // .center {
-        //     z-index: 2;
-        //     position: relative;
-        //     width: 67.9%;
-        //     flex: 1;
-        //     margin-bottom: -0.277778rem;
-        //     @include order(1);
-        //     @include flexbox();
-        //     @include justify-content(center);
-        //     @include direction(column);
-        //     h1{
-        //         padding-top: 0.092593rem;
-        //         font-size:0.42rem;
-        //         height: 0.44rem;
-        //         line-height: 0.44rem;
-        //         margin-top: -0.2rem;
-        //         span{
-        //             color:red;
-        //         }
-        //     }
-        //     p{
-        //         font-size: $fsize38;
-        //         height: 0.37037rem;
-        //         line-height: 0.4rem;
-        //         color:#508F31;
-        //     }
-        //     p.showTime {
-        //         visibility: hidden;
-        //     }
-        //     ul{
-        //         width: 100%;
-        //         // height: 100%;
-        //         flex: 1;
-        //         @include order(1);
-        //         @include flexbox();
-        //         // @include justify-content(center);
-        //         @include direction(column);
-        //         li{
-        //             clear: both;
-        //             @include border-radius(0.092593rem);
-        //             border:0.037037rem solid #DFDEDC;
-        //             position: relative;
-        //             flex: 1;
-        //             &>img{
-        //                 height: 80%;
-        //                 max-height: 1.314815rem;
-        //                 weight: 0.916667rem;
-        //                 margin-left: 0.15rem;
-        //                 // float: left;
-        //                 position: absolute;
-        //                 top: 50%;
-        //                 left: 0;
-        //                 transform: translate(0%,-50%);
-        //                 &:nth-of-type(2){
-        //                     transform: translate(105%,-50%);
-        //                 }
-        //                 &:nth-of-type(3){
-        //                     transform: translate(210%,-50%);
-        //                 }
-        //                 &:nth-of-type(4){
-        //                     transform: translate(315%,-50%);
-        //                 }
-        //                 &:nth-of-type(5){
-        //                     transform: translate(420%,-50%);
-        //                 }
-        //             }
-        //             span{
-        //                 @include flex(1);
-        //                 font-size: $fsize30;
-        //                 float: right;
-        //                 text-align: left;
-        //                 text-align: center;
-        //                 position: relative;
-        //                 right: 0.018519rem;
-        //                 min-width: 0.925926rem;
-        //                 min-height: 0.740741rem;
-        //                 b{
-        //                     text-align: center;
-        //                     display: block;
-        //                     width: 100%;
-        //                 }
-        //                 b:nth-of-type(1){
-        //                     position: absolute;
-        //                     right: 0;
-        //                 }
-        //                 b:nth-of-type(2){
-        //                     position: absolute;
-        //                     left: 50%;
-        //                     top: 100%;
-        //                     transform: translate(-50%,0%);
-        //                     color: red;
-        //                 }
-        //                 b:nth-of-type(3){
-        //                     position: absolute;
-        //                     left: 50%;
-        //                     top: 100%;
-        //                     transform: translate(-50%,100%);
-        //                 }
-        //             }
-        //             .testCard{
-        //                 height: 100%;
-        //                 width: 100%;
-        //                 position: absolute;
-        //                 left: 0;
-        //                 top: 0;
-        //             }
-        //         }
-        //         // start
-        //         li.a5{
-        //             padding:0.1rem;
-        //             margin-left:0.092593rem;
-        //             margin-top:0.092593rem;
-        //             max-width:6.388889rem;
-        //             max-height:1.388889rem;
-        //             span{
-                        
-        //                 // padding-right:0.185185rem;
-        //                 text-align: left;
-        //                 margin-top: -0.092593rem;
-        //                 b:nth-of-type(1){
-        //                     display:inline-block;
-        //                     width:1.0rem;
-        //                     height:0.62037rem;
-        //                     line-height:0.833333rem;
-        //                     background:$roomAll -1.481481rem -2.222222rem no-repeat;
-        //                     background-size: $w600 $w600;
-        //                     color:#FBDD2A;
-        //                     font-size:0.259259rem;
-        //                     text-align: center;
-        //                     visibility: hidden;
-        //                 } 
-        //                 b.showoff {
-        //                     visibility: visible;
-        //                     -webkit-animation: inputmove .1s linear 6; 
-        //                     -moz-animation: inputmove .1s linear 6; 
-        //                     -ms-animation: inputmove .1s linear 6; 
-        //                     -o-animation: inputmove .1s linear 6; 
-        //                     animation: inputmove .1s linear 6; 
-        //                 }
-        //                 @keyframes inputmove{
-        //                    0%{
-        //                        @include translate(-5%,0%);
-
-        //                    }
-        //                    100%{
-        //                        @include translate(5%,0%);
-        //                    }
-        //                 }
-        //                 @-webkit-keyframes inputmove{
-        //                    0%{
-        //                        @include translate(-5%,0%);
-        //                    }
-        //                    100%{
-        //                        @include translate(5%,0%);
-        //                    }
-        //                 }
-        //             }
-        //         }
-        //         li.bgccc {
-        //             background: $bgColor;
-        //         }
-        //         li.bgccc.bg {
-        //             border:0.046296rem solid #F9BA6A;
-        //             background: none;
-        //             @include transition(all,2s);
-        //             b{
-        //                 display: none;
-        //             }
-        //             b:first-child {
-        //                 visibility: visible;
-        //                 color: #8F4C06;
-        //                 display: block;
-        //                 position: relative;
-        //                 @include translate(-4%,30%);
-        //                 width: 1.148148rem;
-        //                 height: 0.777778rem;
-        //                 line-height: 1.018519rem;
-        //                 background: $room04 no-repeat;
-        //                 background-size: 1.148148rem 0.777778rem;
-        //                 @include transition(all,1s);
-        //             }
-        //         }
-        //         li.b7.bgccc.bg {
-        //             b:first-child {
-        //                 @include translate(5%,30%);
-        //                 background: $room04 no-repeat;
-        //                 background-size: 1.148148rem 0.777778rem;
-        //                 @include transition(all,1s);
-        //             }
-        //             b.showoff {
-        //                 visibility: visible;
-        //                 -webkit-animation: Bmove .1s linear 6; 
-        //                 -moz-animation: Bmove .1s linear 6; 
-        //                 -ms-animation: Bmove .1s linear 6; 
-        //                 -o-animation: Bmove .1s linear 6; 
-        //                 animation: Bmove .1s linear 6; 
-        //             }
-        //             @keyframes Bmove{
-        //                0%{
-        //                    @include translate(-5%,30%);
-
-        //                }
-        //                100%{
-        //                    @include translate(5%,30%);
-        //                }
-        //             }
-        //             @-webkit-keyframes Bmove{
-        //                0%{
-        //                    @include translate(-5%,30%);
-        //                }
-        //                100%{
-        //                    @include translate(5%,30%);
-        //                }
-        //             }
-        //         }
-        //         li.b7{
-        //             padding:0.1rem;
-        //             margin-left:0.092593rem;
-        //             margin-top:0.138889rem;
-        //             max-width:6.388889rem;
-        //             max-height:1.388889rem;
-        //             position: relative;
-        //             span{
-        //                 text-align: center;
-        //                 b:nth-of-type(1){
-        //                     display:inline-block;
-
-        //                     width:1.0rem;
-        //                     height:0.62037rem;
-        //                     line-height:0.833333rem;
-        //                     background:$roomAll -1.481481rem -2.222222rem no-repeat;
-        //                     background-size: $w600;
-        //                     color:#FBDD2A;
-        //                     font-size:0.259259rem;
-        //                     visibility: hidden;
-        //                 }  
-        //                 b:nth-of-type(2){
-        //                     // color:black;
-        //                     color: red;
-        //                 }
-        //                 // ----
-        //                 b.showoff {
-        //                     visibility: visible;
-        //                     -webkit-animation: inputmove .1s linear 6; 
-        //                     -moz-animation: inputmove .1s linear 6; 
-        //                     -ms-animation: inputmove .1s linear 6; 
-        //                     -o-animation: inputmove .1s linear 6; 
-        //                     animation: inputmove .1s linear 6; 
-        //                 }
-        //                 @keyframes inputmove{
-        //                    0%{
-        //                        @include translate(-5%,0%);
-
-        //                    }
-        //                    100%{
-        //                        @include translate(5%,0%);
-        //                    }
-        //                 }
-        //                 @-webkit-keyframes inputmove{
-        //                    0%{
-        //                        @include translate(-5%,0%);
-        //                    }
-        //                    100%{
-        //                        @include translate(5%,0%);
-        //                    }
-        //                 }
-        //                 // ------
-        //                 position:relative;
-        //                 margin-right:0.277778rem;
-        //             }
-        //         }
-        //     }
-        // }
         .center {
             z-index: 2;
             position: relative;
@@ -999,7 +768,7 @@ $fsize44: 0.407407rem;
                         left: 24px;
                         transform: translate(0%,-50%);
                         animation: order 1s ease 1;
-                        z-index: -1;
+                        z-index: 10;
                         // visibility: hidden; 
                     }
                     @include kabai;
@@ -1010,13 +779,21 @@ $fsize44: 0.407407rem;
                     height: 196px;
                     background: rgba(200,0,55,0.3);
                     position: relative;
-                    &>img{
+                    &>img:nth-of-type(1){
                         width: 76px;
                         height: 76px;
                         position: absolute;
                         top: 50%;
-                        left: 50%;
-                        transform: translate(-50%,-50%);
+                        right: 50%;
+                        transform: translate(50%,-50%);
+                    }
+                    &>img:last-child{
+                        width: 142px;
+                        height: 69px;
+                        position: absolute;
+                        top: 50%;
+                        right: 0%;
+                        transform: translate(88%,-50%);
                     }
                     .not_zhuang{
                         p{
@@ -1039,6 +816,9 @@ $fsize44: 0.407407rem;
                 }
                 li.hover{
                     box-shadow: 0 0 0.740741rem 0.009259rem #fff inset;
+                }
+                li.hover_no{
+                    box-shadow: 0 0 0.740741rem 0.009259rem #D3170B inset;
                 }
             }
             .ka7{

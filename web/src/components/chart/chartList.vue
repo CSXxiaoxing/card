@@ -92,13 +92,13 @@
 
         <footer>
 
-            <mt-button v-show = 'fanzhu == 11' type="primary"  @click="dissolveRoom = true">
+            <mt-button v-show = 'fanzhu == 1' type="primary"  @click="dissolveRoom = true">
                     解散房间
             </mt-button>
-            <mt-button v-show = 'fanzhu == 11' type="primary" @click='DeleteCY=true'>
+            <mt-button v-show = 'fanzhu == 1' type="primary" @click='DeleteCY=true'>
                     删除成员
             </mt-button>
-        	<mt-button v-show = 'fanzhu == 1 || fanzhu == 2' type="primary"  @click="putRoom = true">
+        	<mt-button v-show = 'fanzhu == 3 || fanzhu == 2' type="primary"  @click="putRoom = true">
                     退出房间
             </mt-button>
         </footer>
@@ -458,7 +458,7 @@
             return {
                 loading: false,   // loading
                 listOff: false,   // 本页面主开关
-                rid: this.$parent.$parent.rid,  // 房间id(不变)
+                rid: 0,  // 房间id(不变)
                 list: this.$parent.$parent.chartList,   // 成员列表
                 fanzhu: '',       // 3普通  1.2房主/庄
 
@@ -476,6 +476,7 @@
         mounted: function(){},
         methods: {
             delRoom () {        // 解散房间
+                var self = this;
                 http.post('/Room/dissolveRoom',{
                     roomid: this.rid,
                 })
@@ -483,6 +484,21 @@
                     console.log(res)
                     if(res.status == 1){
                         this.dissolveRoom = false;
+                        var obj = {
+                            status: 3,
+                            rid: this.rid,
+                        }
+                        goEasy.publish({  // 解散房间
+                            channel:  'room_' + self.rid,
+                            message: JSON.stringify(obj),
+                            onSuccess:function(){
+                                console.log('消息发送成功')
+                                router.push({name: 'oxCrowd'});
+                            },
+                            onFailed: function(err){
+                                console.log('消息发送错误，错误信息：'+err)
+                            }
+                        });
                     }
                 })
             },

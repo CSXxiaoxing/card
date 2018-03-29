@@ -324,6 +324,7 @@
             // 确认倍率
             coreVisible() {
                 this.$store.state.initRoom.oxK = this.boxState.radio;
+                // console.log(this.boxState.radio)
                 this.noModal();
             },
             // 倍率/付费  公开

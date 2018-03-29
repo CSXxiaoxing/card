@@ -12,8 +12,11 @@ console.log(length(a));
 // 最高权重
 !important
 
-// $set方法同步data和heml数据
+// $set方法同步data和heml数据(对象，属性，属性值)
 self.$set(self.logic.oxImg, Res ,self.logic.oxImg.push(Res));
+
+// 数组急速求和
+eval(arr.join("+"))
 
 // 文字不换行
 display: block;
@@ -243,6 +246,18 @@ setInterval(()=>{
         channel: '123',
         onMessage: function(message){
             console.log('接收到消息:'+message.content);//拿到了信息之后，你可以做你任何想做的事
+        }
+    });
+
+    // 发送
+    goEasy.subscribe({
+        channel: '123',
+        message: '发送的内容',
+        onSuccess:function(){
+            console.log('消息发送成功')
+        },
+        onFailed: function(err){
+            console.log('消息发送错误，错误信息：'+err)
         }
     });
 </script>

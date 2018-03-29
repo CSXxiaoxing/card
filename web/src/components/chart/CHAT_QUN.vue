@@ -21,7 +21,7 @@
                 <li>聊天室（{{lingth*1+1}}）</li>
                 <li 
                     @click='$refs.onChartList.listOff = true,
-                    $refs.onChartList.fanzhu = rank'>
+                    $refs.onChartList.fanzhu = rank,$refs.onChartList.rid = rid'>
 
                     <img src="src/image/qun001.png" />
                 </li>
