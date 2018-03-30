@@ -20,14 +20,12 @@
             class="cuopai" >
             <div>
                 <div class='fourCard'>
-                    <img src="src/image/card/a1.png" alt="" />
-                    <img src="src/image/card/a1.png" alt="" />
-                    <img src="src/image/card/a1.png" alt="" />
-                    <img src="src/image/card/a1.png" alt="" />
+                    <img v-for='idx in 4' :src="`src/image/card/${logic.oxImg[ka.index*5+idx-1]}.png`"/>
                 </div>
-                <div class='cuopaiCard'>
+                <div class='cuopaiCard' @touchstart='cuoinit' @touchmove='cuoka' @touchend='cuoEnd' :style='ka.heziType' >
                     <img src="src/image/cardPlus/bei.png" alt="" />
-                    <img src="src/image/cardPlus/a1.png" alt="" />
+                    <img :src="`src/image/cardPlus/${logic.oxImg[ka.index*5+4]}.png`" alt="" :style='ka.img02'/>
+                    <!-- <img src="src/image/cardPlus/bei.png" alt="" /> -->
                 </div>
             </div>
         </mt-popup >
@@ -63,8 +61,7 @@
 
             <dl>
                 <!-- 个人头像 -->
-                <dt :class='!this.$store.state.data.zhaoFZ[0] ? "" : "DTtips"'
-                @click='liaotian'>
+                <dt :class='!this.$store.state.data.zhaoFZ[0] ? "" : "DTtips"'>
                     <img @click='logic_ox' :src='$store.state.user.userImg' height="155" width="149" alt="" />
                 </dt>
                 
@@ -137,6 +134,7 @@
                     </li>
 
                 </ul>
+                <!-- .yin.shu -->
                 <span :class='win.css[1]'>{{win.cssFen[1]}}</span>
             </div>
             <!-- 中间 -->
@@ -159,13 +157,14 @@
                     :class='move.liType == index ? (index==logic.z_index &&user.initType==5 ? "hover_no":"hover"):""' >
                     <!-- 牌 -->
                     <div class='pai'>
-                        <img :src="`src/image/card/${logic.oxImg[index*5+0]}.png`" :style='"visibility:hidden;"+logic.imgStyle'/>
+                        <img :src="`src/image/card/${logic.oxImg[index*5+0]}.png`" :style='"visibility:hidden;"+logic.imgStyle' />
                         <img :src="`src/image/card/${logic.oxImg[index*5+1]}.png`" :style='"visibility:hidden;"+logic.imgStyle'/>
                         <img :src="`src/image/card/${logic.oxImg[index*5+2]}.png`" :style='"visibility:hidden;"+logic.imgStyle'/>
                         <img :src="`src/image/card/${logic.oxImg[index*5+3]}.png`" :style='"visibility:hidden;"+logic.imgStyle'/>
                         <img :src="`src/image/card/${logic.oxImg[index*5+4]}.png`" :style='"visibility:hidden;"+logic.imgStyle'/>
+                        <span v-if='user.initType==7'><img :src="`src/image/${logic.oxji[index]}.png`" /></span>
                     </div>
-
+                    
                     <!-- 筹码以及分数 -->
                     <div class="chou_fen">
                         <div class="not_zhuang" v-if='main.z_type==1&&index!=logic.z_index'>
@@ -175,10 +174,17 @@
                         </div>
                         <img src="src/image/room002.png" v-if='main.z_type==1&&index==logic.z_index'/>
                         <img src="src/image/cuopai.png"
-                         v-if='logic.liMy_All[index]>=0&&user.initType<=6' @click='cuopai=true'/>
+                         v-if='logic.liMy_All[index]>0&&user.initType==6' @click='cuopai=true,ka.index=index,ka.img02=""' class='cuopai_anniu'/>
+
+
+
+                         <p v-if='user.initType<=7 && chenji.myfen[index]==0' :class='chenji.myfen[index] < 0 ? "yin":"shu"' >{{chenji.myfen[index] < 0 ? chenji.myfen[index] : "+"+chenji.myfen[index]}}</p>
+
                     </div>
                     </li>
                 </ul>
+                <p :class='user.initType==7?"jieguo":""' >{{chenji.allfen < 0 ? chenji.allfen : "+"+chenji.allfen}}</p>
+                <p :class='user.initType==7?"jieguo":""' >{{chenji.allfen < 0 ? chenji.allfen : "+"+chenji.allfen}}</p>
             </div>
             <!-- 右 -->
             <div class='right'>
@@ -220,13 +226,13 @@
             </span>
             <!-- 筹码 ,move.srcImgStyle="z-index:-999;"-->
             <span class='control_center' @touchend='move.liType = -1'>
+                <img :src="`src/image/c${main.minFen_x>=1 ? 'c' : 'h'}01.png`"  @touchmove='main.minFen_x>=1 ? moveK() : false' 
+                @touchend='main.minFen_x>=1 ? moveEnd() : 0'  :fen='"1"'/>
 
-                <img :src="`src/image/c${main.minFen_x>=1 ? 'c' : 'h'}01.png`"  @touchmove='true ? moveK() : false' @touchend='moveEnd'  :fen='"1"'/>
-
-                <img :src="`src/image/c${main.minFen_x>=5 ? 'c' : 'h'}02.png`"  @touchmove='true ? moveK() : false'  @touchend='moveEnd'  :fen='"5"'/>
-                <img :src="`src/image/c${main.minFen_x>=10 ? 'c' : 'h'}03.png`"  @touchmove='true ? moveK() : false'  @touchend='moveEnd'  :fen='"10"'/>
-                <img :src="`src/image/c${main.minFen_x>=50 ? 'c' : 'h'}04.png`"  @touchmove='true ? moveK() : false'  @touchend='moveEnd'  :fen='"50"'/>
-                <img :src="`src/image/c${main.minFen_x>=100 ? 'c' : 'h'}05.png`" @touchmove='true ? moveK() : false'  @touchend='moveEnd'  :fen='"100"'/>
+                <img :src="`src/image/c${main.minFen_x>=5 ? 'c' : 'h'}02.png`"  @touchmove='main.minFen_x>=5 ? moveK() : false'  @touchend='main.minFen_x>=5 ? moveEnd():0'  :fen='"5"'/>
+                <img :src="`src/image/c${main.minFen_x>=10 ? 'c' : 'h'}03.png`"  @touchmove='main.minFen_x>=10 ? moveK() : false'  @touchend='main.minFen_x>=10 ? moveEnd():0'  :fen='"10"'/>
+                <img :src="`src/image/c${main.minFen_x>=50 ? 'c' : 'h'}04.png`"  @touchmove='main.minFen_x>=50 ? moveK() : false'  @touchend='main.minFen_x>=50 ? moveEnd():0'  :fen='"50"'/>
+                <img :src="`src/image/c${main.minFen_x>=100 ? 'c' : 'h'}05.png`" @touchmove='main.minFen_x>=100 ? moveK() : false'  @touchend='main.minFen_x>=100 ? moveEnd():0'  :fen='"100"'/>
             </span>
             <span class='control_right'>
                 <img :src="`src/image/room006${main.bei? '':'6'}.png`" alt="" @click='bei_KZ(1)'/>
@@ -329,7 +335,7 @@
                     auto: true,    // true自动轮庄- -false指定庄家
                     allFen: 0,      // 房间总分
                     myFen: 0,       // 自己的分
-                    initTxt: ['游戏暂未开始', '正在初始化游戏资源','准备开始：', '随机庄位：', '发牌中', '可押注时间：', '开牌倒计时：'],
+                    initTxt: ['游戏暂未开始', '正在初始化游戏资源','准备开始：', '随机庄位：', '发牌中', '可押注时间：', '开牌倒计时：', '开牌结果'],
                     initType: 0,    // 游戏阶段
                     ju: 0,          // 游戏局数
                 },
@@ -347,6 +353,7 @@
                     minFen_j: 0,        // 最低上庄分数_计算用
                     minFen_x: 0,        // 最低上庄分数_显示用
                     maxBei  : 0,        // 单局最大倍数
+                    beilv   : [],       // 倍率
                     bidui   : 0,        // 比什么
                     minYa   : 0,        // 下注范围
                     maxYa   : 0,        // 下注范围
@@ -391,14 +398,24 @@
                     bounce: [],     // 弹跳c3
                     imgNum: 1,  // 移动用img的数量
                 },
+                ka:{    // 搓牌临时
+                    initY: 0,   // 开始的y
+                    cardH: 0,   // 牌的高度
+                    heziType:'',// 盒子的style
+                    img02: '',  // img的高度
+                    type: 0,    // 阶段判断
+                    index: 0,   // 所点开的卡牌所在组
+                },
+                chenji:{    // 分数成绩
+                    allfen: 0,  // 单局总分数波动
+                    zfen: 0,    // 庄的分数波动
+                    myfen: [0,0,0,0,0,0,0], // 个人押注输赢总分
+                },
 
 
 
 
-                CHAT_QUN: '',  // 群聊路由
-                
                 message : this.$store.state.placard.message,
-                Ztype: {},      // 庄的数据
 
                 init: {     // 初始化
                     ForT: this.$store.state.idRoom.ForT || 0,  // 1是房主0是普通
@@ -422,15 +439,6 @@
                     juAll: 0, // 游戏总局数
                 },
                 
-                time01: {     // 时间总控
-                    initTime: this.$store.state.time.initTime,
-                    random: this.$store.state.time.random,
-                    index: -1,      // 随机背景/庄家
-                    speed: this.$store.state.time.speed,
-
-                    endTime: this.$store.state.time.endTime,
-                    countTime: this.$store.state.time.countTime,
-                },
                 
                 win: {      // 输赢结果
                     // 个人总分
@@ -450,53 +458,7 @@
                     oxWater: 0,
                 },
                 
-                ordinary: {     // 普通
-                    
-                    bg: false,// 背景渐变
-                    
-                    pond: 0,// 可下注池
-                    
-                    allPay: [0, 0, 0, 0, 0, 0, 0],// 总下注
-                    pay: {      //自己下---翻倍/不翻倍/总下注
-                        0 : [0, 0, 0],
-                        1 : [0, 0, 0],
-                        2 : [0, 0, 0],
-                        3 : [0, 0, 0],
-                        4 : [0, 0, 0],
-                        5 : [0, 0, 0],
-                        6 : [0, 0, 0],
-                        7 : [0, 0, 0],
-                    },
-                    Pn: -1,     // 第几个下注框
-                },
-                // 扑克牌黑桃(spade)红心（heart）梅花（clubs）方块（dianmond） 
-                cardURL: {
-                    color : ['spade', 'heart', 'clubs', 'dianmond'],  // 花色、牌称
-                    nickname : ['没牛', '牛一', '牛二', '牛三', '牛四',
-                               '牛五', '牛六', '牛七', '牛八', '牛九', 
-                               '牛牛', '五花牛', 'J大', 'Q大', 'K大'],
-                    src : ["src/img/Z999.png", "src/img/cardPlus/"],
-                    c3Type : ["", "", "", ""],  // c3状态控制[ 0卡牌出现, 1发牌效果, 2翻牌动效, 3翻牌2]
-                    clck : -1, // 点击翻转
 
-                    cardEnd : [],   // 7副牌数字
-                    card : [],      // 牌型 --
-                    result : [],    // 牛几 --
-                    resultNum : [], // 牛几（数字提取）--
-                    maxVal : [],    // 权重 --
-                    end : [],       // 结果
-                    dataT: 0,       // 时间相差三秒内可继续游戏
-                    zhuang: 0,      // 庄的结果
-                },
-                // 游戏结果处理
-                gameOver: {
-                    show: false,        // 出现
-                    timeEng: false,     // 倒计时结束
-                },
-                players: [],        // 右边玩家
-                playersName: '',    // 右边玩家姓名
-                TTT: {},    // 牌型中转
-                count: 0,  // 轮庄计算
             }
         },
         mounted: function(){
@@ -508,6 +470,53 @@
             
         },
         methods: {
+            cuoinit(ev){  // 搓牌开始
+                var hezi =document.getElementsByClassName('cuopaiCard')[0];
+                this.ka.type=0;
+                this.ka.initY=0;
+                this.ka.cardH=0;
+                this.ka.heziType='';
+
+                if (ev.changedTouches.length == 1) {    // 只有一个手指触摸
+                    var touY = ev.changedTouches[0].pageY;
+                    this.ka.cardH = hezi.getBoundingClientRect().height;
+                    this.ka.initY = touY;
+                }
+            },
+            cuoka(ev){    // 搓牌实现
+                // console.log(ev.clientY)
+                var img1_H=document.getElementsByClassName('cuopaiCard')[0].children[0].getBoundingClientRect().height;
+                var img1_W=document.getElementsByClassName('cuopaiCard')[0].children[0].getBoundingClientRect().width;
+
+                var img2=document.getElementsByClassName('cuopaiCard')[0].children[1];
+                var init_touY = this.ka.initY;
+                var init_H    = this.ka.cardH;
+                var touY = ev.changedTouches[0].pageY;
+                if (ev.changedTouches.length == 1 && touY<init_touY) {    // 只有一个手指触摸
+                    // var touX = ev.changedTouches[0].pageX;
+                    // transform: translate(-50%, 0%);
+                    // console.log(init_touY-touY)
+                    // console.log(init_H)
+                    var y = init_touY-touY;
+                    this.ka.heziType = 'height:'+(init_H-y)+'px;';
+                    this.ka.img02 = 'transform: translate(-50%, -'+(y*2)+'px);z-index: 50;';
+                    // console.log(y)
+                    // console.log(init_H/2)
+                    if(y>=img1_H/2){
+                        // console.log(999)    // 这时候来一个动效
+                        this.ka.type = 1;
+                        this.ka.heziType = 'height:'+(this.ka.cardH)+'px;';
+                        this.ka.img02 = 'height:'+img1_H+'px;width:'+img1_W+'px;top: 0;transform: translate(-50%,0.3rem); transition: all 0.3s; z-index: 50;';
+                    }
+                }
+            },
+            cuoEnd(){
+                // console.log(this.ka.type)
+                if(this.ka.type == 0){
+                    this.ka.heziType = 'height:'+(this.ka.cardH)+'px;';
+                    this.ka.img02 = 'transform: translate(-50%, 0px);z-index: 50;';
+                }
+            },
             bei_KZ(n){   // 倍数控制
                 this.main.bei=n;
                 if(n==0){   // 无倍
@@ -576,7 +585,6 @@
                     channel: 'room_' + goEasy_ID,
                     onMessage: function(message){
                         // console.log('接收到消息:'+JSON.parse(message.content))
-                        // console.log(message)
                         console.log(JSON.parse(message.content))
 
                         var data = JSON.parse(message.content);
@@ -627,9 +635,6 @@
                             break;
 
 
-
-
-
                         case 1 :                            // 通知有人加入
                             if(data.zn_member_id == localStorage.oxUid){
                                 return false;
@@ -661,14 +666,13 @@
                             // self.list()         // 新庄家
                             break;
                         case 12:                            // 发牌中
-                            self.TTT = JSON.parse(data.data);
+
                             break;
 
 
                         case 14:                            // 房主暂停游戏
-                            self.host.allType = 0;
-                            self.init.textStyle = 0;
-                            self.init.text[0] = '游戏暂未开始';
+                            // self.init.textStyle = 0;
+                            // self.init.text[0] = '游戏暂未开始';
                             break;
                         case 15:                            // 中止下注
                             console.log(data)
@@ -686,11 +690,9 @@
             moveK(ev){   // 拖动筹码
                 var mainBody = this.main;
                 let [user, self] = [this.user, this];
-                // if(user.type == 1 || user.type == 2 || user.initType != 5) {  //房主和庄家不参与游戏
-                // if(user.initType != 5) {  //房主和庄家不参与游戏
+                // if(user.type == 1 || user.type == 2 || user.initType != 5){  //房主和庄家不参与游戏
                 //     return false;
                 // }
-
                 ev = ev || event;
                 var a = document.getElementById('room_UL');
                 var aleft = document.getElementsByClassName('left')[0].getBoundingClientRect().width;
@@ -723,7 +725,7 @@
 
                     self.$set(this.move.srcImgStyle, idx-1 ,`left:${touX}px;top:${touY}px;z-index:999;`);
                     // this.move.srcImgStyle[imgOnes.length-1] = `left:${touX}px;top:${touY}px;z-index:999;`;
-                     
+                    
                     // 不在ul内
                     if(touY < offsetH || touY > offsetH+ul_H || touX < offsetW || touX > offsetW+li_W){  
                         this.move.liType = -1;
@@ -735,10 +737,9 @@
             moveEnd(ev){
                 var mainBody = this.main;
                 let [user, self] = [this.user, this]; // bounce
-                // if(user.type == 1 || user.type == 2 || user.initType != 5) {  //房主和庄家不参与游戏
-                // if(user.initType != 5) {  //房主和庄家不参与游戏
-                //     return false;
-                // }
+                if(user.type == 1 || user.type == 2 || user.initType != 5) {  //房主和庄家不参与游戏
+                    return false;
+                }
 
                 ev = ev || event;
                 var a = document.getElementById('room_UL');
@@ -783,7 +784,6 @@
                     if(this.main.bei==1){
                         maxBel = this.main.maxBei;  // 最大倍率
                     }
-
                     
                     if( touX > offsetW && touX < offsetW+li_W && ((touY > offsetH && touY < offsetH+z_yBottom)||(touY > offsetH+z_yTop && touY < offsetH+ul_H)) ){
                         console.log('可下注范围')
@@ -799,8 +799,8 @@
                         .then(res => {
                             console.log(res)
                             if(res.status != 1){
-                                // self.errorTips = res.msg;
-                                // self.careTip = true;
+                                self.errorTips = res.msg;
+                                self.careTip = true;
                             }
                         })
 
@@ -837,7 +837,9 @@
                         main.cardNum = data.zn_play_type == 1 ? 5 : 7;  // 几牌
                         main.minFen = Number(data.zn_min_score);  // 最低上庄分数
                         main.minFen_x = Number(data.zn_min_score);  // 最低上庄分数_显示用
+                        main.minFen_j = Number(data.zn_min_score);  // 最低上庄分数_计算用
                         main.maxBei = JSON.parse(data.zc_rate)[11];  // 最大倍数     
+                        main.beilv = JSON.parse(data.zc_rate) // 倍率
                         main.bidui = JSON.parse(data.zc_rate)[12];  // 比什么     
                         main.minYa = data.zn_bet_between_s;  // 押注范围
                         main.maxYa = data.zn_bet_between_e;  // 押注范围 
@@ -979,11 +981,18 @@
                 var impor = []; // 权重
                 for(var Q=0; Q<cardNum; Q++){
                     var arr = [
-                        Number(oxImg[Q*5].substr(1)),
+                        Number(oxImg[Q*5+0].substr(1)),
                         Number(oxImg[Q*5+1].substr(1)),
                         Number(oxImg[Q*5+2].substr(1)),
                         Number(oxImg[Q*5+3].substr(1)),
                         Number(oxImg[Q*5+4].substr(1))
+                    ];
+                    var arr2 = [
+                        Math.floor(Number(oxImg[Q*5+0].substr(1))),
+                        Math.floor(Number(oxImg[Q*5+1].substr(1))),
+                        Math.floor(Number(oxImg[Q*5+2].substr(1))),
+                        Math.floor(Number(oxImg[Q*5+3].substr(1))),
+                        Math.floor(Number(oxImg[Q*5+4].substr(1)))
                     ];
                     oxji[Q] = 0;
                     var maxCard = Math.max.apply(null,arr);
@@ -995,7 +1004,7 @@
                     };
                     impor[Q] = zm[oxImg[Q*5+arr.indexOf(maxCard)].substr(0,1)]+maxCard*100;
                     
-                    if(eval(arr.join("+")) == 50){   // 五花牛
+                    if(eval(arr2.join("+")) == 50){   // 五花牛
                         oxji[Q]  = 99999;
                         impor[Q] = 99999;
                     } else{
@@ -1035,7 +1044,6 @@
                         }
                     }
                     impor[Q]+=oxji[Q];
-                    
                 }
 
                 // 输赢计算
@@ -1146,7 +1154,6 @@
                 this.gameStart(1);       // 执行游戏
             },
             gameStart(type) {       // 游戏流程入口
-                // this.ordinary.allPay = [0, 0, 0, 0, 0, 0, 0];
                 let self = this;
                 switch (type) {
                     case 1 :  // 倒计时
@@ -1174,7 +1181,7 @@
                         // this.FZ ()          // 翻转
                     break;
                     case 5 :
-                        this.settlement ()  // 单局结算等待
+                        // this.settlement ()  // 单局结算等待
                     break;
                 }
             },
@@ -1185,7 +1192,6 @@
                 this.user.initType = 3;
                 this.time.time_x = this.time.random; // 时间赋值
                 
-                // self.cardURL.zhuang = self.TTT.zhuang     // 庄位置
                 // this.init.textStyle = 2;
 
                 pageTimer["timer02"] = setInterval( ()=> {
@@ -1221,6 +1227,7 @@
                     if(this.time.time_x >= 1){
                         this.time.time_x-- ;
                     } else {
+                        self.careTip = false;
                         self.openCard();
                         clearInterval(pageTimer['timer04']);
                     }
@@ -1228,16 +1235,13 @@
                     //     self.roomStyle(3)
                     // }
                 } , 1000);
-
             },
             openCard () {                 // 4、开牌--算输赢
                 let self = this;
                 var cardNum = this.main.cardNum;    // 牌数
                 var z_index = this.logic.z_index;   // 庄的位置
                 this.logic.imgStyle = "visibility:visible;"
-                // ("visibility:visible;transform: rotateY(90deg);transition:transform .5s ease;z-index:1")
 
-                console.log(999)
                 var o =0;
                 pageTimer["timer05"] = setInterval( ()=> {
                     for(var i=0;i<cardNum;i++){
@@ -1249,13 +1253,18 @@
                         this.user.initType=6;
                         this.time.time_x = this.time.$openCard;
                         pageTimer["timer06"] = setInterval( ()=> {
+                            if(this.time.time_x == this.time.$openCard){
+                                // 算胜负计算分数
+                                this.countFen();
+                            }
                             if(this.time.time_x >= 1){
                                 this.time.time_x-- ;
-
                             } else {
+                                self.cuopai=false;
                                 for(var i=0;i<cardNum;i++){
                                     this.$set(this.move.trans,i+o,this.move.trans[i+o].replace('px)','px) rotateY(90deg)'));
                                 }
+                                this.user.initType=7;
                                 clearInterval(pageTimer['timer06']);
                             }
                         },1000)
@@ -1264,30 +1273,63 @@
                     }
                 },500)
                 
-
-                // self.gameOver.show=true;
-                // // 算输赢/发送胜负请求
-                // self.sfEng ()
-                // // 翻转剩下的牌
-                // Timeout['setT3'] = setTimeout(()=>{
-                //     self.roomStyle(9) 
-                //     self.init.textStyle = 4;
-                //     self.init.time = self.time.countTime;
-
-                //     pageTimer["timer05"] = setInterval( ()=> {
-                //         if(self.init.time >= 1){
-                //             self.init.time-- ;
-                //         } else {
-                //             self.gameOver.timeEng = true;
-                //             self.init.time = self.time.endTime;
-                            
-                //             self.settlement()
-                //             clearInterval(pageTimer["timer05"]);
-                //         }
-                //     } , 1000);
-
-                // }, 250)
             },
+            // chenji:{    // 分数成绩
+            //     allfen: 0,  // 单局总分数波动
+            //     zfen: 0,    // 庄的分数波动
+            //     myfen: [0,0,0,0,0,0,0], // 个人押注输赢总分
+            // }
+            countFen(){    // 分数计算
+                var beilv = this.main.beilv;   // 倍率
+                var oxsy  = this.logic.sy;     // 输赢
+                var oxji  = this.logic.oxji;   // 牛几
+                var fbei = this.logic.liMy_Ff; // 当前个人压分_翻倍
+                var nbei = this.logic.liMy_Fn; // 当前个人压分_不翻
+                var myFen= this.user.myFrm;    // 自己分数
+                var chenji = this.chenji;   // 分数计算
+                for(var i=0; i<7; i++) {
+                    // 翻倍
+                    if(fbei[i]>0 && oxsy[i]==1){  // 有压翻倍且赢
+                        chenji.myfen[i]+=fbei[i]*beilv[oxji[i]];
+                    } else if(fbei[i]>0 && oxsy[i]==0){ // 有压翻倍且输
+                        chenji.myfen[i]-=fbei[i]*beilv[oxji[i]];
+                    } else if(fbei[i]>0 && oxsy[i]==99999){// 五花牛
+                        chenji.myfen[i]+=fbei[i]*beilv[oxji[10]];
+                    }
+                    // 不翻倍
+                    if(nbei[i]>0 && oxsy[i]>=1){// 有压不翻且赢
+                        chenji.myfen[i]+=nbei[i];
+                    } else if(nbei[i]>0 && oxsy[i]==0){ // 有压不翻且输
+                        chenji.myfen[i]-=nbei[i];
+                    }
+                }
+                chenji.allfen = eval(chenji.myfen.join("+"));
+                console.log( this.chenji )
+            },
+
+
+            gameO (obj) {   // 存储游戏结果
+                var self = this;
+
+                var idRoom = this.$store.state.idRoom
+                // console.log(ox)
+                http.post('/GameLog/createGameLog',{
+                    zn_member_id: localStorage.oxUid,   // 用户id
+                    zn_points_total: 0,     // 房间总分
+                    zn_room_id: idRoom.id,  // 房间id
+                    zc_is_boss: self.init.ForZ == 1 ? 1 : 2,    // 是否为庄
+                    zn_number: Number(self.init.juAll)+1,     // 总游戏局数
+                    zn_points_give: self.init.ForZ == 1 ? obj.sF : 0,     // 抽水分数
+                    zn_points_left: self.init.ForZ == 1 ? Number(obj.fen)+Number(obj.zfen) : Number(obj.fen)+Number(obj.syfen),  // 结余分数
+                    zc_result: JSON.stringify(ox), // 压牌结果
+                    zn_few: obj.yapai,  // 第几副牌ox.join("")
+                    zc_name: localStorage.oxName,   // 用户昵称
+                    zn_process: self.init.ForZ == 1 ? obj.zfen : obj.syfen, // 流水分数
+                })
+                .then(res => {
+                })
+            },
+
 
             remove(){   // 一局结束需要清零的数据
                 this.main.z_type = 0;
@@ -1385,72 +1427,8 @@
             },
             
             
-            
-            clearGameStyle () { // 游戏状态清零
-                let game = this.gameOver;
-                this.cardURL.c3Type = ["", "", "", ""];
-                this.cardURL.result = [];
-                this.cardURL.clck = -1;
-                this.init.textStyle = 1;
-                this.ordinary.bg = game.show = game.timeEng = false;
-                this.ordinary.pay = {   // 押注清0
-                    0 : [0, 0, 0],
-                    1 : [0, 0, 0],
-                    2 : [0, 0, 0],
-                    3 : [0, 0, 0],
-                    4 : [0, 0, 0],
-                    5 : [0, 0, 0],
-                    6 : [0, 0, 0],
-                    7 : [0, 0, 0],
-                }
-                this.win.css = ['', '', ''];
-                this.win.cssFen = ['', '', ''];
-            },
-            
-            
-            
-            
-            
-            
-            settlement () {        // 5、单局结算等待时间
-                let self = this;
-                self.roomStyle(10)
-                self.init.textStyle = 5;
 
-                self.win.css = self.win.cssZZ
-                self.win.cssFen = self.win.cssZZF
-                this.win.fen += Number(self.win.zorp[1])      // 个人分数
-                var f = this.$store.state.data.Ztype.zn_points;
-                this.$store.state.data.Ztype.zn_points = Number(f)+Number(self.win.zorp[0]);   // 庄分数
 
-                pageTimer["timer066"] = setInterval(()=>{
-                    if(self.init.time == 2){
-                        var ju = self.$store.state.idRoom.ju
-                        if(ju != null && ju >= 0 && Number(self.init.juCount) >= Number(ju)){ // 庄家局数够时
-                            self.host.allType = 0;
-                            self.init.juCount = 0;  // 当场游戏局数清0
-                            if(self.$store.state.data.Zlist[0] != undefined && self.$store.state.idRoom.ForT == 1){
-                                self.shangZ()
-                            } // 庄列表查询，有人则自动切换
-                        }
-                    }
-                    if(self.init.time >= 1){
-                        self.init.time-- ;
-                    } else {
-                        self.gameStyle ();
-                        self.list()
-                        if(self.host.allType == 0) {   // 手动停止
-                            self.clearGameStyle()
-                            self.init.textStyle = 0;
-                            self.roomStyle(1)
-                        }
-
-                        clearInterval(pageTimer["timer066"]);
-                    }
-
-                    
-                }, 1000)
-            },
             shangZ () {
                 var self = this;
                 http.post( '/RoomJoin/setMakers', { // 直接下一个上庄
@@ -1466,137 +1444,10 @@
                         }
                     })
             },
-            sfEng () {                 // 输赢结果
-                let maxVal = this.cardURL.maxVal;   // 权重
-                let ox = this.cardURL.resultNum    // 牛结果数字化
-                let idx = this.time.index;        // 庄位置
-                let ya = this.ordinary.pay;      // 押注分数
-                let db = this.$store.state.idRoom.oxNumber;  // 投注倍率
-                let oxK = this.init.oxK;       // 比什么
-                let maxValEng = [];           // 最终结果
-                // 输赢计算
-                ki(idx)
-                function ki(i){
-                    var DYval = 0;
-                    switch (oxK) {
-                        case '比Q' : 
-                            DYval = 4
-                            break;
-                        case '比K' : 
-                            DYval = 8
-                            break;
-                        case '无牛关机 (庄赢)' :
-                            DYval = 12
-                            break;
-                    }
-                    maxValEng[i] = 99;
-                    maxVal.map(function(k,index){
-                        if(index != i && Math.abs(maxVal[i]-k) > DYval ){
-                            maxVal[i] > k ? maxValEng[index] = 0 :
-                            maxValEng[index] = 1;
-                        } else if(index != i){
-                            maxValEng[index] = 0;
-                        }
-                    })
-                }
-                this.cardURL.end = maxValEng;      // 发送输赢结果======// 根据压什么计算加减分
-                
-                // 输赢计算 --------普通玩家
-                var water = this.$store.state.idRoom.scale; // 抽水比例
-                var zFenAll = 0;    // 庄的输赢总分
-                var fenAll = 0;     // 普通玩家输赢总分
-                var yapai = [];     // 压第几副牌
-                for(var i=0; i<7; i++) {
-                    if(ya[i][2] > 0){
-                        yapai.push(i+1)
-                        fenAll += ya[i][2]
-                        if(maxValEng[i] == 1){
-                            fenAll += (ya[i][1])*1 + (ya[i][0])*(db[ox[i]*1]*1)     // 闲赢
-                            zFenAll -= (ya[i][1])*1 + (ya[i][0])*(db[ox[i]*1]*1);    // 庄输
-                            // 普赢庄输
-                            // this.win.cssZZ = ['yin',  'shu',  'yin']
-                            // this.win.cssZZF = [`+${fenAll}`, `-${ZfenAll}`, '+0']
-
-                        } else {    // 亏了多少分
-                            fenAll -= ((ya[i][1])*1 + (ya[i][0])*(db[ox[idx]*1]*1)) // 闲输
-                            zFenAll += ((ya[i][1])*1 + (ya[i][0])*(db[ox[idx]*1]*1)); // 庄赢
-                            // 庄赢
-                            // this.win.cssZZ = ['shu', 'yim', 'yin']
-                            // this.win.cssZZF = [`-${fenAll}`, `+${ZfenAll}`, `+${ZfenAll}`]
-                        }
-                    }
-                }
-                var obj = {}    // 资料储存
-                obj["yapai"] = yapai.join("");
-                obj['fen'] = this.win.fen // 自己的分数
-                obj['syfen'] = fenAll // 这轮输赢的分数
-                obj['zfen'] = zFenAll // 庄这轮的输赢分数
-                var pu = 'yin'; // 普通玩家
-                var puF = fenAll; // 普通玩家的分
-                var z = 'shu'; // 庄家
-                var zF = zFenAll; // 庄家的分
-                var sF = 0; // 抽水分数的分
-                if(zFenAll > 0){    // 中转计算
-                    sF = zFenAll*water/100 
-                    obj['sF'] = Number(sF)
-                    this.host.oxWater += Number(sF)
-                    z = 'yin'
-                    zFenAll -= Number(sF)
-                    zF = `+${zFenAll}`
-                } else if(zFenAll < 0){
-                    zF = `${zFenAll}`
-                }
-                if(fenAll >= 0){
-                    puF = `+${fenAll}`
-                } else if(fenAll < 0){
-                    pu = 'shu';
-                    puF = `${fenAll}`
-                }
-                this.win.cssZZ = [pu, z, 'yin']
-                this.win.cssZZF = [puF, zF, `+${sF}`]
-                console.log(this.win.cssZZF)
-                // console.log(zFenAll)
-                // console.log(fenAll)
-                this.win.zorp = [zFenAll, fenAll];
-                if(this.$store.state.idRoom.ForT == 0){ // 房主不参与游戏
-                    this.gameO(obj)
-                }
-                   // 发送输赢分数=============================================
-                   // 返回总分  //(zn_points)
-            },
-            gameO (obj) {   // 存储游戏结果
-                var self = this;
-                var ox = this.cardURL.resultNum.slice(0,7)    // 牛结果数字化
-                var idRoom = this.$store.state.idRoom
-                ox.push(self.cardURL.zhuang)    // 添加
-                // console.log(ox)
-                http.post('/GameLog/createGameLog',{
-                    zn_member_id: localStorage.oxUid,   // 用户id
-                    zn_points_total: 0,     // 房间总分
-                    zn_room_id: idRoom.id,  // 房间id
-                    zc_is_boss: self.init.ForZ == 1 ? 1 : 2,    // 是否为庄
-                    zn_number: Number(self.init.juAll)+1,     // 总游戏局数
-                    zn_points_give: self.init.ForZ == 1 ? obj.sF : 0,     // 抽水分数
-                    zn_points_left: self.init.ForZ == 1 ? Number(obj.fen)+Number(obj.zfen) : Number(obj.fen)+Number(obj.syfen),  // 结余分数
-                    zc_result: JSON.stringify(ox), // 压牌结果
-                    zn_few: obj.yapai,  // 第几副牌ox.join("")
-                    zc_name: localStorage.oxName,   // 用户昵称
-                    zn_process: self.init.ForZ == 1 ? obj.zfen : obj.syfen, // 流水分数
-                })
-                .then(res => {
-                })
-            },
             
             
             
-
-            liaotian () {   // 找房主的人
-                if(!!this.$store.state.data.zhaoFZ[0]) {    // 有人等待的时候
-                    var zid = this.$store.state.data.zhaoFZ[0]
-                    router.push({path: `/CHAT_QUN/[1,${this.$store.state.idRoom.room_id},${zid},1,"找房主的人",${this.$store.state.idRoom.id}]`});
-                    this.$store.state.data.zhaoFZ.shift()
-                }
-            },
+            
             initAllData(){
                 var self = this;
                 http.post('/Room/getRooms',{
