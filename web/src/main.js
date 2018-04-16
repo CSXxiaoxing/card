@@ -50,14 +50,6 @@ if(!localStorage.oxQun){ // 群聊
   localStorage.setItem('oxQun', "{}")
 }
 
-goEasy.subscribe({
-    channel: "user_"+localStorage.oxUid,
-    onMessage: function(message){
-        // console.log('接收到消息:'+message.content)
-        console.log(JSON.parse(message.content))
-    }
-
-});
 
 
 

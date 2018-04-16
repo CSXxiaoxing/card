@@ -12,6 +12,7 @@
 		    <mt-button @click="careTip = false">  确定
 		    </mt-button>
 		</mt-popup >
+
 		<header>
             <ul>
                 <li @click='water=false'>
@@ -22,6 +23,7 @@
         </header>
 
         <center>
+            <!-- <p>{{waterList}}</p> -->
             <table  v-for='(list,listkey) in waterList' border="1" cellpadding="0" cellspacing="0">
     			<thead>
     				<tr>
@@ -31,22 +33,23 @@
     					<td>昵称</td> <td>分数流水</td> <td>抽水分数</td> <td>结余分数</td>
     				</tr>
     			</thead>
+
     			<tbody>
                     <tr v-for = 'data in list'>
-    					<td>{{data.name}} <img src="src/image/room002.png" v-if='data.ForZ == 1'></td>
-                        <td :class='data.water >=0 ? "" : "red"' >{{ data.water>=0 ? '+'+ data.water : data.water}}</td> 
-                        <td>{{data.wFen}}</td>
-                        <td>{{data.fen}}</td>
+    					<td>{{data.zc_name}} <img src="src/srcImg/room002.png" v-if='data.zc_is_boss == 1'></td>
+                        <td :class='data.zn_process >=0 ? "" : "red"' >{{ data.zn_process>=0 ? '+'+ data.zn_process : data.zn_process}}</td> 
+                        <td>{{data.zn_points_give}}</td>
+                        <td>{{data.zn_points_left}}</td>
     				</tr>
-    				<tr class="total"  v-if="seen">
-    					<td>房间余剩分数</td> <td colspan="3">{{data.fraction}}</td>
+                    <!-- <tr>{{list}}</tr> -->
+    				<!-- <tr class="total"  v-if="seen && fz">
+    					<td>房间余剩分数</td> <td colspan="3">{{list}}</td>
     				</tr>
-    				<tr class="open" v-if="!seen && $store.state.idRoom.ForT == 1">
+    				<tr class="open" v-if="!seen && fz">
     					<td colspan="4" @click="more">点击加载更多</td>
-    				</tr>
+    				</tr> -->
     			</tbody>
     		</table>
-
         </center>
 
 		
@@ -55,7 +58,14 @@
 </template>
 
 
-
+<style lang='scss' scoped>
+    #water{
+        &>header{
+            padding-top: 0.8rem;
+            height: 1.633333rem;
+        }
+    }
+</style>
 
 <script type="text/javascript">
 	import Vue from 'vue';
@@ -71,6 +81,7 @@
       		loading: false,		// loading
         	water: false,
         	seen: false,
+            fz: false,
         	careTip : false,
             waterList :[],
       	};

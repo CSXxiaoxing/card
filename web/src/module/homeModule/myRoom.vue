@@ -347,9 +347,9 @@
             },
             openS(e){
                 var self = this;
-              let Etar = e.target;
-              var Tar = () => {
-               var EtarName = Etar.nodeName.toLowerCase();
+                let Etar = e.target;
+                var Tar = () => {
+                var EtarName = Etar.nodeName.toLowerCase();
                         if(EtarName == 'li'){
                           var nodeValue = Etar.attributes["openState"].nodeValue;
 
@@ -370,16 +370,21 @@
                                     }, '' ,this)
                                     .then(res => {
                                     console.log(res)
+                                    
                                     if( res.status == 3 ){
-                                    router.push({path: `room/${Etar.attributes["roomid"].nodeValue}`});
-                                        // alert('房间号码不存在')
+                                        if(res.msg == "你是房主"){
+                                            router.push({path: `room/${Etar.attributes["roomid"].nodeValue}`});
+                                        } else {
+                                            self.$parent.errorTips = '等待房主确认';
+                                            self.$parent.careTip = true;
+                                        }
                                     } else if( res.status == 1 ){
                                         router.push({path: `room/${res.data.zc_number}`});
                                     } else if( res.status == 0 ){
                                         self.$parent.errorTips = '你已在房间内，请退出当前房间';
                                         self.$parent.careTip = true;
                                     }
-                                })
+                                    })
                                 }
                             })
                           }

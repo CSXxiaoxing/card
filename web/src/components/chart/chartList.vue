@@ -42,7 +42,7 @@
             <header>
                 <ul>
                     <li>
-                        <i><a @click='DeleteCY = false'></a></i>
+                        <i @click='DeleteCY = false'></i>
                     </li>
                     <li>删除房间成员</li>
                     <li @click='delPerson'>确认</li>
@@ -68,10 +68,10 @@
     	<header>
             <ul>
                 <li>
-                    <i><a  @click='listOff = false'></a></i>
+                    <i @click='listOff = false'></i>
                 </li>
-                <li>房间成员{{$parent.$parent.rid}}</li>
-                <li><img src="src/image/friend003.png" alt=""></li>
+                <li>房间成员{{$parent.$parent.lingth}}</li>
+                <li style="visibility:hidden"><img src="src/image/friend003.png" alt=""></li>
             </ul>
         </header>
         <div class='list'>
@@ -81,10 +81,9 @@
                 :class='data.zn_member_id == cli ? "click" : ""' @touchend='cli = data.zn_member_id'>
 
             		<img src="src/image/home004.png" alt="">
-
                     <b>{{data.zn_member_name}}</b>
                     <p v-show = 'fanzhu == 1'>分数 : <b>{{data.zn_points}}</b></p>
-                    <span><img src="src/img/chart_List1.png" alt="">加友</span>
+                    <span v-if='$store.state.user.friendId.indexOf(`${data.zn_member_id}`)<0' @click='listAdd(data.zn_member_id)'><img src="src/image/chart_List1.png" alt="">加友</span>
             	</li>
 
             </ul>
@@ -202,18 +201,15 @@
                     text-align: center;
                 }
                 li:first-child {
+                    position:relative;
                     &>i {
                         display: inline-block;
                         width: 0.537037rem;
                         height: 0.416667rem;
                         background: $friend002 no-repeat;
                         background-size: 0.537037rem 0.416667rem;
-                        position: relative;
+                        position: absolute;
                         top: 50%;
-                        -webkit-transform: translate(0, -50%);
-                        -moz-transform: translate(0, -50%);
-                        -ms-transform: translate(0, -50%);
-                        -o-transform: translate(0, -50%);
                         transform: translate(0, -50%);
                     }
                 }
@@ -222,7 +218,7 @@
         
         .list{
             width: 100%;
-            // height: 14.240741rem;
+            // height: 14.240741rem; border
             flex:1;
             overflow-y:auto;
             overflow-x:hidden;
@@ -231,7 +227,7 @@
             li{
                 height:1.759259rem;
                 text-align:left;
-                border-bottom: 0.018519rem solid #E6F0E6;
+                border-bottom: 0.018519rem solid #CCBDA8;
                 img{
                     margin:0.092593rem 0.185185rem 0 0.092593rem;
                     width:1.407407rem;
@@ -514,6 +510,17 @@
                         self.putRoom = false
                         router.push({path: `/home`});
                     }
+                })
+            },
+            listAdd(id){
+                http.post('/MemberNotice/applyFriend',{
+                    zn_mid      : localStorage.oxUid,
+                    zc_content  : localStorage.oxName,
+                    zn_applyid  : id,
+                }).then(res=>{
+                    console.log(res);
+                    this.$parent.$parent.$parent.$parent.careTip_TEXT = res.msg;    // 错误提示
+                    this.$parent.$parent.$parent.$parent.careTip = true;      // 错误提示
                 })
             },
             chartDelete () {

@@ -19,13 +19,13 @@
         <mt-button @:click="cardNumber" ></mt-button>
     </mt-popup>
 
-    <h1>购买房卡 <i v-on:click="buyRoom = false"></i></h1>
+    <h1> <i v-on:click="buyRoom = false"></i></h1>
 
     <ul>
       <li>
         <table v-for='(cards,quest) in list'>
           <tr>
-            <td rowspan="3"><img src="src/image/oxCrowd017.png" height="250" width="258" alt=""></td>
+            <td rowspan="3"><img src="src/srcImg/oxCrowd017.png" height="250" width="258" alt=""></td>
             <td>{{cards.title}}</td
           </tr>
           <tr>
@@ -49,7 +49,7 @@
 <style lang='scss' scoped>
     @import '../../utils/baseVar.scss';
     .buyR_modal{
-            position: absolute;
+            position: absolute; 
             left: 50%;
             top: 50%;
             -webkit-transform: translate(-50%, -50%);
@@ -64,7 +64,8 @@
             -khtml-opacity: 0.5;  
             opacity: 0.5;
             background: #000;
-            display: none;   
+            display: none;
+
     }
     // 点击按钮
     .button {
@@ -79,30 +80,24 @@
         }
     }
     .buy{
-        background: $home02 no-repeat;
-        background-size:8.138889rem 13.787037rem;
-        width: 8.138889rem;
-        height: 13.787037rem;
-        position: absolute;
-        bottom: 0.925926rem;
+        width: 7.768519rem;
+        height: 12.944444rem;
+        background: $buyRoom no-repeat;
+        background-size: 7.768519rem 12.944444rem;
+
         h1{
-            margin: 0.601852rem 0.0rem 1.296296rem 0.555556rem;
+            height: 1.9rem;
             font-size:0.555556rem;
             font-weight:bolder;
             color: #5E4205;
             text-align:center;
-
             i{
                 position:absolute;
-                
                 right:0.185185rem;
-                top:0.555556rem;
-            
+                top:0.26rem;
                 width: 0.925926rem;
                 height: 0.925926rem;
-
                 padding-right:0.092593rem;
-
                 background: $oxCrowd_018 no-repeat;
                 background-size: 0.925926rem 0.925926rem;
             }
@@ -116,14 +111,10 @@
                       height:2.314815rem;
                     }
                     position: relative;
-                    left:3.314815rem;
-                    bottom:0.277778rem;
-                    width:5.925926rem;
-                    height:2.5rem;
-                    -webkit-transform: translate(-50%, 0);
-                    -moz-transform: translate(-50%, 0);
-                    -ms-transform: translate(-50%, 0);
-                    -o-transform: translate(-50%, 0);
+                    left:3.05rem;
+                    bottom: 0.277778rem;
+                    width: 5.925926rem;
+                    height: 2.5rem;
                     transform: translate(-50%, 0);
                 }
             }

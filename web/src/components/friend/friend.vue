@@ -24,6 +24,18 @@
             <mt-button @click="delTip = false">
             </mt-button>
         </mt-popup>
+
+        <!-- 进房确认 -->
+        <mt-popup 
+            v-model="jinTip" :modal='false'
+            popup-transition="popup-fade"
+            class="jinTip" >
+            <h3>操作确认</h3>
+            <i @click="jinTip = false"></i>
+            <p>{{jinTip_TEXT}}</p>
+            <mt-button @click="jinCs(jinCanshu,2)"></mt-button>
+            <mt-button @click="jinCs(jinCanshu,1)"></mt-button>
+        </mt-popup>
         <!-- 好友信息 -->
         <mt-popup 
           v-model="findFriend"  :modal='false'
@@ -31,7 +43,7 @@
           class="findFriend" >
           <div>
             <i v-on:click="findFriend = false"></i>
-            <img src="src/img/friend1.png" alt="">
+            <img src="src/image/home004.png" alt="">
             <ul>
                 <li>{{friendName}}</li>
                 <li>{{findID}}</li>
@@ -53,7 +65,7 @@
         <header class='frifri'>
             <ul>
                 <li>
-                    <i><a @click='addFriend ? addFriend=false : friend_VIP=false'></a></i>
+                    <i @click='addFriend ? addFriend=false : friend_VIP=false'></i>
                 </li>
                 <li>{{addFriend ? "添加好友" : "好友列表"}}</li>
                 <li @click="addFriend = true">
@@ -70,6 +82,7 @@
                 </li>
 
                 <li  :class='arrows == 1 ? "show" : "hide"'>
+                    <!-- 系统消息 -->
                     <dl class='sys' v-for='(sys,squest) in systemMess' :key='sys.id' 
                           @touchend='[(q=-1),(k=squest),(sysSel = squest),(touchEnd)]' @click='changeTime(sys.zn_cdate)'  
                           @touchstart='touchStart'
@@ -80,17 +93,34 @@
                         </dt>
                         <dd @click="show = 0,setRead(sys.id, sys.zc_title, sys.zc_content, sys.zn_cdate)" >
                             <b>[系统消息]</b>
-                            <b>{{sys.zc_title}}</b>
+                            <b>{{sys.title}}</b>
+                            <b :class='arrows == 1 ? "show" : "hide"'></b>
+                            <b v-show="sys.read == 1" ></b>
+                        </dd>
+                        <dd class="remove" ref='remove' @click="deleteApplySys"><p>删除</p></dd>
+                    </dl>
+
+                    <!-- 房间请求 $store.state.system.lodin -->
+                    <dl class='sys' v-for='(sys,squest) in $store.state.system.lodin' :key='sys.id' 
+                          @touchend='[(q=-1),(k=squest),(sysSel = squest),(touchEnd)]' @click='changeTime(sys.zn_cdate)'  
+                          @touchstart='touchStart'
+                          @touchmove='touchMove'
+                          :style="squest == k ? deleteSlider: ''">
+                        <dt>
+                            <span><i></i></span>
+                        </dt>
+                        <dd @click="show = 0, jinRoom(sys.uid,sys.name,sys.rid,sys.roomName,sys.roomNum)" >
+                            <b>[系统消息]</b>
+                            <b>{{sys.name}} 申请加入房间：{{sys.roomName}}（{{sys.roomNum}}） </b>
                             <b :class='arrows == 1 ? "show" : "hide"'></b>
                             <b v-show="sys.zn_read == 1" ></b>
                         </dd>
                         <dd class="remove" ref='remove' @click="deleteApplySys"><p>删除</p></dd>
                     </dl>
 
-
                     <!--好友消息-->
-                    <dl class="fri" v-for='(fri,quest) in $store.state.system.friend' :key='fri.id'
-                    @touchend='[(k=-1),(q=quest),(touchEnd)]'
+                    <dl class="fri" v-for='(fri,quest) in friendApply' :key='fri.id'
+                    @touchend='[(k=-1),(q=quest),(touchEnd)]' v-if='friDel.indexOf(fri.appid)<0 && friDel.indexOf(fri.id)<0'
                     @touchstart='touchStart'
                     @touchmove='touchMove'
                     :style="quest == q ? deleteSlider: ''">
@@ -98,10 +128,10 @@
                             <span><i></i></span>
                         </dt>
                         <dd>
-                            <p><i>{{fri.name}}</i>请求添加你为好友</p>
-                            <p @touchend='friSel = quest' @click='agreeFriend(fri.id)'>同意</p>
+                            <p><i>{{fri.content}}</i>请求添加你为好友</p>
+                            <p @touchend='friSel = quest' @click='agreeFriend(fri.appid)'>同意</p>
                         </dd>
-                        <dd class="remove" ref='remove' @click='noFriend(fri.id)'><p>拒绝</p></dd>
+                        <dd class="remove" ref='remove' @click='noFriend(fri.id,fri.appid)'><p>拒绝</p></dd>
                     </dl>
                 </li>
                 
@@ -119,11 +149,11 @@
                           @touchmove='touchMove'
                           :style="1 == 1 ? deleteSlider: ''">
 
-                            <img :src="$store.state.user.userImg" @touchend='friQuest = fquest'/>
+                            <!-- <img :src="$store.state.user.userImg" @touchend='friQuest = fquest'/> -->
 
-                            <span>测试一号</span>
+                            <!-- <span>测试一号</span>
                             <span><i></i>添加</span>
-                            <span class="remove" ref='remove'><p>删除</p></span>
+                            <span class="remove" ref='remove'><p>删除</p></span> -->
                         </dd>
                     </dl>
                 </li>
@@ -135,29 +165,31 @@
                 </li>
                 <li  :class='arrows == 3 ? "show" : "hide"'>
                     <dl>
-                        <p @click='ceshi(3)'>删除好友用</p>
+                        <!-- <p @click='ceshi(3)'>删除好友用</p>
                         <p @click='ceshi(1)'>单聊测试口</p>
-                        <p @click='ceshi(2)'>群聊测试口</p>
+                        <p @click='ceshi(2)'>群聊测试口</p> -->
                         
-
-                        <dd v-for='(friends,fquest) in $store.state.system.friendList' 
-                        :key='friends.id' 
-                        @click='changeTime()'
+                        <dd v-for='(friends,fquest) in friendList' 
+                        :key='friends.name' 
+                        @click='liaotian(friends.fid),changeTime()'
                         @touchend='sysSel = fquest,touchEnd' 
                         @touchstart='[(k=fquest),(touchStart)]'
                         @touchmove='touchMove'
                         :style="fquest == k ? deleteSlider: ''">
 
-                            <img :src="$store.state.user.userImg" @touchend='friQuest = fquest'/>
-                            <span @touchend='friQuest = fquest' @click='liaotian(friends.fid)'>{{friends.name}}</span>
-                            <span @touchend='friQuest = fquest' @click='markFriend =true'><i></i>备注</span>
-                            <span class="remove" ref='remove' @click="deleteFri(friends.name)"><p>删除</p></span>
+                            <img :src="imgInit+friends.img_url" @touchend='friQuest = fquest'/>
+                            <span @touchend='friQuest = fquest'>{{friends.name}}</span>
+                            <span @touchend='friQuest = fquest' @click='markFriend =true'><i></i>备注
+                            </span>
+                            <span class="remove" ref='remove' @click="deleteFri(friends.fid)"><p>删除</p>
+                            </span>
                         </dd>
                     </dl>
                 </li>
             </ul>
         </div>
-        <div class='addHaoyou' v-if='addFriend'>
+
+        <div class='addHaoyou' v-if='addFriend' style='height: 20%'>
             <input type="text" placeholder='输入ID号' v-model='findID'/>
             <i></i>
             <div class='seekHaoyou'  v-show='findID.length != 0' @click='searchFriend'>
@@ -199,7 +231,10 @@
                 careTip_TEXT : false,    // 错误提示
                 delTip : false,          // 删除提示
                 delTip_TEXT : '',        // 删除提示
-
+                jinTip : false,          // 进房提示
+                jinTip_TEXT : '',        // 进房提示
+                jinCanshu: {},           // 进房参数
+                imgInit: '',
                 // 数据
                 friendList : [],    //好友列表
                 
@@ -213,6 +248,8 @@
 
                 systemMess: [],  //系统信息
                 friendApply :[],  //好友信息
+                friDel: [],       // 已经同意的用户
+
                 sysTime : '', //系统信息时间
                 friSel :-1, 
                 friQuest :-1,
@@ -225,7 +262,7 @@
                 endX:0,     //结束位置
                 moveX: 0,   //滑动时的位置
                 disX: 0,    //移动距离
-                deleteSlider: '',//滑动时的效果,使用v-bind:style="deleteSlider"
+                deleteSlider: '',//滑动时的效果,使用v-bind:style="deleteSlider" friend1
                 k:-1,   // 系统消息
                 q:-1,   // 好友申请
                 ForZ: 0,// 庄时状态为1
@@ -233,18 +270,54 @@
         },
         mounted: function(){
             // 登录环信
-            this.$store.dispatch('webIM')       // 聊天配置
-            this.$store.dispatch('dl')         // 聊天登录
-            
-
+            // this.$store.dispatch('webIM')       // 聊天配置
+            // this.$store.dispatch('dl')         // 聊天登录
+            this.imgInit=GAME_ALL_URL;
+            http.post('/MemberFriend/getFrientList',{
+                id : localStorage.oxUid,
+            })
+            .then(res =>{
+                console.log(res)
+            })
             var self = this;
             // 获取系统信息
             self.addDATA();
             // 获取好友
             self.haoyou();
+            self.myFriend();
         },
         methods: {
             // 获取系统消息
+            jinRoom(id,name,rid,rname,rnum){
+                console.log(99)
+                this.jinTip = true;          // 进房提示
+                this.jinTip_TEXT = name+"申请加入房间:"+rname+'('+rnum+')';        // 进房提示
+                this.jinCanshu={
+                    id,
+                    nikename: name,
+                    roomid: rid,
+                }
+            },
+            jinCs(obj,type){
+                console.log(this.$store.state.system.lodin)
+                console.log(obj)
+                http.post('/Room/isJoin',{
+                    id : obj.id,
+                    nikename:obj.nikename,
+                    roomid:obj.roomid,
+                    type: type,
+                })
+                .then(res =>{
+                    console.log(res)
+                    var lodin = this.$store.state.system.lodin;
+                    for(var i=0; i<lodin.length; i++){
+                        if(lodin[i].uid==obj.uid && lodin[i].rid==obj.rid){
+                            lodin.splice(i,1);
+                        }
+                    }
+                })
+                this.jinTip = false;
+            },
             addDATA(){
                 var self = this ;
                 http.post('/MemberNotice/getNotify',{
@@ -253,21 +326,51 @@
                 .then(res =>{
                     console.log(res)
                     if(res.status == 1){
-                        self.systemMess = res.data;
+                        // self.systemMess = res.data;
                         for(let i in res.data){
-                            if(res.data[i].zn_way ==2){
-                                self.systemMess.push({
-                                    id  :res.data[i].id, //信息id
+                            if(res.data[i].zn_way == 2){
+                                self.friendApply.push({  // 好友信息
+                                    id  :res.data[i].id,             //信息id
+                                    appid :res.data[i].zn_applyid,     // id=>950
                                     content : res.data[i].zc_content,//信息内容
-                                    read : res.data[i].zn_read,//已读未读
-                                    time : res.data[i].zn_cdate, //信息时间
-                                    title : res.data[i].zc_title, //信息标题
+                                    read : res.data[i].zn_read,      //已读未读
+                                    time : res.data[i].zn_cdate,     //信息时间
+                                    title : res.data[i].zc_title,    //信息标题
                                 })
-                                // console.log(self.systemMess)
+                            } else if(res.data[i].zn_way == 1){ // 系统消息
+                                self.systemMess.push({
+                                    id  :res.data[i].id,             //信息id
+                                    
+                                    content : res.data[i].zc_content,//信息内容
+                                    read : res.data[i].zn_read,      //已读未读
+                                    time : res.data[i].zn_cdate,     //信息时间
+                                    title : res.data[i].zc_title,    //信息标题
+                                })
                             }
                         }
                     }
                 })
+            },
+            myFriend(){     // 我的好友
+                http.post('/MemberFriend/getFrientList',{
+                    id : localStorage.oxUid,
+                })
+                .then(res =>{
+                    console.log(res)
+                    if(res.status==1){
+                        this.friendList = res.msg;
+                    }
+                })
+            },
+            liaotian(sheId){
+                var sheId=sheId.replace("hz_niuniu_",'')
+                console.log(sheId)
+                var obj = {
+                    rank : 3,      // 在房间的状态
+                    sheId,                      // 联系人id
+                    type : 1,                   // 对应聊天状态
+                }
+                this.inlet(obj);
             },
             inlet: function(obj){   // 单-群入口  
                 var self = this;
@@ -276,9 +379,11 @@
 
                 if(obj.type == 1){  // 单聊
                     dan.DLRoom = true;
-                } 
+                    dan.sheId = obj.sheId; 
+                    dan.heName(obj.sheId);
+                }
                 else if(obj.type == 2){
-                    console.log('加减分')
+                    // console.log('加减分')
                     dan.DLRoom = true;
                     dan.sheId = obj.sheId; 
                     dan.heName(obj.sheId); 
@@ -334,10 +439,6 @@
                     },
                 });
             },
-            liaotian(id) {    // 点击好友聊天 MemberFriend/addFriend
-                var self = this; 
-                router.push({path: `/chartRoom/[2,10086,${id},1,"好友聊天"]`});
-            },
             ConTypr(num){   // 箭头状态
                 if(this.arrows == num) {
                     this.arrows = 0;
@@ -354,7 +455,6 @@
                 .then(res =>{
                     if(res.status==1){
                         self.friendName =  res.data.zc_nickname;
-
                         console.log(res.data.zc_nickname)
                         self.findFriend = true;
                     } else{
@@ -368,42 +468,65 @@
             applyFriend(){
                 var self = this;
                 // 添加好友
-                conn.subscribe({
-                    to: 'hz_niuniu_'+self.findID,
-                    // Demo里面接收方没有展现出来这个message，在status字段里面
-                    message: localStorage.oxName+'#(h9aoyou*)',
-                });
+                // conn.subscribe({
+                //     to: 'hz_niuniu_'+self.findID,
+                //     // Demo里面接收方没有展现出来这个message，在status字段里面
+                //     message: localStorage.oxName+'#(h9aoyou*)',
+                // });
+                http.post('/MemberNotice/applyFriend',{
+                    zn_mid      : localStorage.oxUid,
+                    zc_content  : localStorage.oxName,
+                    zn_applyid  : self.findID,
+                }).then(res=>{
+                    this.careTip = true;      // 错误提示
+                    this.careTip_TEXT = res.msg;    // 错误提示
+                })
+            },
+            // 拒绝申请好友
+            noFriend(id,friId){
+                /*拒绝添加好友的方法处理*/
+                // conn.unsubscribed({
+                //   to: id,
+                //   message : '对方拒绝添加您为好友',
+                // });
+
+                http.post('/MemberNotice/delNotify',{
+                    id    : id,
+                })
+                .then(res => {
+                    console.log(res)
+                    if(res.status==1){
+                        this.friDel.push(id)
+                    }
+                })
             },
             //同意申请好友
             agreeFriend(id){
                 var self = this;
                 /*同意添加好友操作的实现方法*/
-                conn.subscribed({
-                  to: id,
-                  message : localStorage.oxName,
-                });
-
-                id = id.replace('hz_niuniu_','');
+                
+                // conn.subscribed({
+                //   to: id,
+                //   message : localStorage.oxName,
+                // });
+                console.log(id)
                 http.post('/MemberFriend/addFriend',{
                     uid    : localStorage.oxUid,
                     fid    : id,
                 })
                 .then(res => {
                     console.log(res)
+                    if(res.status==1){
+                        this.friDel.push(id)
+                    }
                 })
                 // conn.subscribe({//需要反向添加对方好友
                 //   to: id,
                 //   message : '[resp:true]'
                 // });
             },
-            // 拒绝申请好友
-            noFriend(id){
-                /*拒绝添加好友的方法处理*/
-                conn.unsubscribed({
-                  to: id,
-                  message : '对方拒绝添加您为好友',
-                });
-            },
+            
+
             //删除系统信息
             deleteApplySys(){
                 var self = this;
@@ -460,25 +583,31 @@
             //删除好友
             deleteFri(id){
                 var self = this;
-                conn.removeRoster({
-                    to: id,
-                    success: function () {  // 删除成功
-                        conn.unsubscribed({
-                            to: id
-                        });
-                        // http.post('/MemberFriend/delFriend',{
-                        //     uid : localStorage.oxUid,
-                        //     fid : id.replace('hz_niuniu_',''),
-                        // })
-                        // .then(res=>{
-                        //     console.log(res)
-                        // })
-                        self.haoyou();
-                    },
-                    error: function () {    // 删除失败
-                        alert('删除失败')
-                    }
-                });
+                // conn.removeRoster({
+                //     to: id,
+                //     success: function () {  // 删除成功
+                //         conn.unsubscribed({
+                //             to: id
+                //         });
+                //         // http.post('/MemberFriend/delFriend',{
+                //         //     uid : localStorage.oxUid,
+                //         //     fid : id.replace('hz_niuniu_',''),
+                //         // })
+                //         // .then(res=>{
+                //         //     console.log(res)
+                //         // })
+                //         self.haoyou();
+                //     },
+                //     error: function () {    // 删除失败
+                //         alert('删除失败')
+                //     }
+                // });
+                http.post('/MemberFriend/delFriend',{
+                    fid : id,
+                    uid : localStorage.oxUid,
+                })
+                .then(res =>{
+                })
 
 
             },

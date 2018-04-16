@@ -225,7 +225,7 @@
             {
                 name: self.name,
             })
-            .then(res => {
+            .then(res => { 
                 console.log(res)
                 if(res.status == 1){
                     localStorage.oxName =  res.msg.zc_nickname;

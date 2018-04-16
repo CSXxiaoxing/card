@@ -1,7 +1,6 @@
 <template>
 	<div id='home'> 
 	<iframe :src="iframe" frameborder="0" :id='iframeCss'></iframe>
-	<audio src="src/Music/du001.mp3" autoplay v-if='$store.state.Music.autoplay' loop></audio>
 		<mt-popup 
 	        v-model="careTip"
 	        popup-transition="popup-fade"
@@ -11,49 +10,19 @@
 	        <mt-button @click="careTip = false">  确定
 	        </mt-button>
       	</mt-popup>
+        <mt-popup 
+            v-model="careTip2"
+            popup-transition="popup-fade"
+            class="care" >
+            <span>通知 <i @click="careTip2 = false"></i></span>
+            <p>{{errorTips2}}</p>
+            <mt-button @click="escGame">  确定
+            </mt-button>
+        </mt-popup>
 
-		<header>
-			<dl>
-				<dt @click.capture='child_KA(2)'>
-					<img :src="$store.state.user.userImg" />
-				</dt>
-				<dd>
-					<span>{{$store.state.user.userName}}</span>
-					<span @click="child_KA(5)">
-						<i></i>
-						<b
-						:class='$store.state.Music.autoplay ? "huan":"bai"' 
-						@click.stop="$store.state.Music.autoplay=!$store.state.Music.autoplay"  ></b>
-						分享
-					</span>
-				</dd>
-				<dd>
-					<span>ID:{{$store.state.user.userID}}</span>
-					<span>
-						{{cardNum}}
-						<i @click='child_KA(3)'></i>
-					</span>
-				</dd>
-			</dl>
-			
-			<p>
-			<mt-swipe 
-				:show-indicators="false" 
-				:prevent = 'true'
-				:speed="800" :auto="5000"
-				class='homeSwipe auto'>
-			  	<i></i>
-			  	<mt-swipe-item v-for='notices in notice'>
-			  		<span>{{notices}}</span>
-			  	</mt-swipe-item>
-			</mt-swipe>
-			</p>
+		<v-head></v-head>
 
-			<span class='homeServer' @click='kefu()'>
-			</span>
-		</header>
-
-		<div class='homeMain' id='dataUL'>
+		<div class='homeMain'>
 			<ul>
 				<li>
 					<router-link to="/oxCrowd">
@@ -65,16 +34,7 @@
 			</ul>
 		</div>
 
-		<footer> 
-			<ul>
-				<li @click='$refs.onfriendVIPChild.friend_VIP=true'>
-					好友<span class='dot'>999</span>
-				</li>
-				<li @click='varRoom'>创建房间</li>
-				<li @click='child_KA(1)'>进入房间</li>
-				<li @click='child_KA(4)'>我的房间</li>
-			</ul>
-		</footer>
+		<v-foot></v-foot>
 
 		<idMessage ref="onidMessageChild" ></idMessage>
 		<buyRoom ref="onbuyRoomChild" ></buyRoom>
@@ -95,36 +55,41 @@
 	import http from '../../utils/httpClient.js';
 	import router from '../../router/';
 	import { Indicator, InfiniteScroll } from 'mint-ui';
-	// 组件
-	import noOpen from '../../module/homeModule/noOpen.vue';
-	import joinRoom from '../../module/homeModule/joinRoom.vue';
-	import idMessage from '../../module/homeModule/idMessage.vue';
-	import buyRoom from '../../module/homeModule/buyRoom.vue';
-	import setRoom from '../../module/homeModule/varRoom.vue';
-	import myRoom from '../../module/homeModule/myRoom.vue';
-	import toShare from '../../module/shareModule/toShare.vue';
 
-	import loading from '../loading/loading.vue';
-	Vue.component('loading', loading)
-	import friendVIP from '../friend/friend.vue'; // 原好友
-	Vue.component('friendVIP', friendVIP)
-	
+	// 全局组件注册
+	import noOpen from '../../module/homeModule/noOpen.vue'; // 提示房间未公开
 	Vue.component('noOpen', noOpen)
-	Vue.component('joinRoom', joinRoom)
-	Vue.component('idMessage', idMessage)
+	import buyRoom from '../../module/homeModule/buyRoom.vue'; // 购买房卡
 	Vue.component('buyRoom', buyRoom)
+	import setRoom from '../../module/homeModule/varRoom.vue'; // 创建房间
 	Vue.component('varRoom', setRoom)
-	Vue.component('myRoom', myRoom)
+	import toShare from '../../module/shareModule/toShare.vue'; // 邀请好友
 	Vue.component('toShare', toShare)
-	
+	import joinRoom from '../../module/homeModule/joinRoom.vue'; // 输入房间号进入
+	Vue.component('joinRoom', joinRoom)
+	import myRoom from '../../module/homeModule/myRoom.vue'; // 我的房间
+	Vue.component('myRoom', myRoom)
+	import loading from '../loading/loading.vue'; // loading
+	Vue.component('loading', loading)
+	import friendVIP from '../friend/friend.vue'; // 好友
+	Vue.component('friendVIP', friendVIP)
+	import header from './header.vue'; // 头部
+	Vue.component("v-head",header)
+	import foot from "./foot.vue"; // 尾部
+	Vue.component("v-foot",foot)
+	import idMessage from '../../module/homeModule/idMessage.vue';	// 个人参数
+	Vue.component('idMessage', idMessage)
+
 	export default {
 		data: function(){
 			return {
 				iframe: '',
 				iframeCss: 'iframeCss',
 				loading: false,		// loading getData
-				careTip : false,	//错误提示 
-				errorTips: '',		// 错误信息
+                careTip : false,    //错误提示 
+				careTip2 : false,	//错误提示 
+                errorTips: '',      // 错误信息
+				errorTips2: '',		// 错误信息
 
 				pagesize : 40,	// 请求条数
 				type : 1,		// 1 所有房间 2 自己开的房间
@@ -137,92 +102,79 @@
 			}
 		},
 		mounted: function(){
-			document.addEventListener("plusready", function() {
-		        // 注册返回按键事件
-		        plus.key.addEventListener('backbutton', function() {
-		            // 事件处理
-		            window.history.back();
-		        }, false);
-		    });	
 
+			var self = this;
 			goEasy.subscribe({
-			    channel: 'room_' + localStorage.oxUid,
+			    channel: "user_"+localStorage.oxUid,
 			    onMessage: function(message){
-			        // console.log('接收到消息:'+message.content)
-			        //拿到了信息之后，你可以做你任何想做的事
-			        console.log(message)
+			        // console.log(JSON.parse(message.content))
+			        var data = JSON.parse(message.content);
+			        var type = data.type;
+			        switch(type){
+			            case 2 :                            // 通知房主有人加入
+			                console.log(data)
+			                var obj = {
+			                	name: data.nikename,
+			                	uid: data.id,
+			                	rid: data.roomid,
+                                roomName: data.room_name,
+                                roomNum: data.room_number,
+			                	type: 2,
+			                }
+			                var arr = self.$store.state.system.lodin;
+			                if(arr[0]==undefined){
+			                	arr.push(obj);
+			                }
+			                for(var i=0; i<arr.length; i++){
+			                	if(arr[i].uid!=obj.uid && arr[i].rid!=obj.rid){
+			                		arr.push(obj);
+			                	}
+			                }
+			                console.log(arr)
+			                break;
+			        }
+			        
 			    }
-
 			});
 
-			var self = this;
-			var self = this;
-			var VX_data = this.$store.state.data.DT;
-			var VX_dataid = this.$store.state.data.DTid;
-			var VX_dataidALL = this.$store.state.data.DTidALL;
 
 			if(localStorage.oxToken && localStorage.oxUid){
-				
-				if(VX_data.length > 0){	// 百人牛牛
-					return false;
-				}
-				// 房间请求
-				http.post('/Room/getRoomList',
-                {
-                    pagesize : self.pagesize,
-                    type 	 : self.type,
-                    p 		 : self.p,
-                }, '',this)
-	            .then(res => {
-	            	console.log(res)
-	            	if(res.status != 1){
-	            		self.$store.state.data.DTP = 0;
-	            		return false;
-	            	}
-	            	self.$store.state.data.DATE = new Date().getTime();
-	            	VX_data = res.data;
-
-	            	for(var i=0; i<VX_data.length; i++){
-	            		VX_dataidALL.push(VX_data[i].id)
-	            		VX_dataid.push(VX_data[i].id)
-	            	}
-	            	self.$store.state.data.DT = VX_data;
-	            	self.$store.state.data.DTid = VX_dataid;
-	            	self.$store.state.data.DTidALL = VX_dataidALL;
-	            	self.$store.state.data.DTP = 1;
-	            });
-	            // 系统公告
+				// 系统公告
                 http.post('/MemberNotice/getAnnouncement',{
                     id : self.id,
                 }, '' ,this)
                 .then(res => {
                 	if(res.status == 1){
-
-                		self.notice = [];
-                		console.log(res.data)
+                		var notice = self.$store.state.oxCrowd.notice;
+                		notice = [];
+                		console.log(res.data[0])
                 		if(res.data[0] == undefined){
-                			self.notice.push('文明游戏，请勿赌博！')
+                			notice.push(' 文明游戏，请勿赌博！')
                 		}
                 		for(let i in res.data){
-                			self.notice.push(res.data[i].zc_content)
+                			notice.push(res.data[i].zc_content)
                 		}
+                		self.$store.state.oxCrowd.notice = notice;
                 	}
                 })
 			} else {
-				router.push({name: '/'});	// 跳回登录页
+				router.push({name: 'login'});	// 跳回登录页
 			}
 		},
 		methods: {
-			kefu: function(){
-				easemobim.bind({
-					configId: "91597b29-7705-433a-9b95-7d6e657896bb",
-					domain: '//kefu.easemob.com',
-					agentName: '客服',
-					hideKeyboard: true,
-					autoConnect: true,
-					hide: true,
-				})
+			kefu: function(){	// 环信客服
+				// easemobim.bind({
+				// 	configId: "91597b29-7705-433a-9b95-7d6e657896bb",
+				// 	domain: '//kefu.easemob.com',
+				// 	agentName: '客服',
+				// 	hideKeyboard: true,
+				// 	autoConnect: true,
+				// 	hide: true,
+				// })
 			},
+            escGame(){  // 退出游戏】
+                router.push({name: 'login'})
+            },
 			child_KA: function(n){
 				switch(n){
 					case 1 : // 加入房间
@@ -240,8 +192,10 @@
 					case 5 : // 分享界面
 						this.$refs.ontoShareChild.toShare=true;
 						break;
+					case 6 : // 原好友页面
+						this.$refs.onfriendVIPChild.friend_VIP=true;
+						break;
 				}
-				
 			},
 			varRoom(){	// 创建房间
 				this.$refs.onvarRoomChild.initType = 0;

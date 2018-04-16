@@ -11,7 +11,9 @@ var conn = new WebIM.connection({
 });
 
 // 地址管理
-var GAME_ALL_URL = 'http://www.wanjiba888.com';
+// var GAME_ALL_URL = 'http://www.wanjiba888.com';
+var GAME_ALL_URL = 'http://wanji888.hamingniao.com';
+// var GAME_ALL_URL = 'http://game.hengpukj.com';
 
 
 // 连接io服务端
@@ -38,3 +40,23 @@ var scale = 1/window.devicePixelRatio;
 var mstr = 'initial-scale='+ scale +', maximum-scale='+ scale +', minimum-scale='+ scale +', user-scalable=no';
 document.getElementById("vp").content = mstr;
 
+// 控制台输出日志
+function outSet(msg) {
+    console.log(msg);
+}
+// 界面弹出吐司提示
+function outLine(msg) {
+    mui.toast(msg);
+}
+
+var IMG_WX_WANJI = null;
+// H5 plus事件处理
+var as='pop-in';// 默认窗口动画
+var audio_TYPE = 1;
+var er = null, rt = null, t = null, HTML_R = null, ri = null;
+var bUpdated = false;
+var audio_URL = null;
+var end_time = 0;
+var BASE64 = null;
+var JPEG64 = null;
+var JPEG_SRC = null;

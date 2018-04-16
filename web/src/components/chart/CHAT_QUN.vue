@@ -16,7 +16,7 @@
     	<header>
             <ul>
                 <li>
-                    <i><a @click='chatLT=false'></a></i>
+                    <i @click='chatLT=false'></i>
                 </li>
                 <li>聊天室（{{lingth*1+1}}）</li>
                 <li 
@@ -111,19 +111,16 @@
                     width:0.888889rem;
                 }
                 li:first-child {
+                        position: relative;
                     &>i {
                         display: inline-block;
                         width: 0.537037rem;
                         height: 0.416667rem;
-                        
+                        position:absolute;
                         background: $friend002 no-repeat;
                         background-size: 0.537037rem 0.416667rem;
-                        position: relative;
                         top: 50%;
                         @include translate(0,-50%);
-                        a {
-                            padding: 0.259259rem 0.37037rem;
-                        }
                     }
                 }
                 li:nth-of-type(2) {
@@ -485,6 +482,7 @@
                     conn.addGroupMembers(option3);
                 };
                 addGroupMembers()   // 群聊
+                
             },
             // 发送文本
             textPush () { 
@@ -719,16 +717,15 @@
 
             list (rid) {   // 玩家数量
                 var self = this;
-                http.post('/RoomJoin/getJoinRoomList',{
-                    p: 1,
-                    pagesize: 100,
+                // /RoomJoin/getJoinRoomList
+                http.post('/RoomJoin/getJoinMessage',{
                     roomid: rid,
                 })
                 .then(res => {
                     console.log(res.data)
                     if(res.status == 1){
-                        this.chartList = res.data;
-                        self.lingth =  res.data.count;
+                        this.chartList = res.msg;
+                        self.lingth =  res.msg.length;
                     }
                 })
             },

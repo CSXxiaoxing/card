@@ -11,27 +11,33 @@
 
         <p class="top">
             倍率设置 
-        </p>
+        </p> 
       <div class="DLUL">
         <p>提示：大型牌的倍率不能低于小牌型</p>
         <dl>
             <dt>无牛</dt>
             <dd>
                 <div class="dd_radio">
-                    <label class="mint-radiolist-label" v-for="dataRadio in oxOpen.radioValue"  >
+                    <label class="mint-radiolist-label" v-for="d in 4"  >
                         <span class="mint-radio">
-                            <input type="radio" class="mint-radio-input" :value='dataRadio' name="Dradio" v-model="boxState.radio" />
+                            <input type="radio" class="mint-radio-input" :value='d' name="Dradio" v-model="initData.zn_ext" />
                             <span class="mint-radio-core"></span>
                         </span>
-                        <span class="mint-radio-label">{{dataRadio}}</span>
+                        <span class="mint-radio-label">{{oxOpen.radioValue[d-1]}}</span>
                     </label>
                 </div>
             </dd>
         </dl>
+ 
         <ul>
             <li v-for='(data, index) in oxOpen.ox'>
                 <span>{{data}}</span>
-                <addButtion class="add" :oxNum = 'index' ></addButtion>
+                <!-- <addButtion class="add" :oxNum = 'index+1' ></addButtion> -->
+                <div class='addButtion add' >
+                    <button @click='addButtion(index+1,0)'>+</button>
+                    <input type="text"  disabled :value='JSON.parse(initData.zc_rate)[index+1]'/>
+                    <button @click='addButtion(index+1,1)'>-</button>
+                </div>
             </li>
         </ul>
       </div>
@@ -53,8 +59,6 @@
     v-model="boxState.CvarRoom" 
     popup-transition="popup-fade"  
     class="Cvar" >
-    
-    
 
     <mt-popup
         v-model="boxState.no"
@@ -64,43 +68,41 @@
         <b class="close" @click="noModal"></b>
         <p>该功能暂未开放</p>
     </mt-popup>
-
-    
-<!-- touchstart touchmove touchend varR_modal -->
+    <!-- touchstart touchmove touchend varR_modal -->
     <h3>创建房间</h3>
     <div  class='varRoomSet'>
     <ul @click="open" v-show='showVar==0'>
         <li>
             <label  @click="card = true">
-                房号：<span>{{imgState.room_id}}</span>
+                房号：<span>{{initData.zc_number}}</span>
             </label>
             <label :judge='"open"' @click='boxNo'>
                 <span>
-                    <img src="src/image/oxCrowd012.png" v-show='imgState.open' height="81" width="76" alt="" />
+                    <img src="src/image/oxCrowd012.png" v-show='initData.zn_room_type==1' height="81" width="76" alt="" />
                 </span>
                 公开
             </label>
         </li>
         <li>
             <span>房名：</span>
-            <input type="text" v-model.trim="imgState.roomName" :placeholder='init.plaName' :class='init.error.roomName ? "error" : ""' @focus='init.error.roomName = false' @change="inputChange"/>
+            <input type="text" v-model.trim="initData.zc_title" :placeholder='init.plaName' :class='init.error.zc_title ? "error" : ""' @focus='init.error.zc_title = false' @change="inputChange"/>
         </li>
         <li>
             <span>新人进房确认</span>
-            <mt-switch v-model="imgState.newMan" class="onOff">
+            <mt-switch v-model="newMan" class="onOff">
             </mt-switch>
         </li>
         <li>
             <span>玩法：</span>
             <label :judge='"cardFn5"'>
                 <span>
-                    <img src="src/image/oxCrowd012.png" v-show='imgState.cardFn == 5' height="81" width="76" alt="" />
+                    <img src="src/image/oxCrowd012.png" v-show='initData.zn_play_type == 1' height="81" width="76" alt="" />
                 </span>
-                5副牌 
+                5副牌
             </label>
             <label :judge='"cardFn7"'>
                 <span>
-                    <img src="src/image/oxCrowd012.png" v-show='imgState.cardFn == 7' height="81" width="76" alt="" />
+                    <img src="src/image/oxCrowd012.png" v-show='initData.zn_play_type == 2' height="81" width="76" alt="" />
                 </span>
                 7副牌 
             </label>
@@ -112,13 +114,13 @@
             </p>
             <label :judge='"bell"'>
                 <span>
-                    <img src="src/image/oxCrowd012.png" v-show='imgState.room == "bell"' height="81" width="76" alt="" />
+                    <img src="src/image/oxCrowd012.png" v-show='initData.zn_pay_type == 1' height="81" width="76" alt="" />
                 </span>
                 钟点房 
             </label>
             <label :judge='"day"'>
                 <span>
-                    <img src="src/image/oxCrowd012.png" v-show='imgState.room == "day"' height="81" width="76" alt="" />
+                    <img src="src/image/oxCrowd012.png" v-show='initData.zn_pay_type == 2' height="81" width="76" alt="" />
                 </span>
                 日费房 
             </label>
@@ -132,9 +134,9 @@
         </li>
         <li>
             <dl>
-                <dt>无牛({{oxOpen.oxK}})</dt>
-                <dd v-for='(cent,index) in oxOpen.oxNumber' v-if='index < 11'>
-                    {{oxOpen.ox[index]}}(X{{cent}})
+                <dt>无牛(X1)</dt>
+                <dd v-for='(cent,index) in JSON.parse(initData.zc_rate)' v-if='index!=11'>
+                    {{oxOpen.ox[index]}}(X{{JSON.parse(initData.zc_rate)[index+1]}})
                 </dd>
                 <dd></dd>
             </dl>
@@ -143,9 +145,9 @@
             <p>可下注时间：</p>
             <div class="divTime">
 
-                <label v-for='times in oxOpen.time' :judge='times' >
+                <label v-for='times in oxOpen.time' :judge='times' @click='initData.zn_bet_time=times'>
                     <span>
-                        <img src="src/image/oxCrowd012.png" v-show='imgState.time == times'/>
+                        <img src="src/image/oxCrowd012.png" v-show='initData.zn_bet_time == times'/>
                     </span>
                     {{times/60 >= 1 ? (times/60 + oxOpen.miss[1]): (times+oxOpen.miss[0])}}
                 </label>
@@ -155,22 +157,23 @@
             <p>
                 庄家封顶预赔分或最低上庄分数：
             </p>
-            <input type="text" onkeyup="this.value=this.value.replace(/\D/g, '')"  v-model.number='imgState.minGrade' :class='init.error.minG ? "error" : ""' @focus='init.error.minG = false'/>
+            <input type="text" onkeyup="this.value=this.value.replace(/\D/g, '')"  v-model.number='initData.zn_min_score' :class='init.error.minG ? "error" : ""' @focus='init.error.minG = false'/>
         </li>
         <li>
             <span>玩家下注范围：</span>
-            <input type="text" onkeyup="this.value=this.value.replace(/\D/g, '')" v-model.number='imgState.scope[0]' :class='init.error.minS ? "error" : ""' @focus='init.error.minS = false'/>
+            <input type="text" onkeyup="this.value=this.value.replace(/\D/g, '')" v-model.number='initData.zn_bet_between_s' :class='init.error.minS ? "error" : ""' @focus='init.error.minS = false'/>
             <i></i>
-            <input type="text" onkeyup="this.value=this.value.replace(/\D/g, '')" v-model.number='imgState.scope[1]' :class='init.error.maxS ? "error" : ""' @focus='init.error.maxS = false'/>
-        </li>
+            <input type="text" onkeyup="this.value=this.value.replace(/\D/g, '')" v-model.number='initData.zn_bet_between_e' :class='init.error.maxS ? "error" : ""' @focus='init.error.maxS = false'/>
+        </li> 
         <li>
             <span>抽庄赢分比例：</span>
-            <input type="text"  onkeyup="this.value=this.value.replace(/\D/g, '')" placeholder='输入数字' v-model.number='imgState.scale' :class='init.error.sca ? "error" : ""' @focus='init.error.sca = false'/>
+            <input type="text"  onkeyup="this.value=this.value.replace(/\D/g, '')" placeholder='输入数字' v-model.number='initData.zn_extract' :class='init.error.sca ? "error" : ""' @focus='init.error.sca = false'/>
             <span><span>%</span>(1-15)</span>
         </li>
+        <li v-show='zao'></li>
     </ul>
      </div>
-    <span @click="end" class='button12'></span>
+    <span @click="end" class='button12' v-show='!zao'></span>
   </mt-popup>
   
     <loading v-if='loading'></loading>
@@ -184,8 +187,8 @@
 
     import './varRoom.scss'
     import coreVisible from '../../module/homeModule/coreVisible.vue'
-    import addButtion from '../addButton/addButtion.vue';
-    Vue.component('addButtion', addButtion);
+    // import addButtion from '../addButton/addButtion.vue';
+    // Vue.component('addButtion', addButtion);
     Vue.component('coreVisible', coreVisible)
 
     import loading from '../../components/loading/loading.vue';
@@ -195,6 +198,8 @@
         data() {
             return {
                 loading: false,     // loading
+                zao: false, //遮罩
+
                 initType: 0,       //  0 是初创   1 是修改+
                 showVar:0,
                 zidx: -1, // 遮罩
@@ -203,15 +208,39 @@
                 init: {
                     plaName: '请输入房间名称',
                     error: {
-                        roomName : false,
+                        zc_title : false,
                         minG: false,
                         minS: false,
                         maxS: false,
                         sca : false,
                         inputS: false,
                     },
-                }, 
-                oxOpen: {},
+                },
+                newMan: false,
+                initData: {
+                    id: null,                 // 房间id
+                    zc_number : '',     // 房间号码
+                    zc_title: '',       // 房间名字
+                    zn_room_type: 2,    // 1公开 2不公开
+                    zn_confirm: 2,      // 进房确认1需要 2不需要
+                    zn_play_type: 1,    // 1=>5,2=>7;
+                    zn_pay_type: 1,     // 1=>钟点房，2=>日费房
+                    zn_bet_time: 30,    // 可押注时间
+                    zn_min_score: 15000,// 最低上庄分
+                    zn_bet_between_s: 2,// 最低下注分数
+                    zn_bet_between_e: 600,// 最高下注分数
+                    zn_extract: 5,      // 抽水比例
+                    zn_ext: 3,     // 比j => 1  比k => 3 无牛关机=>4
+                    zc_rate: "[1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 4, 5, 3]",  // 倍率-最后一个比什么
+                    zn_chatid: 0,
+                },
+                oxOpen: {
+                    time: [30, 60, 120, 180, 300, 480],
+                    miss: ['秒', '分钟'],
+                    radioValue: ['比J', '比Q', '比K', '无牛关机 (庄赢)'],
+                    ox: ['牛一', '牛二', '牛三', '牛四', '牛五', '牛六', '牛七', '牛八', '牛九', '牛牛', '五花牛'],
+                    nameLenth: 16, // 一个中文两个字节      
+                },
                 // 弹框状态
                 boxState: {
                     CvarRoom: false,
@@ -219,36 +248,38 @@
                     varModal: false,
                     no:false,
                     card:false,
-                    radio: "",
                 },
-                imgState: {
-                    room_id: 0,
-                    open: false,
-                    roomName: '',
-                    newMan: false,
-                    cardFn: 5,
-                    room: 'bell',
-                    time: 30,
-                    minGrade: 0,
-                    scope: [0, 100],
-
-                    scale: '',
-                    oxK: '',
-                }
             };
         },
-        created: function() {
-            this.oxOpen = this.$store.state.initRoom;
-            this.boxState.radio = this.oxOpen.oxK;
-        },
+        created: function() {},
         mounted: function(){
             this.$store.dispatch('webIM')
             this.$store.dispatch('dl')
         },
         methods: {
+            boxNo() {   // 功能暂未开放
+                this.varMo();
+                this.boxState.no = true;
+            },
+            addButtion (idx,or) {   // 加减分
+                var zc_rate = JSON.parse(this.initData.zc_rate);
+
+                if(or==0){  // 加
+                    if(zc_rate[idx]+1<=zc_rate[idx+1] || idx==11){
+                        zc_rate[idx]+=1;
+                        this.initData.zc_rate = JSON.stringify(zc_rate);
+                    }
+                } else { // 减
+                    if(zc_rate[idx]-1>=zc_rate[idx-1]){
+                        zc_rate[idx]-=1;
+                        this.initData.zc_rate = JSON.stringify(zc_rate);
+                    }
+                }
+            },
+
             open(e) {
-                var [img, judgeVal, nodeName, labelTarget, spanTarget, imgTarget] =  
-                [this.$store.state.idRoom, void 0, 
+                var [initData, judgeVal, nodeName, labelTarget, spanTarget, imgTarget] =  
+                [this.initData, void 0, 
                 e.target.nodeName.toLowerCase(), 
                 e.target.attributes["judge"], 
                 e.target.parentElement.attributes["judge"], 
@@ -257,31 +288,26 @@
                     labelTarget ? judgeVal = labelTarget.nodeValue : 
                     nodeName == 'span' ? judgeVal = spanTarget.nodeValue : 
                     judgeVal = imgTarget.nodeValue;
-                    judgeVal == 'open' ? (img.open == false? img.open = false : img.open = false) : 
-                    judgeVal == 'cardFn5' ? img.cardFn = 5 : 
-                    judgeVal == 'cardFn7'? img.cardFn = 7 : 
-                    judgeVal == 'bell' ? img.room = 'bell' : 
-                    judgeVal == 'day' ? img.room = 'day' : 
-                    judgeVal >= 30 ? img.time = judgeVal : false;
+                    judgeVal == 'open' ? (initData.zn_room_type == 2? initData.zn_room_type = 2 : initData.zn_room_type = 2) : 
+                    judgeVal == 'cardFn5' ? initData.zn_play_type = 1 : 
+                    judgeVal == 'cardFn7'? initData.zn_play_type = 2 : 
+                    judgeVal == 'bell' ? initData.zn_pay_type = 1 : 
+                    judgeVal == 'day' ? initData.zn_pay_type = 2 : false;
 
-                    var img = this.imgState
+
+                    var initData = this.initData
                     labelTarget ? judgeVal = labelTarget.nodeValue : 
                     nodeName == 'span' ? judgeVal = spanTarget.nodeValue : 
                     judgeVal = imgTarget.nodeValue;
-                    judgeVal == 'open' ? (img.open == false? img.open = false : img.open = false) : 
-                    judgeVal == 'cardFn5' ? img.cardFn = 5 : 
-                    judgeVal == 'cardFn7'? img.cardFn = 7 : 
-                    judgeVal == 'bell' ? img.room = 'bell' : 
-                    judgeVal == 'day' ? img.room = 'day' : 
-                    judgeVal >= 30 ? img.time = judgeVal : false;
+
                 } catch (er) {};
             },
             inputChange() {
                 // roon过滤
-                let [inp, badDI, nameSize] = [this.imgState, this.$store.state.badDict, this.oxOpen.nameLenth];
-                inp.roomName = inp.roomName.replace(badDI,'*');
-                var [Val, count, ValArray] = [ [], 0, inp.roomName.split('') ];
-                for(var i=0; i<inp.roomName.length; i++){
+                let [inp, badDI, nameSize] = [this.initData, this.$store.state.badDict, this.oxOpen.nameLenth];
+                inp.zc_title = inp.zc_title.replace(badDI,'*');
+                var [Val, count, ValArray] = [ [], 0, inp.zc_title.split('') ];
+                for(var i=0; i<inp.zc_title.length; i++){
                     count += ValArray[i].replace(/[\u0391-\uFFE5]/g,"aa").length;
                     if(count > nameSize){
                         break;
@@ -289,7 +315,7 @@
                         Val.push(ValArray[i]);
                     }
                 }
-                inp.roomName = Val.join('');
+                inp.zc_title = Val.join('');
             },
             varMo() {
                 var self = this;
@@ -308,7 +334,6 @@
                 // Cvar.zIndex = 1999;
                 self.cardZidx = 3000;
                 self.setZidx = 3001;
-
             },
             noModal() {
                 let State = this.boxState;
@@ -323,9 +348,12 @@
             },
             // 确认倍率
             coreVisible() {
-                this.$store.state.initRoom.oxK = this.boxState.radio;
-                // console.log(this.boxState.radio)
                 this.noModal();
+                // 更新倍率最后的比什么
+                var rate = JSON.parse(this.initData.zc_rate);
+                rate.pop();
+                rate.push(this.initData.zn_ext);
+                this.initData.zc_rate = JSON.stringify(rate);
             },
             // 倍率/付费  公开
             boxSet(e) {
@@ -333,14 +361,11 @@
                 this.boxState.coreVisible = true ;
                 this.varMo();
             },
-            boxNo() {
-                this.varMo();
-                this.boxState.no = true;
-            },
+            
             
             end () {
                 this.init.error = {
-                    roomName : false,
+                    zc_title : false,
                     minG: false,
                     minS: false,
                     maxS: false,
@@ -348,25 +373,24 @@
                     inputS: false,
                 };
 
+
                 var self = this;
-                var oxNumber = this.$store.state.initRoom.oxNumber;
-                var oxK = this.$store.state.initRoom.oxK;
-                var [Err, git] = [this.init.error, this.imgState];
+                var [Err, git] = [this.init.error, this.initData];
                 // 规则判断
-                if(git.roomName == ''){
-                    Err.roomName = true;
+                if(git.zc_title == ''){
+                    Err.zc_title = true;
                     self.$parent.errorTips = '请输入房间名';
                     self.$parent.careTip = true;
                     return false;
                 }
-                Number(git.minGrade) <= 0 ? Err.minG = true : 
-                Number(git.scope[0]) <= 0 ? Err.minS = true :
-                Number(git.scope[1]) < Number(git.scope[0]) ? Err.maxS = true :
-                Number(git.scale) < 1 || Number(git.scale) > 15 ? Err.sca = true : 
+                Number(git.zn_min_score) <= 0 ? Err.minG = true : 
+                Number(git.zn_bet_between_s) <= 0 ? Err.minS = true :
+                Number(git.zn_bet_between_e) < Number(git.zn_bet_between_s) ? Err.maxS = true :
+                Number(git.zn_extract) < 1 || Number(git.zn_extract) > 15 ? Err.sca = true : 
                 false;
 
 
-                if(!Err.roomName && !Err.minG && !Err.minS && !Err.maxS && !Err.sca) {
+                if(!Err.zc_title && !Err.minG && !Err.minS && !Err.maxS && !Err.sca) {
 
                     if(self.initType == 0) {
                         var options = { // 创建聊天群组
@@ -379,26 +403,30 @@
                                 allowinvites: true,
                             },
                             success: function (respData) {
-                                oxNumber.push(oxK)
+
+                                var zn_confirm = this.newMan?1:2;
                                 http.post("/Room/createRoom",{
-                                    zc_rate : JSON.stringify(oxNumber),
-                                    zc_number : self.imgState.room_id,
-                                    zn_min_score : self.imgState.minGrade,
-                                    zn_bet_between_s : self.imgState.scope[0],
-                                    zn_bet_between_e : self.imgState.scope[1],
-                                    zn_extract : self.imgState.scale,
+                                    // zn_room_type : self.initData.zn_room_type,
+                                    zn_room_type : 1,
+                                    zc_number : self.initData.zc_number,
+                                    zc_title : self.initData.zc_title,
+                                    zn_confirm : zn_confirm,
+                                    zn_play_type : self.initData.zn_play_type,
+                                    zn_pay_type : self.initData.zn_pay_type,
+                                    zn_bet_time : self.initData.zn_bet_time,
+                                    zn_min_score : self.initData.zn_min_score,
+                                    zn_extract : self.initData.zn_extract,
+                                    zn_bet_between_s : self.initData.zn_bet_between_s,
+                                    zn_bet_between_e : self.initData.zn_bet_between_e,
+                                    zn_ext: self.initData.zn_ext,
+                                    zc_rate : self.initData.zc_rate,
+
+
                                     zn_chatid : respData.data.groupid,      // 群聊号码
-                                    // zn_room_type : self.imgState.open ? 1 : 2,
-                                    zn_room_type : self.imgState.open ? 1 : 1,
-                                    zn_confirm : self.imgState.newMan ? 1:2,
-                                    zn_pay_type : self.imgState.room == "bell" ? 1:2,
-                                    zn_play_type : self.imgState.cardFn == 5 ? 1:2,
-                                    zn_bet_time : self.imgState.time,
-                                    zc_title : self.imgState.roomName,
                                 } , '' ,this)
                                 .then(res=> {
-                                    if(res.status == 1 && self.imgState.room_id > 0){
-                                        router.push({path: `room/${self.imgState.room_id}`});
+                                    if(res.status == 1 && self.initData.zc_number > 0){
+                                        router.push({path: `room/${self.initData.zc_number}`});
                                     }
                                 })
                             },
@@ -408,37 +436,43 @@
                             }
                         };
                         conn.createGroupNew(options);
-
+                        // zc_number  zn_confirm
                     } else if(self.initType == 1){
+                        var zn_confirm = this.newMan?1:2;
+                        // console.log(self.initData.id)
+                        // console.log(this.newMan)
                         http.post("/Room/updatedRoom",{
-                            zc_rate : JSON.stringify(oxNumber),
-                            zn_chatid : self.$store.state.idRoom.zn_chatid,
-                            // zc_number : self.imgState.room_id,
-                            roomid: self.$store.state.idRoom.id,
-                            zn_min_score : self.$store.state.idRoom.minGrade,
-                            zn_bet_between_s : self.$store.state.idRoom.scope[0],
-                            zn_bet_between_e : self.$store.state.idRoom.scope[1],
-                            zn_extract : self.$store.state.idRoom.scale,
-                            // zn_room_type : self.$store.state.idRoom.open ? 1 : 2,
-                            zn_room_type : self.$store.state.idRoom.open ? 1 : 1,
-                            zn_confirm : self.$store.state.idRoom.newMan ? 1:2,
-                            zn_pay_type : self.$store.state.idRoom.room == "bell" ? 1:2,
-                            zn_play_type : self.$store.state.idRoom.cardFn == 5 ? 1:2,
-                            zn_bet_time : self.$store.state.idRoom.time,
-                            zc_title : self.$store.state.idRoom.roomName,
+                            // zn_room_type : self.initData.zn_room_type,
+                            zn_room_type : 1,
+                            // zc_number : self.initData.zc_number,
+                            zc_title : self.initData.zc_title,
+                            zn_confirm : zn_confirm,
+                            zn_play_type : self.initData.zn_play_type,
+                            zn_pay_type : self.initData.zn_pay_type,
+                            zn_bet_time : self.initData.zn_bet_time,
+                            zn_min_score : self.initData.zn_min_score,
+                            zn_bet_between_s : self.initData.zn_bet_between_s,
+                            zn_bet_between_e : self.initData.zn_bet_between_e,
+                            zn_extract : self.initData.zn_extract,
+                            zn_ext: self.initData.zn_ext,
+                            zc_rate : self.initData.zc_rate,
+                            zn_chatid : self.initData.zn_chatid,
+                            
+                            roomid: self.initData.id,
                         } , '' ,this)
                         .then(res=> {
-                            if(res.status == 1 && self.imgState.room_id > 0){
-                                self.$parent.errorTips = res.msg;
-                                self.$parent.careTip = true;
-                            } else {
-                                self.$parent.errorTips = res.msg;
-                                self.$parent.careTip = true;
-                            }
+                            this.$parent.newData();
+                            // if(res.status == 1 && self.initData.zc_number > 0){
+                            //     self.$parent.errorTips = res.msg;
+                            //     self.$parent.careTip = true;
+                            // } else {
+                            //     self.$parent.errorTips = res.msg;
+                            //     self.$parent.careTip = true;
+                            // }
                         })
                     }
                     
-                    this.$store.state.setRoom = this.imgState;
+                    this.$store.state.setRoom = this.initData;
                     this.boxState.CvarRoom = false;
                 }       // 确认创建
             },

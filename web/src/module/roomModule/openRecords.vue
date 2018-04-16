@@ -1,26 +1,29 @@
 <template>
     <div>
-    <i @click='onprize = false' class='wxx'  v-show='onprize'></i>
+    <!-- <i @click='onprize = false' class='wxx'  v-show='onprize'></i> -->
     <mt-popup
         v-model="onprize"
         popup-transition="popup-fade"
         class="openRecords" :class = '$store.state.idRoom.cardFn == 5 ? "five":"seven" '>
-
+            <i @click='onprize = false' class='gxx'></i>
             <h3 >开奖记录</h3>
             <div class='xsllo'>
             <ul :style='"width:"+1.814815*6+"rem;"'>
-                <li  v-for='(obj, inx) in 6'  v-show='$store.state.data.listOver.length-inx>=1'>
+                <!-- <li  v-for='(obj, inx) in ooxData'  v-show='$store.state.data.listOver.length-inx>=1'> -->
+                <li  v-for='(obj, inx) in ooxData'>
                     <table  cellspacing="0">
                     <tr>
-                    <th>第 {{$store.state.data.listOver.length-inx}} 局</th>
+                    <th>第 {{obj.num}}局</th>
                     </tr>
-                    <tr v-for='(obj, inx) in 6'>
+                    <tr v-for='(data, inx) in obj.result'>
 
-                        <td>
-                            999
-                            {{oox[obj.data == 99 ? oox['11']: obj.data]}}
+                        <td :style='data=="10" || data=="11" ? "color: red;":""'>
+                            {{oox[data]}}
                         </td>
                     </tr>
+
+                    <tr v-for='dat in 7-obj.result.length'><tb></tb></tr>
+
                     </table>
                 </li>
             </ul>
@@ -32,27 +35,27 @@
 <!-- cellspacing="0"// position: sticky; -->
 <style lang='scss' scoped>
     @import '../../utils/baseVar.scss';
-    td.red{
-        color: red;
+    td{
+        
     }
     td.yellow{
         color: #F2D923;
     }
-    .wxx{  // 关闭叉叉
-        position: absolute;
-        background: $login008 no-repeat;
-        right: 0.1rem;
-        top: 4.2rem;
-        background-size: 0.907407rem 0.972222rem;
+    .gxx{
         height: 0.972222rem;
         width: 0.907407rem;
-        z-index: 8888;
+        position: absolute;
+        right: -0.03rem;
+        top: -0.04rem;
+        background: $login008 no-repeat;
+        background-size: 0.907407rem 0.972222rem;
     }
     .openRecords{
         height: 8.8rem;
         width: 9.555556rem;
         background: $friend001 no-repeat;
         background-size: 9.555556rem 8.8rem;
+        border-top-right-radius: 0.49rem;
         h3{
             height: 0.87037rem;
             font-size: 0.592593rem;
@@ -89,6 +92,7 @@
                 tr{
                     height: 12.5%;
                     background: #fff;
+                    border: 1px solid #A8B0A5;
                 }
                 th{
                     font-size: 0.425926rem;
@@ -100,6 +104,7 @@
                     border: 1px solid #A8B0A5;
                     font-size: 0.314815rem;
                     color: #537F10;
+                    font-weight: 600;
                 }
                 tr:nth-of-type(2n-1){
                     background: #EFF6E4;
@@ -125,6 +130,7 @@ Vue.component('loading', loading)
             cardResult : [],
             // unshift
             index : [],
+            ooxData: [],
             oox: ['没牛','牛一', '牛二', '牛三', '牛四', '牛五', '牛六', '牛七', '牛八', '牛九', '牛牛', '五花牛'],
           }
         },

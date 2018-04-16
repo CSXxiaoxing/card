@@ -150,8 +150,12 @@
                             }, '' ,this)
                             .then(res => {
                                 if( res.status == 3 ){
-                                    self.$parent.errorTips = '等待房主确认';
-                                    self.$parent.careTip = true;
+                                    if(res.msg == "你是房主"){
+                                        router.push({path: `room/${res.data.zc_number}`});
+                                    } else {
+                                        self.$parent.errorTips = '等待房主确认';
+                                        self.$parent.careTip = true;
+                                    }
                                 } else if( res.status == 1){
                                     router.push({path: `room/${res.data.zc_number}`});
                                 } else if( res.status == 0 ){

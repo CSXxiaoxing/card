@@ -1,5 +1,7 @@
 <template>
 	<div id='login'>
+		<h1  v-if='test_txt>=0' @click='test(test_txt)'>测试按钮<input type="text" v-model='test_txt'/></h1>
+
 		<mt-popup 
 		    v-model="careTip"
 		    popup-transition="popup-fade" :modal='false'
@@ -32,7 +34,7 @@
 		    <label>
 			    <span>验证码</span>
 			    <input type="text" placeholder='输入验证码' v-model.trim=' code'/> 
-			    <i @click="sendCode">获取验证码</i>
+			    <i @click="daoTime<60 ? '' : sendCode()">{{daoTxt}}</i>
 		    </label>
 		    <span @touchend="input(4)" ></span>
 		</mt-popup>
@@ -50,13 +52,11 @@
 		    </label>
 	        <label> 
 	    	    <span>输入密码</span> 
-	    	    <input type="text" placeholder='输入密码' v-model.trim='password'/> 
+	    	    <input type="password" placeholder='输入密码' v-model.trim='password'/> 
 	        </label>
 	        <label @click='[(find = true),(type = 2)]' >忘记密码？点击找回！</label>
 	        <hr/>
 		    <span @click="input(2)"></span>
-		    <!-- <span @touchend="input(2)">确定</span> -->
-		    <!-- @touchend="phone = false" -->
 		</mt-popup>
 
 		<mt-popup
@@ -73,7 +73,7 @@
 		    <label> 
 			    <span>验证码</span> 
 			    <input type="text" placeholder='输入验证码' v-model.trim=' code'/>
-			    <i @click="sendCode">获取验证码</i>
+			    <i @click="daoTime<60 ? '' : sendCode()">{{daoTxt}}</i>
 		    </label>
 	        <label> 
 	    	    <span>新的密码</span> 
@@ -83,9 +83,9 @@
 		    <span @touchend="input(3)"></span>
 		</mt-popup>
 
-		<div class='logo'></div>
+		<div class='logo' @click='test_txt++'></div>
 		<div class="nouser" v-show="a == 0">
-			<span class='spanLog'></span>
+			<span class='spanLog' @click='wxLogin'></span>
 			<span class='spanLog' @click='[(phone = true),(type = 1)]'></span>
 
 			<p>还没有账号？<span @click='[(zhuce = true),(type = 3)]'>注册</span></p>
@@ -102,6 +102,30 @@
 
 <style  lang='scss' scoped>
 	@import '../../utils/baseVar.scss';
+	h1{
+		font-size: 50px;
+		line-height: 80px;
+		height: 80px;
+		width: 300px;
+		background: #000;
+		color: #fff;
+		border-radius: 40px;
+		position: absolute;
+		left: 50%;
+		top: 10%;
+		-webkit-transform: translate(-50%,0);
+		   -moz-transform: translate(-50%,0);
+		    -ms-transform: translate(-50%,0);
+		     -o-transform: translate(-50%,0);
+		        transform: translate(-50%,0);
+		border: 5px solid pink;
+		input{
+			margin-top: 0.3rem;
+			height: 80px;
+			width: 300px;
+			font-size: 50px;
+		}
+	}
     b{
     	padding: 0.092593rem;
     }
@@ -513,6 +537,7 @@
 	export default {
 		data(){
 			return {
+				test_txt : -3,
 				loading: false,		// loading
 				zhuce: false,
 				login:false,
@@ -527,6 +552,9 @@
 				cell: '',
 				code: '',
 				a: 0,
+				// 60s状态设置
+				daoTime: 60,
+				daoTxt: '获取验证码',
 
 				Qname: localStorage.oxName,
 				type:0,
@@ -543,8 +571,93 @@
 			}
 		},
 		methods: {
+			test(n){
+				share_WANJI(n)
+			},
+			wxLogin(){
+
+				weixin_WANJI_DL();
+				// $store
+				var res_count = 0;
+				var self = this;
+				function runAsync(){
+				    var p = new Promise(function(resolve, reject){
+				        //做一些异步操作 msg
+				        var mmm = setInterval(function(){
+				        	res_count++;
+				        	var res = weixin_WANJI_DL_data;
+				            if(weixin_WANJI_DL_data != null){
+				            	resolve(res);
+				            	clearInterval(mmm);
+				            }
+				            if(res_count == 1000){
+				            	self.errorTips = '登录认证失败';
+				            	self.careTip = true;
+				            	clearInterval(mmm);
+				            }
+				        }, 400);
+				    });
+				    return p;          
+				}
+				runAsync().then(function(res){
+				    	var data = res.data;
+				    	if( localStorage['oxUid'] != data.uid ){
+				    		// 注册
+				    		var options2 = {
+				    		    username: 'hz_niuniu_'+ data.uid,
+				    		    password: '123456',
+				    		    nickname: data.member_info.nickname,
+				    		    appKey: WebIM.config.appkey,
+				    		    success: function () { 
+				    		        console.log('注册成功')
+				    		    },  
+				    		    error: function () {
+				    		    	console.log('注册失败')
+				    		    },
+				    		    apiUrl: WebIM.config.apiURL
+				    		};
+				    		conn.registerUser(options2);
+				    	}
+				    	localStorage['oxToken'] = data.token;
+				    	localStorage['oxUid'] = data.uid;
+				    	localStorage['oxImg'] = data.member_info.headimg;
+				    	localStorage['oxName'] = data.member_info.nickname;
+				    	self.$store.state.user.userName = data.member_info.nickname;
+				    	self.$store.state.user.userID = data.uid;
+				    	self.$store.state.user.userImg = data.member_info.headimg;
+				    
+				    	http.post('/MemberFriend/getFrientList',{   // 初次进入获取总好友列表
+				    	    uid : data.uid,
+				    	}).then(res=>{
+				    	    console.log(res)
+				    	    var arr = [];
+				    	    for(var i=0; i<res.msg.length; i++){
+				    	    	arr.push(res.mag[i].fid)
+				    	    }
+				    	    self.$store.state.user.friend  = res.msg;
+				    	    self.$store.state.user.friendId= arr;
+				    	})
+				    	self.$store.dispatch('dl');        // 聊天登录
+				    	weixin_WANJI_DL_data = null;
+				    	router.push({name: 'home'});
+				    	self.phone = false;
+				});
+			},
 			local () {
 				if(localStorage.oxToken){
+					http.post('/MemberFriend/getFrientList',{   // 初次进入获取总好友列表
+					    uid : localStorage.oxUid,
+					}).then(res=>{
+					    console.log(res)
+					    // console.log(res.msg.length)
+					    var arr = [];
+					    for(var i=0; i<res.msg.length; i++){
+					    	arr.push(res.msg[i].fid)
+					    }
+					    this.$store.state.user.friend  = res.msg;
+					    this.$store.state.user.friendId= arr;
+					    console.log(this.$store.state.user)
+					})
 					router.push({name: 'home'});
 				} else {
 					this.a = 0;
@@ -592,38 +705,51 @@
 					}, '', this )
 					.then(res => {
 						console.log(res)
-						console.log(GAME_ALL_URL)
 						if(res.status == 1){
+							var data = res.data;
+							if( localStorage['oxUid'] != data.uid ){
+								// 注册
+								var options2 = {
+								    username: 'hz_niuniu_'+ data.uid,
+								    password: '123456',
+								    nickname: localStorage.oxName,
+								    appKey: WebIM.config.appkey,
+								    success: function () { 
+								        console.log('注册成功')
+								    },  
+								    error: function () {
+								    	console.log('注册失败')
+								    },
+								    apiUrl: WebIM.config.apiURL
+								};
+								conn.registerUser(options2);
+							}
+							localStorage['oxToken'] = data.token;
+							localStorage['oxUid'] = data.uid;
+							localStorage['oxImg'] = GAME_ALL_URL+data.member_info.headimg;
+							localStorage['oxName'] = data.member_info.nickname;
+							this.$store.state.user.userName = localStorage.oxName;
+							this.$store.state.user.userID = localStorage.oxUid;
+							this.$store.state.user.userImg = localStorage.oxImg;
+			
+							http.post('/MemberFriend/getFrientList',{   // 初次进入获取总好友列表
+							    uid : localStorage.oxUid,
+							}).then(res=>{
+							    console.log(res)
+							    var arr = [];
+							    for(var i=0; i<res.msg.length; i++){
+							    	arr.push(res.mag[i].fid)
+							    }
+							    this.$store.state.user.friend  = res.msg;
+							    this.$store.state.user.friendId= arr;
+							})
+							this.$store.dispatch('dl')         // 聊天登录
 							router.push({name: 'home'});
-							localStorage['oxToken'] = res.data.token;
-							localStorage['oxUid'] = res.data.uid;
-							self.$store.state.user.userID = res.data.uid;
-							localStorage['oxName'] = res.data.member_info.nickname;
-							self.$store.state.user.userName = res.data.member_info.nickname;
-							localStorage['oxImg'] = GAME_ALL_URL+res.data.member_info.headimg;
-							self.$store.state.user.userImg = GAME_ALL_URL+res.data.member_info.headimg;
-
-							self.$store.state.initRoom.cardNum = res.data.member_info.card_num;
-							// 注册信号为true
-							var options2 = { 
-							    username: 'hz_niuniu_'+localStorage.oxUid,
-							    password: '123456',
-							    nickname: localStorage.oxName,
-							    appKey: WebIM.config.appkey,
-							    success: function () { 
-							        console.log('注册成功')
-							    },  
-							    error: function () {
-							    	console.log('注册失败')
-							    },
-							    apiUrl: WebIM.config.apiURL
-							}; 
-							conn.registerUser(options2);
+							self.phone = false;
 						} else {
 							self.errorTips = res.msg;
 							self.careTip = true;
 						}
-						self.phone = false;
 					})
 			},
 			zhuCe() {		//注册
@@ -683,11 +809,21 @@
 			},
 			//手机验证码
 			sendCode(){
-				var self = this ;
+				var self = this;
+				this.daoTxt=this.daoTime+'s';
+				var setTime = setInterval(()=>{
+					this.daoTime--;
+					this.daoTxt=this.daoTime+'s';
+					if(this.daoTxt=="0s"){
+						this.daoTime = 60;
+						this.daoTxt='获取验证码'
+						clearInterval(setTime)
+					}
+				},1000)
 				http.post('/Api/Sms/sendYzm',{
 					mobile : self.cell,
 					type : self.type,
-				}, '' ,this)
+				})
 				.then(res=> {
 					console.log(res)
 					if(res.status == 0){

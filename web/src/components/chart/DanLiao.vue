@@ -19,7 +19,7 @@
           class="findFriend" >
           <div>
             <i v-on:click="findFriend = false"></i>
-            <img src="src/img/friend1.png" alt="">
+            <img src="src/img/home_head.png" alt="">
             <ul>
                 <li>{{sheName}}</li>
                 <li>{{sheId}}</li>
@@ -42,17 +42,15 @@
             <mt-button @click="give = false,addfen()"></mt-button>
         </mt-popup>
 
-
-
     	<header>
             <ul>
                 <li>
-                    <i><a @click='DLRoom=false'></a></i>
+                    <i @click='DLRoom=false'></i>
                 </li>
                 <li>{{sheName}}</li>
 
                 <li  v-show='rank == 1'  @click = 'give=true'></li>
-                <li v-show='rank != 1' @click="findFriend=true"><img src="src/image/qun101.png" alt="">加友</li>
+                <li v-show='rank != 1' v-if='$store.state.user.friendId.indexOf(`${sheId}`)<0' @click="findFriend=true"><img src="src/image/qun101.png" alt="">加友</li>
             </ul>
         </header>
         <div class='chart'  id='DLtxt'>
@@ -102,7 +100,7 @@
 
     @import '../../utils/baseVar.scss';
 
-    #DRoom {
+    #DRoom { 
         height: 100%;
         width: 100%;
 
@@ -137,19 +135,16 @@
                     width:0.888889rem;
                 }
                 li:first-child {
+                        position: relative;
                     &>i {
                         display: inline-block;
                         width: 0.537037rem;
                         height: 0.416667rem;
-                        
+                        position:absolute;
                         background: $friend002 no-repeat;
                         background-size: 0.537037rem 0.416667rem;
-                        position: relative;
                         top: 50%;
                         @include translate(0,-50%);
-                        a {
-                            padding: 0.259259rem 0.37037rem;
-                        }
                     }
                 }
                 li:nth-of-type(2) {
@@ -336,6 +331,7 @@
             background: rgba(0,0,0,0);
             border-top: 0.05rem solid #E8D9C4;
             box-shadow: 0 -0.05rem 0.2rem 0rem #E8D9C4;
+            position: relative;
             img{
                 width:0.833333rem;
                 height:0.833333rem;
@@ -345,6 +341,7 @@
                 display: flex;
                 align-items: baseline;
                 flex-wrap: nowrap;
+
                 img{
                     height: 0.833333rem;
                     width: 0.833333rem;
@@ -499,7 +496,7 @@
 
                 sheName: '???',     // 对方名字
                 sheId: 0,           // 对方id
-                sheImg: '',         // 对方img
+                sheImg: 'src/img/home_head.png',         // 对方img
 
                 startY: 0,      // 取消录音开始位置
                 moveY: 0,       // 移动距离
@@ -571,6 +568,7 @@
                     type: this.add==''?2:1,    // 1加分 2减分
                 })
                 .then(res => {
+                    console.log(res)
                     this.jian = '';
                     this.add = '';
                     if(res.status != 1){
@@ -688,7 +686,7 @@
                     url: '',
                     filename: '',
                     filetype: '',
-                    data: ''
+                    data: '',
                 };
                 uri.data = input;
                 uri.url = window.URL.createObjectURL(input);

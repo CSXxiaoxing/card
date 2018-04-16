@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" id='vp'>
     <title>牛牛</title>
+    <!-- 5+ -->
+    <script type="text/javascript" src="./im/mmin.js"></script>
+    <script type="text/javascript" src='./im/update.js'></script>
     <!-- 环信 -->
     <script type='text/javascript' src='./im/webim.config.js'></script>
     <script type='text/javascript' src='./im/strophe-1.2.8.min.js'></script>
@@ -13,10 +16,15 @@
     <script type="text/javascript" src="https://cdn.goeasy.io/goeasy.js"></script>
     <script type="text/javascript" src='./im/base.js'></script>
     <script type="text/javascript" src="./im/common.js"></script>
-    <script type="text/javascript" src='./im/update.js'></script>
+    <!-- 物理返回键 -->
+    <script type='text/javascript' src='./im/return.js'></script>
+    <!-- 分享/登录 -->
+    <script type="text/javascript" src='./im/DL.js'></script>
+    <script type="text/javascript" src='./im/share.js'></script>
+
     <style type="text/css">
         @font-face{
-            font-family: caoti;
+            font-family: caoti; /* 草体 */
             src: url(./im/font_ct.ttf);
         }
     </style>
@@ -31,240 +39,10 @@
             <div id="rtime" class="rtime">上拉取消</div><br/>
             <div id="rs" class="rs">0"</div>
         </div>
-        <script src='//kefu.easemob.com/webim/easemob.js?configId=91597b29-7705-433a-9b95-7d6e657896bb'></script>
-        <script type="text/javascript">
-            //取消浏览器的所有事件，使得active的样式在手机上正常生效
-            document.addEventListener('touchstart',function(){
-                return false;
-            },true);
-            // 禁止选择
-            document.oncontextmenu=function(){
-                return false;
-            };
-            // H5 plus事件处理
-            var as='pop-in';// 默认窗口动画
-            var audio_TYPE = 1;
-            var er = null, rt = null, t = null, HTML_R = null, ri = null;
-            var bUpdated = false;
-            var audio_URL = null;
-            var end_time = 0;
-            var BASE64 = null;
-            var JPEG64 = null;
-            var JPEG_SRC = null;
-            function plusReady(){
-                // 隐藏滚动条
-                plus.webview.currentWebview().setStyle({scrollIndicator:'none'});
-                // Android处理返回键
-                plus.key.addEventListener('backbutton',function(){
-                    console.log(location.hash)
-                    if(location.hash == '#/home' || location.hash == '#/?1' || location.hash == '#/'){
-                        ('iOS'==plus.os.name)?plus.nativeUI.confirm('确认退出？', function(e){
-                            if(e.index>0){
-                                plus.runtime.quit();
-                            }
-                        }, 'HelloH5', ['取消','确定']):(confirm('确认退出？')&&plus.runtime.quit());
-                    } else {
-                        history.back()     
-                    }
-                },false);
-                compatibleAdjust();
-                // 获取音频目录对象
-                plus.io.resolveLocalFileSystemURL('_doc/', function(entry){
-                    entry.getDirectory('audio', {create : true}, function(dir){
-                        gentry = dir;
-                        updateHistory();
-                    }, function(e){
-                        alert('Get directory "audio" failed: '+e.message);
-                    });
-                }, function(e){
-                    alert('Resolve "_doc/" failed: '+e.message);
-                } );
-            }
-            // 获取录音历史列表 createItem
-            function updateHistory(){
-                if(bUpdated||!gentry||!document.body){//兼容可能提前注入导致DOM未解析完更新的问题
-                    return;
-                }
-                var reader = gentry.createReader();
-                reader.readEntries(function(entries){
-                    for(var i in entries){
-                        if(entries[i].isFile){
-                            // createItem(entries[i]);
-                            console.log(entries[i]);
-                        }
-                    }
-                }, function(e){
-                    alert('读取录音列表失败：'+e.message);
-                });
-                bUpdated = true;
-            }
+       
 
-            
-            // 播放文件相关对象
-            var p=null,pt=null,pp=null,ps=null,pi=null;
-            // 扩展API加载完毕后调用onPlusReady回调函数 
-            document.addEventListener( "plusready", onPlusReady, false );
-                // 获取DOM元素对象
-                er = document.getElementById('record');
-                // rt = document.getElementById('rtime');
-                rt = document.getElementById('rs');
-            
-            // 扩展API加载完毕，现在可以正常调用扩展API 
-            function onPlusReady() { 
-                HTML_R = plus.audio.getRecorder(); 
-                console.log(890)
-            }
-            // 原生事件封装__全局投射
-            window.WebView_Object = function () { };
-            WebView_Object.prototype = {
-                // 开始录音
-                startRecord : function () {
-                    if ( HTML_R == null ) {
-                        alert( "录音对象未获取" );
-                        return; 
-                    }
-                    HTML_R.record( {
-                        filename:"_doc/audio/"
-                    }, function (p) {
-                        alert( "录音完成："+p );
-                        audio_TYPE = 1;
-
-                        plus.io.resolveLocalFileSystemURL(p, function(entry){
-
-                            entry.file(function(file){
-                                var reader = new plus.io.FileReader();
-                                reader.onloadend = function (e) {
-                                    console.log(e.target.result);
-                                    BASE64 = e.target.result;
-                                };
-                                reader.readAsDataURL(file);
-                            },function(e){
-                                alert("读写出现异常: " + e.message );
-                            })
-
-                            audio_URL = entry.name;
-                        }, function(e){
-                            alert('读取录音文件错误：'+e.message);
-                        });
-                    }, function ( e ) {
-                        alert( "录音失败: " + e.message );
-                    } );
-                    audio_TYPE = 0;
-                    er.style.display = 'block';
-                    t = 0;
-                    ri = setInterval(function(){
-                        t++;
-                        // rt.innerText = timeToStr(t);
-                        rt.innerText = t+'"';
-                    }, 1000);
-                    return this;
-                },
-                // 结束录音
-                stopRecord : function () {
-                    end_time = rt.innerText;
-                    er.style.display = 'none';
-                    // rt.innerText = '00:00:00';
-                    rt.innerText = '0"';
-                    clearInterval(ri);
-                    ri = null;
-                    HTML_R.stop();
-                    return this;
-                },
-                // 播放音频文件
-                playAudio : function (li){
-                    if(!li){
-                        alert('无效的音频文件');
-                        return;
-                    }
-                    alert('播放音频文件：'+li);
-                    var arr_li = li.split(':');
-                    if(arr_li[0] == 'blob'){
-                        this.startPlay(li);
-                    } else {
-                        this.startPlay('_doc/audio/'+li);
-                    }
-                    return this;
-                },
-                // 开始播放
-                startPlay : function (url){
-                    er.style.display = 'block';
-                    t = 0;
-                    ri = setInterval(function(){
-                        t++;
-                        // rt.innerText = timeToStr(t);
-                        rt.innerText = t+'"';
-                    }, 1000);
-                    p = plus.audio.createPlayer(url);
-                    p.play(function(){
-                        console.log('播放完成！');
-                        er.style.display = 'none';
-                        // rt.innerText = '00:00:00';
-                        rt.innerText = '0"';
-                        clearInterval(ri);
-                        ri = null;
-                    }, function(e){
-                        alert('播放音频文件"'+url+'"失败：'+e.message);
-                        er.style.display = 'none';
-                        // rt.innerText = '00:00:00';
-                        rt.innerText = '0"';
-                        clearInterval(ri);
-                        ri = null;
-                    });
-                },
-                // 从相册中选择图片
-                galleryImg : function (){
-                    // outSet('从相册中选择图片：');
-                    plus.gallery.pick(function(path){
-                        // outLine(path); // 转base64上传
-                        var reader = new plus.io.FileReader();
-                        reader.onloadend = function (e) {
-                            console.log(e.target.result);
-                            JPEG_SRC = e.target.result;
-                            JPEG64 = e.target.result;
-                        };
-                        reader.readAsDataURL(path);
-                    }, function(e){
-                        // outSet('取消选择图片');
-                    }, {filter:'image'});
-                },
-
-            } 
-
-
-            if(window.plus){
-                plusReady();
-            }else{
-                document.addEventListener('plusready',plusReady,false);
-            }
-            // DOMContentLoaded事件处理
-            var _domReady=false;
-            document.addEventListener('DOMContentLoaded',function(){
-                _domReady=true;
-                compatibleAdjust();
-            },false);
-            // 兼容性样式调整
-            var _adjust=false;
-            function compatibleAdjust(){
-                if(_adjust||!window.plus||!_domReady){
-                    return;
-                }
-                _adjust=true;
-                // iOS平台特效
-                if('iOS'==plus.os.name){
-                    document.getElementById('content').className='scontent';    // 使用div的滚动条
-                    if(navigator.userAgent.indexOf('StreamApp')>=0){    // 在流应用模式下显示返回按钮
-                        document.getElementById('back').style.visibility='visible';
-                    }
-                }
-                // 预创建二级窗口
-            //  preateWebviews();
-                // 关闭启动界面
-                    plus.navigator.setStatusBarBackground('#D74B28');
-                setTimeout(function(){
-                    plus.navigator.closeSplashscreen();
-                },200);
-            }
-        </script>
+        <!-- 语音 -->
+        <script type="text/javascript" src='./im/yuyin.js'></script>
         <script src="./dist/build.js"></script>
   </body>
 </html>

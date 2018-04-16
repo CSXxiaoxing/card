@@ -10,12 +10,13 @@
         </div>
 
         <div class="toShare_center">
-    		<dl>
+    		<dl @click='dl'>
     			<dt><img src="src/image/toShare001.png" height="174" width="174"></dt>
     			<dd>微信好友</dd>
     		</dl> 
     		<dl v-if='share == "home"'>
-    			<dt><img src="src/image/toShare002.png" height="174" width="174"></dt>
+    			<dt>
+                <img src="src/image/toShare002.png" height="174" width="174"></dt>
     			<dd>复制链接</dd>
     		</dl> 
             <dl v-if='share == "room"'>
@@ -108,6 +109,10 @@
       };
     },
     props: ['share'],
-    methods: {},
+    methods: {
+        dl(){
+            share_WANJI();
+        },
+    },
   };
 </script>

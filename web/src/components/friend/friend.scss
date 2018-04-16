@@ -1,8 +1,8 @@
 @import '../../utils/baseVar.scss';
 
 #friend {
-    // background: #ECEDF1;
-    height: 10.277778rem;
+    // background: #ECEDF1; addHaoyou jinTip careTip
+    height: 10.277778rem; 
     width: 9.157407rem;
     // 10.0rem
     margin-bottom: 1.6rem;
@@ -24,8 +24,8 @@
     header,.frifri {
         font-size: 0.43rem;
         line-height: 0.87037rem;
-        height: 0.861111rem;
-        height: 0.87037rem;
+        height: 0.9rem;
+        // height: 1rem;
         padding: 0;
         border-bottom: 1px solid #CCBDA8;
         background: rgba(0,0,0,0);
@@ -44,6 +44,7 @@
             @include justify-content(space-between);
             li{position:relative;}
             li:first-child {
+                    position: relative;
                 &>i {
                     display: inline-block;
                     width: 0.537037rem;
@@ -51,12 +52,9 @@
                     
                     background: $friend002 no-repeat;
                     background-size: 0.537037rem 0.416667rem;
-                    position: relative;
+                    position: absolute;
                     top: 50%;
                     @include translate(0,-50%);
-                    a {
-                        padding: 0.259259rem 0.37037rem;
-                    }
                 }
             }
             li:last-child {
@@ -90,10 +88,10 @@
             }
             li:nth-of-type(2n) {
                 background: #F7E8D3;
-                overflow: hidden;
+                overflow-x: hidden;
                 padding: 0;
                 margin-bottom: 0.1rem;
-                overflow: hidden;
+                overflow-y: auto;
                 .remove{
                     width: 2rem;
                     height: 100%;
@@ -190,6 +188,7 @@
                     display: none;
                 }
             }
+            li:nth-of-type(2n)::-webkit-scrollbar{display: none;}
             li.show {
                 height: auto;
                 @include transition(all,1s)
@@ -378,6 +377,7 @@
             margin-top: 0.277778rem;
             width: 100%;
             height: 1.185185rem;
+
             box-shadow: 0 0.066rem 0.101852rem 0rem #DECFBA;
             border: 0 none;
             background-color: #E9DAC5;
@@ -651,6 +651,74 @@
           position: absolute;
           left: 50%;
           transform: translate(-50%,0);
+          bottom: 0.56rem;
+          border: 0 none;
+          color: white;
+
+          background: $login006 no-repeat;
+          background-size: 2.481481rem 0.796296rem;
+        }
+    }
+    .jinTip{
+        width: 6.3rem;
+        height: 4.212963rem;
+        padding: 0.12963rem;
+        box-sizing: border-box;
+        background: $friend010 no-repeat;
+        background-size: 6.3rem 4.212963rem;
+
+        h3{
+            font-size: 0.42963rem;
+            margin-top: 0.26rem;
+        }
+        i{
+            display: block;
+            height: 0.712963rem;
+            width: 0.712963rem;
+            position: absolute;
+            right: 0%;
+            top: 0;
+            transform: translate( 0.08rem, 0rem);
+
+            background: $login008 no-repeat;
+            background-size: 0.712963rem 0.712963rem;
+        }
+        
+
+        p{
+          width: 100%;
+          height: 0.725926rem;
+          line-height: 0.725926rem;
+          text-align: center;
+          font-size: 0.36rem;
+          padding: 0 0.152593rem;
+          position: absolute;
+          left: 50%;
+          top: 48%;
+          transform: translate(-50%,-60%);
+          white-space: pre-wrap;
+        }
+        button:nth-of-type(1){
+          width: 2.481481rem;
+          height: 0.796296rem;
+          border-radius: 0.509259rem;
+          position: absolute;
+          left: 50%;
+          transform: translate(-105%,0);
+          bottom: 0.56rem;
+          border: 0 none;
+          color: white;
+
+          background: $room024 no-repeat;
+          background-size: 2.481481rem 0.796296rem;
+        }
+        button:nth-of-type(2){
+          width: 2.481481rem;
+          height: 0.796296rem;
+          border-radius: 0.509259rem;
+          position: absolute;
+          left: 50%;
+          transform: translate(5%,0);
           bottom: 0.56rem;
           border: 0 none;
           color: white;

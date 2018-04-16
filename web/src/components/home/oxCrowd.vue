@@ -12,49 +12,10 @@
 	        </mt-button>
       	</mt-popup>
 
-		<header>
-			<dl>
-				<dt @click.capture='child_KA(2)'>
-					<img :src="$store.state.user.userImg" />
-				</dt>
-				<dd>
-					<span>{{$store.state.user.userName}}</span>
-					<span @click="child_KA(5)">
-						<i></i>
-						<b
-						:class='$store.state.Music.autoplay ? "huan":"bai"' 
-						@click.stop="$store.state.Music.autoplay=!$store.state.Music.autoplay"  ></b>
-						分享
-					</span>
-				</dd>
-				<dd>
-					<span>ID:{{$store.state.user.userID}}</span>
-					<span>
-						{{cardNum}}
-						<i @click='child_KA(3)'></i>
-					</span>
-				</dd>
-			</dl>
-			
-			<p>
-			<mt-swipe 
-				:show-indicators="false" 
-				:prevent = 'true'
-				:speed="800" :auto="5000"
-				class='homeSwipe auto'>
-			  	<i></i>
-			  	<mt-swipe-item v-for='notices in $store.state.oxCrowd.notice'>
-			  		<span>{{notices}}</span>
-			  	</mt-swipe-item>
-			</mt-swipe>
-			</p>
+		<v-head></v-head>
 
-			<span class='homeServer' @click='kefu()'>
-			</span>
-		</header>
 
-		<div class='homeMain' id='dataUL'>
-
+		<div class='homeMain'>
 			<ul @click='openS' 
 			:class='spinner == 1 ? "ul01":""'
 			v-infinite-scroll="loadMore"
@@ -75,18 +36,7 @@
 			</mt-spinner>
 		</div>
 
-		<footer>
-			<ul>
-				<li @click='child_KA(6)'>
-				<!-- <router-link to="/friend" >好友</router-link> -->
-				好友
-				<span class='dot'>999</span>
-				</li>
-				<li @click='varRoom'>创建房间</li>
-				<li @click='child_KA(1)'>进入房间</li>
-				<li @click='child_KA(4)'>我的房间</li>
-			</ul>
-		</footer>
+		<v-foot></v-foot>
 
 		<idMessage ref="onidMessageChild" ></idMessage>
 		<buyRoom ref="onbuyRoomChild" ></buyRoom>
@@ -96,38 +46,16 @@
 		<myRoom ref="onmyRoomChild" ></myRoom>
 		<toShare ref="ontoShareChild" :share='"home"'></toShare>
 		<friendVIP ref="onfriendVIPChild"></friendVIP>
-
 		<loading v-if='loading'></loading>
 	</div>
 </template>
 
 <script type="text/javascript">
-	import './oxCrowd.scss';
+	import './home.scss';
 	import Vue from 'vue';
 	import http from '../../utils/httpClient.js';
 	import router from '../../router/';
 	import { Indicator, InfiniteScroll } from 'mint-ui';
-	// 组件
-	import noOpen from '../../module/homeModule/noOpen.vue';
-	import joinRoom from '../../module/homeModule/joinRoom.vue';
-	import idMessage from '../../module/homeModule/idMessage.vue';
-	import buyRoom from '../../module/homeModule/buyRoom.vue';
-	import setRoom from '../../module/homeModule/varRoom.vue';
-	import myRoom from '../../module/homeModule/myRoom.vue';
-	import toShare from '../../module/shareModule/toShare.vue';
-
-	import friendVIP from '../friend/friend.vue'; // 原好友
-	Vue.component('friendVIP', friendVIP)
-	import loading from '../loading/loading.vue';	// loading
-	Vue.component('loading', loading)
-	
-	Vue.component('noOpen', noOpen)
-	Vue.component('joinRoom', joinRoom)
-	Vue.component('idMessage', idMessage)
-	Vue.component('buyRoom', buyRoom)
-	Vue.component('varRoom', setRoom)
-	Vue.component('myRoom', myRoom)
-	Vue.component('toShare', toShare)
 	
 	export default {
 		data: function(){
@@ -149,6 +77,14 @@
 			}
 		},
 		mounted: function(){
+			document.addEventListener("plusready", function() {
+		        // 注册返回按键事件
+		        plus.key.addEventListener('backbutton', function() {
+		            // 事件处理
+		            window.history.back();
+		        }, false);
+		    });
+
 			var self = this;
 			var VX_data = this.$store.state.data.DT;
 			var VX_dataid = this.$store.state.data.DTid;
@@ -173,10 +109,7 @@
                 		self.$store.state.oxCrowd.notice = notice;
                 	}
                 })
-				if(VX_data.length > 0){	// 百人牛牛
-					return false;
-				}
-				// 房间请求
+                // 房间请求
 				http.post('/Room/getRoomList',
                 {
                     pagesize : self.pagesize,
@@ -203,6 +136,34 @@
 	            	self.$store.state.data.DTidALL = VX_dataidALL;
 	            	self.$store.state.data.DTP = 1;
 	            });
+                var counT = null;
+
+				if(VX_data.length <= 15){	// 百人牛牛-少于15间房
+					counT = setInterval(()=>{
+						if(location.hash.slice(-7)!="oxCrowd"){
+							return false;
+						}
+						// 房间请求
+						http.post('/Room/getRoomList',
+		                {
+		                    pagesize : self.pagesize,
+		                    type 	 : self.type,
+		                    p 		 : self.p,
+		                })
+			            .then(res => {
+			            	console.log(res)
+			            	if(res.status == 1){
+			            		self.$store.state.data.DATE = new Date().getTime();
+			            		VX_data = res.data;
+			            		self.$store.state.data.DT = VX_data;
+			            		self.$store.state.data.DTid = VX_dataid;
+			            		self.$store.state.data.DTidALL = VX_dataidALL;
+			            	}
+			            });
+					},30000)
+				} else {
+					clearInterval(counT)
+				}
 
 			} else {
 				router.push({name: '/'});	// 跳回登录页
@@ -252,7 +213,7 @@
 				},'',this)
 				.then(res => {
 					console.log(res)
-					this.$refs.onvarRoomChild.imgState.room_id =  res.data;
+					this.$refs.onvarRoomChild.initData.zc_number =  res.data;
 				})
 				this.$refs.onvarRoomChild.noModal();
 			},
@@ -282,8 +243,12 @@
 		                            .then(res => {
 		                                console.log(res)
 		                                if( res.status == 3 ){
-		                                    router.push({path: `room/${Etar.attributes["roomid"].nodeValue}`});
-		                                    // alert('房间号码不存在')
+		                                	if(res.msg == "你是房主"){
+		                                		router.push({path: `room/${Etar.attributes["roomid"].nodeValue}`});
+		                                	} else {
+		                                		self.errorTips = '等待房主确认';
+		                                		self.careTip = true;
+		                                	}
 		                                } else if( res.status == 1 ){
 		                                    router.push({path: `room/${res.data.zc_number}`});
 		                                } else if( res.status == 0 ){

@@ -8,18 +8,21 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     // 字符串数据存储
     // 使用demo : this.$store.state.Music.autoplay
-    // 使用demo : this.$store.state.oxCrowd.z
+    // 使用demo : this.$store.state.system.lodin
     state: {
         // 用户信息
         user: {
             userName: localStorage.oxName,
             userID  : localStorage.oxUid,
             userImg : localStorage.oxImg,
+            friend  : [],   // 好友列表
+            friendId: [],   // 好友的id
         },
         // 环信消息处理 
         system: {
             friend: [], // 好友操作信息
             friendList: [], // 好友列表
+            lodin: [],      // 等待确认是否允许进入房间
             Q_amount: {}, // 群消息数量统计
             t: 0,
         },
@@ -30,18 +33,18 @@ export default new Vuex.Store({
             autoplay: true, // 音乐
             musi: true,     // 音效
         },
+
+
+
+
         room: {     // 房间初始数据
-
-
-
             cardNum: 5, // 几牌
             minFen : 0, // 最低上庄分数
-
         },
         // 默认数据
         initRoom: {
-            ox: ['牛一', '牛二', '牛三', '牛四', '牛五', '牛六', '牛七', '牛八', '牛九', '牛牛', '五花牛'],
             radioValue: ['比J', '比Q', '比K', '无牛关机 (庄赢)'],
+            ox: ['牛一', '牛二', '牛三', '牛四', '牛五', '牛六', '牛七', '牛八', '牛九', '牛牛', '五花牛'],
             oxK: '比Q',
             time: [30, 60, 120, 180, 300, 480],
             miss: ['秒', '分钟'],
@@ -50,7 +53,7 @@ export default new Vuex.Store({
             nameLenth: 16,
             // 最低上分数
             minG: 5000,
-            cardNum:0,          // 
+            cardNum:0,
         },
         idRoom: {
             id: 0,              // 房间id
@@ -364,8 +367,7 @@ export default new Vuex.Store({
             }        //如果用户在A群组被禁言，在A群发消息会走这个回调并且消息不会传递给群其它成员
             });
         },
-        dl () { //  sendIQ
-            var dlCount = 0;
+        dl () {
             var id = localStorage.oxUid
             var options = {         // 自动登录
                 apiUrl: WebIM.config.apiURL,
@@ -375,17 +377,14 @@ export default new Vuex.Store({
                 success: function () {
                     console.log('登录成功')
                 },
-                error: function (aa) {
-                    dlCount++;
+                error: function () {
                     console.log('登录失败')
-                    if(dlCount < 5){
-                        var time = setTimeout(function(){
-                            conn.open(options);
-                            clearTimeout(time)
-                        },2000)
-                    } else {
-                        alert('当前网络不稳定，登陆失败')
-                    }
+                    
+                    var time = setTimeout(function(){
+                        conn.open(options);
+                        clearTimeout(time)
+                    },2000)
+                    
                 }
             };
             conn.open(options);
