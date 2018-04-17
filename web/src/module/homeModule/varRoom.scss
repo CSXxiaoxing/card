@@ -19,22 +19,14 @@
 @mixin XX_CJFK{
     position: absolute;
     background: $login008 no-repeat;
-    right: 0.65rem;
-    top: 3.22rem;
+    right: 0rem;
+    top: 0rem;
     background-size: 0.907407rem 0.972222rem;
     height: 0.972222rem;
     width: 0.907407rem;
     overflow: hidden;
 }
 
-.XX_CJ{ // 最外层叉叉
-    @include XX_CJFK;
-    z-index: 8888;
-}
-.XX_FK{
-    @include XX_CJFK;
-    z-index: 9999;
-}
 .Cvar::-webkit-scrollbar {
         display: none;
     } 
@@ -53,7 +45,9 @@
     overflow-y:auto;
     background: $oxCrowd_011 no-repeat;
     background-size: 8.333333rem 11rem;
-
+    &>i{
+        @include XX_CJFK;
+    }
     button{
       -webkit-tap-highlight-color: #000000;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -61,11 +55,12 @@
     }
     img{
         height: 0.574074rem;
-        width:0.592593rem;
+        width : 0.592593rem;
     }
 
 
     @include border-radius(0.240741rem);
+    border-top-right-radius: 0.38rem;
     padding: 0 0.703704rem 0.185185rem 0.703704rem;
     @include box-sizing();
     // overflow-y: auto;
@@ -535,9 +530,12 @@
     position: fixed;
     left: 50%;
     top: 50%;
-    
+    &>i{
+        @include XX_CJFK;
+    }
     // border: 0.027778rem solid #000;
     @include border-radius(0.37037rem);
+    border-top-right-radius: 0.38rem;
     padding: 0.388889rem 0.462963rem 0.462963rem;
     @include box-sizing();
     // left:-50px;
@@ -570,7 +568,9 @@
 
 // 倍率设置
 .set{
-
+    &>i{
+        @include XX_CJFK;
+    }
     overflow-y:auto;
     border: 1px solid #ccc;
     overflow: hidden;
@@ -585,8 +585,10 @@
     // margin-top:10%;
     position: absolute;
     @include border-radius(0.277778rem);
+    border-top-right-radius: 0.38rem;
     padding: 0.238889rem 0.362963rem 0.277778rem;
     @include box-sizing();
+
     .top{
         font-size: 0.492593rem;
         line-height: 0.492593rem;

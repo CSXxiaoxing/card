@@ -12,7 +12,8 @@ var conn = new WebIM.connection({
 
 // 地址管理
 // var GAME_ALL_URL = 'http://www.wanjiba888.com';
-var GAME_ALL_URL = 'http://wanji888.hamingniao.com';
+var GAME_ALL_URL = '';
+var WANJI_ALL_URL = 'http://wanji888.hamingniao.com';
 // var GAME_ALL_URL = 'http://game.hengpukj.com';
 
 

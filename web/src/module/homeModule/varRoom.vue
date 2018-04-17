@@ -1,14 +1,12 @@
 <template>
     <div>
-    <i class='XX_CJ' @click="boxState.CvarRoom = false" v-show='boxState.CvarRoom'></i>
-    <i class='XX_FK'  @click="noModal" v-show='boxState.card || boxState.coreVisible'></i>
     <div class="varR_modal" :style='"z-index:"+zidx' @click='noModal'></div>
     <mt-popup 
       v-model="boxState.coreVisible"
       popup-transition="popup-fade" 
       :modal='false' :style='"z-index:"+setZidx'
-      class="set">
-
+      class="set"> 
+        <i @click='boxState.coreVisible=false'></i>
         <p class="top">
             倍率设置 
         </p> 
@@ -49,6 +47,8 @@
         popup-transition="popup-fade" 
         :modal='false' :style='"z-index:"+cardZidx'
         class="card" >
+        <i @click='boxState.card=false'></i>
+
         <p>
             房卡消耗方式 
         </p>
@@ -59,7 +59,7 @@
     v-model="boxState.CvarRoom" 
     popup-transition="popup-fade"  
     class="Cvar" >
-
+    <i @click='boxState.CvarRoom=false'></i>
     <mt-popup
         v-model="boxState.no"
         popup-transition="popup-fade" 

@@ -379,7 +379,7 @@
             }
         }
         padding: 1.2rem 0 0;
-        // margin-bottom: 2.694444rem;
+        // margin-bottom: 2.694444rem; center_top
         width: 100%;
         position: relative;
         z-index: 1;
@@ -732,7 +732,7 @@
                 animation: chenji 3s linear 2;
                 z-index: 999;
             }
-            
+
             // 移动用卡牌
             .static_K{
                 position: absolute;
@@ -757,6 +757,30 @@
                 position: absolute;
                 left: 50%;
                 top: -0.3rem;
+                transform: translate(-50%,0);
+                h1{
+                    font-size: 0.45rem;
+                    color: #FFFDFF;
+                    font-family: STHupo,YouYuan,MingLiu,"MicrosoftJhengHei",STHeiti,华文细黑,微软雅黑,"Microsoft YaHei";
+                    font-weight:400;
+                    line-height: 0.555556rem;
+                }
+                p{
+                    font-size: 0.3rem;
+                    line-height: 0.462963rem;
+                    color: #BCE7B2;
+                    font-weight:600;
+                }
+            }
+            .center_top_7{
+                height: 1.0rem;
+                text-shadow:#000 1px 0 0,#000 0 1px 0,#000 -1px 0 0,#000 0 -1px 0;
+                -webkit-text-shadow:#000 1px 0 0,#000 0 1px 0,#000 -1px 0 0,#000 0 -1px 0;
+                -moz-text-shadow:#000 1px 0 0,#000 0 1px 0,#000 -1px 0 0,#000 0 -1px 0;
+                *filter: Glow(color=#000, strength=1);
+                position: absolute;
+                left: 50%;
+                top: -0.48rem;
                 transform: translate(-50%,0);
                 h1{
                     font-size: 0.45rem;
@@ -887,7 +911,7 @@
             }
             .ka7{
                 padding: 0;
-                padding-top: 0.82rem;
+                padding-top: 0.58rem;
                 li{
                     width: 4.212963rem;
                     height: 1.462963rem;

@@ -301,10 +301,12 @@
                     num: Number(num),
                 },'',this)
                 .then(res => {
-
                     self.$parent.iframeCss = 'iframeCss02';
                     self.$parent.iframe = res.url;
+                    console.log(res.url)
                     // window.open(res.url)
+                     // 'http://www.hamingniao.com/index/pay/index?type=1&uid=hmn92c450b9c639ef4cafd66e2c8f09d6dd&fee=0.01&order_no=1523868978991744&url=http://www.wanjiba888.com/RoomCard/getReturn&returnurl=file:///storage/emulated/0/Android/data/io.dcloud.HBuilder/apps/HBuilder/www/index.html#/home&sign=BEA20A103E974ADF45045293ED3921BF'
+
                 })
         },
         cardNumber(){

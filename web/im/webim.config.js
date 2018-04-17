@@ -1,5 +1,5 @@
 /**
- * git do not control webim.config.js
+ * git do not control webim.config.js isMultiLoginSessions
  * everyone should copy webim.config.js.demo to webim.config.js
  * and have their own configs.
  * In this way , others won't be influenced by this config while git pull.
@@ -11,7 +11,7 @@ WebIM.config = {
     apiURL: (location.protocol === 'https:' ? 'https:' : 'http:') + '//a1.easemob.com',
     appkey: '1102180111115080#wanjiba20180111',
     https: false,
-    isMultiLoginSessions: false,
+    isMultiLoginSessions: true,
     isAutoLogin: true,
     isWindowSDK: false,
     isSandBox: false,

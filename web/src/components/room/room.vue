@@ -1,17 +1,16 @@
 <template> 
     <keep-alive>
+    <!-- zn_member_id -->
     <div id='room'>
-        <audio src="src/Music/fapai.mp3" autoplay v-if='music' loop></audio>
-        <img v-for='(a,idx) in move.imgNum'  :src='move.srcImg[idx]' 
-        :class='[(move.bounce[idx]!=undefined ? "bounce":""),("imgOne")]'  
-        :style='"position:absolute;z-index:-1;width:1.2rem;height:1.2rem;"+chouma.LandR+move.srcImgStyle[idx]' />
+        <audio src="src/Music/fapai.mp3" autoplay v-if='music==$store.state.Music.musi' loop></audio>
+        
         <mt-popup 
             v-model="careTip"
             popup-transition="popup-fade"
             class="care" >
             <span>通知 <i @click="careTip = false">×</i></span>
             <p>{{errorTips}}</p>
-            <mt-button @click="careTip = false">  确定
+            <mt-button @click="careTip = false"> 
             </mt-button>
         </mt-popup >
 
@@ -34,7 +33,7 @@
         <header>
             <ul>
                 <li>
-                    <i><a  @touchend='exit'></a></i>
+                    <i><a  @click='exit'></a></i>
                     <span>第<i @click='test+="a"'>{{user.ju}}</i>局</span>
                     <p :class='user.initType >= 1 ? "open" : "" '>
                         <span>{{user.initType >= 1 ?  "游戏中" : "暂停中"}}</span>
@@ -61,8 +60,8 @@
 
             <dl>
                 <!-- 个人头像 -->
-                <dt @click='testtt' >
-                    <img :src='$store.state.user.userImg' height="155" width="149" alt="" />
+                <dt @click='testtt,$refs.onidMessageChild.idMessage=true' >
+                    <img :src='$store.state.user.userImg' />
                 </dt>
                 <!-- 房主 -->
                 <dd>
@@ -74,7 +73,7 @@
                 
                 <dd><i v-show='user.type == 1'  @click='varRoom'></i></dd>
 
-                <dd  @click="$refs.ontoShareChild.toShare=true;"></dd>
+                <dd  @click="$refs.ontoShareChild.toShare=true,$refs.ontoShareChild.rid=user.rid"></dd>
 
                 <dd>
                     <i></i>
@@ -97,7 +96,7 @@
                     <div v-show='dataList.z.dian == undefined' class='konwei'>
                     </div>
 
-                    <div v-show='Number(dataList.z.uid) >= 0' >
+                    <div v-if='Number(dataList.z.uid) >= 0' >
                         <img src="src/srcImg/room_left02.png" />
                         <img src="src/srcImg/room_left01.png" />
                         <img class='leftZhuan' src="src/srcImg/room002.png" />
@@ -115,21 +114,21 @@
                     <!-- 庄 @click='chat(2,dataList.z.uid)' -->
                     <!-- <li>{{dataList.px}}</li> -->
                     <li  
-                    v-for = '(data, index) in dataList.pd' 
+                    v-for = '(data, index) in dataList.dd' 
                     @click='chat(2)' :key='data.id'>
                         <div>
                             <img src="src/srcImg/roomK03.png" alt="" />
                             <img :src="'src/srcImg/roomPage0'+(index <= 1 ? index+2:4)+'.png'" alt="" />
                             <span>{{index+2}}</span>
                             <div class='leftImg'>
-                                <img v-if='dataList.dz[data.zn_member_id]!=undefined' :src="dataList.dz[data.zn_member_id].img" alt="" />
+                                <img v-if='data.zn_member_id!=undefined' :src="data.zc_headimg" alt="" />
                                 <span>{{data.zn_points}}</span>
                             </div>
                         </div>
                         <p>{{data.zn_member_name}}</p>
                     </li>
 
-                    <li v-for = 'num in ((4-dataList.pd.length)<=4?(4-dataList.pd.length):0)'>
+                    <li v-for = 'num in (4-dataList.dd.length >= 0 ? 4-dataList.dd.length : 0)'>
                         <div class='konwei'>
                         </div>
                     </li>
@@ -143,7 +142,11 @@
                 v-for='(num,idx) in main.cardNum*5' :class='[("static_K"),(user.numCard == 7 ? "s":"")]' 
                 :style='"visibility:hidden;"+move.trans[idx]' />
 
-                <div class="center_top">
+                <img v-for='(a,idx) in move.imgNum'  :src='move.srcImg[idx]' 
+                :class='[(move.bounce[idx]!=undefined ? "bounce":""),("imgOne")]'  
+                :style='"visibility:hidden;position:fixed;z-index:-1;width:1.2rem;height:1.2rem;"+chouma.LandR+move.srcImgStyle[idx]' v-show='move.srcImg[idx]!=""'/>
+
+                <div :class='user.numCard == 7 ? "center_top_7" :"center_top"' class="center_top">
                     <h1>{{user.initTxt[user.initType]}}
                         <span v-show='user.initType >= 2&&user.initType!=4'>
                         {{time.time_x >= 60 ? "0"+Math.floor(time.time_x/60)+":"+time.time_x%60 : "00:"+(time.time_x >= 10 ? time.time_x : "0"+time.time_x)}}秒
@@ -155,8 +158,10 @@
                 <ul :class='user.numCard == 7 ? "ka7" :""' id='room_UL'>
                     <li 
                     v-for='(data,index) in user.numCard' 
-                    @click='yazhu(index)'
+                     @click='yazhu(index)' style='z-index:777'
                     :class='[(index==logic.z_index &&user.initType==5 ? "hover_no":""),(chouma.liCss[index]>=1 || move.liType ==index ?"hover":"")]'>
+                    <!-- li背景 -->
+                    <div class='libj'></div>
                     <!-- 牌 -->
                     <div class='pai'>
                         <img 
@@ -198,24 +203,24 @@
                 </span>
 
                 <ul>
+                    <!-- v-if='dataList.px[0]!=undefined' -->
                     <li
-                    v-if='dataList.px[0]!="undefined"'
-                    v-for='player in dataList.px' 
-                    @click='chat(2,dataList.zz[player].uid)'
-                    :key='dataList.zz[player].uid'>
+                    v-for='PTW in dataList.pt' 
+                    @click='chat(2,PTW.uid)' 
+                    :key='PTW.uid'> 
                         
                         <div>
                             <img src="src/srcImg/roomK03.png" alt="" />
                             
                             <div class='leftImg'>
-                                <img :src="dataList.zz[player].img" />
-                                <span>{{dataList.zz[player].dian}}</span>
+                                <img :src="PTW.img" />
+                                <span>{{PTW.dian}}</span>
                             </div>
                         </div>
-                        <p>{{dataList.zz[player].name}}</p>
+                        <p>{{PTW.name}}</p>
                     </li>
 
-                    <li v-for='a in 5-dataList.px.length'>
+                    <li v-for='a in (5-dataList.pt.length >= 0 ? 5-dataList.pt.length : 0)'>
                         <div class='konwei'></div>
                     </li>
 
@@ -282,7 +287,7 @@
         <keep-alive>
             <applyOn ref="onapplyOnChild" ></applyOn>
         </keep-alive>
-
+        <idMessage ref="onidMessageChild" ></idMessage>
         <singleBoard ref="onsingleBoardChild"></singleBoard>
         <friendVIP ref="onfriendVIPChild"></friendVIP>
         <waterReport ref="onWater"></waterReport>
@@ -302,6 +307,8 @@
     Vue.component('toShare', toShare)
     import setRoom from '../../module/homeModule/varRoom.vue';  // 修改房间设置
     Vue.component('varRoom', setRoom)
+    import idMessage from '../../module/homeModule/idMessage.vue';  // 个人参数
+    Vue.component('idMessage', idMessage)
 
     import prize from '../../module/roomModule/openRecords.vue';
     import applyOn from '../../module/roomModule/applyOn.vue';
@@ -358,14 +365,20 @@
                     ju: 0,          // 游戏局数
                     oxWater: 0,     // 抽水
                     xiaZZZ: 0,      // 1-> 一局结束后下庄 0-> 不做任何操作
-                    lun: 0,         // 轮庄计算
-                    lunCoun: 5,     // 换庄场
                     timeOrDay: 0,   
+                    lun: 0,         // 轮庄计算
+                },
+                lunZ : {
+                    type : 1,  // 0 是锁定  1 是轮庄
+                    num  : 5,    // 轮庄的次数
                 },
                 dataList : {        // 房间内玩家数据
                     z : {},           // 庄的数据
+                    pt: [],           // 普通玩家
+                    dd: [],           // 等待上庄
+                    dd_length: 0,     // 左边盒子数量
+
                     dz: {},           // 等待上庄人员的数据
-                    pd: [],           // 排队顺序
                     zz: {},           // 其余成员的数据
                     px: [],           // 人员分数排序
                     dict:{},          // 字典--匹配
@@ -433,7 +446,6 @@
                 roomData:{},// 房间初始数据
 
 
-
                 message : this.$store.state.placard.message,
             }
         },
@@ -474,22 +486,20 @@
                 // })
                 // this.c3test()
                 // this.gameResult()
-                var xhr = new XMLHttpRequest();
-                var formData = new FormData();
-                formData.append('feifei', '^(*￣(oo)￣)^');
+                // var xhr = new XMLHttpRequest();
+                // var formData = new FormData();
+                // formData.append('feifei', '^(*￣(oo)￣)^');
 
-                xhr.open('post', GAME_ALL_URL+"/Member/wxLogin" );
-                //发送请求
-                xhr.send(formData);
-                xhr.onreadystatechange = function () {
-                    // 这步为判断服务器是否正确响应
-                      if (xhr.readyState == 4 && xhr.status == 200) {
-                        console.log(xhr.responseText);
-                      }
-                };
-
+                // xhr.open('post', GAME_ALL_URL+"/Member/wxLogin" );
+                // //发送请求
+                // xhr.send(formData);
+                // xhr.onreadystatechange = function () {
+                //     // 这步为判断服务器是否正确响应
+                //       if (xhr.readyState == 4 && xhr.status == 200) {
+                //         console.log(xhr.responseText);
+                //       }
+                // };
             },
-
             chouma_num(idx,e){   // 选择什么筹码
                 e = e || event;
                 this.chouma.one = idx;
@@ -497,28 +507,18 @@
             },
             yazhu(idx,e){    // 押注
                 e = e || event;
+                console.log(e.target)
                 var fefefe = [1,5,10,50,100];
-                if(this.user.type == 1 || this.user.type == 2 || this.user.initType != 5){  //房主和庄家不参与游戏
+                if(this.user.type == 1 || this.user.type == 2 || this.user.initType != 5 || this.chouma.one<=0 || idx == this.logic.z_index){  //房主和庄家不参与游戏
                     return false;
                 }
-                if(this.main.minFen_x < fefefe[idx] || this.main.minFen_x < this.user.myFen){
-                    return false;
-                }
-                // console.log(idx)
+                
                 var maxBel = '';
                 if(this.main.bei==1){
                     maxBel = this.main.maxBei;  // 最大倍率
                 }else{
                     maxBel = 1;  // 不翻倍
                 }
-                var imgOnes = document.getElementsByClassName('imgOne');
-                var idxCard = this.move.bounce.length;
-                this.move.imgNum += 1;                          // 复制
-                this.move.srcImg[idxCard] = `src/srcImg/cc0${this.chouma.one}.png`;        // 赋值
-                // console.log(e.s)
-                this.$set(this.move.srcImgStyle, idxCard ,`left:${e.clientX}px;top:${e.clientY}px;z-index:999;width:1.2rem;height:1.2rem;transform:translate(-50%,-50%);transition:all 2s;`);
-                this.move.bounce[idxCard] = 6;                  // 坠落动效and计数
-
                 var fen = null;
                 switch(this.chouma.one){
                     case 1:
@@ -537,6 +537,20 @@
                         fen=100;
                         break;
                 }
+
+                if(Number(this.main.minFen_x) < fefefe[idx] || (Number(this.user.myFen)-Number(fen*maxBel))<0){
+                    return false;
+                }
+                var header_H = document.querySelector('#app').offsetHeight;
+                
+                var imgOnes = document.getElementsByClassName('imgOne');
+                var idxCard = this.move.bounce.length;
+                this.move.imgNum += 1;                          // 复制
+                this.move.srcImg[idxCard] = `src/srcImg/cc0${this.chouma.one}.png`;        // 赋值
+                // console.log(e.s)
+                this.$set(this.move.srcImgStyle, idxCard ,`visibility:visible;left:${e.clientX}px;top:${e.clientY}px;z-index:999;width:1.2rem;height:1.2rem;transform:translate(-50%,-50%);transition:all 2s;`);
+                this.move.bounce[idxCard] = 6;                  // 坠落动效and计数
+
                 http.post('/RoomJoin/newChargePoints',{
                     uid     : this.user.uid,     // 个人uid
                     roomid  : this.user.rid,     // 房间id
@@ -554,7 +568,6 @@
                         this.chouma.liCss[idx]=1;
                     }
                 })
-
             },
             cuoinit(ev){  // 搓牌开始
                 var hezi =document.getElementsByClassName('cuopaiCard')[0].getBoundingClientRect();
@@ -616,7 +629,7 @@
                 else if(n==2){ // 加减分
                     
                 }
-                else if(n==3) { // 群聊 zzpx
+                else if(n==3) { // 群聊
                     // 清除未读条数显示
                     this.$store.state.system.Q_amount[`${this.user.qid}`]=0;
                     this.$store.state.system.t=0;
@@ -650,7 +663,7 @@
                             break;
                         case 5 :                        // 发牌
                             // console.log(data)
-                            self.list()
+                            
                             self.remove();// 游戏数据清除
                             self.user.ju = data.num; // 游戏局数
                             self.user.xiaZZZ = 0;
@@ -681,6 +694,9 @@
                             // console.log(self.logic.z_index)
                             // console.log(self.chenji)
                             break;
+                        case 7 : 
+                            self.lunzhun();
+                            break;
                         }
 
 
@@ -691,10 +707,10 @@
                             if(data.zn_member_id == localStorage.oxUid){
                                 return false;
                             }
-                            self.list()  // 更新成员
+                            self.list();  // 更新成员
                             break;
                         case 5 :                    // 通知有人分数变化--完成
-                            self.list()  // 更新分数
+                            self.list();  // 更新分数
                             break;
                         case 9 :                            // 压分
                             console.log(data)
@@ -735,13 +751,10 @@
                             break;
 
 
-                        
-                        
                         case 6 :                            // 通知有人退出房间
                             console.log(data)
                             // self.list()  // 更新列表
                             break;
-                        
                         case 15:                            // 中止下注
                             console.log(data)
                             break;
@@ -755,7 +768,7 @@
                 var main = this.main;   // 游戏主体数据
                 var user = this.user;   // 用户初始数据
                 var self = this;
-
+                // this.$store.dispatch('webIM')       // 聊天配置
                 http.post('/Room/getRooms',{
                     number: self.$route.params.id,
                 })
@@ -789,10 +802,10 @@
 
                         this.goeasy(data.id)    // 注册goEasy
                         this.list() // 获取字典以及数据
+                        this.lunzhun() // 获取轮庄
 
-
-                        this.$store.dispatch('webIM')       // 聊天配置
-                        this.$store.dispatch('dl')         // 聊天登录
+                        // this.$store.dispatch('webIM')       // 聊天配置
+                        // this.$store.dispatch('dl')         // 聊天登录
                         var addGroupMembers = function () {     // 加入群聊
                             var option3 = {
                                 list: ['hz_niuniu_'+localStorage.oxUid],
@@ -814,12 +827,29 @@
                     }
                 })
             },
+            lunzhun(){  // 轮庄
+                http.post('/Room/maker_num',{ // zn_maker_status
+                    room_id: this.user.rid,
+                }).then(res=>{
+
+                    this.lunZ.type = res.status;
+                    if(res.status==1){  // 轮庄
+                        this.lunZ.num = Number(res.data);
+                        this.user.lun = this.lunZ.num+Number(this.user.ju)-1;
+                    }
+                })
+            },
             list () {           // 玩家列表
 
-                this.dataList = {     // 房间内玩家数据
+                this.dataList ={        // 房间内玩家数据
                     z : {},           // 庄的数据
+                    pt: [],           // 普通玩家
+                    dd: [],           // 等待上庄
+                    dd_length: 4,     // 左边盒子数量
+
                     dz: {},           // 等待上庄人员的数据
-                    pd: [],           // 排队顺序
+                    dd: [],           // 排队顺序
+
                     zz: {},           // 其余成员的数据
                     px: [],           // 人员分数排序
                     dict:{},          // 字典--匹配
@@ -835,13 +865,13 @@
                     roomid: this.user.rid,
                 })
                 .then(res=>{
-                    var data = res.msg;
                     if(res.status==1){
+                        var data = res.msg;
                         console.log(data)
-
+                        var pt_count = []; // 辅助pt
                         for(var i=0; i<data.length; i++){
                             var datum = {
-                                img : GAME_ALL_URL+data[i].zc_headimg,
+                                img : data[i].zc_headimg,
                                 // name: data[i].zn_member_name,
                                 name: data[i].zc_nickname,
                                 dian: data[i].zn_points,
@@ -852,33 +882,54 @@
                                 self.user.myFen = Number(datum.dian)
                             }
                             dict[data[i].zn_member_id]=datum;   // 字典
+
+                            if(data[i].zl_visible == 1){
                             if(data[i].zn_makers==1){ // 庄
                                 if(data[i].zn_member_id==this.user.uid){
                                     this.user.type = 2;
                                 }
                                 self.dataList.z=datum;
-                            } else if(data[i].zn_maker_status==1){ // 庄申请列表
+                            } 
+                            else if(data[i].zn_maker_status==1){ // 庄申请列表
                                 if(data[i].zn_member_id==this.user.uid){
                                     this.user.Lding = 1;
                                 }
-                                dz[data[i].zn_member_id]=datum;
+                                
                                 console.log(dz)
-                            } else {
+                            } 
+                            else {
                                 if(data[i].zn_member_id==this.user.uid){
                                     this.user.type = 3;
                                     this.user.Lding = 0;
                                 }
-                                zz[data[i].zn_member_id]=datum;  // 普通玩家
-                                var len = this.dataList.px.length;
+                                pt_count.push(datum);
+                                var len = pt_count.length;
 
-                                len == 0 ? zzpx.push(data[i].zn_member_id) : 
-                                zpx(Number(data[i].zn_points),len,data[i].zn_member_id);
+                                if(len==1){
+                                    self.$set(self.dataList.pt,0,datum);
+                                } else {
+                                    zpx(Number(datum.dian),0,datum);
+                                }
+
+                                function zpx(d,o,datum){     // 排序
+                                    var L = self.dataList.pt.length;
+                                    if(Number(self.dataList.pt[o].dian)<=d){
+                                        self.dataList.pt.splice(o,0,datum);
+                                    }
+                                    else if(o+1==L){
+                                       self.$set(self.dataList.pt,o+1,datum);
+                                    }
+                                    else {
+                                       zpx(d,o+1,datum);
+                                    }
+                                    
+                                }
+                            }
                             }
                         }
                         z_type+=1;
                         z_type==2 ? host():0;
                     }
-                    // console.log(this.user.type)
                 })
 
                 http.post('/RoomJoin/getMakerList',{
@@ -886,50 +937,33 @@
                 })
                 .then(res => {
                     console.log(res)
+                    var arrt = [];
                     if(res.status == 1){
-                        // this.dataList.pd=[];
                         var data = res.data;
-                        // this.dataList.pd[0] = data[0];
-                        // this.$set(this.dataList.pd, 0, data[0]);
-                        
-                        for(var i=0;i<data.length;i++){
-                            if(data[i].zn_makers != 1){
-                                this.$set(self.dataList.pd,i,data[i]);
-                                // this.dataList.pd[i] = data[i];
+                        for(var i=0; i<data.length; i++){
+                            if(data[i].zl_visible == 1){
+                                arrt.push(data[i])
                             }
                         }
-                        console.log(this.dataList.pd)
-
+                        this.dataList.dd = arrt;
                         z_type+=1;
                         z_type==2 ? host():0;
-
                     }
                 })
-                // console.log(this.dataList.pd)
-                function zpx(d,o,uid){     // 排序
-                    // console.log(d,o,uid)
-                    var dian = Number(zz[zzpx[o-1]].dian); // 前一位的点数
-                    if(dian<d && o-1!=0){
-                        zpx(d,o-1,uid);
-                    } else if(d>=dian){
-                        zzpx.splice(o-1,0,uid);
-                    } else{
-                        zzpx.push(uid);
-                    }
-                }
+
                 function host(){
                     if(self.dataList.z.dian==undefined && self.user.auto && self.user.type== 1){
                     http.post( '/RoomJoin/setMakers', {
                                 roomid: self.user.rid,
                                 type: 1,
-                                id: self.dataList.pd[0].zn_member_id,
+                                id: self.dataList.dd[0].zn_member_id,
                             })
                         .then(res => {
                             if(res.status == 1){
-                                self.user.lun += self.user.lunCoun; // 轮庄局数
-                                self.dataList.z=dz[self.dataList.pd[0]];
-                                dz[self.dataList.pd[0]]=null;
-                                self.dataList.pd.splice(0,1);
+                                this.user.lun = this.lunZ.num+Number(this.user.ju)-1;
+                                self.dataList.z=dz[self.dataList.dd[0]];
+                                dz[self.dataList.dd[0]]=null;
+                                self.dataList.dd.splice(0,1);
                             }
                             else if(res.status != 1){    //  错误
                                 self.errorTips = res.msg;
@@ -942,7 +976,30 @@
                 this.$set(this.dataList, 'px', zzpx)
             },
             exit () {   // 退出房间
-                if(this.user.type == 3){     // 普通玩家退出
+                var self = this;
+                if(this.user.type == 1){
+                    console.log(1)
+                    if(this.user.gametype == 1){
+                        self.errorTips = "您是房主，退出房间游戏将无法进行";
+                        self.careTip = true;
+                    } else {
+                        http.post('/RoomJoin/quitRoom',{
+                            roomid: this.user.rid, // 房间id
+                            id: this.user.uid,
+                        })
+                        .then(res => {
+                            console.log(res)
+                        })
+                        router.push({name: 'oxCrowd'});
+                    }
+                } 
+                else if(this.user.type == 2){
+                    console.log(2)
+                    self.errorTips = "您当前正在坐庄，请退庄后再退出房间";
+                    self.careTip = true;
+                } 
+                else if(this.user.type == 3){     // 普通玩家退出
+                    console.log(456)
                     // http.post('/RoomJoin/closeRoom',{
                     http.post('/RoomJoin/quitRoom',{
                         roomid: this.user.rid, // 房间id
@@ -951,8 +1008,8 @@
                     .then(res => {
                         console.log(res)
                     })
+                    router.push({name: 'oxCrowd'});
                 }
-                router.push({name: 'oxCrowd'});
             },
             // 游戏流程
             gameStyle(n){       // 游戏流程--开始(1)--检查庄状态
@@ -976,6 +1033,7 @@
                             }
                         },800)
                         this.fk();
+
                     } else {
                         this.errorTips = '庄家参数异常，请检查有无庄或者庄的分数';
                         this.careTip = true;
@@ -987,10 +1045,10 @@
                         this.careTip = true;
                     }
                     this.user.gametype = 0;
-                    
                 }
             },
             fk(){   // 房卡
+                this.test = '2aa'
                 if(this.test == "2aa"){
                     http.post('/card/card',{room_id: this.user.rid});
                 }else{
@@ -1009,6 +1067,9 @@
                             if(res.status==0){  // 扣费失败
                                 this.errorTips= res.msg;      // 提示内容
                                 this.careTip = true;    // 提示窗
+                                this.user.gametype==0;
+                                this.user.initTxt[1] = '正在初始化游戏资源';
+                                this.user.initType = 0;
                                 http.post('/RoomCard/stopGame',{  // 暂停游戏
                                     room_id: this.user.rid,
                                 })
@@ -1096,7 +1157,7 @@
                             i=-1;n++;
                         }
                         if(self.move.trans.length == kaNum*5){
-                            this.music = false;
+                            self.music = false;
                             self.countDown();
                             clearTimeout(setTime)
                         }
@@ -1128,7 +1189,7 @@
                 } , 1000);
             },
             openCard () {                 // 4、开牌--算输赢
-                let self = this;
+                var self = this;
                 var cardNum = this.main.cardNum;    // 牌数
                 var z_index = this.logic.z_index;   // 庄的位置
                 this.logic.imgStyle = "visibility:visible;"
@@ -1159,35 +1220,45 @@
                                 // 算胜负计算分数
                                 this.time.time_x = this.time.$esc;  // 10s
                                 this.move.imgNum=0; // 隐藏筹码
+                                
                                 pageTimer["timer08"] = setInterval( ()=> {
                                     if(this.time.time_x >= 1){
                                         this.time.time_x-- ;
                                     } else {
                                         self.remove();// 游戏数据清除
                                         this.user.initTxt[1] = '正在初始化游戏资源';
+                                        console.log(this.user.ju)
+                                        console.log(this.user.lun)
                                         // 检查是否需要换庄
                                         if(this.user.ju >= this.user.lun && this.user.type==1){
-                                            if(this.dataList.pd[0]!=undefined){
+                                            if(this.dataList.dd[0]!=undefined){
                                                 http.post('/RoomJoin/setMakers',{
                                                     roomid: this.user.rid, // 房间id
                                                     type: 1,  // 1为设置庄家，2为下庄
-                                                    id: this.dataList.pd[0].zn_member_id,  // 用户id
+                                                    id: this.dataList.dd[0].zn_member_id,  // 用户id
                                                 })
                                                 .then(res => {
-                                                    self.errorTips = res.msg;
-                                                    self.careTip = true;
+                                                    if(res.status==1){
+                                                        this.user.lun = this.lunZ.num+Number(this.user.ju)-1;
+                                                    } else {
+                                                        self.errorTips = res.msg;
+                                                        self.careTip = true;
+                                                    }
                                                 })
                                             } else {
-                                                self.errorTips = '游戏暂停';
+                                                self.errorTips = '游戏局数已满且无下一位上庄玩家';
                                                 self.careTip = true;
                                                 this.roomStyle(1);      // 游戏暂停
+                                                console.log(111)
+                                                this.user.lun+=this.lunZ.num;
                                                 clearInterval(pageTimer['timer08']);
                                                 return false;
                                             }
                                         }
                                         if(this.user.type==1 && this.user.gametype==1 && this.dataList.z.name!=undefined){
                                             this.gameStyle(1);
-                                        } else {
+                                        } else if(this.user.type==1){
+                                            console.log(222)
                                             this.roomStyle(1);      // 游戏暂停
                                         }
                                         clearInterval(pageTimer['timer08']);
@@ -1201,6 +1272,25 @@
                         clearInterval(pageTimer["timer05"]);
                     }
                 },500)
+            },
+            barter(){       // 更换庄家
+                if(this.dataList.dd[0]!=undefined && this.user.gametype==0){
+                    http.post('/RoomJoin/setMakers',{
+                        roomid: this.user.rid, // 房间id
+                        type: 1,  // 1为设置庄家，2为下庄
+                        id: this.dataList.dd[0].zn_member_id,  // 用户id
+                    })
+                    .then(res => {
+                        this.errorTips = res.msg;
+                        this.careTip = true;
+                    })
+                } else if(this.user.gametype==1){
+                    this.errorTips = '请在游戏暂停后操作';
+                    this.careTip = true;
+                } else if(this.dataList.dd[0]==undefined){
+                    this.errorTips = '当前不存在其他等候上庄者';
+                    this.careTip = true;
+                }
             },
             xianshi(){      // 分数结果显示
                 var self = this;
@@ -1235,6 +1325,7 @@
                         }
                     }
                 }
+                self.list();
             },
 
             remove(){   // 一局结束需要清零的数据
@@ -1307,6 +1398,10 @@
                         this.$refs.onapplyOnChild.details=true;
                         this.$refs.onapplyOnChild.allFen = this.user.allFen+this.user.oxWater;
                         this.$refs.onapplyOnChild.allWater= this.user.oxWater; // 抽水分数
+                        break;
+                    case 4 :    // 游戏内分享
+                        this.$refs.onfriendVIPChild.friend_VIP=true;
+                        this.$refs.onfriendVIPChild.arrows = 3;
                         break;
                     case 7 :    // 流水报表
                         http.post('/Card/get_water_log',{

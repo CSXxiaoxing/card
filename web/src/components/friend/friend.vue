@@ -75,7 +75,7 @@
         </header>
         <div class='friMain' v-if='!addFriend'>
             <ul>
-                <li @click='ConTypr(1)'>
+                <li @click='ConTypr(1)' v-show='share ? !share : true'>
                     <span><i></i></span>
                     <span>最新消息</span>
                     <span><i :class='arrows == 1 ? "Iup" : ""'></i></span>
@@ -136,7 +136,7 @@
                 </li>
                 
                 
-                <li @click='ConTypr(2)'>
+                <li @click='ConTypr(2)' v-show='share ? !share : true'>
                     <span><i></i></span>
                     <span>最近联系</span>
                     <span><i :class='arrows == 2 ? "Iup" : ""'></i></span>
@@ -158,7 +158,7 @@
                     </dl>
                 </li>
 
-                <li @click='ConTypr(3)'>
+                <li @click='ConTypr(3)' v-show='share ? !share : true'>
                     <span><i></i></span>
                     <span>我的好友</span>
                     <span><i :class='arrows == 3 ? "Iup" : ""'></i></span>
@@ -171,7 +171,7 @@
                         
                         <dd v-for='(friends,fquest) in friendList' 
                         :key='friends.name' 
-                        @click='liaotian(friends.fid),changeTime()'
+                        @click='share ? yaoqin() : (liaotian(friends.fid),changeTime())'
                         @touchend='sysSel = fquest,touchEnd' 
                         @touchstart='[(k=fquest),(touchStart)]'
                         @touchmove='touchMove'
@@ -192,7 +192,7 @@
         <div class='addHaoyou' v-if='addFriend' style='height: 20%'>
             <input type="text" placeholder='输入ID号' v-model='findID'/>
             <i></i>
-            <div class='seekHaoyou'  v-show='findID.length != 0' @click='searchFriend'>
+            <div class='seekHaoyou'  v-show='findID.length != 0' @click='searchFriend(1)'>
                 <img src="src/image/friend006.png" alt="" />
                 <p>搜索 ：<span>{{findID}}</span></p>
             </div>
@@ -237,6 +237,8 @@
                 imgInit: '',
                 // 数据
                 friendList : [],    //好友列表
+                // 分享
+                share: true,    
                 
                 findFriend: false,      // 好友申请
                 markFriend: false,      // 备注好友
@@ -270,7 +272,7 @@
         },
         mounted: function(){
             // 登录环信
-            // this.$store.dispatch('webIM')       // 聊天配置
+            
             // this.$store.dispatch('dl')         // 聊天登录
             this.imgInit=GAME_ALL_URL;
             http.post('/MemberFriend/getFrientList',{
@@ -285,11 +287,15 @@
             // 获取好友
             self.haoyou();
             self.myFriend();
+            // this.$store.dispatch('webIM')       // 聊天配置
+            // this.$store.dispatch('dl')         // 聊天登录
         },
         methods: {
+            yaoqin(){   // 邀请好友接口
+                alert('等待对接')
+            },
             // 获取系统消息
             jinRoom(id,name,rid,rname,rnum){
-                console.log(99)
                 this.jinTip = true;          // 进房提示
                 this.jinTip_TEXT = name+"申请加入房间:"+rname+'('+rnum+')';        // 进房提示
                 this.jinCanshu={
@@ -319,6 +325,8 @@
                 this.jinTip = false;
             },
             addDATA(){
+                
+
                 var self = this ;
                 http.post('/MemberNotice/getNotify',{
                     id : localStorage.oxUid,
@@ -447,10 +455,14 @@
                 }
             },
             //查找好友
-            searchFriend(){
+            searchFriend(n){
                 var self = this;
+                if(n==undefined){
+                    n=2;
+                }
                 http.post('/MemberFriend/getFriend', {
                     id : self.findID,
+                    status: n,
                 }, '' ,this)
                 .then(res =>{
                     if(res.status==1){
@@ -465,7 +477,7 @@
                 })
             },
             //发送申请 
-            applyFriend(){
+            applyFriend(){  // 添加好友
                 var self = this;
                 // 添加好友
                 // conn.subscribe({
@@ -516,7 +528,7 @@
                 })
                 .then(res => {
                     console.log(res)
-                    if(res.status==1){
+                    if(res.status==1 || res.status==2){
                         this.friDel.push(id)
                     }
                 })

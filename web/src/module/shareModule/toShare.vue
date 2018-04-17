@@ -14,16 +14,17 @@
     			<dt><img src="src/image/toShare001.png" height="174" width="174"></dt>
     			<dd>微信好友</dd>
     		</dl> 
-    		<dl v-if='share == "home"'>
+    		<dl v-if='share == "home"' @click='cope'>
     			<dt>
                 <img src="src/image/toShare002.png" height="174" width="174"></dt>
     			<dd>复制链接</dd>
     		</dl> 
-            <dl v-if='share == "room"'>
+            <dl v-if='share == "room"' @click='room_toShare'>
                 <dt><img src="src/image/toShare005.png" height="174" width="174"></dt>
                 <dd>游戏好友</dd>
             </dl>
         </div>
+        <textarea id='wanzhi_url' v-show='false'>http://wanji888.hamingniao.com/Public/Static/tmp/index.html</textarea>
   		<p @click="toShare = false">取消</p>
 </mt-popup>
 </template>
@@ -106,6 +107,7 @@
     data() {
       return {
         toShare: false,
+        rid: 0,
       };
     },
     props: ['share'],
@@ -113,6 +115,17 @@
         dl(){
             share_WANJI();
         },
+        cope(){
+            var Url2=document.getElementById("wanzhi_url");
+            Url2.select(); // 选择对象
+            document.execCommand("Copy"); // 执行浏览器复制命令
+            mui.toast("复制成功!");
+        },
+        room_toShare(){
+            console.log(this.$parent)
+            this.toShare = false;
+            this.$parent.to(4);
+        }
     },
   };
 </script>

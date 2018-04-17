@@ -306,7 +306,7 @@ export default new Vuex.Store({
                 WebIM.utils.download.call(conn, option);
             },   //收到视频消息
             onPresence: function ( message ) {
-                console.log(message)
+                // console.log(message)
                 if(message.type == ''){
                     return false;
                 }
@@ -320,7 +320,7 @@ export default new Vuex.Store({
                         text : Msg[1],
                         id : message.from,
                     };
-                    console.log(duixian)
+                    // console.log(duixian)
                     self.state.system.friend.push(duixian)
                 } else if(message.type == "subscribed"){
                     // 别人同意你加他为好友
@@ -336,8 +336,8 @@ export default new Vuex.Store({
                 
             },       //处理“广播”或“发布-订阅”消息，如联系人订阅请求、处理群组、聊天室被踢解散等消息
             onRoster: function ( message ) {
-                console.log('Roster')
-                console.log(message)
+                // console.log('Roster')
+                // console.log(message)
             },         //处理好友申请
             onInviteMessage: function ( message ) {
                 console.log(message)
@@ -347,8 +347,8 @@ export default new Vuex.Store({
             onError: function ( message ) {},          //失败回调
             onBlacklistUpdate: function (list) {       //黑名单变动
                 // 查询黑名单，将好友拉黑，将好友从黑名单移除都会回调这个函数，list则是黑名单现有的所有好友信息
-                console.log(list);
-                console.log(message)
+                // console.log(list);
+                // console.log(message)
             },
             onReceivedMessage: function(message){
                 // console.log(message)

@@ -515,36 +515,38 @@
             }
         },
         mounted: function(){
-
-            var [self, id] = [this, this.Uid];
-            audio_TYPE = 1 // 录音参数修正
-
-        
-                                    
-            var timeD = setTimeout(function(){
-                var chat = document.getElementById("DLtxt");
-                chat.scrollTop = chat.scrollHeight;
-                clearTimeout(timeD)
-            },200)
-
-            http.post( '/Chat/getChatList', { // 聊天记录
-                        formid: localStorage.oxUid,
-                        toid: self.sheId,
-                        pagesize: 50,
-                        p: 1,
-                    }, '', this )
-                .then(res => {
-                    console.log(res)
-            })
-
+            this.initDL();
         },
         updated: function(){
             var chat = document.getElementById("DLtxt");
             chat.scrollTop = chat.scrollHeight;
         },
-        methods: {
+        methods: { 
+            initDL(){
+                console.log(999)
+                
+                var [self, id] = [this, this.Uid];
+                audio_TYPE = 1 // 录音参数修正
+                               
+                var timeD = setTimeout(function(){
+                    var chat = document.getElementById("DLtxt");
+                    chat.scrollTop = chat.scrollHeight;
+                    clearTimeout(timeD)
+                },200)
+
+                http.post( '/Chat/getChatList', { // 聊天记录
+                            formid: localStorage.oxUid,
+                            toid: self.sheId,
+                            pagesize: 50,
+                            p: 1,
+                        }, '', this )
+                    .then(res => {
+                        console.log(res)
+                })
+            },
             // 对方玩家名称
             heName () {
+                // this.$store.dispatch('dl')         // 聊天登录
                 http.post('/MemberFriend/getFriend',{
                     id : this.sheId,
                 })
@@ -636,6 +638,7 @@
                         }
                     });
                     msg.body.chatType = 'singleChat';
+                    
                     conn.send(msg.body);// 单聊发送文本消息txtType
                 };
                 sendPrivateText();

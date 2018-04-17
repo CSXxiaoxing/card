@@ -95,7 +95,6 @@
 			<span>{{Qname}}<b @click="a=0" @touchend="loginOut">切换</b></span>
 			<span @touchend='local'></span>
 		</div>
-		
 		<loading v-if='loading'></loading>
 	</div>
 </template>
@@ -569,79 +568,67 @@
 			} else {
 				this.a = 0;
 			}
+			// document.querySelector('#login').addEventListener('touchstart', function (ev) {
+			//     event.preventDefault();
+			// });
+			document.querySelector('#login').addEventListener('touchmove', function (ev) {
+			    event.preventDefault();
+			});
 		},
 		methods: {
 			test(n){
 				share_WANJI(n)
 			},
 			wxLogin(){
-
 				weixin_WANJI_DL();
 				// $store
-				var res_count = 0;
+				this.loading=true;
 				var self = this;
-				function runAsync(){
-				    var p = new Promise(function(resolve, reject){
-				        //做一些异步操作 msg
-				        var mmm = setInterval(function(){
-				        	res_count++;
-				        	var res = weixin_WANJI_DL_data;
-				            if(weixin_WANJI_DL_data != null){
-				            	resolve(res);
-				            	clearInterval(mmm);
-				            }
-				            if(res_count == 1000){
-				            	self.errorTips = '登录认证失败';
-				            	self.careTip = true;
-				            	clearInterval(mmm);
-				            }
-				        }, 400);
-				    });
-				    return p;          
+
+				window.weixin_DL = function(wx_data){
+					self.loading=false;
+					var data = wx_data.data;
+					if( localStorage['oxUid'] != data.uid ){
+						// 注册
+						var options2 = {
+						    username: 'hz_niuniu_'+ data.uid,
+						    password: '123456',
+						    nickname: data.member_info.nickname,
+						    appKey: WebIM.config.appkey,
+						    success: function () { 
+						        console.log('注册成功')
+						    },  
+						    error: function () {
+						    	console.log('注册失败')
+						    },
+						    apiUrl: WebIM.config.apiURL
+						};
+						conn.registerUser(options2);
+					}
+					localStorage['oxToken'] = data.token;
+					localStorage['oxUid'] = data.uid;
+					localStorage['oxImg'] = data.member_info.headimg;
+					localStorage['oxName'] = data.member_info.nickname;
+					self.$store.state.user.userName = data.member_info.nickname;
+					self.$store.state.user.userID = data.uid;
+					self.$store.state.user.userImg = data.member_info.headimg;
+					
+					http.post('/MemberFriend/getFrientList',{   // 初次进入获取总好友列表
+					    uid : data.uid,
+					}).then(res=>{
+					    console.log(res)
+					    var arr = [];
+					    for(var i=0; i<res.msg.length; i++){
+					    	arr.push(res.mag[i].fid)
+					    }
+					    self.$store.state.user.friend  = res.msg;
+					    self.$store.state.user.friendId= arr;
+					})
+					self.$store.dispatch('dl');        // 聊天登录
+					weixin_WANJI_DL_data = null;
+					router.push({name: 'home'});
+					self.phone = false;
 				}
-				runAsync().then(function(res){
-				    	var data = res.data;
-				    	if( localStorage['oxUid'] != data.uid ){
-				    		// 注册
-				    		var options2 = {
-				    		    username: 'hz_niuniu_'+ data.uid,
-				    		    password: '123456',
-				    		    nickname: data.member_info.nickname,
-				    		    appKey: WebIM.config.appkey,
-				    		    success: function () { 
-				    		        console.log('注册成功')
-				    		    },  
-				    		    error: function () {
-				    		    	console.log('注册失败')
-				    		    },
-				    		    apiUrl: WebIM.config.apiURL
-				    		};
-				    		conn.registerUser(options2);
-				    	}
-				    	localStorage['oxToken'] = data.token;
-				    	localStorage['oxUid'] = data.uid;
-				    	localStorage['oxImg'] = data.member_info.headimg;
-				    	localStorage['oxName'] = data.member_info.nickname;
-				    	self.$store.state.user.userName = data.member_info.nickname;
-				    	self.$store.state.user.userID = data.uid;
-				    	self.$store.state.user.userImg = data.member_info.headimg;
-				    
-				    	http.post('/MemberFriend/getFrientList',{   // 初次进入获取总好友列表
-				    	    uid : data.uid,
-				    	}).then(res=>{
-				    	    console.log(res)
-				    	    var arr = [];
-				    	    for(var i=0; i<res.msg.length; i++){
-				    	    	arr.push(res.mag[i].fid)
-				    	    }
-				    	    self.$store.state.user.friend  = res.msg;
-				    	    self.$store.state.user.friendId= arr;
-				    	})
-				    	self.$store.dispatch('dl');        // 聊天登录
-				    	weixin_WANJI_DL_data = null;
-				    	router.push({name: 'home'});
-				    	self.phone = false;
-				});
 			},
 			local () {
 				if(localStorage.oxToken){

@@ -454,8 +454,7 @@
         },
         methods: {
             qunliao : function() {
-                this.$store.dispatch('webIM')       // 聊天配置
-                this.$store.dispatch('dl')         // 聊天登录
+                
                 var self = this;
                 var a = JSON.parse(localStorage.oxQun)
                 if(!a[`${self.zn_chatid}`]){

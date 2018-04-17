@@ -26,7 +26,7 @@
       <hr/>
       <div>
         <label>
-          <span @click="play = 1"><img src="src/image/oxCrowd012.png" v-show="play" height="60" width="59" alt="" /></span>
+          <span @click="play = 1"><img src="src/image/oxCrowd012.png" v-show="play==1" height="60" width="59" alt="" /></span>
             <p>自动轮庄</p>
         </label>
 
@@ -37,14 +37,14 @@
                 <p @click='zhuan'></p>
             </div>
             <span>
-                <img src="src/image/room015.png" alt="" />
-                <img src="src/image/room014.png" @click='$parent.chat(2,$parent.dataList.z.uid)' />
+                <img src="src/image/room015.png" @click='$parent.barter()'/>
+                <img src="src/image/room014.png" @click='$parent.dataList.z.uid!=undefined?$parent.chat(2,$parent.dataList.z.uid):""' />
             </span>
         </div>
 
             <hr/>
             <label>
-                <span @click="play = 0"><img src="src/image/oxCrowd012.png" v-show="!play" height="60" width="59" alt="" /></span>
+                <span @click="play = 2"><img src="src/image/oxCrowd012.png" v-show="play==2" height="60" width="59" alt="" /></span>
                 <p>锁定庄家:</p>
                 <b>{{zhuanList[0]}}</b>
                 <img @click="details01 = true" class="list" src="src/image/room013.png"/>
@@ -63,7 +63,7 @@
         <span>{{applyObj.Lding == 0 && applyObj.type!=2 ? "申请上庄" : (applyObj.type==2 ? "我要下庄":"取消上庄")}}<i @click="applyOn = false"></i></span>
 
         <p>当前设置连庄 :
-            <b>{{this.$store.state.idRoom.ju > 0 ? this.$store.state.idRoom.ju+"局" : "暂未设定局数"}}</b>
+            <b>{{$parent.lunZ.type == 1 ? this.zhuanNum+"局" : "房主已锁定庄家"}}</b>
         </p>
 
         <p>上庄最低分数 :<b>{{minGrade}}</b></p>
@@ -582,7 +582,7 @@
             status: 4,
         },
         zhuanNum: 5,     // 轮庄数
-        play: 1,    // 1锁定 0自动
+        play: 1,    // 1自动 2锁定
         
         sel: -1,
         zhuanList: ['', ''],  // 申请上庄的人的列表-默认
@@ -590,7 +590,18 @@
         allWater: 0,  // 抽水分数
       };
     },
-    methods:{
+    mounted: function(){
+        this.lunzz()  
+    },
+    methods:{ 
+        lunzz(){
+            this.zhuanNum = this.$parent.lunZ.num;
+            if(this.$parent.lunZ.type == 1){    // 轮庄
+                this.play = 1;
+            }else{
+                this.play = 2;
+            }
+        },
         sz () {
             var self = this;
             var obj = this.applyObj;
@@ -653,7 +664,7 @@
         zhuan (n) {  // 庄模式设置
             var self = this;
             
-            if( self.play == 0 && n!=undefined){     // 指定谁上庄
+            if( self.play == 2 && n!=undefined){     // 指定谁上庄
                 http.post('/RoomJoin/setMakers',{
                     roomid: self.$parent.user.rid, // 房间id
                     type: 1,  // 1为设置庄家，2为下庄
@@ -669,8 +680,8 @@
             }
             http.post('/Room/setRoomMakers',{  // 设置庄模式
                 roomid: self.$parent.user.rid, // 房间id
-                maker: self.play == 1 ? 1 : 2,   // 庄家模式 1，指定，2轮庄
-                makernumber: self.play == 1 ? 999 : self.zhuanNum,  // 轮庄局数
+                maker: self.play == 1 ? 2 : 1,   // 庄家模式 1，指定，2轮庄
+                makernumber: self.play == 1 ? self.zhuanNum : 999,  // 轮庄局数
             })
             .then(res => {
                 console.log(res)
