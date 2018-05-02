@@ -3,7 +3,7 @@
         <ul>
             <li @click='$parent.child_KA(6)'>
                 <span>好友</span>
-                <span class='dot' v-if='$store.state.system.lodin.length>0'>{{$store.state.system.lodin.length}}</span>
+                <span class='dot' v-if='$store.state.system.H_All>0'>{{$store.state.system.H_All}}</span>
             </li>
             <li @click='$parent.varRoom'><span>创建房间</span></li>
             <li @click='$parent.child_KA(1)'><span>进入房间</span></li>

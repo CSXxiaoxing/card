@@ -16,8 +16,16 @@
         <p>{{cardNumError}}</p>
         <p>请输入购买的房卡数量</p>
         <input  class="num" v-model.trim='cardNum' ></input>
-        <mt-button @:click="cardNumber" ></mt-button>
+        <mt-button @click="cardNumber" ></mt-button>
     </mt-popup>
+    <mt-popup 
+        v-model="buyK" :modal='false'
+        popup-transition="popup-fade"
+        class="caress" >
+        <span><i @click="buyK = false">×</i></span>
+        <mt-button @click="buyKa(1)">支付宝支付</mt-button>
+        <mt-button @click="buyKa(2)">微信支付</mt-button>
+    </mt-popup >
 
     <h1> <i v-on:click="buyRoom = false"></i></h1>
 
@@ -25,7 +33,7 @@
       <li>
         <table v-for='(cards,quest) in list'>
           <tr>
-            <td rowspan="3"><img src="src/srcImg/oxCrowd017.png" height="250" width="258" alt=""></td>
+            <td rowspan="3"><img src="../../srcImg/oxCrowd017.png" height="250" width="258" alt=""></td>
             <td>{{cards.title}}</td
           </tr>
           <tr>
@@ -59,13 +67,12 @@
             transform: translate(-50%, -50%);
             width: 200%;
             height: 200%;
-            filter:alpha(opacity=50);  
+            filter:alpha(opacity=50);
             -moz-opacity:0.5;  
             -khtml-opacity: 0.5;  
             opacity: 0.5;
             background: #000;
             display: none;
-
     }
     // 点击按钮
     .button {
@@ -170,6 +177,74 @@
             
         }
     }
+    .caress{
+        border-radius: 0.277778rem;
+        width: 8.425926rem;
+        height: 5.37037rem;
+        background: url('../../image/careTipK.png') no-repeat;
+        background-size: 8.425926rem 5.37037rem; 
+        margin-top: -1rem;
+        span{
+            display: block;
+            color:white;
+            font-size: 0rem;
+            width:8.87037rem;
+            height:2.12963rem;
+            line-height: 1.805556rem;
+
+            text-align: center;
+            position: relative;
+            right: 0.87037rem;
+            bottom: 0.462963rem;
+            position: relative;
+            i{
+                display: block;
+                height: 0.611111rem;
+                width: 0.611111rem;
+                position: absolute;
+                right: 0%;
+                top: 50%;
+                transform: translate(-80%, -50%);
+                background: url('../../image/careTip01.png') no-repeat;
+                background-size: 0.611111rem 0.611111rem;
+            }
+        }
+
+        button{
+          width:4rem;
+          height: 1.2rem;
+          line-height:0.925926rem;
+          border-radius: 0.509259rem;
+          font-size:0.555556rem;
+          margin-bottom:0.462963rem;
+          border: 0 none;
+          color: white;
+          background: url('../../image/zhifu.png') no-repeat;
+          background-size: 4rem 1.2rem;
+          position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-66%);
+        }
+        button:nth-of-type(2){
+          width:4rem;
+          height: 1.2rem;
+          line-height:0.925926rem;
+          border-radius: 0.509259rem;
+          font-size:0.555556rem;
+          margin-bottom:0.462963rem;
+          border: 0 none;
+          color: white;
+          background: url('../../image/zhifu.png') no-repeat;
+          background-size: 4rem 1.2rem;
+          transform: translate(-50%,66%);
+        }
+        // button:active {
+        //     position: relative;
+        //     left: 0.018519rem;
+        //     bottom: -0.046296rem;
+        // }
+    }
   .more{    // 购买房卡
       width: 8.407407rem;
       height: 5.787037rem;
@@ -256,12 +331,16 @@
     data() {
       return {
         loading: false,     // loading
+        buyK: false, // 选择支付方式
+
         buyRoom: false,
         moreCard: false,
         cardNum: '',
         cardNumError: 'n张以上，几折优惠',
         list:[],
 
+        num:0,
+        num_id:0,
       };
     },
     mounted:function(){
@@ -289,25 +368,36 @@
           })
     },
     methods: {
-        buyCard(num,id){      // 购买房卡
+        buyKa(n){   // 购买
             var self = this;
-            // console.log(location.href)
-            var href = location.href;
-            // console.log(self.$parent.iframe)
+            var href = window.location.href;
+            console.log(window.location.href)
+            href=href.replace('#','');
+            //http://www.hamingniao.com/index/pay/index?type=1&uid=hmn92c450b9c639ef4cafd66e2c8f09d6dd&fee=0.01&order_no=1524297129961281&url=http://www.wanjiba888.com/RoomCard/getReturn&returnurl=http://localhost:8090/#/home&sign=8F5C0517015153E2C528C0EB710A8345
+            //http://www.hamingniao.com/index/pay/index?type=1&uid=hmn92c450b9c639ef4cafd66e2c8f09d6dd&fee=0.01&order_no=1524297779991505&url=http://www.wanjiba888.com/RoomCard/getReturn&sign=A28D6D9021F1D18B5F691F87A10553FF&returnurl=file:///storage/emulated/0/Android/data/io.dcloud.HBuilder/apps/HBuilder/www/index.html#/home
             http.post('/RoomCard/buyCard',{
                     id: Number(localStorage.oxUid),
-                    commodityid: Number(id),
+                    commodityid: Number(this.num_id),
                     returnurl: href,
-                    num: Number(num),
+                    num: Number(this.num),
+                    type: n,// 1支付宝 2微信
                 },'',this)
                 .then(res => {
-                    self.$parent.iframeCss = 'iframeCss02';
+                    if(n==1){
+                        self.$parent.iframeCss = 'iframeCss02';
+                    } else {
+                        self.$parent.iframeCss = 'iframeCss03';
+                    }
+                    
                     self.$parent.iframe = res.url;
                     console.log(res.url)
                     // window.open(res.url)
-                     // 'http://www.hamingniao.com/index/pay/index?type=1&uid=hmn92c450b9c639ef4cafd66e2c8f09d6dd&fee=0.01&order_no=1523868978991744&url=http://www.wanjiba888.com/RoomCard/getReturn&returnurl=file:///storage/emulated/0/Android/data/io.dcloud.HBuilder/apps/HBuilder/www/index.html#/home&sign=BEA20A103E974ADF45045293ED3921BF'
-
                 })
+        },
+        buyCard(num,id){      // 购买房卡
+            this.num = num;
+            this.num_id = id;
+            this.buyK = true;
         },
         cardNumber(){
             let reg = new RegExp("^[0-9]*$");
@@ -325,7 +415,7 @@
                 return false;
             } else {
                 console.log(this.cardNum.replace(/^[0]+/,''))
-                // this.moreCard = false;match
+                this.buyCard(this.cardNum,4);
             }
         },
         buyModal(event) {

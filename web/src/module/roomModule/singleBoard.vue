@@ -26,7 +26,7 @@
       </thead>
       <tbody>
         <tr>
-          <td>迷糊的诗诗 <img src="src/srcImg/room002.png"></td> <td>+100</td> <td>10</td> <td>10</td>
+          <td>迷糊的诗诗 <img src="../../srcImg/room002.png"></td> <td>+100</td> <td>10</td> <td>10</td>
         </tr>
         <tr>
           <td>迷糊的诗诗</td> <td :class='"-20".indexOf("-") >= 0 ? "single_red":""'>-20</td> <td>0</td> <td>10</td>

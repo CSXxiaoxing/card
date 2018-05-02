@@ -16,13 +16,15 @@
             <dt>无牛</dt>
             <dd>
                 <div class="dd_radio">
-                    <label class="mint-radiolist-label" v-for="d in 4"  >
-                        <span class="mint-radio">
-                            <input type="radio" class="mint-radio-input" :value='d' name="Dradio" v-model="initData.zn_ext" />
-                            <span class="mint-radio-core"></span>
-                        </span>
-                        <span class="mint-radio-label">{{oxOpen.radioValue[d-1]}}</span>
-                    </label>
+                    <div v-for='d in 4' @click='test(d)'>
+                        <label class="mint-radiolist-label" >
+                            <span class="mint-radio">
+                                <input type="radio" class="mint-radio-input" :value='d' name="Dradio" v-model="initData.zn_ext" />
+                                <span class="mint-radio-core"></span>
+                            </span>
+                            <span class="mint-radio-label">{{oxOpen.radioValue[d-1]}}</span>
+                        </label>
+                    </div>
                 </div>
             </dd>
         </dl>
@@ -78,7 +80,7 @@
             </label>
             <label :judge='"open"' @click='boxNo'>
                 <span>
-                    <img src="src/image/oxCrowd012.png" v-show='initData.zn_room_type==1' height="81" width="76" alt="" />
+                    <img src="../../srcImg/oxCrowd012.png" v-show='initData.zn_room_type==1' height="81" width="76" alt="" />
                 </span>
                 公开
             </label>
@@ -96,13 +98,13 @@
             <span>玩法：</span>
             <label :judge='"cardFn5"'>
                 <span>
-                    <img src="src/image/oxCrowd012.png" v-show='initData.zn_play_type == 1' height="81" width="76" alt="" />
+                    <img src="../../srcImg/oxCrowd012.png" v-show='initData.zn_play_type == 1' height="81" width="76" alt="" />
                 </span>
                 5副牌
             </label>
             <label :judge='"cardFn7"'>
                 <span>
-                    <img src="src/image/oxCrowd012.png" v-show='initData.zn_play_type == 2' height="81" width="76" alt="" />
+                    <img src="../../srcImg/oxCrowd012.png" v-show='initData.zn_play_type == 2' height="81" width="76" alt="" />
                 </span>
                 7副牌 
             </label>
@@ -114,13 +116,13 @@
             </p>
             <label :judge='"bell"'>
                 <span>
-                    <img src="src/image/oxCrowd012.png" v-show='initData.zn_pay_type == 1' height="81" width="76" alt="" />
+                    <img src="../../srcImg/oxCrowd012.png" v-show='initData.zn_pay_type == 1' height="81" width="76" alt="" />
                 </span>
                 钟点房 
             </label>
             <label :judge='"day"'>
                 <span>
-                    <img src="src/image/oxCrowd012.png" v-show='initData.zn_pay_type == 2' height="81" width="76" alt="" />
+                    <img src="../../srcImg/oxCrowd012.png" v-show='initData.zn_pay_type == 2' height="81" width="76" alt="" />
                 </span>
                 日费房 
             </label>
@@ -147,7 +149,7 @@
 
                 <label v-for='times in oxOpen.time' :judge='times' @click='initData.zn_bet_time=times'>
                     <span>
-                        <img src="src/image/oxCrowd012.png" v-show='initData.zn_bet_time == times'/>
+                        <img src="../../srcImg/oxCrowd012.png" v-show='initData.zn_bet_time == times'/>
                     </span>
                     {{times/60 >= 1 ? (times/60 + oxOpen.miss[1]): (times+oxOpen.miss[0])}}
                 </label>
@@ -230,7 +232,7 @@
                     zn_bet_between_s: 2,// 最低下注分数
                     zn_bet_between_e: 600,// 最高下注分数
                     zn_extract: 5,      // 抽水比例
-                    zn_ext: 3,     // 比j => 1  比k => 3 无牛关机=>4
+                    zn_ext: 2,     // 比j => 1  比k => 3 无牛关机=>4
                     zc_rate: "[1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 4, 5, 3]",  // 倍率-最后一个比什么
                     zn_chatid: 0,
                 },
@@ -257,9 +259,18 @@
             this.$store.dispatch('dl')
         },
         methods: {
+            test(n){
+                console.log(n)
+                this.initData.zn_ext = n;
+            },
             boxNo() {   // 功能暂未开放
                 this.varMo();
                 this.boxState.no = true;
+                var noOpen = null;
+                noOpen = setTimeout(()=>{
+                    this.boxState.no = false;
+                    clearTimeout(noOpen)
+                }, 2000)
             },
             addButtion (idx,or) {   // 加减分
                 var zc_rate = JSON.parse(this.initData.zc_rate);

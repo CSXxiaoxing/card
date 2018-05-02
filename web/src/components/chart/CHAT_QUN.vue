@@ -21,9 +21,9 @@
                 <li>聊天室（{{lingth*1+1}}）</li>
                 <li 
                     @click='$refs.onChartList.listOff = true,
-                    $refs.onChartList.fanzhu = rank,$refs.onChartList.rid = rid'>
+                    $refs.onChartList.fanzhu = rank,$refs.onChartList.rid = rid,$refs.onChartList.fObj = fObj'>
 
-                    <img src="src/image/qun001.png" />
+                    <img src="../../srcImg/qun001.png" />
                 </li>
             </ul>
         </header>
@@ -34,11 +34,12 @@
                 <li v-for="(data, idx) in $store.state.txt[zn_chatid]"
                 :class="Uid != data.toID ? 'left' : 'right'"   
                 :key = 'data.time' v-if='data.msg != ""'>
-                    <img :src="Uid != data.toID ? 'src/img/home_head.png' : 'src/img/room03.png'">
+                    <img :src="Uid != data.toID ? $store.state.user.dict[data.toID] : $store.state.user.userImg">
 
                     <div class="test" v-if='data.txt == "txt"'>
+                        <b>{{data.name}}</b>
                         <span class="bot"></span>
-                       {{data.msg}}
+                        <p>{{data.msg}}</p>
                     </div>
 
                     <div class="test"  v-if='data.txt == "audio"'>
@@ -55,11 +56,11 @@
 
         <footer>
         	<div v-if='speak == 0'>
-                <img src="src/image/qun004.png" @click='speak = 1'>
+                <img src="../../srcImg/qun004.png" @click='speak = 1'>
                 <span @touchstart='startRecord' @touchmove='cancelRecord' @touchend='stopRecord'>按住 说话</span>
             </div>
             <div v-if='speak == 1'>
-                <img src="src/image/qun003.png" @click='speak = 0'>
+                <img src="../../srcImg/qun003.png" @click='speak = 0'>
                 <form action="#">
                   <input type="text" v-model='txt'/>
                   <span @click='textPush'></span>
@@ -155,12 +156,12 @@
             overflow-x: hidden;
             li{
                 text-align: left;
-                padding-bottom: 20px;
+                padding-bottom: 0.4rem;
                 position: relative;
                 height: auto;
             	.test{
-                    max-width:5.555556rem; 
-                    padding:0.177778rem 0.185185rem; 
+                    max-width: 5.555556rem; 
+                    padding: 0.1rem 0.185185rem; 
                     border:0.027778rem solid #E4E3E8; 
                     position: relative;
                     top: 0;
@@ -169,6 +170,28 @@
                     border: 0 none;
                     word-wrap:break-word;
                     box-shadow: 0px 3px 10px 0px #ccc;
+                    
+                    margin-top: 0.4rem;
+                    display: block;
+                    word-wrap: break-word;
+                    word-break:break-all;
+                    white-space: pre-wrap;
+                    p{
+                        font-size: 0.388889rem;
+                        line-height: 0.5rem;
+                        position: relative;
+                        top: -0.2rem;
+                    }
+                    b {
+                        font-size: 0.36rem;
+                        line-height: 0.4rem;
+                        width: 5rem;
+                        position: absolute;
+                        top: -0.02rem;
+                        transform: translate(0, -100%);
+                        color: #333;
+                        text-align: left;
+                    }
                 }
                 .test span{
                     width:0; height:0; 
@@ -206,13 +229,16 @@
                     background-color:white;
                     float: left;
                     left:0.462963rem;
-                    top:0.277778rem;
+                    // top:0.277778rem;
                     box-shadow: 0px 3px 10px 0px #ccc;
+                    border-left: 0 none;
                 }
                 .test span.bot{
-                    border-color: transparent white transparent transparent; 
+                    // border-right: 0 none;
+                    border-color: transparent white transparent transparent;
                     left:-0.37037rem;
-                    bottom:0.37037rem;
+                    top:0.37037rem;
+                    z-index: 3;
                 }
             }
             .right{
@@ -224,10 +250,14 @@
                 }
                 .test{
                     background-color:#07AD05;
-                    bottom:-0.185185rem;
+                    // bottom:-0.185185rem;
                     float: right;
                     right:0.277778rem;
                     box-shadow: 0px 3px 10px 0px #ccc;
+                    b{
+                        text-align: right;
+                        right: 0;
+                    }
                 }
                 .test span.bot{
                     border-color:transparent  transparent transparent #07AD05; 
@@ -413,7 +443,7 @@
                 rid: 0,             // 房间id
                 txt: '',            // 发送产生的文本
                 Uid: localStorage.oxUid,   // 个人id
-
+                fObj: {},   // 总控数据
 
                 startY: 0,      // 取消录音开始位置
                 moveY: 0,       // 移动距离
@@ -427,18 +457,14 @@
             var [self, id] = [this, this.Uid];
             audio_TYPE = 1 // 录音参数修正
             
-            
-            
             var timeD = setTimeout(function(){
                 var chat = document.getElementById("txtbox");
                 chat.scrollTop = chat.scrollHeight;
                 clearTimeout(timeD)
             },200)
 
-
-            this.qunliao() // 加入群聊
-
-            http.post( '/Chat/getChatList', { // 聊天记录
+            // this.qunliao() // 加入群聊
+            http.post( '/Chat/getChatList', { // 聊天记录 sendIQ
                         formid: localStorage.oxUid,
                         toid: self.zn_chatid,
                         pagesize: 50,
@@ -450,12 +476,17 @@
         },
         updated: function(){
             var chat = document.getElementById("txtbox");
-            chat.scrollTop = chat.scrollHeight;
+            if(chat.scrollHeight!=undefined){
+                chat.scrollTop = chat.scrollHeight;
+            }
         },
         methods: {
             qunliao : function() {
-                
                 var self = this;
+                var chat = document.getElementById("txtbox");
+                if(chat.scrollHeight!=undefined){
+                    chat.scrollTop = chat.scrollHeight;
+                }
                 var a = JSON.parse(localStorage.oxQun)
                 if(!a[`${self.zn_chatid}`]){
                     a[`${self.zn_chatid}`] = []
@@ -481,13 +512,11 @@
                     conn.addGroupMembers(option3);
                 };
                 addGroupMembers()   // 群聊
-                
             },
             // 发送文本
-            textPush () { 
+            textPush () {
                 var self = this;
                 // 群聊发送文本消息
-                
                 var sendGroupText = function () {
                     var id = conn.getUniqueId();            // 生成本地消息id
                     var Qid = self.zn_chatid;               // 群id
@@ -498,7 +527,6 @@
                         roomType: false,
                         chatType: 'chatRoom',
                         success: function () {
-                            // console.log('群聊文本发送成功')
                             // 储存聊天记录
                             self.$store.state.obj = {
                                 pageSize: 10,
@@ -713,8 +741,8 @@
                 var obj = new WebView_Object();
                 obj.playAudio(e);
             },
-
-            list (rid) {   // 玩家数量
+            // 玩家数量
+            list (rid) {
                 var self = this;
                 // /RoomJoin/getJoinRoomList
                 http.post('/RoomJoin/getJoinMessage',{
@@ -729,7 +757,5 @@
                 })
             },
         }
-                
-            
     }
 </script>

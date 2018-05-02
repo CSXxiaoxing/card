@@ -1,6 +1,7 @@
 <template>
     <mt-popup id='chartList' position="left" :modal='false'
       v-model="listOff" >
+      <!-- img -->
       <mt-popup 
           v-model="careTip"
           popup-transition="popup-fade" :modal='false'
@@ -51,13 +52,13 @@
             <div class='Del_list'>
                 <ul>
                     <li v-for='(data, player) in list' :key='data.id' @click='imgStyle.indexOf(player) >= 0 ? imgStyle.splice(imgStyle.indexOf(player),1) : imgStyle.push(player)' v-if='player != "count"'>
-                        <img src="src/image/home004.png" alt="">
+                        <img src="../../srcImg/home004.png" alt="">
                         <dl>
                             <dt>{{data.zn_member_name}}</dt>
                             <dd>分数 : <b>{{data.zn_points}}</b></dd>
                         </dl>
                         <span>
-                        <img v-show="imgStyle.indexOf(player) >= 0" src="src/image/room027.png" />
+                        <img v-show="imgStyle.indexOf(player) >= 0" src="../../srcImg/room027.png" />
                         </span>
                     </li>
                 </ul>
@@ -70,20 +71,29 @@
                 <li>
                     <i @click='listOff = false'></i>
                 </li>
-                <li>房间成员{{$parent.$parent.lingth}}</li>
-                <li style="visibility:hidden"><img src="src/image/friend003.png" alt=""></li>
+                <li>房间成员({{$parent.$parent.lingth+1}}人)</li>
+                <li style="visibility:hidden"><img src="../../srcImg/friend003.png" alt=""></li>
             </ul>
         </header>
         <div class='list'>
             <ul>
+                <li v-for='(data, key) in $parent.$parent.chartList' :key='"fangzhu"' class='fangzhuClass'>
+                    <div class="fzimg">
+                        <img :src="fObj.fImg" alt="">
+                        <img src="../../img/roomK02.png"/>
+                    </div>
+                    <p>- 房主 -</b></p>
+                    <b>{{fObj.fName}}</b>
+                    <span v-if='$store.state.user.friendId.indexOf(`${data.zn_member_id}`)<0 && fObj.fid != uid' @click='listAdd(data.zn_member_id)'><img src="../../srcImg/chart_List1.png" alt="">加友</span>
+                </li>
 
                 <li v-for='(data, key) in $parent.$parent.chartList' :key='data.id' v-if='key != "count"' 
                 :class='data.zn_member_id == cli ? "click" : ""' @touchend='cli = data.zn_member_id'>
 
-            		<img src="src/image/home004.png" alt="">
+            		<img src="../../srcImg/home004.png" alt="">
                     <b>{{data.zn_member_name}}</b>
                     <p v-show = 'fanzhu == 1'>分数 : <b>{{data.zn_points}}</b></p>
-                    <span v-if='$store.state.user.friendId.indexOf(`${data.zn_member_id}`)<0' @click='listAdd(data.zn_member_id)'><img src="src/image/chart_List1.png" alt="">加友</span>
+                    <span v-if='$store.state.user.friendId.indexOf(`${data.zn_member_id}`)<0' @click='listAdd(data.zn_member_id)'><img src="../../srcImg/chart_List1.png" alt="">加友</span>
             	</li>
 
             </ul>
@@ -224,28 +234,81 @@
             overflow-x:hidden;
             background: #F7E8D3;
             font-size:0.388889rem;
+            .fangzhuClass{
+                .fzimg{
+                    position: relative;
+                    border-radius: 0.092593rem;
+                    overflow: hidden;
+                    margin: 0.092593rem 0.185185rem 0 0.092593rem;
+                    width: 1.407407rem;
+                    height: 1.481481rem;
+                    left: 0;
+                    top: .09rem;
+                    img{
+                        margin: 0;
+                        width: 100%;
+                        height: 100%;
+                    }
+                    img:nth-of-type(2){
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        z-index: 50;
+                    }
+                }
+                &>p{
+                    color: #26C472;
+                    bottom: 0;
+                    display:inline-block;
+                    position: absolute;
+                    left: 50%;
+                    top: 0rem;
+                    transform: translate(-50%,4%);
+                    font-size: 0.4rem;
+                }
+                &>b{
+                    width: 48%;
+                    display:inline-block;
+                    position: relative;
+                    font-size: 0.4rem;
+                    line-height: 0.44rem;
+                    bottom: 0.7rem;
+                    left: 1.77rem;
+                    font-weight: normal;
+                    // display: block;
+                    word-wrap: break-word;
+                    word-break:break-all;
+                    white-space: pre-wrap;
+                }
+            }
             li{
                 height:1.759259rem;
                 text-align:left;
                 border-bottom: 0.018519rem solid #CCBDA8;
+                position:relative;
                 img{
                     margin:0.092593rem 0.185185rem 0 0.092593rem;
                     width:1.407407rem;
                     height:1.481481rem;
                 }
                 &>b{
+                    width: 48%;
                     display:inline-block;
                     position: relative;
                     font-size: 0.4rem;
-                    line-height: 0.38rem;
+                    line-height: 0.44rem;
                     bottom: 0.6rem;
                     font-weight: normal;
+                    // display: block;
+                    word-wrap: break-word;
+                    word-break:break-all;
+                    white-space: pre-wrap;
                 }
                 p{
                     display:inline-block;
                     color:#757575;
-                    position: relative;
-                    left: -0.75rem;
+                    position: absolute;
+                    left: 1.8rem;
                     bottom: 0.2rem;
                     font-size: 0.30rem;
 
@@ -258,11 +321,17 @@
                      width: 1.6rem;
                      height: 0.6rem;
                      border: 2px solid #0DBA09;
+                     overflow: hidden;
                      @include border-radius(0.925926rem);
                      float: right;
-                     position: relative;
-                     top: 0.462963rem;
-                     right: 0.462963rem;
+                     position: absolute;
+                     top: 50%;
+                     right: 0.38rem;
+                     -webkit-transform: translate(0,-50%);
+                        -moz-transform: translate(0,-50%);
+                         -ms-transform: translate(0,-50%);
+                          -o-transform: translate(0,-50%);
+                             transform: translate(0,-50%);
                      color: #13BD11;
                      font-size: 0.4rem;
                      line-height: 0.6rem;
@@ -455,8 +524,11 @@
                 loading: false,   // loading
                 listOff: false,   // 本页面主开关
                 rid: 0,  // 房间id(不变)
+                uid: localStorage.oxUid,
                 list: this.$parent.$parent.chartList,   // 成员列表
                 fanzhu: '',       // 3普通  1.2房主/庄
+
+                fObj: {},   // 总控数据
 
                 chartDel: '', // 路由
 

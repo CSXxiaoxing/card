@@ -15,7 +15,7 @@
             <ul>
                 <li v-for='(data, player) in $parent.dataList.pd' :key='data.zn_member_id' @click='sel = player'>
                     {{data.zn_member_name}} 
-                    <b><img v-show="sel == player" src="src/image/room027.png" alt=""></b>
+                    <b><img v-show="sel == player" src="../../srcImg/room027.png" alt=""></b>
                 </li>
             </ul>
             <mt-button @click="know0"></mt-button>
@@ -26,7 +26,7 @@
       <hr/>
       <div>
         <label>
-          <span @click="play = 1"><img src="src/image/oxCrowd012.png" v-show="play==1" height="60" width="59" alt="" /></span>
+          <span @click="play = 1"><img src="../../srcImg/oxCrowd012.png" v-show="play==1" height="60" width="59" alt="" /></span>
             <p>自动轮庄</p>
         </label>
 
@@ -37,17 +37,17 @@
                 <p @click='zhuan'></p>
             </div>
             <span>
-                <img src="src/image/room015.png" @click='$parent.barter()'/>
-                <img src="src/image/room014.png" @click='$parent.dataList.z.uid!=undefined?$parent.chat(2,$parent.dataList.z.uid):""' />
+                <img src="../../srcImg/room015.png" @click='$parent.barter()'/>
+                <img src="../../srcImg/room014.png" @click='$parent.dataList.z.uid!=undefined?$parent.chat(2,$parent.dataList.z.uid):""' />
             </span>
         </div>
 
             <hr/>
             <label>
-                <span @click="play = 2"><img src="src/image/oxCrowd012.png" v-show="play==2" height="60" width="59" alt="" /></span>
+                <span @click="play = 2,details01 = true"><img src="../../srcImg/oxCrowd012.png" v-show="play==2" height="60" width="59" alt="" /></span>
                 <p>锁定庄家:</p>
                 <b>{{zhuanList[0]}}</b>
-                <img @click="details01 = true" class="list" src="src/image/room013.png"/>
+                <img @click="details01 = true" class="list" src="../../srcImg/room013.png"/>
             </label>
           
         </div>
@@ -63,7 +63,7 @@
         <span>{{applyObj.Lding == 0 && applyObj.type!=2 ? "申请上庄" : (applyObj.type==2 ? "我要下庄":"取消上庄")}}<i @click="applyOn = false"></i></span>
 
         <p>当前设置连庄 :
-            <b>{{$parent.lunZ.type == 1 ? this.zhuanNum+"局" : "房主已锁定庄家"}}</b>
+            <b>{{$parent.lunZ.type == 1 ? $parent.lunZ.num+"局" : "房主已锁定庄家"}}</b>
         </p>
 
         <p>上庄最低分数 :<b>{{minGrade}}</b></p>
@@ -85,7 +85,7 @@
                 房间成员总分数  ：{{allFen}}
             </li>
             <li>
-                房主抽水分数 &nbsp &nbsp &nbsp: <b>{{allWater}}</b>
+                房主抽水分数 &nbsp &nbsp &nbsp: <b>{{allWater.toFixed(2)}}</b>
             </li>
         </ul>
         <p>( 重新开始，房间局数，开奖记录，流水报表和抽水分数都将清零。房间成员分数保持不变)</p>
@@ -605,12 +605,13 @@
         sz () {
             var self = this;
             var obj = this.applyObj;
-            if(obj.type==2 && obj.gameType==1){    // 我要下庄    
+
+            if(obj.type==2 && !(this.$parent.user.initType==0||this.$parent.user.initType==7)){    // 我要下庄    
                 this.$parent.user.xiaZZZ=1;
                 this.$parent.errorTips= '本轮游戏结束后生效';      // 提示内容
                 this.$parent.careTip = true;    // 提示窗
             }
-            else if(obj.type==2 && obj.gameType==0){ // 我要下庄  
+            else if(obj.type==2 && (this.$parent.user.initType==0||this.$parent.user.initType==7)){ // 我要下庄  
                 http.post( '/RoomJoin/setMakers', {
                             roomid: obj.rid,
                             id: obj.uid,
@@ -669,13 +670,14 @@
                     roomid: self.$parent.user.rid, // 房间id
                     type: 1,  // 1为设置庄家，2为下庄
                     id: n,  // 用户id
+                    num: this.$parent.user.ju,
                 })
                 .then(res => {
                     if(res.status == 1){
                         self.$parent.list()
                     }
-                    self.$parent.errorTips = res.msg;
-                    self.$parent.careTip = true;
+                    // self.$parent.errorTips = res.msg;
+                    // self.$parent.careTip = true;
                 })
             }
             http.post('/Room/setRoomMakers',{  // 设置庄模式
@@ -688,11 +690,11 @@
                     if(res.status == 1){
                         this.$parent.user.lunCoun = self.play == 1 ? 999 : self.zhuanNum;
                     }
-                    self.$parent.errorTips = res.msg;
-                    self.$parent.careTip = true;
+                    // self.$parent.errorTips = res.msg;
+                    // self.$parent.careTip = true;
                 
             })
-            // this.setOwner = false
+            this.setOwner = false;
         },
         know0 () {   // 上庄列表锁定人员
             // console.log(this.$parent.dataList.pd[0].zn_member_id) zc_nickname zn_member_name
@@ -709,6 +711,7 @@
                     roomid: self.$parent.user.rid, // 房间id
                     type: 1,  // 1为设置庄家，2为下庄
                     id: this.$parent.dataList.pd[0].zn_member_id,  // 用户id
+                    num: this.$parent.user.ju,
                 })
                 .then(res => {
                     self.$parent.errorTips = res.msg;

@@ -1,5 +1,6 @@
 <template>
     <div>
+    <!-- img -->
     <mt-popup
         v-model="myRoom"
         popup-transition="popup-fade" 
@@ -9,14 +10,14 @@
         <div class="room">
             <div class="select" >
                 <div>
-                    <img  :class ='sel == 0 ? "left":"right"' src="src/image/oxCrowd008.png" alt="">
+                    <img  :class ='sel == 0 ? "left":"right"' src="../../srcImg/oxCrowd008.png" alt="">
                     <button @click='sel = 0 '>我开的房间</button>
                     <button @click='sel = 1 '>加入的房间</button>
                 </div>
             </div>
             <div class='room_ul'>
                 <ul @click='openS'>
-                    <img src="src/image/oxCrowd009.png"  v-show = '(!MYkai[0] && sel == 0) || (!MYjoin[0] && sel ==1)' alt="">
+                    <img src="../../srcImg/oxCrowd009.png"  v-show = '(!MYkai[0] && sel == 0) || (!MYjoin[0] && sel ==1)' alt="">
                     <p v-show = '(!MYkai[0] && sel == 0) || (!MYjoin[0] && sel ==1)'>你还没有创建/加入房间，快去创建/加入~~</p>
                     
                     
@@ -313,7 +314,8 @@
                     delID=self.MYjoinidALL;
                     arrData=self.MYjoin;
                 }
-
+                console.log(data)
+                if(data!=undefined){
                 for(var i=0; i<data.length; i++){
                     var id = data[i].id;
                     if(arr.indexOf(id) <0){
@@ -323,6 +325,7 @@
                     if(delID.indexOf(id) <0){
                         delID.push(id)
                     }
+                }   
                 }
                 if(end){    // 去掉重复房间
                     var length = arrData.length-1;

@@ -3,9 +3,9 @@
         <div>
             <div class="hei"></div>
             <div class='btl'>
-                <img src="src/srcImg/fanhui.png" alt="返回" @click="fhHome"/>
+                <img src="../../srcImg/fanhui.png" alt="返回" @click="fhHome"/>
                 <span>{{hashsh == '#/home'? "游戏大厅": "房间大厅"}}</span>
-                <img src="src/srcImg/fenxiang.png" alt="分享"  @click="$parent.child_KA(5)" />
+                <img src="../../srcImg/fenxiang.png" alt="分享"  @click="$parent.child_KA(5)" />
                 <b
                 v-if='hash!="home"'
                 :class='$store.state.Music.autoplay ? "huan":"bai"' 
@@ -25,7 +25,7 @@
             <dd> 
                 <span>ID:{{$store.state.user.userID}}</span>
                 <span>
-                    {{$parent.cardNum}}
+                    {{$store.state.user.userCard}}
                     <i @click='$parent.child_KA(3)'></i>
                 </span>
             </dd>
@@ -47,90 +47,143 @@
         </mt-swipe>
         </p>
 
-        <span class='homeServer' @click='kefu=true'>
+        <span class="homeServer" @click='$refs.onKFccc.keType=true,$refs.onKFccc.tz()'>
         </span>
+
         <mt-popup 
             v-model="kefu"
             popup-transition="popup-fade"
             class="kefu" >
             <span>咨询客服 <i @click="kefu = false"></i></span>
-            <textarea name="" id="" cols="30" rows="10" v-model='connet'>
-            </textarea>
+            <div class="ltk">
+                <div class="ly">
+                    <p v-for='text in connetArr' :class='text.slice(0,3)=="K&5"?"kefuR" :"kefuL"'><b v-if='text.slice(0,3)!="K&5"'>客服 ：</b>{{text.slice(3)}}<b v-if='text.slice(0,3)=="K&5"'> : {{$store.state.user.userName}}</b></p>
+                </div>
+                <!-- 输入用 -->
+                <input type="text" class='shuru' v-model='connet' autofocus placeholder='输入咨询内容'/>
+            </div>
             <mt-button @click="liuyan">
             </mt-button>
         </mt-popup>
+
+        <KFccc ref="onKFccc"></KFccc>
     </header>
 </template>
 
 <style lang='scss' scoped>
     .kefu{
-    border-radius: 0.277778rem;
-    border-top-right-radius: 0.46rem;
-    position: absolute;
-    top: 8.240741rem;
-    background: #F7E8D3;
-    width: 88%;
-    height: 7.6rem;
-    // background: url('../image/careTipK.png') no-repeat;
-    // background-size: 8.425926rem 5.37037rem; 
-    span{
-        display: block;
-        color: #3D3D35;
-        font-size: 0.72rem;
-        // font-weight: 600;
-        line-height: 1.2rem;
-        width:100%;
-        height: 1.12963rem;
-
-        text-align: center;
-        position: relative;
-        i{
+        border-radius: 0.277778rem;
+        border-top-right-radius: 0.46rem;
+        // position: absolute;
+        // top: 8.240741rem;
+        background: #F7E8D3;
+        width: 88%;
+        height: 7.6rem;
+        span{
             display: block;
-            height: 1.1rem;
-            width: 1.1rem;
+            color: #3D3D35;
+            font-size: 0.72rem;
+            // font-weight: 600;
+            line-height: 1.2rem;
+            width:100%;
+            height: 1.12963rem;
+
+            text-align: center;
+            position: relative;
+            i{
+                display: block;
+                height: 1.1rem;
+                width: 1.1rem;
+                position: absolute;
+                right: 0%;
+                top: 0%;
+                transform: translate(0%, 0%);
+                background: url('../../image/idMessage5.png') no-repeat;
+                background-size: 1.1rem 1.1rem;
+            }
+        }
+        .ltk{
+            background: #fcfcfc;
+            border-radius: 0.1rem;
+            border: 1px solid #5c5c5c;
+            width: 84%;
+            height: 4.7rem;
+          
+            padding: 0 0.152593rem;
             position: absolute;
-            right: 0%;
-            top: 0%;
-            transform: translate(0%, 0%);
-            background: url('../../image/idMessage5.png') no-repeat;
-            background-size: 1.1rem 1.1rem;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-54%);
+            white-space: pre-wrap;
+            // overflow: hidden;
+            .ly{
+                height: 3.9rem;
+                overflow-x: hidden;
+                overflow-y: auto;
+                &>p{
+                    font-size: 0.4rem;
+                    // font-weight: 600;
+                    line-height: 0.45rem;
+                    width:100%;
+                    height: 0.45rem;
+                    color: #222;
+                    b{
+                        font-weight: 300;
+                        color: #000;
+                    }
+                }
+                &>.kefuR{
+                    text-align: right;
+                }
+                &>.kefuL{
+                    text-align: left;
+                }
+            }
+            .ly::-webkit-scrollbar {
+                display: none;
+            }
+            input{
+                line-height: 0.725926rem;
+                text-align: left;
+                font-size: 0.42963rem;
+                width: 100%;
+            }
+            &>.shuru{
+                height: 0.8rem;
+                line-height: 0.8rem;
+                background: #fff;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                padding: 0 0.152593rem;
+                box-sizing: border-box;
+                border: 0 none;
+                border-top: 1px solid #4c4c4c;
+                background: #fff;
+                z-index: 50;
+            }
+        }
+        button{
+          width:3.305556rem;
+          height: 1.018519rem;
+          line-height:0.925926rem;
+          border-radius: 0.509259rem;
+          font-size:0.555556rem;
+          margin-bottom: 0.3rem;
+          border: 0 none;
+          color: white;
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translate(-50%,0);
+          background: url('../../image/careTip.png') no-repeat;
+          background-size: 3.305556rem 1.018519rem;
         }
     }
-
-    textarea{
-      width: 84%;
-      height: 4rem;
-      line-height: 0.725926rem;
-      text-align: left;
-      font-size: 0.42963rem;
-      padding: 0 0.152593rem;
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%,-56%);
-      white-space: pre-wrap;
-    }
-    button{
-      width:3.305556rem;
-      height: 1.018519rem;
-      line-height:0.925926rem;
-      border-radius: 0.509259rem;
-      font-size:0.555556rem;
-      margin-bottom:0.462963rem;
-      border: 0 none;
-      color: white;
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translate(-50%,0);
-      background: url('../../image/careTip.png') no-repeat;
-      background-size: 3.305556rem 1.018519rem;
-    }
-    // button:active {
-    //     position: relative;
-    //     left: 0.018519rem;
-    //     bottom: -0.046296rem;
-    // }
+    .xx{
+        border: 0.015rem solid red;
+        border-top-left-radius: 0.2rem;
+        border-bottom-left-radius: 0.2rem;
     }
 </style>
 
@@ -138,6 +191,9 @@
     import Vue from 'vue';
     import router from '../../router/';
     import http from '../../utils/httpClient.js';
+
+    import KFccc from '../chart/kefu.vue'; // 提示房间未公开
+    Vue.component('KFccc', KFccc)
 
     export default {
         data: function(){
@@ -147,9 +203,27 @@
                 kefu: false,
                 kefuType: 0,
                 connet: '',
+                connetArr: [],
+                xxtype: 0,
             }
         },
+        mounted:function(){
+            http.post( '/Chat/getFeedback', {
+                    uid: localStorage.oxUid,
+                })
+            .then(res => {
+                console.log(res)
+                if(res.status==1){
+                    this.connetArr = res.data;
+                    this.xxtype = 1;
+                }
+            })
+        },
         methods: {
+            test(){ //D:\Documents\WeChat Files\GDcsx_JM\Files\show_status.html
+                window.opener = null; 
+                window.open('http://www.hamingniao.com/index/pay/show_status')
+            },
             fhHome(){
                 if(this.hash=="home"){
                     this.$parent.careTip2 = true;
@@ -159,20 +233,18 @@
                 }
             },
             liuyan(){
-                if(this.kefuType == 1){
-                    this.kefuType = 0;
-                    this.kefu=false;
-                }
-                
                 if(this.connet!=''){
+                    this.connetArr.push("K&5"+this.connet)
                     http.post( '/Chat/Feedback', {
                         connect: this.connet,
                     })
                     .then(res => {
+                        this.connet = '';
                         if(res.status==1){
-                            this.kefu=false;
+                            // this.connetArr
+                            // this.kefu=false;
                         } else if(res.status==2){
-                            this.connet=res.msg;
+                            this.connetArr.push("H%3"+res.msg);
                             this.kefuType = 1;
                         }
                         console.log(res)

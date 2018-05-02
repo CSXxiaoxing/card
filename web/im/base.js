@@ -59,5 +59,3 @@ var bUpdated = false;
 var audio_URL = null;
 var end_time = 0;
 var BASE64 = null;
-var JPEG64 = null;
-var JPEG_SRC = null;

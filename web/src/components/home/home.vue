@@ -1,6 +1,6 @@
 <template>
 	<div id='home'> 
-	<iframe :src="iframe" frameborder="0" :id='iframeCss'></iframe>
+	<iframe :src="iframe" frameborder="0" :id='iframeCss' :style='iframeCss=="iframeCss01"? "display: none;":""'></iframe>
 		<mt-popup 
 	        v-model="careTip"
 	        popup-transition="popup-fade"
@@ -85,7 +85,8 @@
 			return {
 				iframe: '',
 				iframeCss: 'iframeCss',
-				loading: false,		// loading getData
+
+				loading: false,		// loading
                 careTip : false,    //错误提示 
 				careTip2 : false,	//错误提示 
                 errorTips: '',      // 错误信息
@@ -102,8 +103,16 @@
 			}
 		},
 		mounted: function(){
-
 			var self = this;
+            var href_home = location.href;
+            // localStorage['ZF_URL'] = JSON.stringify(href_home);
+            window.localStorage.setItem("ZF_URL",JSON.stringify(href_home)) // 添加
+            // var str = JSON.parse(localStorage.ZF_URL);
+            // var str2 = str.match(/#\S*/);
+            // window.location.href = '#/oxCrowd';
+            // window.open(str)
+            // window.location.href = "'"+str2[0]+"'";
+
 			goEasy.subscribe({
 			    channel: "user_"+localStorage.oxUid,
 			    onMessage: function(message){
@@ -132,7 +141,21 @@
 			                }
 			                console.log(arr)
 			                break;
-			        }
+                        case 18 : // 支付结束
+                            // window.onbeforeunload = function(){
+                            //     return '要显示的提示内容';
+                            // }
+                            // var str = JSON.parse(localStorage.ZF_URL);
+                            // window.open(str) child_KA(3)
+                            self.iframeCss = 'iframeCss01';
+                            self.child_KA(7);
+                            self.errorTips = data.msg;
+                            self.careTip = true;
+                            localStorage.cardNum = data.card_num;
+                            self.$store.state.user.userCard = data.card_num;
+                            break;
+                        
+                    }
 			        
 			    }
 			});
@@ -172,8 +195,25 @@
 				// 	hide: true,
 				// })
 			},
-            escGame(){  // 退出游戏】
-                router.push({name: 'login'})
+            escGame(){  // 退出游戏
+                var self =this;
+                http.post('/Member/login_out',
+                {
+                    token: localStorage.oxToken,
+                    uid: localStorage.oxUid,
+                })
+                .then(res => {
+                    console.log(res)
+                    if(res.status == 1){
+                        localStorage.removeItem('oxToken')
+                        self.idMessage = false
+                        router.push({name: 'login'});
+                    } else if(res.status == 2){ // token失效
+                        localStorage.removeItem("oxToken")
+                        router.push({name: 'login'});
+                    }
+                })
+                // router.push({name: 'login'})
             },
 			child_KA: function(n){
 				switch(n){
@@ -186,6 +226,10 @@
 					case 3 : // 打开购买房卡
 						this.$refs.onbuyRoomChild.buyRoom=true;
 						break;
+                    case 7 : // 关闭购买房间卡
+                        this.$refs.onbuyRoomChild.buyK=false;
+                        this.$refs.onbuyRoomChild.buyRoom=false;
+                        break;
 					case 4 : // 打开我的房间
 						this.$refs.onmyRoomChild.myRoom=true;
 						break;
@@ -206,8 +250,7 @@
 					token: localStorage.oxToken,
 				},'',this)
 				.then(res => {
-					
-					this.$refs.onvarRoomChild.imgState.room_id =  res.data;
+					this.$refs.onvarRoomChild.initData.zc_number =  res.data;
 				})
 				this.$refs.onvarRoomChild.noModal();
 			},

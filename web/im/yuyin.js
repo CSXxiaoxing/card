@@ -8,16 +8,6 @@
     document.oncontextmenu=function(){
         return false;
     };
-    // H5 plus事件处理
-    var as='pop-in';// 默认窗口动画 innerText
-    var audio_TYPE = 1;
-    var er = null, rt = null, t = null, HTML_R = null, ri = null;
-    var bUpdated = false;
-    var audio_URL = null;
-    var end_time = 0;
-    var BASE64 = null;
-    var JPEG64 = null;
-    var JPEG_SRC = null;
     function plusReady(){
         plus.navigator.setStatusBarBackground("#2B2B2B"); // 状态栏背景颜色
         // 隐藏滚动条
@@ -180,9 +170,7 @@
                 // outLine(path); // 转base64上传
                 var reader = new plus.io.FileReader();
                 reader.onloadend = function (e) {
-                    console.log(e.target.result);
-                    JPEG_SRC = e.target.result;
-                    JPEG64 = e.target.result;
+                    JPEG(e.target.result)
                 };
                 reader.readAsDataURL(path);
             }, function(e){

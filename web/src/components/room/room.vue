@@ -13,19 +13,19 @@
             <mt-button @click="careTip = false"> 
             </mt-button>
         </mt-popup >
-
+        
         <mt-popup 
             v-model="cuopai"
             popup-transition="popup-fade"
             class="cuopai" >
             <div>
                 <div class='fourCard'>
-                    <img v-if='logic.oxImg[ka.index*5+idx-1]!=undefined' v-for='idx in 4' :src="`src/srcImg/card/${logic.oxImg[ka.index*5+idx-1]}.png`"/>
-                    <!-- <img v-for='idx in 4' :src="`src/srcImg/card/a8.png`"/> -->
+                    <img v-if='logic.oxImg[ka.index*5+idx-1]!=undefined' v-for='idx in 4' :src="`src/png/card/${logic.oxImg[ka.index*5+idx-1]}.png`"/>
+                    <!-- <img v-for='idx in 4' :src="`src/png/card/a8.png`"/> -->
                 </div>
-                <div class='cuopaiCard' @touchstart='cuoinit' @touchmove='cuoka' @touchend='cuoEnd' :style='ka.heziType' >
-                    <img src="src/srcImg/cardPlus/bei.png" alt="" />
-                    <img v-if='logic.oxImg[ka.index*5+4]!=undefined' :src="`src/srcImg/cardPlus/${logic.oxImg[ka.index*5+4]}.png`" alt="" :style='ka.img02'/>
+                <div class='cuopaiCard' @touchstart='control(3)' @touchmove='control(4)' @touchend='control(5)' :style='ka.heziType' >
+                    <img src="src/png/cardPlus/bei.png" alt="" />
+                    <img v-if='logic.oxImg[ka.index*5+4]!=undefined' :src="`src/png/cardPlus/${logic.oxImg[ka.index*5+4]}.png`" alt="" :style='ka.img02'/>
                 </div>
             </div>
         </mt-popup >
@@ -34,9 +34,9 @@
             <ul>
                 <li>
                     <i><a  @click='exit'></a></i>
-                    <span>第<i @click='test+="a"'>{{user.ju}}</i>局</span>
+                    <span>第<i>{{user.ju}}</i>局</span>
                     <p :class='user.initType >= 1 ? "open" : "" '>
-                        <span>{{user.initType >= 1 ?  "游戏中" : "暂停中"}}</span>
+                        <span>{{user.initType >= 1 ?  " 游 戏 " : " 暂 停 "}}</span>
 
                         <i v-show='user.type == 1' @click='user.ON_OFF = !user.ON_OFF'>
                             <b></b>
@@ -46,8 +46,8 @@
                             :modal='false'
                             popup-transition="popup-fade"
                             class='gameStyle'>
-                                <span @click='gameStyle(1),user.ON_OFF=false' >游戏中</span>
-                                <span @click='gameStyle(2),user.ON_OFF=false' >暂停中</span>
+                                <span @click='gameStyle(1),user.ON_OFF=false' >游 戏</span>
+                                <span @click='gameStyle(2),user.ON_OFF=false' >暂 停</span>
                                 <i class='triangle-up'></i>
                         </mt-popup>
                     </p>
@@ -60,13 +60,13 @@
 
             <dl>
                 <!-- 个人头像 -->
-                <dt @click='testtt,$refs.onidMessageChild.idMessage=true' >
+                <dt @click='$refs.onidMessageChild.idMessage=true' >
                     <img :src='$store.state.user.userImg' />
                 </dt>
                 <!-- 房主 -->
                 <dd>
                     {{user.type == 1 ? "房总分：": "分数："}}
-                    <span>{{user.type == 1 ? user.allFen+user.oxWater : user.myFen}}</span>
+                    <span>{{user.type == 1 ? (Number(user.allFen)+Number(user.oxWater)).toFixed(2) : user.myFen}}</span>
                      &nbsp;
                     房号：<span>{{user.number}}</span>
                 </dd>
@@ -97,9 +97,9 @@
                     </div>
 
                     <div v-if='Number(dataList.z.uid) >= 0' >
-                        <img src="src/srcImg/room_left02.png" />
-                        <img src="src/srcImg/room_left01.png" />
-                        <img class='leftZhuan' src="src/srcImg/room002.png" />
+                        <img src="../../srcImg/room_left02.png" />
+                        <img src="../../srcImg/room_left01.png" />
+                        <img class='leftZhuan' src="../../srcImg/room002.png" />
                         
                         <div class='leftImg'>
                             <img :src="dataList.z.img" alt="" />
@@ -115,10 +115,10 @@
                     <!-- <li>{{dataList.px}}</li> -->
                     <li  
                     v-for = '(data, index) in dataList.dd' 
-                    @click='chat(2)' :key='data.id'>
+                    @click='chat(2, data.zn_member_id, data.zn_points)' :key='data.id'>
                         <div>
-                            <img src="src/srcImg/roomK03.png" alt="" />
-                            <img :src="'src/srcImg/roomPage0'+(index <= 1 ? index+2:4)+'.png'" alt="" />
+                            <img src="../../srcImg/roomK03.png" alt="" />
+                            <img :src="'src/png/roomPage0'+(index <= 1 ? index+2:4)+'.png'" alt="" />
                             <span>{{index+2}}</span>
                             <div class='leftImg'>
                                 <img v-if='data.zn_member_id!=undefined' :src="data.zc_headimg" alt="" />
@@ -138,7 +138,7 @@
             <!-- 中间 -->
             <div class='center'>
                 <!-- 移动用 -->
-                <img src="src/srcImg/card/bei.png" 
+                <img src="src/png/card/bei.png" 
                 v-for='(num,idx) in main.cardNum*5' :class='[("static_K"),(user.numCard == 7 ? "s":"")]' 
                 :style='"visibility:hidden;"+move.trans[idx]' />
 
@@ -157,35 +157,35 @@
 
                 <ul :class='user.numCard == 7 ? "ka7" :""' id='room_UL'>
                     <li 
-                    v-for='(data,index) in user.numCard' 
-                     @click='yazhu(index)' style='z-index:777'
+                    v-for='(data,index) in user.numCard'
+                    style='z-index:111'
                     :class='[(index==logic.z_index &&user.initType==5 ? "hover_no":""),(chouma.liCss[index]>=1 || move.liType ==index ?"hover":"")]'>
                     <!-- li背景 -->
-                    <div class='libj'></div>
+                    <div class='libj'  @click='control(2,index)'></div>
                     <!-- 牌 -->
                     <div class='pai'>
                         <img 
                         v-if='logic.oxImg[index*5+ix]!=undefined'
                         v-for='(da,ix) in 5'
-                        :src="`src/srcImg/card/${logic.oxImg[index*5+ix]}.png`" 
+                        :src="`src/png/card/${logic.oxImg[index*5+ix]}.png`" 
                         :style='"visibility:hidden;"+logic.imgStyle' />
-                        <!-- <img src="src/srcImg/card/a1.png" v-for='(da,ix) in 5' alt="" /> -->
+                        <!-- <img src="src/png/card/a1.png" v-for='(da,ix) in 5' alt="" /> -->
                         
                         <span v-if='user.initType==7&&logic.oxji[index]!=undefined'>
-                            <img :src="`src/srcImg/${logic.oxji[index]}.png`" />
+                            <img :src="`src/png/${logic.oxji[index]}.png`" />
                         </span>
                     </div>
                     
                     <!-- 筹码以及分数 -->
                     <div class="chou_fen">
                         <div class="not_zhuang" v-if='main.z_type==1&&index!=logic.z_index'>
-                            <img src="src/srcImg/cc00.png" />
+                            <img src="../../srcImg/cc00.png" />
                             <p>{{logic.liAll_F[index]}}</p>
                             <p>{{logic.liMy_All[index]}}</p>
                         </div>
-                        <img src="src/srcImg/room002.png" v-if='main.z_type==1&&index==logic.z_index'/>
-                        <img src="src/srcImg/cuopai.png"
-                         v-if='logic.liMy_All[index]>0&&user.initType==6' @click='cuopai=true,ka.index=index,ka.img02=""' class='cuopai_anniu'/>
+                        <img src="../../srcImg/room002.png" v-if='main.z_type==1&&index==logic.z_index'/>
+                        <img src="../../srcImg/cuopai.png"
+                         v-if='logic.liMy_All[index]>0&&user.initType==6&&user.type!=1' @click='cuopai=true,ka.index=index,ka.img02=""' class='cuopai_anniu'/>
 
                          <p v-if='user.initType==7 && chenji.myfen[index]!=0' :class='chenji.myfen[index] > 0 ? "yin":"shu"' >{{chenji.myfen[index] < 0 ? chenji.myfen[index] : "+"+chenji.myfen[index]}}</p>
 
@@ -198,19 +198,19 @@
             <!-- 右 -->
             <div class='right'>
                 <span>
-                    <img src="src/srcImg/room009.png" @click='varRoom(0)'  v-show='user.type != 1' />
-                    <img src="src/srcImg/room010.png"  @click='$store.state.Music.autoplay = !$store.state.Music.autoplay'/>
+                    <img src="../../srcImg/room009.png" @click='varRoom(0)'  v-show='user.type != 1' />
+                    <img src="../../srcImg/room010.png"  @click='$store.state.Music.autoplay = !$store.state.Music.autoplay'/>
                 </span>
 
                 <ul>
                     <!-- v-if='dataList.px[0]!=undefined' -->
                     <li
                     v-for='PTW in dataList.pt' 
-                    @click='chat(2,PTW.uid)' 
+                    @click='chat(2, PTW.uid, PTW.dian)' 
                     :key='PTW.uid'> 
                         
                         <div>
-                            <img src="src/srcImg/roomK03.png" alt="" />
+                            <img src="../../srcImg/roomK03.png" alt="" />
                             
                             <div class='leftImg'>
                                 <img :src="PTW.img" />
@@ -237,44 +237,44 @@
                 </span>
                 <!-- 筹码 -->
                 <span class='control_center' @touchend='move.liType = -1'>
-                    <img :src="`src/srcImg/c${main.minFen_x>=1 ? 'c' : 'h'}01.png`" 
-                    :class='chouma.one==1?"tuqi":""' @click='chouma_num(1)'
+                    <img :src="`src/png/c${main.minFen_x>=1 ? 'c' : 'h'}01.png`" 
+                    :class='chouma.one==1?"tuqi":""' @click='select(1,1)'
                      :fen='"1"'/>
-                     <img :src="`src/srcImg/c${main.minFen_x>=5 ? 'c' : 'h'}02.png`" 
-                    :class='chouma.one==2?"tuqi":""' @click='chouma_num(2)'
+                     <img :src="`src/png/c${main.minFen_x>=5 ? 'c' : 'h'}02.png`" 
+                    :class='chouma.one==2?"tuqi":""' @click='select(2,5)'
                      :fen='"5"'/>
-                     <img :src="`src/srcImg/c${main.minFen_x>=10 ? 'c' : 'h'}03.png`" 
-                    :class='chouma.one==3?"tuqi":""' @click='chouma_num(3)'
+                     <img :src="`src/png/c${main.minFen_x>=10 ? 'c' : 'h'}03.png`" 
+                    :class='chouma.one==3?"tuqi":""' @click='select(3,10)'
                      :fen='"10"'/>
-                     <img :src="`src/srcImg/c${main.minFen_x>=50 ? 'c' : 'h'}04.png`" 
-                    :class='chouma.one==4?"tuqi":""' @click='chouma_num(4)'
+                     <img :src="`src/png/c${main.minFen_x>=50 ? 'c' : 'h'}04.png`" 
+                    :class='chouma.one==4?"tuqi":""' @click='select(4,50)'
                      :fen='"10"'/>
-                     <img :src="`src/srcImg/c${main.minFen_x>=100 ? 'c' : 'h'}05.png`" 
-                    :class='chouma.one==5?"tuqi":""' @click='chouma_num(5)'
+                     <img :src="`src/png/c${main.minFen_x>=100 ? 'c' : 'h'}05.png`" 
+                    :class='chouma.one==5?"tuqi":""' @click='select(5,100)'
                      :fen='"10"'/>
                 </span>
                 <span class='control_right'>
-                    <img :src="`src/srcImg/room006${main.bei? '':'6'}.png`" alt="" @click='bei_KZ(1)'/>
-                    <img :src="`src/srcImg/room007${main.bei? '':'7'}.png`" alt="" @click='bei_KZ(0)'/>
+                    <img :src="`src/png/room006${main.bei? '':'6'}.png`" alt="" @click='bei_KZ(1)'/>
+                    <img :src="`src/png/room007${main.bei? '':'7'}.png`" alt="" @click='bei_KZ(0)'/>
                 </span>
             </div>
             <!-- 尾部 -->
-            <footer>
+            <footer @click='testtt'>
                 <ul>
                     <li @click='$refs.onfriendVIPChild.friend_VIP=true'>
                         好友
-                        <span class='dot' v-if='$store.state.system.lodin.length>0'>{{$store.state.system.lodin.length}}</span>
+                        <span class='dot' v-if='$store.state.system.H_All>0'>{{$store.state.system.H_All}}</span>
                     </li>
                     <li @click='chat(3)'>
                         聊天室
-                        <span class='dot' v-show='$store.state.system.Q_amount[`${user.qid}`] >0'>{{$store.state.system.Q_amount[`${user.qid}`]}}</span>
+                        <span class='dot' v-show='$store.state.system.Q_Num>0'>{{$store.state.system.Q_Num}}</span>
                     </li>
                     <li v-show='user.type==3||user.type==2' @click='chat(2,user.fid)'>
                         联系房主
                     </li>
                     <li class='roomScore' v-show='user.type == 1' 
                         @click="to(3)">
-                        <b>{{user.oxWater}}</b>
+                        <b>{{(user.oxWater).toFixed(2)}}</b>
                         <b>奖金分数</b>
                     </li>
                 </ul>
@@ -298,6 +298,7 @@
 
 <script type="text/javascript">
     import './room.scss';
+    import roomJS from './room.js';
     import Vue from 'vue';
     import router from '../../router/';
     import http from '../../utils/httpClient.js';
@@ -321,17 +322,12 @@
     import waterReport from './waterReport.vue';  // 原流水报表
     Vue.component('waterReport', waterReport)
 
-
-    Vue.component('prize', prize)   // 开奖记录
+    Vue.component('prize', prize)   // 开奖记录 goEasy
     Vue.component('applyOn', applyOn)
     Vue.component('singleBoard', singleBoard)
 
-    // 定义所有定时器
-    // 游戏中定时器(timer-N) [01准备5s, 02随机庄家, 03随机庄位置, 04押注倒计时, 05牌全开, 06-10s下一盘]
+    // 游戏中定时器(timer-N)
     let pageTimer = {};
-    // 游戏状态码 {
-    //      0 : 执行游戏  src/image/
-    // }
     export default {
         data: function(){
             return {
@@ -349,6 +345,8 @@
                 user : {     // 房间初始化数据
                     rid: 0,         // 房间id
                     fid: 0,         // 房主id
+                    fName: '',         // 房主名字
+                    fImg: '',          // 房主头像
                     qid: 0,         // 群聊id
                     uid: localStorage.oxUid, // 自己的id
                     numCard: 0,     // 几牌
@@ -376,11 +374,7 @@
                     z : {},           // 庄的数据
                     pt: [],           // 普通玩家
                     dd: [],           // 等待上庄
-                    dd_length: 0,     // 左边盒子数量
 
-                    dz: {},           // 等待上庄人员的数据
-                    zz: {},           // 其余成员的数据
-                    px: [],           // 人员分数排序
                     dict:{},          // 字典--匹配
                 },
                 main : {        // 主体游戏流程代码
@@ -418,7 +412,8 @@
                     $Time: 0,       // 可下注时间
                     $openCard: 10,  // 开牌倒计时
                     $water: 5,      // 流水报表时间
-                    $esc: 10,      // 10下盘等待
+                    $esc: 10,       // 10下盘等待
+                    InTime: 100,   // 定时器速度总开关
                 },
                 move : {        // 卡牌动效控制
                     trans: [],      // 背面移动位置
@@ -445,164 +440,37 @@
                 },
                 roomData:{},// 房间初始数据
 
-
                 message : this.$store.state.placard.message,
             }
         },
         mounted: function(){
+            this.$store.state.system.Q_Num=0;   // 清除房间群聊信息条数
             let self = this ;
             this.$store.state.oxCrowd.z = {};   // 清除初始值
             self.newData();
         },
         methods: {
-            testtt(){ // 测试接口用
-                // http.post('/RoomCard/descRoomCard',{
-                //     room_id: this.user.rid,
-                // })
-                // .then(res => {
-                //     console.log(res);
-                //     if(res.status==0){  // 需要扣费
-                //         http.post('/RoomCard/descRoomCard',{  // 扣费接口
-                //             type: this.user.timeOrDay,
-                //             room_id: this.user.rid,
-                //         })
-                //         .then(res => {
-                //             console.log(res);
-                //             if(res.status==0){  // 扣费失败
-                //                 this.errorTips= res.msg;      // 提示内容
-                //                 this.careTip = true;    // 提示窗
-                //                 http.post('/RoomCard/stopGame',{  // 暂停游戏
-                //                     room_id: this.user.rid,
-                //                 })
-                //                 .then(res => {
-                //                     console.log(res);
-                //                 })
-                //             }
-                //         })
-                //     }
-                // })
-                // http.post('/Member/wxLogin',{
-                //     feifei: "测试请求是否能用",
-                // })
-                // this.c3test()
-                // this.gameResult()
-                // var xhr = new XMLHttpRequest();
-                // var formData = new FormData();
-                // formData.append('feifei', '^(*￣(oo)￣)^');
-
-                // xhr.open('post', GAME_ALL_URL+"/Member/wxLogin" );
-                // //发送请求
-                // xhr.send(formData);
-                // xhr.onreadystatechange = function () {
-                //     // 这步为判断服务器是否正确响应
-                //       if (xhr.readyState == 4 && xhr.status == 200) {
-                //         console.log(xhr.responseText);
-                //       }
-                // };
-            },
-            chouma_num(idx,e){   // 选择什么筹码
-                e = e || event;
-                this.chouma.one = idx;
-                this.chouma.LandR = `left:${e.pageX}px;top:${e.pageY}px;`
-            },
-            yazhu(idx,e){    // 押注
-                e = e || event;
-                console.log(e.target)
-                var fefefe = [1,5,10,50,100];
-                if(this.user.type == 1 || this.user.type == 2 || this.user.initType != 5 || this.chouma.one<=0 || idx == this.logic.z_index){  //房主和庄家不参与游戏
-                    return false;
-                }
-                
-                var maxBel = '';
-                if(this.main.bei==1){
-                    maxBel = this.main.maxBei;  // 最大倍率
-                }else{
-                    maxBel = 1;  // 不翻倍
-                }
-                var fen = null;
-                switch(this.chouma.one){
-                    case 1:
-                        fen=1;
-                        break;
-                    case 2:
-                        fen=5;
-                        break;
-                    case 3:
-                        fen=10;
-                        break;
-                    case 4:
-                        fen=50;
-                        break;
-                    case 5:
-                        fen=100;
-                        break;
-                }
-
-                if(Number(this.main.minFen_x) < fefefe[idx] || (Number(this.user.myFen)-Number(fen*maxBel))<0){
-                    return false;
-                }
-                var header_H = document.querySelector('#app').offsetHeight;
-                
-                var imgOnes = document.getElementsByClassName('imgOne');
-                var idxCard = this.move.bounce.length;
-                this.move.imgNum += 1;                          // 复制
-                this.move.srcImg[idxCard] = `src/srcImg/cc0${this.chouma.one}.png`;        // 赋值
-                // console.log(e.s)
-                this.$set(this.move.srcImgStyle, idxCard ,`visibility:visible;left:${e.clientX}px;top:${e.clientY}px;z-index:999;width:1.2rem;height:1.2rem;transform:translate(-50%,-50%);transition:all 2s;`);
-                this.move.bounce[idxCard] = 6;                  // 坠落动效and计数
-
-                http.post('/RoomJoin/newChargePoints',{
-                    uid     : this.user.uid,     // 个人uid
-                    roomid  : this.user.rid,     // 房间id
-                    rate    : maxBel,            // 倍率
-                    score   : fen,               // 压分分数
-                    num     : this.user.ju,      // 局数
-                    few     : idx,               // 第几副牌
-                })
-                .then(res => {
-                    // console.log(res)
-                    if(res.status != 1){
-                        self.errorTips = res.msg;
-                        self.careTip = true;
-                    } else {
-                        this.chouma.liCss[idx]=1;
-                    }
-                })
-            },
-            cuoinit(ev){  // 搓牌开始
-                var hezi =document.getElementsByClassName('cuopaiCard')[0].getBoundingClientRect();
-                this.ka.type=0;
-                this.ka.initY=0;
-                this.ka.cardH=0;
-                this.ka.heziType='';
-                if (ev.changedTouches.length == 1) {    // 只有一个手指触摸
-                    var touY = ev.changedTouches[0].pageY;
-                    this.ka.cardH = hezi.height;
-                    this.ka.initY = touY;
+            select(n,p){
+                if(this.main.minFen_x>=p){
+                    this.control(1,n)
                 }
             },
-            cuoka(ev){    // 搓牌实现
-                var img1_H=document.getElementsByClassName('cuopaiCard')[0].children[0].getBoundingClientRect().height;
-                var img1_W=document.getElementsByClassName('cuopaiCard')[0].children[0].getBoundingClientRect().width;
-                var [init_touY, init_H, touY] = [this.ka.initY, this.ka.cardH, ev.changedTouches[0].pageY];
-                var y = init_touY-touY;
-
-                if (ev.changedTouches.length == 1 && touY<init_touY) {    // 只有一个手指触摸
-                    this.ka.heziType = 'height:'+(init_H-y)+'px;';
-                    this.ka.img02    = 'transform: translate(-50%, -'+(y*2)+'px);z-index: 50;';
-                    if(y>=img1_H/2){
-                        this.ka.type = 1;
-                        this.ka.heziType = 'height:'+(this.ka.cardH)+'px;';
-                        this.ka.img02 = 'height:'+img1_H+'px;width:'+img1_W+'px;top: 0;transform: translate(-50%,0.3rem); transition: all 0.3s; z-index: 50;';
-                    }
+            control(n,idx){
+                switch (n){
+                    // 控制器部分
+                    case 1 : roomJS.jetton(idx,this);  // 选择什么筹码
+                    break;
+                    case 2 : roomJS.yazhu(idx,this,http);  // 押注
+                    break;
+                    case 3 : roomJS.cuoinit(this);  // 搓牌开始
+                    break;
+                    case 4 : roomJS.cuoka(this);    // 搓牌实现
+                    break;
+                    case 5 :  roomJS.cuoEnd(this);  // 搓牌结束
+                    break;
                 }
             },
-            cuoEnd(){       // 搓牌结束
-                if(this.ka.type == 0){
-                    this.ka.heziType = 'height:'+(this.ka.cardH)+'px;';
-                    this.ka.img02 = 'transform: translate(-50%, 0px);z-index: 50;';
-                }
-            },
+            testtt(){},
             bei_KZ(n){   // 倍数控制
                 this.main.bei=n;
                 if(n==0){   // 无倍
@@ -611,7 +479,7 @@
                     this.main.minFen_x = Math.floor(this.main.minFen_j/this.main.maxBei);
                 }
             },
-            chat(n,sheId){  // n=个人状态,sheId=要联系人的id  点击聊天
+            chat(n,sheId,fen){  // n=个人状态,sheId=要联系人的id  点击聊天
                 var obj = {
                     rank : this.user.type,      // 在房间的状态
                     sheId,                      // 联系人id
@@ -619,21 +487,22 @@
                     rid  : this.user.rid,       // 房间id
                     rnum : this.user.number,    // 房间Num
                     type : n,                   // 对应聊天状态
+                    fFen : fen,                 // 联系人分数
+                    fid  : this.user.fid,       // 房主id
+                    fName: this.user.fName,         // 房主名字
+                    fImg : this.user.fImg,          // 房主头像
+                }
+                if(sheId==localStorage.oxUid){
+                    return false;
+                }
+                if(n==1){} // 选择人聊天
+                else if(n==2){} // 加减分
+                else if(n==3) { // 群聊
+                    // 清除未读条数显示
+                    this.$store.state.system.Q_Num=0;
                 }
                 this.$refs.onfriendVIPChild.friend_VIP=true;
                 this.$refs.onfriendVIPChild.inlet(obj)
-
-                if(n==1){    // 选择人聊天
-
-                }
-                else if(n==2){ // 加减分
-                    
-                }
-                else if(n==3) { // 群聊
-                    // 清除未读条数显示
-                    this.$store.state.system.Q_amount[`${this.user.qid}`]=0;
-                    this.$store.state.system.t=0;
-                }
             },
             goeasy(goEasy_ID){
                 var self = this;
@@ -663,7 +532,6 @@
                             break;
                         case 5 :                        // 发牌
                             // console.log(data)
-                            
                             self.remove();// 游戏数据清除
                             self.user.ju = data.num; // 游戏局数
                             self.user.xiaZZZ = 0;
@@ -740,9 +608,8 @@
                             self.bei_KZ(self.main.bei);
                             break;
                         case 7||8||11 :// 通知有人成为庄家// 通知有人申请上庄// 重新开局
-                            self.list()  // 更新列表
+                            self.list();  // 更新列表
                             break;
-
                         case 14:                // 房主暂停游戏
                             self.user.initType=0;
                             break;
@@ -753,7 +620,7 @@
 
                         case 6 :                            // 通知有人退出房间
                             console.log(data)
-                            // self.list()  // 更新列表
+                            self.list()  // 更新列表
                             break;
                         case 15:                            // 中止下注
                             console.log(data)
@@ -762,7 +629,7 @@
                         }
                         
                     }
-                }); // 注册goeasy /RoomJoin/chargePoints
+                }); // 注册goeasy 
             },
             newData: function(){    // 初始化数据
                 var main = this.main;   // 游戏主体数据
@@ -779,14 +646,15 @@
                         this.roomData = data; // 初始数据
 
                         user.rid = data.id;  // 房间id
-                        user.fid= data.zn_member_id; // 房主id
+                        user.fid= data.zn_member_id;    // 房主id
+                        user.fName= data.zc_nickname;     // 房主名字
+                        user.fImg = res.data.img_url;   // 房主头像
                         user.qid= data.zn_chatid; // 群聊id
                         user.number = data.zc_number;  // 房间Num
                         user.numCard= data.zn_play_type==1?5:7;
                         user.timeOrDay= data.zn_pay_type;
                         data.zn_member_id == localStorage.oxUid ? // 是否庄
                         user.type=1:user.type=3;
-
                         main.cardNum = data.zn_play_type == 1 ? 5 : 7;  // 几牌
                         main.minFen = Number(data.zn_min_score);  // 最低上庄分数
                         main.minFen_x = Number(data.zn_min_score);  // 最低上庄分数_显示用
@@ -794,12 +662,12 @@
                         main.maxBei = JSON.parse(data.zc_rate)[11];  // 最大倍数     
                         main.beilv = JSON.parse(data.zc_rate) // 倍率
                         main.bidui = JSON.parse(data.zc_rate)[12];  // 比什么     
-                        main.minYa = data.zn_bet_between_s;  // 押注范围
-                        main.maxYa = data.zn_bet_between_e;  // 押注范围 
+                        main.minYa = data.zn_bet_between_s;  // 押注范围—最小
+                        main.maxYa = data.zn_bet_between_e;  // 押注范围—最大
                         main.water = data.zn_extract;  // 抽水百分比 
                         this.time.$Time = data.zn_bet_time;      // 可押注时间 
-                        self.gameResult() // 查询游戏局数
 
+                        // self.gameResult() // 查询游戏局数
                         this.goeasy(data.id)    // 注册goEasy
                         this.list() // 获取字典以及数据
                         this.lunzhun() // 获取轮庄
@@ -814,15 +682,28 @@
                             conn.addGroupMembers(option3);
                         };
                         addGroupMembers()   // 群聊
-                        
 
-                        http.post('/Card/getWaterTotal',{ // zn_maker_status
+
+                        http.post('/Card/getWaterTotal',{ // toFixed
                             room_id: this.user.rid,
                         }).then(res=>{
                             if(res.status==1){
-                                this.user.oxWater = Number(res.data);
+                                var num = Number(res.data);
+                                
+                                // num = num.toFixed(2);
+                                this.user.oxWater = num;
+                                
                             }
                         })
+
+                        var addGroupMembers = function () {     // 加入群聊
+                            var option3 = {
+                                list: ['hz_niuniu_'+localStorage.oxUid],
+                                roomId: data.zn_chatid,
+                            };
+                            conn.addGroupMembers(option3);
+                        };
+                        addGroupMembers()   // 群聊
 
                     }
                 })
@@ -841,24 +722,16 @@
             },
             list () {           // 玩家列表
 
-                this.dataList ={        // 房间内玩家数据
+                this.dataList = {        // 房间内玩家数据
                     z : {},           // 庄的数据
                     pt: [],           // 普通玩家
                     dd: [],           // 等待上庄
-                    dd_length: 4,     // 左边盒子数量
 
-                    dz: {},           // 等待上庄人员的数据
-                    dd: [],           // 排队顺序
-
-                    zz: {},           // 其余成员的数据
-                    px: [],           // 人员分数排序
                     dict:{},          // 字典--匹配
                 }
                 var self = this;
                 var dict = this.dataList.dict;  // 字典
-                var dz = this.dataList.dz;      // sz
-                var zz = this.dataList.zz;      // 普通玩家
-                var zzpx = this.dataList.px;    // 普通玩家
+
                 this.user.allFen = 0;
                 var z_type = 0;
                 http.post('/RoomJoin/getJoinMessage',{ // zn_maker_status
@@ -881,8 +754,10 @@
                             if(datum.uid==localStorage.oxUid){
                                 self.user.myFen = Number(datum.dian)
                             }
-                            dict[data[i].zn_member_id]=datum;   // 字典
-
+                            // dict[data[i].zn_member_id]=datum.img;
+                            this.$store.state.user.dict[this.user.fid]=this.user.fImg;// 房主
+                            this.$store.state.user.dict[data[i].zn_member_id] = datum.img; 
+                            
                             if(data[i].zl_visible == 1){
                             if(data[i].zn_makers==1){ // 庄
                                 if(data[i].zn_member_id==this.user.uid){
@@ -894,8 +769,6 @@
                                 if(data[i].zn_member_id==this.user.uid){
                                     this.user.Lding = 1;
                                 }
-                                
-                                console.log(dz)
                             } 
                             else {
                                 if(data[i].zn_member_id==this.user.uid){
@@ -927,6 +800,8 @@
                             }
                             }
                         }
+                       
+                        
                         z_type+=1;
                         z_type==2 ? host():0;
                     }
@@ -952,45 +827,45 @@
                 })
 
                 function host(){
-                    if(self.dataList.z.dian==undefined && self.user.auto && self.user.type== 1){
+                    if(self.dataList.z.dian==undefined && self.user.auto && (self.user.type== 1 || self.user.type== 2) && self.dataList.dd[0]!=undefined){
                     http.post( '/RoomJoin/setMakers', {
                                 roomid: self.user.rid,
                                 type: 1,
                                 id: self.dataList.dd[0].zn_member_id,
+                                num: self.user.ju,
                             })
                         .then(res => {
                             if(res.status == 1){
-                                this.user.lun = this.lunZ.num+Number(this.user.ju)-1;
-                                self.dataList.z=dz[self.dataList.dd[0]];
-                                dz[self.dataList.dd[0]]=null;
+                                self.user.lun = self.lunZ.num+Number(self.user.ju)-1;
                                 self.dataList.dd.splice(0,1);
-                            }
-                            else if(res.status != 1){    //  错误
-                                self.errorTips = res.msg;
-                                self.careTip = true;
                             }
                         })
                     }
                 }
-                
-                this.$set(this.dataList, 'px', zzpx)
             },
             exit () {   // 退出房间
                 var self = this;
                 if(this.user.type == 1){
                     console.log(1)
-                    if(this.user.gametype == 1){
+                    if((this.user.initType==0||this.user.initType==7) && this.user.gametype == 1){
                         self.errorTips = "您是房主，退出房间游戏将无法进行";
                         self.careTip = true;
                     } else {
-                        http.post('/RoomJoin/quitRoom',{
-                            roomid: this.user.rid, // 房间id
-                            id: this.user.uid,
-                        })
-                        .then(res => {
-                            console.log(res)
-                        })
                         router.push({name: 'oxCrowd'});
+                        // http.post('/RoomJoin/quitRoom',{
+                        //     roomid: this.user.rid, // 房间id
+                        //     id: this.user.uid,
+                        // })
+                        // .then(res => {
+                        //     console.log(res)
+                        //     if(res.status == 1){
+                                
+                        //     } else {
+                        //         self.errorTips = res.msg;
+                        //         self.careTip = true;
+                        //     }
+                        // })
+                        
                     }
                 } 
                 else if(this.user.type == 2){
@@ -1017,6 +892,7 @@
                 var minFen = mainBody.minFen; // 最低上庄分数
                 var dian = Number(this.dataList.z.dian); // 庄当前分数
                 var self = this;
+                var In_time = this.time.InTime;  // 定时器速度
                 if( n==1 ){
                     if(dian > minFen){  // 庄分数大于最低上庄分数
                         this.user.gametype = 1; // 游戏执行中
@@ -1031,7 +907,7 @@
                             if(i<=3){
                                 self.$set(self.user.initTxt, 1,self.user.initTxt[1]+='.');
                             }
-                        },800)
+                        },In_time)
                         this.fk();
 
                     } else {
@@ -1048,7 +924,6 @@
                 }
             },
             fk(){   // 房卡
-                this.test = '2aa'
                 if(this.test == "2aa"){
                     http.post('/card/card',{room_id: this.user.rid});
                 }else{
@@ -1076,7 +951,10 @@
                                 .then(res => {
                                     console.log(res);
                                 })
-                            }else{
+                            }else if(res.status == 1){
+                                localStorage.cardNum = res.card_num;
+                                this.$store.state.user.userCard = res.card_num;
+
                                 http.post('/card/card',{room_id: this.user.rid});
                             }
                         })
@@ -1087,6 +965,7 @@
                 }
             },
             K : function(){   // 游戏流程--回调开局(2)
+                var In_time = this.time.InTime;  // 定时器速度
                 this.user.initType = 2;
                 this.main.minFen_j = this.main.minFen; // 压庄总分
                 this.bei_KZ(this.main.bei); // 控制当前状态下的下注分数
@@ -1102,15 +981,15 @@
                         this.bank()
                         clearInterval(pageTimer["timer01"])
                     }
-                },1000)
+                },In_time)
             },
             bank () {           // 2、随机选庄家牌
                 let self = this;
                 let num = this.main.cardNum; // 几牌
+                var In_time = this.time.InTime;  // 定时器速度
                 let zhuan = this.logic.z_index;
                 this.user.initType = 3;
                 this.time.time_x = this.time.random; // 时间赋值
-
                 pageTimer["timer02"] = setInterval( ()=> {
                     self.time.time_x--;
 
@@ -1123,7 +1002,7 @@
                         this.c3test();  // 发牌      
                         clearInterval(pageTimer["timer02"])
                     }
-                },1000)
+                },In_time)
 
                 let i = self.move.liType;
                 pageTimer["timer03"] = setInterval(function(){
@@ -1140,7 +1019,7 @@
                 this.music = true;
                 var pai = document.getElementsByClassName('pai');
                 var kaNum = this.main.cardNum;          // 玩几牌的
-                var s = this.move.bei_s/(kaNum*5);     // 背牌移动速度
+                var s = this.move.bei_s/(kaNum*5);     // 背牌移动速度 Card/score_result
                 var setTime = null;
 
                 pai_mover(0,0,0);
@@ -1151,7 +1030,7 @@
                     var pai2 = document.getElementsByClassName('static_K')[o].getBoundingClientRect();
                     var imgs= pai[i].children[n].getBoundingClientRect();
 
-                    self.move.trans.push("visibility:visible;transform:translate(-"+(pai2.left-imgs.left)+"px,"+(imgs.top-pai2.top)+"px);transition:transform "+s+"s ease;z-index:1"+n);
+                    self.move.trans.push("visibility:visible;transform:translate(-"+(pai2.left-imgs.left)+"px,"+(imgs.top-pai2.top)+"px);transition:transform "+s+"s ease;z-index:13"+n);
                     setTime = setTimeout(function(){
                         if(i==kaNum-1){
                             i=-1;n++;
@@ -1169,7 +1048,7 @@
                 let self = this;
                 this.user.initType = 5;
                 this.time.time_x = this.time.$Time;
-
+                var In_time = this.time.InTime;  // 定时器速度
                 // 延时器-发完牌后 -- 押注倒计时
                 pageTimer['timer04'] = setInterval( ()=> {
                     if(this.time.time_x >= 1){
@@ -1186,12 +1065,13 @@
                         }
                         clearInterval(pageTimer['timer04']);
                     }
-                } , 1000);
+                } , In_time);
             },
             openCard () {                 // 4、开牌--算输赢
                 var self = this;
                 var cardNum = this.main.cardNum;    // 牌数
                 var z_index = this.logic.z_index;   // 庄的位置
+                var In_time = this.time.InTime;  // 定时器速度
                 this.logic.imgStyle = "visibility:visible;"
 
                 var o =0;
@@ -1229,8 +1109,16 @@
                                         this.user.initTxt[1] = '正在初始化游戏资源';
                                         console.log(this.user.ju)
                                         console.log(this.user.lun)
+                                        // 庄分数计算
+                                        var minFen = this.main.minFen; // 最低上庄分数
+                                        var dian = Number(this.dataList.z.dian); // 庄当前分数
+                                        if(dian < minFen && this.user.type == 2){  // 庄分数小于最低上庄分数
+                                            self.errorTips = '您的上庄分数不足，请及时联系房主充值。';
+                                            self.careTip = true;
+                                        }
                                         // 检查是否需要换庄
-                                        if(this.user.ju >= this.user.lun && this.user.type==1){
+                                        if(this.user.ju >= this.user.lun-1 && this.user.type==1){
+
                                             if(this.dataList.dd[0]!=undefined){
                                                 http.post('/RoomJoin/setMakers',{
                                                     roomid: this.user.rid, // 房间id
@@ -1263,15 +1151,15 @@
                                         }
                                         clearInterval(pageTimer['timer08']);
                                     }
-                                },1000)
+                                },In_time)
 
                                 clearInterval(pageTimer['timer06']);
                             }
-                        },1000)
+                        },In_time)
 
                         clearInterval(pageTimer["timer05"]);
                     }
-                },500)
+                },In_time/2)
             },
             barter(){       // 更换庄家
                 if(this.dataList.dd[0]!=undefined && this.user.gametype==0){
@@ -1315,7 +1203,9 @@
                     for(var i=0; i<card.length; i++){
                         if(card[i].few==self.logic.z_index){     // 庄
                             self.chenji.zfen = card[i].win_score;
-                            self.user.oxWater+=card[i].water_score;
+                            var water = Number(card[i].water_score);
+                            
+                            self.user.oxWater+=water;
                         }
                         self.user.myFen+=self.logic.liMy_All[Number(card[i].few)];
                         if(card[i].uid==localStorage.oxUid){    // 自己
@@ -1396,12 +1286,14 @@
                         break;
                     case 3 :    // 抽水分数
                         this.$refs.onapplyOnChild.details=true;
-                        this.$refs.onapplyOnChild.allFen = this.user.allFen+this.user.oxWater;
+                        this.$refs.onapplyOnChild.allFen = Number(this.user.allFen)+Number(this.user.oxWater);
                         this.$refs.onapplyOnChild.allWater= this.user.oxWater; // 抽水分数
                         break;
                     case 4 :    // 游戏内分享
                         this.$refs.onfriendVIPChild.friend_VIP=true;
                         this.$refs.onfriendVIPChild.arrows = 3;
+                        this.$refs.onfriendVIPChild.roomNumber = this.user.number;
+                        this.$refs.onfriendVIPChild.share = true;
                         break;
                     case 7 :    // 流水报表
                         http.post('/Card/get_water_log',{
@@ -1429,14 +1321,21 @@
                 this.$refs.onvarRoomChild.zao=false;
                 if(n==0){
                     this.$refs.onvarRoomChild.zao=true;
+                    lookRoom(this)
                 }
                 if(set<1){   // 游戏暂停方可打开
-                    this.$refs.onvarRoomChild.initType = 1;
-                    var data = this.roomData;
-                    console.log(this.roomData)
-                    // this.$refs.onvarRoomChild.imgState = this.roomData;
-                    this.$refs.onvarRoomChild.newMan = data.zn_confirm==1 ? true:false;// 新人确认
-                    this.$refs.onvarRoomChild.initData = {
+                    lookRoom(this)
+                } else {
+                    this.errorTips = '请在游戏暂停时重置房间配置';
+                    this.careTip = true;
+                }
+                function lookRoom(self){
+                    self.$refs.onvarRoomChild.initType = 1;
+                    var data = self.roomData;
+                    console.log(self.roomData)
+                    // self.$refs.onvarRoomChild.imgState = self.roomData;
+                    self.$refs.onvarRoomChild.newMan = data.zn_confirm==1 ? true:false;// 新人确认
+                    self.$refs.onvarRoomChild.initData = {
                         zc_number       :data.zc_number,
                         zc_title        :data.zc_title,
                         zn_room_type    :data.zn_room_type,
@@ -1451,20 +1350,17 @@
                         zn_ext          :data.zn_ext,
                         zc_rate         :data.zc_rate,
                         zn_chatid       :data.zn_chatid,
-                        id              :this.user.rid,
+                        id              :self.user.rid,
                     }
-                    this.$refs.onvarRoomChild.boxState.CvarRoom=true;
-                    this.$refs.onvarRoomChild.noModal();
-                } else {
-                    this.errorTips = '请在游戏暂停时重置房间配置';
-                    this.careTip = true;
+                    self.$refs.onvarRoomChild.boxState.CvarRoom=true;
+                    self.$refs.onvarRoomChild.noModal();
                 }
             },
             applyOn(){         // 申请上庄or选择做庄
                 let user = this.user;
                 var Lding = this.user.Lding; // 等待上庄
                 var obj = {
-                    type:this.user.type,
+                    type: this.user.type,
                     gameType: this.user.initType,
                     Lding,
                     rid: this.user.rid,
@@ -1476,7 +1372,7 @@
                     this.$refs.onapplyOnChild.minGrade = this.main.minFen;
                     this.$refs.onapplyOnChild.applyObj = obj;
                 }else{
-                    this.test++;
+                    this.test = '2aa'
                 }
             },
             shangZ () {

@@ -1,7 +1,5 @@
 <template>
 	<div id='login'>
-		<h1  v-if='test_txt>=0' @click='test(test_txt)'>测试按钮<input type="text" v-model='test_txt'/></h1>
-
 		<mt-popup 
 		    v-model="careTip"
 		    popup-transition="popup-fade" :modal='false'
@@ -54,7 +52,7 @@
 	    	    <span>输入密码</span> 
 	    	    <input type="password" placeholder='输入密码' v-model.trim='password'/> 
 	        </label>
-	        <label @click='[(find = true),(type = 2)]' >忘记密码？点击找回！</label>
+	        <label @click='[(find = true),(type = 2),(phone = false)]' >忘记密码？点击找回！</label>
 	        <hr/>
 		    <span @click="input(2)"></span>
 		</mt-popup>
@@ -101,30 +99,6 @@
 
 <style  lang='scss' scoped>
 	@import '../../utils/baseVar.scss';
-	h1{
-		font-size: 50px;
-		line-height: 80px;
-		height: 80px;
-		width: 300px;
-		background: #000;
-		color: #fff;
-		border-radius: 40px;
-		position: absolute;
-		left: 50%;
-		top: 10%;
-		-webkit-transform: translate(-50%,0);
-		   -moz-transform: translate(-50%,0);
-		    -ms-transform: translate(-50%,0);
-		     -o-transform: translate(-50%,0);
-		        transform: translate(-50%,0);
-		border: 5px solid pink;
-		input{
-			margin-top: 0.3rem;
-			height: 80px;
-			width: 300px;
-			font-size: 50px;
-		}
-	}
     b{
     	padding: 0.092593rem;
     }
@@ -334,7 +308,7 @@
 				font-size: 0.41rem;
 			}
 			input{
-				width: 70%;
+				width: 67%;
 				-webkit-box-sizing: border-box;
 				-moz-box-sizing: border-box;
 				-ms-box-sizing: border-box;
@@ -367,9 +341,9 @@
 				height: 0.861111rem;
 				width: 2.203704rem;
 
-				position: absolute;
-				top: 0.16rem;
-				right: -0.04rem;
+				// position: absolute;
+				// top: 0.16rem;
+				// right: -0.04rem;
 				text-align: center;
 
 				background: $login009 no-repeat;
@@ -486,6 +460,9 @@
 		}
 		label{
 			@include label;
+			input{
+				width: 64%;
+			}
 			padding: 0.296296rem 0.0rem;
 		}
 		label:nth-of-type(2){ 
@@ -493,7 +470,8 @@
 			padding: 0;
 			margin: 0.296296rem 0rem;
 			input{
-				width: 2.8rem;
+				width: 2.4rem;
+				width: 34%;
 				margin-right: 0.111111rem;
 			}
 			i {
@@ -509,14 +487,15 @@
 				display: inline-block;
 				line-height: 0.851852rem;
 				height: 0.851852rem;
-				width: 2.203704rem;
-				position: absolute;
-				top: -0.02rem;
-				right: 0rem;
+				width: 28%;
+				// position: absolute;
+				// top: -0.02rem;
+				// right: 0rem;
+				// float: left;
 				text-align: center;
 
 				background: $login009 no-repeat;
-				background-size: 2.203704rem 0.861111rem;
+				background-size: 100% 0.861111rem;
 			}
 		}
 
@@ -564,7 +543,8 @@
 		mounted: function(){
 			var self = this;
 			if(localStorage.oxToken){
-				this.a = 1;
+				this.local();
+				// this.a = 1;	// 登录过
 			} else {
 				this.a = 0;
 			}
@@ -609,28 +589,18 @@
 					localStorage['oxUid'] = data.uid;
 					localStorage['oxImg'] = data.member_info.headimg;
 					localStorage['oxName'] = data.member_info.nickname;
+					localStorage['cardNum'] = data.member_info.card_num;
+					self.$store.state.user.userCard = localStorage.cardNum;
 					self.$store.state.user.userName = data.member_info.nickname;
 					self.$store.state.user.userID = data.uid;
 					self.$store.state.user.userImg = data.member_info.headimg;
-					
-					http.post('/MemberFriend/getFrientList',{   // 初次进入获取总好友列表
-					    uid : data.uid,
-					}).then(res=>{
-					    console.log(res)
-					    var arr = [];
-					    for(var i=0; i<res.msg.length; i++){
-					    	arr.push(res.mag[i].fid)
-					    }
-					    self.$store.state.user.friend  = res.msg;
-					    self.$store.state.user.friendId= arr;
-					})
 					self.$store.dispatch('dl');        // 聊天登录
 					weixin_WANJI_DL_data = null;
 					router.push({name: 'home'});
 					self.phone = false;
 				}
 			},
-			local () {
+			local () {	// 直接进入
 				if(localStorage.oxToken){
 					http.post('/MemberFriend/getFrientList',{   // 初次进入获取总好友列表
 					    uid : localStorage.oxUid,
@@ -715,6 +685,9 @@
 							localStorage['oxUid'] = data.uid;
 							localStorage['oxImg'] = GAME_ALL_URL+data.member_info.headimg;
 							localStorage['oxName'] = data.member_info.nickname;
+							localStorage['cardNum'] = data.member_info.card_num;
+
+							this.$store.state.user.userCard = localStorage.cardNum;
 							this.$store.state.user.userName = localStorage.oxName;
 							this.$store.state.user.userID = localStorage.oxUid;
 							this.$store.state.user.userImg = localStorage.oxImg;
@@ -775,7 +748,6 @@
 						self.find = false;
 					})
 			},
-			
 			loginOut(){		//登出
 				var self =this;
 				http.post('/Member/login_out',

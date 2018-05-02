@@ -65,7 +65,7 @@
 				loading: false,		// loading getData
 				careTip : false,	//错误提示 
 				errorTips: '',		// 错误信息
-
+				fanNum : 0,		// 房间数
 
 				pagesize : 40,	// 请求条数
 				type : 1,		// 1 所有房间 2 自己开的房间
@@ -84,7 +84,6 @@
 		 //            window.history.back();
 		 //        }, false);
 		 //    });
-
 			var self = this;
 			var VX_data = this.$store.state.data.DT;
 			var VX_dataid = this.$store.state.data.DTid;
@@ -138,7 +137,8 @@
 	            });
                 var counT = null;
 
-				if(VX_data.length <= 15){	// 百人牛牛-少于15间房
+				console.log(self.$store.state.data.DT.length)
+				if(self.$store.state.data.DT.length <= 15){	// 百人牛牛-少于15间房
 					counT = setInterval(()=>{
 						if(location.hash.slice(-7)!="oxCrowd"){
 							return false;
@@ -172,14 +172,14 @@
 		},
 		methods: {
 			kefu: function(){
-				easemobim.bind({
-					configId: "91597b29-7705-433a-9b95-7d6e657896bb",
-					domain: '//kefu.easemob.com',
-					agentName: '客服',
-					hideKeyboard: true,
-					autoConnect: true,
-					hide: true,
-				})
+				// easemobim.bind({
+				// 	configId: "91597b29-7705-433a-9b95-7d6e657896bb",
+				// 	domain: '//kefu.easemob.com',
+				// 	agentName: '客服',
+				// 	hideKeyboard: true,
+				// 	autoConnect: true,
+				// 	hide: true,
+				// })
 			},
 			child_KA: function(n){
 				switch(n){
@@ -192,6 +192,10 @@
 					case 3 : // 打开购买房卡
 						this.$refs.onbuyRoomChild.buyRoom=true;
 						break;
+                    case 7 : // 关闭购买房间卡
+                        this.$refs.onbuyRoomChild.buyK=false;
+                        this.$refs.onbuyRoomChild.buyRoom=false;
+                        break;
 					case 4 : // 打开我的房间
 						this.$refs.onmyRoomChild.myRoom=true;
 						break;
@@ -270,8 +274,9 @@
 				};
 				Tar();
 			},
-			loadMore(){		// 无限加载
+			loadMore(){		// 无限加载 fanNum
 				var self = this;
+
 				var VX_data = this.$store.state.data.DT;
 				var VX_dataid = this.$store.state.data.DTid;
 				var VX_dataidALL = this.$store.state.data.DTidALL;

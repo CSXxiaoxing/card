@@ -1,7 +1,7 @@
 @import '../../utils/baseVar.scss';
 
 #friend {
-    // background: #ECEDF1; addHaoyou jinTip careTip
+    // background: #ECEDF1; addHaoyou jinTip careTip friend003.png
     height: 10.277778rem; 
     width: 9.157407rem;
     // 10.0rem
@@ -86,6 +86,25 @@
                 overflow: hidden;
                 background-color: #E9DAC5;
             }
+            .dian{
+                width: 0.36rem;
+                height: 0.36rem;
+                line-height: 0.38rem;
+                font-size: 0.29rem;
+
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                
+                color: #fff;
+                text-align: center;
+                border-radius: 50%;
+                background-color: rgba(255,0,0,0.9);
+                box-shadow: 0 0rem 0.05rem 0.001rem #ccc;
+                position: absolute;
+                top: 0.1rem;
+                left: 1rem;
+            }
             li:nth-of-type(2n) {
                 background: #F7E8D3;
                 overflow-x: hidden;
@@ -142,7 +161,7 @@
                             transform: translate(0,-50%);
                         }
                         span:nth-of-type(2) {
-
+                            
                             width: 1.296296rem;
                             height: 0.518519rem;
                             line-height: 0.518519rem;
@@ -339,13 +358,15 @@
                             line-height: 0.537037rem;
                             margin-right: 0.093rem;
                         }
+                        width: 78%;
+                        overflow: hidden;
                     }
                     p:nth-of-type(2){
                         width: 1.296296rem;
                         height: 0.518519rem;
                         line-height: 0.518519rem;
                         font-size: 0.240741rem;
-
+                        
                         right: 0.38rem;
                         color: #18BE17;
                         border: 0.028rem solid #B3DEAE;
@@ -354,6 +375,7 @@
                         position: absolute;
                         top: 50%;
                         transform: translate(0,-50%);
+
                     }
                 }
             }

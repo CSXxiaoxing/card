@@ -14,7 +14,7 @@
     <ul>
       <li :class='ZD ? "":"baiBJ"'>
         <input type="text" v-model='name' :readonly='ZD'/>
-        <img src="src/image/idMessage3.png" @click='ZD=!ZD' v-if='ZD'/>
+        <img src="../../srcImg/idMessage3.png" @touchstart='ZD=!ZD' v-if='ZD'/>
         <b class='queren' v-if='!ZD' @click='changeName'></b>
       </li>
       <li>ID:{{id}}</li>
@@ -110,6 +110,7 @@
                 border-radius: 0.925926rem;
                 position: relative;
                 height: 0.514rem;
+                width: 76%;
                 input{
                     border: 0 none;
                     background-color: rgba(0,0,0,0);
@@ -133,12 +134,12 @@
                 }
                 b.queren{
                     position: absolute;
-                    right: 0;
-                    top: 0.53rem;
+                    right: -1.26rem;
+                    top: 0;
                     width: 1.2rem;
-                    height: 0.46rem;
+                    height: 100%;
                     background: $login006 no-repeat;
-                    background-size: 1.2rem 0.46rem;
+                    background-size: 1.2rem 100%;
                 }
             }
             li:nth-of-type(1).baiBJ{
@@ -167,9 +168,7 @@
             background:$idmess04 no-repeat;
             background-size:3.361111rem  1.074074rem;
         }
-}
-  // border-radius
-
+    }
 </style>
 
 <script type="es6">
@@ -198,29 +197,27 @@
         changeTX: function(){ // 更换头像
             var self = this;
             var obj = new WebView_Object();
+
+            window.JPEG = function(jpeg){
+                // alert(jpeg)
+                http.post('/Member/change_name',
+                {
+                    pic : jpeg,
+                    // name: self.name,
+                })
+                .then(res => {
+                    if(res.status == 1){
+                        // localStorage.oxName =  res.msg.zc_nickname;
+                        localStorage.oxImg = res.msg.zc_headimg;
+                        self.$store.state.user.userImg = localStorage.oxImg;
+                    }
+                })
+            }
             obj.galleryImg();
-            var imgTrue = setInterval(function(){
-                if(JPEG64 != null){
-                    http.post('/Member/change_name',
-                    {
-                        pic : JPEG64,
-                        // name: self.name,
-                    })
-                    .then(res => {
-                        if(res.status == 1){
-                            // localStorage.oxName =  res.msg.zc_nickname;
-                            localStorage.oxImg = GAME_ALL_URL + res.msg.zc_headimg;
-                            self.$store.state.user.userImg = localStorage.oxImg
-                        }
-                    })
-                    clearInterval(imgTrue)
-                }
-            }, 100)
         },
         changeName: function(){ // 更换名字
             var self = this;
             this.ZD=true;
-            
             http.post('/Member/change_name',
             {
                 name: self.name,
@@ -252,6 +249,7 @@
                 }
             })
         }
+        
       }
    }
 </script>

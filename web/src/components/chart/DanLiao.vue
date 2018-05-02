@@ -19,7 +19,7 @@
           class="findFriend" >
           <div>
             <i v-on:click="findFriend = false"></i>
-            <img src="src/img/home_head.png" alt="">
+            <img :src='sheImg' alt="">
             <ul>
                 <li>{{sheName}}</li>
                 <li>{{sheId}}</li>
@@ -32,13 +32,12 @@
             v-model="give" :modal='false'
             popup-transition="popup-fade"
             class="careTip" >
-            <h3>当前分数：</h3>
+            <h3>当前分数：{{Fen}}</h3>
             <i @click="give = false"></i>
             <!-- 加减分 -->
             <label>加分: <input type="text" placeholder="输入分数" v-model.number = 'add' @focus='jian = ""'>
             </label>
             <label>减分: <input type="text" placeholder="输入分数" v-model.number = 'jian' @focus='add = ""'></label>
-
             <mt-button @click="give = false,addfen()"></mt-button>
         </mt-popup>
 
@@ -50,22 +49,22 @@
                 <li>{{sheName}}</li>
 
                 <li  v-show='rank == 1'  @click = 'give=true'></li>
-                <li v-show='rank != 1' v-if='$store.state.user.friendId.indexOf(`${sheId}`)<0' @click="findFriend=true"><img src="src/image/qun101.png" alt="">加友</li>
+                <li v-show='rank != 1' v-if='$store.state.user.friendId.indexOf(`${sheId}`)<0' @click="findFriend=true"><img src="../../srcImg/qun101.png" alt="">加友</li>
             </ul>
         </header>
         <div class='chart'  id='DLtxt'>
             <ul>
                 <!-- 单聊 -->
-                <li v-for="(data, idx) in $store.state.txt[sheId]" 
-                :class="Uid != data.toID ? 'left' : 'right'"   
+                <li v-for="(data, idx) in $store.state.txt[sheId]"
+                :class="Uid != data.toID ? 'left' : 'right'"
                 :key = 'data.time' v-if='data.msg != ""'>
-                    <img :src="Uid != data.toID ? sheImg : $store.state.user.userImg" alt="">
+                    <img :src="Uid != data.toID ? $store.state.user.dictH[data.toID]||$store.state.user.dict[data.toID] : $store.state.user.userImg" alt="">
                     
                     <div class="test" v-if='data.txt == "txt"'>
                         <span class="bot"></span>
-                       {{data.msg}}
+                        <p>{{data.msg}}</p>
                     </div>
-
+                    
                     <div class="test"  v-if='data.txt == "audio"'>
                         <span class="bot"></span>
                         <p class='audio' @click='bofan(data.msg)'>{{data.endTime}}</p>
@@ -81,11 +80,11 @@
 
         <footer>
             <div v-if='speak == 0'>
-                <img src="src/image/qun004.png" @touchend='speak = 1'>
+                <img src="../../srcImg/qun004.png" @touchend='speak = 1'>
                 <span @touchstart='startRecord' @touchmove='cancelRecord' @touchend='stopRecord'>按住 说话</span>
             </div>
             <div v-if='speak == 1'>
-                <img src="src/image/qun003.png" @touchend='speak = 0'>
+                <img src="../../srcImg/qun003.png" @touchend='speak = 0'>
                 <form action="#">
                   <input type="text" v-model='txt'/>
                   <span @click='textPush'></span>
@@ -187,22 +186,42 @@
             overflow-x: hidden;
             li{
                 text-align: left;
-                padding-bottom: 20px;
+                padding-bottom: 0.4rem;
                 position: relative;
                 height: auto;
                 .test{
-                    max-width:5.555556rem; 
-                    padding:0.177778rem 0.185185rem; 
+                    max-width: 5.555556rem; 
+                    padding: 0.1rem 0.185185rem; 
                     border:0.027778rem solid #E4E3E8; 
                     position: relative;
-                    // top: 50%;
-                    // transform: translate(0,-50%);
-
+                    top: 0;
                     border-radius:0.185185rem;
                     padding-left:0.185185rem; 
                     border: 0 none;
                     word-wrap:break-word;
                     box-shadow: 0px 3px 10px 0px #ccc;
+                    
+                    margin-top: 0.14rem;
+                    display: block;
+                    word-wrap: break-word;
+                    word-break:break-all;
+                    white-space: pre-wrap;
+                    p{
+                        font-size: 0.388889rem;
+                        line-height: 0.5rem;
+                        position: relative;
+                        top: -0.2rem;
+                    }
+                    b {
+                        font-size: 0.36rem;
+                        line-height: 0.4rem;
+                        width: 5rem;
+                        position: absolute;
+                        top: -0.02rem;
+                        transform: translate(0, -100%);
+                        color: #333;
+                        text-align: left;
+                    }
                 }
                 .test span{
                     width:0; height:0; 
@@ -220,7 +239,8 @@
                     border-width: 0.185185rem; 
                     border-style: solid dashed dashed; 
                 }
-            }            li:before,li:after {
+            }
+            li:before,li:after {
                 content: "";
                 display: block;
                 clear: both;
@@ -239,13 +259,13 @@
                     background-color:white;
                     float: left;
                     left:0.462963rem;
-                    top:0.277778rem;
+                    // top:0.277778rem;
                     box-shadow: 0px 3px 10px 0px #ccc;
                 }
                 .test span.bot{
                     border-color: transparent white transparent transparent; 
                     left:-0.37037rem;
-                    bottom:0.37037rem;
+                    top:0.37037rem;
                 }
             }
             .right{
@@ -257,16 +277,19 @@
                 }
                 .test{
                     background-color:#07AD05;
-                    bottom:-0.24rem;
+                    // bottom:-0.185185rem;
                     float: right;
                     right:0.277778rem;
                     box-shadow: 0px 3px 10px 0px #ccc;
+                    b{
+                        text-align: right;
+                        right: 0;
+                    }
                 }
                 .test span.bot{
                     border-color:transparent  transparent transparent #07AD05; 
                     right:-0.351852rem; 
                     top:0.37037rem;
-                    
                 }
             }
         }
@@ -494,9 +517,12 @@
                 Uid: localStorage.oxUid,   // 个人id
                 txt: '',            // 发送产生的文本
 
+                Fen: 0 ,        // 加减分联系人的分数
+                fObj: {},   // 总控数据
+
                 sheName: '???',     // 对方名字
                 sheId: 0,           // 对方id
-                sheImg: 'src/img/home_head.png',         // 对方img
+                sheImg: '',      // 对方img
 
                 startY: 0,      // 取消录音开始位置
                 moveY: 0,       // 移动距离
@@ -523,8 +549,6 @@
         },
         methods: { 
             initDL(){
-                console.log(999)
-                
                 var [self, id] = [this, this.Uid];
                 audio_TYPE = 1 // 录音参数修正
                                
@@ -539,7 +563,7 @@
                             toid: self.sheId,
                             pagesize: 50,
                             p: 1,
-                        }, '', this )
+                        })
                     .then(res => {
                         console.log(res)
                 })
@@ -585,7 +609,6 @@
                 var type = this.give;  // 加减分
                 
                 var sendPrivateText = function () {
-                    
                     var id = conn.getUniqueId();                  // 生成本地消息id
                     var msg = new WebIM.message('txt', id);      // 创建文本消息
                     msg.set({
@@ -593,6 +616,8 @@
                         to: "hz_niuniu_"+self.sheId,   // 接收消息对象（用户id
                         roomType: false,
                         success: function () {
+                            console.log("消息发送cg");
+                            self.zj(self.sheId)
                             // 储存聊天记录
                             self.$store.state.obj = {
                                 pageSize: 10,
@@ -642,7 +667,6 @@
                     conn.send(msg.body);// 单聊发送文本消息txtType
                 };
                 sendPrivateText();
-
             },
             
             //添加好友
@@ -722,6 +746,7 @@
                         },
                         onFileUploadComplete: function (data) {   // 消息上传成功
                             console.log('消息上传成功');
+                            self.zj(self.sheId)
                             if(audio_URL != null){
                                 audio_URL == null;
                             }
@@ -819,6 +844,16 @@
                 var obj = new WebView_Object();
                 obj.playAudio(e);
             },
+            // 最近联系记录
+            zj(fid){
+                http.post( '/Chat/contact', { // 聊天记录 sendIQ
+                    fid: fid,
+                })
+                .then(res => {
+                    console.log(res)
+                })
+            },
+
         }
                 
             

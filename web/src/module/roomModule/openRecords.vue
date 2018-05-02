@@ -4,26 +4,24 @@
     <mt-popup
         v-model="onprize"
         popup-transition="popup-fade"
-        class="openRecords" :class = '$store.state.idRoom.cardFn == 5 ? "five":"seven" '>
+        class="openRecords">
             <i @click='onprize = false' class='gxx'></i>
             <h3 >开奖记录</h3>
             <div class='xsllo'>
             <ul :style='"width:"+1.814815*6+"rem;"'>
-                <!-- <li  v-for='(obj, inx) in ooxData'  v-show='$store.state.data.listOver.length-inx>=1'> -->
-                <li  v-for='(obj, inx) in ooxData'>
+                <!-- <li  v-for='(obj, inx) in ooxData' name  v-show='$store.state.data.listOver.length-inx>=1'> -->
+                <li v-for='(obj, inx) in ooxData'>
                     <table  cellspacing="0">
                     <tr>
                     <th>第 {{obj.num}}局</th>
                     </tr>
-                    <tr v-for='(data, inx) in obj.result'>
-
-                        <td :style='data=="10" || data=="11" ? "color: red;":""'>
+                    <tr v-for='(data, ixx) in obj.result'>
+                        <td :style='obj.banker == ixx ? "color: red;":""'>
                             {{oox[data]}}
                         </td>
                     </tr>
-
                     <tr v-for='dat in 7-obj.result.length'><tb></tb></tr>
-
+                        
                     </table>
                 </li>
             </ul>
@@ -32,15 +30,9 @@
     <loading v-if='loading'></loading>
     </div>
 </template>
-<!-- cellspacing="0"// position: sticky; -->
+
 <style lang='scss' scoped>
     @import '../../utils/baseVar.scss';
-    td{
-        
-    }
-    td.yellow{
-        color: #F2D923;
-    }
     .gxx{
         height: 0.972222rem;
         width: 0.907407rem;
@@ -65,7 +57,7 @@
             padding-top: 0.388889rem;
         }
         .xsllo{
-            width: 970px;
+            width: 8.981481rem;
             position: relative;
             left: 50%;
             transform: translate(-50%,0);
