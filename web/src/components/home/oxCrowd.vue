@@ -204,6 +204,7 @@
 						break;
 					case 6 : // 原好友页面
 						this.$refs.onfriendVIPChild.friend_VIP=true;
+						this.$refs.onfriendVIPChild.fir();
 						break;
 				}
 			},
@@ -254,7 +255,8 @@
 		                                		self.careTip = true;
 		                                	}
 		                                } else if( res.status == 1 ){
-		                                    router.push({path: `room/${res.data.zc_number}`});
+		                                	// console.log(res.data.zc_number)
+		                                    router.push({path: 'room/'+res.data.zc_number});
 		                                } else if( res.status == 0 ){
 		                                    self.errorTips = '你已在房间内，请退出当前房间';
 		                                    self.careTip = true;

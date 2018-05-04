@@ -27,10 +27,10 @@
                 gentry = dir;
                 updateHistory();
             }, function(e){
-                alert('Get directory "audio" failed: '+e.message);
+                // alert('Get directory "audio" failed: '+e.message);
             });
         }, function(e){
-            alert('Resolve "_doc/" failed: '+e.message);
+            // alert('Resolve "_doc/" failed: '+e.message);
         } );
     }
     // 获取录音历史列表 createItem
@@ -47,7 +47,7 @@
                 }
             }
         }, function(e){
-            alert('读取录音列表失败：'+e.message);
+            // alert('读取录音列表失败：'+e.message);
         });
         bUpdated = true;
     }
@@ -72,13 +72,13 @@
         // 开始录音
         startRecord : function () {
             if ( HTML_R == null ) {
-                alert( "录音对象未获取" );
+                // alert( "录音对象未获取" );
                 return; 
             }
             HTML_R.record( {
                 filename:"_doc/audio/"
             }, function (p) {
-                alert( "录音完成："+p );
+                // alert( "录音完成："+p );
                 audio_TYPE = 1;
 
                 plus.io.resolveLocalFileSystemURL(p, function(entry){
@@ -91,15 +91,15 @@
                         };
                         reader.readAsDataURL(file);
                     },function(e){
-                        alert("读写出现异常: " + e.message );
+                        // alert("读写出现异常: " + e.message );
                     })
 
                     audio_URL = entry.name;
                 }, function(e){
-                    alert('读取录音文件错误：'+e.message);
+                    // alert('读取录音文件错误：'+e.message);
                 });
             }, function ( e ) {
-                alert( "录音失败: " + e.message );
+                // alert( "录音失败: " + e.message );
             } );
             audio_TYPE = 0;
             er.style.display = 'block';
@@ -125,10 +125,10 @@
         // 播放音频文件
         playAudio : function (li){
             if(!li){
-                alert('无效的音频文件');
+                // alert('无效的音频文件');
                 return;
             }
-            alert('播放音频文件：'+li);
+            // alert('播放音频文件：'+li);
             var arr_li = li.split(':');
             if(arr_li[0] == 'blob'){
                 this.startPlay(li);
@@ -155,7 +155,7 @@
                 clearInterval(ri);
                 ri = null;
             }, function(e){
-                alert('播放音频文件"'+url+'"失败：'+e.message);
+                // alert('播放音频文件"'+url+'"失败：'+e.message);
                 er.style.display = 'none';
                 // rt.innerText = '00:00:00';
                 rt.innerText = '0"';

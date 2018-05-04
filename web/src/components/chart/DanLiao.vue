@@ -44,7 +44,7 @@
     	<header>
             <ul>
                 <li>
-                    <i @click='DLRoom=false'></i>
+                    <i @click='dlEse'></i>
                 </li>
                 <li>{{sheName}}</li>
 
@@ -75,9 +75,7 @@
                     </div>
                 </li>
             </ul>
-
         </div>
-
         <footer>
             <div v-if='speak == 0'>
                 <img src="../../srcImg/qun004.png" @touchend='speak = 1'>
@@ -538,16 +536,28 @@
                 add: '', // 加n分
                 jian: '', // 减n分
                 findFriend: false,
+
+                L_Type: 0,  // 0-连接无法确保   1-连接保证
             }
         },
         mounted: function(){
             this.initDL();
+            this.L_Type = 0;
         },
         updated: function(){
             var chat = document.getElementById("DLtxt");
             chat.scrollTop = chat.scrollHeight;
         },
-        methods: { 
+        methods: {
+            dlEse(){    // 单聊退出房间
+                if(this.$store.state.system.t==1){
+                    this.$store.state.system.t=0;
+                    this.$parent.$parent.friend_VIP=false;
+                    this.DLRoom=false;
+                }else{
+                    this.DLRoom=false;
+                }
+            },
             initDL(){
                 var [self, id] = [this, this.Uid];
                 audio_TYPE = 1 // 录音参数修正
@@ -581,7 +591,7 @@
                         this.sheImg = res.data.zc_headimg;
                     }
                     this.$store.state.txtType = "hz_niuniu_"+this.sheId;  // 聊天状态头
-                    this.textPush() // 先发送一波
+                    this.textPush(1) // 先发送一波
                 })
             },
             addfen () {     // 加减分
@@ -604,19 +614,31 @@
                 })
             },
             // 发送文本
-            textPush () { 
+            textPush (n) {
                 var self = this;
                 var type = this.give;  // 加减分
-                
+                setTimeout(()=>{
+                    if(self.L_Type != 1){
+                        this.$store.dispatch('dl')
+                        setTimeout(()=>{
+                            this.textPush(1) // 先发送一波
+                        },500)
+                    }
+                },500)
+
                 var sendPrivateText = function () {
-                    var id = conn.getUniqueId();                  // 生成本地消息id
-                    var msg = new WebIM.message('txt', id);      // 创建文本消息
+                    var id = conn.getUniqueId(); // 生成本地消息id
+                    var msg = new WebIM.message('txt', id);// 创建文本消息
+                    // console.log(msg);
                     msg.set({
                         msg: localStorage.oxName+'#(en&^*'+self.txt,   // 消息内容
                         to: "hz_niuniu_"+self.sheId,   // 接收消息对象（用户id
                         roomType: false,
                         success: function () {
                             console.log("消息发送cg");
+
+                            self.L_Type = 1;
+
                             self.zj(self.sheId)
                             // 储存聊天记录
                             self.$store.state.obj = {

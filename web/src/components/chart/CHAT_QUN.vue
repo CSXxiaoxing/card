@@ -16,7 +16,7 @@
     	<header>
             <ul>
                 <li>
-                    <i @click='chatLT=false'></i>
+                    <i @click='$parent.$parent.friend_VIP=false,chatLT=false'></i>
                 </li>
                 <li>聊天室（{{lingth*1+1}}）</li>
                 <li 
@@ -44,8 +44,9 @@
 
                     <div class="test"  v-if='data.txt == "audio"'>
                         <span class="bot"></span>
-                        <p class='audio' @click='bofan(data.msg)'>{{data.endTime}}</p>
+                        <h5 class='audioP'>{{data.endTime}}</h5>
                         <audio 
+                        @click='bofan(data.msg)'
                         :src='data.msg' v-show='true' class='audio'
                         :id='data.time' controls="controls" >
                         </audio>
@@ -170,6 +171,7 @@
                     border: 0 none;
                     word-wrap:break-word;
                     box-shadow: 0px 3px 10px 0px #ccc;
+                    position: relative;
                     
                     margin-top: 0.4rem;
                     display: block;
@@ -225,13 +227,25 @@
                     width: 1.388889rem;
                     height: 1.435185rem;
                 }
-                .test{
+                &>.test{
                     background-color:white;
                     float: left;
                     left:0.462963rem;
                     // top:0.277778rem;
                     box-shadow: 0px 3px 10px 0px #ccc;
                     border-left: 0 none;
+                    &>.audioP{
+                        // width: auto;
+                        position: absolute;
+                        margin: 0;
+                        right: 0;
+                        top: 50%;
+                        transform: translate(130%,-60%);
+                        font-size: 0.388889rem;
+                        line-height: 0.5rem;
+                        z-index: 50;
+                        font-weight: 300;
+                    }
                 }
                 .test span.bot{
                     // border-right: 0 none;
@@ -248,7 +262,7 @@
                     width: 1.388889rem;
                     height: 1.435185rem;
                 }
-                .test{
+                &>.test{
                     background-color:#07AD05;
                     // bottom:-0.185185rem;
                     float: right;
@@ -257,6 +271,18 @@
                     b{
                         text-align: right;
                         right: 0;
+                    }
+                    &>.audioP{
+                        // width: auto;
+                        position: absolute;
+                        margin: 0;
+                        left: 0;
+                        top: 50%;
+                        transform: translate(-130%,-60%);
+                        font-size: 0.388889rem;
+                        line-height: 0.5rem;
+                        z-index: 50;
+                        font-weight: 300;
                     }
                 }
                 .test span.bot{
@@ -448,9 +474,10 @@
                 startY: 0,      // 取消录音开始位置
                 moveY: 0,       // 移动距离
 
-                chartList: {},      // 成员列表（群）
+                chartList: [],      // 成员列表（群）
                 lingth: 0,          // 成员人数（群）
                 isfriend: 0,        // 是好友1  不是0
+                Q_Type: 0,  // 0失效 1-666
             }
         },
         mounted: function(){
@@ -516,6 +543,14 @@
             // 发送文本
             textPush () {
                 var self = this;
+                setTimeout(()=>{
+                    if(self.Q_Type != 1){
+                        this.$store.dispatch('dl')
+                        setTimeout(()=>{
+                            this.textPush() // 先发送一波
+                        },500)
+                    }
+                },500)
                 // 群聊发送文本消息
                 var sendGroupText = function () {
                     var id = conn.getUniqueId();            // 生成本地消息id
@@ -527,6 +562,7 @@
                         roomType: false,
                         chatType: 'chatRoom',
                         success: function () {
+                            self.Q_Type = 1
                             // 储存聊天记录
                             self.$store.state.obj = {
                                 pageSize: 10,
@@ -565,7 +601,7 @@
                             self.txt = '';  // 内容请零
                         },
                         fail: function () {
-                            alert('群聊信息发送失败');
+                            // alert('群聊信息发送失败');
                             self.txt = '';
                         }
                     };
@@ -741,15 +777,20 @@
                 var obj = new WebView_Object();
                 obj.playAudio(e);
             },
+            sl(){
+                this.list()
+            },
             // 玩家数量
-            list (rid) {
+            list (rid=this.rid) {
                 var self = this;
+                console.log(rid)
+                this.chartList = [];
                 // /RoomJoin/getJoinRoomList
                 http.post('/RoomJoin/getJoinMessage',{
                     roomid: rid,
                 })
                 .then(res => {
-                    console.log(res.data)
+                    console.log(res.msg)
                     if(res.status == 1){
                         this.chartList = res.msg;
                         self.lingth =  res.msg.length;

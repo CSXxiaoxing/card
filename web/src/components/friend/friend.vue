@@ -2,7 +2,7 @@
     <mt-popup
       position="bottom"
       v-model="friend_VIP" id='friend'>
-        <!-- 错误提示 img-->
+        <!-- 错误提示 -->
         <mt-popup 
             v-model="careTip" :modal='false'
             popup-transition="popup-fade"
@@ -76,7 +76,7 @@
         <div class='friMain' v-if='!addFriend'>
             <ul>
                 <li @click='ConTypr(1),addDATA()' v-show='share ? !share : true'>
-                    <span><i></i></span>
+                    <span><i class='dian2' v-if='newNum>0'>{{newNum}}</i></span>
                     <span>最新消息</span>
                     <span><i :class='arrows == 1 ? "Iup" : ""'></i></span>
                 </li>
@@ -84,12 +84,13 @@
                 <li  :class='arrows == 1 ? "show" : "hide"'>
                     <!-- 系统消息 -->
                     <dl class='sys' v-for='(sys,squest) in systemMess' :key='sys.id' 
-                          @touchend='[(q=-1),(k=squest),(sysSel = squest),(touchEnd)]' @click='changeTime(sys.zn_cdate)'  
+                          @touchend='[(q=-1),(k=squest),(sysSel = squest),(touchEnd)]' 
+                          @click='changeTime(sys.zn_cdate)'  
                           @touchstart='touchStart'
                           @touchmove='touchMove'
                           :style="squest == k ? deleteSlider: ''">
                         <dt>
-                            <span><i></i></span>
+                            <span><i class='dian3' v-if='sys.read==1'>1</i></span>
                         </dt>
                         <dd @click="show = 0,setRead(sys.id, sys.title, sys.content, sys.time)" >
                             <b>[系统消息]</b>
@@ -102,12 +103,13 @@
 
                     <!-- 房间请求 $store.state.system.lodin -->
                     <dl class='sys' v-for='(sys,squest) in $store.state.system.lodin' :key='sys.id' 
-                          @touchend='[(q=-1),(k=squest),(sysSel = squest),(touchEnd)]' @click='changeTime(sys.zn_cdate)'  
+                          @touchend='[(q=-1),(k=squest),(sysSel = squest),(touchEnd)]' 
+                          @click='changeTime(sys.zn_cdate)'  
                           @touchstart='touchStart'
                           @touchmove='touchMove'
                           :style="squest == k ? deleteSlider: ''">
                         <dt>
-                            <span><i></i></span>
+                            <span><i class='dian3'>1</i></span>
                         </dt>
                         <dd @click="show = 0, jinRoom(sys.uid,sys.name,sys.rid,sys.roomName,sys.roomNum)" >
                             <b>[系统消息]</b>
@@ -125,9 +127,9 @@
                     @touchmove='touchMove'
                     :style="quest == q ? deleteSlider: ''">
                         <dt>
-                            <span><i></i></span>
+                            <span><i class='dian3' v-if='fri.read==1'>1</i></span>
                         </dt>
-                        <dd>
+                        <dd @click="show = 0,setRead(fri.id, fri.title, fri.content, fri.time)">
                             <p><i>{{fri.content}}</i>请求添加你为好友</p>
                             <p @touchend='friSel = quest' @click='agreeFriend(fri.appid)'>同意</p>
                         </dd>
@@ -137,20 +139,19 @@
                 
                 
                 <li @click='ConTypr(2),ZJ_List()' v-show='share ? !share : true'>
-                    <span><i></i></span>
+                    <span><i class='dian2' v-if='zjNum>0'>{{zjNum}}</i></span>
                     <span>最近联系</span>
                     <span><i :class='arrows == 2 ? "Iup" : ""'></i></span>
                 </li>
                 <li  :class='arrows == 2 ? "show" : "hide"'>
-                    <dl> 
-                        <dd  v-for='(z_List,fquest) in zjList'
+                    <dl   v-for='(z_List,fquest) in zjList'> 
+                        <dd
                         :key='z_List.fid_nickname+"zjlist"'
                         @click='share ? yaoqin(z_List.fid) : (liaotian(z_List.fid),x=1)'
                         @touchend='touchEnd'
                         @touchstart='touchStart'
                         @touchmove='touchMove'
                           :style="1 == 1 ? deleteSlider: ''">
-
 
                             <img :src="z_List.fid_headimg" @touchend='friQuest = fquest'/>
                             <i class='dian' v-show='x==0' v-if='$store.state.system.H_Num[z_List.fid]>0'>{{$store.state.system.H_Num[z_List.fid]}}</i>
@@ -167,13 +168,14 @@
                 </li>
 
                 <li @click='ConTypr(3),myFriend()' v-show='share ? !share : true'>
-                    <span><i></i></span>
+                    <span><i class='dian2' v-if='friNum>0'>{{friNum}}</i></span>
                     <span>我的好友</span>
                     <span><i :class='arrows == 3 ? "Iup" : ""'></i></span>
                 </li>
+
                 <li  :class='arrows == 3 ? "show" : "hide"'>
-                    <dl>
-                        <dd v-for='(friends,fquest) in friendList'
+                    <dl v-for='(friends,fquest) in friendList'>
+                        <dd
                         :key='friends.name'
                         @click='share ? yaoqin(friends.fid) : (liaotian(friends.fid),changeTime(),x=1)'
                         @touchend='sysSel = fquest,touchEnd'
@@ -182,6 +184,7 @@
                         :style="fquest == k ? deleteSlider: ''">
 
                             <img :src="friends.img_url" @touchend='friQuest = fquest'/>
+
                             <i class='dian' v-show='x==0' v-if='$store.state.system.H_Num[friends.fid]>0'>{{$store.state.system.H_Num[friends.fid]}}</i>
 
                             <span @touchend='friQuest = fquest'>{{friends.remark == '' ? friends.name : friends.remark}}</span>
@@ -245,6 +248,9 @@
                 friendList : [],    //好友列表
                 zjList : [],    //最近联系人列表
                 x: 0,
+                friNum: 0,  // 好友总数据
+                zjNum: 0,  // 最近联系人总数据
+                newNum: 0,  // 最近消息总数据
                 // 分享
                 share: false,    
                 roomNumber: null,
@@ -294,6 +300,10 @@
             self.myFriend();
         },
         methods: {
+            fir(){
+                this.myFriend()     // 好友列表
+                this.ZJ_List()  // 最近联系人列表
+            },
             yaoqin(id){   // 邀请好友接口
                 // alert('等待对接')
                 http.post('/MemberNotice/inviteGame',{
@@ -339,18 +349,21 @@
             },
             addDATA(){
                 
-                var self = this ;
+                var self = this;
                 http.post('/MemberNotice/getNotify',{
                     id : localStorage.oxUid,
                 })
                 .then(res =>{
                     console.log(res)
                     if(res.status == 1){
-                        // self.systemMess = res.data;
+                        this.newNum = 0;
+                        this.newNum = this.$store.state.system.lodin.length;
                         self.friendApply = [];
                         self.systemMess = [];
-
                         for(let i in res.data){
+                            if(res.data[i].zn_read==1){
+                                this.newNum += 1;
+                            }
                             if(res.data[i].zn_way == 2){
                                 self.friendApply.push({  // 好友信息
                                     id  :res.data[i].id,             //信息id
@@ -382,8 +395,15 @@
                     if(res.status==1){
                         var data = {};
                         var msg = res.msg;
+                        this.friNum = 0;
                         for(var i=0; i<msg.length; i++){
                             data[msg[i].fid] = msg[i].img_url;
+                            // console.log(msg[i])
+                            var num = Number(this.$store.state.system.H_Num[msg[i].fid]);
+                            // console.log(num)
+                            if(num >= 0){
+                                this.friNum += num;
+                            }
                         }
                         this.$store.state.user.dictH = data;
                         this.friendList = null;
@@ -548,6 +568,7 @@
             },
             //消息已读未读 点击跳转到详情页面
             setRead(xxid, title, content, time){
+                console.log(xxid,title,content,time)
                 var self = this; 
                 http.post('/MemberNotice/setRead',{
                     id : xxid
@@ -560,6 +581,9 @@
 
                         var messyCode = /&lt;|p&gt;|\/p&gt;/g;
                         vx.content = content.replace(messyCode,'');
+                        if(title == null){
+                            vx.content = vx.content + ` 请求添加您为好友`;
+                        }
                         console.log(content)
 
                         self.$refs.onchartMessageChild.msgObj=vx;
@@ -656,8 +680,18 @@
                 })
                 .then(res => {
                     console.log(res)
-                    if(res.status == 1){
+                    if(res.status == 1){ // zjNum
                         this.zjList = res.data;
+                        console.log(res.data)
+                        this.zjNum = 0;
+                        for(var i=0; i<res.data.length; i++){
+                            var num = Number(this.$store.state.system.H_Num[res.data[i].fid]);
+                            // console.log(num)
+                            if(num >= 0){
+                                this.zjNum += num;
+                                console.log(this.zjNum)
+                            }
+                        }
                     }
                 })
             },

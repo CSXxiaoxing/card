@@ -8,7 +8,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     // 字符串数据存储
     // 使用demo : this.$store.state.Music.autoplay
-    // 使用demo : this.$store.state.user.dictH
+    // 使用demo : this.$store.state.system.t
     state: {
         // 用户信息
         user: {
@@ -50,7 +50,7 @@ export default new Vuex.Store({
         // 默认数据
         initRoom: {
             radioValue: ['比J', '比Q', '比K', '无牛关机 (庄赢)'],
-            ox: ['牛一', '牛二', '牛三', '牛四', '牛五', '牛六', '牛七', '牛八', '牛九', '牛牛', '五花牛'],
+            ox: [ '牛一', '牛二', '牛三', '牛四', '牛五', '牛六', '牛七', '牛八', '牛九', '牛牛', '五花牛' ],
             oxK: '比Q',
             time: [30, 60, 120, 180, 300, 480],
             miss: ['秒', '分钟'],
@@ -154,7 +154,7 @@ export default new Vuex.Store({
                 console.log('%c [opened] 已经成功建立连接', 'color: green')
             },  //连接成功回调
             onClosed: function ( message ) {},//连接关闭回调
-            onTextMessage: function ( message ) { 
+            onTextMessage: function ( message ) {
                 console.log(message)
                 //在这里接收和处理信息，根据message.type区分消息来源，私信或者群聊或聊天室
                 var Msg = message.sourceMsg.split('#(en&^*')
@@ -254,18 +254,18 @@ export default new Vuex.Store({
                       console.log(response)
                       var objectURL = WebIM.utils.parseDownloadResponse.call(conn, response);
                       console.log(objectURL)
-                    
                       var Qid = message.to;               // 群id
                       // 本地消息储存 qid
                       var a = JSON.parse(localStorage.oxQun);
                       var date = new Date().getTime();
                       var name = message.filename.replace('.amr','')
                       name = name.split('#(en&^*');
+                      var from = message.from.replace('hz_niuniu_','');
                       var QUN_LIAO = {
                           txt: 'audio',
                           type: 'groupchat',
                           name: name[1],
-                          toID: message.to,
+                          toID: from,
                           time: date,
                           msg: objectURL,
                           endTime: name[0],

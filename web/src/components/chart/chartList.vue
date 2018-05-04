@@ -18,7 +18,7 @@
           class="tip" >
           <i @click='putRoom = false'></i>
           <p>退出房间分数将会清零，你是否要退出房间？</p>
-          <mt-button @click="go" >  
+          <mt-button @click="go(1)" >  
           </mt-button>
           <mt-button @click="putRoom = false">  
           </mt-button>
@@ -39,26 +39,28 @@
         <mt-popup v-model="DeleteCY"
             class='chartDelete' :modal='false'
              position="left">
-
             <header>
                 <ul>
                     <li>
                         <i @click='DeleteCY = false'></i>
                     </li>
                     <li>删除房间成员</li>
-                    <li @click='delPerson'>确认</li>
+                    <li @click='go(2, imgStyle)'>确认</li>
                 </ul>
             </header>
             <div class='Del_list'>
                 <ul>
-                    <li v-for='(data, player) in list' :key='data.id' @click='imgStyle.indexOf(player) >= 0 ? imgStyle.splice(imgStyle.indexOf(player),1) : imgStyle.push(player)' v-if='player != "count"'>
-                        <img src="../../srcImg/home004.png" alt="">
+                    <li v-for='(data, player) in $parent.$parent.chartList' 
+                    :key='"del"+data.id'  v-if='player != "count"'
+                    @click='imgStyle.indexOf(data.zn_member_id) >= 0 ? imgStyle.splice(imgStyle.indexOf(data.zn_member_id),1) : imgStyle.push(data.zn_member_id)' >
+
+                        <img :src="data.zc_headimg" alt="">
                         <dl>
                             <dt>{{data.zn_member_name}}</dt>
-                            <dd>分数 : <b>{{data.zn_points}}</b></dd>
+                            <dd>分数 : <b>{{Number(data.zn_points).toFixed(2)}}</b></dd>
                         </dl>
                         <span>
-                        <img v-show="imgStyle.indexOf(player) >= 0" src="../../srcImg/room027.png" />
+                        <img v-show="imgStyle.indexOf(data.zn_member_id) >= 0" src="../../srcImg/room027.png" />
                         </span>
                     </li>
                 </ul>
@@ -77,23 +79,25 @@
         </header>
         <div class='list'>
             <ul>
-                <li v-for='(data, key) in $parent.$parent.chartList' :key='"fangzhu"' class='fangzhuClass'>
+                <li :key='"fangzhu"' class='fangzhuClass'>
                     <div class="fzimg">
                         <img :src="fObj.fImg" alt="">
                         <img src="../../img/roomK02.png"/>
                     </div>
                     <p>- 房主 -</b></p>
                     <b>{{fObj.fName}}</b>
-                    <span v-if='$store.state.user.friendId.indexOf(`${data.zn_member_id}`)<0 && fObj.fid != uid' @click='listAdd(data.zn_member_id)'><img src="../../srcImg/chart_List1.png" alt="">加友</span>
+                    <span v-if='$store.state.user.friendId.indexOf(`${fObj.fid}`)<0 && fObj.fid != uid' @click='listAdd(fObj.fid)'><img src="../../srcImg/chart_List1.png" alt="">加友</span>
                 </li>
 
-                <li v-for='(data, key) in $parent.$parent.chartList' :key='data.id' v-if='key != "count"' 
-                :class='data.zn_member_id == cli ? "click" : ""' @touchend='cli = data.zn_member_id'>
-
-            		<img src="../../srcImg/home004.png" alt="">
+                <li v-for='(data, key) in $parent.$parent.chartList' 
+                :key='data.id' v-if='key != "count"' 
+                @click='liaoT(2,data.zn_member_id)'
+                :class='data.zn_member_id == cli ? "click" : ""' 
+                @touchstart='cli = data.zn_member_id' >
+            		<img :src="data.zc_headimg" alt="">
                     <b>{{data.zn_member_name}}</b>
-                    <p v-show = 'fanzhu == 1'>分数 : <b>{{data.zn_points}}</b></p>
-                    <span v-if='$store.state.user.friendId.indexOf(`${data.zn_member_id}`)<0' @click='listAdd(data.zn_member_id)'><img src="../../srcImg/chart_List1.png" alt="">加友</span>
+                    <p v-show = 'fanzhu == 1'>分数 : <b>{{Number(data.zn_points).toFixed(2)}}</b></p>
+                    <span v-if='$store.state.user.friendId.indexOf(`${data.zn_member_id}`)<0' v-show='uid_zj!=data.zn_member_id' @click='listAdd(data.zn_member_id)'><img src="../../srcImg/chart_List1.png" alt="">加友</span>
             	</li>
 
             </ul>
@@ -499,6 +503,36 @@
                         height: 100%;
                     }
                 }
+                dd{
+                    position: relative;
+                    left: 0rem;
+                    bottom: -0.05rem;
+                }
+                dd>b{
+                    color: #26C472;
+                    bottom: 0;
+                    display:inline-block;
+                    position: absolute;
+                    left: 1.1rem;
+                    bottom: 0rem;
+                    transform: translate(0%,4%);
+                    font-size: 0.4rem;
+                }
+                dt{
+                    width: 3.6rem;
+                    display:inline-block;
+                    position: relative;
+                    font-size: 0.4rem;
+                    line-height: 0.44rem;
+                    top: 0.05rem;
+                    transform: translate(0,0%);
+                    left: 0rem;
+                    font-weight: normal;
+                    // display: block;
+                    word-wrap: break-word;
+                    word-break:break-all;
+                    white-space: pre-wrap;
+                }
             }
             .clear{
                 clear: both;
@@ -527,7 +561,7 @@
                 uid: localStorage.oxUid,
                 list: this.$parent.$parent.chartList,   // 成员列表
                 fanzhu: '',       // 3普通  1.2房主/庄
-
+                uid_zj: localStorage.oxUid,// 自己id
                 fObj: {},   // 总控数据
 
                 chartDel: '', // 路由
@@ -543,6 +577,10 @@
         },
         mounted: function(){},
         methods: {
+            liaoT(n, id, fen){    // 点击聊天
+                // console.log(n)
+                this.$parent.$parent.$parent.$parent.$parent.chat(n, id)
+            },
             delRoom () {        // 解散房间
                 var self = this;
                 http.post('/Room/dissolveRoom',{
@@ -570,19 +608,29 @@
                     }
                 })
             },
-            go () {     // 退出房间
+            go (n, id=[localStorage.oxUid]) {
                 var self= this;
-                http.post('/RoomJoin/closeRoom',{
-                    id: localStorage.oxUid, // 
-                    roomid: this.rid,
-                })
-                .then(res => {
-                    console.log(res)
-                    if(res.status == 1){
-                        self.putRoom = false
-                        router.push({path: `/home`});
-                    }
-                })
+                var count = 0;
+                // console.log(id)
+                for(var i=0; i<id.length; i++){
+                    http.post('/RoomJoin/closeRoom',{
+                        id: id[i],
+                        roomid: this.rid,
+                        type: n,     // 1 退出房间 2 踢人
+                    })
+                    .then(res => {
+                        console.log(res)
+                        if(res.status==1 && n==1){
+                            router.push({path: '/oxCrowd'});
+                        }
+                        count++;
+                        // console.log(count)
+                        if(id.length == count){
+                            this.$parent.$parent.sl()
+                        }
+                    })
+                }
+                // $parent.$parent.list(this.rid)
             },
             listAdd(id){
                 http.post('/MemberNotice/applyFriend',{
@@ -598,24 +646,6 @@
             chartDelete () {
                 var self = this;
                 router.push({path: self.chartDel});
-            },
-            delPerson () {      // 删除成员
-                var self = this;
-                var data = self.list;
-                var imgStyle = self.imgStyle;
-                imgStyle.forEach(function(item){
-                    http.post('/RoomJoin/closeRoom',{
-                        id: data[item].zn_member_id,
-                        roomid: data[item].zn_room_id,
-                    })
-                    .then(res => {
-                        console.log(res)
-                        if(res.status == 1){
-                            delete data[item]
-                            self.datalist = data;
-                        }
-                    })
-                })
             },
             
         }

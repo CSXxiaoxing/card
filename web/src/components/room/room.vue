@@ -96,7 +96,7 @@
                     <div v-show='dataList.z.dian == undefined' class='konwei'>
                     </div>
 
-                    <div v-if='Number(dataList.z.uid) >= 0' >
+                    <div v-if='Number(dataList.z.uid) >= 0' :class="user.type==1&&dataList.z.dian<main.minFen ? 'liRed':''">
                         <img src="../../srcImg/room_left02.png" />
                         <img src="../../srcImg/room_left01.png" />
                         <img class='leftZhuan' src="../../srcImg/room002.png" />
@@ -111,8 +111,6 @@
                     <p v-show='Number(dataList.z.uid) >= 0'>{{dataList.z.name}}</p>
                 </div>
                 <ul>
-                    <!-- 庄 @click='chat(2,dataList.z.uid)' -->
-                    <!-- <li>{{dataList.px}}</li> -->
                     <li  
                     v-for = '(data, index) in dataList.dd' 
                     @click='chat(2, data.zn_member_id, data.zn_points)' :key='data.id'>
@@ -261,7 +259,7 @@
             <!-- 尾部 -->
             <footer @click='testtt'>
                 <ul>
-                    <li @click='$refs.onfriendVIPChild.friend_VIP=true'>
+                    <li @click='f_HY'>
                         好友
                         <span class='dot' v-if='$store.state.system.H_All>0'>{{$store.state.system.H_All}}</span>
                     </li>
@@ -269,7 +267,7 @@
                         聊天室
                         <span class='dot' v-show='$store.state.system.Q_Num>0'>{{$store.state.system.Q_Num}}</span>
                     </li>
-                    <li v-show='user.type==3||user.type==2' @click='chat(2,user.fid)'>
+                    <li v-show='user.type==3||user.type==2' @click='chat(2,user.fid),$store.state.system.t=1'>
                         联系房主
                     </li>
                     <li class='roomScore' v-show='user.type == 1' 
@@ -413,7 +411,7 @@
                     $openCard: 10,  // 开牌倒计时
                     $water: 5,      // 流水报表时间
                     $esc: 10,       // 10下盘等待
-                    InTime: 100,   // 定时器速度总开关
+                    InTime: 1000,   // 定时器速度总开关
                 },
                 move : {        // 卡牌动效控制
                     trans: [],      // 背面移动位置
@@ -450,6 +448,10 @@
             self.newData();
         },
         methods: {
+            f_HY(){ // 好友
+                this.$refs.onfriendVIPChild.friend_VIP=true;
+                this.$refs.onfriendVIPChild.fir();
+            },
             select(n,p){
                 if(this.main.minFen_x>=p){
                     this.control(1,n)
@@ -570,17 +572,7 @@
 
 
                         switch(type){
-                        case 1 :                            // 通知有人加入
-                            console.log(data)
-                            if(data.zn_member_id == localStorage.oxUid){
-                                return false;
-                            }
-                            self.list();  // 更新成员
-                            break;
-                        case 5 :                    // 通知有人分数变化--完成
-                            self.list();  // 更新分数
-                            break;
-                        case 9 :                            // 压分
+                        case 9: // 压分
                             console.log(data)
                             var y_f = {
                                 uid : self.user.uid,     // 自己的id
@@ -588,10 +580,8 @@
                                 fen : Number(data.score),// 所压的分数
                                 bei : Number(data.is_rate),// 最大倍数
                             }
-
                             self.logic.liAll_F[y_f.few]+=y_f.fen;   // 分组总压分
                             data.uid==y_f.uid ? self.user.myFen-=y_f.fen:0; // 自己压的分
-
                             if(y_f.bei>1){
                                 self.main.minFen_j-=(y_f.fen*y_f.bei);
                                 if(data.uid==y_f.uid || self.user.type==2 || self.user.type==1){
@@ -607,20 +597,55 @@
                             }
                             self.bei_KZ(self.main.bei);
                             break;
-                        case 7||8||11 :// 通知有人成为庄家// 通知有人申请上庄// 重新开局
-                            self.list();  // 更新列表
-                            break;
+
+                        // 数据更新
+                        case 1:// 通知有人加入
+                            console.log(data)
+                            if(data.zn_member_id == localStorage.oxUid){
+                                return false;
+                            }
+                            var datum = {
+                                img : data.src,
+                                name: data.nikename,
+                                dian: data.totalPoints,
+                                uid : data.zn_member_id,
+                            }
+                            self.dataList.pt.push(datum)
+                            // self.list(); // 更新成员
+                        break;
+                        case 5:// 通知有人分数变化--完成
+                            self.list();    // 更新分数
+
+                        break;
+                        case 60:// 退出房间
+                            var pt = self.dataList.pt;
+                            for(var i=0; i<pt.length; i++){
+                                if(pt[i].uid == data.uid){
+                                    pt.splice(i, 1);
+                                    return false;
+                                }
+                            }
+                            // self.list(); // 更新列表
+                        break;
+                        case 7:// 通知有人成为庄家
+                            self.list(); // 更新列表
+                        break;
+                        case 8:// 通知有人申请上庄
+                            self.list(); // 更新列表
+                        break;
+                        case 80:// 下庄
+                            self.list(); // 更新列表
+                        break;
+                        case 11:// 重新开局
+                            self.list(); // 更新列表
+                        break;
+
+
                         case 14:                // 房主暂停游戏
                             self.user.initType=0;
                             break;
-                        case 16:                            // 更新房间信息
+                        case 16: // 更新房间信息
                             self.newData()
-                            break;
-
-
-                        case 6 :                            // 通知有人退出房间
-                            console.log(data)
-                            self.list()  // 更新列表
                             break;
                         case 15:                            // 中止下注
                             console.log(data)
@@ -721,17 +746,14 @@
                 })
             },
             list () {           // 玩家列表
-
                 this.dataList = {        // 房间内玩家数据
                     z : {},           // 庄的数据
                     pt: [],           // 普通玩家
                     dd: [],           // 等待上庄
-
                     dict:{},          // 字典--匹配
                 }
                 var self = this;
                 var dict = this.dataList.dict;  // 字典
-
                 this.user.allFen = 0;
                 var z_type = 0;
                 http.post('/RoomJoin/getJoinMessage',{ // zn_maker_status
@@ -811,7 +833,7 @@
                     roomid: this.user.rid,
                 })
                 .then(res => {
-                    console.log(res)
+                    // console.log(res)
                     var arrt = [];
                     if(res.status == 1){
                         var data = res.data;
@@ -827,8 +849,8 @@
                 })
 
                 function host(){
-                    if(self.dataList.z.dian==undefined && self.user.auto && (self.user.type== 1 || self.user.type== 2) && self.dataList.dd[0]!=undefined){
-                    http.post( '/RoomJoin/setMakers', {
+                    if(self.dataList.z.dian==undefined && self.user.auto && self.dataList.dd[0]!=undefined){
+                        http.post( '/RoomJoin/setMakers', {
                                 roomid: self.user.rid,
                                 type: 1,
                                 id: self.dataList.dd[0].zn_member_id,
@@ -840,6 +862,7 @@
                                 self.dataList.dd.splice(0,1);
                             }
                         })
+                        
                     }
                 }
             },
@@ -874,8 +897,6 @@
                     self.careTip = true;
                 } 
                 else if(this.user.type == 3){     // 普通玩家退出
-                    console.log(456)
-                    // http.post('/RoomJoin/closeRoom',{
                     http.post('/RoomJoin/quitRoom',{
                         roomid: this.user.rid, // 房间id
                         id: this.user.uid,
@@ -1107,8 +1128,8 @@
                                     } else {
                                         self.remove();// 游戏数据清除
                                         this.user.initTxt[1] = '正在初始化游戏资源';
-                                        console.log(this.user.ju)
-                                        console.log(this.user.lun)
+                                        // console.log(this.user.ju)
+                                        // console.log(this.user.lun)
                                         // 庄分数计算
                                         var minFen = this.main.minFen; // 最低上庄分数
                                         var dian = Number(this.dataList.z.dian); // 庄当前分数
@@ -1146,7 +1167,6 @@
                                         if(this.user.type==1 && this.user.gametype==1 && this.dataList.z.name!=undefined){
                                             this.gameStyle(1);
                                         } else if(this.user.type==1){
-                                            console.log(222)
                                             this.roomStyle(1);      // 游戏暂停
                                         }
                                         clearInterval(pageTimer['timer08']);

@@ -503,7 +503,53 @@
             padding-right: 0.2rem;
             box-sizing: border-box;
             // position: relative; px
-            
+            .liRed{
+                border-radius: 30%;
+                -webkit-animation: loading 1s linear infinite alternate; 
+                -moz-animation: loading 1s linear infinite alternate; 
+                -ms-animation: loading 1s linear infinite alternate; 
+                -o-animation: loading 1s linear infinite alternate; 
+                animation: loading 1s linear infinite alternate;
+
+            }
+            @keyframes loading{
+               0%{
+                   // -webkit-box-shadow: 0 0 0.462963rem 0.027778rem #fff;
+                   // -moz-box-shadow: 0 0 0.462963rem 0.027778rem #fff;
+                   // -ms-box-shadow: 0 0 0.462963rem 0.027778rem #fff;
+                   // -o-box-shadow: 0 0 0.462963rem 0.027778rem #fff;
+                   // box-shadow: 0 0 0.462963rem 0.027778rem #fff;
+               }
+               49%{
+                    // box-shadow: 0 0 0.462963rem 0.027778rem #fff;
+               }
+               59%{
+                    box-shadow: 0 0 0.462963rem 0.027778rem red;
+               }
+               100%{
+                -webkit-box-shadow: 0 0 0.462963rem 0.027778rem red;
+                -moz-box-shadow: 0 0 0.462963rem 0.027778rem red;
+                -ms-box-shadow: 0 0 0.462963rem 0.027778rem red;
+                -o-box-shadow: 0 0 0.462963rem 0.027778rem red;
+                   box-shadow: 0 0 0.462963rem 0.027778rem red;
+               }
+            }
+            // @-webkit-keyframes loading{
+            //    0%{
+            //        -webkit-box-shadow: 0 0 0.462963rem 0.027778rem #fff;
+            //        -moz-box-shadow: 0 0 0.462963rem 0.027778rem #fff;
+            //        -ms-box-shadow: 0 0 0.462963rem 0.027778rem #fff;
+            //        -o-box-shadow: 0 0 0.462963rem 0.027778rem #fff;
+            //        box-shadow: 0 0 0.462963rem 0.027778rem #fff;
+            //    }
+            //    100%{
+            //     -webkit-box-shadow: 0 0 0.462963rem 0.027778rem red;
+            //     -moz-box-shadow: 0 0 0.462963rem 0.027778rem red;
+            //     -ms-box-shadow: 0 0 0.462963rem 0.027778rem red;
+            //     -o-box-shadow: 0 0 0.462963rem 0.027778rem red;
+            //        box-shadow: 0 0 0.462963rem 0.027778rem red;
+            //    }
+            // }
             &>.li{
                 width: 1.8rem;
                 span{
@@ -620,8 +666,7 @@
                 }
                 p{
                     top: 0.4rem;
-                }
-                    
+                } 
             }
             ul{
                 height: 100%;

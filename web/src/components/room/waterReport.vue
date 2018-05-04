@@ -64,6 +64,9 @@
         &>header{
             padding-top: 0.8rem;
             height: 1.633333rem;
+            position: fixed;
+            top: 0;
+            z-index: 99;
         }
         .open{
             width: 100%;

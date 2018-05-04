@@ -87,8 +87,8 @@
 				iframeCss: 'iframeCss',
 
 				loading: false,		// loading
-                careTip : false,    //错误提示 
-				careTip2 : false,	//错误提示 
+                careTip : false,    // 错误提示
+				careTip2 : false,	// 错误提示
                 errorTips: '',      // 错误信息
 				errorTips2: '',		// 错误信息
 
@@ -116,7 +116,7 @@
 			goEasy.subscribe({
 			    channel: "user_"+localStorage.oxUid,
 			    onMessage: function(message){
-			        // console.log(JSON.parse(message.content))
+			        console.log(JSON.parse(message.content))
 			        var data = JSON.parse(message.content);
 			        var type = data.type;
 			        switch(type){
@@ -141,6 +141,10 @@
 			                }
 			                console.log(arr)
 			                break;
+                        case 7 : // 你已被房主踢出房间
+                            alert('你已被房主踢出房间('+data.room+')')
+                            router.push({path: `/oxCrowd`});
+                        break;
                         case 18 : // 支付结束
                             // window.onbeforeunload = function(){
                             //     return '要显示的提示内容';
@@ -238,6 +242,7 @@
 						break;
 					case 6 : // 原好友页面
 						this.$refs.onfriendVIPChild.friend_VIP=true;
+                        this.$refs.onfriendVIPChild.fir();
 						break;
 				}
 			},

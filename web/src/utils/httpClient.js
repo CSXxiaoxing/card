@@ -44,6 +44,7 @@ const HttpClient = {
                 if (err) {
                     reject(err);
                 } else {
+                    // console.log(res)
                     resolve(res.body);
                 }
                 if(vm)(vm['loading'] = false)
