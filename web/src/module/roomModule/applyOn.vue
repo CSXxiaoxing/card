@@ -38,7 +38,7 @@
             </div>
             <span>
                 <img src="../../srcImg/room015.png" @click='$parent.barter()'/>
-                <img src="../../srcImg/room014.png" @click='$parent.dataList.z.uid!=undefined?$parent.chat(2,$parent.dataList.z.uid):""' />
+                <img src="../../srcImg/room014.png" @click='$parent.dataList.z.uid!=undefined?$parent.chat(2,$parent.dataList.z.uid,$parent.dataList.z.dian):""' />
             </span>
         </div>
 
@@ -619,10 +619,10 @@
                         })
                     .then(res => {
                         if(res.status==1){
-                            goEasy.publish({  // 发送文本
-                                channel:  'room_' + obj.rid,
-                                message: JSON.stringify(obj),
-                            });
+                            // goEasy.publish({  // 发送文本
+                            //     channel:  'room_' + obj.rid,
+                            //     message: JSON.stringify(obj),
+                            // });
                         }
                     })
             }
@@ -634,10 +634,10 @@
                         })
                     .then(res => {
                         if(res.status==1){
-                            goEasy.publish({  // 发送文本
-                                channel:  'room_' + obj.rid,
-                                message: JSON.stringify(obj),
-                            });
+                            // goEasy.publish({  // 发送文本
+                            //     channel:  'room_' + obj.rid,
+                            //     message: JSON.stringify(obj),
+                            // });
                         }
                     })
             }
@@ -645,15 +645,16 @@
                 http.post( '/RoomJoin/applyfor', {
                             roomid: obj.rid,
                             id: obj.uid,
+                            
                         })
                     .then(res => {
                         console.log(res)
                         if(res.status == 1){
-                            obj.status = 4;
-                            goEasy.publish({  // 发送文本
-                                channel:  'room_' + obj.rid,
-                                message: JSON.stringify(obj),
-                            });
+                            // obj.status = 4;
+                            // goEasy.publish({  // 发送文本
+                            //     channel:  'room_' + obj.rid,
+                            //     message: JSON.stringify(obj),
+                            // });
                         } else {    //  错误
                             self.$parent.errorTips = res.msg;
                             self.$parent.careTip = true;

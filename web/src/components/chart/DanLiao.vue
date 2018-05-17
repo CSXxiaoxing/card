@@ -608,6 +608,7 @@
                     this.jian = '';
                     this.add = '';
                     if(res.status != 1){
+                        
                         this.errorTips = res.msg;
                         this.careTip = true;
                     }

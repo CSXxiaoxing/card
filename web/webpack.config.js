@@ -77,14 +77,15 @@ module.exports = {
     hints: false
   },
   devtool: '#eval-source-map',
-    // plugins: [    // 图片压缩
-    //     new ImageminPlugin({
-    //         disable: process.env.NODE_ENV !== 'production', 
-    //         pngquant: {
-    //             quality: '95-100'
-    //         }
-    //     })
-    // ]
+    plugins: [    // 图片压缩
+        new ImageminPlugin({
+            disable: process.env.NODE_ENV !== 'production', 
+            pngquant: {
+                // quality: '95-100'
+                quality: '75-90'
+            }
+        })
+    ]
 }
 
 if (process.env.NODE_ENV === 'production') {

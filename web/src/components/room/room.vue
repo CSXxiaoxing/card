@@ -92,7 +92,7 @@
         <div class='roomMain'>
             <!-- 左 -->
             <div class='left'>
-                <div class="li" :key='dataList.z.name' @click='user.type==1 ? $refs.onapplyOnChild.setOwner = true:0'>
+                <div class="li" :key='dataList.z.name' @click='user.type==1 ? $refs.onapplyOnChild.setOwner = true:0' >
                     <div v-show='dataList.z.dian == undefined' class='konwei'>
                     </div>
 
@@ -113,17 +113,17 @@
                 <ul>
                     <li  
                     v-for = '(data, index) in dataList.dd' 
-                    @click='chat(2, data.zn_member_id, data.zn_points)' :key='data.id'>
+                    @click='chat(2, data.uid, data.dian)' :key='data.uid+data.name'>
                         <div>
                             <img src="../../srcImg/roomK03.png" alt="" />
                             <img :src="'src/png/roomPage0'+(index <= 1 ? index+2:4)+'.png'" alt="" />
                             <span>{{index+2}}</span>
                             <div class='leftImg'>
-                                <img v-if='data.zn_member_id!=undefined' :src="data.zc_headimg" alt="" />
-                                <span>{{data.zn_points}}</span>
+                                <img v-if='data.uid!=undefined' :src="data.img" alt="" />
+                                <span>{{data.dian}}</span>
                             </div>
                         </div>
-                        <p>{{data.zn_member_name}}</p>
+                        <p>{{data.name}}</p>
                     </li>
 
                     <li v-for = 'num in (4-dataList.dd.length >= 0 ? 4-dataList.dd.length : 0)'>
@@ -368,12 +368,13 @@
                     type : 1,  // 0 是锁定  1 是轮庄
                     num  : 5,    // 轮庄的次数
                 },
+                renAll: [],     // 所有在房间人员uid
                 dataList : {        // 房间内玩家数据
                     z : {},           // 庄的数据
                     pt: [],           // 普通玩家
                     dd: [],           // 等待上庄
 
-                    dict:{},          // 字典--匹配
+                    dict:{},          // 字典--匹配个人头像
                 },
                 main : {        // 主体游戏流程代码
                     cardNum : 5,        // 扑克牌数
@@ -402,7 +403,7 @@
                     liMy_Ff: [0,0,0,0,0,0,0],         // 当前个人压分_翻倍
                     liMy_Fn: [0,0,0,0,0,0,0],         // 当前个人压分_不翻倍
                 },
-                time : {        // 游戏时间控制
+                time : {            // 游戏时间控制
                     time_x  : 0,    // 显示用—时间
                     downTime: 10,   // 倒计时时间
                     random  : 3,    // 倒计时
@@ -520,9 +521,6 @@
                         var status = data.status;
                         var type = data.type;
                         switch(status){
-                        case 1 :                        
-                            self.list()  // 更新成员
-                            break;
                         case 2 :                        // 房主暂停游戏
                             break;
                         case 3 :                        // 通知房间已解散
@@ -530,7 +528,6 @@
                             router.push({name: 'oxCrowd'});
                             break;
                         case 4 :                        // 更新房员列表
-                            self.list();
                             break;
                         case 5 :                        // 发牌
                             // console.log(data)
@@ -600,55 +597,142 @@
 
                         // 数据更新
                         case 1:// 通知有人加入
-                            console.log(data)
+                            console.log(self.renAll.indexOf(data.zn_member_id))
+                            if(self.renAll.indexOf(data.zn_member_id) < 0){
+                                self.renAll.push(data.zn_member_id)
+                            } else {
+                                return false;
+                            }
                             if(data.zn_member_id == localStorage.oxUid){
                                 return false;
                             }
+                            console.log(data)
                             var datum = {
                                 img : data.src,
                                 name: data.nikename,
-                                dian: data.totalPoints,
+                                dian: data.zn_points,
                                 uid : data.zn_member_id,
                             }
-                            self.dataList.pt.push(datum)
-                            // self.list(); // 更新成员
+                            self.dataList.pt.push(datum) // 添加加入成员
                         break;
                         case 5:// 通知有人分数变化--完成
-                            self.list();    // 更新分数
-
+                            if(data.data.zn_makers == 1){   // 庄
+                                self.dataList.z.dian = data.data.zn_points;
+                            } else if(data.data.zn_maker_status == 1){ // 等待上庄
+                                for(var i=0; i<self.dataList.dd.length; i++){
+                                    if(self.dataList.dd[i].zn_member_id == data.uid){
+                                        self.dataList.dd[i].zn_points = data.data.zn_points;
+                                    }
+                                }
+                            } else {
+                                for(var i=0; i<self.dataList.pt.length; i++){
+                                    if(self.dataList.pt[i].uid == data.uid){
+                                        self.dataList.pt[i].dian = Number(data.data.zn_points);
+                                    }
+                                }
+                            }
                         break;
                         case 60:// 退出房间
-                            var pt = self.dataList.pt;
+                            var esc_i = self.renAll.indexOf(data.uid);
+                            self.renAll.splice(esc_i, 1)
+                            var pt = self.dataList.pt; // 删减成员
                             for(var i=0; i<pt.length; i++){
                                 if(pt[i].uid == data.uid){
                                     pt.splice(i, 1);
                                     return false;
                                 }
                             }
-                            // self.list(); // 更新列表
                         break;
                         case 7:// 通知有人成为庄家
-                            self.list(); // 更新列表
+                            for(var i=0; i<self.dataList.dd.length; i++){
+                                var dd = self.dataList.dd;
+                                console.log(dd)
+                                if(data.id == self.user.uid){
+                                    self.user.type = 2;
+                                }
+                                if(dd[i].uid == data.id){
+                                    self.dataList.z = dd[i];
+                                    self.dataList.dd.splice(i,1);
+                                }
+                            }
                         break;
                         case 8:// 通知有人申请上庄
-                            self.list(); // 更新列表
+                            for(var i=0; i<self.dataList.pt.length; i++){
+                                var pt = self.dataList.pt;
+                                if(data.id == self.user.uid){
+                                    self.user.Lding = 1;
+                                }
+                                if(pt[i].uid == data.id){
+                                    self.dataList.dd.push(pt[i])
+                                    pt.splice(i, 1);
+                                }
+                            }
+                            if(self.user.uid == data.id || self.user.type == 1){
+                                if(self.dataList.z.dian==undefined && self.user.auto){
+                                    http.post( '/RoomJoin/setMakers', {
+                                            roomid: self.user.rid,
+                                            type: 1,
+                                            id: data.id,
+                                            num: self.user.ju,
+                                        })
+                                    .then(res => {
+                                        if(res.status == 1){
+                                            self.user.lun = self.lunZ.num+Number(self.user.ju)-1;
+                                            // self.dataList.dd.splice(0,1);
+                                        }
+                                    })
+                                }
+                            }
                         break;
-                        case 80:// 下庄
-                            self.list(); // 更新列表
+                        case 80: // 下庄
+                            if(data.is_boss==1){
+                                self.dataList.pt.push(self.dataList.z);
+                                self.dataList.z = {};
+                                if(data.id == self.user.uid){
+                                    self.user.type = 3;
+                                    self.user.Lding = 0;
+                                }
+                                if((self.user.uid == data.id || self.user.type == 1) && self.dataList.dd[0]!=undefined){
+                                    http.post( '/RoomJoin/setMakers', {
+                                            roomid: self.user.rid,
+                                            type: 1,
+                                            id: self.dataList.dd[0].uid,
+                                            num: self.user.ju,
+                                        })
+                                    .then(res => {
+                                        if(res.status == 1){
+                                            self.user.lun = self.lunZ.num+Number(self.user.ju)-1;
+                                            // self.dataList.dd.splice(0,1);
+                                        }
+                                    })
+                                }
+                            } else {
+                                for(var i=0; i<self.dataList.dd.length; i++){
+                                    var dd = self.dataList.dd;
+                                    if(data.id == self.user.uid){
+                                        self.user.type = 3;
+                                        self.user.Lding = 0;
+                                    }
+                                    if(dd[i].uid == data.id){
+                                        self.dataList.pt.push(dd[i]);
+                                        self.dataList.dd.splice(i,1);
+                                    }
+                                }
+                                
+                            }
+                            // self.list(); // 更新列表
                         break;
                         case 11:// 重新开局
                             self.list(); // 更新列表
                         break;
 
-
-                        case 14:                // 房主暂停游戏
+                        case 14: // 房主暂停游戏
                             self.user.initType=0;
                             break;
                         case 16: // 更新房间信息
                             self.newData()
                             break;
                         case 15:                            // 中止下注
-                            console.log(data)
                             break;
                         
                         }
@@ -737,7 +821,6 @@
                 http.post('/Room/maker_num',{ // zn_maker_status
                     room_id: this.user.rid,
                 }).then(res=>{
-
                     this.lunZ.type = res.status;
                     if(res.status==1){  // 轮庄
                         this.lunZ.num = Number(res.data);
@@ -765,6 +848,10 @@
                         console.log(data)
                         var pt_count = []; // 辅助pt
                         for(var i=0; i<data.length; i++){
+                            if(this.renAll.indexOf(data[i].zn_member_id) == -1){
+                                this.renAll.push(data[i].zn_member_id)
+                            }
+                            
                             var datum = {
                                 img : data[i].zc_headimg,
                                 // name: data[i].zn_member_name,
@@ -822,8 +909,6 @@
                             }
                             }
                         }
-                       
-                        
                         z_type+=1;
                         z_type==2 ? host():0;
                     }
@@ -839,7 +924,13 @@
                         var data = res.data;
                         for(var i=0; i<data.length; i++){
                             if(data[i].zl_visible == 1){
-                                arrt.push(data[i])
+                                var datum = {
+                                    img : data[i].zc_headimg,
+                                    name: data[i].zn_member_name,
+                                    dian: data[i].zn_points,
+                                    uid : data[i].zn_member_id,
+                                }
+                                arrt.push(datum)
                             }
                         }
                         this.dataList.dd = arrt;
@@ -853,13 +944,13 @@
                         http.post( '/RoomJoin/setMakers', {
                                 roomid: self.user.rid,
                                 type: 1,
-                                id: self.dataList.dd[0].zn_member_id,
+                                id: self.dataList.dd[0].uid,
                                 num: self.user.ju,
                             })
                         .then(res => {
                             if(res.status == 1){
                                 self.user.lun = self.lunZ.num+Number(self.user.ju)-1;
-                                self.dataList.dd.splice(0,1);
+                                // self.dataList.dd.splice(0,1);
                             }
                         })
                         
@@ -1342,12 +1433,13 @@
                 if(n==0){
                     this.$refs.onvarRoomChild.zao=true;
                     lookRoom(this)
-                }
-                if(set<1){   // 游戏暂停方可打开
-                    lookRoom(this)
                 } else {
-                    this.errorTips = '请在游戏暂停时重置房间配置';
-                    this.careTip = true;
+                    if(set<1){   // 游戏暂停方可打开
+                        lookRoom(this)
+                    } else {
+                        this.errorTips = '请在游戏暂停时重置房间配置';
+                        this.careTip = true;
+                    }
                 }
                 function lookRoom(self){
                     self.$refs.onvarRoomChild.initType = 1;
